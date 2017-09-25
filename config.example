@@ -1,0 +1,10 @@
+[server 1]
+webadmin_url = http://znel.org/kf
+admin_username = Admin
+admin_password = Admin
+chatbot_username = cb
+chatbot_password = cb
+
+clan_motto = kf.znel.org:23000     ::     173.199.74.63:23000     ::     United Kingdom
+web_link = http://znel.org/kf
+
