@@ -1,4 +1,5 @@
 from server import Server
+from chat import ChatLogger
 
 import configparser
 
@@ -19,6 +20,9 @@ def run():
         web_link = config[server_name]["web_link"]
 
         server = Server(server_name, address, user, password)
+        chat_log = ChatLogger(server)
+        chat_log.start()
+
         print(server)
 
     print("\nAll done.")
