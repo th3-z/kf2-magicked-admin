@@ -22,8 +22,13 @@ class Server():
 
         self.players = {}
 
+    def __str__(self):
+        return "I'm " + self.name + " at " + self.address +\
+            ".\nThe admin is " + self.username + " (" + self.password\
+            + ").\n" + "The game is currently: " + str(self.game)
+
     def new_session(self):
-        login_url = "http://" + self.address + "/ServerAdmin/"
+        login_url = self.address + "/ServerAdmin/"
         login_payload = {
             'password_hash': self.password,
             'username': self.username,
