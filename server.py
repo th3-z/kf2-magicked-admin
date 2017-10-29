@@ -1,13 +1,18 @@
 import requests
 import re
 
+from hashlib import sha1
+
 class Server():
    
     def __init__(self, name, address, username, password):
         self.name = name
         self.address = address
         self.username = username
-        self.password = password
+        self.password_hash = "$sha1$" + \
+            sha1(password.encode("iso-8859-1","ignore") + \
+                username.encode("iso-8859-1","ignore")) \
+            .hexdigest()
 
         self.session = self.new_session()
         self.motd = self.load_motd()
@@ -24,14 +29,14 @@ class Server():
 
     def __str__(self):
         return "I'm " + self.name + " at " + self.address +\
-            ".\nThe admin is " + self.username + " (" + self.password\
-            + ").\n" + "The game is currently: " + str(self.game)
+            ".\nThe admin is " + self.username + ". The game is currently:\n\t" + str(self.game)
 
     def new_session(self):
-        login_url = self.address + "/ServerAdmin/"
+        login_url = "http://" + self.address + "/ServerAdmin/"
         login_payload = {
-            'password_hash': self.password,
+            'password_hash': self.password_hash,
             'username': self.username,
+            'password': '',
             'remember': '-1'
         }
 
@@ -44,8 +49,6 @@ class Server():
         if mo:
             login_payload.update({'token':mo.group(1)})
 
-
-        login_page_response = s.get(login_url)
         s.post(login_url, data=login_payload)
         
         return s
