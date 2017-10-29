@@ -52,6 +52,9 @@ class ChatLogger(threading.Thread):
                 print_line = '\033[92m' + print_line + '\033[0m'
             print(print_line)
 
+        for listener in self.listeners:
+            listener.recieveMessage(username, message)
+
     def add_listener(self, listener):
         self.listeners.append(listener)
 
