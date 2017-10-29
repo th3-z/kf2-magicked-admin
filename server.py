@@ -3,6 +3,8 @@ import re
 
 from hashlib import sha1
 
+from lxml import html
+
 class Server():
    
     def __init__(self, name, address, username, password):
@@ -43,11 +45,10 @@ class Server():
         s = requests.Session()
 
         login_page_response = s.get(login_url)
-
-        token_ex = "token\" value=\"(.*)\" \/"
-        mo = re.search(token_ex, login_page_response.text)
-        if mo:
-            login_payload.update({'token':mo.group(1)})
+        login_page_tree = html.fromstring(login_page_response.content)
+        
+        token = login_page_tree.xpath('//input[@name="token"]/@value')[0]
+        login_payload.update({'token':token})
 
         s.post(login_url, data=login_payload)
         
