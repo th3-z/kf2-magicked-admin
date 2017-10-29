@@ -19,6 +19,10 @@ class Chatbot(Listener):
     def command_handler(self, username, args, admin):
         self.submitMessage("Recieved command from " + username + " : " + str(args) + \
             "\nAdmin: " + str(admin))
+        if args[0] == "players":
+            self.submitMessage(str(self.server.players))
+        if args[0] == "game":
+            self.submitMessage(str(self.server.game))
         
 
     def submitMessage(self, message):

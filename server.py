@@ -18,15 +18,16 @@ class Server():
         self.session = self.new_session()
         self.motd = self.load_motd()
 
-        self.game = {
+        """self.game = {
             'players_max': 6,
             'map': 'kf-default',
             'round': 0,
             'length': 7,
             'difficulty':'normal'
-        }
+        }"""
+        self.game = []
 
-        self.players = {}
+        self.players = []
 
     def __str__(self):
         return "I'm " + self.name + " at " + self.address +\
@@ -59,4 +60,10 @@ class Server():
         motd_f.close()
 
         return motd.encode("iso-8859-1", "ignore")
+
+    def event_new_wave(self):
+        print("New Wave\n\n")
+
+    def event_new_game(self):
+        print("New game\n\n")
 

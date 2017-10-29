@@ -1,4 +1,5 @@
 from server import Server
+from server_mapper import ServerMapper
 from chat import ChatLogger
 from chatbot import Chatbot
 
@@ -24,6 +25,9 @@ def run():
         cb = Chatbot(server)
         chat_log.add_listener(cb)
         chat_log.start()
+
+        sm = ServerMapper(server)
+        sm.start()
 
         print(server)
 
