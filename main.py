@@ -11,7 +11,7 @@ def run():
     for server_name in config.sections():
         user = config[server_name]["admin_username"]
         password = config[server_name]["admin_password"]
-        address = config[server_name]["webadmin_url"] 
+        address = config[server_name]["address"] 
         bot_user = config[server_name]["chatbot_username"]
         bot_password = config[server_name]["chatbot_password"]
 
