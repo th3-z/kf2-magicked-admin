@@ -44,8 +44,13 @@ class ChatLogger(threading.Thread):
             time.sleep(self.time_interval)
 
     def handle_message(self, username, message):
+        command = True if message[0] == '!' else False
+
         if self.print_messages:
-            print(username + ": " + message)
+            print_line = username + "@" + self.server.name +  ": " + message
+            if command:
+                print_line = '\033[92m' + print_line + '\033[0m'
+            print(print_line)
 
     def add_listener(self, listener):
         self.listeners.append(listener)
