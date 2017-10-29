@@ -8,6 +8,6 @@ class Listener():
     """
     
     # Called by ChatLogger when a new message appears
-    def recieveMessage(self, username, message):
+    def recieveMessage(self, username, message, admin):
         raise NotImplementedError("Listener.recieveMessage() not implemented")
 

@@ -38,12 +38,14 @@ class ChatLogger(threading.Thread):
                     message_tree = html.fromstring(message_html)
                     # xpath returns a list but theres only ever one of each because i split earlier
                     username = message_tree.xpath('//span[starts-with(@class,\'username\')]/text()')[0]
+                    user_type = message_tree.xpath('//span[starts-with(@class,\'username\')]/@class')[0]
+                    admin = True if "admin" in user_type else False
                     message = message_tree.xpath('//span[@class="message"]/text()')[0]
-                    self.handle_message(username, message)
+                    self.handle_message(username, message, admin)
                     
             time.sleep(self.time_interval)
 
-    def handle_message(self, username, message):
+    def handle_message(self, username, message, admin):
         command = True if message[0] == '!' else False
 
         if self.print_messages:
@@ -53,7 +55,7 @@ class ChatLogger(threading.Thread):
             print(print_line)
 
         for listener in self.listeners:
-            listener.recieveMessage(username, message)
+            listener.recieveMessage(username, message, admin)
 
     def add_listener(self, listener):
         self.listeners.append(listener)

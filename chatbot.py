@@ -8,20 +8,22 @@ class Chatbot(Listener):
         self.word_wrap = 21
         self.max_lines = 7
 
-    def recieveMessage(self, username, message):
+    def recieveMessage(self, username, message, admin):
         
         if message[0] == '!':
             # Drop the '!' because its no longer relevant
             args = message[1:].split(' ')
-            self.command_handler(username, args)
+            self.command_handler(username, args, admin)
             
 
-    def command_handler(self, username, args):
-        self.submitMessage("Recieved command from " + username + " : " + str(args))
+    def command_handler(self, username, args, admin):
+        self.submitMessage("Recieved command from " + username + " : " + str(args) + \
+            "\nAdmin: " + str(admin))
         
 
     def submitMessage(self, message):
         # note, \n works fine in chat
+        # messages submitted here will not appear in ChatLogger
         chat_submit_url = "http://" + self.server.address + "/ServerAdmin/current/chat+frame+data"
 
         message_payload = {
