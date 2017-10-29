@@ -1,5 +1,6 @@
 from server import Server
 from chat import ChatLogger
+from chatbot import Chatbot
 
 import configparser
 
@@ -9,11 +10,9 @@ config.read("./config")
 def run():
 
     for server_name in config.sections():
-        user = config[server_name]["admin_username"]
-        password = config[server_name]["admin_password"]
+        user = config[server_name]["username"]
+        password = config[server_name]["password"]
         address = config[server_name]["address"] 
-        bot_user = config[server_name]["chatbot_username"]
-        bot_password = config[server_name]["chatbot_password"]
 
         # Unused
         clan_motto = config[server_name]["clan_motto"]
@@ -21,6 +20,9 @@ def run():
 
         server = Server(server_name, address, user, password)
         chat_log = ChatLogger(server)
+
+        cb = Chatbot(server)
+        chat_log.add_listener(cb)
         chat_log.start()
 
         print(server)
