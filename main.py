@@ -29,8 +29,6 @@ def run():
         sm = ServerMapper(server)
         sm.start()
 
-        print(server)
-
     print("\nAll done.")
 
 

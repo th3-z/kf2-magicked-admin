@@ -5,6 +5,11 @@ from lxml import html
 from chat import ChatLogger
 from server_mapper import ServerMapper
 
+DIFF_NORM = "0.0000"
+DIFF_HARD = "1.0000"
+DIFF_SUI = "2.0000"
+DIFF_HOE = "4.0000"
+
 class Server():
    
     def __init__(self, name, address, username, password):
@@ -26,6 +31,31 @@ class Server():
             'length': 7,
             'difficulty':'normal'
         }
+
+        """self.general_settings_payload = {
+            settings_bUsedForTakeover:"0"
+            settings_ServerName:"+!=UK=!+Killing+Floor+2+--+CUSTOM+MAPS++--+High+tick+server"
+            settings_MaxIdleTime:"0.0000"
+            settings_MaxPlayers:"6"
+            settings_bAntiCheatProtected:"1"
+            settings_GameDifficulty:"0.0000"
+            settings_GameDifficulty_raw:"0.000000"
+            settings_GameLength:"1"
+            settings_bDisableTeamCollision:"1"
+            settings_bAdminCanPause:"1"
+            settings_bSilentAdminLogin:"1"
+            settings_bDisableMapVote:"0"
+            settings_MapVoteDuration:"60.0000"
+            settings_bDisableKickVote:"1"
+            settings_bDisableKickVote:"1"
+            settings_MapVotePercentage:"0.0000"
+            settings_KickVotePercentage:"0.6600"
+            settings_bDisablePublicTextChat:"0"
+            settings_bPartitionSpectators:"0"
+            settings_bDisableVOIP:"0"
+            liveAdjust:"1"
+            action:"save"
+        }"""
 
 
         self.players = []
@@ -75,4 +105,7 @@ class Server():
 
     def event_new_game(self):
         print("New game\n\n")
+
+    def set_difficulty(self, difficulty):
+       pass 
 
