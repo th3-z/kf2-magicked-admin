@@ -31,6 +31,9 @@ class Chatbot(Listener):
 
         self.timed_commands = []
 
+        self.chat.submit_message("Beep beep, I'm back\ntype !help for usage")
+        print("Bot on server " + server.name + " initialised")
+
     def recieveMessage(self, username, message, admin):
         
         if message[0] == '!':
@@ -48,6 +51,8 @@ class Chatbot(Listener):
             self.chat.submit_message(mesg)
         if args[0] == "game":
             self.chat.submit_message(str(self.server.game))
+        if args[0] == "help":
+            self.chat.submit_message("I haven't written the help text yet.")
         if args[0] == "start_tc" and admin:
             self.start_timed_command(args[2:], args[1])
         if args[0] == "stop_tc" and admin:
