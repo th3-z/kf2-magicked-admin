@@ -2,7 +2,6 @@ import threading
 import time
 
 import requests
-
 from lxml import html
 
 class ChatLogger(threading.Thread):
@@ -59,4 +58,18 @@ class ChatLogger(threading.Thread):
 
     def add_listener(self, listener):
         self.listeners.append(listener)
+
+    def submit_message(self, message):
+        # note, \n works fine in chat
+        # messages submitted here will not appear in ChatLogger
+        chat_submit_url = "http://" + self.server.address + "/ServerAdmin/current/chat+frame+data"
+
+        message_payload = {
+            'ajax': '1',
+            'message': message,
+            'teamsay': '-1'
+        }
+
+        self.server.session.post(chat_submit_url, message_payload)
+
 
