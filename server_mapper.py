@@ -24,7 +24,6 @@ class ServerMapper(threading.Thread):
 
         while True:
             info_page_response = self.server.session.post(info_url)
-            print(info_page_response.text)
 
             info_tree = html.fromstring(info_page_response.content)
             dds = info_tree.xpath('//dd/text()')
