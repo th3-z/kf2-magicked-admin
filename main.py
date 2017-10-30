@@ -20,11 +20,11 @@ def run():
         web_link = config[server_name]["web_link"]
 
         server = Server(server_name, address, user, password)
-        chat_log = ChatLogger(server)
+        #chat_log = ChatLogger(server)
 
         cb = Chatbot(server)
-        chat_log.add_listener(cb)
-        chat_log.start()
+        server.chat.add_listener(cb)
+        #chat_log.start()
 
         sm = ServerMapper(server)
         sm.start()

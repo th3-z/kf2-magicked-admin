@@ -1,8 +1,9 @@
 import requests
-
 from hashlib import sha1
-
 from lxml import html
+
+from chat import ChatLogger
+from server_mapper import ServerMapper
 
 class Server():
    
@@ -18,16 +19,24 @@ class Server():
         self.session = self.new_session()
         self.motd = self.load_motd()
 
-        """self.game = {
-            'players_max': 6,
-            'map': 'kf-default',
-            'round': 0,
+        self.game = {
+            'map_title': 'kf-default',
+            'map_name': 'kf-default',
+            'wave': 0,
             'length': 7,
             'difficulty':'normal'
-        }"""
-        self.game = []
+        }
+
 
         self.players = []
+
+        self.chat = ChatLogger(self)
+        self.chat.start()
+
+        self.mapper = ServerMapper(self)
+        self.mapper.start()
+
+        print("Server " + name + " initialised")
 
     def __str__(self):
         return "I'm " + self.name + " at " + self.address +\
