@@ -26,6 +26,7 @@ Automated management and statistics for ranked Killing Floor 2 servers.
 * requests
 * lxml
 * configparser
+
 Install Python then install the others using pip.
 
 ## Configuration
@@ -33,4 +34,4 @@ Before running you'll need to rename `config.example` to `config` and fill out y
 
 ## Running
 Just run `main.py` with python
-``python main.py```
+```python main.py```
