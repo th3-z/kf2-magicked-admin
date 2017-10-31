@@ -26,7 +26,7 @@ class Server():
                     username.encode("iso-8859-1","ignore")) \
                 .hexdigest()
         else:
-            self.password_hash = passsword
+            self.password_hash = password
 
         self.session = self.new_session()
         self.motd = self.load_motd()
