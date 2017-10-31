@@ -18,12 +18,14 @@ class ChatLogger(threading.Thread):
         self.message_log = []
         self.listeners = []
 
+        self.exit_flag = threading.Event()
+
         self.print_messages = True
 
         threading.Thread.__init__(self)
     
     def run(self):
-        while True:
+        while not self.exit_flag.wait(self.time_interval):
             response = self.server.session.post(
                 self.chat_request_url,
                 self.chat_request_payload
@@ -41,8 +43,6 @@ class ChatLogger(threading.Thread):
                     admin = True if "admin" in user_type else False
                     message = message_tree.xpath('//span[@class="message"]/text()')[0]
                     self.handle_message(username, message, admin)
-                    
-            time.sleep(self.time_interval)
 
     def handle_message(self, username, message, admin):
         command = True if message[0] == '!' else False
@@ -72,4 +72,6 @@ class ChatLogger(threading.Thread):
 
         self.server.session.post(chat_submit_url, message_payload)
 
+    def terminate(self):
+        self.exit_flag.set()
 

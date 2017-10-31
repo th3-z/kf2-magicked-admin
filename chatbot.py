@@ -5,7 +5,7 @@ import threading
 class TimedCommand(threading.Thread):
 
     def __init__(self, args, time_interval, chatbot):
-        self.running = True
+        self.exit_flag = threading.Event()
         self.args = args
         self.chatbot = chatbot
         self.time_interval = float(time_interval)
@@ -13,12 +13,11 @@ class TimedCommand(threading.Thread):
         threading.Thread.__init__(self)
 
     def terminate(self):
-        self.running = False
+        self.exit_flag.set()
 
     def run(self):
-        while self.running:
+        while not self.exit_flag.wait(self.time_interval):
             self.chatbot.command_handler("tc", self.args, admin=True)
-            time.sleep(self.time_interval)
 
 class Chatbot(Listener):
     
@@ -56,13 +55,20 @@ class Chatbot(Listener):
         if args[0] == "start_tc" and admin:
             self.start_timed_command(args[2:], args[1])
         if args[0] == "stop_tc" and admin:
-            for tc in self.timed_commands:
-                tc.terminate()
-                self.timed_commands = []
+            self.stop_timed_commands()
         
     def start_timed_command(self, args, time):
         timed_command = TimedCommand(args, time, self)
         self.timed_commands.append(timed_command)
         timed_command.start()
-        
+
+    def stop_timed_commands(self):
+        for tc in self.timed_commands:
+            tc.terminate()
+            tc.join()
+
+            self.timed_commands = []
+
+    def close(self):
+        self.stop_timed_commands()
         

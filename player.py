@@ -26,4 +26,7 @@ class Player():
     def __str__(self):
         return "username: " + self.username + " perk: " + self.perk + " dosh: " + self.dosh + " health: " + self.health
 
+    def save(self):
+        pass
+
 
