@@ -25,8 +25,8 @@ class MagickedAdministrator():
             address = config[server_name]["address"] 
 
             # Unused
-            clan_motto = config[server_name]["clan_motto"]
-            web_link = config[server_name]["web_link"]
+            # clan_motto = config[server_name]["clan_motto"]
+            # web_link = config[server_name]["web_link"]
 
             server = Server(server_name, address, user, password)
             cb = Chatbot(server)

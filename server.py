@@ -10,16 +10,23 @@ DIFF_HARD = "1.0000"
 DIFF_SUI = "2.0000"
 DIFF_HOE = "4.0000"
 
+LEN_SHORT = "0"
+LEN_NORM = "1"
+LEN_LONG = "2"
+
 class Server():
    
-    def __init__(self, name, address, username, password):
+    def __init__(self, name, address, username, password, hashed=True):
         self.name = name
         self.address = address
         self.username = username
-        self.password_hash = "$sha1$" + \
-            sha1(password.encode("iso-8859-1","ignore") + \
-                username.encode("iso-8859-1","ignore")) \
-            .hexdigest()
+        if hashed:
+            self.password_hash = "$sha1$" + \
+                sha1(password.encode("iso-8859-1","ignore") + \
+                    username.encode("iso-8859-1","ignore")) \
+                .hexdigest()
+        else:
+            self.password_hash = passsword
 
         self.session = self.new_session()
         self.motd = self.load_motd()
@@ -32,31 +39,7 @@ class Server():
             'difficulty':'normal'
         }
 
-        self.general_settings_payload = {
-            'settings_bUsedForTakeover': '0',
-            'settings_ServerName': '+!=UK=!+Killing+Floor+2+--+CUSTOM+MAPS++--+High+tick+server',
-            'settings_MaxIdleTime': '0.0000',
-            'settings_MaxPlayers': '6',
-            'settings_bAntiCheatProtected': '1',
-            'settings_GameDifficulty': '0.0000',
-            'settings_GameDifficulty_raw': '0.000000',
-            'settings_GameLength': '1',
-            'settings_bDisableTeamCollision': '1',
-            'settings_bAdminCanPause': '1',
-            'settings_bSilentAdminLogin': '1',
-            'settings_bDisableMapVote': '0',
-            'settings_MapVoteDuration': '60.0000',
-            'settings_bDisableKickVote': '1',
-            'settings_bDisableKickVote': '1',
-            'settings_MapVotePercentage': '0.0000',
-            'settings_KickVotePercentage': '0.6600',
-            'settings_bDisablePublicTextChat': '0',
-            'settings_bPartitionSpectators': '0',
-            'settings_bDisableVOIP': '0',
-            'liveAdjust': '1',
-            'action': 'save'
-        }
-
+        self.general_settings = self.load_general_settings()
 
         self.players = []
 
@@ -100,6 +83,34 @@ class Server():
 
         return motd.encode("iso-8859-1", "ignore")
 
+    def load_general_settings(self):
+        settings = {}
+
+        general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
+        general_settings_response = self.session.get(general_settings_url)
+        general_settings_tree = html.fromstring(general_settings_response.content)
+
+        settings_names = general_settings_tree.xpath('//input/@name')
+        settings_vals = general_settings_tree.xpath('//input/@value')
+
+        radio_settings_names = general_settings_tree.xpath('//input[@checked="checked"]/@name')
+        radio_settings_vals = general_settings_tree.xpath('//input[@checked="checked"]/@value')
+        length_val = general_settings_tree.xpath('//select[@id="settings_GameLength"]//option[@selected="selected"]/@value')[0]
+        difficulty_val = general_settings_tree.xpath('//input[@name="settings_GameDifficulty_raw"]/@value')[0]
+        
+
+        settings['settings_GameLength'] = length_val
+        settings['settings_GameDifficulty'] = difficulty_val
+        settings['action'] = 'save'
+
+        for i in range(0,len(settings_names)):
+            settings[settings_names[i]] = settings_vals[i]
+
+        for i in range(0,len(radio_settings_names)):
+            settings[radio_settings_names[i]] = radio_settings_vals[i]
+
+        return settings
+
     def event_new_wave(self):
         print("New Wave\n\n")
 
@@ -107,8 +118,30 @@ class Server():
         print("New game\n\n")
 
     def set_difficulty(self, difficulty):
-       pass 
+        general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
+
+        self.general_settings['settings_GameDifficulty'] = difficulty
+        self.general_settings['settings_GameDifficulty_raw'] = difficulty
+
+        self.session.post(general_settings_url, self.general_settings)
+        
+        self.chat.submit_message("Difficulty change will take effect next game.")
     
+    def set_length(self, length):
+        general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
+
+        self.general_settings['settings_GameLength'] = length
+
+        self.session.post(general_settings_url, self.general_settings)
+        
+        self.chat.submit_message("Length change will take effect next game.")
+
+    def toggle_game_password(self, password):
+        pass
+
+    def set_map(self, map):
+        pass
+
     def close(self):
         self.mapper.terminate()
         self.mapper.join()
