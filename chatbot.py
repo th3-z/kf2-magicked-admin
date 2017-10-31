@@ -1,6 +1,7 @@
 from listener import Listener
 import time
 import threading
+import server
 
 class TimedCommand(threading.Thread):
 
@@ -56,6 +57,32 @@ class Chatbot(Listener):
             self.start_timed_command(args[2:], args[1])
         if args[0] == "stop_tc" and admin:
             self.stop_timed_commands()
+
+        if args[0] == "difficulty":
+            if args[1] == "normal":
+                self.server.set_difficulty(server.DIFF_NORM)
+            if args[1] == "hard":
+                self.server.set_difficulty(server.DIFF_HARD)
+            if args[1] == "suicidal":
+                self.server.set_difficulty(server.DIFF_SUI)
+            if args[1] == "hell":
+                self.server.set_difficulty(server.DIFF_HOE)
+
+        if args[0] == "length":
+            if args[1] == "short":
+                self.server.set_length(server.LEN_SHORT)
+            if args[1] == "medium":
+                self.server.set_length(server.LEN_NORM)
+            if args[1] == "long":
+                self.server.set_length(server.LEN_LONG)
+
+        if args[0] == "silent" and admin:
+            if self.chat.silent:
+                self.chat.silent = False 
+                self.chat.submit_message("Silent mode toggled.")
+            else:
+                self.chat.submit_message("Silent mode toggled.")
+                self.chat.silent = True
         
     def start_timed_command(self, args, time):
         timed_command = TimedCommand(args, time, self)

@@ -56,21 +56,21 @@ class ServerMapper(threading.Thread):
             # Remove players that have quit
             for player in self.server.players:
                 if player.username not in [player[0] for player in players]:
-                    self.server.chat.submit_message("DEBUG: Player " + player.username + " left.")
+                    #self.server.chat.submit_message("DEBUG: Player " + player.username + " left.")
                     player.save()
                     self.server.players.remove(player)
 
             # Find any new players
             for player in players:
                 name, perk, dosh, health, kills, ping = player[:6]
-                print("DEBUG: " + perk)
+                #self.server.chat.submit_message("DEBUG: " + perk + "found")
 
                 if name not in [player.username for player in self.server.players]:
                     player = Player(
                          name, perk, dosh, health, kills, ping,
                          record_file=self.name + ".players"
                     )
-                    self.server.chat.submit_message("DEBUG: Player " + player.username + " joined.")
+                    #self.server.chat.submit_message("DEBUG: Player " + player.username + " joined.")
 
                     self.server.players.append(player)
 

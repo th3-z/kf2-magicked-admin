@@ -12,7 +12,7 @@ class ChatLogger(threading.Thread):
         self.chat_request_payload = {
             'ajax': '1'
         }
-
+        
         self.server = server
         self.time_interval = 3
         self.message_log = []
@@ -21,6 +21,7 @@ class ChatLogger(threading.Thread):
         self.exit_flag = threading.Event()
 
         self.print_messages = True
+        self.silent = False
 
         threading.Thread.__init__(self)
     
@@ -60,6 +61,8 @@ class ChatLogger(threading.Thread):
         self.listeners.append(listener)
 
     def submit_message(self, message):
+        if self.silent:
+            return
         # note, \n works fine in chat
         # messages submitted here will not appear in ChatLogger
         chat_submit_url = "http://" + self.server.address + "/ServerAdmin/current/chat+frame+data"
