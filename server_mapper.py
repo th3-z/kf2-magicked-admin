@@ -14,15 +14,17 @@ class ServerMapper(threading.Thread):
         
         self.time_interval = 20
         self.last_wave = 0
+        self.exit_flag = threading.Event()
+
 
         threading.Thread.__init__(self)
+        print("Mapper for " + server.name + " initialised")
 
     def run(self):
 
         info_url = "http://" + self.server.address + "/ServerAdmin/current/info"
 
-
-        while True:
+        while not self.exit_flag.wait(self.time_interval):
             info_page_response = self.server.session.post(info_url)
 
             info_tree = html.fromstring(info_page_response.content)
@@ -35,6 +37,8 @@ class ServerMapper(threading.Thread):
 
             if int(wave) < self.last_wave:
                 self.new_game()
+            elif int(wave) > self.last_wave:
+                self.new_wave()
             self.last_wave = int(wave)
 
             self.server.game['map_title'] = map_title
@@ -49,19 +53,26 @@ class ServerMapper(threading.Thread):
 
             players = [list(group) for k, group in groupby(players, lambda x: x == "\xa0") if not k]
 
+            # Remove players that have quit
+            for player in self.server.players:
+                if player.username not in [player[0] for player in players]:
+                    self.server.chat.submit_message("DEBUG: Player " + player.username + " left.")
+                    player.save()
+                    self.server.players.remove(player)
+
+            # Find any new players
             for player in players:
                 name, perk, dosh, health, kills, ping = player[:6]
+                print("DEBUG: " + perk)
 
                 if name not in [player.username for player in self.server.players]:
                     player = Player(
                          name, perk, dosh, health, kills, ping,
                          record_file=self.name + ".players"
                     )
+                    self.server.chat.submit_message("DEBUG: Player " + player.username + " joined.")
 
                     self.server.players.append(player)
-            
-
-            time.sleep(self.time_interval)
 
     def update_player(self):
         pass
@@ -70,5 +81,11 @@ class ServerMapper(threading.Thread):
         pass
 
     def new_game(self):
-        print("New game started, saving last game data..")
+        print("New game started, saving last game data")
+
+    def new_wave(self):
+        self.server.chat.submit_message("DEBUG: New wave started")
+
+    def terminate(self):
+        self.exit_flag.set()
 

@@ -32,30 +32,30 @@ class Server():
             'difficulty':'normal'
         }
 
-        """self.general_settings_payload = {
-            settings_bUsedForTakeover:"0"
-            settings_ServerName:"+!=UK=!+Killing+Floor+2+--+CUSTOM+MAPS++--+High+tick+server"
-            settings_MaxIdleTime:"0.0000"
-            settings_MaxPlayers:"6"
-            settings_bAntiCheatProtected:"1"
-            settings_GameDifficulty:"0.0000"
-            settings_GameDifficulty_raw:"0.000000"
-            settings_GameLength:"1"
-            settings_bDisableTeamCollision:"1"
-            settings_bAdminCanPause:"1"
-            settings_bSilentAdminLogin:"1"
-            settings_bDisableMapVote:"0"
-            settings_MapVoteDuration:"60.0000"
-            settings_bDisableKickVote:"1"
-            settings_bDisableKickVote:"1"
-            settings_MapVotePercentage:"0.0000"
-            settings_KickVotePercentage:"0.6600"
-            settings_bDisablePublicTextChat:"0"
-            settings_bPartitionSpectators:"0"
-            settings_bDisableVOIP:"0"
-            liveAdjust:"1"
-            action:"save"
-        }"""
+        self.general_settings_payload = {
+            'settings_bUsedForTakeover': '0',
+            'settings_ServerName': '+!=UK=!+Killing+Floor+2+--+CUSTOM+MAPS++--+High+tick+server',
+            'settings_MaxIdleTime': '0.0000',
+            'settings_MaxPlayers': '6',
+            'settings_bAntiCheatProtected': '1',
+            'settings_GameDifficulty': '0.0000',
+            'settings_GameDifficulty_raw': '0.000000',
+            'settings_GameLength': '1',
+            'settings_bDisableTeamCollision': '1',
+            'settings_bAdminCanPause': '1',
+            'settings_bSilentAdminLogin': '1',
+            'settings_bDisableMapVote': '0',
+            'settings_MapVoteDuration': '60.0000',
+            'settings_bDisableKickVote': '1',
+            'settings_bDisableKickVote': '1',
+            'settings_MapVotePercentage': '0.0000',
+            'settings_KickVotePercentage': '0.6600',
+            'settings_bDisablePublicTextChat': '0',
+            'settings_bPartitionSpectators': '0',
+            'settings_bDisableVOIP': '0',
+            'liveAdjust': '1',
+            'action': 'save'
+        }
 
 
         self.players = []
@@ -108,4 +108,11 @@ class Server():
 
     def set_difficulty(self, difficulty):
        pass 
+    
+    def close(self):
+        self.mapper.terminate()
+        self.mapper.join()
+
+        self.chat.terminate()
+        self.chat.join()
 
