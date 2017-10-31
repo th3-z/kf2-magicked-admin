@@ -84,7 +84,8 @@ class ServerMapper(threading.Thread):
         print("New game started, saving last game data")
 
     def new_wave(self):
-        self.server.chat.submit_message("DEBUG: New wave started")
+        pass
+        #self.server.chat.submit_message("DEBUG: New wave started")
 
     def terminate(self):
         self.exit_flag.set()
