@@ -35,7 +35,6 @@ class Chatbot(Listener):
         print("Bot on server " + server.name + " initialised")
 
     def recieveMessage(self, username, message, admin):
-        
         if message[0] == '!':
             # Drop the '!' because its no longer relevant
             args = message[1:].split(' ')
@@ -53,6 +52,11 @@ class Chatbot(Listener):
             self.chat.submit_message(str(self.server.game))
         if args[0] == "help":
             self.chat.submit_message("I haven't written the help text yet.")
+        if args[0] == "say":
+            mesg = " ".join(args[1:])
+            # Unescape escape characters in say command
+            mesg = bytes(mesg.encode("iso-8859-1","ignore")).decode('unicode_escape')
+            self.server.chat.submit_message(mesg)
         if args[0] == "start_tc" and admin:
             self.start_timed_command(args[2:], args[1])
         if args[0] == "stop_tc" and admin:
