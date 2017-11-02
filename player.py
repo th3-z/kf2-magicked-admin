@@ -1,3 +1,4 @@
+import csv
 
 class Player():
     
@@ -24,9 +25,15 @@ class Player():
         #self.steam_id = sid
 
     def __str__(self):
-        return "username: " + self.username + " perk: " + self.perk + " dosh: " + self.dosh + " health: " + self.health
+        return "username: " + self.username + "\nperk: " + self.perk + "\ndosh: " + self.dosh + "\nhealth: " + self.health + "\nping: " + self.ping
 
     def save(self):
+        with open(record_file, 'w+' as csv:
+            pass
+        pass
+
+    def load(self):
+        
         pass
 
 

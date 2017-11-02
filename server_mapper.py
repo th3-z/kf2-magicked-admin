@@ -12,7 +12,7 @@ class ServerMapper(threading.Thread):
     def __init__(self, server):
         self.server = server
         
-        self.time_interval = 20
+        self.time_interval = 8
         self.last_wave = 0
         self.exit_flag = threading.Event()
 
@@ -55,24 +55,32 @@ class ServerMapper(threading.Thread):
 
             # Remove players that have quit
             for player in self.server.players:
+                print(player)
                 if player.username not in [player[0] for player in players]:
-                    #self.server.chat.submit_message("DEBUG: Player " + player.username + " left.")
+                    print("DEBUG: Player " + player.username + " left.")
                     player.save()
                     self.server.players.remove(player)
-
+            print("\n\n")
             # Find any new players
             for player in players:
                 name, perk, dosh, health, kills, ping = player[:6]
-                #self.server.chat.submit_message("DEBUG: " + perk + "found")
 
                 if name not in [player.username for player in self.server.players]:
                     player = Player(
                          name, perk, dosh, health, kills, ping,
                          record_file=self.name + ".players"
                     )
-                    #self.server.chat.submit_message("DEBUG: Player " + player.username + " joined.")
+                    print("DEBUG: Player " + player.username + " joined.")
 
                     self.server.players.append(player)
+
+                for player in self.server.players:
+                    if player.username == name:
+                        player.perk = perk
+                        player.kills = kills
+                        player.health = health
+                        player.ping = ping
+                        player.dosh = dosh
 
     def update_player(self):
         pass
@@ -81,11 +89,10 @@ class ServerMapper(threading.Thread):
         pass
 
     def new_game(self):
-        print("New game started, saving last game data")
+        print("DEBUG: New game started")
 
     def new_wave(self):
-        pass
-        #self.server.chat.submit_message("DEBUG: New wave started")
+        print("DEBUG: New wave started")
 
     def terminate(self):
         self.exit_flag.set()
