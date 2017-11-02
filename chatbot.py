@@ -31,7 +31,7 @@ class Chatbot(Listener):
 
         self.timed_commands = []
 
-        self.chat.submit_message("Beep beep, I'm back\ntype !help for usage")
+        #self.chat.submit_message("Beep beep, I'm back\ntype !help for usage")
         print("Bot on server " + server.name + " initialised")
 
     def recieveMessage(self, username, message, admin):

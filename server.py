@@ -16,7 +16,7 @@ LEN_LONG = "2"
 
 class Server():
    
-    def __init__(self, name, address, username, password, hashed=True):
+    def __init__(self, name, address, username, password, hashed=False):
         self.name = name
         self.address = address
         self.username = username
