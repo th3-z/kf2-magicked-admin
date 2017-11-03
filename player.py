@@ -28,7 +28,7 @@ class Player():
         return "username: " + self.username + "\nperk: " + self.perk + "\ndosh: " + self.dosh + "\nhealth: " + self.health + "\nping: " + self.ping
 
     def save(self):
-        with open(record_file, 'w+' as csv:
+        with open(record_file, 'w+') as csv:
             pass
         pass
 
