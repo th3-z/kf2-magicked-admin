@@ -1,9 +1,12 @@
+from os import path
+
 import requests
 from hashlib import sha1
 from lxml import html
 
 from chat import ChatLogger
 from server_mapper import ServerMapper
+from database import ServerDatabase
 
 DIFF_NORM = "0.0000"
 DIFF_HARD = "1.0000"
@@ -28,9 +31,12 @@ class Server():
         else:
             self.password_hash = password
 
-        self.session = self.new_session()
         self.motd = self.load_motd()
 
+        self.database = ServerDatabase(name)
+        self.session = self.new_session()
+
+        self.general_settings = self.load_general_settings()
         self.game = {
             'map_title': 'kf-default',
             'map_name': 'kf-default',
@@ -38,9 +44,9 @@ class Server():
             'length': 7,
             'difficulty':'normal'
         }
-
-        self.general_settings = self.load_general_settings()
-
+        self.zeds_killed = 0
+        self.zeds_remaining = 0
+        self.trader_time = False
         self.players = []
 
         self.chat = ChatLogger(self)
@@ -73,10 +79,13 @@ class Server():
         login_payload.update({'token':token})
 
         s.post(login_url, data=login_payload)
-        
         return s
-        
+
     def load_motd(self):
+        if not path.exists(self.name + ".motd"):
+            print("WARNING: No motd file for " + self.name)
+            return ""
+
         motd_f = open(self.name + ".motd")
         motd = motd_f.read()
         motd_f.close()
@@ -98,7 +107,6 @@ class Server():
         length_val = general_settings_tree.xpath('//select[@id="settings_GameLength"]//option[@selected="selected"]/@value')[0]
         difficulty_val = general_settings_tree.xpath('//input[@name="settings_GameDifficulty_raw"]/@value')[0]
         
-
         settings['settings_GameLength'] = length_val
         settings['settings_GameDifficulty'] = difficulty_val
         settings['action'] = 'save'
@@ -111,11 +119,33 @@ class Server():
 
         return settings
 
-    def event_new_wave(self):
-        print("New Wave\n\n")
+    def new_wave(self):
+        self.chat.handle_message("server", "!new_wave " + str(self.game['wave']), admin=True)
+        print("INFO: New Wave " + str(self.game['wave']))
 
-    def event_new_game(self):
-        print("New game\n\n")
+    def trader_open(self):
+        self.trader_time = True
+        self.chat.handle_message("server", "!t_open", admin=True)
+        self.chat.submit_message("Trader open")
+
+    def trader_close(self):
+        self.trader_time = False
+        self.chat.handle_message("server", "!t_close", admin=True)
+        self.chat.submit_message("Trader closed")
+
+    def new_game(self):
+        self.chat.handle_message("server", "!new_game", admin=True)
+        print("INFO New game")
+
+    def player_join(self, player):
+        self.players.append(player)
+        print("DEBUG: Player " + player.username + " joined")        
+
+    def player_quit(self, quit_player):
+        for player in self.players:
+            if player.username == quit_player.username:
+                print("DEBUG: Player " + player.username + " quit")        
+                self.players.remove(player)
 
     def set_difficulty(self, difficulty):
         general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
