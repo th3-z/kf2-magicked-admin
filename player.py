@@ -1,9 +1,6 @@
-import csv
-
 class Player():
     
-    def __init__(self, username, perk, dosh, health, kills, ping, record_file):
-        self.record_file = record_file
+    def __init__(self, username, perk, dosh, health, kills, ping):
         self.total_deaths = 0
         self.total_kills = 0
         self.total_time = 0
@@ -26,14 +23,4 @@ class Player():
 
     def __str__(self):
         return "username: " + self.username + "\nperk: " + self.perk + "\ndosh: " + self.dosh + "\nhealth: " + self.health + "\nping: " + self.ping
-
-    def save(self):
-        with open(record_file, 'w+') as csv:
-            pass
-        pass
-
-    def load(self):
-        
-        pass
-
 

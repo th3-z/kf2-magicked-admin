@@ -2,6 +2,11 @@
 .*.swp
 .*.swo
 
+# Configs / database
+config
+*.motd
+*.sqlite
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
