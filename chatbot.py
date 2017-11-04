@@ -51,7 +51,7 @@ class Chatbot(Listener):
         if args[0] == "game":
             self.chat.submit_message(str(self.server.game))
         if args[0] == "help":
-            self.chat.submit_message("I haven't written the help text yet.")
+            self.chat.submit_message("You're going to play,\nand I'm gonna watch,\nand everything will be just fine.")
         if args[0] == "say":
             mesg = " ".join(args[1:])
             # Unescape escape characters in say command

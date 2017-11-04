@@ -14,7 +14,7 @@ class ChatLogger(threading.Thread):
         }
         
         self.server = server
-        self.time_interval = 3
+        self.time_interval = 4
         self.message_log = []
         self.listeners = []
 
