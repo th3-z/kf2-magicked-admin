@@ -21,7 +21,7 @@ class Player():
         self.wave_kills = 0
         self.health_lost_wave = 0
         self.kills = kills
-        self.health = health
+        self.health = 0
         self.username = username
         self.perk = perk
         self.ping = ping
@@ -29,5 +29,5 @@ class Player():
         #self.steam_id = sid
 
     def __str__(self):
-        return "username: " + self.username + "\nperk: " + self.perk + "\ndosh: " + self.dosh + "\nhealth: " + self.health + "\nping: " + self.ping
+        return "username: " + self.username + "\nperk: " + self.perk + "\ndosh: " + self.dosh + "\nhealth: " + str(self.health) + "\nping: " + self.ping
 

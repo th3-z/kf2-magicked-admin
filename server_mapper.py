@@ -12,7 +12,7 @@ class ServerMapper(threading.Thread):
     def __init__(self, server):
         self.server = server
         
-        self.time_interval = 8
+        self.time_interval = 6
         self.last_wave = 0
         self.exit_flag = threading.Event()
 
@@ -66,7 +66,7 @@ class ServerMapper(threading.Thread):
             for player in self.server.players:
                 if player.username not in [player[0] for player in players]:
                     self.server.player_quit(player)
-            # Find any new players
+            # Find any new players and update
             for player in players:
                 # Dead players are missing the health column
                 if len(player) < 7:
@@ -77,12 +77,13 @@ class ServerMapper(threading.Thread):
                     name, perk, dosh, health, kills, ping = player[:6]
 
                 if name not in [player.username for player in self.server.players]:
-                    player = Player(name, perk, dosh, int(health), kills, ping)
+                    player = Player(name, perk, dosh, health, kills, ping)
                     self.server.player_join(player)
 
                 for player in self.server.players:
                     if player.username == name:
                         if int(health) == 0 and int(health) < int(player.health):
+                            print("DEBUG: "+str(health)+" "+str(player.health))
                             print("INFO: Player " + player.username + " died")
                             player.total_deaths += 1
                         player.perk = perk

@@ -166,7 +166,7 @@ class Server():
     def toggle_game_password(self, password):
         pass
 
-    def set_map(self, map):
+    def set_maplist(self, maplist):
         pass
 
     def close(self):
