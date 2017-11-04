@@ -7,6 +7,7 @@ from lxml import html
 from chat import ChatLogger
 from server_mapper import ServerMapper
 from database import ServerDatabase
+from watchdog import Watchdog
 
 DIFF_NORM = "0.0000"
 DIFF_HARD = "1.0000"
@@ -121,30 +122,26 @@ class Server():
 
     def new_wave(self):
         self.chat.handle_message("server", "!new_wave " + str(self.game['wave']), admin=True)
-        print("INFO: New Wave " + str(self.game['wave']))
 
     def trader_open(self):
         self.trader_time = True
         self.chat.handle_message("server", "!t_open", admin=True)
-        self.chat.submit_message("Trader open")
 
     def trader_close(self):
         self.trader_time = False
         self.chat.handle_message("server", "!t_close", admin=True)
-        self.chat.submit_message("Trader closed")
 
     def new_game(self):
         self.chat.handle_message("server", "!new_game", admin=True)
-        print("INFO New game")
 
     def player_join(self, player):
         self.players.append(player)
-        print("DEBUG: Player " + player.username + " joined")        
+        print("INFO: Player " + player.username + " joined")        
 
     def player_quit(self, quit_player):
         for player in self.players:
             if player.username == quit_player.username:
-                print("DEBUG: Player " + player.username + " quit")        
+                print("INFO: Player " + player.username + " quit")        
                 self.players.remove(player)
 
     def set_difficulty(self, difficulty):

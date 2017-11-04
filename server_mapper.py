@@ -68,17 +68,26 @@ class ServerMapper(threading.Thread):
                     self.server.player_quit(player)
             # Find any new players
             for player in players:
-                name, perk, dosh, health, kills, ping = player[:6]
+                # Dead players are missing the health column
+                if len(player) < 7:
+                    name, perk, dosh = player[:3]
+                    health = 0
+                    kills, ping = player[3:5]
+                else:
+                    name, perk, dosh, health, kills, ping = player[:6]
 
                 if name not in [player.username for player in self.server.players]:
-                    player = Player(name, perk, dosh, health, kills, ping)
+                    player = Player(name, perk, dosh, int(health), kills, ping)
                     self.server.player_join(player)
 
                 for player in self.server.players:
                     if player.username == name:
+                        if int(health) == 0 and int(health) < int(player.health):
+                            print("INFO: Player " + player.username + " died")
+                            player.total_deaths += 1
                         player.perk = perk
                         player.kills = kills
-                        player.health = health
+                        player.health = int(health)
                         player.ping = ping
                         player.dosh = dosh
 

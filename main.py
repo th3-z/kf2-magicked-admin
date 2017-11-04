@@ -2,6 +2,7 @@ from server import Server
 from server_mapper import ServerMapper
 from chat import ChatLogger
 from chatbot import Chatbot
+from watchdog import Watchdog
 
 import configparser
 import sys
@@ -15,6 +16,7 @@ class MagickedAdministrator():
     def __init__(self):
         self.servers = []
         self.bots = []
+        self.watchdogs = []
         signal.signal(signal.SIGINT, self.terminate)
 
     def run(self):
@@ -29,11 +31,14 @@ class MagickedAdministrator():
             # web_link = config[server_name]["web_link"]
 
             server = Server(server_name, address, user, password)
+            wd = Watchdog(server)
+            wd.start()
             cb = Chatbot(server)
             server.chat.add_listener(cb)
 
             self.servers.append(server)
             self.bots.append(cb)
+            self.watchdogs.append(wd)
 
         print("Initialisation complete\n")
 
@@ -43,6 +48,8 @@ class MagickedAdministrator():
             server.close()
         for bot in self.bots:
             bot.close()
+        for wd in self.watchdogs:
+            wd.terminate()
 
 if __name__ == "__main__":
     application = MagickedAdministrator()
