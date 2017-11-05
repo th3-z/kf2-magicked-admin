@@ -58,26 +58,74 @@ class ServerMapper(threading.Thread):
 
             odds = info_tree.xpath('//tr[@class="odd"]//td/text()')
             evens = info_tree.xpath('//tr[@class="even"]//td/text()')
-            players = odds + evens
+            player_rows = odds + evens
 
-            players = [list(group) for k, group in groupby(players, lambda x: x == "\xa0") if not k]
-
+            # Break them up by the &nbs; between columns
+            player_rows = [list(group) for k, group in groupby(player_rows, lambda x: x == "\xa0") if not k]
             # Remove players that have quit
             for player in self.server.players:
-                if player.username not in [player[0] for player in players]:
+                if player.username not in [player_row[0] for player_row in player_rows]:
                     self.server.player_quit(player)
+
+            for player_row in player_rows:
+                if len(player_row) < 7:
+                    username, new_perk, new_dosh = player_row[:3]
+                    new_health = 0
+                    new_kills, new_ping = player_row[3:5]
+                else:
+                    username, new_perk, new_dosh, new_health, \
+                    new_kills, new_ping = player_row[:6]
+                new_health, new_kills, new_dosh, new_ping = \
+                    int(new_health), int(new_kills), int(new_dosh), int(new_ping) 
+                player = self.server.get_player(username)
+                # New players
+                if player == None:
+                    player = Player(username, new_perk)
+                    self.server.player_join(player)
+
+
+                # kills>0 because of issue #1
+                if new_health == 0 and new_health < player.health and new_kills > 0:
+                            print("INFO: Player " + player.username + " died")
+                            print("\tHP Now "+str(new_health)+" HP before "+str(player.health))
+                            player.total_deaths += 1
+               
+                player.perk = new_perk
+                player.total_kills += new_kills - player.kills
+                player.kills = new_kills
+                if new_health < player.health:
+                    player.total_health_lost += player.health - new_health
+                player.health = new_health
+                player.ping = new_ping
+                if new_dosh > player.dosh:
+                    player.total_dosh += new_dosh - player.dosh
+                else:
+                    player.total_dosh_spent += player.dosh - new_dosh
+                player.dosh = new_dosh
+               
+                #for player in self.server.players:
+                #    if player.username == username
+                        
+
+
+            """
             # Find any new players and update
-            for player in players:
+            for player_row in player_rows:
                 # Dead players are missing the health column
                 if len(player) < 7:
-                    name, perk, dosh = player[:3]
+                    username, perk, dosh = player[:3]
                     health = 0
                     kills, ping = player[3:5]
                 else:
-                    name, perk, dosh, health, kills, ping = player[:6]
+                    username, perk, dosh, health, kills, ping = player[:6]
+                player = server.get_player(username)
                 
+                # Remove players that have quit
+                for player in self.server.players:
+                    if player.username not in [player_row[0] for player_row in player_rows]:
+                        self.server.player_quit(player)
                 # new players
-                if name not in [player.username for player in self.server.players]:
+                if player.username not in [player.username for player in self.server.players]:
                     player = Player(name, perk)
                     # the player updating below doesnt apply to new playres
                     self.server.player_join(player)
@@ -93,7 +141,7 @@ class ServerMapper(threading.Thread):
                         player.kills = kills
                         player.health = int(health)
                         player.ping = ping
-                        player.dosh = dosh
+                        player.dosh = dosh"""
 
     def terminate(self):
         self.exit_flag.set()

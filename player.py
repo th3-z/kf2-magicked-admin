@@ -10,11 +10,7 @@ class Player():
         self.total_logins = 0
         self.last_login = 0
 
-        self.session_kills = 0
         self.session_start_time = 0
-        self.session_dosh = 0
-        self.session_dosh_spent = 0
-        self.session_health_lost = 0
 
         self.dosh = 0
         self.dosh_spent = 0
@@ -29,5 +25,5 @@ class Player():
         #self.steam_id = sid
 
     def __str__(self):
-        return "username: " + self.username + "\nperk: " + self.perk + "\ndosh: " + self.dosh + "\nhealth: " + str(self.health) + "\nping: " + self.ping
+        return "username: " + self.username + "\nperk: " + self.perk + "\ndosh: " + str(self.dosh) + "\nhealth: " + str(self.health) + "\nping: " + str(self.ping)
 

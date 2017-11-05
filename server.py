@@ -1,4 +1,5 @@
 from os import path
+import datetime
 
 import requests
 from hashlib import sha1
@@ -122,6 +123,9 @@ class Server():
 
     def new_wave(self):
         self.chat.handle_message("server", "!new_wave " + str(self.game['wave']), admin=True)
+        for player in self.players:
+            player.wave_kills = 0
+            player.health_lost_wave = 0
 
     def trader_open(self):
         self.trader_time = True
@@ -134,14 +138,25 @@ class Server():
     def new_game(self):
         self.chat.handle_message("server", "!new_game", admin=True)
 
+    def get_player(self, username):
+        for player in self.players:
+            if player.username == username:
+                return player
+        return None
+
     def player_join(self, player):
+        self.database.load_player(player)
+        player.total_logins += 1
+        player.session_start = datetime.datetime.now()
         self.players.append(player)
         print("INFO: Player " + player.username + " joined")        
+        print("TDosh:", player.total_dosh,"TKill:",player.total_kills,"THP:",player.total_health_lost)
 
     def player_quit(self, quit_player):
         for player in self.players:
             if player.username == quit_player.username:
                 print("INFO: Player " + player.username + " quit")        
+                self.database.save_player(player)
                 self.players.remove(player)
 
     def set_difficulty(self, difficulty):
@@ -175,4 +190,6 @@ class Server():
 
         self.chat.terminate()
         self.chat.join()
+
+        self.database.close()
 

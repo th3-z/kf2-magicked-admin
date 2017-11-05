@@ -34,14 +34,13 @@ class Chatbot(Listener):
         #self.chat.submit_message("Beep beep, I'm back\ntype !help for usage")
         print("Bot on server " + server.name + " initialised")
 
-    def recieveMessage(self, username, message, admin):
+    def recieveMessage(self, username, message, admin=False, player=None):
         if message[0] == '!':
             # Drop the '!' because its no longer relevant
             args = message[1:].split(' ')
-            self.command_handler(username, args, admin)
-            
+            self.command_handler(username, args, admin, player)
 
-    def command_handler(self, username, args, admin):
+    def command_handler(self, username, args, admin=False, player=None):
         if args[0] == "players":
             mesg = ""
             for player in self.server.players:
@@ -87,6 +86,8 @@ class Chatbot(Listener):
             else:
                 self.chat.submit_message("Silent mode toggled.")
                 self.chat.silent = True
+        if args[0] == "kills" and player:
+            self.chat.submit_message( "TOTAL: " + str(player.total_kills) + " GAME: " + str(player.kills))
         
     def start_timed_command(self, args, time):
         timed_command = TimedCommand(args, time, self)
