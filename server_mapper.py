@@ -75,16 +75,19 @@ class ServerMapper(threading.Thread):
                     kills, ping = player[3:5]
                 else:
                     name, perk, dosh, health, kills, ping = player[:6]
-
+                
+                # new players
                 if name not in [player.username for player in self.server.players]:
-                    player = Player(name, perk, dosh, health, kills, ping)
+                    player = Player(name, perk)
+                    # the player updating below doesnt apply to new playres
                     self.server.player_join(player)
 
                 for player in self.server.players:
                     if player.username == name:
-                        if int(health) == 0 and int(health) < int(player.health):
-                            print("DEBUG: "+str(health)+" "+str(player.health))
+                        # kills>0 because of issue #1
+                        if int(health) == 0 and int(health) < int(player.health) and int(kills)>0:
                             print("INFO: Player " + player.username + " died")
+                            print("\tHP Now "+str(health)+" HP before "+str(player.health))
                             player.total_deaths += 1
                         player.perk = perk
                         player.kills = kills

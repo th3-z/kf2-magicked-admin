@@ -1,6 +1,6 @@
 class Player():
     
-    def __init__(self, username, perk, dosh, health, kills, ping):
+    def __init__(self, username, perk):
         self.total_deaths = 0
         self.total_kills = 0
         self.total_time = 0
@@ -16,15 +16,15 @@ class Player():
         self.session_dosh_spent = 0
         self.session_health_lost = 0
 
-        self.dosh = dosh
+        self.dosh = 0
         self.dosh_spent = 0
         self.wave_kills = 0
         self.health_lost_wave = 0
-        self.kills = kills
+        self.kills = 0
         self.health = 0
         self.username = username
         self.perk = perk
-        self.ping = ping
+        self.ping = 0
         
         #self.steam_id = sid
 
