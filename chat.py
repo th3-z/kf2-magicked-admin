@@ -36,7 +36,7 @@ class ChatLogger(threading.Thread):
             except requests.exceptions.ConnectionError as e:
                 print("Caught ConnectionError, chat")
                 continue
-            except requests.exception.Timeout as e:
+            except requests.exceptions.Timeout as e:
                 print("Caught TimeoutError, chat")
                 continue
             
