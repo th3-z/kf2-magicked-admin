@@ -117,6 +117,8 @@ class Chatbot(Listener):
                 self.chat.submit_message("Malformed command, missing second argument.") 
                 return
             self.trader_commands.append(args[1:])
+            self.chat.submit_message("Trader command started.") 
+            
 
         elif args[0] == "stop_trc" and admin:
             self.trader_commands = []
@@ -167,7 +169,7 @@ class Chatbot(Listener):
 
         elif args[0] == "t_open" and admin:
             for trader_command in self.trader_commands:
-                self.handle_command("server", trader_command, admin=True)
+                self.command_handler("server", trader_command, admin=True)
 
         elif username != "server":
             self.chat.submit_message("Sorry, I didn't understand that request.")

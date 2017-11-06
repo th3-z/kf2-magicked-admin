@@ -90,7 +90,7 @@ class ServerMapper(threading.Thread):
                     player = Player(username, new_perk)
                     player.kills = new_kills
                     player.health = new_health
-                    player.dodsh = new_dosh
+                    player.dosh = new_dosh
                     self.server.player_join(player)
                     # Posible fix for death mesgs and duping of kills
                     continue
