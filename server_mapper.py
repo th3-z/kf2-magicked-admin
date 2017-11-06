@@ -88,7 +88,11 @@ class ServerMapper(threading.Thread):
                 # New players
                 if player == None:
                     player = Player(username, new_perk)
+                    player.kills = new_kills
+                    player.health = new_health
+                    player.dodsh = new_dosh
                     self.server.player_join(player)
+                    continue
 
 
                 # kills>0 because of issue #1
