@@ -185,11 +185,16 @@ class Server():
         pass
 
     def close(self):
+        print("Terminating mapper thread...")
         self.mapper.terminate()
         self.mapper.join()
 
+        print("Terminating chat thread...")
         self.chat.terminate()
         self.chat.join()
 
+        print("Saving data...")
+        for player in self.players:
+            self.database.save_player(player)
         self.database.close()
 
