@@ -34,10 +34,10 @@ class ChatLogger(threading.Thread):
                     timeout=2
                 )
             except requests.exceptions.ConnectionError as e:
-                print("Caught ConnectionError, chat")
+                print("INFO: Non-fatal connection error while refreshing chat, may have missed commands")
                 continue
             except requests.exceptions.Timeout as e:
-                print("Caught TimeoutError, chat")
+                print("WARNING: Connection timed out while refreshing chat, network may be down")
                 continue
             
             if response.text:

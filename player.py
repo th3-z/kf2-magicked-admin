@@ -12,6 +12,7 @@ class Player():
 
         self.session_start_time = 0
 
+        self.session_dosh = 0
         self.dosh = 0
         self.dosh_spent = 0
         self.wave_kills = 0

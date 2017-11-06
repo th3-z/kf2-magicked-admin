@@ -19,7 +19,7 @@ class WaveCommand():
 
     def new_wave(self, wave):
         if wave == self.wave or self.wave == ALL_WAVES:
-            self.chatbot.command_handler("wc", self.args, admin=True)
+            self.chatbot.command_handler("server", self.args, admin=True)
         
 
 class TimedCommand(threading.Thread):
@@ -37,7 +37,7 @@ class TimedCommand(threading.Thread):
 
     def run(self):
         while not self.exit_flag.wait(self.time_interval):
-            self.chatbot.command_handler("tc", self.args, admin=True)
+            self.chatbot.command_handler("server", self.args, admin=True)
 
 class Chatbot(Listener):
     
@@ -50,13 +50,17 @@ class Chatbot(Listener):
 
         self.timed_commands = []
         self.wave_commands = []
+        self.trader_commands = []
+
+        self.gg_flag = False
 
         self.chat.submit_message("Beep beep, I'm back\ntype !help for usage")
         print("Bot on server " + server.name + " initialised")
 
     def recieveMessage(self, username, message, admin=False, player=None):
-        if message == "gg":
+        if message == "gg" and not self.gg_flag:
             self.chat.submit_message("wp")
+            self.gg_flag = True
         if message[0] == '!':
             # Drop the '!' because its no longer relevant
             args = message[1:].split(' ')
@@ -67,61 +71,108 @@ class Chatbot(Listener):
             mesg = ""
             for player in self.server.players:
                 mesg += str(player) + " \n"
-            
             self.chat.submit_message(mesg)
-        if args[0] == "game":
+
+        elif args[0] == "game":
             self.chat.submit_message(str(self.server.game))
-        if args[0] == "help":
+
+        elif args[0] == "help":
             self.chat.submit_message("You're going to play,\nand I'm gonna watch,\nand everything will be just fine.")
-        if args[0] == "say":
+
+        elif args[0] == "say":
             mesg = " ".join(args[1:])
             # Unescape escape characters in say command
             mesg = bytes(mesg.encode("iso-8859-1","ignore")).decode('unicode_escape')
-            self.server.chat.submit_message(mesg)
-        if args[0] == "start_tc" and admin:
-            self.start_timed_command(args[2:], args[1])
-        if args[0] == "stop_tc" and admin:
+            self.chat.submit_message(mesg)
+
+        elif args[0] == "start_tc" and admin:
+            try:
+                self.start_timed_command(args[2:], int(args[1]))
+                self.chat.submit_message("Timer command started.")
+            except ValueError:
+                self.chat.submit_message("Malformed command, \""+args[1]+"\" is not an integer.")
+
+        elif args[0] == "stop_tc" and admin:
             self.stop_timed_commands()
-        if args[0] == "start_wc"  and admin:
+            self.chat.submit_message("Timer commands halted.")
+
+        elif args[0] == "start_wc"  and admin:
+            if len(args) < 2:
+                self.chat.submit_message("Malformed command, missing second argument.") 
+                return
             try:
                 int(args[1])
                 wc = WaveCommand(args[2:], int(args[1]), int(self.server.game['length']), self)
             except ValueError:
                 wc = WaveCommand(args[1:], ALL_WAVES, int(self.server.game['length']), self)
             self.wave_commands.append(wc)
-        if args[0] == "stop_wc" and admin:
-            self.wave_commands = []
+            self.chat.submit_message("Wave command started.")
 
-        if args[0] == "difficulty":
+        elif args[0] == "stop_wc" and admin:
+            self.wave_commands = []
+            self.chat.submit_message("Wave commands halted.")
+
+        elif args[0] == "start_trc" and admin:
+            if len(args) < 2:
+                self.chat.submit_message("Malformed command, missing second argument.") 
+                return
+            self.trader_commands.append(args[1:])
+
+        elif args[0] == "stop_trc" and admin:
+            self.trader_commands = []
+            self.chat.submit_message("Trader commands halted.") 
+
+        elif args[0] == "difficulty":
             if args[1] == "normal":
                 self.server.set_difficulty(server.DIFF_NORM)
-            if args[1] == "hard":
+            elif args[1] == "hard":
                 self.server.set_difficulty(server.DIFF_HARD)
-            if args[1] == "suicidal":
+            elif args[1] == "suicidal":
                 self.server.set_difficulty(server.DIFF_SUI)
-            if args[1] == "hell":
+            elif args[1] == "hell":
                 self.server.set_difficulty(server.DIFF_HOE)
+            else:
+                self.chat.submit_message("Difficulty not recognised. Options are normal, hard, suicidal, or hell.")
 
-        if args[0] == "length":
+        elif args[0] == "length":
             if args[1] == "short":
                 self.server.set_length(server.LEN_SHORT)
-            if args[1] == "medium":
+            elif args[1] == "medium":
                 self.server.set_length(server.LEN_NORM)
-            if args[1] == "long":
+            elif args[1] == "long":
                 self.server.set_length(server.LEN_LONG)
+            else:
+                self.chat.submit_message("Length not recognised. Options are short, medium, or long.")
 
-        if args[0] == "silent" and admin:
+        elif args[0] == "silent" and admin:
             if self.chat.silent:
                 self.chat.silent = False 
                 self.chat.submit_message("Silent mode toggled.")
             else:
                 self.chat.submit_message("Silent mode toggled.")
                 self.chat.silent = True
-        if args[0] == "kills" and player:
-            self.chat.submit_message( "TOTAL: " + str(player.total_kills) + " GAME: " + str(player.kills))
-        if args[0] == "new_wave" and admin:
+
+        elif args[0] == "kills" and player:
+            self.chat.submit_message( "You've killed a total of " + str(player.total_kills) + " ZEDs, and " + str(player.kills) + " this game.")
+
+        elif args[0] == "dosh" and player:
+            self.chat.submit_message( ("You've earned £" + str(player.total_dosh) + " in total, and £" + str(player.session_dosh) + " this game.").encode("iso-8859-1","ignore"))
+
+        elif args[0] == "new_wave" and admin:
             for wave_command in self.wave_commands:
                 wave_command.new_wave(int(args[1]))
+
+        elif args[0] == "new_game" and admin:
+            self.gg_flag = False
+
+        elif args[0] == "t_open" and admin:
+            for trader_command in self.trader_commands:
+                self.handle_command("server", trader_command, admin=True)
+
+        elif username != "server":
+            self.chat.submit_message("Sorry, I didn't understand that request.")
+        else:   
+            print("WARNING: Unhandled internal command " + str(args) + " Admin=" + str(admin))
             
         
     def start_timed_command(self, args, time):
