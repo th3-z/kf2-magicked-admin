@@ -23,7 +23,14 @@ class ServerMapper(threading.Thread):
         info_url = "http://" + self.server.address + "/ServerAdmin/current/info"
 
         while not self.exit_flag.wait(self.time_interval):
-            info_page_response = self.server.session.post(info_url)
+            try:
+                info_page_response = self.server.session.post(info_url, timeout=2)
+            except requests.ConnectionError as e:
+                print("Caught ConnectionError")
+                continue
+            except requests.TimeoutError as e:
+                print("Caught TimeoutError")
+                continue
 
             info_tree = html.fromstring(info_page_response.content)
             dds = info_tree.xpath('//dd/text()')

@@ -14,7 +14,7 @@ class ChatLogger(threading.Thread):
         }
         
         self.server = server
-        self.time_interval = 4
+        self.time_interval = 3
         self.message_log = []
         self.listeners = []
 
@@ -27,10 +27,18 @@ class ChatLogger(threading.Thread):
     
     def run(self):
         while not self.exit_flag.wait(self.time_interval):
-            response = self.server.session.post(
-                self.chat_request_url,
-                self.chat_request_payload
-            )
+            try:
+                response = self.server.session.post(
+                    self.chat_request_url,
+                    self.chat_request_payload,
+                    timeout=2
+                )
+            except requests.ConnectionError as e:
+                print("Caught ConnectionError, chat")
+                continue
+            except requests.TimeoutError as e:
+                print("Caught TimeoutError, chat")
+                continue
             
             if response.text:
                 # trailing new line ends up in list without the strip
