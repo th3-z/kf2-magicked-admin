@@ -26,10 +26,10 @@ class ServerMapper(threading.Thread):
             try:
                 info_page_response = self.server.session.post(info_url, timeout=2)
             except requests.exceptions.ConnectionError as e:
-                print("Caught ConnectionError")
+                print("INFO: Non-fatal connection error while reloading web-admin, retrying")
                 continue
             except requests.exceptions.Timeout as e:
-                print("Caught TimeoutError")
+                print("INFO: Connection timed out while reloading web-admin, network may be down")
                 continue
 
             info_tree = html.fromstring(info_page_response.content)
@@ -110,51 +110,12 @@ class ServerMapper(threading.Thread):
                 player.health = new_health
                 player.ping = new_ping
                 if new_dosh > player.dosh:
+                    player.session_dosh += new_dosh - player.dosh
                     player.total_dosh += new_dosh - player.dosh
                 else:
                     player.total_dosh_spent += player.dosh - new_dosh
                 player.dosh = new_dosh
                
-                #for player in self.server.players:
-                #    if player.username == username
-                        
-
-
-            """
-            # Find any new players and update
-            for player_row in player_rows:
-                # Dead players are missing the health column
-                if len(player) < 7:
-                    username, perk, dosh = player[:3]
-                    health = 0
-                    kills, ping = player[3:5]
-                else:
-                    username, perk, dosh, health, kills, ping = player[:6]
-                player = server.get_player(username)
-                
-                # Remove players that have quit
-                for player in self.server.players:
-                    if player.username not in [player_row[0] for player_row in player_rows]:
-                        self.server.player_quit(player)
-                # new players
-                if player.username not in [player.username for player in self.server.players]:
-                    player = Player(name, perk)
-                    # the player updating below doesnt apply to new playres
-                    self.server.player_join(player)
-
-                for player in self.server.players:
-                    if player.username == name:
-                        # kills>0 because of issue #1
-                        if int(health) == 0 and int(health) < int(player.health) and int(kills)>0:
-                            print("INFO: Player " + player.username + " died")
-                            print("\tHP Now "+str(health)+" HP before "+str(player.health))
-                            player.total_deaths += 1
-                        player.perk = perk
-                        player.kills = kills
-                        player.health = int(health)
-                        player.ping = ping
-                        player.dosh = dosh"""
-
     def terminate(self):
         self.exit_flag.set()
 

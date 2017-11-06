@@ -150,7 +150,8 @@ class Server():
         player.session_start = datetime.datetime.now()
         self.players.append(player)
         print("INFO: Player " + player.username + " joined")        
-        print("TDosh:", player.total_dosh,"TKill:",player.total_kills,"THP:",player.total_health_lost)
+        print("\tStats:")
+        print("\tTotal dosh: ", player.total_dosh," Total kills: ",player.total_kills)
 
     def player_quit(self, quit_player):
         for player in self.players:
