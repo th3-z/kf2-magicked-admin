@@ -3,6 +3,25 @@ import time
 import threading
 import server
 
+ALL_WAVES = 99
+
+class WaveCommand():
+    
+    def __init__(self, args, wave, length, chatbot):
+        if wave > 0:
+            self.wave = wave
+        if wave < 0:
+            # the boss wave is length+1, this should equate to -1
+            self.wave = (length + 1) + (wave + 1)
+
+        self.args = args
+        self.chatbot = chatbot
+
+    def new_wave(self, wave):
+        if wave == self.wave or self.wave == ALL_WAVES:
+            self.chatbot.command_handler("wc", self.args, admin=True)
+        
+
 class TimedCommand(threading.Thread):
 
     def __init__(self, args, time_interval, chatbot):
@@ -30,11 +49,14 @@ class Chatbot(Listener):
         self.max_lines = 7
 
         self.timed_commands = []
+        self.wave_commands = []
 
-        #self.chat.submit_message("Beep beep, I'm back\ntype !help for usage")
+        self.chat.submit_message("Beep beep, I'm back\ntype !help for usage")
         print("Bot on server " + server.name + " initialised")
 
     def recieveMessage(self, username, message, admin=False, player=None):
+        if message == "gg":
+            self.chat.submit_message("wp")
         if message[0] == '!':
             # Drop the '!' because its no longer relevant
             args = message[1:].split(' ')
@@ -60,6 +82,15 @@ class Chatbot(Listener):
             self.start_timed_command(args[2:], args[1])
         if args[0] == "stop_tc" and admin:
             self.stop_timed_commands()
+        if args[0] == "start_wc"  and admin:
+            try:
+                int(args[1])
+                wc = WaveCommand(args[2:], int(args[1]), int(self.server.game['length']), self)
+            except ValueError:
+                wc = WaveCommand(args[1:], ALL_WAVES, int(self.server.game['length']), self)
+            self.wave_commands.append(wc)
+        if args[0] == "stop_wc" and admin:
+            self.wave_commands = []
 
         if args[0] == "difficulty":
             if args[1] == "normal":
@@ -88,6 +119,10 @@ class Chatbot(Listener):
                 self.chat.silent = True
         if args[0] == "kills" and player:
             self.chat.submit_message( "TOTAL: " + str(player.total_kills) + " GAME: " + str(player.kills))
+        if args[0] == "new_wave" and admin:
+            for wave_command in self.wave_commands:
+                wave_command.new_wave(int(args[1]))
+            
         
     def start_timed_command(self, args, time):
         timed_command = TimedCommand(args, time, self)
