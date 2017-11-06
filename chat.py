@@ -33,10 +33,10 @@ class ChatLogger(threading.Thread):
                     self.chat_request_payload,
                     timeout=2
                 )
-            except requests.ConnectionError as e:
+            except requests.exceptions.ConnectionError as e:
                 print("Caught ConnectionError, chat")
                 continue
-            except requests.TimeoutError as e:
+            except requests.exception.Timeout as e:
                 print("Caught TimeoutError, chat")
                 continue
             

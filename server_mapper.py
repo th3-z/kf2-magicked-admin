@@ -25,10 +25,10 @@ class ServerMapper(threading.Thread):
         while not self.exit_flag.wait(self.time_interval):
             try:
                 info_page_response = self.server.session.post(info_url, timeout=2)
-            except requests.ConnectionError as e:
+            except requests.exceptions.ConnectionError as e:
                 print("Caught ConnectionError")
                 continue
-            except requests.TimeoutError as e:
+            except requests.exceptions.Timeout as e:
                 print("Caught TimeoutError")
                 continue
 
@@ -92,6 +92,7 @@ class ServerMapper(threading.Thread):
                     player.health = new_health
                     player.dodsh = new_dosh
                     self.server.player_join(player)
+                    # Posible fix for death mesgs and duping of kills
                     continue
 
 
