@@ -22,23 +22,25 @@ class MagickedAdministrator():
     def run(self):
 
         for server_name in config.sections():
+            address = config[server_name]["address"] 
             user = config[server_name]["username"]
             password = config[server_name]["password"]
-            address = config[server_name]["address"] 
+            game_password = config[server_name]["game_password"]
+            motd_scoreboard = config[server_name]["motd_scoreboard"]
+            map_autochange = config[server_name]["map_autochange"]
 
-            # Unused
-            # clan_motto = config[server_name]["clan_motto"]
-            # web_link = config[server_name]["web_link"]
+            server = Server(server_name, address, user, password, game_password, motd_scoreboard)
 
-            server = Server(server_name, address, user, password)
-            wd = Watchdog(server)
-            wd.start()
+            if map_autochange == "True":
+                wd = Watchdog(server)
+                wd.start()
+                self.watchdogs.append(wd)
+
             cb = Chatbot(server)
             server.chat.add_listener(cb)
 
             self.servers.append(server)
             self.bots.append(cb)
-            self.watchdogs.append(wd)
 
         print("Initialisation complete\n")
 
