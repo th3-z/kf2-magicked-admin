@@ -87,17 +87,17 @@ class ServerDatabase:
         player.total_dosh_spent = self.player_dosh_spent(player.username)
 
     def save_player(self, player):
-        self.cur.execute("INSERT OR IGNORE INTO players (username) VALUES ('{un}')".\
-            format(un=player.username))
+        self.cur.execute("INSERT OR IGNORE INTO players (username) VALUES (?)",\
+            (player.username,))
 
-        self.cur.execute("UPDATE players SET dosh_spent = {d} WHERE username = '{u}'".\
-            format(d=player.total_dosh_spent, u=player.username))
-        self.cur.execute("UPDATE players SET dosh = {d} WHERE username = '{u}'".\
-            format(d=player.total_dosh, u=player.username))
-        self.cur.execute("UPDATE players SET kills = {k} WHERE username = '{u}'".\
-            format(k=player.total_kills, u=player.username))
-        self.cur.execute("UPDATE players SET deaths = {d} WHERE username = '{u}'".\
-            format(d=player.total_deaths, u=player.username))
+        self.cur.execute("UPDATE players SET dosh_spent = ? WHERE username = ?",\
+            (player.total_dosh_spent, player.username))
+        self.cur.execute("UPDATE players SET dosh = ? WHERE username = ?",\
+            (player.total_dosh, player.username))
+        self.cur.execute("UPDATE players SET kills = ? WHERE username = ?",\
+            (player.total_kills, player.username))
+        self.cur.execute("UPDATE players SET deaths = ? WHERE username = ?",\
+            (player.total_deaths, player.username))
 
         self.conn.commit()
 
