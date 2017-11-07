@@ -171,6 +171,26 @@ class Chatbot(Listener):
             for trader_command in self.trader_commands:
                 self.command_handler("server", trader_command, admin=True)
 
+        elif args[0] == "top_kills":
+            killers = self.server.database.top_kills()
+            self.chat.submit_message("Top 5 players by kills:\n"+
+                killers[0][0] + ":\t\t\t" + str(killers[0][1]) + "\n" +
+                killers[1][0] + ":\t\t\t" + str(killers[1][1]) + "\n" +
+                killers[2][0] + ":\t\t\t" + str(killers[2][1]) + "\n" +
+                killers[3][0] + ":\t\t\t" + str(killers[3][1]) + "\n" +
+                killers[4][0] + ":\t\t\t" + str(killers[4][1])
+            )
+
+        elif args[0] == "top_dosh":
+            doshers = self.server.database.top_dosh()
+            self.chat.submit_message("Top 5 players by earnings:\n"+
+                doshers[0][0] + ":\t\t\t" + str(doshers[0][1]) + "\n" +
+                doshers[1][0] + ":\t\t\t" + str(doshers[1][1]) + "\n" +
+                doshers[2][0] + ":\t\t\t" + str(doshers[2][1]) + "\n" +
+                doshers[3][0] + ":\t\t\t" + str(doshers[3][1]) + "\n" +
+                doshers[4][0] + ":\t\t\t" + str(doshers[4][1])
+            )
+
         elif username != "server":
             self.chat.submit_message("Sorry, I didn't understand that request.")
         else:   
