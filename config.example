@@ -1,16 +1,15 @@
 [server_one]
-address = x.x.x.x:p
-username = username
-password = password
+address = 127.0.0.1:8080
+username = bot_username
+password = bot_password
+game_password = game_password
+motd_scoreboard = True
+map_autochange = True
 
-clan_motto = kf.znel.org:23000     ::     173.199.74.63:23000     ::     United Kingdom
-web_link = http://znel.org/kf
-
-[some_other_server]
-address = x.x.x.x:p
-username = username
-password = password
-
-clan_motto = Some clan motto
-web_link =  https://google.com 
-
+[server_one]
+address = 127.0.0.1:8081
+username = bot_username
+password = bot_password
+game_password = game_password
+motd_scoreboard = False
+map_autochange = True
