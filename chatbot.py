@@ -81,7 +81,7 @@ class Chatbot(Listener):
         elif args[0] == "help":
             self.chat.submit_message("You're going to play,\nand I'm gonna watch,\nand everything will be just fine.")
 
-        elif args[0] == "say":
+        elif args[0] == "say" and admin:
             mesg = " ".join(args[1:])
             # Unescape escape characters in say command
             mesg = bytes(mesg.encode("iso-8859-1","ignore")).decode('unicode_escape')
