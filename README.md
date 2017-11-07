@@ -1,23 +1,33 @@
 # Killing Floor 2 Magicked Administrator
-Automated management and statistics for ranked Killing Floor 2 servers.
+Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 
-### Finished features
+### Player commands
 * !help - displays the help text in chat
-* !silent - toggles output in chat, administrator only command
+* !dosh - display the players recorded dosh and rank by dosh
+* !top_dosh - displays the players with the highest recorded dosh
+* !kills - display the players recorded kills and rank by kills
+* !top_kills - displays the players with the most recorded kills
 * !diff {normal|hard|suicidal|hell} - sets difficulty of next game
 * !length {short|medium|long} - sets length of next game
-* !start\_tc n command - repeat command every n seconds, administrator only command
-* !stop\_tc - stop all timed commands, administrator only command
-* !players - displays currently logged in player stats for debugging
-* !game - displays current game information for debugging
+
+### Admin commands
+* !start\_tc n command - repeat command every n seconds
+* !stop\_tc - stop all timed commands
+* !start\_wc n command - run command when wave n is reached, negative values will count back from the boss wave
+* !stop\_wc - stop all commands on waves
+* !start_trc command - run command every time the trader opens
+* !stop_trc - stop running commands on trader open
+* !say mesg - display mesg, for useful in conjuction with other admin commands
+* !silent - toggles output in chat
+* !restart - immidiately restarts the current map
+* !toggle_pass - enables or disables the configured game password
+
+### Other features
+Writting an server_name.motd file with pairs of %PLR and %SCR and enabling the motd_scoreboard option will put a live scoreboard in the motd.
+Enabling the map_autochange option will change the map to KF-Outpost if the server gets stuck on the same map with 0 players for 10 minutes.
 
 ### Planned features
-* !say mesg - display mesg, for use in conjunction with !start\_tc
-* !kills - display the players recorded kills and rank by kills
-* !dosh - display the players recorded dosh and rank by dosh
 * !time - display the players time logged in and log in count
-* Recording of dosh, time, kills over time
-* Automatically switch map after inactivity to avoid server stalling on a broken one
 * Count number of times each map is played as a metric of popularity, with automatic maplist section updating
 * Attempt to detect out of date maps and delete them to force re-downloading
 
@@ -26,11 +36,12 @@ Automated management and statistics for ranked Killing Floor 2 servers.
 * requests
 * lxml
 * configparser
+* sqlite3
 
 Install Python then install the others using pip.
 
 ## Configuration
-Before running you'll need to rename `config.example` to `config` and fill out your server information. Username will appear in chat, enabling multi-admin and creating an account for the bot is reccomended. Address should be of format ip:port where port is the port number for webadmin.
+Before running you'll need to rename `config.example` to `config` and fill out your server information. Username will appear in chat, enabling multi-admin and creating an account for the bot is reccomended. Address should be of format ip:port where port is the port number for webadmin. The game_password option is for the `!toggle_pass` command.
 
 ## Running
 Just run `main.py` with python
