@@ -199,6 +199,12 @@ class Chatbot(Listener):
                 doshers[4][0] + ":\t\t\t" + str(doshers[4][1])
             )
 
+        elif args[0] == "toggle_pass" and admin:
+            self.server.toggle_game_password()
+
+        elif args[0] == "restart" and admin:
+            self.server.restart_map()
+
         elif username != "server":
             self.chat.submit_message("Sorry, I didn't understand that request.")
         else:   

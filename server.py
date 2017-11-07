@@ -22,10 +22,11 @@ LEN_LONG = "2"
 
 class Server():
    
-    def __init__(self, name, address, username, password, hashed=False):
+    def __init__(self, name, address, username, password, game_password, motd_scoreboard, hashed=False):
         self.name = name
         self.address = address
         self.username = username
+        self.game_password = game_password
         if hashed:
             self.password_hash = "$sha1$" + \
                 sha1(password.encode("iso-8859-1","ignore") + \
@@ -34,7 +35,11 @@ class Server():
         else:
             self.password_hash = password
 
-        self.motd = self.load_motd()
+        
+        if motd_scoreboard == "True": 
+            self.motd = self.load_motd()
+            self.motd_updater = MotdUpdater(self)
+            self.motd_updater.start()
 
         self.database = ServerDatabase(name)
         self.session = self.new_session()
@@ -55,8 +60,6 @@ class Server():
         self.chat = ChatLogger(self)
         self.chat.start()
 
-        self.motd_updater = MotdUpdater(self)
-        self.motd_updater.start()
 
         self.mapper = ServerMapper(self)
         self.mapper.start()
@@ -186,6 +189,44 @@ class Server():
         self.session.post(general_settings_url, self.general_settings)
         
         self.chat.submit_message("Length change will take effect next game.")
+
+    def toggle_game_password(self):
+        passwords_url = "http://" + self.address + "/ServerAdmin/policy/passwords"
+
+        payload = {
+            'action': 'gamepassword'
+        }
+
+        passwords_response = self.session.get(passwords_url)
+        passwords_tree = html.fromstring(passwords_response.content)
+        
+        password_state = passwords_tree.xpath('//p[starts-with(text(),"Game password")]//em/text()')[0]
+
+        if password_state == 'False':
+            payload['gamepw1'] = self.game_password
+            payload['gamepw2'] = self.game_password
+            self.chat.submit_message("Password will be enabled next game.")
+        else:
+            payload['gamepw1'] = ""
+            payload['gamepw2'] = ""
+            self.chat.submit_message("Password will be disabled next game.")
+
+        self.session.post(passwords_url, payload)
+            
+    def change_map(self, new_map):
+        map_url = "http://" + self.address + "/ServerAdmin/current/change"
+        payload = {
+            "gametype" : "KFGameContent.KFGameInfo_Survival",
+            "map" : new_map,
+            "mutatorGroupCount": "0",
+            "urlextra": "?MaxPlayers=6",
+            "action": "change"
+        }
+
+        self.session.post(map_url, payload)
+
+    def restart_map(self):
+       self.change_map(self.game['map_title']) 
 
     def close(self):
         print("Terminating mapper thread...")

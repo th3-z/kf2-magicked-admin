@@ -4,9 +4,8 @@ import time
 class Watchdog(threading.Thread):
 
     def __init__(self, server):
-        # TODO option to disable in config 
-        # 15 minutes
-        self.time_interval = 15 * 60
+        # 5 minutes
+        self.time_interval = 5 * 60
         self.server = server
 
         self.last_map = ""
@@ -19,8 +18,9 @@ class Watchdog(threading.Thread):
     def run(self):
         
         while not self.exit_flag.wait(self.time_interval):
-            if self.last_map == self.server.game and len(self.server.players) < 1:
-                print("INFO: Watchdog found a stuck map") 
+            if self.last_map == self.server.game['map_title'] and len(self.server.players) < 1:
+                print("INFO: Watchdog found a stuck map " + self.server.game['map_title']) 
+                self.server.change_map("KF-Outpost")
 
             self.last_map = self.server.game['map_title']
 
