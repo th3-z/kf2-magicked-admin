@@ -173,6 +173,9 @@ class Chatbot(Listener):
 
         elif args[0] == "top_kills":
             killers = self.server.database.top_kills()
+            if len(killers) < 5:
+                self.chat.submit_message("Not enough data.")
+                return
             self.chat.submit_message("Top 5 players by kills:\n"+
                 killers[0][0] + ":\t\t\t" + str(killers[0][1]) + "\n" +
                 killers[1][0] + ":\t\t\t" + str(killers[1][1]) + "\n" +
@@ -183,6 +186,9 @@ class Chatbot(Listener):
 
         elif args[0] == "top_dosh":
             doshers = self.server.database.top_dosh()
+            if len(doshers) < 5:
+                self.chat.submit_message("Not enough data.")
+                return
             self.chat.submit_message("Top 5 players by earnings:\n"+
                 doshers[0][0] + ":\t\t\t" + str(doshers[0][1]) + "\n" +
                 doshers[1][0] + ":\t\t\t" + str(doshers[1][1]) + "\n" +
