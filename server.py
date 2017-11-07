@@ -9,6 +9,7 @@ from chat import ChatLogger
 from server_mapper import ServerMapper
 from database import ServerDatabase
 from watchdog import Watchdog
+from motd_updater import MotdUpdater
 
 DIFF_NORM = "0.0000"
 DIFF_HARD = "1.0000"
@@ -54,6 +55,9 @@ class Server():
         self.chat = ChatLogger(self)
         self.chat.start()
 
+        self.motd_updater = MotdUpdater(self)
+        self.motd_updater.start()
+
         self.mapper = ServerMapper(self)
         self.mapper.start()
 
@@ -91,8 +95,7 @@ class Server():
         motd_f = open(self.name + ".motd")
         motd = motd_f.read()
         motd_f.close()
-
-        return motd.encode("iso-8859-1", "ignore")
+        return motd
 
     def load_general_settings(self):
         settings = {}
@@ -185,6 +188,25 @@ class Server():
     def set_maplist(self, maplist):
         pass
 
+    def submit_motd(self, motd):
+        motd_url = "http://173.199.74.63:23002/ServerAdmin/settings/welcome"
+
+        motd_payload = {
+            'BannerLink': '',
+            'ClanMotto': '',
+            'ClanMottoColor': '#FF0000',
+            'ServerMOTD': motd.encode("iso-8859-1", "ignore"),
+            'ServerMOTDColor': '#FF0000',
+            'WebLink': '',
+            'WebLinkColor': '#FF0000',
+            'liveAdjust': '1',
+            'action': 'save'
+        }
+
+        print("INFO: Updating motd")
+        self.session.post(motd_url, data=motd_payload)
+
+
     def close(self):
         print("Terminating mapper thread...")
         self.mapper.terminate()
@@ -198,4 +220,8 @@ class Server():
         for player in self.players:
             self.database.save_player(player)
         self.database.close()
+
+        print("Terminating motd thread...")
+        self.motd_updater.terminate()
+        self.motd_updater.join()
 
