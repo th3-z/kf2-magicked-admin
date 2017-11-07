@@ -79,7 +79,7 @@ class Chatbot(Listener):
             self.chat.submit_message(str(self.server.game))
 
         elif args[0] == "help":
-            self.chat.submit_message("You're going to play,\nand I'm gonna watch,\nand everything will be just fine.")
+            self.chat.submit_message("Player commands:\n !dosh, !kills, !top_dosh,\n!top_kills, !difficulty, !length")
 
         elif args[0] == "say" and admin:
             mesg = " ".join(args[1:])
