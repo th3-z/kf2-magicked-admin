@@ -10,7 +10,7 @@ class MotdUpdater(threading.Thread):
     def __init__(self, server):
         self.server = server
 
-        self.time_interval = 8
+        self.time_interval = 8 * 60
         self.motd = self.load_motd()
 
         self.exit_flag = threading.Event()
@@ -19,19 +19,35 @@ class MotdUpdater(threading.Thread):
     
     def run(self):
         while not self.exit_flag.wait(self.time_interval):
-            motd_payload = self.get_configuration()
+            try:
+                motd_payload = self.get_configuration()
+            except requests.exceptions.ConnectionError as e:
+                continue
+            except requests.exceptions.Timeout as e:
+                continue
+
             motd = self.render_motd(self.motd)
             motd_payload['ServerMOTD'] = motd.encode("iso-8859-1", "ignore")
 
-            self.submit_motd(motd_payload)
+            try:
+                self.submit_motd(motd_payload)
+            except requests.exceptions.ConnectionError as e:
+                continue
+            except requests.exceptions.Timeout as e:
+                continue
     
     def submit_motd(self, payload):
         motd_url = "http://" + self.server.address + "/ServerAdmin/settings/welcome"
 
-        print("INFO: Updating motd")
-        self.server.session.post(motd_url, data=payload)
-
-        
+        print("INFO: Submitting motd")
+        try:
+            self.server.session.post(motd_url, data=payload)
+        except requests.exceptions.ConnectionError as e:
+            print("INFO: Connection error while submitting motd")
+            raise
+        except requests.exceptions.Timeout as e:
+            print("INFO: Connection timed out while submitting motd")
+            raise
 
     def millify(self,n):
         millnames = ['','K','M','B','T']
@@ -42,7 +58,6 @@ class MotdUpdater(threading.Thread):
 
         return '{:.0f}{}'.format(n / 10**(3 * millidx), millnames[millidx])
         
-
     def load_motd(self):
         if not path.exists(self.server.name + ".motd"):
             print("WARNING: No motd file for " + self.server.name)
@@ -52,7 +67,6 @@ class MotdUpdater(threading.Thread):
         motd = motd_f.read()
         motd_f.close()
         return motd
-
 
     def render_motd(self, src_motd):
         name_len = 11
@@ -72,7 +86,15 @@ class MotdUpdater(threading.Thread):
     def get_configuration(self):
         motd_url = "http://173.199.74.63:23002/ServerAdmin/settings/welcome"
 
-        motd_response = self.server.session.get(motd_url, timeout=2)
+        try:
+            motd_response = self.server.session.get(motd_url, timeout=2)
+        except requests.exceptions.ConnectionError as e:
+            print("INFO: Conecttion error in motd updater, could not retrieve configuration")
+            raise
+        except requests.exceptions.Timeout as e:
+            print("INFO: Connection timed out, count not get motd configuration")
+            raise
+
         motd_tree = html.fromstring(motd_response.content)
 
         banner_link = motd_tree.xpath('//input[@name="BannerLink"]/@value')[0] 
