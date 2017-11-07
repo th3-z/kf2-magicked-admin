@@ -34,6 +34,16 @@ class ServerDatabase:
     def end_game(self, game):
         pass
 
+    def top_kills(self):
+        self.cur.execute('SELECT username, kills FROM players ORDER BY kills DESC')
+        all_rows = self.cur.fetchall()
+        return all_rows
+
+    def top_dosh(self):
+        self.cur.execute('SELECT username, dosh FROM players ORDER BY dosh DESC')
+        all_rows = self.cur.fetchall()
+        return all_rows
+
     def player_dosh(self, username):
         self.cur.execute('SELECT (dosh) FROM players WHERE username="{un}"'.\
             format(un=username))
