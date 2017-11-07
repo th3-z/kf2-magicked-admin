@@ -163,6 +163,11 @@ class Server():
                 self.database.save_player(player)
                 self.players.remove(player)
 
+    def write_all_players(self):
+        print("Writting players...")
+        for player in self.players:
+            self.database.save_player(player)
+
     def set_difficulty(self, difficulty):
         general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
 
@@ -191,10 +196,7 @@ class Server():
         self.chat.terminate()
         self.chat.join()
 
-        print("Saving data...")
-        for player in self.players:
-            self.database.save_player(player)
-        self.database.close()
+        self.write_all_players()
 
         print("Terminating motd thread...")
         self.motd_updater.terminate()

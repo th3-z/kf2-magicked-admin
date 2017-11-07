@@ -19,6 +19,7 @@ class MotdUpdater(threading.Thread):
     
     def run(self):
         while not self.exit_flag.wait(self.time_interval):
+            self.server.write_all_players()
             try:
                 motd_payload = self.get_configuration()
             except requests.exceptions.ConnectionError as e:
