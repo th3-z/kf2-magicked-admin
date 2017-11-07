@@ -1,9 +1,10 @@
 from os import path
 import threading
-import math
 import requests
 
 from lxml import html
+from utils import millify
+from utils import trim_string
 
 class MotdUpdater(threading.Thread):
 
@@ -50,15 +51,6 @@ class MotdUpdater(threading.Thread):
             print("INFO: Connection timed out while submitting motd")
             raise
 
-    def millify(self,n):
-        millnames = ['','K','M','B','T']
-        
-        n = float(n)
-        millidx = max(0,min(len(millnames)-1,
-            int(math.floor(0 if n == 0 else math.log10(abs(n))/3))))
-
-        return '{:.0f}{}'.format(n / 10**(3 * millidx), millnames[millidx])
-        
     def load_motd(self):
         if not path.exists(self.server.name + ".motd"):
             print("WARNING: No motd file for " + self.server.name)
@@ -70,17 +62,15 @@ class MotdUpdater(threading.Thread):
         return motd
 
     def render_motd(self, src_motd):
-        name_len = 11
-
         scores = self.server.database.top_kills()
 
         for player in scores:
             name = player[0]
-            name = (name[:name_len-2] + '..') if len(name) > name_len else name
+            name = trim_string(name, 12)
             score = player[1]
 
             src_motd = src_motd.replace("%PLR", name, 1)
-            src_motd = src_motd.replace("%SCR", self.millify(score), 1)
+            src_motd = src_motd.replace("%SCR", millify(score), 1)
         
         return src_motd
 

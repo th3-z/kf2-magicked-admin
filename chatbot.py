@@ -3,6 +3,8 @@ import time
 import threading
 import server
 
+from utils import trim_string, millify
+
 ALL_WAVES = 99
 
 class WaveCommand():
@@ -178,11 +180,11 @@ class Chatbot(Listener):
                 self.chat.submit_message("Not enough data.")
                 return
             self.chat.submit_message("Top 5 players by kills:\n"+
-                killers[0][0] + ":\t\t\t" + str(killers[0][1]) + "\n" +
-                killers[1][0] + ":\t\t\t" + str(killers[1][1]) + "\n" +
-                killers[2][0] + ":\t\t\t" + str(killers[2][1]) + "\n" +
-                killers[3][0] + ":\t\t\t" + str(killers[3][1]) + "\n" +
-                killers[4][0] + ":\t\t\t" + str(killers[4][1])
+                trim_string(killers[0][0],20) + ":\t\t" + str(millify(killers[0][1])) + "\n" +
+                trim_string(killers[1][0],20) + ":\t\t" + str(millify(killers[1][1])) + "\n" +
+                trim_string(killers[2][0],20) + ":\t\t" + str(millify(killers[2][1])) + "\n" +
+                trim_string(killers[3][0],20) + ":\t\t" + str(millify(killers[3][1])) + "\n" +
+                trim_string(killers[4][0],20) + ":\t\t" + str(millify(killers[4][1]))
             )
 
         elif args[0] == "top_dosh":
@@ -192,11 +194,11 @@ class Chatbot(Listener):
                 self.chat.submit_message("Not enough data.")
                 return
             self.chat.submit_message("Top 5 players by earnings:\n"+
-                doshers[0][0] + ":\t\t\t" + str(doshers[0][1]) + "\n" +
-                doshers[1][0] + ":\t\t\t" + str(doshers[1][1]) + "\n" +
-                doshers[2][0] + ":\t\t\t" + str(doshers[2][1]) + "\n" +
-                doshers[3][0] + ":\t\t\t" + str(doshers[3][1]) + "\n" +
-                doshers[4][0] + ":\t\t\t" + str(doshers[4][1])
+                trim_string(doshers[0][0],20) + ":\t\t" + str(millify(doshers[0][1])) + "\n" +
+                trim_string(doshers[1][0],20) + ":\t\t" + str(millify(doshers[1][1])) + "\n" +
+                trim_string(doshers[2][0],20) + ":\t\t" + str(millify(doshers[2][1])) + "\n" +
+                trim_string(doshers[3][0],20) + ":\t\t" + str(millify(doshers[3][1])) + "\n" +
+                trim_string(doshers[4][0],20) + ":\t\t" + str(millify(doshers[4][1]))
             )
 
         elif args[0] == "toggle_pass" and admin:
