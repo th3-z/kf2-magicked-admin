@@ -172,6 +172,7 @@ class Chatbot(Listener):
                 self.command_handler("server", trader_command, admin=True)
 
         elif args[0] == "top_kills":
+            self.server.write_all_players()
             killers = self.server.database.top_kills()
             if len(killers) < 5:
                 self.chat.submit_message("Not enough data.")
@@ -185,6 +186,7 @@ class Chatbot(Listener):
             )
 
         elif args[0] == "top_dosh":
+            self.server.write_all_players()
             doshers = self.server.database.top_dosh()
             if len(doshers) < 5:
                 self.chat.submit_message("Not enough data.")
