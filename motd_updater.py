@@ -84,7 +84,7 @@ class MotdUpdater(threading.Thread):
         return src_motd
 
     def get_configuration(self):
-        motd_url = "http://173.199.74.63:23002/ServerAdmin/settings/welcome"
+        motd_url = "http://" + self.server.address + "/ServerAdmin/settings/welcome"
 
         try:
             motd_response = self.server.session.get(motd_url, timeout=2)

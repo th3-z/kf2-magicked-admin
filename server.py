@@ -182,12 +182,6 @@ class Server():
         
         self.chat.submit_message("Length change will take effect next game.")
 
-    def toggle_game_password(self, password):
-        pass
-
-    def set_maplist(self, maplist):
-        pass
-
     def close(self):
         print("Terminating mapper thread...")
         self.mapper.terminate()
