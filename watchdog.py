@@ -1,5 +1,6 @@
 import threading
 import time
+import random
 
 class Watchdog(threading.Thread):
 
@@ -20,7 +21,15 @@ class Watchdog(threading.Thread):
         while not self.exit_flag.wait(self.time_interval):
             if self.last_map == self.server.game['map_title'] and len(self.server.players) < 1:
                 print("INFO: Watchdog found a stuck map " + self.server.game['map_title']) 
-                self.server.change_map("KF-Outpost")
+                self.server.change_map(randon.choice([
+                    "KF-BioticsLab","KF-BlackForest","KF-BurningParis",
+                    "KF-Catacombs","KF-ContainmentStation","KF-EvacuationPoint",
+                    "KF-Farmhouse","KF-HostileGrounds","KF-InfernalRealm",
+                    "KF-Nightmare","KF-Nuked","KF-Outpost",
+                    "KF-Prison","KF-TragicKingdom","KF-TheDescent",
+                    "KF-VolterManor","KF-ZedLanding" 
+                ]))
+                
 
             self.last_map = self.server.game['map_title']
 
