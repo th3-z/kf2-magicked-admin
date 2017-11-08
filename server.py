@@ -167,7 +167,7 @@ class Server():
                 self.players.remove(player)
 
     def write_all_players(self):
-        print("Writting players...")
+        print("Writing players...")
         for player in self.players:
             self.database.save_player(player)
 
