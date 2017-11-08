@@ -21,7 +21,7 @@ class Watchdog(threading.Thread):
         while not self.exit_flag.wait(self.time_interval):
             if self.last_map == self.server.game['map_title'] and len(self.server.players) < 1:
                 print("INFO: Watchdog found a stuck map " + self.server.game['map_title']) 
-                self.server.change_map(randon.choice([
+                self.server.change_map(random.choice([
                     "KF-BioticsLab","KF-BlackForest","KF-BurningParis",
                     "KF-Catacombs","KF-ContainmentStation","KF-EvacuationPoint",
                     "KF-Farmhouse","KF-HostileGrounds","KF-InfernalRealm",
