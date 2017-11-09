@@ -205,11 +205,11 @@ class Server():
         if password_state == 'False':
             payload['gamepw1'] = self.game_password
             payload['gamepw2'] = self.game_password
-            self.chat.submit_message("Password will be enabled next game.")
+            self.chat.submit_message("Password enabled.")
         else:
             payload['gamepw1'] = ""
             payload['gamepw2'] = ""
-            self.chat.submit_message("Password will be disabled next game.")
+            self.chat.submit_message("Password disabled.")
 
         self.session.post(passwords_url, payload)
             
