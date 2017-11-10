@@ -23,10 +23,13 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 * !toggle_pass - enables or disables the configured game password
 
 ### Other features
-Writting an server_name.motd file with pairs of %PLR and %SCR and enabling the motd_scoreboard option will put a live scoreboard in the motd.
-Enabling the map_autochange option will change the map to KF-Outpost if the server gets stuck on the same map with 0 players for 10 minutes.
+Writing a server_name.motd file with pairs of %PLR and %SCR and enabling the motd_scoreboard option will put a live scoreboard in the motd.
+Enabling the map_autochange option will change the map to a random one from official Killing floor 2 maps if the server gets stuck on the same map with 0 players for 10 minutes.
 
 ### Planned features
+* Option in config to choose what maps you want watchdog to choose from.
+* %DSH and %KLS to represent Dosh and Kills in motd.
+* Using !stop_tc or !stop_trc or !stop_wc while there are 0 timed commands active will display "There aren't any tc's set.
 * !time - display the players time logged in and log in count
 * Count number of times each map is played as a metric of popularity, with automatic maplist section updating
 * Attempt to detect out of date maps and delete them to force re-downloading
