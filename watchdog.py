@@ -6,7 +6,7 @@ class Watchdog(threading.Thread):
 
     def __init__(self, server):
         # 5 minutes
-        self.time_interval = 30 * 60
+        self.time_interval = 240 * 60
         self.server = server
 
         self.last_map = ""
