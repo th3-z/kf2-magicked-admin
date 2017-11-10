@@ -23,11 +23,10 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 * !toggle_pass - enables or disables the configured game password
 
 ### Other features
-Writing a server_name.motd file with pairs of %PLR and %SCR and enabling the motd_scoreboard option will put a live scoreboard in the motd.
-Enabling the map_autochange option will change the map to a random one from official Killing floor 2 maps if the server gets stuck on the same map with 0 players for 4 hours.
+* Writing a server_name.motd file with pairs of %PLR and %SCR and enabling the motd_scoreboard option will put a live scoreboard in the motd.
+* Enabling the map_autochange option will change the map to a random one from official Killing floor 2 maps if the server gets stuck on the same map with 0 players for 4 hours.
 
 ### Planned features
-* 
 * Add server name to the print messages like "INFO: Player bon joined server Hard" and "INFO: Player bon quit from Hard".
 * INFO: Submitting motd for "Server.name".
 * Option in config to choose what interval you want Watchdog to be set at.
