@@ -1,11 +1,11 @@
 import threading
 import time
-
 from itertools import groupby
+
 import requests
 from lxml import html
 
-from player import Player
+from server.player import Player
 
 class ServerMapper(threading.Thread):
 
@@ -17,7 +17,7 @@ class ServerMapper(threading.Thread):
         self.exit_flag = threading.Event()
 
         threading.Thread.__init__(self)
-        print("Mapper for " + server.name + " initialised")
+        print("INFO: Mapper for " + server.name + " initialised")
 
     def run(self):
         info_url = "http://" + self.server.address + "/ServerAdmin/current/info"

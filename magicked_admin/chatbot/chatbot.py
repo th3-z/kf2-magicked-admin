@@ -1,9 +1,9 @@
-from listener import Listener
+from server.chat.listener import Listener
 import time
 import threading
 import server
 
-from utils import trim_string, millify
+from utils.text import trim_string, millify
 
 ALL_WAVES = 99
 
@@ -56,8 +56,8 @@ class Chatbot(Listener):
 
         self.gg_flag = False
 
-        self.chat.submit_message("Beep beep, I'm back\ntype !help for usage")
-        print("Bot on server " + server.name + " initialised")
+        #self.chat.submit_message("Beep beep, I'm back\ntype !help for usage")
+        print("INFO: Bot on server " + server.name + " initialised")
 
     def recieveMessage(self, username, message, admin=False, player=None):
         if message == "gg" and not self.gg_flag:
@@ -223,6 +223,6 @@ class Chatbot(Listener):
 
             self.timed_commands = []
 
-    def close(self):
+    def terminate(self):
         self.stop_timed_commands()
         

@@ -6,7 +6,6 @@ from lxml import html
 
 class ChatLogger(threading.Thread):
 
-    
     def __init__(self, server):
         self.chat_request_url = "http://" + server.address + "/ServerAdmin/current/chat+data"
         self.chat_request_payload = {
@@ -62,11 +61,8 @@ class ChatLogger(threading.Thread):
                 print_line = '\033[92m' + print_line + '\033[0m'
             print(print_line)
 
-        # Find the player if it came from a in-game player
-        player = self.server.get_player(username)
-
         for listener in self.listeners:
-            listener.recieveMessage(username, message, admin, player)
+            listener.recieveMessage(username, message, admin)
 
     def add_listener(self, listener):
         self.listeners.append(listener)
