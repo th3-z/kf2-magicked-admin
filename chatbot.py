@@ -209,8 +209,6 @@ class Chatbot(Listener):
 
         elif username != "server":
             self.chat.submit_message("Sorry, I didn't understand that request.")
-        else:   
-            print("WARNING: Unhandled internal command " + str(args) + " Admin=" + str(admin))
             
         
     def start_timed_command(self, args, time):

@@ -41,7 +41,7 @@ class MotdUpdater(threading.Thread):
     def submit_motd(self, payload):
         motd_url = "http://" + self.server.address + "/ServerAdmin/settings/welcome"
 
-        print("INFO: Submitting motd")
+        print("INFO: Updating motd scores")
         try:
             self.server.session.post(motd_url, data=payload)
         except requests.exceptions.ConnectionError as e:
