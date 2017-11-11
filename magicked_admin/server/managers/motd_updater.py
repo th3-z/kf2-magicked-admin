@@ -3,8 +3,8 @@ import threading
 import requests
 
 from lxml import html
-from utils import millify
-from utils import trim_string
+from utils.text import millify
+from utils.text import trim_string
 
 class MotdUpdater(threading.Thread):
 

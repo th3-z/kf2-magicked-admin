@@ -11,15 +11,15 @@ class ServerDatabase:
         self.conn = sqlite3.connect(self.sqlite_db_file, check_same_thread = False)
         self.cur = self.conn.cursor()
 
-        print("Database for " + name + " initialised")
+        print("INFO: Database for " + name + " initialised")
 
     def build_schema(self):
-        print("Building fresh schema...")
+        print("INFO: Building fresh schema...")
 
         conn = sqlite3.connect(self.sqlite_db_file)
         cur = conn.cursor()
 
-        with open('server_schema.sql') as schema_file:
+        with open('database/server_schema.sql') as schema_file:
             cur.executescript(schema_file.read())
 
         conn.commit()
