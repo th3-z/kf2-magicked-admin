@@ -22,7 +22,7 @@ LEN_LONG = "2"
 
 class Server():
    
-    def __init__(self, name, address, username, password, game_password, motd_scoreboard, hashed=False):
+    def __init__(self, name, address, username, password, game_password, hashed=False):
         self.name = name
         self.address = address
         self.username = username
@@ -156,8 +156,6 @@ class Server():
         player.session_start = datetime.datetime.now()
         self.players.append(player)
         print("INFO: Player " + player.username + " joined")        
-        print("\tStats:")
-        print("\tTotal dosh: ", player.total_dosh," Total kills: ",player.total_kills)
 
     def player_quit(self, quit_player):
         for player in self.players:
@@ -167,7 +165,6 @@ class Server():
                 self.players.remove(player)
 
     def write_all_players(self):
-        print("Writing players...")
         for player in self.players:
             self.database.save_player(player)
 
@@ -205,13 +202,15 @@ class Server():
         if password_state == 'False':
             payload['gamepw1'] = self.game_password
             payload['gamepw2'] = self.game_password
-            self.chat.submit_message("Password enabled.")
         else:
             payload['gamepw1'] = ""
             payload['gamepw2'] = ""
-            self.chat.submit_message("Password disabled.")
 
         self.session.post(passwords_url, payload)
+        if password_state =='False':
+            return True
+        else:
+            return False
             
     def change_map(self, new_map):
         map_url = "http://" + self.address + "/ServerAdmin/current/change"
@@ -238,8 +237,4 @@ class Server():
         self.chat.join()
 
         self.write_all_players()
-
-        print("Terminating motd thread...")
-        self.motd_updater.terminate()
-        self.motd_updater.join()
 
