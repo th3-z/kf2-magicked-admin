@@ -11,14 +11,20 @@ class CommandMap():
         self.command_map = self.generate_map()
 
     def generate_map(self):
+        wave_event_manager = CommandOnWaveManager(self.server, self.chatbot)
+        trader_event_manager = CommandOnTraderManager(self.server, self.chatbot)
+        time_event_manager = CommandOnTimeManager(self.server, self.chatbot)
+        
         map = {
-            'stop_wc':CommandOnWaveManager(self.server, self.chatbot),
-            'start_wc':CommandOnWaveManager(self.server, self.chatbot),
-            'new_wave':CommandOnWaveManager(self.server, self.chatbot),
-            'start_tc':CommandOnTimeManager(self.server, self.chatbot),
-            'stop_tc':CommandOnTimeManager(self.server, self.chatbot),
-            'start_trc':CommandOnTraderManager(self.server, self.chatbot),
-            'stop_trc':CommandOnTraderManager(self.server, self.chatbot),
+            'stop_wc':wave_event_manager,
+            'start_wc':wave_event_manager,
+            'new_wave':wave_event_manager,
+            'start_tc':time_event_manager,
+            'stop_tc':time_event_manager,
+            'start_trc':trader_event_manager,
+            'stop_trc':trader_event_manager,
+            't_close':trader_event_manager,
+            't_open':trader_event_manager,
             'say':CommandSay(self.server),
             'restart':CommandRestart(self.server),
             'toggle_pass':CommandTogglePassword(self.server),

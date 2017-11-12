@@ -9,9 +9,9 @@ class CommandSay(Command):
         if not self.authorise(admin):
             return self.not_auth_message
                 
-        mesaage = " ".join(args[1:])
+        message = " ".join(args[1:])
         # Unescape escape characters in say command
-        message = bytes(mesg.encode("iso-8859-1","ignore")).decode('unicode_escape')
+        message = bytes(message.encode("iso-8859-1","ignore")).decode('unicode_escape')
         return message
 
 class CommandRestart(Command):
@@ -33,7 +33,7 @@ class CommandTogglePassword(Command):
         if not self.authorise(admin):
             return self.not_auth_message
         
-        new_state = self.server.toggle_password()
+        new_state = self.server.toggle_game_password()
         if new_state:
             return "Game password enabled"
         else:
@@ -41,6 +41,7 @@ class CommandTogglePassword(Command):
             
 class CommandSilent(Command):
     def __init__(self, server, chatbot, adminOnly = True):
+        self.chatbot = chatbot
         Command.__init__(self, server, adminOnly)
 
     def execute(self, username, args, admin):
