@@ -36,23 +36,3 @@ class Chatbot(Listener):
                 self.chat.submit_message(response)
         elif username != "server" and not self.silent:
             self.chat.submit_message("Sorry, I didn't understand that request.")
-            
-        
-    def start_timed_command(self, args, time):
-        # DEPRECATED
-        timed_command = TimedCommand(args, time, self)
-        self.timed_commands.append(timed_command)
-        timed_command.start()
-
-    def stop_timed_commands(self):
-        # DEPRECATED
-        for tc in self.timed_commands:
-            tc.terminate()
-            tc.join()
-
-            self.timed_commands = []
-
-    def terminate(self):
-        # DEPRECATED
-        self.stop_timed_commands()
-        

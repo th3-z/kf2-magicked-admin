@@ -1,3 +1,5 @@
+import datetime
+
 class Player():
     
     def __init__(self, username, perk):
@@ -8,9 +10,8 @@ class Player():
         self.total_dosh_spent = 0
         self.total_health_lost = 0
         self.total_logins = 0
-        self.last_login = 0
 
-        self.session_start_time = 0
+        self.session_start = datetime.datetime.now()
 
         self.session_dosh = 0
         self.dosh = 0

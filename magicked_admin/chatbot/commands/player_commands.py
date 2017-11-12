@@ -14,7 +14,7 @@ class CommandKills(Command):
             return "You've killed a total of " + str(player.total_kills) + \
                     " ZEDs, and " + str(player.kills) + " this game."
         else:
-            return "Player not online."
+            return "Player not in game."
             
 class CommandDosh(Command):
     def __init__(self, server, adminOnly = True):
@@ -30,7 +30,7 @@ class CommandDosh(Command):
                     " in total, and £" + str(player.session_dosh) + \
                     " this game.").encode("iso-8859-1","ignore")
         else:
-            return "Player not online."
+            return "Player not in game."
 
 class CommandTopKills(Command):
     def __init__(self, server, adminOnly = True):

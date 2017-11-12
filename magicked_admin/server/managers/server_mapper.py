@@ -1,6 +1,7 @@
 import threading
 import time
 from itertools import groupby
+import datetime
 
 import requests
 from lxml import html
@@ -103,6 +104,7 @@ class ServerMapper(threading.Thread):
                
                 player.perk = new_perk
                 player.total_kills += new_kills - player.kills
+                player.wave_kills += new_kills - player.kills
                 player.kills = new_kills
                 if new_health < player.health:
                     player.total_health_lost += player.health - new_health
