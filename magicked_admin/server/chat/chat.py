@@ -20,6 +20,8 @@ class ChatLogger(threading.Thread):
         self.time_interval = 3
         self.message_log = []
         self.listeners = []
+        
+        self.poll_session = server.new_session()
 
         self.exit_flag = threading.Event()
 
@@ -31,7 +33,7 @@ class ChatLogger(threading.Thread):
     def run(self):
         while not self.exit_flag.wait(self.time_interval):
             try:
-                response = self.server.session.post(
+                response = self.poll_session.post(
                     self.chat_request_url,
                     self.chat_request_payload,
                     timeout=2
