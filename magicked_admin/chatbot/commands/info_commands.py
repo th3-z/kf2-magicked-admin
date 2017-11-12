@@ -10,7 +10,7 @@ class CommandPlayers(Command):
         message = ""
 
         for player in self.server.players:
-            mesg += str(player) + " \n"
+            message += str(player) + " \n"
         
         return message
 
