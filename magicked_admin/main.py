@@ -7,9 +7,12 @@ from utils.text import str_to_bool
 import configparser
 import sys
 import signal
+import os
 
 DEBUG = True
 
+if not os.path.exists("./magicked_admin.conf"):
+    sys.exit("Configuration file not found.")
 config = configparser.ConfigParser()
 config.read("./magicked_admin.conf")
 
@@ -53,7 +56,7 @@ class MagickedAdministrator():
             self.chatbots.append(cb)
 			
         print("INFO: Initialisation complete\n")
-
+            
     def terminate(self, signal, frame):
         print("\nINFO: Terminating...")
         for server in self.servers:
