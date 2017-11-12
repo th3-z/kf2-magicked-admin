@@ -45,12 +45,12 @@ class CommandTopKills(Command):
         if len(killers) < 5:
             return "Not enough data."
         
-        return "Top 5 players by kills:\n"+ \
-            trim_string(killers[0][0],20) + ":\t\t" + str(millify(killers[0][1])) + "\n" + \
-            trim_string(killers[1][0],20) + ":\t\t" + str(millify(killers[1][1])) + "\n" + \
-            trim_string(killers[2][0],20) + ":\t\t" + str(millify(killers[2][1])) + "\n" + \
-            trim_string(killers[3][0],20) + ":\t\t" + str(millify(killers[3][1])) + "\n" + \
-            trim_string(killers[4][0],20) + ":\t\t" + str(millify(killers[4][1]))
+        return "\n\nTop 5 players by kills:\n"+ \
+            "\t"+str(millify(killers[0][1])) + "\t-\t" + trim_string(killers[0][0],20) + "\n" + \
+            "\t"+str(millify(killers[1][1])) + "\t-\t" + trim_string(killers[1][0],20) + "\n" + \
+            "\t"+str(millify(killers[2][1])) + "\t-\t" + trim_string(killers[2][0],20) + "\n" + \
+            "\t"+str(millify(killers[3][1])) + "\t-\t" + trim_string(killers[3][0],20) + "\n" + \
+            "\t"+str(millify(killers[4][1])) + "\t-\t" + trim_string(killers[4][0],20)
         
 class CommandTopDosh(Command):
     def __init__(self, server, adminOnly = True):
@@ -65,10 +65,10 @@ class CommandTopDosh(Command):
         if len(doshers) < 5:
             return "Not enough data."
             
-        return "Top 5 players by earnings:\n"+ \
-            trim_string(doshers[0][0],20) + ":\t\t" + str(millify(doshers[0][1])) + "\n" + \
-            trim_string(doshers[1][0],20) + ":\t\t" + str(millify(doshers[1][1])) + "\n" + \
-            trim_string(doshers[2][0],20) + ":\t\t" + str(millify(doshers[2][1])) + "\n" + \
-            trim_string(doshers[3][0],20) + ":\t\t" + str(millify(doshers[3][1])) + "\n" + \
-            trim_string(doshers[4][0],20) + ":\t\t" + str(millify(doshers[4][1]))
-        
+        message = "\n\nTop 5 players by earnings:\n"+ \
+            "\t£"+str(millify(doshers[0][1])) + "\t-\t" + trim_string(doshers[0][0],20) + "\n" + \
+            "\t£"+str(millify(doshers[1][1])) + "\t-\t" + trim_string(doshers[1][0],20) + "\n" + \
+            "\t£"+str(millify(doshers[2][1])) + "\t-\t" + trim_string(doshers[2][0],20) + "\n" + \
+            "\t£"+str(millify(doshers[3][1])) + "\t-\t" + trim_string(doshers[3][0],20) + "\n" + \
+            "\t£"+str(millify(doshers[4][1])) + "\t-\t" + trim_string(doshers[4][0],20)
+        return message.encode("iso-8859-1","ignore")
