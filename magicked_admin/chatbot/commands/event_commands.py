@@ -50,7 +50,7 @@ class CommandOnTimeManager(Command):
             return self.not_auth_message
         
         if args[0] == "stop_tc":
-            if len(self.command_thread) > 0:
+            if len(self.command_threads) > 0:
                 self.terminate_all()
                 return "Timed commands stopped"
             else:
