@@ -35,7 +35,6 @@ class CommandOnTime(threading.Thread):
 
     def run(self):
         while not self.exit_flag.wait(self.time_interval):
-            print("TC RAN", str(self.args))
             self.chatbot.command_handler("server", self.args, admin=True)
         
 class CommandOnTimeManager(Command):
@@ -88,7 +87,7 @@ class CommandOnWaveManager(Command):
         elif args[0] == "start_wc":
             if len(args) < 2:
                 return "Malformed command, missing second argument"
-            return self.start_command(args[2:], args[1])
+            return self.start_command(args[1:])
         elif args[0] == "new_wave":
             for command in self.commands:
                 command.new_wave(int(args[1]))
@@ -100,16 +99,17 @@ class CommandOnWaveManager(Command):
         else:
             return "Nothing was running."
     
-    def start_command(self, args, wave):
-        if len(args) < 1:
+    def start_command(self, args):
+        if len(args) < 2:
             return "Missing argument (command)."
             
         game_length = int(self.server.game['length'])
         
         try:
-            wc = CommandOnWave(args, int(wave), game_length, self.chatbot)
+            wc = CommandOnWave(args[1:], int(args[0]), game_length, self.chatbot)
         except ValueError:
             wc = CommandOnWave(args, ALL_WAVES, game_length, self.chatbot)
+            
         self.commands.append(wc)
         return "Wave command started."
         
