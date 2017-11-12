@@ -99,7 +99,6 @@ class ServerMapper(threading.Thread):
                 # kills>0 because of issue #1
                 if new_health == 0 and new_health < player.health and new_kills > 0:
                             print("INFO: Player " + player.username + " died")
-                            print("\tHP Now "+str(new_health)+" HP before "+str(player.health))
                             player.total_deaths += 1
                
                 player.perk = new_perk

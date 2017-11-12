@@ -3,6 +3,10 @@ import time
 
 import requests
 from lxml import html
+from colorama import init
+from termcolor import colored
+
+init()
 
 class ChatLogger(threading.Thread):
 
@@ -55,10 +59,12 @@ class ChatLogger(threading.Thread):
     def handle_message(self, username, message, admin):
         command = True if message[0] == '!' else False
 
-        if self.print_messages:
+        if self.print_messages and username != "server":
             print_line = username + "@" + self.server.name +  ": " + message
             if command:
-                print_line = '\033[92m' + print_line + '\033[0m'
+                print_line = colored(print_line, 'green')
+            else:
+                print_line = colored(print_line, 'yellow')
             print(print_line)
 
         for listener in self.listeners:
