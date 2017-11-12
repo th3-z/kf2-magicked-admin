@@ -1,5 +1,4 @@
 from os import path
-import datetime
 
 import requests
 from hashlib import sha1
@@ -131,7 +130,6 @@ class Server():
     def player_join(self, player):
         self.database.load_player(player)
         player.total_logins += 1
-        player.session_start = datetime.datetime.now()
         self.players.append(player)
         self.chat.handle_message("server", "!p_join " + player.username, admin=True)
         print("INFO: Player " + player.username + " joined")        
@@ -145,6 +143,7 @@ class Server():
                 self.players.remove(player)
 
     def write_all_players(self):
+        print("INFO: Writing players")
         for player in self.players:
             self.database.save_player(player)
 

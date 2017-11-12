@@ -61,8 +61,8 @@ class MagickedAdministrator():
         print("\nINFO: Terminating...")
         for server in self.servers:
             server.terminate()
-        for cb in self.chatbots:
-            cb.terminate()
+        #for cb in self.chatbots:
+        #    cb.terminate()
         for wd in self.watchdogs:
             wd.terminate()
         for motd_updater in self.motd_updaters:
