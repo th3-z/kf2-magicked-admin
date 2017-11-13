@@ -108,7 +108,7 @@ class Server():
         self.chat.handle_message("server", "!new_wave " + str(self.game['wave']), admin=True)
         for player in self.players:
             player.wave_kills = 0
-            player.health_lost_wave = 0
+            player.wave_dosh = 0
 
     def trader_open(self):
         self.trader_time = True
