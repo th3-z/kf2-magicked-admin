@@ -108,8 +108,6 @@ class ServerMapper(threading.Thread):
                 player.kills = new_kills
                 if new_health < player.health:
                     player.total_health_lost += player.health - new_health
-                    if player.username == "the_z":
-                        print("LOST: " + str(player.health - new_health))
                 player.health = new_health
                 player.ping = new_ping
                 if new_dosh > player.dosh:
