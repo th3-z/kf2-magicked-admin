@@ -3,7 +3,6 @@
 .*.swo
 
 # Configs / database
-config
 *.motd
 *.sqlite
 
