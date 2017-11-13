@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 from os import path
 
 class ServerDatabase:
@@ -79,14 +80,44 @@ class ServerDatabase:
             return int(all_rows[0][0])
         else:
             return 0
-
+    
+    def player_logins(self, username):
+        self.cur.execute('SELECT (logins) FROM players WHERE username="{un}"'.\
+            format(un=username))
+        all_rows = self.cur.fetchall()
+        if all_rows:
+            return int(all_rows[0][0])
+        else:
+            return 0
+            
+    def player_time(self, username):
+        self.cur.execute('SELECT (time_online) FROM players WHERE username="{un}"'.\
+            format(un=username))
+        all_rows = self.cur.fetchall()
+        if all_rows:
+            return int(all_rows[0][0])
+        else:
+            return 0
+            
+    def player_health_lost(self, username):
+        self.cur.execute('SELECT (health_lost) FROM players WHERE username="{un}"'.\
+            format(un=username))
+        all_rows = self.cur.fetchall()
+        if all_rows:
+            return int(all_rows[0][0])
+        else:
+            return 0
+    
     def load_player(self, player):
         player.total_kills = self.player_kills(player.username)
         player.total_dosh =  self.player_dosh(player.username)
         player.total_deaths = self.player_deaths(player.username)
         player.total_dosh_spent = self.player_dosh_spent(player.username)
+        player.total_logins = self.player_logins(player.username)
+        player.total_health_lost = self.player_health_lost(player.username)
+        player.total_time = self.player_time(player.username)
 
-    def save_player(self, player):
+    def save_player(self, player, final=False):
         self.cur.execute("INSERT OR IGNORE INTO players (username) VALUES (?)",\
             (player.username,))
 
@@ -98,7 +129,19 @@ class ServerDatabase:
             (player.total_kills, player.username))
         self.cur.execute("UPDATE players SET deaths = ? WHERE username = ?",\
             (player.total_deaths, player.username))
-
+        self.cur.execute("UPDATE players SET health_lost = ? WHERE username = ?",\
+            (player.total_health_lost, player.username))
+        self.cur.execute("UPDATE players SET logins = ? WHERE username = ?",\
+            (player.total_logins, player.username))
+        
+        if final:
+            now = datetime.datetime.now()
+            elapsed_time = now - player.session_start
+            seconds = elapsed_time.total_seconds()
+            new_time = player.total_time + seconds
+            
+            self.cur.execute("UPDATE players SET time_online = ? WHERE username = ?",\
+            (new_time, player.username))
         self.conn.commit()
 
     def close(self):

@@ -50,10 +50,9 @@ class CommandMe(Command):
                     "t_dosh: " + str(player.total_dosh) + "\n" + \
                     "t_dosh_spent: " + str(player.total_dosh_spent) + "\n" + \
                     "t_health_lost: " + str(player.total_health_lost) + "\n" + \
-                    "g_dosh: " + str(player.session_dosh) + "\n" + \
-                    "g_dosh_spent: " + str(player.dosh_spent) + "\n" + \
+                    "g_dosh: " + str(player.game_dosh) + "\n" + \
                     "w_kills: " + str(player.wave_kills) + "\n" + \
-                    "w_health_lost: " + str(player.health_lost_wave) + "\n" + \
+                    "w_dosh: " + str(player.wave_dosh) + "\n" + \
                     "c_dosh: " + str(player.dosh) + "\n" + \
                     "c_kills: " + str(player.kills) + "\n" + \
                     "c_health: " + str(player.health) + "\n" + \

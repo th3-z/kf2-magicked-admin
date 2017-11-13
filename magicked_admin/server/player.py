@@ -13,18 +13,18 @@ class Player():
 
         self.session_start = datetime.datetime.now()
 
-        self.session_dosh = 0
-        self.dosh = 0
-        self.dosh_spent = 0
+        self.game_dosh = 0
+        
         self.wave_kills = 0
-        self.health_lost_wave = 0
+        self.wave_dosh = 0
+        
         self.kills = 0
+        self.dosh = 0
         self.health = 0
+        
         self.username = username
         self.perk = perk
         self.ping = 0
-        
-        #self.steam_id = sid
 
     def __str__(self):
         return "username: " + self.username + "\nperk: " + self.perk + "\ndosh: " + str(self.dosh) + "\nhealth: " + str(self.health) + "\nkills: " + str(self.kills)
