@@ -12,3 +12,11 @@ def millify(n):
 def trim_string(input_str, length):
     return (input_str[:length-2] + '..') if len(input_str) > length else input_str
 
+def str_to_bool(s):
+    if s in ['True', 'true', '1']:
+         return True
+    elif s in ['False', 'false', '0']:
+         return False
+    else:
+         raise ValueError
+         

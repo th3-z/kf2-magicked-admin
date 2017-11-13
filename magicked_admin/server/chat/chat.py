@@ -3,10 +3,13 @@ import time
 
 import requests
 from lxml import html
+from colorama import init
+from termcolor import colored
+
+init()
 
 class ChatLogger(threading.Thread):
 
-    
     def __init__(self, server):
         self.chat_request_url = "http://" + server.address + "/ServerAdmin/current/chat+data"
         self.chat_request_payload = {
@@ -17,6 +20,8 @@ class ChatLogger(threading.Thread):
         self.time_interval = 3
         self.message_log = []
         self.listeners = []
+        
+        self.poll_session = server.new_session()
 
         self.exit_flag = threading.Event()
 
@@ -28,7 +33,7 @@ class ChatLogger(threading.Thread):
     def run(self):
         while not self.exit_flag.wait(self.time_interval):
             try:
-                response = self.server.session.post(
+                response = self.poll_session.post(
                     self.chat_request_url,
                     self.chat_request_payload,
                     timeout=2
@@ -56,17 +61,16 @@ class ChatLogger(threading.Thread):
     def handle_message(self, username, message, admin):
         command = True if message[0] == '!' else False
 
-        if self.print_messages:
+        if self.print_messages and username != "server":
             print_line = username + "@" + self.server.name +  ": " + message
             if command:
-                print_line = '\033[92m' + print_line + '\033[0m'
+                print_line = colored(print_line, 'green')
+            else:
+                print_line = colored(print_line, 'yellow')
             print(print_line)
 
-        # Find the player if it came from a in-game player
-        player = self.server.get_player(username)
-
         for listener in self.listeners:
-            listener.recieveMessage(username, message, admin, player)
+            listener.recieveMessage(username, message, admin)
 
     def add_listener(self, listener):
         self.listeners.append(listener)

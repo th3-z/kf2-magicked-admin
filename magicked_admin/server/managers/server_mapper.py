@@ -1,11 +1,12 @@
 import threading
 import time
-
 from itertools import groupby
+import datetime
+
 import requests
 from lxml import html
 
-from player import Player
+from server.player import Player
 
 class ServerMapper(threading.Thread):
 
@@ -17,7 +18,7 @@ class ServerMapper(threading.Thread):
         self.exit_flag = threading.Event()
 
         threading.Thread.__init__(self)
-        print("Mapper for " + server.name + " initialised")
+        print("INFO: Mapper for " + server.name + " initialised")
 
     def run(self):
         info_url = "http://" + self.server.address + "/ServerAdmin/current/info"
@@ -26,10 +27,12 @@ class ServerMapper(threading.Thread):
             try:
                 info_page_response = self.server.session.post(info_url, timeout=2)
             except requests.exceptions.ConnectionError as e:
-                print("INFO: Non-fatal connection error while reloading web-admin, retrying")
+                print("INFO: Connection error while reloading web-admin, \
+                        retrying in " + str(self.time_interval) + " seconds")
                 continue
             except requests.exceptions.Timeout as e:
-                print("INFO: Connection timed out while reloading web-admin, network may be down")
+                print("INFO: Connection timed out while reloading web-admin \
+                        retrying in " + str(self.time_interval) + " seconds")
                 continue
 
             info_tree = html.fromstring(info_page_response.content)
@@ -92,26 +95,25 @@ class ServerMapper(threading.Thread):
                     player.health = new_health
                     player.dosh = new_dosh
                     self.server.player_join(player)
-                    # Posible fix for death mesgs and duping of kills
                     continue
 
-
-                # kills>0 because of issue #1
                 if new_health == 0 and new_health < player.health and new_kills > 0:
-                            print("INFO: Player " + player.username + " died")
-                            print("\tHP Now "+str(new_health)+" HP before "+str(player.health))
-                            player.total_deaths += 1
+                    print("INFO: Player " + player.username + " died")
+                    player.total_deaths += 1
                
                 player.perk = new_perk
                 player.total_kills += new_kills - player.kills
+                player.wave_kills += new_kills - player.kills
+                player.wave_dosh += new_dosh - player.dosh
                 player.kills = new_kills
                 if new_health < player.health:
                     player.total_health_lost += player.health - new_health
                 player.health = new_health
                 player.ping = new_ping
                 if new_dosh > player.dosh:
-                    player.session_dosh += new_dosh - player.dosh
+                    player.game_dosh += new_dosh - player.dosh
                     player.total_dosh += new_dosh - player.dosh
+                    
                 else:
                     player.total_dosh_spent += player.dosh - new_dosh
                 player.dosh = new_dosh

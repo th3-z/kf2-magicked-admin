@@ -1,15 +1,12 @@
 from os import path
-import datetime
 
 import requests
 from hashlib import sha1
 from lxml import html
 
-from chat import ChatLogger
-from server_mapper import ServerMapper
-from database import ServerDatabase
-from watchdog import Watchdog
-from motd_updater import MotdUpdater
+from server.chat.chat import ChatLogger
+from server.managers.server_mapper import ServerMapper
+from database.database import ServerDatabase
 
 DIFF_NORM = "0.0000"
 DIFF_HARD = "1.0000"
@@ -22,7 +19,7 @@ LEN_LONG = "2"
 
 class Server():
    
-    def __init__(self, name, address, username, password, game_password, motd_scoreboard, hashed=False):
+    def __init__(self, name, address, username, password, game_password, hashed=False):
         self.name = name
         self.address = address
         self.username = username
@@ -34,12 +31,6 @@ class Server():
                 .hexdigest()
         else:
             self.password_hash = password
-
-        
-        if motd_scoreboard == "True": 
-            self.motd = self.load_motd()
-            self.motd_updater = MotdUpdater(self)
-            self.motd_updater.start()
 
         self.database = ServerDatabase(name)
         self.session = self.new_session()
@@ -53,22 +44,17 @@ class Server():
             'difficulty':'normal'
         }
         self.zeds_killed = 0
-        self.zeds_remaining = 0
+        self.zeds_wave = 0
         self.trader_time = False
         self.players = []
 
         self.chat = ChatLogger(self)
         self.chat.start()
 
-
         self.mapper = ServerMapper(self)
         self.mapper.start()
 
-        print("Server " + name + " initialised")
-
-    def __str__(self):
-        return "I'm " + self.name + " at " + self.address +\
-            ".\nThe admin is " + self.username + ". The game is currently:\n\t" + str(self.game)
+        print("INFO: Server " + name + " initialised")
 
     def new_session(self):
         login_url = "http://" + self.address + "/ServerAdmin/"
@@ -88,17 +74,8 @@ class Server():
         login_payload.update({'token':token})
 
         s.post(login_url, data=login_payload)
+        
         return s
-
-    def load_motd(self):
-        if not path.exists(self.name + ".motd"):
-            print("WARNING: No motd file for " + self.name)
-            return ""
-
-        motd_f = open(self.name + ".motd")
-        motd = motd_f.read()
-        motd_f.close()
-        return motd
 
     def load_general_settings(self):
         settings = {}
@@ -131,7 +108,7 @@ class Server():
         self.chat.handle_message("server", "!new_wave " + str(self.game['wave']), admin=True)
         for player in self.players:
             player.wave_kills = 0
-            player.health_lost_wave = 0
+            player.wave_dosh = 0
 
     def trader_open(self):
         self.trader_time = True
@@ -153,23 +130,22 @@ class Server():
     def player_join(self, player):
         self.database.load_player(player)
         player.total_logins += 1
-        player.session_start = datetime.datetime.now()
         self.players.append(player)
+        self.chat.handle_message("server", "!p_join " + player.username, admin=True)
         print("INFO: Player " + player.username + " joined")        
-        print("\tStats:")
-        print("\tTotal dosh: ", player.total_dosh," Total kills: ",player.total_kills)
 
     def player_quit(self, quit_player):
         for player in self.players:
             if player.username == quit_player.username:
-                print("INFO: Player " + player.username + " quit")        
-                self.database.save_player(player)
+                print("INFO: Player " + player.username + " quit")
+                self.chat.handle_message("server", "!p_quit " + player.username, admin=True)
+                self.database.save_player(player, final=True)
                 self.players.remove(player)
 
-    def write_all_players(self):
-        print("Writing players...")
+    def write_all_players(self, final=False):
+        print("INFO: Writing players")
         for player in self.players:
-            self.database.save_player(player)
+            self.database.save_player(player, final)
 
     def set_difficulty(self, difficulty):
         general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
@@ -178,8 +154,6 @@ class Server():
         self.general_settings['settings_GameDifficulty_raw'] = difficulty
 
         self.session.post(general_settings_url, self.general_settings)
-        
-        self.chat.submit_message("Difficulty change will take effect next game.")
     
     def set_length(self, length):
         general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
@@ -187,12 +161,9 @@ class Server():
         self.general_settings['settings_GameLength'] = length
 
         self.session.post(general_settings_url, self.general_settings)
-        
-        self.chat.submit_message("Length change will take effect next game.")
 
     def toggle_game_password(self):
         passwords_url = "http://" + self.address + "/ServerAdmin/policy/passwords"
-
         payload = {
             'action': 'gamepassword'
         }
@@ -205,13 +176,15 @@ class Server():
         if password_state == 'False':
             payload['gamepw1'] = self.game_password
             payload['gamepw2'] = self.game_password
-            self.chat.submit_message("Password enabled.")
         else:
             payload['gamepw1'] = ""
             payload['gamepw2'] = ""
-            self.chat.submit_message("Password disabled.")
 
         self.session.post(passwords_url, payload)
+        if password_state =='False':
+            return True
+        else:
+            return False
             
     def change_map(self, new_map):
         map_url = "http://" + self.address + "/ServerAdmin/current/change"
@@ -228,18 +201,11 @@ class Server():
     def restart_map(self):
        self.change_map(self.game['map_title']) 
 
-    def close(self):
-        print("Terminating mapper thread...")
+    def terminate(self):
         self.mapper.terminate()
         self.mapper.join()
 
-        print("Terminating chat thread...")
         self.chat.terminate()
         self.chat.join()
 
-        self.write_all_players()
-
-        print("Terminating motd thread...")
-        self.motd_updater.terminate()
-        self.motd_updater.join()
-
+        self.write_all_players(final=True)
