@@ -27,7 +27,7 @@ class CommandDosh(Command):
         player = self.server.get_player(username)
         if player:
             return  ("You've earned £" + str(player.total_dosh) + \
-                    " in total, and £" + str(player.session_dosh) + \
+                    " in total, and £" + str(player.game_dosh) + \
                     " this game.").encode("iso-8859-1","ignore")
         else:
             return "Player not in game."
