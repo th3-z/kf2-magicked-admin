@@ -44,7 +44,7 @@ class Server():
             'difficulty':'normal'
         }
         self.zeds_killed = 0
-        self.zeds_remaining = 0
+        self.zeds_wave = 0
         self.trader_time = False
         self.players = []
 
@@ -139,13 +139,13 @@ class Server():
             if player.username == quit_player.username:
                 print("INFO: Player " + player.username + " quit")
                 self.chat.handle_message("server", "!p_quit " + player.username, admin=True)
-                self.database.save_player(player)
+                self.database.save_player(player, final=True)
                 self.players.remove(player)
 
-    def write_all_players(self):
+    def write_all_players(self, final=False):
         print("INFO: Writing players")
         for player in self.players:
-            self.database.save_player(player)
+            self.database.save_player(player, final)
 
     def set_difficulty(self, difficulty):
         general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
@@ -208,4 +208,4 @@ class Server():
         self.chat.terminate()
         self.chat.join()
 
-        self.write_all_players()
+        self.write_all_players(final=True)
