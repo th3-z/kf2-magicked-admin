@@ -116,7 +116,7 @@ class ServerDatabase:
         player.total_logins = self.player_logins(player.username)
         player.total_health_lost = self.player_health_lost(player.username)
         player.total_time = self.player_time(player.username)
-
+        
     def save_player(self, player, final=False):
         self.cur.execute("INSERT OR IGNORE INTO players (username) VALUES (?)",\
             (player.username,))
@@ -134,21 +134,15 @@ class ServerDatabase:
         self.cur.execute("UPDATE players SET logins = ? WHERE username = ?",\
             (player.total_logins, player.username))
         
-        now = datetime.datetime.now()
-        elapsed_time = now - player.last_write
-        seconds = elapsed_time.total_seconds()
-        new_time = player.total_time + seconds
-        self.cur.execute("UPDATE players SET time_online = ? WHERE username = ?",\
-            (new_time, player.username))
-        player.last_write = now
-        '''if final:
+        if final:
             now = datetime.datetime.now()
             elapsed_time = now - player.session_start
             seconds = elapsed_time.total_seconds()
             new_time = player.total_time + seconds
             
             self.cur.execute("UPDATE players SET time_online = ? WHERE username = ?",\
-            (new_time, player.username))'''
+            (new_time, player.username))
+        
         self.conn.commit()
 
     def close(self):

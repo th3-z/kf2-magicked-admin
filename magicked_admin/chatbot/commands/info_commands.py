@@ -1,4 +1,7 @@
 from chatbot.commands.command import Command
+from server.player import Player
+
+import datetime
 
 class CommandPlayers(Command):  
     def __init__(self, server, adminOnly = True):
@@ -74,24 +77,32 @@ class CommandStats(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        
-        self.server.write_all_players()
         if len(args) < 2:
             return "Missing argument (username)"
-        player = self.server.get_player(args[1])
+            
+        self.server.write_all_players()
+        requested_username = " ".join(args[1:])
+        
+        player = self.server.get_player(requested_username)
         if player:
-            message = ("Stats for " + player.username + "...\n" + \
-                    "Sessions:\t\t\t" + str(player.total_logins) + "\n" + \
-                    "Deaths:\t\t\t" + str(player.total_deaths) + "\n" + \
-                    "Kills:\t\t\t\t" + str(player.total_kills) + "\n" + \
-                    "Play time:\t\t{0:.2f}hrs\n" + \
-                    "Dosh earned:\t\t" + str(player.total_dosh) + "\n" + \
-                    "Dosh spent:\t\t" + str(player.total_dosh_spent) + "\n" + \
-                    "Health lost:\t\t" + str(player.total_health_lost) + "\n" + \
-                    "Dosh this game:\t" + str(player.game_dosh) + "\n" + \
-                    "Kills this wave:\t\t" + str(player.wave_kills) + "\n" + \
-                    "Dosh this wave:\t" + str(player.wave_dosh) \
-                    ).format(player.total_time/60/60)
-            return message
+            now = datetime.datetime.now()
+            elapsed_time = now - player.session_start
+            session_time = elapsed_time.total_seconds()
         else:
-            return "Player " + args[1] + " not found on server."
+            session_time = 0
+            player = Player(requested_username, "no-perk")
+            self.server.database.load_player(player)
+        
+        message = ("Stats for " + player.username + "...\n" + \
+                "Sessions:\t\t\t" + str(player.total_logins) + "\n" + \
+                "Deaths:\t\t\t" + str(player.total_deaths) + "\n" + \
+                "Kills:\t\t\t\t" + str(player.total_kills) + "\n" + \
+                "Play time:\t\t{0:.2f}hrs\n" + \
+                "Dosh earned:\t\t" + str(player.total_dosh) + "\n" + \
+                "Dosh spent:\t\t" + str(player.total_dosh_spent) + "\n" + \
+                "Health lost:\t\t" + str(player.total_health_lost) + "\n" + \
+                "Dosh this game:\t" + str(player.game_dosh) + "\n" + \
+                "Kills this wave:\t\t" + str(player.wave_kills) + "\n" + \
+                "Dosh this wave:\t" + str(player.wave_dosh) \
+                ).format((player.total_time + session_time)/60/60)
+        return message

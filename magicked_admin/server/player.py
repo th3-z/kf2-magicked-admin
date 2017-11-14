@@ -12,7 +12,6 @@ class Player():
         self.total_logins = 0
 
         self.session_start = datetime.datetime.now()
-        self.last_write = datetime.datetime.now()
 
         self.game_dosh = 0
         
