@@ -8,6 +8,8 @@ class CommandSay(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
+        if len(args < 2):
+            return "No message was specified."
                 
         message = " ".join(args[1:])
         # Unescape escape characters in say command
@@ -62,6 +64,8 @@ class CommandLength(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
+        if len(args) < 2:
+            return "Length not recognised. Options are short, medium, or long."
         
         if args[1] == "short":
             length = server.LEN_SHORT
@@ -82,6 +86,8 @@ class CommandDifficulty(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
+        if len(args) < 2:
+            return "Difficulty not recognised. Options are normal, hard, suicidal, or hell."
         
         if args[1] == "normal":
             difficulty = server.DIFF_NORM
