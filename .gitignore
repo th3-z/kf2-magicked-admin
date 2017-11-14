@@ -6,6 +6,8 @@
 magicked_admin.config
 *.motd
 *.sqlite
+*.init
+*.conf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
