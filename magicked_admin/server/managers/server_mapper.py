@@ -35,7 +35,7 @@ class ServerMapper(threading.Thread):
                         retrying in " + str(self.time_interval) + " seconds")
                 continue
 
-            info_tree = html.fromstring(info_page_response.content)
+            info_tree = html.fromstring(info_page_response.content.decode('cp1252'))
             dds = info_tree.xpath('//dd/text()')
 
             z, zr = info_tree.xpath('//dd[@class="gs_wave"]/text()')[0].split("/")

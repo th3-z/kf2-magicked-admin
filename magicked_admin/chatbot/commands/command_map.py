@@ -38,7 +38,8 @@ class CommandMap():
             'dosh':CommandDosh(self.server, adminOnly=False),
             'top_kills':CommandTopKills(self.server, adminOnly=False),
             'top_dosh':CommandTopDosh(self.server, adminOnly=False),
-            'me':CommandMe(self.server, adminOnly=False)
+            'me':CommandMe(self.server, adminOnly=False),
+            'stats':CommandStats(self.server, adminOnly=False)
         }
         
         return map
