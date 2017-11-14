@@ -3,7 +3,7 @@
 .*.swo
 
 # Configs / database
-config
+magicked_admin.config
 *.motd
 *.sqlite
 
