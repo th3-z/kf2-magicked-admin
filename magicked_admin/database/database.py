@@ -134,14 +134,21 @@ class ServerDatabase:
         self.cur.execute("UPDATE players SET logins = ? WHERE username = ?",\
             (player.total_logins, player.username))
         
-        if final:
+        now = datetime.datetime.now()
+        elapsed_time = now - player.last_write
+        seconds = elapsed_time.total_seconds()
+        new_time = player.total_time + seconds
+        self.cur.execute("UPDATE players SET time_online = ? WHERE username = ?",\
+            (new_time, player.username))
+        player.last_write = now
+        '''if final:
             now = datetime.datetime.now()
             elapsed_time = now - player.session_start
             seconds = elapsed_time.total_seconds()
             new_time = player.total_time + seconds
             
             self.cur.execute("UPDATE players SET time_online = ? WHERE username = ?",\
-            (new_time, player.username))
+            (new_time, player.username))'''
         self.conn.commit()
 
     def close(self):

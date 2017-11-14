@@ -31,13 +31,17 @@ class CommandHelp(Command):
         if not self.authorise(admin):
             return self.not_auth_message
         return "Player commands:\n !dosh, !kills, !top_dosh,\
-                \n!top_kills, !difficulty, !length"
+                !top_kills, !difficulty, !length,\
+                !stats, !me"
  
 class CommandMe(Command):
     def __init__(self, server, adminOnly = True):
         Command.__init__(self, server, adminOnly)
 
     def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+        self.server.write_all_players()
         player = self.server.get_player(username)
         if player:
             message = "This is what I've recorded...\n" + \
@@ -61,3 +65,31 @@ class CommandMe(Command):
             return message
         else:
             return "Player " + username + " not found on server."
+
+class CommandStats(Command):
+    def __init__(self, server, adminOnly = True):
+        Command.__init__(self, server, adminOnly)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+        
+        self.server.write_all_players()
+        if len(args) < 2:
+            return "Missing argument (username)"
+        player = self.server.get_player(args[1])
+        if player:
+            message = "Stats for " + player.username + "...\n" + \
+                    "Sessions:\t\t\t" + str(player.total_logins) + "\n" + \
+                    "Deaths:\t\t\t" + str(player.total_deaths) + "\n" + \
+                    "Kills:\t\t\t\t" + str(player.total_kills) + "\n" + \
+                    "Play time:\t\t" + str((player.total_time/60)/60) + "hrs\n" + \
+                    "Dosh earned:\t\t" + str(player.total_dosh) + "\n" + \
+                    "Dosh spent:\t\t" + str(player.total_dosh_spent) + "\n" + \
+                    "Health lost:\t\t" + str(player.total_health_lost) + "\n" + \
+                    "Dosh this game:\t" + str(player.game_dosh) + "\n" + \
+                    "Kills this wave:\t\t" + str(player.wave_kills) + "\n" + \
+                    "Dosh this wave:\t" + str(player.wave_dosh)
+            return message
+        else:
+            return "Player " + args[1] + " not found on server."
