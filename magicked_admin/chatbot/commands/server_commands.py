@@ -8,7 +8,7 @@ class CommandSay(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        if len(args < 2):
+        if len(args) < 2:
             return "No message was specified."
                 
         message = " ".join(args[1:])
