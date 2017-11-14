@@ -47,7 +47,8 @@ class CommandOnTimeManager(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        
+        if len(args) < 2:
+                return "Missing argument (command)."
         if args[0] == "stop_tc":
             if len(self.command_threads) > 0:
                 self.terminate_all()
@@ -86,7 +87,7 @@ class CommandOnWaveManager(Command):
             return self.terminate_all()
         elif args[0] == "start_wc":
             if len(args) < 2:
-                return "Malformed command, missing second argument"
+                return "Missing argument (command)."
             return self.start_command(args[1:])
         elif args[0] == "new_wave":
             for command in self.commands:
@@ -125,6 +126,8 @@ class CommandOnTraderManager(Command):
             return self.not_auth_message
         
         if args[0] == "start_trc":
+            if len(args) < 2:
+                return "Missing argument (command)."
             return self.start_command(args[1:])
         elif args[0] == "stop_trc":
             return self.terminate_all()
@@ -140,9 +143,6 @@ class CommandOnTraderManager(Command):
             return "Nothing was running."
     
     def start_command(self, args):
-        if len(args) < 1:
-            return "Missing argument (command)."
-        
         self.commands.append(args)
         return "Trader command started."
         
