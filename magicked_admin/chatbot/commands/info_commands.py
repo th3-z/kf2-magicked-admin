@@ -1,5 +1,6 @@
 from chatbot.commands.command import Command
 from server.player import Player
+from utils.time import seconds_to_hhmmss
 
 import datetime
 
@@ -44,31 +45,9 @@ class CommandMe(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        self.server.write_all_players()
-        player = self.server.get_player(username)
-        if player:
-            message = ("This is what I've recorded...\n" + \
-                    "username: " + str(player.username) + "\n" + \
-                    "session_start: " + str(player.session_start) + "\n" + \
-                    "t_logins: " + str(player.total_logins) + "\n" + \
-                    "t_deaths: " + str(player.total_deaths) + "\n" + \
-                    "t_kills: " + str(player.total_kills) + "\n" + \
-                    "t_time: {0:.2f}hrs\n" + \
-                    "t_dosh: " + str(player.total_dosh) + "\n" + \
-                    "t_dosh_spent: " + str(player.total_dosh_spent) + "\n" + \
-                    "t_health_lost: " + str(player.total_health_lost) + "\n" + \
-                    "g_dosh: " + str(player.game_dosh) + "\n" + \
-                    "w_kills: " + str(player.wave_kills) + "\n" + \
-                    "w_dosh: " + str(player.wave_dosh) + "\n" + \
-                    "c_dosh: " + str(player.dosh) + "\n" + \
-                    "c_kills: " + str(player.kills) + "\n" + \
-                    "c_health: " + str(player.health) + "\n" + \
-                    "c_perk: " + str(player.perk) + "\n" + \
-                    "c_ping: " + str(player.ping) + "\n" \
-                    ).format(player.total_time/60/60)
-            return message
-        else:
-            return "Player " + username + " not found on server."
+            
+        stats_command = CommandStats(self.server, adminOnly=False)
+        return stats_command.execute("server", ["stats", username], admin=True)
 
 class CommandStats(Command):
     def __init__(self, server, adminOnly = True):
@@ -92,17 +71,20 @@ class CommandStats(Command):
             session_time = 0
             player = Player(requested_username, "no-perk")
             self.server.database.load_player(player)
-        
-        message = ("Stats for " + player.username + "...\n" + \
+            
+        time = seconds_to_hhmmss(
+            player.total_time + session_time
+        )
+        message = "Stats for " + player.username + ":\n" + \
                 "Sessions:\t\t\t" + str(player.total_logins) + "\n" + \
                 "Deaths:\t\t\t" + str(player.total_deaths) + "\n" + \
                 "Kills:\t\t\t\t" + str(player.total_kills) + "\n" + \
-                "Play time:\t\t{0:.2f}hrs\n" + \
+                "Play time:\t\t" + time +"\n" + \
                 "Dosh earned:\t\t" + str(player.total_dosh) + "\n" + \
                 "Dosh spent:\t\t" + str(player.total_dosh_spent) + "\n" + \
                 "Health lost:\t\t" + str(player.total_health_lost) + "\n" + \
                 "Dosh this game:\t" + str(player.game_dosh) + "\n" + \
                 "Kills this wave:\t\t" + str(player.wave_kills) + "\n" + \
                 "Dosh this wave:\t" + str(player.wave_dosh) \
-                ).format((player.total_time + session_time)/60/60)
+                
         return message
