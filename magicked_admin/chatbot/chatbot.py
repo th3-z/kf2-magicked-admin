@@ -4,6 +4,7 @@ from chatbot.commands.command_map import CommandMap
 import time
 import threading
 import server
+from os import path
 
 from utils.text import trim_string, millify
 
@@ -18,6 +19,9 @@ class Chatbot(Listener):
         
         self.commands = CommandMap(server, self)
         self.silent = False
+        
+        if path.exists(server.name + ".init"):
+            self.execute_script(server.name + ".init")
 
         print("INFO: Bot on server " + server.name + " initialised")
 
@@ -35,3 +39,11 @@ class Chatbot(Listener):
                 self.chat.submit_message(response)
         elif username != "server" and not self.silent:
             self.chat.submit_message("Sorry, I didn't understand that request.")
+
+    def execute_script(self, file_name):
+        print("INFO: Executing script: " + file_name)
+        with open(file_name) as script:
+            for line in script:
+                print("\t\t" + line.strip())
+                args = line.split()
+                self.command_handler("server", args, admin=True)
