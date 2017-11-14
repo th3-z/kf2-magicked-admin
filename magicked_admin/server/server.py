@@ -3,6 +3,7 @@ from os import path
 import requests
 from hashlib import sha1
 from lxml import html
+from time import sleep
 
 from server.chat.chat import ChatLogger
 from server.managers.server_mapper import ServerMapper
@@ -64,17 +65,28 @@ class Server():
             'password': '',
             'remember': '-1'
         }
+        got_session = False
+        while not got_session:
+            try:
+                s = requests.Session()
 
-        s = requests.Session()
+                login_page_response = s.get(login_url)
+                login_page_tree = html.fromstring(login_page_response.content)
+                
+                token = login_page_tree.xpath('//input[@name="token"]/@value')[0]
+                login_payload.update({'token':token})
 
-        login_page_response = s.get(login_url)
-        login_page_tree = html.fromstring(login_page_response.content)
-        
-        token = login_page_tree.xpath('//input[@name="token"]/@value')[0]
-        login_payload.update({'token':token})
-
-        s.post(login_url, data=login_payload)
-        
+                s.post(login_url, data=login_payload)
+                got_session = True
+            except requests.exceptions.ConnectionError as e:
+                print("ERROR: Couldn't connect to server " + self.name + \
+                    " (ConnectionError), retrying")
+                sleep(3)
+            except requests.exceptions.Timeout as e:
+                print("ERROR: Couldn't connect to server " + self.name + \
+                    " (Timeout), retrying")
+                sleep(3)
+            
         return s
 
     def load_general_settings(self):

@@ -19,7 +19,6 @@ class Chatbot(Listener):
         self.commands = CommandMap(server, self)
         self.silent = False
 
-        #self.chat.submit_message("Beep beep, I'm back\ntype !help for usage")
         print("INFO: Bot on server " + server.name + " initialised")
 
     def recieveMessage(self, username, message, admin=False):
