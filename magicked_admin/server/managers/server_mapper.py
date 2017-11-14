@@ -27,12 +27,12 @@ class ServerMapper(threading.Thread):
             try:
                 info_page_response = self.server.session.post(info_url, timeout=2)
             except requests.exceptions.ConnectionError as e:
-                print("INFO: Connection error while reloading web-admin, \
-                        retrying in " + str(self.time_interval) + " seconds")
+                print("INFO: Couldn't retrieve game info (ConnectionError), " + \
+                        "retrying in " + str(self.time_interval) + " seconds")
                 continue
             except requests.exceptions.Timeout as e:
-                print("INFO: Connection timed out while reloading web-admin \
-                        retrying in " + str(self.time_interval) + " seconds")
+                print("INFO: Couldn't retrieve game info (Timeout), " + \
+                        "retrying in " + str(self.time_interval) + " seconds")
                 continue
 
             info_tree = html.fromstring(info_page_response.content.decode('cp1252'))
