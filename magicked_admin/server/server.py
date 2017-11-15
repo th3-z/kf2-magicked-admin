@@ -107,13 +107,13 @@ class Server():
         settings['settings_GameLength'] = length_val
         settings['settings_GameDifficulty'] = difficulty_val
         settings['action'] = 'save'
-
+        
         for i in range(0,len(settings_names)):
             settings[settings_names[i]] = settings_vals[i]
 
         for i in range(0,len(radio_settings_names)):
             settings[radio_settings_names[i]] = radio_settings_vals[i]
-
+        
         return settings
 
     def new_wave(self):
@@ -174,6 +174,17 @@ class Server():
 
         self.session.post(general_settings_url, self.general_settings)
 
+    def save_settings(self):
+        # Addresses a problem where certain requests cause
+        # webadmin to forget settings
+        general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
+        try:
+            self.session.post(general_settings_url, self.general_settings)
+        except requests.exceptions.ConnectionError as e:
+            print("WARNING: Couldn't resubmit settings, new settings lost (ConnectionError)")
+        except requests.exceptions.Timeout as e:
+            print("WARNING: Couldn't resubmit settings, new settings lost(Timeout)")
+        
     def toggle_game_password(self):
         passwords_url = "http://" + self.address + "/ServerAdmin/policy/passwords"
         payload = {

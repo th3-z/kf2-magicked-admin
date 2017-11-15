@@ -77,14 +77,14 @@ class CommandStats(Command):
         )
         message = "Stats for " + player.username + ":\n" + \
                 "Sessions:\t\t\t" + str(player.total_logins) + "\n" + \
+                "Play time:\t\t" + time +"\n" + \
                 "Deaths:\t\t\t" + str(player.total_deaths) + "\n" + \
                 "Kills:\t\t\t\t" + str(player.total_kills) + "\n" + \
-                "Play time:\t\t" + time +"\n" + \
                 "Dosh earned:\t\t" + str(player.total_dosh) + "\n" + \
                 "Dosh spent:\t\t" + str(player.total_dosh_spent) + "\n" + \
                 "Health lost:\t\t" + str(player.total_health_lost) + "\n" + \
                 "Dosh this game:\t" + str(player.game_dosh) + "\n" + \
                 "Kills this wave:\t\t" + str(player.wave_kills) + "\n" + \
-                "Dosh this wave:\t" + str(player.wave_dosh) \
+                "Dosh this wave:\t" + str(player.wave_dosh)
                 
         return message
