@@ -44,11 +44,12 @@ class MotdUpdater(threading.Thread):
         print("INFO: Updating MOTD")
         try:
             self.server.session.post(motd_url, data=payload)
+            self.server.save_settings()
         except requests.exceptions.ConnectionError as e:
             print("INFO: Couldn't submit MOTD (ConnectionError)")
             raise
         except requests.exceptions.Timeout as e:
-            print("INFO: Couldn't submit MOTD (ConnectionError)")
+            print("INFO: Couldn't submit MOTD (Timeout)")
             raise
 
     def load_motd(self):
