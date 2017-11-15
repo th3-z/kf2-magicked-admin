@@ -66,7 +66,7 @@ class MotdUpdater(threading.Thread):
         scores = self.server.database.top_kills()
 
         for player in scores:
-            name = player[0]
+            name = player[0].replace("<","")
             name = trim_string(name, 12)
             score = player[1]
 
