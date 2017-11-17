@@ -95,7 +95,7 @@ class CommandOnWaveManager(Command):
             self.commands = []
             return "Wave commands halted."
         else:
-            return "Nothing was running."
+            return "Nothing is running."
     
     def start_command(self, args):
         if len(args) < 2:
@@ -137,7 +137,7 @@ class CommandOnTraderManager(Command):
             self.commands = []
             return "Trader commands stopped."
         else:
-            return "Nothing was running."
+            return "Nothing is running."
     
     def start_command(self, args):
         self.commands.append(args)
