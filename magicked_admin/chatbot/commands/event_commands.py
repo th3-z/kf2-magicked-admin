@@ -47,15 +47,10 @@ class CommandOnTimeManager(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        if len(args) < 2:
-                return "Missing argument (command)."
         if args[0] == "stop_tc":
-            if len(self.command_threads) > 0:
-                self.terminate_all()
-                return "Timed commands stopped"
-            else:
-                return "Nothing is running."
-        
+            return self.terminate_all()
+        if len(args) < 2:
+            return "Missing argument (command)."
         try:
             time = int(args[1])
         except ValueError:
@@ -70,8 +65,10 @@ class CommandOnTimeManager(Command):
         if len(self.command_threads) > 0:
             for command_thread in self.command_threads:
                 command_thread.terminate()
+                self.command_threads = []
+            return "Timed command stopped"
         else:
-            return "Nothing was running"
+            return "Nothing is running"
 
 class CommandOnWaveManager(Command):
     def __init__(self, server, chatbot, adminOnly = True):
