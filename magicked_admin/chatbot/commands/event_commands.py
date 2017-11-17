@@ -68,7 +68,7 @@ class CommandOnTimeManager(Command):
                 self.command_threads = []
             return "Timed command stopped"
         else:
-            return "Nothing is running"
+            return "Nothing is running."
 
 class CommandOnWaveManager(Command):
     def __init__(self, server, chatbot, adminOnly = True):
