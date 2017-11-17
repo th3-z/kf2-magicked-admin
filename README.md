@@ -31,9 +31,7 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 * Add server name to the print messages like "INFO: Player bon joined server Hard" and "INFO: Player bon quit from Hard".
 * INFO: Submitting motd for "Server.name".
 * Option in config to choose what interval you want Watchdog to be set at.
-* Option in config to choose what maps you want Watchdog to choose from.
 * %DSH and %KLS to represent Dosh and Kills in motd.
-* Using !stop_tc or !stop_trc or !stop_wc while there are 0 timed commands active will display "There aren't any tc's set.
 * !time - display the players time logged in and log in count
 * Count number of times each map is played as a metric of popularity, with automatic maplist section updating
 * Attempt to detect out of date maps and delete them to force re-downloading
