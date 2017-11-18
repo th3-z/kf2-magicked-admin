@@ -7,8 +7,7 @@ from cx_Freeze import setup, Executable
 # GUI applications require a different base on Windows (the default is for a
 # console application).
 base = None
-if sys.platform == "win32":
-    base = "Win32GUI"
+
 build_exe_options={
     "packages": ["os", "queue", "idna", "lxml", "requests"],
     "excludes": ["tkinter"],
