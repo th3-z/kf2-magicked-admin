@@ -9,7 +9,7 @@ from cx_Freeze import setup, Executable
 base = None
 
 build_exe_options={
-    "packages": ["os", "queue", "idna", "lxml", "requests"],
+    "packages": ["os", "queue", "idna", "lxml", "requests", "encodings"],
     "excludes": ["tkinter"],
     "includes": [],
     "include_files": [],
