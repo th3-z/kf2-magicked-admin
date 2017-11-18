@@ -78,22 +78,23 @@ class Server():
 
                 s.post(login_url, data=login_payload)
                 got_session = True
-            except requests.exceptions.ConnectionError as e:
-                print("ERROR: Couldn't connect to server " + self.name + \
-                    " (ConnectionError), retrying")
+            except requests.exceptions.RequestException as e:
+                print("INFO: Couldn't aquire session " + self.name + \
+                    " (RequestException), retrying")
                 sleep(3)
-            except requests.exceptions.Timeout as e:
-                print("ERROR: Couldn't connect to server " + self.name + \
-                    " (Timeout), retrying")
-                sleep(3)
-            
         return s
 
     def load_general_settings(self):
         settings = {}
 
         general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
-        general_settings_response = self.session.get(general_settings_url)
+        
+        try:
+            general_settings_response = self.session.get(general_settings_url)
+        except requests.exceptions.RequestException as e:
+            print("INFO: Couldn't get settings " + self.name + \
+                " (RequestException)")
+            sleep(3)
         general_settings_tree = html.fromstring(general_settings_response.content)
 
         settings_names = general_settings_tree.xpath('//input/@name')
@@ -164,15 +165,24 @@ class Server():
 
         self.general_settings['settings_GameDifficulty'] = difficulty
         self.general_settings['settings_GameDifficulty_raw'] = difficulty
-
-        self.session.post(general_settings_url, self.general_settings)
+        try:
+            self.session.post(general_settings_url, self.general_settings)
+        except requests.exceptions.RequestException as e:
+            print("INFO: Couldn't set difficulty " + self.name + \
+                " (RequestException)")
+            sleep(3)
     
     def set_length(self, length):
         general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
 
         self.general_settings['settings_GameLength'] = length
-
-        self.session.post(general_settings_url, self.general_settings)
+        
+        try:
+            self.session.post(general_settings_url, self.general_settings)
+        except requests.exceptions.RequestException as e:
+            print("INFO: Couldn't set length " + self.name + \
+                " (RequestException)")
+            sleep(3)
 
     def save_settings(self):
         # Addresses a problem where certain requests cause
@@ -180,10 +190,10 @@ class Server():
         general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
         try:
             self.session.post(general_settings_url, self.general_settings)
-        except requests.exceptions.ConnectionError as e:
-            print("WARNING: Couldn't resubmit settings, new settings lost (ConnectionError)")
-        except requests.exceptions.Timeout as e:
-            print("WARNING: Couldn't resubmit settings, new settings lost(Timeout)")
+        except requests.exceptions.RequestException as e:
+            print("INFO: Couldn't set general settings " + self.name + \
+                " (RequestException), retrying")
+            sleep(3)
         
     def toggle_game_password(self):
         passwords_url = "http://" + self.address + "/ServerAdmin/policy/passwords"
@@ -191,7 +201,12 @@ class Server():
             'action': 'gamepassword'
         }
 
-        passwords_response = self.session.get(passwords_url)
+        try:
+            passwords_response = self.session.get(passwords_url)
+        except requests.exceptions.RequestException as e:
+            print("INFO: Couldn't get password state " + self.name + \
+                " (RequestException)")
+            sleep(3)
         passwords_tree = html.fromstring(passwords_response.content)
         
         password_state = passwords_tree.xpath('//p[starts-with(text(),"Game password")]//em/text()')[0]
@@ -203,7 +218,12 @@ class Server():
             payload['gamepw1'] = ""
             payload['gamepw2'] = ""
 
-        self.session.post(passwords_url, payload)
+        try:
+            self.session.post(passwords_url, payload)
+        except requests.exceptions.RequestException as e:
+            print("INFO: Couldn't set password " + self.name + \
+                " (RequestException)")
+            sleep(3)
         if password_state =='False':
             return True
         else:
@@ -218,8 +238,13 @@ class Server():
             "urlextra": "?MaxPlayers=6",
             "action": "change"
         }
-
-        self.session.post(map_url, payload)
+        
+        try:
+            self.session.post(map_url, payload)
+        except requests.exceptions.RequestException as e:
+            print("INFO: Couldn't set map " + self.name + \
+                " (RequestException)")
+            sleep(3)
 
     def restart_map(self):
        self.change_map(self.game['map_title']) 

@@ -23,9 +23,7 @@ class MotdUpdater(threading.Thread):
             self.server.write_all_players()
             try:
                 motd_payload = self.get_configuration()
-            except requests.exceptions.ConnectionError as e:
-                continue
-            except requests.exceptions.Timeout as e:
+            except requests.exceptions.RequestException as e:
                 continue
 
             motd = self.render_motd(self.motd)
@@ -33,11 +31,9 @@ class MotdUpdater(threading.Thread):
 
             try:
                 self.submit_motd(motd_payload)
-            except requests.exceptions.ConnectionError as e:
+            except requests.exceptions.RequestException as e:
                 continue
-            except requests.exceptions.Timeout as e:
-                continue
-    
+                
     def submit_motd(self, payload):
         motd_url = "http://" + self.server.address + "/ServerAdmin/settings/welcome"
 
@@ -45,11 +41,8 @@ class MotdUpdater(threading.Thread):
         try:
             self.server.session.post(motd_url, data=payload)
             self.server.save_settings()
-        except requests.exceptions.ConnectionError as e:
-            print("INFO: Couldn't submit MOTD (ConnectionError)")
-            raise
-        except requests.exceptions.Timeout as e:
-            print("INFO: Couldn't submit MOTD (Timeout)")
+        except requests.exceptions.RequestException as e:
+            print("INFO: Couldn't submit motd (RequestException)")
             raise
 
     def load_motd(self):
@@ -80,11 +73,8 @@ class MotdUpdater(threading.Thread):
 
         try:
             motd_response = self.server.session.get(motd_url, timeout=2)
-        except requests.exceptions.ConnectionError as e:
-            print("INFO: Conecttion error in motd updater, could not retrieve configuration")
-            raise
-        except requests.exceptions.Timeout as e:
-            print("INFO: Connection timed out, count not get motd configuration")
+        except requests.exceptions.RequestException as e:
+            print("INFO: Couldn't get motd config(RequestException)")
             raise
 
         motd_tree = html.fromstring(motd_response.content)
