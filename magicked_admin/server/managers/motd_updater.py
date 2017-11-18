@@ -11,7 +11,7 @@ class MotdUpdater(threading.Thread):
     def __init__(self, server):
         self.server = server
 
-        self.time_interval = 8 * 60
+        self.time_interval = 5 * 60
         self.motd = self.load_motd()
 
         self.exit_flag = threading.Event()
@@ -59,7 +59,7 @@ class MotdUpdater(threading.Thread):
         scores = self.server.database.top_kills()
 
         for player in scores:
-            name = player[0].replace("<","")
+            name = player[0].replace("<","&lt;")
             name = trim_string(name, 12)
             score = player[1]
 
