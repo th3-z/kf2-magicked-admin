@@ -36,18 +36,19 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 * Count number of times each map is played as a metric of popularity, with automatic maplist section updating
 * Attempt to detect out of date maps and delete them to force re-downloading
 
-## Dependancies/installation
+## Dependancies/building
 * Python 3.4+
+* cx_freeze
 * requests
 * lxml
 * configparser
 * sqlite3
 
-Install Python then install the others using pip.
+build by running the provided scripts `build.bat` or `build.sh` after installing dependancies via pip.
 
 ## Configuration
-Before running you'll need to rename `config.example` to `config` and fill out your server information. Username will appear in chat, enabling multi-admin and creating an account for the bot is reccomended. Address should be of format ip:port where port is the port number for webadmin. The game_password option is for the `!toggle_pass` command.
+Before running you'll need to create a config file containing your server's webadmin credentials. This file has to be named `magicked_admin.conf` and placed next to the executable or `main.py`. An example file is provided inside `magicked_admin/config`.
 
 ## Running
-Just run `main.py` with python
-```python main.py```
+Just run `pthon main.py` after installing the dependancies if you're using the source.
+For windows binaries, open a command line in the install folder and run `magicked_admin`.
