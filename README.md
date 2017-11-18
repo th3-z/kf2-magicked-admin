@@ -25,6 +25,7 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 ### Other features
 * Writing a server_name.motd file with pairs of %PLR and %SCR and enabling the motd_scoreboard option will put a live scoreboard in the motd.
 * Enabling the map_autochange option will change the map to a random one from official Killing floor 2 maps if the server gets stuck on the same map with 0 players for 4 hours.
+* Writting a server_name.init with a list of commands will run the commands when the bot starts on server_name
 
 ### Planned features
 * Player joined messages: Welcome back player Dave. Kills xxx, deaths xxx, logins xxx, ect.
