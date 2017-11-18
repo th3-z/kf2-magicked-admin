@@ -2,31 +2,34 @@
 Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 
 ### Player commands
-* !help - displays the help text in chat
+* !help - displays the help text in chat   Example:
 * !dosh - display the players recorded dosh and rank by dosh
-* !top_dosh - displays the players with the highest recorded dosh
+* !top\_dosh - displays the players with the highest recorded dosh
 * !kills - display the players recorded kills and rank by kills
-* !top_kills - displays the players with the most recorded kills
-* !diff {normal|hard|suicidal|hell} - sets difficulty of next game
-* !length {short|medium|long} - sets length of next game
+* !top\_kills - displays the players with the most recorded kills
+* !difficulty {normal|hard|suicidal|hell} - sets difficulty of next game    Example: !difficulty hard
+* !length {short|medium|long} - sets length of next game                    Example: !length medium
 
 ### Admin commands
-* !start\_tc n command - repeat command every n seconds
+* !start\_tc n command - repeat command every n seconds                                                                  Example: !start\_tc 5 say test
 * !stop\_tc - stop all timed commands
-* !start\_wc n command - run command when wave n is reached, negative values will count back from the boss wave
-* !stop\_wc - stop all commands on waves
-* !start_trc command - run command every time the trader opens
-* !stop_trc - stop running commands on trader open
-* !say mesg - display mesg, for useful in conjuction with other admin commands
+* !start\_wc n command - run command when wave n is reached.                                                             Example: !start\_wc say Wave Started. - This posts a message at EVERY wave start.                                        Example: !start\_wc 4 say Wave 4 Started. - This posts a message when wave 4 starts.
+* !stop\_wc - stop all wave commands
+* !start\_trc command - run command every time the trader opens                                                          Example: !start\_trc say Traders open.
+* !stop\_trc - stop trader commands
+* !say mesg - display mesg, for use in conjuction with other admin commands                                              Example: !say This is an example.
 * !silent - toggles output in chat
 * !restart - immidiately restarts the current map
-* !toggle_pass - enables or disables the configured game password
+* !toggle\_pass - enables or disables the configured game password (the password you entered in your config)
 
 ### Other features
-* Writing a server_name.motd file with pairs of %PLR and %SCR and enabling the motd_scoreboard option will put a live scoreboard in the motd.
+* Writing a server_name.motd file with pairs of %PLR and %SCR and enabling the motd_scoreboard option will put a live scoreboard             in the motd.
 * Enabling the map_autochange option will change the map to a random one from official Killing floor 2 maps if the server gets stuck on the same map with 0 players for 4 hours.
+* Writting a server_name.init with a list of commands will run the commands when the bot starts on server_name
 
 ### Planned features
+* Player joined messages: Welcome back player Dave. Kills xxx, deaths xxx, logins xxx, ect.
+* Player with top Kills and least health lost for current round displayed in chat at the end of each round.
 * !next_map and !previous_map, to change map to previous or next map in the map cycle.
 * Add server name to the print messages like "INFO: Player bon joined server Hard" and "INFO: Player bon quit from Hard".
 * INFO: Submitting motd for "Server.name".
