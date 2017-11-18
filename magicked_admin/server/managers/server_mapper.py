@@ -26,14 +26,8 @@ class ServerMapper(threading.Thread):
         while not self.exit_flag.wait(self.time_interval):
             try:
                 info_page_response = self.server.session.post(info_url, timeout=2)
-            except requests.exceptions.ConnectionError as e:
-                print("INFO: Couldn't retrieve game info (ConnectionError), " + \
-                        "retrying in " + str(self.time_interval) + " seconds")
-                continue
-            except requests.exceptions.Timeout as e:
-                print("INFO: Couldn't retrieve game info (Timeout), " + \
-                        "retrying in " + str(self.time_interval) + " seconds")
-                continue
+            except requests.exceptions.RequestException as e:
+                print("INFO: Couldn't get info page (RequestException)")
 
             info_tree = html.fromstring(info_page_response.content.decode('cp1252'))
             dds = info_tree.xpath('//dd/text()')

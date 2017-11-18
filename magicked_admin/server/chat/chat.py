@@ -38,13 +38,8 @@ class ChatLogger(threading.Thread):
                     self.chat_request_payload,
                     timeout=2
                 )
-            except requests.exceptions.ConnectionError as e:
-                print("INFO: Couldn't retrieve chat (ConnectionError), " + \
-                        "retrying in " + str(self.time_interval) + " seconds")
-                continue
-            except requests.exceptions.Timeout as e:
-                print("INFO: Couldn't retrieve chat (ConnectionError), " + \
-                        "retrying in " + str(self.time_interval) + " seconds")
+            except requests.exceptions.RequestException as e:
+                print("INFO: Couldn't retrieve chat (RequestException)")
                 continue
             
             if response.text:
@@ -89,8 +84,11 @@ class ChatLogger(threading.Thread):
             'message': message,
             'teamsay': '-1'
         }
-
-        self.server.session.post(chat_submit_url, message_payload)
+        
+        try:
+            self.server.session.post(chat_submit_url, message_payload)
+        except requests.exceptions.RequestException as e:
+            print("INFO: Couldn't submit message (RequestException)")
 
     def terminate(self):
         self.exit_flag.set()
