@@ -1,6 +1,0 @@
-requests
-lxml
-configparser
-sqlite3
-colorama
-termcolor
