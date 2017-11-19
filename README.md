@@ -11,18 +11,13 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 * !length {short|medium|long} - sets length of next game                    Example: !length medium
 
 ### Admin commands
-* !start\_tc n command - repeat command every n seconds
-Example: !start\_tc 5 say test
+* !start\_tc n command - repeat command every n seconds                                                                  Example: !start\_tc 5 say test
 * !stop\_tc - stop all timed commands
-* !start\_wc n command - run command when wave n is reached.
-Example: !start\_wc say Wave Started. - This posts a message at EVERY wave start.
-Example: !start\_wc 4 say Wave 4 Started. - This posts a message when wave 4 starts.
+* !start\_wc n command - run command when wave n is reached.                                                             Example: !start\_wc say Wave Started. - This posts a message at EVERY wave start.                                        Example: !start\_wc 4 say Wave 4 Started. - This posts a message when wave 4 starts.
 * !stop\_wc - stop all wave commands
-* !start\_trc command - run command every time the trader opens
-Example: !start\_trc say Traders open.
+* !start\_trc command - run command every time the trader opens                                                          Example: !start\_trc say Traders open.
 * !stop\_trc - stop trader commands
-* !say mesg - display mesg, for use in conjuction with other admin commands
-Example: !say This is an example.
+* !say mesg - display mesg, for use in conjuction with other admin commands                                              Example: !say This is an example.
 * !silent - toggles output in chat
 * !restart - immidiately restarts the current map
 * !toggle\_pass - enables or disables the configured game password (the password you entered in your config)
