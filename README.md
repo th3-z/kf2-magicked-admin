@@ -27,18 +27,6 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 * Enabling the map_autochange option will change the map to a random one from official Killing floor 2 maps if the server gets stuck on the same map with 0 players for 4 hours.
 * Writting a server_name.init with a list of commands will run the commands when the bot starts on server_name
 
-### Planned features
-* Player joined messages: Welcome back player Dave. Kills xxx, deaths xxx, logins xxx, ect.
-* Player with top Kills and least health lost for current round displayed in chat at the end of each round.
-* !next_map and !previous_map, to change map to previous or next map in the map cycle.
-* Add server name to the print messages like "INFO: Player bon joined server Hard" and "INFO: Player bon quit from Hard".
-* INFO: Submitting motd for "Server.name".
-* Option in config to choose what interval you want Watchdog to be set at.
-* %DSH and %KLS to represent Dosh and Kills in motd.
-* !time - display the players time logged in and log in count
-* Count number of times each map is played as a metric of popularity, with automatic maplist section updating
-* Attempt to detect out of date maps and delete them to force re-downloading
-
 ## Dependancies/building
 * Python 3.4+
 * cx_freeze
