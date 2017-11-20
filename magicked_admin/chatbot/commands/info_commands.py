@@ -34,9 +34,20 @@ class CommandHelp(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        return "Player commands:\n !dosh, !kills, !top_dosh,\
-                !top_kills, !difficulty, !length,\
-                !stats, !me"
+        return "Player commands:\n !dosh, !kills, !top_dosh, " + \
+                "!top_kills, !difficulty, !length," + \
+                "!stats, !me, !info"
+ 
+class CommandInfo(Command):
+    def __init__(self, server, adminOnly = True):
+        Command.__init__(self, server, adminOnly)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+        return "I'm a bot for ranked Killing Floor 2 servers. Visit:\n" + \
+            "github.com/th3-z/kf-magicked-admin/\n" + \
+            "for information, source code, and credits."
  
 class CommandMe(Command):
     def __init__(self, server, adminOnly = True):

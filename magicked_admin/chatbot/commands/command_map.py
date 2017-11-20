@@ -34,6 +34,7 @@ class CommandMap():
             'players':CommandPlayers(self.server, adminOnly=False),
             'game':CommandGame(self.server, adminOnly=False),
             'help':CommandHelp(self.server, adminOnly=False),
+            'info':CommandInfo(self.server, adminOnly=False),
             'kills':CommandKills(self.server, adminOnly=False),
             'dosh':CommandDosh(self.server, adminOnly=False),
             'top_kills':CommandTopKills(self.server, adminOnly=False),
