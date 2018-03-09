@@ -2,15 +2,15 @@
 Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 
 ### Player commands
-* !help - displays the help text in chat   Example:
+* !help - displays the help text in chat
 * !dosh - display the players recorded dosh and rank by dosh
 * !top\_dosh - displays the players with the highest recorded dosh
 * !kills - display the players recorded kills and rank by kills
 * !top\_kills - displays the players with the most recorded kills
-* !difficulty {normal|hard|suicidal|hell} - sets difficulty of next game    Example: !difficulty hard
-* !length {short|medium|long} - sets length of next game                    Example: !length medium
 
 ### Admin commands
+* !difficulty {normal|hard|suicidal|hell} - sets difficulty of next game    Example: !difficulty hard
+* !length {short|medium|long} - sets length of next game                    Example: !length medium
 * !start\_tc n command - repeat command every n seconds                                                                  Example: !start\_tc 5 say test
 * !stop\_tc - stop all timed commands
 * !start\_wc n command - run command when wave n is reached.                                                             Example: !start\_wc say Wave Started. - This posts a message at EVERY wave start.                                        Example: !start\_wc 4 say Wave 4 Started. - This posts a message when wave 4 starts.
@@ -24,7 +24,6 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 
 ### Other features
 * Writing a server_name.motd file with pairs of %PLR and %SCR and enabling the motd_scoreboard option will put a live scoreboard             in the motd.
-* Enabling the map_autochange option will change the map to a random one from official Killing floor 2 maps if the server gets stuck on the same map with 0 players for 4 hours.
 * Writting a server_name.init with a list of commands will run the commands when the bot starts on server_name
 
 ## Dependancies/building
@@ -35,11 +34,16 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 * configparser
 * sqlite3
 
-build by running the provided scripts `build.bat` or `build.sh` after installing dependancies via pip.
+build by running the provided scripts `build.bat` or `build.sh` after installing dependancies via pip. Alternatively get a build from the releases page.
 
-## Configuration
-Before running you'll need to create a config file containing your server's webadmin credentials. This file has to be named `magicked_admin.conf` and placed next to the executable or `main.py`. An example file is provided inside `magicked_admin/config`.
+## Minimal configuration
+If running from source you will need to copy the example configs from the `config` folder to the root folder, the build scripts do this automatically.
+After the cofiguration is present, edit these lines in `magicked_admin.conf` to match your server details:
+```
+address = 127.0.0.1:8080
+username = Admin
+password = 123
+```
 
 ## Running
-Just run `pthon main.py` after installing the dependancies if you're using the source.
-For windows binaries, open a command line in the install folder and run `magicked_admin`.
+Run `pthon main.py` if executing from source. If you're using a binary execute `magicked_admin.exe`.
