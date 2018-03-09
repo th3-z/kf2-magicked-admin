@@ -8,9 +8,10 @@ from utils.text import trim_string
 
 class MotdUpdater(threading.Thread):
 
-    def __init__(self, server):
+    def __init__(self, server, scoreboard_type):
         self.server = server
 
+        self.scoreboard_type = scoreboard_type
         self.time_interval = 5 * 60
         self.motd = self.load_motd()
 
@@ -56,7 +57,13 @@ class MotdUpdater(threading.Thread):
         return motd
 
     def render_motd(self, src_motd):
-        scores = self.server.database.top_kills()
+        if self.scoreboard_type in ['kills','Kills','kill','Kill']:
+            scores = self.server.database.top_kills()
+        elif self.scoreboard_type in ['Dosh','dosh']:
+            scores = self.server.database.top_dosh()
+        else:
+            print("ERROR: Bad configuration, scoreboard_type. Options are: dosh, kills")
+            return
 
         for player in scores:
             name = player[0].replace("<","&lt;")

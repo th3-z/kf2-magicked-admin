@@ -34,6 +34,7 @@ class MagickedAdministrator():
             password = config[server_name]["password"]
             game_password = config[server_name]["game_password"]
             motd_scoreboard = str_to_bool(config[server_name]["motd_scoreboard"])
+            scoreboard_type = config[server_name]["scoreboard_type"]
             map_autochange = str_to_bool(config[server_name]["map_autochange"])
             multiadmin_enabled = str_to_bool(config[server_name]["multiadmin_enabled"])
             
@@ -47,7 +48,7 @@ class MagickedAdministrator():
                 self.watchdogs.append(wd)
                 
             if motd_scoreboard:
-                motd_updater = MotdUpdater(server)
+                motd_updater = MotdUpdater(server, scoreboard_type)
                 motd_updater.start()
                 self.motd_updaters.append(motd_updater)
 

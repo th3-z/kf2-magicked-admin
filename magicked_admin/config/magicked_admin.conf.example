@@ -4,6 +4,7 @@ username = Admin
 password = 123
 game_password = game_password
 motd_scoreboard = False
+scoreboard_type = kills
 map_autochange = True
 multiadmin_enabled = False
 
