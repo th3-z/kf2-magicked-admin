@@ -35,8 +35,7 @@ class CommandHelp(Command):
         if not self.authorise(admin):
             return self.not_auth_message
         return "Player commands:\n !dosh, !kills, !top_dosh, " + \
-                "!top_kills, !difficulty, !length," + \
-                "!stats, !me, !info"
+                "!top_kills, !stats, !me, !info"
  
 class CommandInfo(Command):
     def __init__(self, server, adminOnly = True):
