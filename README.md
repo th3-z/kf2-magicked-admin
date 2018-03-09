@@ -34,7 +34,7 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 * configparser
 * sqlite3
 
-build by running the provided scripts `build.bat` or `build.sh` after installing dependancies via pip.
+build by running the provided scripts `build.bat` or `build.sh` after installing dependancies via pip. Alternatively get a build from the releases page.
 
 ## Minimal configuration
 If running from source you will need to copy the example configs from the `config` folder to the root folder, the build scripts do this automatically.
