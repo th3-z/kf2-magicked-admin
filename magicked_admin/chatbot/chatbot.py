@@ -32,6 +32,8 @@ class Chatbot(Listener):
             self.command_handler(username, args, admin)
 
     def command_handler(self, username, args, admin=False):
+        if args == None or len(args) == 0:
+            return
         if args[0] in self.commands.command_map:
             command = self.commands.command_map[args[0]]
             response = command.execute(username, args, admin)
