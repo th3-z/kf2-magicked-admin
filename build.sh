@@ -1,3 +1,3 @@
 cd magicked_admin
-python setup.py build -b ../bin
+python3 setup.py build -b ../bin
 cd ..

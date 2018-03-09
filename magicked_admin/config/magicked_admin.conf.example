@@ -1,17 +1,9 @@
 [server_one]
 address = 127.0.0.1:8080
-username = bot_username
-password = bot_password
-game_password = game_password
-motd_scoreboard = True
-map_autochange = True
-multiadmin_enabled = True
-
-[server_two]
-address = 127.0.0.1:8081
-username = bot_username
-password = bot_password
+username = Admin
+password = password
 game_password = game_password
 motd_scoreboard = False
 map_autochange = True
 multiadmin_enabled = False
+
