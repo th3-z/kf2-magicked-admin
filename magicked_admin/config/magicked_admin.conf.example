@@ -1,7 +1,7 @@
 [server_one]
 address = 127.0.0.1:8080
 username = Admin
-password = password
+password = 123
 game_password = game_password
 motd_scoreboard = False
 map_autochange = True
