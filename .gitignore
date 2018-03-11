@@ -1,6 +1,7 @@
 # Editor files
 .*.swp
 .*.swo
+.idea/
 
 #builds
 bin/
