@@ -20,18 +20,17 @@ LEN_LONG = "2"
 
 class Server():
    
-    def __init__(self, name, address, username, password, game_password, hashed=False):
+    def __init__(self, name, address, username, password, game_password):
         self.name = name
         self.address = address
         self.username = username
+        self.password = password
+        self.password_hash = "$sha1$" + \
+                             sha1(password.encode("iso-8859-1", "ignore") + \
+                                  username.encode("iso-8859-1", "ignore")) \
+                                 .hexdigest()
+
         self.game_password = game_password
-        if hashed:
-            self.password_hash = "$sha1$" + \
-                sha1(password.encode("iso-8859-1","ignore") + \
-                    username.encode("iso-8859-1","ignore")) \
-                .hexdigest()
-        else:
-            self.password_hash = password
 
         self.database = ServerDatabase(name)
         self.session = self.new_session()
@@ -71,6 +70,10 @@ class Server():
                 s = requests.Session()
 
                 login_page_response = s.get(login_url)
+
+                if "hashAlg = \"sha1\"" not in login_page_response.text:
+                    login_payload['password_hash'] = self.password
+
                 login_page_tree = html.fromstring(login_page_response.content)
                 
                 token = login_page_tree.xpath('//input[@name="token"]/@value')[0]

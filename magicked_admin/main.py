@@ -39,7 +39,7 @@ class MagickedAdministrator():
             multiadmin_enabled = str_to_bool(config[server_name]["multiadmin_enabled"])
             
             server = Server(server_name, address, user, password,
-                            game_password, hashed=multiadmin_enabled)
+                            game_password)
             self.servers.append(server)
 			
             if map_autochange:
