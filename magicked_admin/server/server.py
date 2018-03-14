@@ -1,6 +1,6 @@
 from os import path
 
-import requests
+import requests, sys
 from hashlib import sha1
 from lxml import html
 from time import sleep
@@ -18,6 +18,7 @@ LEN_SHORT = "0"
 LEN_NORM = "1"
 LEN_LONG = "2"
 
+
 class Server():
    
     def __init__(self, name, address, username, password, game_password):
@@ -26,13 +27,13 @@ class Server():
         self.username = username
         self.password = password
         self.password_hash = "$sha1$" + \
-                             sha1(password.encode("iso-8859-1", "ignore") + \
-                                  username.encode("iso-8859-1", "ignore")) \
-                                 .hexdigest()
-
+                             sha1(password.encode("iso-8859-1", "ignore") +
+                                  username.encode("iso-8859-1", "ignore"))\
+                             .hexdigest()
         self.game_password = game_password
 
         self.database = ServerDatabase(name)
+        print("INFO: Connecting to: " + self.address + " (" + self.name + ")")
         self.session = self.new_session()
 
         self.general_settings = self.load_general_settings()
@@ -41,7 +42,7 @@ class Server():
             'map_name': 'kf-default',
             'wave': 0,
             'length': 7,
-            'difficulty':'normal'
+            'difficulty': 'normal'
         }
         self.zeds_killed = 0
         self.zeds_wave = 0
@@ -64,27 +65,29 @@ class Server():
             'password': '',
             'remember': '-1'
         }
-        got_session = False
-        while not got_session:
-            try:
-                s = requests.Session()
 
-                login_page_response = s.get(login_url)
+        try:
+            s = requests.Session()
 
-                if "hashAlg = \"sha1\"" not in login_page_response.text:
-                    login_payload['password_hash'] = self.password
+            login_page_response = s.get(login_url)
 
-                login_page_tree = html.fromstring(login_page_response.content)
-                
-                token = login_page_tree.xpath('//input[@name="token"]/@value')[0]
-                login_payload.update({'token':token})
+            if "hashAlg = \"sha1\"" not in login_page_response.text:
+                login_payload['password_hash'] = self.password
 
-                s.post(login_url, data=login_payload)
-                got_session = True
-            except requests.exceptions.RequestException as e:
-                print("INFO: Couldn't aquire session " + self.name + \
-                    " (RequestException), retrying")
-                sleep(3)
+            login_page_tree = html.fromstring(login_page_response.content)
+
+            token = login_page_tree.xpath('//input[@name="token"]/@value')[0]
+            login_payload.update({'token': token})
+
+            login_response = s.post(login_url, data=login_payload)
+
+            if "Invalid credentials" in login_response.text:
+                sys.exit("ERROR: Bad credentials for server: " + self.name)
+
+        except requests.exceptions.RequestException:
+            sys.exit("ERROR: Network error on: " + self.address +
+                     " (" + self.name + "), bad address?")
+
         return s
 
     def load_general_settings(self):
