@@ -82,11 +82,15 @@ class Server():
             login_response = s.post(login_url, data=login_payload)
 
             if "Invalid credentials" in login_response.text:
-                sys.exit("ERROR: Bad credentials for server: " + self.name)
+                print("ERROR: Bad credentials for server: " + self.name)
+                input("Press enter to exit...")
+                sys.exit()
 
         except requests.exceptions.RequestException:
-            sys.exit("ERROR: Network error on: " + self.address +
-                     " (" + self.name + "), bad address?")
+            print("ERROR: Network error on: " + self.address +
+                  " (" + self.name + "), bad address?")
+            input("Press enter to exit...")
+            sys.exit()
 
         return s
 
