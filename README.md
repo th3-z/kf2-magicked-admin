@@ -33,6 +33,8 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 * lxml
 * configparser
 * sqlite3
+* colorama
+* termcolor
 
 build by running the provided scripts `build.bat` or `build.sh` after installing dependancies via pip. Alternatively get a build from the releases page.
 
