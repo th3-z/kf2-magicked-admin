@@ -35,6 +35,11 @@ class ServerDatabase:
     def end_game(self, game):
         pass
 
+    def total_kills(self):
+        self.cur.execute('SELECT sum(kills) FROM players)
+        all_rows = self.cur.fetchall()
+        return all_rows
+    
     def top_kills(self):
         self.cur.execute('SELECT username, kills FROM players ORDER BY kills DESC')
         all_rows = self.cur.fetchall()
