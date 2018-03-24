@@ -36,7 +36,7 @@ class ServerDatabase:
         pass
 
     def total_kills(self):
-        self.cur.execute('SELECT sum(kills) FROM players)
+        self.cur.execute('SELECT SUM(kills) FROM players')
         all_rows = self.cur.fetchall()
         return all_rows
     
