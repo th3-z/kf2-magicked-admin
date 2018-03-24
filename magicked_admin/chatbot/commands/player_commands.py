@@ -1,6 +1,18 @@
 from chatbot.commands.command import Command
 from utils.text import trim_string, millify
 
+class CommandTotalKills(Command):
+    def __init__(self, server, adminOnly = True):
+        Command.__init__(self, server, adminOnly)
+        
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+        
+        kills = self.server.database.total_kills()
+        return str(millify(kills)) + \
+                " Zeds have been killed on this server"
+
 class CommandKills(Command):
     def __init__(self, server, adminOnly = True):
         Command.__init__(self, server, adminOnly)
