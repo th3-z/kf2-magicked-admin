@@ -9,7 +9,8 @@ class CommandTotalKills(Command):
         if not self.authorise(admin):
             return self.not_auth_message
         
-        return str(self.server.database.total_kills) + \
+        kills = self.server.database.total_kills()
+        return str(millify(kills)) + \
                 " Zeds have been killed on this server"
 
 class CommandKills(Command):
