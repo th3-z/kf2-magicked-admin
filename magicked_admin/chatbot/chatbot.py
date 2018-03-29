@@ -5,6 +5,8 @@ import time
 import threading
 import server
 from os import path
+#from FuzzyWuzzy import Fuzz
+#from FuzzyWuzzy import process
 
 from utils.text import trim_string, millify
 
@@ -34,6 +36,10 @@ class Chatbot(Listener):
     def command_handler(self, username, args, admin=False):
         if args == None or len(args) == 0:
             return
+        # Put FuzzyWuzzy Here? 
+        #choices = ['restart','toggle_pass','silent','length','difficulty','players','game','help','info','kills',
+        #'dosh','top_kills','total_kills','top_dosh','me','stats']
+        #match = process.extractOne(args, choices, scorer= fuzz.ratio, scorecutoff= 90)
         if args[0] in self.commands.command_map:
             command = self.commands.command_map[args[0]]
             response = command.execute(username, args, admin)

@@ -12,7 +12,7 @@ class ServerMapper(threading.Thread):
 
     def __init__(self, server):
         self.server = server
-        
+
         self.time_interval = 6
         self.last_wave = 0
         self.exit_flag = threading.Event()
@@ -42,11 +42,15 @@ class ServerMapper(threading.Thread):
                     self.server.trader_close()
             self.server.zeds_killed = z
             self.server.zeds_wave = zr
-            
+
             map_title = info_tree.xpath('//dl//dd/@title')[1]
             map_name = dds[0]
-            wave, length = dds[7].split("/")
-            difficulty = dds[8]
+            try:
+                wave, length = dds[7].split("/")
+                difficulty = dds[8]
+            except:
+                wave, length = dds[8].split("/")
+                difficulty = dds[9]
 
             self.server.game['map_title'] = map_title
             self.server.game['map_name'] = map_name
@@ -80,7 +84,7 @@ class ServerMapper(threading.Thread):
                     username, new_perk, new_dosh, new_health, \
                     new_kills, new_ping = player_row[:6]
                 new_health, new_kills, new_dosh, new_ping = \
-                    int(new_health), int(new_kills), int(new_dosh), int(new_ping) 
+                    int(new_health), int(new_kills), int(new_dosh), int(new_ping)
                 player = self.server.get_player(username)
                 # New players
                 if player == None:
@@ -94,7 +98,7 @@ class ServerMapper(threading.Thread):
                 if new_health == 0 and new_health < player.health and new_kills > 0:
                     print("INFO: Player " + player.username + " died")
                     player.total_deaths += 1
-               
+
                 player.perk = new_perk
                 player.total_kills += new_kills - player.kills
                 player.wave_kills += new_kills - player.kills
@@ -107,11 +111,10 @@ class ServerMapper(threading.Thread):
                 if new_dosh > player.dosh:
                     player.game_dosh += new_dosh - player.dosh
                     player.total_dosh += new_dosh - player.dosh
-                    
+
                 else:
                     player.total_dosh_spent += player.dosh - new_dosh
                 player.dosh = new_dosh
-               
+
     def terminate(self):
         self.exit_flag.set()
-

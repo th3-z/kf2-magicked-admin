@@ -13,7 +13,7 @@ includefiles = [
 ]
 
 build_exe_options={
-    "packages": ["os", "queue", "idna", "lxml", "requests", "encodings"],
+    "packages": ["os", "queue", "idna", "lxml", "requests", "encodings","fuzzywuzzy"],
     "excludes": ["tkinter"],
     "includes": [],
     "include_files": includefiles,

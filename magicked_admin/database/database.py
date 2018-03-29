@@ -3,7 +3,7 @@ import datetime
 from os import path
 
 class ServerDatabase:
-    
+
     def __init__(self, name):
         self.sqlite_db_file = name + "_db" + ".sqlite"
 
@@ -25,9 +25,9 @@ class ServerDatabase:
 
         conn.commit()
         conn.close()
-    
+
     def start_session(self, player):
-        pass 
+        pass
 
     def end_session(self, player):
         pass
@@ -35,11 +35,19 @@ class ServerDatabase:
     def end_game(self, game):
         pass
 
-    def total_kills(self):
-        self.cur.execute('SELECT SUM(kills) FROM players')
+    # I need to de-ghetto this
+    def server_kills(self):
+        self.cur.execute('SELECT SUM(dosh), SUM(dosh_spent) FROM players')
         all_rows = self.cur.fetchall()
         return all_rows
-    
+
+    # I need to de-ghetto this and find a more suitable name
+    # Test it with ()
+    def server_kills(self):
+        self.cur.execute('SELECT SUM(kills) FROM players')
+        all_rows = self.cur.fetchall()
+        return str(all_rows[0])
+
     def top_kills(self):
         self.cur.execute('SELECT username, kills FROM players ORDER BY kills DESC')
         all_rows = self.cur.fetchall()
@@ -85,7 +93,7 @@ class ServerDatabase:
             return int(all_rows[0][0])
         else:
             return 0
-    
+
     def player_logins(self, username):
         self.cur.execute('SELECT (logins) FROM players WHERE username=?',
                          (username,))
@@ -94,7 +102,7 @@ class ServerDatabase:
             return int(all_rows[0][0])
         else:
             return 0
-            
+
     def player_time(self, username):
         self.cur.execute('SELECT (time_online) FROM players WHERE username=?',
                          (username,))
@@ -103,7 +111,7 @@ class ServerDatabase:
             return int(all_rows[0][0])
         else:
             return 0
-            
+
     def player_health_lost(self, username):
         self.cur.execute('SELECT (health_lost) FROM players WHERE username=?',
                          (username,))
@@ -112,7 +120,7 @@ class ServerDatabase:
             return int(all_rows[0][0])
         else:
             return 0
-    
+
     def load_player(self, player):
         player.total_kills = self.player_kills(player.username)
         player.total_dosh =  self.player_dosh(player.username)
@@ -121,7 +129,7 @@ class ServerDatabase:
         player.total_logins = self.player_logins(player.username)
         player.total_health_lost = self.player_health_lost(player.username)
         player.total_time = self.player_time(player.username)
-        
+
     def save_player(self, player, final=False):
         self.cur.execute("INSERT OR IGNORE INTO players (username) VALUES (?)",
                          (player.username,))
@@ -138,19 +146,18 @@ class ServerDatabase:
                          (player.total_health_lost, player.username))
         self.cur.execute("UPDATE players SET logins = ? WHERE username = ?",
                          (player.total_logins, player.username))
-        
+
         if final:
             now = datetime.datetime.now()
             elapsed_time = now - player.session_start
             seconds = elapsed_time.total_seconds()
             new_time = player.total_time + seconds
-            
+
             self.cur.execute("UPDATE players SET time_online = ? WHERE username = ?",
                              (new_time, player.username))
-        
+
         self.conn.commit()
 
     def close(self):
         self.conn.commit()
         self.conn.close()
-
