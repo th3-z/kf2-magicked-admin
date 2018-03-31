@@ -36,13 +36,13 @@ class ServerDatabase:
         pass
 
     # I need to de-ghetto this
-    def server_kills(self):
-        self.cur.execute('SELECT SUM(dosh), SUM(dosh_spent) FROM players')
+    # SUM(dosh_spent)
+    def server_dosh(self):
+        self.cur.execute('SELECT SUM(dosh)FROM players')
         all_rows = self.cur.fetchall()
-        return all_rows
+        return str(all_rows[0])
 
-    # I need to de-ghetto this and find a more suitable name
-    # Test it with ()
+    # I am sure there's a better way to do this.
     def server_kills(self):
         self.cur.execute('SELECT SUM(kills) FROM players')
         all_rows = self.cur.fetchall()

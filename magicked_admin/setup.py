@@ -12,8 +12,9 @@ includefiles = [
     ('config/server_one.motd.example','server_one.motd')
 ]
 
+# "fuzzywuzzy"
 build_exe_options={
-    "packages": ["os", "queue", "idna", "lxml", "requests", "encodings","fuzzywuzzy"],
+    "packages": ["os", "queue", "idna", "lxml", "requests", "encodings"],
     "excludes": ["tkinter"],
     "includes": [],
     "include_files": includefiles,

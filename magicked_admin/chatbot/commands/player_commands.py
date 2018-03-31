@@ -10,10 +10,13 @@ class CommandServerdosh(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        # Figure out the wonky-ness with this
-        kills = self.server.database.server_dosh()
+        # I imagine there's a better way to handle this but I frankly suck so
+        # here it is.
+        dosh = self.server.database.server_dosh()
         return str(dosh).strip('(),') + \
                 " dosh has been earned on this server"
+                #" and " + str(dosh_spent).strip('(),') +\
+                #" has been spent on this server."
 
 class CommandServerKills(Command):
     def __init__(self, server, adminOnly = True):
@@ -22,7 +25,8 @@ class CommandServerKills(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        # Figure out the wonky-ness with this
+        # I imagine there's a better way to handle this but I frankly suck so
+        # here it is.
         kills = self.server.database.server_kills()
         return str(kills).strip('(),') + \
                 " ZEDs have been killed on this server"
