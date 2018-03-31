@@ -15,12 +15,12 @@ class ChatLogger(threading.Thread):
         self.chat_request_payload = {
             'ajax': '1'
         }
-        
+
         self.server = server
         self.time_interval = 2
         self.message_log = []
         self.listeners = []
-        
+
         self.poll_session = server.new_session()
 
         self.exit_flag = threading.Event()
@@ -29,7 +29,7 @@ class ChatLogger(threading.Thread):
         self.silent = False
 
         threading.Thread.__init__(self)
-    
+
     def run(self):
         while not self.exit_flag.wait(self.time_interval):
             try:
@@ -41,7 +41,7 @@ class ChatLogger(threading.Thread):
             except requests.exceptions.RequestException as e:
                 print("INFO: Couldn't retrieve chat (RequestException)")
                 continue
-            
+
             if response.text:
                 # trailing new line ends up in list without the strip
                 messages_html = response.text.strip().split("\r\n\r\n")
@@ -84,7 +84,7 @@ class ChatLogger(threading.Thread):
             'message': message,
             'teamsay': '-1'
         }
-        
+
         try:
             self.server.session.post(chat_submit_url, message_payload)
         except requests.exceptions.RequestException as e:
@@ -92,4 +92,3 @@ class ChatLogger(threading.Thread):
 
     def terminate(self):
         self.exit_flag.set()
-

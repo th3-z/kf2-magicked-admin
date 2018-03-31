@@ -42,8 +42,8 @@ class CommandMap():
             'me':CommandMe(self.server, adminOnly=False),
             'stats':CommandStats(self.server, adminOnly=False),
             # My additions
-            'server_kills':CommandTotalKills(self.server, adminOnly=False),
-            'server_dosh':CommandTotalKills(self.server, adminOnly=False),
+            'server_kills':CommandServerKills(self.server, adminOnly=False),
+            'server_dosh':CommandServerdosh(self.server, adminOnly=False),
         }
 
         return map
