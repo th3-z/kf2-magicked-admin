@@ -11,10 +11,11 @@ class CommandServerdosh(Command):
         if not self.authorise(admin):
             return self.not_auth_message
         # I imagine there's a better way to handle this but I frankly suck so
-        # here it is.
+        # here it is. Will you fix this on pull?
         dosh = self.server.database.server_dosh()
         return str(dosh).strip('(),') + \
                 " dosh has been earned on this server"
+                # Code below is for adding dosh spent but not dealing with it right now. 
                 #" and " + str(dosh_spent).strip('(),') +\
                 #" has been spent on this server."
 
@@ -26,7 +27,7 @@ class CommandServerKills(Command):
         if not self.authorise(admin):
             return self.not_auth_message
         # I imagine there's a better way to handle this but I frankly suck so
-        # here it is.
+        # here it is. Will you fix this on pull?
         kills = self.server.database.server_kills()
         return str(kills).strip('(),') + \
                 " ZEDs have been killed on this server"
