@@ -52,25 +52,33 @@ class ChatLogger(threading.Thread):
                         # xpath returns a list but theres only ever one of each because i split earlier
                         username = message_tree.xpath('//span[starts-with(@class,\'username\')]/text()')[0]
                         user_type = message_tree.xpath('//span[starts-with(@class,\'username\')]/@class')[0]
-                        admin = True if "admin" in user_type else False
                         message = message_tree.xpath('//span[@class="message"]/text()')[0]
+                        admin = True if "admin" in user_type else False
+
                         self.handle_message(username, message, admin)
-                    except IndexError: 
+                    except IndexError:
                         # Controlled difficulty output isn't handled correctly. Look into how to correct this outside
                         # of an exception, maybe seperate color for it's output too or mods that echo to the system as
                         # well.
-                        print("INFO: Unexpeced input, are you using Controlled Difficulty? (IndexException)")
+                        username = "Controlled Difficulty"
+                        admin = False
+                        message = message_tree.xpath('//span[@class="message"]/text()')[0]
+                        self.handle_message(username, message, admin)
+                        #print("INFO: Unexpeced input, are you using Controlled Difficulty? (IndexException)")
                         continue
 
 
     def handle_message(self, username, message, admin):
         command = True if message[0] == '!' else False
 
+        # What is the self.print_messages for?
         if self.print_messages and username != "server":
             print_line = username + "@" + self.server.name +  ": " + message
             # Come back to this, would be where to color CD output.
             if command:
                 print_line = colored(print_line, 'green')
+            elif username == "Controlled Difficulty":
+                print_line = colored(print_line, 'cyan')
             else:
                 print_line = colored(print_line, 'yellow')
             print(print_line)
