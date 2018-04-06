@@ -41,7 +41,6 @@ class CommandMap():
             'top_dosh':CommandTopDosh(self.server, adminOnly=False),
             'me':CommandMe(self.server, adminOnly=False),
             'stats':CommandStats(self.server, adminOnly=False),
-            # My additions
             'server_kills':CommandServerKills(self.server, adminOnly=False),
             'server_dosh':CommandServerdosh(self.server, adminOnly=False),
         }
