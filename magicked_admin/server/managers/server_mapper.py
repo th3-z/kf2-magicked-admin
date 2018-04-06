@@ -28,7 +28,7 @@ class ServerMapper(threading.Thread):
                 info_page_response = self.server.session.post(info_url, timeout=2)
             except requests.exceptions.RequestException as e:
                 print("INFO: Couldn't get info page (RequestException)")
-            
+
             # Look into this encoding, pages are encoded in Windows 1252.
             info_tree = html.fromstring(info_page_response.content.decode('cp1252'))
             dds = info_tree.xpath('//dd/text()')
@@ -46,10 +46,11 @@ class ServerMapper(threading.Thread):
 
             map_title = info_tree.xpath('//dl//dd/@title')[1]
             map_name = dds[0]
+            # This fixes problems with mutators.
             try:
                 wave, length = dds[7].split("/")
                 difficulty = dds[8]
-            except:
+            except IndexError:
                 wave, length = dds[8].split("/")
                 difficulty = dds[9]
 

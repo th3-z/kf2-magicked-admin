@@ -36,7 +36,7 @@ class Chatbot(Listener):
     def command_handler(self, username, args, admin=False):
         if args == None or len(args) == 0:
             return
-        # Put FuzzyWuzzy Here?
+        # Put FuzzyWuzzy Here? You said that it might be handy elsewhere, not sure what you want to do with it.
         #choices = ['restart','toggle_pass','silent','length','difficulty','players','game','help','info','kills',
         #'dosh','top_kills','total_kills','top_dosh','me','stats']
         #match = process.extractOne(args, choices, scorer= fuzz.ratio, scorecutoff= 90)
@@ -45,9 +45,9 @@ class Chatbot(Listener):
             response = command.execute(username, args, admin)
             if not self.silent:
                 self.chat.submit_message(response)
-        # Removing these lines for now until I figure out how to deal with CD shit. 
-        #elif username != "server" and not self.silent:
-            #self.chat.submit_message("Sorry, I didn't understand that request.")
+        # What would be the best way of handling CD commands?
+        elif username != "server" and not self.silent:
+            self.chat.submit_message("Sorry, I didn't understand that request.")
 
     def execute_script(self, file_name):
         print("INFO: Executing script: " + file_name)

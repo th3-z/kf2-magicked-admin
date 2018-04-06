@@ -6,16 +6,17 @@ from utils.text import trim_string, millify
 class CommandServerdosh(Command):
     def __init__(self, server, adminOnly = True):
         Command.__init__(self, server, adminOnly)
-
+Yo
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        # I imagine there's a better way to handle this but I frankly suck so
-        # here it is.
-        dosh = self.server.database.server_dosh()
-        return str(dosh).strip('(),') + \
+
+        self.server.write_all_players()
+        return str(self.server.database.server_dosh()) + \
                 " dosh has been earned on this server"
-                #" and " + str(dosh_spent).strip('(),') +\
+                #" dosh has been earned on this server"
+                # Code below is for adding dosh spent but not dealing with it right now.
+                #" and " + () +\
                 #" has been spent on this server."
 
 class CommandServerKills(Command):
@@ -25,10 +26,10 @@ class CommandServerKills(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        # I imagine there's a better way to handle this but I frankly suck so
-        # here it is.
+
+        #self.server.write_all_players()
         kills = self.server.database.server_kills()
-        return str(kills).strip('(),') + \
+        return str(kills) + \
                 " ZEDs have been killed on this server"
 
 class CommandKills(Command):
