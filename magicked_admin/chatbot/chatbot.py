@@ -45,7 +45,7 @@ class Chatbot(Listener):
             response = command.execute(username, args, admin)
             if not self.silent:
                 self.chat.submit_message(response)
-        # What would be the best way of handling CD commands? 
+        # What would be the best way of handling CD commands?
         elif username != "server" and not self.silent:
             self.chat.submit_message("Sorry, I didn't understand that request.")
 

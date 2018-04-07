@@ -35,18 +35,24 @@ class ServerDatabase:
     def end_game(self, game):
         pass
 
-    # I need to de-ghetto this
-    # SUM(dosh_spent)
+    # SUM(dosh_spent) Add in later.
     def server_dosh(self):
-        self.cur.execute('SELECT SUM(dosh)FROM players')
+        self.cur.execute('SELECT SUM(dosh) FROM players')
         all_rows = self.cur.fetchall()
-        return str(all_rows[0])
+        # Errors out when you call it with 0 with "NoneType"
+        if all_rows:
+            return int(all_rows[0][0])
+        else:
+            return 0
 
-    # I am sure there's a better way to do this.
     def server_kills(self):
         self.cur.execute('SELECT SUM(kills) FROM players')
         all_rows = self.cur.fetchall()
-        return str(all_rows[0])
+        # Errors out when you call it with 0 with "NoneType"
+        if all_rows:
+            return int(all_rows[0][0])
+        else:
+            return 0
 
     def top_kills(self):
         self.cur.execute('SELECT username, kills FROM players ORDER BY kills DESC')
