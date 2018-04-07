@@ -1,8 +1,5 @@
-import sys
 from cx_Freeze import setup, Executable
 
-# GUI applications require a different base on Windows (the default is for a
-# console application).
 base = None
 
 includefiles = [
@@ -13,7 +10,7 @@ includefiles = [
 ]
 
 # "FuzzyWuzzy"
-build_exe_options={
+build_exe_options = {
     "packages": ["os", "queue", "idna", "lxml", "requests", "encodings"],
     "excludes": ["tkinter"],
     "includes": [],
@@ -22,15 +19,15 @@ build_exe_options={
     "zip_include_packages": "*",
     "zip_exclude_packages": ""
 }
-setup(  name = "Magicked Administrator",
-        version = "0.0.1",
-        description = "Scripted management, stats, and bot for KF2-Server",
-        options = {"build_exe": build_exe_options},
-        executables = [
-            Executable("main.py",
-                base=base,
-                targetName="magicked_admin.exe",
-                icon="icon.ico"
-            )
-        ]
+setup(name="Magicked Administrator",
+      version="0.0.1",
+      description="Scripted management, stats, and bot for KF2-Server",
+      executables=[
+          Executable("main.py",
+                     base=base,
+                     targetName="magicked_admin.exe",
+                     icon="icon.ico"
+                     )
+      ]
 )
+

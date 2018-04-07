@@ -1,7 +1,7 @@
 import datetime
 
-class Player():
-    
+
+class Player:
     def __init__(self, username, perk):
         self.total_deaths = 0
         self.total_kills = 0
@@ -27,4 +27,6 @@ class Player():
         self.ping = 0
 
     def __str__(self):
-        return "username: " + self.username + "\nperk: " + self.perk + "\ndosh: " + str(self.dosh) + "\nhealth: " + str(self.health) + "\nkills: " + str(self.kills)
+        return "username: " + self.username + "\nperk: " + self.perk + \
+               "\ndosh: " + str(self.dosh) + "\nhealth: " + str(self.health) +\
+               "\nkills: " + str(self.kills)

@@ -1,17 +1,17 @@
 import threading
-import time
-
 import requests
 from lxml import html
 from colorama import init
 from termcolor import colored
 
+# what the fuck does this do
 init()
 
-class ChatLogger(threading.Thread):
 
+class ChatLogger(threading.Thread):
     def __init__(self, server):
-        self.chat_request_url = "http://" + server.address + "/ServerAdmin/current/chat+data"
+        self.chat_request_url = "http://" + server.address + \
+                                "/ServerAdmin/current/chat+data"
         self.chat_request_payload = {
             'ajax': '1'
         }
@@ -81,7 +81,7 @@ class ChatLogger(threading.Thread):
             print(print_line)
 
         for listener in self.listeners:
-            listener.recieveMessage(username, message, admin)
+            listener.receive_message(username, message, admin)
 
     def add_listener(self, listener):
         self.listeners.append(listener)
@@ -91,7 +91,8 @@ class ChatLogger(threading.Thread):
             return
         # note, \n works fine in chat
         # messages submitted here will not appear in ChatLogger
-        chat_submit_url = "http://" + self.server.address + "/ServerAdmin/current/chat+frame+data"
+        chat_submit_url = "http://" + self.server.address + \
+                          "/ServerAdmin/current/chat+frame+data"
 
         message_payload = {
             'ajax': '1',
