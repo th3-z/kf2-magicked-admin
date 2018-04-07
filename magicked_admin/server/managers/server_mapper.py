@@ -46,11 +46,10 @@ class ServerMapper(threading.Thread):
 
             map_title = info_tree.xpath('//dl//dd/@title')[1]
             map_name = dds[0]
-            # This fixes problems with mutators.
             try:
                 wave, length = dds[7].split("/")
                 difficulty = dds[8]
-            except IndexError:
+            except ValueError:
                 wave, length = dds[8].split("/")
                 difficulty = dds[9]
 
