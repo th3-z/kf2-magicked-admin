@@ -100,10 +100,13 @@ class ServerMapper(threading.Thread):
                     else:
                         values += [value.text_content()]
 
-                if len(values) != len(headings):
+                if values[0] == "There are no players":
+                    print("DEBUG: No players")
+                elif len(values) != len(headings):
                     print("ERROR: A player row length did not" +
                           "match the table length")
-                players_table += [values]
+                else:
+                    players_table += [values]
 
             print(players_table)
 
