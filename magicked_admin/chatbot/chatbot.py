@@ -43,8 +43,8 @@ class Chatbot(Listener):
         'dosh','top_kills','total_kills','top_dosh','me','stats']
         match = process.extractOne(args, choices, scorer= fuzz.ratio, scorecutoff= 90)'''
 
-        if args[0] in self.commands.command_map:
-            command = self.commands.command_map[args[0]]
+        if args[0].lower() in self.commands.command_map:
+            command = self.commands.command_map[args[0].lower()]
             response = command.execute(username, args, admin)
             if not self.silent:
                 self.chat.submit_message(response)
