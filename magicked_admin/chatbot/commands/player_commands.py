@@ -12,7 +12,7 @@ class CommandServerDosh(Command):
 
         self.server.write_all_players()
         dosh = self.server.database.server_dosh()
-        return str(dosh) + " Dosh has been earned on this server"
+        return millify(dosh) + " Dosh has been earned on this server"
 
 
 class CommandServerKills(Command):
@@ -25,7 +25,7 @@ class CommandServerKills(Command):
 
         self.server.write_all_players()
         kills = self.server.database.server_kills()
-        return str(kills) + " ZEDs have been killed on this server"
+        return millify(kills) + " ZEDs have been killed on this server"
 
 
 class CommandKills(Command):
