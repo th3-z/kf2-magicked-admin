@@ -8,8 +8,8 @@ from lxml import html
 
 from server.player import Player
 
-class ServerMapper(threading.Thread):
 
+class ServerMapper(threading.Thread):
     def __init__(self, server):
         self.server = server
 
@@ -21,25 +21,31 @@ class ServerMapper(threading.Thread):
         print("INFO: Mapper for " + server.name + " initialised")
 
     def run(self):
-        info_url = "http://" + self.server.address + "/ServerAdmin/current/info"
+        info_url = "http://" + self.server.address + \
+                   "/ServerAdmin/current/info"
 
         while not self.exit_flag.wait(self.time_interval):
             try:
-                info_page_response = self.server.session.post(info_url, timeout=2)
-            except requests.exceptions.RequestException as e:
+                info_page_response = self.server.session.post(info_url,
+                                                              timeout=2)
+            except requests.exceptions.RequestException:
                 print("INFO: Couldn't get info page (RequestException)")
+                return
 
             # Look into this encoding, pages are encoded in Windows 1252.
-            info_tree = html.fromstring(info_page_response.content.decode('cp1252'))
+            info_tree = html.fromstring(info_page_response.content
+                                        .decode('cp1252'))
             dds = info_tree.xpath('//dd/text()')
 
-            z, zr = info_tree.xpath('//dd[@class="gs_wave"]/text()')[0].split("/")
+            z, zr = info_tree.xpath('//dd[@class="gs_wave"]/text()')[0]\
+                .split("/")
             z, zr = int(z), int(zr)
             if z == zr and z > 1:
-                if self.server.trader_time != True:
+                # The if ensures
+                if not self.server.trader_time:
                     self.server.trader_open()
             else:
-                if self.server.trader_time != False:
+                if self.server.trader_time:
                     self.server.trader_close()
             self.server.zeds_killed = z
             self.server.zeds_wave = zr
@@ -70,10 +76,14 @@ class ServerMapper(threading.Thread):
             player_rows = odds + evens
 
             # Break them up by the &nbs; between columns
-            player_rows = [list(group) for k, group in groupby(player_rows, lambda x: x == "\xa0") if not k]
+            player_rows = [list(group) for k, group in
+                           groupby(player_rows,
+                                   lambda x: x == "\xa0")
+                           if not k]
             # Remove players that have quit
             for player in self.server.players:
-                if player.username not in [player_row[0] for player_row in player_rows]:
+                if player.username not in \
+                        [player_row[0] for player_row in player_rows]:
                     self.server.player_quit(player)
 
             for player_row in player_rows:
@@ -83,12 +93,13 @@ class ServerMapper(threading.Thread):
                     new_kills, new_ping = player_row[3:5]
                 else:
                     username, new_perk, new_dosh, new_health, \
-                    new_kills, new_ping = player_row[:6]
+                        new_kills, new_ping = player_row[:6]
                 new_health, new_kills, new_dosh, new_ping = \
-                    int(new_health), int(new_kills), int(new_dosh), int(new_ping)
+                    int(new_health), int(new_kills), \
+                    int(new_dosh), int(new_ping)
                 player = self.server.get_player(username)
                 # New players
-                if player == None:
+                if player is None:
                     player = Player(username, new_perk)
                     player.kills = new_kills
                     player.health = new_health
@@ -96,7 +107,9 @@ class ServerMapper(threading.Thread):
                     self.server.player_join(player)
                     continue
 
-                if new_health == 0 and new_health < player.health and new_kills > 0:
+                if new_health == 0 and \
+                        new_health < player.health and \
+                        new_kills > 0:
                     print("INFO: Player " + player.username + " died")
                     player.total_deaths += 1
 

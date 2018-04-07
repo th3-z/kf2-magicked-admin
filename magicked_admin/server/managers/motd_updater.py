@@ -6,6 +6,7 @@ from lxml import html
 from utils.text import millify
 from utils.text import trim_string
 
+
 class MotdUpdater(threading.Thread):
 
     def __init__(self, server, scoreboard_type):
@@ -24,7 +25,7 @@ class MotdUpdater(threading.Thread):
             self.server.write_all_players()
             try:
                 motd_payload = self.get_configuration()
-            except requests.exceptions.RequestException as e:
+            except requests.exceptions.RequestException:
                 continue
 
             motd = self.render_motd(self.motd)
@@ -32,17 +33,18 @@ class MotdUpdater(threading.Thread):
 
             try:
                 self.submit_motd(motd_payload)
-            except requests.exceptions.RequestException as e:
+            except requests.exceptions.RequestException:
                 continue
-                
+
     def submit_motd(self, payload):
-        motd_url = "http://" + self.server.address + "/ServerAdmin/settings/welcome"
+        motd_url = "http://" + self.server.address + \
+                   "/ServerAdmin/settings/welcome"
 
         print("INFO: Updating MOTD")
         try:
             self.server.session.post(motd_url, data=payload)
             self.server.save_settings()
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.RequestException:
             print("INFO: Couldn't submit motd (RequestException)")
             raise
 
@@ -57,16 +59,17 @@ class MotdUpdater(threading.Thread):
         return motd
 
     def render_motd(self, src_motd):
-        if self.scoreboard_type in ['kills','Kills','kill','Kill']:
+        if self.scoreboard_type in ['kills', 'Kills', 'kill', 'Kill']:
             scores = self.server.database.top_kills()
         elif self.scoreboard_type in ['Dosh','dosh']:
             scores = self.server.database.top_dosh()
         else:
-            print("ERROR: Bad configuration, scoreboard_type. Options are: dosh, kills")
+            print("ERROR: Bad configuration, scoreboard_type. " +
+                  "Options are: dosh, kills")
             return
 
         for player in scores:
-            name = player[0].replace("<","&lt;")
+            name = player[0].replace("<", "&lt;")
             name = trim_string(name, 12)
             score = player[1]
 
@@ -76,7 +79,8 @@ class MotdUpdater(threading.Thread):
         return src_motd
 
     def get_configuration(self):
-        motd_url = "http://" + self.server.address + "/ServerAdmin/settings/welcome"
+        motd_url = "http://" + self.server.address + \
+                   "/ServerAdmin/settings/welcome"
 
         try:
             motd_response = self.server.session.get(motd_url, timeout=2)
@@ -99,7 +103,6 @@ class MotdUpdater(threading.Thread):
                 'liveAdjust': '1',
                 'action': 'save'
         }
-    
-    
+
     def terminate(self):
         self.exit_flag.set()

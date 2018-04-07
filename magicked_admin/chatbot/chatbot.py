@@ -10,12 +10,13 @@ from os import path
 
 from utils.text import trim_string, millify
 
+
 class Chatbot(Listener):
 
     def __init__(self, server):
         self.server = server
         self.chat = server.chat
-        # The in-game chat can fit 21 Ws horizontaly
+        # The in-game chat can fit 21 Ws horizontally
         self.word_wrap = 21
         self.max_lines = 7
 
@@ -27,19 +28,21 @@ class Chatbot(Listener):
 
         print("INFO: Bot on server " + server.name + " initialised")
 
-    def recieveMessage(self, username, message, admin=False):
+    def receive_message(self, username, message, admin=False):
         if message[0] == '!':
             # Drop the '!' because its no longer relevant
             args = message[1:].split(' ')
             self.command_handler(username, args, admin)
 
     def command_handler(self, username, args, admin=False):
-        if args == None or len(args) == 0:
+        if args is None or len(args) == 0:
             return
-        # Put FuzzyWuzzy Here? You said that it might be handy elsewhere, not sure what you want to do with it.
-        #choices = ['restart','toggle_pass','silent','length','difficulty','players','game','help','info','kills',
-        #'dosh','top_kills','total_kills','top_dosh','me','stats']
-        #match = process.extractOne(args, choices, scorer= fuzz.ratio, scorecutoff= 90)
+
+        ''' Put FuzzyWuzzy Here? You said that it might be handy elsewhere, not sure what you want to do with it.
+        choices = ['restart','toggle_pass','silent','length','difficulty','players','game','help','info','kills',
+        'dosh','top_kills','total_kills','top_dosh','me','stats']
+        match = process.extractOne(args, choices, scorer= fuzz.ratio, scorecutoff= 90)'''
+
         if args[0] in self.commands.command_map:
             command = self.commands.command_map[args[0]]
             response = command.execute(username, args, admin)

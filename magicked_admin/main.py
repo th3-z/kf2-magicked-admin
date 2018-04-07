@@ -33,15 +33,16 @@ class MagickedAdministrator():
             user = config[server_name]["username"]
             password = config[server_name]["password"]
             game_password = config[server_name]["game_password"]
-            motd_scoreboard = str_to_bool(config[server_name]["motd_scoreboard"])
+            motd_scoreboard = str_to_bool(
+                config[server_name]["motd_scoreboard"]
+            )
             scoreboard_type = config[server_name]["scoreboard_type"]
             map_autochange = str_to_bool(config[server_name]["map_autochange"])
-            multiadmin_enabled = str_to_bool(config[server_name]["multiadmin_enabled"])
             
             server = Server(server_name, address, user, password,
                             game_password)
             self.servers.append(server)
-			
+
             if map_autochange:
                 wd = Watchdog(server)
                 wd.start()
@@ -55,19 +56,19 @@ class MagickedAdministrator():
             cb = Chatbot(server)
             server.chat.add_listener(cb)
             self.chatbots.append(cb)
-			
+
         print("INFO: Initialisation complete\n")
             
     def terminate(self, signal, frame):
         print("\nINFO: Terminating...")
         for server in self.servers:
             server.terminate()
-        #for cb in self.chatbots:
-        #    cb.terminate()
+
         for wd in self.watchdogs:
             wd.terminate()
         for motd_updater in self.motd_updaters:
             motd_updater.terminate()
+
 
 if __name__ == "__main__":
     application = MagickedAdministrator()

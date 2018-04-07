@@ -1,11 +1,10 @@
-# Should I change this to always return message vs. returning text?
-
 from chatbot.commands.command import Command
 from utils.text import trim_string, millify
 
-class CommandServerdosh(Command):
-    def __init__(self, server, adminOnly = True):
-        Command.__init__(self, server, adminOnly)
+
+class CommandServerDosh(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
@@ -13,12 +12,12 @@ class CommandServerdosh(Command):
 
         self.server.write_all_players()
         dosh = self.server.database.server_dosh()
-        return str(dosh) + \
-                " Dosh has been earned on this server"
+        return str(dosh) + " Dosh has been earned on this server"
+
 
 class CommandServerKills(Command):
-    def __init__(self, server, adminOnly = True):
-        Command.__init__(self, server, adminOnly)
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
@@ -26,12 +25,12 @@ class CommandServerKills(Command):
 
         self.server.write_all_players()
         kills = self.server.database.server_kills()
-        return str(kills) + \
-                " ZEDs have been killed on this server"
+        return str(kills) + " ZEDs have been killed on this server"
+
 
 class CommandKills(Command):
-    def __init__(self, server, adminOnly = True):
-        Command.__init__(self, server, adminOnly)
+    def __init__(self, server, admin_only = True):
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
@@ -44,9 +43,10 @@ class CommandKills(Command):
         else:
             return "Player not in game."
 
+
 class CommandDosh(Command):
-    def __init__(self, server, adminOnly = True):
-        Command.__init__(self, server, adminOnly)
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
@@ -54,15 +54,16 @@ class CommandDosh(Command):
 
         player = self.server.get_player(username)
         if player:
-            return  ("You've earned £" + str(player.total_dosh) + \
-                    " in total, and £" + str(player.game_dosh) + \
-                    " this game.").encode("iso-8859-1","ignore")
+            return ("You've earned £" + str(player.total_dosh) +
+                    " in total, and £" + str(player.game_dosh) +
+                    " this game.").encode("iso-8859-1", "ignore")
         else:
             return "Player not in game."
 
+
 class CommandTopKills(Command):
-    def __init__(self, server, adminOnly = True):
-        Command.__init__(self, server, adminOnly)
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
@@ -80,9 +81,10 @@ class CommandTopKills(Command):
             "\t"+str(millify(killers[3][1])) + "\t-\t" + trim_string(killers[3][0],20) + "\n" + \
             "\t"+str(millify(killers[4][1])) + "\t-\t" + trim_string(killers[4][0],20)
 
+
 class CommandTopDosh(Command):
-    def __init__(self, server, adminOnly = True):
-        Command.__init__(self, server, adminOnly)
+    def __init__(self, server, admin_only = True):
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
