@@ -7,6 +7,8 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers.
 * !top\_dosh - displays the players with the highest recorded dosh
 * !kills - display the players recorded kills and rank by kills
 * !top\_kills - displays the players with the most recorded kills
+* !server\_kills - displays total number of zeds killed on the server
+* !server\_dosh - displays total dosh earned on the server 
 
 ### Admin commands
 * !difficulty {normal|hard|suicidal|hell} - sets difficulty of next game    Example: !difficulty hard

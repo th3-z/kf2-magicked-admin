@@ -1,7 +1,7 @@
 
 
 class Command():
-    
+
     def __init__(self, server, adminOnly = True):
         self.server = server
         self.adminOnly = adminOnly
@@ -14,7 +14,6 @@ class Command():
             return False
         else:
             return True
-            
+
     def execute(self, username, args, admin):
         raise NotImplementedError("Command.execute() not implemented")
-

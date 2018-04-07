@@ -4,10 +4,10 @@ from utils.time import seconds_to_hhmmss
 
 import datetime
 
-class CommandPlayers(Command):  
+class CommandPlayers(Command):
     def __init__(self, server, adminOnly = True):
         Command.__init__(self, server, adminOnly)
-        
+
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
@@ -15,7 +15,7 @@ class CommandPlayers(Command):
 
         for player in self.server.players:
             message += str(player) + " \n"
-        
+
         return message
 
 class CommandGame(Command):
@@ -34,9 +34,9 @@ class CommandHelp(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        return "Player commands:\n !dosh, !kills, !top_dosh, " + \
-                "!top_kills, !stats, !me, !info"
- 
+        return "Player commands:\n !me, !dosh, !kills, !server_dosh, !server_kills, " + \
+                "!top_dosh, !top_kills, !stats, !info"
+
 class CommandInfo(Command):
     def __init__(self, server, adminOnly = True):
         Command.__init__(self, server, adminOnly)
@@ -47,7 +47,7 @@ class CommandInfo(Command):
         return "I'm a bot for ranked Killing Floor 2 servers. Visit:\n" + \
             "github.com/th3-z/kf-magicked-admin/\n" + \
             "for information, source code, and credits."
- 
+
 class CommandMe(Command):
     def __init__(self, server, adminOnly = True):
         Command.__init__(self, server, adminOnly)
@@ -55,7 +55,7 @@ class CommandMe(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-            
+
         stats_command = CommandStats(self.server, adminOnly=False)
         return stats_command.execute("server", ["stats", username], admin=True)
 
@@ -68,10 +68,10 @@ class CommandStats(Command):
             return self.not_auth_message
         if len(args) < 2:
             return "Missing argument (username)"
-            
+
         self.server.write_all_players()
         requested_username = " ".join(args[1:])
-        
+
         player = self.server.get_player(requested_username)
         if player:
             now = datetime.datetime.now()
@@ -81,7 +81,7 @@ class CommandStats(Command):
             session_time = 0
             player = Player(requested_username, "no-perk")
             self.server.database.load_player(player)
-            
+
         time = seconds_to_hhmmss(
             player.total_time + session_time
         )
@@ -96,5 +96,5 @@ class CommandStats(Command):
                 "Dosh this game:\t" + str(player.game_dosh) + "\n" + \
                 "Kills this wave:\t\t" + str(player.wave_kills) + "\n" + \
                 "Dosh this wave:\t" + str(player.wave_dosh)
-                
+
         return message

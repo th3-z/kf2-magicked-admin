@@ -4,7 +4,7 @@ from chatbot.commands.server_commands import *
 from chatbot.commands.event_commands import *
 
 class CommandMap():
-    
+
     def __init__(self, server, chatbot):
         self.server = server
         self.chatbot = chatbot
@@ -14,7 +14,7 @@ class CommandMap():
         wave_event_manager = CommandOnWaveManager(self.server, self.chatbot)
         trader_event_manager = CommandOnTraderManager(self.server, self.chatbot)
         time_event_manager = CommandOnTimeManager(self.server, self.chatbot)
-        
+
         map = {
             'stop_wc':wave_event_manager,
             'start_wc':wave_event_manager,
@@ -40,7 +40,9 @@ class CommandMap():
             'top_kills':CommandTopKills(self.server, adminOnly=False),
             'top_dosh':CommandTopDosh(self.server, adminOnly=False),
             'me':CommandMe(self.server, adminOnly=False),
-            'stats':CommandStats(self.server, adminOnly=False)
+            'stats':CommandStats(self.server, adminOnly=False),
+            'server_kills':CommandServerKills(self.server, adminOnly=False),
+            'server_dosh':CommandServerdosh(self.server, adminOnly=False),
         }
-        
+
         return map
