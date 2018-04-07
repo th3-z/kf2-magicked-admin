@@ -1,5 +1,4 @@
 from server.server import Server
-from server.managers.watchdog import Watchdog
 from server.managers.motd_updater import MotdUpdater
 from chatbot.chatbot import Chatbot
 from utils.text import str_to_bool
@@ -37,16 +36,10 @@ class MagickedAdministrator():
                 config[server_name]["motd_scoreboard"]
             )
             scoreboard_type = config[server_name]["scoreboard_type"]
-            map_autochange = str_to_bool(config[server_name]["map_autochange"])
             
             server = Server(server_name, address, user, password,
                             game_password)
             self.servers.append(server)
-
-            if map_autochange:
-                wd = Watchdog(server)
-                wd.start()
-                self.watchdogs.append(wd)
                 
             if motd_scoreboard:
                 motd_updater = MotdUpdater(server, scoreboard_type)
