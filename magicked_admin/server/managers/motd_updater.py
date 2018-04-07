@@ -75,7 +75,15 @@ class MotdUpdater(threading.Thread):
 
             src_motd = src_motd.replace("%PLR", name, 1)
             src_motd = src_motd.replace("%SCR", millify(score), 1)
-        
+
+        if "%SRV_K" in src_motd:
+            server_kills = self.server.database.server_kills()
+            src_motd = src_motd.replace("%SRV_K", millify(server_kills), 1)
+
+        if "%SRV_D" in src_motd:
+            server_dosh = self.server.database.server_dosh()
+            src_motd = src_motd.replace("%SRV_D", millify(server_dosh), 1)
+
         return src_motd
 
     def get_configuration(self):
