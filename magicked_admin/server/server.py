@@ -19,8 +19,7 @@ LEN_NORM = "1"
 LEN_LONG = "2"
 
 
-class Server():
-
+class Server:
     def __init__(self, name, address, username, password, game_password):
         self.name = name
         self.address = address
@@ -98,23 +97,31 @@ class Server():
     def load_general_settings(self):
         settings = {}
 
-        general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
+        general_settings_url = "http://" + self.address + \
+                               "/ServerAdmin/settings/general"
 
         try:
             general_settings_response = self.session.get(general_settings_url)
         except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't get settings " + self.name + \
-                " (RequestException)")
+            print("INFO: Couldn't get settings " + self.name +
+                  " (RequestException)")
             sleep(3)
-        general_settings_tree = html.fromstring(general_settings_response.content)
+        general_settings_tree = html.fromstring(
+            general_settings_response.content
+        )
 
         settings_names = general_settings_tree.xpath('//input/@name')
         settings_vals = general_settings_tree.xpath('//input/@value')
 
-        radio_settings_names = general_settings_tree.xpath('//input[@checked="checked"]/@name')
-        radio_settings_vals = general_settings_tree.xpath('//input[@checked="checked"]/@value')
-        length_val = general_settings_tree.xpath('//select[@id="settings_GameLength"]//option[@selected="selected"]/@value')[0]
-        difficulty_val = general_settings_tree.xpath('//input[@name="settings_GameDifficulty_raw"]/@value')[0]
+        radio_settings_names = general_settings_tree.xpath(
+            '//input[@checked="checked"]/@name')
+        radio_settings_vals = general_settings_tree.xpath(
+            '//input[@checked="checked"]/@value')
+        length_val = general_settings_tree.xpath(
+            '//select[@id="settings_GameLength"]'
+            '//option[@selected="selected"]/@value')[0]
+        difficulty_val = general_settings_tree.xpath(
+            '//input[@name="settings_GameDifficulty_raw"]/@value')[0]
 
         settings['settings_GameLength'] = length_val
         settings['settings_GameDifficulty'] = difficulty_val
@@ -129,7 +136,9 @@ class Server():
         return settings
 
     def new_wave(self):
-        self.chat.handle_message("server", "!new_wave " + str(self.game['wave']), admin=True)
+        self.chat.handle_message("server",
+                                 "!new_wave " + str(self.game['wave']),
+                                 admin=True)
         for player in self.players:
             player.wave_kills = 0
             player.wave_dosh = 0
@@ -155,14 +164,18 @@ class Server():
         self.database.load_player(player)
         player.total_logins += 1
         self.players.append(player)
-        self.chat.handle_message("server", "!p_join " + player.username, admin=True)
+        self.chat.handle_message("server",
+                                 "!p_join " + player.username,
+                                 admin=True)
         print("INFO: Player " + player.username + " joined")
 
     def player_quit(self, quit_player):
         for player in self.players:
             if player.username == quit_player.username:
                 print("INFO: Player " + player.username + " quit")
-                self.chat.handle_message("server", "!p_quit " + player.username, admin=True)
+                self.chat.handle_message("server",
+                                         "!p_quit " + player.username,
+                                         admin=True)
                 self.database.save_player(player, final=True)
                 self.players.remove(player)
 
@@ -172,42 +185,46 @@ class Server():
             self.database.save_player(player, final)
 
     def set_difficulty(self, difficulty):
-        general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
+        general_settings_url = "http://" + self.address + \
+                               "/ServerAdmin/settings/general"
 
         self.general_settings['settings_GameDifficulty'] = difficulty
         self.general_settings['settings_GameDifficulty_raw'] = difficulty
         try:
             self.session.post(general_settings_url, self.general_settings)
         except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't set difficulty " + self.name + \
-                " (RequestException)")
+            print("INFO: Couldn't set difficulty " + self.name +
+                  " (RequestException)")
             sleep(3)
 
     def set_length(self, length):
-        general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
+        general_settings_url = "http://" + self.address + \
+                               "/ServerAdmin/settings/general"
 
         self.general_settings['settings_GameLength'] = length
 
         try:
             self.session.post(general_settings_url, self.general_settings)
-        except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't set length " + self.name + \
-                " (RequestException)")
+        except requests.exceptions.RequestException:
+            print("INFO: Couldn't set length " + self.name +
+                  " (RequestException)")
             sleep(3)
 
     def save_settings(self):
         # Addresses a problem where certain requests cause
         # webadmin to forget settings
-        general_settings_url = "http://" + self.address + "/ServerAdmin/settings/general"
+        general_settings_url = "http://" + self.address + \
+                               "/ServerAdmin/settings/general"
         try:
             self.session.post(general_settings_url, self.general_settings)
         except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't set general settings " + self.name + \
-                " (RequestException), retrying")
+            print("INFO: Couldn't set general settings " + self.name +
+                  " (RequestException), retrying")
             sleep(3)
 
     def toggle_game_password(self):
-        passwords_url = "http://" + self.address + "/ServerAdmin/policy/passwords"
+        passwords_url = "http://" + self.address + \
+                        "/ServerAdmin/policy/passwords"
         payload = {
             'action': 'gamepassword'
         }
@@ -215,12 +232,13 @@ class Server():
         try:
             passwords_response = self.session.get(passwords_url)
         except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't get password state " + self.name + \
-                " (RequestException)")
+            print("INFO: Couldn't get password state " + self.name +
+                  " (RequestException)")
             sleep(3)
         passwords_tree = html.fromstring(passwords_response.content)
 
-        password_state = passwords_tree.xpath('//p[starts-with(text(),"Game password")]//em/text()')[0]
+        password_state = passwords_tree.xpath(
+            '//p[starts-with(text(),"Game password")]//em/text()')[0]
 
         if password_state == 'False':
             payload['gamepw1'] = self.game_password
@@ -231,11 +249,11 @@ class Server():
 
         try:
             self.session.post(passwords_url, payload)
-        except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't set password " + self.name + \
-                " (RequestException)")
+        except requests.exceptions.RequestException:
+            print("INFO: Couldn't set password " + self.name +
+                  " (RequestException)")
             sleep(3)
-        if password_state =='False':
+        if password_state == 'False':
             return True
         else:
             return False
@@ -243,8 +261,8 @@ class Server():
     def change_map(self, new_map):
         map_url = "http://" + self.address + "/ServerAdmin/current/change"
         payload = {
-            "gametype" : "KFGameContent.KFGameInfo_Survival",
-            "map" : new_map,
+            "gametype": "KFGameContent.KFGameInfo_Survival",
+            "map": new_map,
             "mutatorGroupCount": "0",
             "urlextra": "?MaxPlayers=6",
             "action": "change"
@@ -252,13 +270,13 @@ class Server():
 
         try:
             self.session.post(map_url, payload)
-        except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't set map " + self.name + \
-                " (RequestException)")
+        except requests.exceptions.RequestException:
+            print("INFO: Couldn't set map " + self.name +
+                  " (RequestException)")
             sleep(3)
 
     def restart_map(self):
-       self.change_map(self.game['map_title'])
+        self.change_map(self.game['map_title'])
 
     def terminate(self):
         self.mapper.terminate()

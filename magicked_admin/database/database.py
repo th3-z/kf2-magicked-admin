@@ -2,14 +2,15 @@ import sqlite3
 import datetime
 from os import path
 
-class ServerDatabase:
 
+class ServerDatabase:
     def __init__(self, name):
         self.sqlite_db_file = name + "_db" + ".sqlite"
 
         if not path.exists(self.sqlite_db_file):
             self.build_schema()
-        self.conn = sqlite3.connect(self.sqlite_db_file, check_same_thread = False)
+        self.conn = sqlite3.connect(self.sqlite_db_file,
+                                    check_same_thread=False)
         self.cur = self.conn.cursor()
 
         print("INFO: Database for " + name + " initialised")
@@ -129,7 +130,7 @@ class ServerDatabase:
 
     def load_player(self, player):
         player.total_kills = self.player_kills(player.username)
-        player.total_dosh =  self.player_dosh(player.username)
+        player.total_dosh = self.player_dosh(player.username)
         player.total_deaths = self.player_deaths(player.username)
         player.total_dosh_spent = self.player_dosh_spent(player.username)
         player.total_logins = self.player_logins(player.username)

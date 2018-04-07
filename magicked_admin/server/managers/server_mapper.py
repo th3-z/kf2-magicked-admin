@@ -1,15 +1,13 @@
 import threading
-import time
-from itertools import groupby
-import datetime
-
 import requests
+
 from lxml import html
+from lxml.html.clean import Cleaner
 
 from server.player import Player
 
-class ServerMapper(threading.Thread):
 
+class ServerMapper(threading.Thread):
     def __init__(self, server):
         self.server = server
 
@@ -21,25 +19,31 @@ class ServerMapper(threading.Thread):
         print("INFO: Mapper for " + server.name + " initialised")
 
     def run(self):
-        info_url = "http://" + self.server.address + "/ServerAdmin/current/info"
+        info_url = "http://" + self.server.address + \
+                   "/ServerAdmin/current/info"
 
         while not self.exit_flag.wait(self.time_interval):
             try:
-                info_page_response = self.server.session.post(info_url, timeout=2)
-            except requests.exceptions.RequestException as e:
+                info_page_response = self.server.session.post(info_url,
+                                                              timeout=2)
+            except requests.exceptions.RequestException:
                 print("INFO: Couldn't get info page (RequestException)")
+                return
 
             # Look into this encoding, pages are encoded in Windows 1252.
-            info_tree = html.fromstring(info_page_response.content.decode('cp1252'))
+            info_tree = html.fromstring(info_page_response.content
+                                        .decode('cp1252'))
             dds = info_tree.xpath('//dd/text()')
 
-            z, zr = info_tree.xpath('//dd[@class="gs_wave"]/text()')[0].split("/")
+            z, zr = info_tree.xpath('//dd[@class="gs_wave"]/text()')[0]\
+                .split("/")
             z, zr = int(z), int(zr)
             if z == zr and z > 1:
-                if self.server.trader_time != True:
+                # The if ensures
+                if not self.server.trader_time:
                     self.server.trader_open()
             else:
-                if self.server.trader_time != False:
+                if self.server.trader_time:
                     self.server.trader_close()
             self.server.zeds_killed = z
             self.server.zeds_wave = zr
@@ -65,30 +69,65 @@ class ServerMapper(threading.Thread):
                 self.server.new_wave()
             self.last_wave = int(wave)
 
-            odds = info_tree.xpath('//tr[@class="odd"]//td/text()')
-            evens = info_tree.xpath('//tr[@class="even"]//td/text()')
-            player_rows = odds + evens
+            table_head_pat = '//table[@id="players"]//thead//tr//th'
+            # Some but not all headers have an <a> for sorting columns
+            # that needs to be removed
+            cleaner = Cleaner()
+            cleaner.remove_tags = ['a']
 
-            # Break them up by the &nbs; between columns
-            player_rows = [list(group) for k, group in groupby(player_rows, lambda x: x == "\xa0") if not k]
+            headings = []
+            required_headings = {'Name', 'Perk', 'Dosh', 'Health',
+                                 'Kills', 'Ping', 'Admin'}
+            for heading in info_tree.xpath(table_head_pat):
+                heading = cleaner.clean_html(heading)
+                headings += heading.xpath('//th/text()')
+
+            if not required_headings.issubset(set(headings)):
+                print("ERROR: Missing player columns {}"
+                      .format(required_headings - set(headings)))
+
+            player_rows_pat = '//table[@id="players"]//tbody//tr'
+            player_rows_tree = info_tree.xpath(player_rows_pat)
+
+            players_table = []
+
+            for player_row in player_rows_tree:
+                values = []
+                for value in player_row:
+                    if not value.text_content():
+                        print("DEBUG: Null value in player row")
+                        values += [""]
+                    else:
+                        values += [value.text_content()]
+
+                if values[0] == "There are no players":
+                    print("DEBUG: No players")
+                elif len(values) != len(headings):
+                    print("ERROR: A player row length did not" +
+                          "match the table length")
+                else:
+                    players_table += [values]
+
+            print(players_table)
+
             # Remove players that have quit
             for player in self.server.players:
-                if player.username not in [player_row[0] for player_row in player_rows]:
+                if player.username not in \
+                        [player_row[headings.index("Name")]
+                         for player_row in players_table]:
                     self.server.player_quit(player)
 
-            for player_row in player_rows:
-                if len(player_row) < 7:
-                    username, new_perk, new_dosh = player_row[:3]
-                    new_health = 0
-                    new_kills, new_ping = player_row[3:5]
-                else:
-                    username, new_perk, new_dosh, new_health, \
-                    new_kills, new_ping = player_row[:6]
-                new_health, new_kills, new_dosh, new_ping = \
-                    int(new_health), int(new_kills), int(new_dosh), int(new_ping)
+            for player_row in players_table:
+                username = player_row[headings.index("Name")]
+                new_perk = player_row[headings.index("Perk")]
+                new_health = int(player_row[headings.index("Health")])
+                new_kills = int(player_row[headings.index("Kills")])
+                new_ping = int(player_row[headings.index("Ping")])
+                new_dosh = int(player_row[headings.index("Dosh")])
+
                 player = self.server.get_player(username)
                 # New players
-                if player == None:
+                if player is None:
                     player = Player(username, new_perk)
                     player.kills = new_kills
                     player.health = new_health
@@ -96,7 +135,9 @@ class ServerMapper(threading.Thread):
                     self.server.player_join(player)
                     continue
 
-                if new_health == 0 and new_health < player.health and new_kills > 0:
+                if new_health == 0 and \
+                        new_health < player.health and \
+                        new_kills > 0:
                     print("INFO: Player " + player.username + " died")
                     player.total_deaths += 1
 

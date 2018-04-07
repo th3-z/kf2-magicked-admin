@@ -1,9 +1,10 @@
 from chatbot.commands.command import Command
 import server.server as server
 
+
 class CommandSay(Command):
-    def __init__(self, server, adminOnly = True):
-        Command.__init__(self, server, adminOnly)
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
@@ -13,12 +14,14 @@ class CommandSay(Command):
                 
         message = " ".join(args[1:])
         # Unescape escape characters in say command
-        message = bytes(message.encode("iso-8859-1","ignore")).decode('unicode_escape')
+        message = bytes(message.encode("iso-8859-1", "ignore"))\
+            .decode('unicode_escape')
         return message
 
+
 class CommandRestart(Command):
-    def __init__(self, server, adminOnly = True):
-        Command.__init__(self, server, adminOnly)
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
@@ -26,10 +29,11 @@ class CommandRestart(Command):
         
         self.server.restart_map()
         return "Restarting map."
-        
+
+
 class CommandTogglePassword(Command):
-    def __init__(self, server, adminOnly = True):
-        Command.__init__(self, server, adminOnly)
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
@@ -40,11 +44,12 @@ class CommandTogglePassword(Command):
             return "Game password enabled"
         else:
             return "Game password disabled"
-            
+
+
 class CommandSilent(Command):
-    def __init__(self, server, chatbot, adminOnly = True):
+    def __init__(self, server, chatbot, admin_only=True):
         self.chatbot = chatbot
-        Command.__init__(self, server, adminOnly)
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
@@ -54,12 +59,14 @@ class CommandSilent(Command):
             self.chatbot.silent = False 
             return "Silent mode disabled."
         else:
-            self.chatbot.command_handler("server", "say Silent mode enabled.", admin=True)
+            self.chatbot.command_handler("server", "say Silent mode enabled.",
+                                         admin=True)
             self.chatbot.silent = True
- 
+
+
 class CommandLength(Command):
-    def __init__(self, server, adminOnly = True):
-        Command.__init__(self, server, adminOnly)
+    def __init__(self, server, admin_only = True):
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
@@ -78,16 +85,18 @@ class CommandLength(Command):
         
         self.server.set_length(length)
         return "Length change will take effect next game."
-        
+
+
 class CommandDifficulty(Command):
-    def __init__(self, server, adminOnly = True):
-        Command.__init__(self, server, adminOnly)
+    def __init__(self, server, admin_only = True):
+        Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
         if len(args) < 2:
-            return "Difficulty not recognised. Options are normal, hard, suicidal, or hell."
+            return "Difficulty not recognised. " + \
+                   "Options are normal, hard, suicidal, or hell."
         
         if args[1] == "normal":
             difficulty = server.DIFF_NORM
@@ -98,7 +107,8 @@ class CommandDifficulty(Command):
         elif args[1] == "hell":
             difficulty = server.DIFF_HOE
         else:
-            return "Difficulty not recognised. Options are normal, hard, suicidal, or hell."
+            return "Difficulty not recognised. " + \
+                   "Options are normal, hard, suicidal, or hell."
         
         self.server.set_difficulty(difficulty)
         return "Difficulty change will take effect next game."

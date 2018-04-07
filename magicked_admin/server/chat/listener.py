@@ -1,13 +1,13 @@
 
-class Listener():
+class Listener:
     """ 
-    Abstract for making classes that can recieve messages from ChatLogger.
+    Abstract for making classes that can receive messages from ChatLogger.
     Supply:
-        recieveMessage(self, username, message, adminm, player):
+        receive_message(self, username, message, adminm, player):
         
     """
     
     # Called by ChatLogger when a new message appears
-    def recieveMessage(self, username, message, admin, player):
-        raise NotImplementedError("Listener.recieveMessage() not implemented")
+    def receive_message(self, username, message, admin, player):
+        raise NotImplementedError("Listener.receive_message() not implemented")
 
