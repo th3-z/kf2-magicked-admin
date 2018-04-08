@@ -1,5 +1,6 @@
 import threading
 import requests
+import time
 
 from lxml import html
 from lxml.html.clean import Cleaner
@@ -27,8 +28,10 @@ class ServerMapper(threading.Thread):
                 info_page_response = self.server.session.post(info_url,
                                                               timeout=2)
             except requests.exceptions.RequestException:
-                print("INFO: Couldn't get info page (RequestException)")
-                return
+                print("INFO: Couldn't get info page (RequestException), "
+                      "sleeping for 5 seconds")
+                time.sleep(5)
+                continue
 
             # Look into this encoding, pages are encoded in Windows 1252.
             info_tree = html.fromstring(info_page_response.content
@@ -95,8 +98,7 @@ class ServerMapper(threading.Thread):
                 values = []
                 for value in player_row:
                     if not value.text_content():
-                        print("DEBUG: Null value in player row")
-                        values += [""]
+                        values += [None]
                     else:
                         values += [value.text_content()]
 
@@ -108,8 +110,6 @@ class ServerMapper(threading.Thread):
                 else:
                     players_table += [values]
 
-            print(players_table)
-
             # Remove players that have quit
             for player in self.server.players:
                 if player.username not in \
@@ -120,7 +120,14 @@ class ServerMapper(threading.Thread):
             for player_row in players_table:
                 username = player_row[headings.index("Name")]
                 new_perk = player_row[headings.index("Perk")]
-                new_health = int(player_row[headings.index("Health")])
+                if not new_perk:
+                    print("DEBUG: Null perk on: " + player_row[headings.index("Name")])
+                    new_perk = "N/A"
+                try:
+                    new_health = int(player_row[headings.index("Health")])
+                except TypeError:
+                    print("DEBUG: Null health on: " + player_row[headings.index("Name")])
+                    new_health = 0
                 new_kills = int(player_row[headings.index("Kills")])
                 new_ping = int(player_row[headings.index("Ping")])
                 new_dosh = int(player_row[headings.index("Dosh")])
