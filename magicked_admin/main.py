@@ -4,6 +4,7 @@ from chatbot.chatbot import Chatbot
 from utils.text import str_to_bool
 
 import configparser
+import logging
 import sys
 import signal
 import os
@@ -15,7 +16,16 @@ if not os.path.exists("./magicked_admin.conf"):
 config = configparser.ConfigParser()
 config.read("./magicked_admin.conf")
 
-class MagickedAdministrator():
+logging.basicConfig(stream=sys.stdout)
+
+logger = logging.getLogger(__name__)
+if __debug__:
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
+
+
+class MagickedAdministrator:
     
     def __init__(self):
         self.servers = []
@@ -55,12 +65,9 @@ class MagickedAdministrator():
     def terminate(self, signal, frame):
         print("\nINFO: Terminating...")
         for server in self.servers:
-            server.terminate()
+            server.write_all_players(final=True)
 
-        for wd in self.watchdogs:
-            wd.terminate()
-        for motd_updater in self.motd_updaters:
-            motd_updater.terminate()
+        sys.exit()
 
 
 if __name__ == "__main__":

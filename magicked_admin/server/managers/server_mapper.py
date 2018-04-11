@@ -14,7 +14,6 @@ class ServerMapper(threading.Thread):
 
         self.time_interval = 6
         self.last_wave = 0
-        self.exit_flag = threading.Event()
 
         threading.Thread.__init__(self)
         print("INFO: Mapper for " + server.name + " initialised")
@@ -23,7 +22,7 @@ class ServerMapper(threading.Thread):
         info_url = "http://" + self.server.address + \
                    "/ServerAdmin/current/info"
 
-        while not self.exit_flag.wait(self.time_interval):
+        while True:
             try:
                 info_page_response = self.server.session.post(info_url,
                                                               timeout=2)
@@ -165,5 +164,3 @@ class ServerMapper(threading.Thread):
                     player.total_dosh_spent += player.dosh - new_dosh
                 player.dosh = new_dosh
 
-    def terminate(self):
-        self.exit_flag.set()
