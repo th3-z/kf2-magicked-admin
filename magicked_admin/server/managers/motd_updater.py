@@ -1,6 +1,7 @@
 from os import path
 import threading
 import requests
+import time
 
 from lxml import html
 from utils.text import millify
@@ -33,6 +34,8 @@ class MotdUpdater(threading.Thread):
                 self.submit_motd(motd_payload)
             except requests.exceptions.RequestException:
                 continue
+
+            time.sleep(self.time_interval)
 
     def submit_motd(self, payload):
         motd_url = "http://" + self.server.address + \

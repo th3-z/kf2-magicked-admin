@@ -164,3 +164,4 @@ class ServerMapper(threading.Thread):
                     player.total_dosh_spent += player.dosh - new_dosh
                 player.dosh = new_dosh
 
+            time.sleep(self.time_interval)
