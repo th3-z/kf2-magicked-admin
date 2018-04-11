@@ -27,6 +27,7 @@ class CommandMap:
             't_open': trader_event_manager,
             'say': CommandSay(self.server),
             'restart': CommandRestart(self.server),
+            'load_map': CommandLoadMap(self.server),
             'toggle_pass': CommandTogglePassword(self.server),
             'silent': CommandSilent(self.server, self.chatbot),
             'length': CommandLength(self.server),

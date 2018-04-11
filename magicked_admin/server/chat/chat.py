@@ -1,5 +1,6 @@
 import threading
 import requests
+import time
 from lxml import html
 from colorama import init
 from termcolor import colored
@@ -62,6 +63,8 @@ class ChatLogger(threading.Thread):
                         admin = False
                         message = message_tree.xpath('//span[@class="message"]/text()')[0]
                         self.handle_message(username, message, admin)
+
+            time.sleep(self.time_interval)
 
     def handle_message(self, username, message, admin):
 
