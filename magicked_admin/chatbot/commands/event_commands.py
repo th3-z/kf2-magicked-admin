@@ -1,9 +1,45 @@
 from chatbot.commands.command import Command
-
+from utils.text import millify
 import time
 import threading
 
 ALL_WAVES = 99
+
+
+class CommandGreeter(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+
+        if len(args) < 2:
+            return "Missing argument (username)"
+
+        requested_username = " ".join(args[1:])
+
+        player = self.server.get_player(requested_username)
+        if not player:
+            print("DEBUG: Bad player join command (not found) [{}]"
+                  .format(requested_username))
+            return "Couldn't greet player {}.".format(requested_username)
+
+        if player.total_logins > 1:
+            pos_kills = self.server.database.rank_kills(requested_username)
+            pos_dosh = self.server.database.rank_dosh(requested_username)
+            return "\nWelcome back {}.\n" \
+                   "You've killed {} zeds (#{}) and  \n" \
+                   "earned £{} (#{}) " \
+                   "over {} sessions.".format(player.username,
+                                              millify(player.total_kills),
+                                              pos_kills,
+                                              millify(player.total_dosh),
+                                              pos_dosh,
+                                              player.total_logins)\
+                .encode("iso-8859-1", "ignore")
+        else:
+            return None
 
 
 class CommandOnWave:

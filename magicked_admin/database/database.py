@@ -36,6 +36,34 @@ class ServerDatabase:
     def end_game(self, game):
         pass
 
+    def rank_kills(self, username):
+        query = "select  p1.*"\
+                ",("" \
+                ""select  count(*)" \
+                "from    players as p2"" \
+                ""where   p2.kills > p1.kills"\
+                ") as kill_rank"" \
+                ""from    players as p1"" \
+                ""where   p1.username = ?"
+        self.cur.execute(query, (username,))
+        all_rows = self.cur.fetchall()
+        print(str(all_rows))
+        return all_rows[0][-1] + 1
+
+    def rank_dosh(self, username):
+        query = "select  p1.*"\
+                ",("" \
+                ""select  count(*)" \
+                "from    players as p2"" \
+                ""where   p2.dosh > p1.dosh"\
+                ") as kill_rank"" \
+                ""from    players as p1"" \
+                ""where   p1.username = ?"
+        self.cur.execute(query, (username,))
+        all_rows = self.cur.fetchall()
+        print(str(all_rows))
+        return all_rows[0][-1] + 1
+
     # SUM(dosh_spent) Add in later.
     def server_dosh(self):
         self.cur.execute('SELECT SUM(dosh) FROM players')

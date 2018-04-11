@@ -165,7 +165,7 @@ class Server:
         player.total_logins += 1
         self.players.append(player)
         self.chat.handle_message("server",
-                                 "!p_join " + player.username,
+                                 "!player_join " + player.username,
                                  admin=True)
         print("INFO: Player " + player.username + " joined")
 
