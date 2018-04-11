@@ -278,11 +278,3 @@ class Server:
     def restart_map(self):
         self.change_map(self.game['map_title'])
 
-    def terminate(self):
-        self.mapper.terminate()
-        self.mapper.join()
-
-        self.chat.terminate()
-        self.chat.join()
-
-        self.write_all_players(final=True)

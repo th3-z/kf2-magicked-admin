@@ -100,7 +100,8 @@ class CommandTopDosh(Command):
             self.server.players.sort(key=lambda player: player.wave_dosh, reverse=True)
             top_dosh = self.server.players[0]
             return "Player {} earned the most this wave: £{}"\
-                .format(top_dosh.username, millify(top_dosh.wave_dosh))
+                .format(top_dosh.username, millify(top_dosh.wave_dosh))\
+                .encode("iso-8859-1", "ignore")
 
         self.server.write_all_players()
         doshers = self.server.database.top_dosh()

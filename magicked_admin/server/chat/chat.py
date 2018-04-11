@@ -23,15 +23,13 @@ class ChatLogger(threading.Thread):
 
         self.poll_session = server.new_session()
 
-        self.exit_flag = threading.Event()
-
         self.print_messages = True
         self.silent = False
 
         threading.Thread.__init__(self)
 
     def run(self):
-        while not self.exit_flag.wait(self.time_interval):
+        while True:
             try:
                 response = self.poll_session.post(
                     self.chat_request_url,
@@ -105,5 +103,3 @@ class ChatLogger(threading.Thread):
         except requests.exceptions.RequestException as e:
             print("INFO: Couldn't submit message (RequestException)")
 
-    def terminate(self):
-        self.exit_flag.set()

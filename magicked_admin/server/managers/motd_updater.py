@@ -16,12 +16,10 @@ class MotdUpdater(threading.Thread):
         self.time_interval = 5 * 60
         self.motd = self.load_motd()
 
-        self.exit_flag = threading.Event()
-
         threading.Thread.__init__(self)
     
     def run(self):
-        while not self.exit_flag.wait(self.time_interval):
+        while True:
             self.server.write_all_players()
             try:
                 motd_payload = self.get_configuration()
@@ -112,5 +110,3 @@ class MotdUpdater(threading.Thread):
                 'action': 'save'
         }
 
-    def terminate(self):
-        self.exit_flag.set()
