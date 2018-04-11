@@ -69,12 +69,18 @@ class CommandTopKills(Command):
         if not self.authorise(admin):
             return self.not_auth_message
 
+        if len(args) > 1 and args[1] == '-w' and len(self.server.players) > 0:
+            self.server.players.sort(key=lambda player: player.wave_kills, reverse=True)
+            top_killer = self.server.players[0]
+            return "Player {} killed the most zeds this wave: {} zeds"\
+                .format(top_killer.username, top_killer.wave_kills)
+
         self.server.write_all_players()
         killers = self.server.database.top_kills()
         if len(killers) < 5:
             return "Not enough data."
         # [row][col]
-        return "\n\nTop 5 players by kills:\n"+ \
+        return "\n\nTop 5 players by total kills:\n" + \
             "\t"+str(millify(killers[0][1])) + "\t-\t" + trim_string(killers[0][0],20) + "\n" + \
             "\t"+str(millify(killers[1][1])) + "\t-\t" + trim_string(killers[1][0],20) + "\n" + \
             "\t"+str(millify(killers[2][1])) + "\t-\t" + trim_string(killers[2][0],20) + "\n" + \
@@ -90,12 +96,18 @@ class CommandTopDosh(Command):
         if not self.authorise(admin):
             return self.not_auth_message
 
+        if len(args) > 1 and args[1] == '-w' and len(self.server.players) > 0:
+            self.server.players.sort(key=lambda player: player.wave_dosh, reverse=True)
+            top_dosh = self.server.players[0]
+            return "Player {} earned the most this wave: £{}"\
+                .format(top_dosh.username, millify(top_dosh.wave_dosh))
+
         self.server.write_all_players()
         doshers = self.server.database.top_dosh()
         if len(doshers) < 5:
             return "Not enough data."
 
-        message = "\n\nTop 5 players by earnings:\n"+ \
+        message = "\n\nTop 5 players by earnings:\n" + \
             "\t£"+str(millify(doshers[0][1])) + "\t-\t" + trim_string(doshers[0][0],20) + "\n" + \
             "\t£"+str(millify(doshers[1][1])) + "\t-\t" + trim_string(doshers[1][0],20) + "\n" + \
             "\t£"+str(millify(doshers[2][1])) + "\t-\t" + trim_string(doshers[2][0],20) + "\n" + \

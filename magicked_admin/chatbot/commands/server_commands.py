@@ -57,7 +57,7 @@ class CommandSilent(Command):
         
         if self.chatbot.silent:
             self.chatbot.silent = False 
-            return "Silent mode disabled."
+            return None
         else:
             self.chatbot.command_handler("server", "say Silent mode enabled.",
                                          admin=True)
