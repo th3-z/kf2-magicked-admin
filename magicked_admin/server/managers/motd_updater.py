@@ -3,13 +3,14 @@ import threading
 import requests
 import time
 import logging
+import sys
 
 from lxml import html
 from utils.text import millify
 from utils.text import trim_string
 
 logger = logging.getLogger(__name__)
-if __debug__:
+if __debug__ and not hasattr(sys, 'frozen'):
     logger.setLevel(logging.DEBUG)
 else:
     logger.setLevel(logging.INFO)

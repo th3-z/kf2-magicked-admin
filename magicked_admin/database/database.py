@@ -2,9 +2,10 @@ import sqlite3
 import datetime
 import logging
 from os import path
+import sys
 
 logger = logging.getLogger(__name__)
-if __debug__:
+if __debug__ and not hasattr(sys, 'frozen'):
     logger.setLevel(logging.DEBUG)
 else:
     logger.setLevel(logging.INFO)
