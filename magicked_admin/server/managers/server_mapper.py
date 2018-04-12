@@ -1,11 +1,18 @@
 import threading
 import requests
 import time
+import logging
 
 from lxml import html
 from lxml.html.clean import Cleaner
 
 from server.player import Player
+
+logger = logging.getLogger(__name__)
+if __debug__:
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 
 class ServerMapper(threading.Thread):
@@ -16,7 +23,7 @@ class ServerMapper(threading.Thread):
         self.last_wave = 0
 
         threading.Thread.__init__(self)
-        print("INFO: Mapper for " + server.name + " initialised")
+        logging.info("INFO: Mapper for " + server.name + " initialised")
 
     def run(self):
         info_url = "http://" + self.server.address + \
@@ -27,8 +34,9 @@ class ServerMapper(threading.Thread):
                 info_page_response = self.server.session.post(info_url,
                                                               timeout=2)
             except requests.exceptions.RequestException:
-                print("INFO: Couldn't get info page (RequestException), "
-                      "sleeping for 5 seconds")
+                logging.debug("Couldn't get info page (RequestException)"
+                              " on {} sleeping for 5 seconds"
+                              .format(self.server.name))
                 time.sleep(5)
                 continue
 
@@ -85,8 +93,9 @@ class ServerMapper(threading.Thread):
                 headings += heading.xpath('//th/text()')
 
             if not required_headings.issubset(set(headings)):
-                print("ERROR: Missing player columns {}"
-                      .format(required_headings - set(headings)))
+                logging.error("Player is missing columns ({}) on {}"
+                              .format(required_headings - set(headings),
+                                      self.server.name))
 
             player_rows_pat = '//table[@id="players"]//tbody//tr'
             player_rows_tree = info_tree.xpath(player_rows_pat)
@@ -102,10 +111,13 @@ class ServerMapper(threading.Thread):
                         values += [value.text_content()]
 
                 if values[0] == "There are no players":
-                    print("DEBUG: No players")
+                    logger.debug("No players on server {}"
+                                 .format(self.server.name))
                 elif len(values) != len(headings):
-                    print("ERROR: A player row length did not" +
-                          "match the table length")
+                    logging.warning("Player row ({}) length did not "
+                                    "match the table length on {}"
+                                    .format(player_row[headings.index("Name")],
+                                            self.server.name))
                 else:
                     players_table += [values]
 
@@ -120,12 +132,14 @@ class ServerMapper(threading.Thread):
                 username = player_row[headings.index("Name")]
                 new_perk = player_row[headings.index("Perk")]
                 if not new_perk:
-                    print("DEBUG: Null perk on: " + player_row[headings.index("Name")])
+                    logger.debug("Null perk for {} on: ()".format(
+                        player_row[headings.index("Name")]),
+                        self.server.name)
                     new_perk = "N/A"
                 try:
                     new_health = int(player_row[headings.index("Health")])
                 except TypeError:
-                    print("DEBUG: Null health on: " + player_row[headings.index("Name")])
+                    logger.debug("DEBUG: Null health on: " + player_row[headings.index("Name")])
                     new_health = 0
                 new_kills = int(player_row[headings.index("Kills")])
                 new_ping = int(player_row[headings.index("Ping")])
@@ -144,7 +158,8 @@ class ServerMapper(threading.Thread):
                 if new_health == 0 and \
                         new_health < player.health and \
                         new_kills > 0:
-                    print("INFO: Player " + player.username + " died")
+                    logger.info("Player " + player.username + " died on {}"
+                                .format(self.server.name))
                     player.total_deaths += 1
 
                 player.perk = new_perk

@@ -9,8 +9,6 @@ import sys
 import signal
 import os
 
-DEBUG = True
-
 if not os.path.exists("./magicked_admin.conf"):
     sys.exit("Configuration file not found.")
 config = configparser.ConfigParser()
@@ -60,10 +58,10 @@ class MagickedAdministrator:
             server.chat.add_listener(cb)
             self.chatbots.append(cb)
 
-        print("INFO: Initialisation complete\n")
+        logger.info("Initialisation complete")
             
     def terminate(self, signal, frame):
-        print("\nINFO: Terminating...")
+        logger.info("Terminating, flushing databases...")
         for server in self.servers:
             server.write_all_players(final=True)
 
