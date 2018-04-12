@@ -174,12 +174,14 @@ class Server:
         self.chat.handle_message("server",
                                  "!player_join " + player.username,
                                  admin=True)
-        logging.info("Player {} joined {}".format(player.username, self.name))
+        logger.info("Player {} joined {}".format(player.username, self.name))
 
     def player_quit(self, quit_player):
         for player in self.players:
             if player.username == quit_player.username:
-                logging.info("Player {} quit {}".format(player.username,
+                print("Debug: player quit")
+
+                logger.info("Player {} quit {}".format(player.username,
                                                         self.name))
                 self.chat.handle_message("server",
                                          "!p_quit " + player.username,
@@ -188,7 +190,7 @@ class Server:
                 self.players.remove(player)
 
     def write_all_players(self, final=False):
-        logging.info("Flushing database")
+        logger.info("Flushing database")
         for player in self.players:
             self.database.save_player(player, final)
 

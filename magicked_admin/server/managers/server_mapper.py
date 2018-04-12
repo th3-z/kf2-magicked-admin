@@ -23,7 +23,7 @@ class ServerMapper(threading.Thread):
         self.last_wave = 0
 
         threading.Thread.__init__(self)
-        logging.info("INFO: Mapper for " + server.name + " initialised")
+        logger.info("INFO: Mapper for " + server.name + " initialised")
 
     def run(self):
         info_url = "http://" + self.server.address + \
@@ -34,7 +34,7 @@ class ServerMapper(threading.Thread):
                 info_page_response = self.server.session.post(info_url,
                                                               timeout=2)
             except requests.exceptions.RequestException:
-                logging.debug("Couldn't get info page (RequestException)"
+                logger.debug("Couldn't get info page (RequestException)"
                               " on {} sleeping for 5 seconds"
                               .format(self.server.name))
                 time.sleep(5)
@@ -93,7 +93,7 @@ class ServerMapper(threading.Thread):
                 headings += heading.xpath('//th/text()')
 
             if not required_headings.issubset(set(headings)):
-                logging.error("Player is missing columns ({}) on {}"
+                logger.error("Player is missing columns ({}) on {}"
                               .format(required_headings - set(headings),
                                       self.server.name))
 
@@ -114,7 +114,7 @@ class ServerMapper(threading.Thread):
                     logger.debug("No players on server {}"
                                  .format(self.server.name))
                 elif len(values) != len(headings):
-                    logging.warning("Player row ({}) length did not "
+                    logger.warning("Player row ({}) length did not "
                                     "match the table length on {}"
                                     .format(player_row[headings.index("Name")],
                                             self.server.name))
