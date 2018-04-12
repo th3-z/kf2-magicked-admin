@@ -27,8 +27,8 @@ class CommandGreeter(Command):
 
         player = self.server.get_player(requested_username)
         if not player:
-            logging.debug("DEBUG: Bad player join command (not found) [{}]"
-                  .format(requested_username))
+            logger.debug("DEBUG: Bad player join command (not found) [{}]"
+                         .format(requested_username))
             return "Couldn't greet player {}.".format(requested_username)
 
         if player.total_logins > 1:
