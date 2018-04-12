@@ -1,9 +1,15 @@
 from chatbot.commands.command import Command
 from utils.text import millify
-import time
 import threading
+import logging
 
 ALL_WAVES = 99
+
+logger = logging.getLogger(__name__)
+if __debug__:
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 
 class CommandGreeter(Command):
@@ -21,7 +27,7 @@ class CommandGreeter(Command):
 
         player = self.server.get_player(requested_username)
         if not player:
-            print("DEBUG: Bad player join command (not found) [{}]"
+            logging.debug("DEBUG: Bad player join command (not found) [{}]"
                   .format(requested_username))
             return "Couldn't greet player {}.".format(requested_username)
 

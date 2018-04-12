@@ -1,6 +1,13 @@
 import sqlite3
 import datetime
+import logging
 from os import path
+
+logger = logging.getLogger(__name__)
+if __debug__:
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 
 class ServerDatabase:
@@ -13,10 +20,10 @@ class ServerDatabase:
                                     check_same_thread=False)
         self.cur = self.conn.cursor()
 
-        print("INFO: Database for " + name + " initialised")
+        logger.debug("Database for " + name + " initialised")
 
     def build_schema(self):
-        print("INFO: Building fresh schema...")
+        logger.info("Building new database...")
 
         conn = sqlite3.connect(self.sqlite_db_file)
         cur = conn.cursor()
@@ -47,7 +54,7 @@ class ServerDatabase:
                 ""where   p1.username = ?"
         self.cur.execute(query, (username,))
         all_rows = self.cur.fetchall()
-        print(str(all_rows))
+
         return all_rows[0][-1] + 1
 
     def rank_dosh(self, username):
@@ -61,7 +68,7 @@ class ServerDatabase:
                 ""where   p1.username = ?"
         self.cur.execute(query, (username,))
         all_rows = self.cur.fetchall()
-        print(str(all_rows))
+
         return all_rows[0][-1] + 1
 
     # SUM(dosh_spent) Add in later.

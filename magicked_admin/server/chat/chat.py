@@ -1,12 +1,19 @@
 import threading
 import requests
 import time
+import logging
 from lxml import html
 from colorama import init
 from termcolor import colored
 
 # what the fuck does this do
 init()
+
+logger = logging.getLogger(__name__)
+if __debug__:
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 
 class ChatLogger(threading.Thread):
@@ -37,8 +44,9 @@ class ChatLogger(threading.Thread):
                     self.chat_request_payload,
                     timeout=2
                 )
-            except requests.exceptions.RequestException as e:
-                print("INFO: Couldn't retrieve chat (RequestException)")
+            except requests.exceptions.RequestException:
+                logger.debug("Couldn't retrieve chat (RequestException)")
+                time.sleep(self.time_interval)
                 continue
 
             if response.text:
@@ -103,6 +111,6 @@ class ChatLogger(threading.Thread):
 
         try:
             self.server.session.post(chat_submit_url, message_payload)
-        except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't submit message (RequestException)")
+        except requests.exceptions.RequestException:
+            logger.debug("Couldn't submit message (RequestException)")
 

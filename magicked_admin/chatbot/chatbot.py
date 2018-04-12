@@ -1,14 +1,17 @@
 from server.chat.listener import Listener
 from chatbot.commands.command_map import CommandMap
 
-import time
-import threading
-import server
+import logging
+
 from os import path
 #from FuzzyWuzzy import Fuzz
 #from FuzzyWuzzy import process
 
-from utils.text import trim_string, millify
+logger = logging.getLogger(__name__)
+if __debug__:
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 
 class Chatbot(Listener):
@@ -26,7 +29,7 @@ class Chatbot(Listener):
         if path.exists(server.name + ".init"):
             self.execute_script(server.name + ".init")
 
-        print("INFO: Bot on server " + server.name + " initialised")
+        logger.debug("Bot on server " + server.name + " initialised")
 
     def receive_message(self, username, message, admin=False):
         if message[0] == '!':
@@ -53,7 +56,7 @@ class Chatbot(Listener):
             self.chat.submit_message("Sorry, I didn't understand that request.")
 
     def execute_script(self, file_name):
-        print("INFO: Executing script: " + file_name)
+        logger.info("Executing script: " + file_name)
         with open(file_name) as script:
             for line in script:
                 print("\t\t" + line.strip())
