@@ -165,13 +165,14 @@ class ServerMapper(threading.Thread):
                 player.perk = new_perk
                 player.total_kills += new_kills - player.kills
                 player.wave_kills += new_kills - player.kills
-                player.wave_dosh += new_dosh - player.dosh
+                if new_dosh - player.dosh > 0:
+                    player.wave_dosh += new_dosh - player.dosh
                 player.kills = new_kills
                 if new_health < player.health:
                     player.total_health_lost += player.health - new_health
                 player.health = new_health
                 player.ping = new_ping
-                if new_dosh > player.dosh:
+                if new_dosh > player.dosh and new_dosh - player.dosh > 0:
                     player.game_dosh += new_dosh - player.dosh
                     player.total_dosh += new_dosh - player.dosh
 
