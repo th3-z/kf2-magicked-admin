@@ -179,8 +179,6 @@ class Server:
     def player_quit(self, quit_player):
         for player in self.players:
             if player.username == quit_player.username:
-                print("Debug: player quit")
-
                 logger.info("Player {} quit {}".format(player.username,
                                                         self.name))
                 self.chat.handle_message("server",
