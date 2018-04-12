@@ -2,11 +2,12 @@ from chatbot.commands.command import Command
 from utils.text import millify
 import threading
 import logging
+import sys
 
 ALL_WAVES = 99
 
 logger = logging.getLogger(__name__)
-if __debug__:
+if __debug__ and not hasattr(sys, 'frozen'):
     logger.setLevel(logging.DEBUG)
 else:
     logger.setLevel(logging.INFO)

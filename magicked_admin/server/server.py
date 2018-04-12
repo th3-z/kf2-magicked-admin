@@ -20,7 +20,7 @@ LEN_NORM = "1"
 LEN_LONG = "2"
 
 logger = logging.getLogger(__name__)
-if __debug__:
+if __debug__ and not hasattr(sys, 'frozen'):
     logger.setLevel(logging.DEBUG)
 else:
     logger.setLevel(logging.INFO)
