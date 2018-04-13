@@ -42,7 +42,8 @@ class ChatLogger(threading.Thread):
                     timeout=2
                 )
             except requests.exceptions.RequestException:
-                logger.debug("Couldn't retrieve chat (RequestException)")
+                logger.debug("Couldn't retrieve chat (RequestException) ({})"
+                             .format(self.server.name))
                 time.sleep(self.time_interval + 3)
                 continue
 
