@@ -1,5 +1,7 @@
 from chatbot.commands.command import Command
 from utils.text import millify
+from utils.time import seconds_to_hhmmss
+
 import threading
 import logging
 import sys
@@ -37,13 +39,14 @@ class CommandGreeter(Command):
             pos_dosh = self.server.database.rank_dosh(requested_username)
             return "\nWelcome back {}.\n" \
                    "You've killed {} zeds (#{}) and  \n" \
-                   "earned £{} (#{}) " \
-                   "over {} sessions.".format(player.username,
-                                              millify(player.total_kills),
-                                              pos_kills,
-                                              millify(player.total_dosh),
-                                              pos_dosh,
-                                              player.total_logins)\
+                   "earned £{} (#{}) \nover {} sessions" \
+                   "({}).".format(player.username,
+                                  millify(player.total_kills),
+                                  pos_kills,
+                                  millify(player.total_dosh),
+                                  pos_dosh,
+                                  player.total_logins,
+                                  seconds_to_hhmmss(player.total_time))\
                 .encode("iso-8859-1", "ignore")
         else:
             return None
