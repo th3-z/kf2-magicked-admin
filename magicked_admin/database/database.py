@@ -24,7 +24,8 @@ class ServerDatabase:
         logger.debug("Database for " + name + " initialised")
 
     def build_schema(self):
-        logger.info("Building new database...")
+        print("Building new database...")
+        logger.debug("Building new database...")
 
         conn = sqlite3.connect(self.sqlite_db_file)
         cur = conn.cursor()
@@ -34,15 +35,6 @@ class ServerDatabase:
 
         conn.commit()
         conn.close()
-
-    def start_session(self, player):
-        pass
-
-    def end_session(self, player):
-        pass
-
-    def end_game(self, game):
-        pass
 
     def rank_kills(self, username):
         query = "select  p1.*"\
