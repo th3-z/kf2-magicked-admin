@@ -20,7 +20,7 @@ class CommandGreeter(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
-        self.new_game_grace = 1 * 60
+        self.new_game_grace = 0.5 * 60
         self.new_game_time = datetime.datetime.now()
 
     def execute(self, username, args, admin):
@@ -34,6 +34,7 @@ class CommandGreeter(Command):
         now = datetime.datetime.now()
         elapsed_time = now - self.new_game_time
         seconds = elapsed_time.total_seconds()
+
         if seconds < self.new_game_grace:
             logger.debug("Skipping welcome {}, new_game happened recently ({})"
                          " [{}/{}]"
