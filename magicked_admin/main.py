@@ -46,6 +46,9 @@ class MagickedAdministrator:
                 config[server_name]["motd_scoreboard"]
             )
             scoreboard_type = config[server_name]["scoreboard_type"]
+            enable_greeter = str_to_bool(
+                config[server_name]["enable_greeter"]
+            )
             
             server = Server(server_name, address, user, password,
                             game_password)
@@ -56,7 +59,7 @@ class MagickedAdministrator:
                 motd_updater.start()
                 self.motd_updaters.append(motd_updater)
 
-            cb = Chatbot(server)
+            cb = Chatbot(server, greeter_enabled=enable_greeter)
             server.chat.add_listener(cb)
             self.chatbots.append(cb)
 

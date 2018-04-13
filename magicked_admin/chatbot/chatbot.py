@@ -1,5 +1,6 @@
 from server.chat.listener import Listener
 from chatbot.commands.command_map import CommandMap
+from chatbot.commands.event_commands import CommandGreeter
 
 import logging
 import sys
@@ -17,7 +18,7 @@ else:
 
 class Chatbot(Listener):
 
-    def __init__(self, server):
+    def __init__(self, server, greeter_enabled=True):
         self.server = server
         self.chat = server.chat
         # The in-game chat can fit 21 Ws horizontally
@@ -26,6 +27,7 @@ class Chatbot(Listener):
 
         self.commands = CommandMap(server, self)
         self.silent = False
+        self.greeter_enabled = True
 
         if path.exists(server.name + ".init"):
             self.execute_script(server.name + ".init")
@@ -42,13 +44,10 @@ class Chatbot(Listener):
         if args is None or len(args) == 0:
             return
 
-        ''' Put FuzzyWuzzy Here? You said that it might be handy elsewhere, not sure what you want to do with it.
-        choices = ['restart','toggle_pass','silent','length','difficulty','players','game','help','info','kills',
-        'dosh','top_kills','total_kills','top_dosh','me','stats']
-        match = process.extractOne(args, choices, scorer= fuzz.ratio, scorecutoff= 90)'''
-
         if args[0].lower() in self.commands.command_map:
             command = self.commands.command_map[args[0].lower()]
+            if not self.greeter_enabled and isinstance(command, CommandGreeter):
+                return
             response = command.execute(username, args, admin)
             if not self.silent:
                 self.chat.submit_message(response)
