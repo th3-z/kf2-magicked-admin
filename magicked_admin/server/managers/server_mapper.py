@@ -104,14 +104,10 @@ class ServerMapper(threading.Thread):
             username = player_row[headings.index("Name")]
             new_perk = player_row[headings.index("Perk")]
             if not new_perk:
-                logger.debug("Null perk for {} on: ({})".format(
-                    player_row[headings.index("Name")],
-                    self.server.name))
                 new_perk = "N/A"
             try:
                 new_health = int(player_row[headings.index("Health")])
             except TypeError:
-                logger.debug("DEBUG: Null health on: " + player_row[headings.index("Name")])
                 new_health = 0
             new_kills = int(player_row[headings.index("Kills")])
             new_ping = int(player_row[headings.index("Ping")])
