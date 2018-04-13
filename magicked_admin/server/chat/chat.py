@@ -3,12 +3,8 @@ import requests
 import time
 import logging
 from lxml import html
-from colorama import init
 from termcolor import colored
 import sys
-
-# what the fuck does this do
-init()
 
 logger = logging.getLogger(__name__)
 if __debug__ and not hasattr(sys, 'frozen'):

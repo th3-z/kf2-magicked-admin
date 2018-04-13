@@ -5,4 +5,5 @@ password = 123
 game_password = game_password
 motd_scoreboard = False
 scoreboard_type = kills
+enable_greeter = True
 

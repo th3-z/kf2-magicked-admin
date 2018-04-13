@@ -9,6 +9,9 @@ import sys
 import signal
 import os
 
+from colorama import init
+init()
+
 logging.basicConfig(stream=sys.stdout)
 
 logger = logging.getLogger(__name__)

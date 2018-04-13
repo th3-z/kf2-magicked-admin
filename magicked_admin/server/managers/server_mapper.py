@@ -6,6 +6,7 @@ import sys
 
 from lxml import html
 from lxml.html.clean import Cleaner
+from termcolor import colored
 
 from server.player import Player
 
@@ -103,9 +104,9 @@ class ServerMapper(threading.Thread):
             username = player_row[headings.index("Name")]
             new_perk = player_row[headings.index("Perk")]
             if not new_perk:
-                logger.debug("Null perk for {} on: ()".format(
-                    player_row[headings.index("Name")]),
-                    self.server.name)
+                logger.debug("Null perk for {} on: ({})".format(
+                    player_row[headings.index("Name")],
+                    self.server.name))
                 new_perk = "N/A"
             try:
                 new_health = int(player_row[headings.index("Health")])
@@ -126,12 +127,13 @@ class ServerMapper(threading.Thread):
                 self.server.player_join(player)
                 continue
 
-            # Players can also have 0 HP while in lobby, so do additional checks
+            # Players can also have 0 HP while in lobby, do additional checks
             if new_health == 0 and \
                     new_health < player.health and \
                     new_kills > 0:
-                print("Player {} died on {}"
-                      .format(player.username, self.server.name))
+                message = "Player {} died on {}"\
+                    .format(player.username, self.server.name)
+                print(colored(message, 'red'))
                 player.total_deaths += 1
 
             player.perk = new_perk
