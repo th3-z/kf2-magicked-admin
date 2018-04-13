@@ -39,7 +39,7 @@ class Server:
         self.game_password = game_password
 
         self.database = ServerDatabase(name)
-        logger.info("Connecting to: " + self.address + " (" + self.name + ")")
+        print("Connecting to: {} ({})".format(self.name, self.address))
         self.session = self.new_session()
 
         self.general_settings = self.load_general_settings()
@@ -174,12 +174,12 @@ class Server:
         self.chat.handle_message("server",
                                  "!player_join " + player.username,
                                  admin=True)
-        logger.info("Player {} joined {}".format(player.username, self.name))
+        print("Player {} joined {}".format(player.username, self.name))
 
     def player_quit(self, quit_player):
         for player in self.players:
             if player.username == quit_player.username:
-                logger.info("Player {} quit {}".format(player.username,
+                print("Player {} quit {}".format(player.username,
                                                         self.name))
                 self.chat.handle_message("server",
                                          "!p_quit " + player.username,
@@ -188,7 +188,7 @@ class Server:
                 self.players.remove(player)
 
     def write_all_players(self, final=False):
-        logger.info("Flushing database")
+        logger.debug("Flushing database")
         for player in self.players:
             self.database.save_player(player, final)
 
