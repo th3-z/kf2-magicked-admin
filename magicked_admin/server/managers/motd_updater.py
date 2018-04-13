@@ -49,7 +49,7 @@ class MotdUpdater(threading.Thread):
         motd_url = "http://" + self.server.address + \
                    "/ServerAdmin/settings/welcome"
 
-        logger.info("Updating MOTD")
+        logger.debug("Updating MOTD")
         try:
             self.server.session.post(motd_url, data=payload)
             self.server.save_settings()

@@ -57,7 +57,8 @@ class Chatbot(Listener):
             self.chat.submit_message("Sorry, I didn't understand that request.")
 
     def execute_script(self, file_name):
-        logger.info("Executing script: " + file_name)
+        logger.debug("Executing script: " + file_name)
+        print("Executing script: " + file_name)
         with open(file_name) as script:
             for line in script:
                 print("\t\t" + line.strip())
