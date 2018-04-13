@@ -5,6 +5,7 @@ import logging
 from hashlib import sha1
 from lxml import html
 from time import sleep
+from termcolor import colored
 
 from server.chat.chat import ChatLogger
 from server.managers.server_mapper import ServerMapper
@@ -159,6 +160,9 @@ class Server:
         self.chat.handle_message("server", "!t_close", admin=True)
 
     def new_game(self):
+        message = "New game on {}, map: {}"\
+            .format(self.name, self.game['map_title'])
+        print(colored(message, 'magenta'))
         self.chat.handle_message("server", "!new_game", admin=True)
 
     def get_player(self, username):
@@ -171,16 +175,18 @@ class Server:
         self.database.load_player(player)
         player.total_logins += 1
         self.players.append(player)
+        message = "Player {} joined {}".format(player.username, self.name)
+        print(colored(message, 'cyan'))
         self.chat.handle_message("server",
                                  "!player_join " + player.username,
                                  admin=True)
-        print("Player {} joined {}".format(player.username, self.name))
 
     def player_quit(self, quit_player):
         for player in self.players:
             if player.username == quit_player.username:
-                print("Player {} quit {}".format(player.username,
-                                                        self.name))
+                message = "Player {} quit {}"\
+                    .format(quit_player.username, self.name)
+                print(colored(message, 'cyan'))
                 self.chat.handle_message("server",
                                          "!p_quit " + player.username,
                                          admin=True)

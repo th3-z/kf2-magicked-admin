@@ -1,1 +1,4 @@
+silent
 start_wc 1 say I'm a bot, type !help for usage
+start_trc top_dosh -w
+silent

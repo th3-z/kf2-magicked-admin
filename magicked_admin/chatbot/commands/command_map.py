@@ -16,6 +16,7 @@ class CommandMap:
         time_event_manager = CommandOnTimeManager(self.server, self.chatbot)
 
         command_map = {
+            'new_game': CommandGreeter(self.server),
             'player_join': CommandGreeter(self.server),
             'stop_wc': wave_event_manager,
             'start_wc': wave_event_manager,
