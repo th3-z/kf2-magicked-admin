@@ -6,7 +6,7 @@ import threading
 import logging
 import sys
 
-ALL_WAVES = 99
+ALL_WAVES = 999
 
 logger = logging.getLogger(__name__)
 if __debug__ and not hasattr(sys, 'frozen'):
