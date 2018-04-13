@@ -194,7 +194,7 @@ class Server:
                 self.players.remove(player)
 
     def write_all_players(self, final=False):
-        logger.debug("Flushing database")
+        logger.debug("Flushing database ({})".format(self.name))
         for player in self.players:
             self.database.save_player(player, final)
 

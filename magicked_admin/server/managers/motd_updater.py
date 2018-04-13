@@ -49,7 +49,7 @@ class MotdUpdater(threading.Thread):
         motd_url = "http://" + self.server.address + \
                    "/ServerAdmin/settings/welcome"
 
-        logger.debug("Updating MOTD")
+        logger.debug("Updating MOTD ({})".format(self.server.name))
         try:
             self.server.session.post(motd_url, data=payload)
             self.server.save_settings()
@@ -75,7 +75,8 @@ class MotdUpdater(threading.Thread):
             scores = self.server.database.top_dosh()
         else:
             logger.error("Bad configuration, scoreboard_type. "
-                         "Options are: dosh, kills")
+                         "Options are: dosh, kills ({})"
+                         .format(self.server.name))
             return
 
         for player in scores:
