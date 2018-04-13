@@ -89,11 +89,11 @@ class CommandLength(Command):
         if len(args) < 2:
             return "Length not recognised. Options are short, medium, or long."
         
-        if args[1] == "short":
+        if args[1] in ["short", "0"]:
             length = server.LEN_SHORT
-        elif args[1] == "medium":
+        elif args[1] in ["medium", "med", "normal", "1"]:
             length = server.LEN_NORM
-        elif args[1] == "long":
+        elif args[1] in ["long", "2"]:
             length = server.LEN_LONG
         else:
             return "Length not recognised. Options are short, medium, or long."
@@ -113,13 +113,13 @@ class CommandDifficulty(Command):
             return "Difficulty not recognised. " + \
                    "Options are normal, hard, suicidal, or hell."
         
-        if args[1] == "normal":
+        if args[1] in ["normal", "0"]:
             difficulty = server.DIFF_NORM
-        elif args[1] == "hard":
+        elif args[1] in ["hard", "1"]:
             difficulty = server.DIFF_HARD
-        elif args[1] == "suicidal":
+        elif args[1] in ["suicidal", "sui", "2"]:
             difficulty = server.DIFF_SUI
-        elif args[1] == "hell":
+        elif args[1] in ["hell", "hoe", "hellonearth", "3"]:
             difficulty = server.DIFF_HOE
         else:
             return "Difficulty not recognised. " + \
