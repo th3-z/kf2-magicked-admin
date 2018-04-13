@@ -1,6 +1,7 @@
-from os import path
+import requests
+import sys
+import logging
 
-import requests, sys
 from hashlib import sha1
 from lxml import html
 from time import sleep
@@ -18,6 +19,12 @@ LEN_SHORT = "0"
 LEN_NORM = "1"
 LEN_LONG = "2"
 
+logger = logging.getLogger(__name__)
+if __debug__ and not hasattr(sys, 'frozen'):
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
+
 
 class Server:
     def __init__(self, name, address, username, password, game_password):
@@ -32,7 +39,7 @@ class Server:
         self.game_password = game_password
 
         self.database = ServerDatabase(name)
-        print("INFO: Connecting to: " + self.address + " (" + self.name + ")")
+        print("Connecting to: {} ({})".format(self.name, self.address))
         self.session = self.new_session()
 
         self.general_settings = self.load_general_settings()
@@ -54,7 +61,7 @@ class Server:
         self.mapper = ServerMapper(self)
         self.mapper.start()
 
-        print("INFO: Server " + name + " initialised")
+        logger.debug("Server " + name + " initialised")
 
     def new_session(self):
         login_url = "http://" + self.address + "/ServerAdmin/"
@@ -81,14 +88,14 @@ class Server:
             login_response = s.post(login_url, data=login_payload)
 
             if "Invalid credentials" in login_response.text:
-                print("ERROR: Bad credentials for server: " + self.name)
+                logger.error("Bad credentials for server: " + self.name)
                 input("Press enter to exit...")
                 sys.exit()
 
         # Add in something to retry for X times.
         except requests.exceptions.RequestException:
-            print("ERROR: Network error on: " + self.address +
-                  " (" + self.name + "), bad address?")
+            logger.error("Network error on: " + self.address +
+                         " (" + self.name + "), bad address?")
             input("Press enter to exit...")
             sys.exit()
 
@@ -103,8 +110,8 @@ class Server:
         try:
             general_settings_response = self.session.get(general_settings_url)
         except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't get settings " + self.name +
-                  " (RequestException)")
+            logger.debug("Couldn't get settings " + self.name +
+                         " (RequestException), sleeping for 3s")
             sleep(3)
         general_settings_tree = html.fromstring(
             general_settings_response.content
@@ -165,14 +172,15 @@ class Server:
         player.total_logins += 1
         self.players.append(player)
         self.chat.handle_message("server",
-                                 "!p_join " + player.username,
+                                 "!player_join " + player.username,
                                  admin=True)
-        print("INFO: Player " + player.username + " joined")
+        print("Player {} joined {}".format(player.username, self.name))
 
     def player_quit(self, quit_player):
         for player in self.players:
             if player.username == quit_player.username:
-                print("INFO: Player " + player.username + " quit")
+                print("Player {} quit {}".format(player.username,
+                                                        self.name))
                 self.chat.handle_message("server",
                                          "!p_quit " + player.username,
                                          admin=True)
@@ -180,7 +188,7 @@ class Server:
                 self.players.remove(player)
 
     def write_all_players(self, final=False):
-        print("INFO: Writing players")
+        logger.debug("Flushing database")
         for player in self.players:
             self.database.save_player(player, final)
 
@@ -192,9 +200,9 @@ class Server:
         self.general_settings['settings_GameDifficulty_raw'] = difficulty
         try:
             self.session.post(general_settings_url, self.general_settings)
-        except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't set difficulty " + self.name +
-                  " (RequestException)")
+        except requests.exceptions.RequestException:
+            logger.warning("Couldn't set difficulty on {} (RequestException)"
+                           .format(self.name))
             sleep(3)
 
     def set_length(self, length):
@@ -206,8 +214,8 @@ class Server:
         try:
             self.session.post(general_settings_url, self.general_settings)
         except requests.exceptions.RequestException:
-            print("INFO: Couldn't set length " + self.name +
-                  " (RequestException)")
+            logger.warning("Couldn't set length on {} (RequestException)"
+                           .format(self.name))
             sleep(3)
 
     def save_settings(self):
@@ -217,9 +225,9 @@ class Server:
                                "/ServerAdmin/settings/general"
         try:
             self.session.post(general_settings_url, self.general_settings)
-        except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't set general settings " + self.name +
-                  " (RequestException), retrying")
+        except requests.exceptions.RequestException:
+            logger.warning("Couldn't set general settings on {} "
+                           "(RequestException)".format(self.name))
             sleep(3)
 
     def toggle_game_password(self):
@@ -231,10 +239,10 @@ class Server:
 
         try:
             passwords_response = self.session.get(passwords_url)
-        except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't get password state " + self.name +
-                  " (RequestException)")
-            sleep(3)
+        except requests.exceptions.RequestException:
+            logger.warning("Couldn't get password state on {} "
+                           "(RequestException), returning".format(self.name))
+            return
         passwords_tree = html.fromstring(passwords_response.content)
 
         password_state = passwords_tree.xpath(
@@ -250,8 +258,8 @@ class Server:
         try:
             self.session.post(passwords_url, payload)
         except requests.exceptions.RequestException:
-            print("INFO: Couldn't set password " + self.name +
-                  " (RequestException)")
+            logger.warning("Couldn't set password on {} (RequestException)"
+                           .format(self.name))
             sleep(3)
         if password_state == 'False':
             return True
@@ -271,18 +279,9 @@ class Server:
         try:
             self.session.post(map_url, payload)
         except requests.exceptions.RequestException:
-            print("INFO: Couldn't set map " + self.name +
-                  " (RequestException)")
+            logger.warning("Couldn't set map on {} (RequestException)"
+                           .format(self.name))
             sleep(3)
 
     def restart_map(self):
         self.change_map(self.game['map_title'])
-
-    def terminate(self):
-        self.mapper.terminate()
-        self.mapper.join()
-
-        self.chat.terminate()
-        self.chat.join()
-
-        self.write_all_players(final=True)

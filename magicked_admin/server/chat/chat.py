@@ -1,11 +1,20 @@
 import threading
 import requests
+import time
+import logging
 from lxml import html
 from colorama import init
 from termcolor import colored
+import sys
 
 # what the fuck does this do
 init()
+
+logger = logging.getLogger(__name__)
+if __debug__ and not hasattr(sys, 'frozen'):
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 
 class ChatLogger(threading.Thread):
@@ -23,23 +32,22 @@ class ChatLogger(threading.Thread):
 
         self.poll_session = server.new_session()
 
-        self.exit_flag = threading.Event()
-
         self.print_messages = True
         self.silent = False
 
         threading.Thread.__init__(self)
 
     def run(self):
-        while not self.exit_flag.wait(self.time_interval):
+        while True:
             try:
                 response = self.poll_session.post(
                     self.chat_request_url,
                     self.chat_request_payload,
                     timeout=2
                 )
-            except requests.exceptions.RequestException as e:
-                print("INFO: Couldn't retrieve chat (RequestException)")
+            except requests.exceptions.RequestException:
+                logger.debug("Couldn't retrieve chat (RequestException)")
+                time.sleep(self.time_interval + 3)
                 continue
 
             if response.text:
@@ -48,22 +56,27 @@ class ChatLogger(threading.Thread):
 
                 for message_html in messages_html:
                     message_tree = html.fromstring(message_html)
-                    try:
-                        # xpath returns a list but theres only ever one of each because i split earlier
-                        username = message_tree.xpath('//span[starts-with(@class,\'username\')]/text()')[0]
-                        user_type = message_tree.xpath('//span[starts-with(@class,\'username\')]/@class')[0]
-                        message = message_tree.xpath('//span[@class="message"]/text()')[0]
-                        admin = True if "admin" in user_type else False
+                    # xpath returns a list but theres only ever one of each because i split earlier
+                    username_arr = message_tree.xpath('//span[starts-with(@class,\'username\')]/text()')
+                    if len(username_arr) < 1:
+                        logger.debug("Message without username '{}' ({})"
+                                     .format(message, self.server.name))
+                        continue
+                    username = username_arr[0]
 
-                        self.handle_message(username, message, admin)
-                    except IndexError:
-                        # Messages without usernames are not handled correctly. In particular, Controlled Difficulty
-                        # This is basic support for Controlled Difficulty messages. It may need to be expanded to support
-                        # other mutators and mods however.
-                        username = "Controlled Difficulty"
-                        admin = False
-                        message = message_tree.xpath('//span[@class="message"]/text()')[0]
-                        self.handle_message(username, message, admin)
+                    user_type_arr = message_tree.xpath('//span[starts-with(@class,\'username\')]/@class')
+                    if len(user_type_arr) < 1:
+                        logger.debug("Message without user type '{}' ({})"
+                                     .format(message, self.server.name))
+                        continue
+                    user_type = user_type_arr[0]
+
+                    message = message_tree.xpath('//span[@class="message"]/text()')[0]
+                    admin = True if "admin" in user_type else False
+
+                    self.handle_message(username, message, admin)
+
+            time.sleep(self.time_interval)
 
     def handle_message(self, username, message, admin):
 
@@ -74,8 +87,6 @@ class ChatLogger(threading.Thread):
             
             if command:
                 print_line = colored(print_line, 'green')
-            elif username == "Controlled Difficulty":
-                print_line = colored(print_line, 'cyan')
             else:
                 print_line = colored(print_line, 'yellow')
             print(print_line)
@@ -102,8 +113,5 @@ class ChatLogger(threading.Thread):
 
         try:
             self.server.session.post(chat_submit_url, message_payload)
-        except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't submit message (RequestException)")
-
-    def terminate(self):
-        self.exit_flag.set()
+        except requests.exceptions.RequestException:
+            logger.debug("Couldn't submit message (RequestException)")

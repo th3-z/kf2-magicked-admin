@@ -1,10 +1,19 @@
 from os import path
 import threading
 import requests
+import time
+import logging
+import sys
 
 from lxml import html
 from utils.text import millify
 from utils.text import trim_string
+
+logger = logging.getLogger(__name__)
+if __debug__ and not hasattr(sys, 'frozen'):
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 
 class MotdUpdater(threading.Thread):
@@ -16,12 +25,10 @@ class MotdUpdater(threading.Thread):
         self.time_interval = 5 * 60
         self.motd = self.load_motd()
 
-        self.exit_flag = threading.Event()
-
         threading.Thread.__init__(self)
     
     def run(self):
-        while not self.exit_flag.wait(self.time_interval):
+        while True:
             self.server.write_all_players()
             try:
                 motd_payload = self.get_configuration()
@@ -36,21 +43,24 @@ class MotdUpdater(threading.Thread):
             except requests.exceptions.RequestException:
                 continue
 
+            time.sleep(self.time_interval)
+
     def submit_motd(self, payload):
         motd_url = "http://" + self.server.address + \
                    "/ServerAdmin/settings/welcome"
 
-        print("INFO: Updating MOTD")
+        logger.debug("Updating MOTD")
         try:
             self.server.session.post(motd_url, data=payload)
             self.server.save_settings()
         except requests.exceptions.RequestException:
-            print("INFO: Couldn't submit motd (RequestException)")
+            logger.warning("Couldn't submit motd (RequestException) to {}"
+                           .format(self.server.name))
             raise
 
     def load_motd(self):
         if not path.exists(self.server.name + ".motd"):
-            print("WARNING: No motd file for " + self.server.name)
+            logger.warning("No motd file for " + self.server.name)
             return ""
  
         motd_f = open(self.server.name + ".motd")
@@ -64,8 +74,8 @@ class MotdUpdater(threading.Thread):
         elif self.scoreboard_type in ['Dosh','dosh']:
             scores = self.server.database.top_dosh()
         else:
-            print("ERROR: Bad configuration, scoreboard_type. " +
-                  "Options are: dosh, kills")
+            logger.error("Bad configuration, scoreboard_type. "
+                         "Options are: dosh, kills")
             return
 
         for player in scores:
@@ -93,7 +103,7 @@ class MotdUpdater(threading.Thread):
         try:
             motd_response = self.server.session.get(motd_url, timeout=2)
         except requests.exceptions.RequestException as e:
-            print("INFO: Couldn't get motd config(RequestException)")
+            logger.debug("Couldn't get motd config(RequestException)")
             raise
 
         motd_tree = html.fromstring(motd_response.content)
@@ -112,5 +122,3 @@ class MotdUpdater(threading.Thread):
                 'action': 'save'
         }
 
-    def terminate(self):
-        self.exit_flag.set()

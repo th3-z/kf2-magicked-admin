@@ -1,5 +1,5 @@
 from chatbot.commands.command import Command
-import server.server as server
+import server.server as serve
 
 
 class CommandSay(Command):
@@ -31,6 +31,21 @@ class CommandRestart(Command):
         return "Restarting map."
 
 
+class CommandLoadMap(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+
+        if len(args) < 2:
+            return "Missing argument (map name)"
+
+        self.server.change_map(args[1])
+        return "Changing map."
+
+
 class CommandTogglePassword(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
@@ -57,7 +72,7 @@ class CommandSilent(Command):
         
         if self.chatbot.silent:
             self.chatbot.silent = False 
-            return "Silent mode disabled."
+            return None
         else:
             self.chatbot.command_handler("server", "say Silent mode enabled.",
                                          admin=True)

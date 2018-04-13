@@ -1,6 +1,14 @@
 import sqlite3
 import datetime
+import logging
 from os import path
+import sys
+
+logger = logging.getLogger(__name__)
+if __debug__ and not hasattr(sys, 'frozen'):
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 
 class ServerDatabase:
@@ -13,10 +21,11 @@ class ServerDatabase:
                                     check_same_thread=False)
         self.cur = self.conn.cursor()
 
-        print("INFO: Database for " + name + " initialised")
+        logger.debug("Database for " + name + " initialised")
 
     def build_schema(self):
-        print("INFO: Building fresh schema...")
+        print("Building new database...")
+        logger.debug("Building new database...")
 
         conn = sqlite3.connect(self.sqlite_db_file)
         cur = conn.cursor()
@@ -27,14 +36,33 @@ class ServerDatabase:
         conn.commit()
         conn.close()
 
-    def start_session(self, player):
-        pass
+    def rank_kills(self, username):
+        query = "select  p1.*"\
+                ",("" \
+                ""select  count(*)" \
+                "from    players as p2"" \
+                ""where   p2.kills > p1.kills"\
+                ") as kill_rank"" \
+                ""from    players as p1"" \
+                ""where   p1.username = ?"
+        self.cur.execute(query, (username,))
+        all_rows = self.cur.fetchall()
 
-    def end_session(self, player):
-        pass
+        return all_rows[0][-1] + 1
 
-    def end_game(self, game):
-        pass
+    def rank_dosh(self, username):
+        query = "select  p1.*"\
+                ",("" \
+                ""select  count(*)" \
+                "from    players as p2"" \
+                ""where   p2.dosh > p1.dosh"\
+                ") as kill_rank"" \
+                ""from    players as p1"" \
+                ""where   p1.username = ?"
+        self.cur.execute(query, (username,))
+        all_rows = self.cur.fetchall()
+
+        return all_rows[0][-1] + 1
 
     # SUM(dosh_spent) Add in later.
     def server_dosh(self):
