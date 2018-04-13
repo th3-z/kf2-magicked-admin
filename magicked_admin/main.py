@@ -31,7 +31,6 @@ class MagickedAdministrator:
     def __init__(self):
         self.servers = []
         self.chatbots = []
-        self.watchdogs = []
         self.motd_updaters = []
         
         signal.signal(signal.SIGINT, self.terminate)
@@ -61,10 +60,10 @@ class MagickedAdministrator:
             server.chat.add_listener(cb)
             self.chatbots.append(cb)
 
-        logger.info("Initialisation complete")
+        print("Initialisation complete")
             
     def terminate(self, signal, frame):
-        logger.info("Terminating, flushing databases...")
+        print("Terminating, saving data...")
         for server in self.servers:
             server.write_all_players(final=True)
 
