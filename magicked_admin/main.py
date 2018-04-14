@@ -4,23 +4,36 @@ from chatbot.chatbot import Chatbot
 from utils.text import str_to_bool
 
 import configparser
+import logging
 import sys
 import signal
 import os
 
-DEBUG = True
+from colorama import init
+init()
+
+logging.basicConfig(stream=sys.stdout)
+
+logger = logging.getLogger(__name__)
+if __debug__ and not hasattr(sys, 'frozen'):
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 if not os.path.exists("./magicked_admin.conf"):
-    sys.exit("Configuration file not found.")
+    logger.error("Configuration file not found")
+    input("Press enter to exit...")
+    sys.exit()
+
 config = configparser.ConfigParser()
 config.read("./magicked_admin.conf")
 
-class MagickedAdministrator():
+
+class MagickedAdministrator:
     
     def __init__(self):
         self.servers = []
         self.chatbots = []
-        self.watchdogs = []
         self.motd_updaters = []
         
         signal.signal(signal.SIGINT, self.terminate)
@@ -36,6 +49,9 @@ class MagickedAdministrator():
                 config[server_name]["motd_scoreboard"]
             )
             scoreboard_type = config[server_name]["scoreboard_type"]
+            enable_greeter = str_to_bool(
+                config[server_name]["enable_greeter"]
+            )
             
             server = Server(server_name, address, user, password,
                             game_password)
@@ -46,21 +62,18 @@ class MagickedAdministrator():
                 motd_updater.start()
                 self.motd_updaters.append(motd_updater)
 
-            cb = Chatbot(server)
+            cb = Chatbot(server, greeter_enabled=enable_greeter)
             server.chat.add_listener(cb)
             self.chatbots.append(cb)
 
-        print("INFO: Initialisation complete\n")
+        print("Initialisation complete")
             
     def terminate(self, signal, frame):
-        print("\nINFO: Terminating...")
+        print("Terminating, saving data...")
         for server in self.servers:
-            server.terminate()
+            server.write_all_players(final=True)
 
-        for wd in self.watchdogs:
-            wd.terminate()
-        for motd_updater in self.motd_updaters:
-            motd_updater.terminate()
+        sys.exit()
 
 
 if __name__ == "__main__":

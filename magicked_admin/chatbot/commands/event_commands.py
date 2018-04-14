@@ -1,9 +1,74 @@
 from chatbot.commands.command import Command
+from utils.text import millify
+from utils.time import seconds_to_hhmmss
 
-import time
 import threading
+import logging
+import sys
+import datetime
 
-ALL_WAVES = 99
+ALL_WAVES = 999
+
+logger = logging.getLogger(__name__)
+if __debug__ and not hasattr(sys, 'frozen'):
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
+
+
+class CommandGreeter(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+        self.new_game_grace = 35
+        self.new_game_time = datetime.datetime.now()
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+
+        if args[0] == "new_game":
+            logger.debug("Greeter received new game event")
+            self.new_game_time = datetime.datetime.now()
+            return None
+        now = datetime.datetime.now()
+        elapsed_time = now - self.new_game_time
+        seconds = elapsed_time.total_seconds()
+
+        if seconds < self.new_game_grace:
+            logger.debug("Skipping welcome {}, new_game happened recently ({})"
+                         " [{}/{}]"
+                         .format(username, self.server.name, seconds,
+                                 self.new_game_grace))
+            return None
+
+        if len(args) < 2:
+            return "Missing argument (username)"
+
+        requested_username = " ".join(args[1:])
+
+        player = self.server.get_player(requested_username)
+        if not player:
+            logger.debug("DEBUG: Bad player join command (not found) [{}]"
+                         .format(requested_username))
+            return "Couldn't greet player {}.".format(requested_username)
+
+        if player.total_logins > 1:
+            pos_kills = self.server.database.rank_kills(requested_username)
+            pos_dosh = self.server.database.rank_dosh(requested_username)
+            return "\nWelcome back {}.\n" \
+                   "You've killed {} zeds (#{}) and  \n" \
+                   "earned £{} (#{}) \nover {} sessions " \
+                   "({}).".format(player.username,
+                                  millify(player.total_kills),
+                                  pos_kills,
+                                  millify(player.total_dosh),
+                                  pos_dosh,
+                                  player.total_logins,
+                                  seconds_to_hhmmss(player.total_time))\
+                .encode("iso-8859-1", "ignore")
+        else:
+            return None
 
 
 class CommandOnWave:
