@@ -20,7 +20,7 @@ class CommandGreeter(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
-        self.new_game_grace = 0.5 * 60
+        self.new_game_grace = 35
         self.new_game_time = datetime.datetime.now()
 
     def execute(self, username, args, admin):
