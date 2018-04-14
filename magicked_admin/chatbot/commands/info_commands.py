@@ -1,6 +1,7 @@
 from chatbot.commands.command import Command
 from server.player import Player
 from utils.time import seconds_to_hhmmss
+from utils.text import millify
 
 import datetime
 
@@ -91,16 +92,13 @@ class CommandStats(Command):
         time = seconds_to_hhmmss(
             player.total_time + session_time
         )
-        message = "Stats for " + player.username + ":\n" + \
-                  "Sessions:\t\t\t" + str(player.total_logins) + "\n" + \
-                  "Play time:\t\t" + time +"\n" + \
-                  "Deaths:\t\t\t" + str(player.total_deaths) + "\n" + \
-                  "Kills:\t\t\t\t" + str(player.total_kills) + "\n" + \
-                  "Dosh earned:\t\t" + str(player.total_dosh) + "\n" + \
-                  "Dosh spent:\t\t" + str(player.total_dosh_spent) + "\n" + \
-                  "Health lost:\t\t" + str(player.total_health_lost) + "\n" + \
-                  "Dosh this game:\t" + str(player.game_dosh) + "\n" + \
-                  "Kills this wave:\t\t" + str(player.wave_kills) + "\n" + \
-                  "Dosh this wave:\t" + str(player.wave_dosh)
+        message = "Stats for {}:\n".format(player.username) +\
+                  "Total play time: {} ({} sessions)\n"\
+                      .format(time, player.total_logins) +\
+                  "Total deaths: {}\n".format(player.total_deaths) +\
+                  "Total kills: {}\n".format(millify(player.total_kills)) +\
+                  "Total dosh earned: {}\n"\
+                      .format(millify(player.total_dosh)) +\
+                  "Dosh this game: {}".format(millify(player.game_dosh))
 
         return message
