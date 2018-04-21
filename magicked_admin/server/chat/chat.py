@@ -55,6 +55,7 @@ class ChatLogger(threading.Thread):
                     message_tree = html.fromstring(message_html)
                     # xpath returns a list but theres only ever one of each because i split earlier
                     username_arr = message_tree.xpath('//span[starts-with(@class,\'username\')]/text()')
+                    message = message_tree.xpath('//span[@class="message"]/text()')[0]
                     if len(username_arr) < 1:
                         logger.debug("Message without username '{}' ({})"
                                      .format(message, self.server.name))
@@ -68,7 +69,6 @@ class ChatLogger(threading.Thread):
                         continue
                     user_type = user_type_arr[0]
 
-                    message = message_tree.xpath('//span[@class="message"]/text()')[0]
                     admin = True if "admin" in user_type else False
 
                     self.handle_message(username, message, admin)
