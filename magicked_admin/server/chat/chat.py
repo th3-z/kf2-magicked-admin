@@ -1,16 +1,10 @@
 import threading
 import requests
 import time
-import logging
 from lxml import html
 from termcolor import colored
-import sys
+from utils.logger import logger
 
-logger = logging.getLogger(__name__)
-if __debug__ and not hasattr(sys, 'frozen'):
-    logger.setLevel(logging.DEBUG)
-else:
-    logger.setLevel(logging.INFO)
 
 
 class ChatLogger(threading.Thread):

@@ -1,9 +1,11 @@
-[server_one]
-address = 127.0.0.1:8080
-username = Admin
-password = 123
-game_password = game_password
+[DEFAULT]
+log_level = INFO
+game_password =
 motd_scoreboard = False
 scoreboard_type = kills
 enable_greeter = True
 
+[server_one]
+address = 127.0.0.1:8080
+username = Admin
+password = 123
