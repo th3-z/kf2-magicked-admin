@@ -1,20 +1,14 @@
 import threading
 import requests
 import time
-import logging
-import sys
 
 from lxml import html
 from lxml.html.clean import Cleaner
 from termcolor import colored
 
 from server.player import Player
+from utils.logger import logger
 
-logger = logging.getLogger(__name__)
-if __debug__ and not hasattr(sys, 'frozen'):
-    logger.setLevel(logging.DEBUG)
-else:
-    logger.setLevel(logging.INFO)
 
 
 class ServerMapper(threading.Thread):
