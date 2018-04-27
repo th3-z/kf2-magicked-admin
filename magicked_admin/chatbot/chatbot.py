@@ -2,19 +2,8 @@ from server.chat.listener import Listener
 from chatbot.commands.command_map import CommandMap
 from chatbot.commands.event_commands import CommandGreeter
 
-import logging
-import sys
-
 from os import path
-#from FuzzyWuzzy import Fuzz
-#from FuzzyWuzzy import process
-
-logger = logging.getLogger(__name__)
-if __debug__ and not hasattr(sys, 'frozen'):
-    logger.setLevel(logging.DEBUG)
-else:
-    logger.setLevel(logging.INFO)
-
+from utils.logger import logger
 
 class Chatbot(Listener):
 

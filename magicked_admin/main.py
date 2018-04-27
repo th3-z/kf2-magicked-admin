@@ -3,22 +3,16 @@ from server.managers.motd_updater import MotdUpdater
 from chatbot.chatbot import Chatbot
 from utils.text import str_to_bool
 
-import configparser
+from utils.logger import logger
 import logging
+
+import configparser
 import sys
 import signal
 import os
 
 from colorama import init
 init()
-
-logging.basicConfig(stream=sys.stdout)
-
-logger = logging.getLogger(__name__)
-if __debug__ and not hasattr(sys, 'frozen'):
-    logger.setLevel(logging.DEBUG)
-else:
-    logger.setLevel(logging.INFO)
 
 if not os.path.exists("./magicked_admin.conf"):
     logger.error("Configuration file not found")
@@ -27,7 +21,6 @@ if not os.path.exists("./magicked_admin.conf"):
 
 config = configparser.ConfigParser()
 config.read("./magicked_admin.conf")
-
 
 class MagickedAdministrator:
     
@@ -41,7 +34,9 @@ class MagickedAdministrator:
     def run(self):
 
         for server_name in config.sections():
-            address = config[server_name]["address"] 
+            # Changing the log level to the level specified in the config file
+            logger.setLevel(logging.getLevelName(config[server_name]["log_level"]))
+            address = config[server_name]["address"]
             user = config[server_name]["username"]
             password = config[server_name]["password"]
             game_password = config[server_name]["game_password"]
@@ -52,7 +47,7 @@ class MagickedAdministrator:
             enable_greeter = str_to_bool(
                 config[server_name]["enable_greeter"]
             )
-            
+
             server = Server(server_name, address, user, password,
                             game_password)
             self.servers.append(server)
@@ -73,8 +68,10 @@ class MagickedAdministrator:
         for server in self.servers:
             server.write_all_players(final=True)
 
-        sys.exit()
-
+        try:
+            sys.exit()
+        except SystemExit:
+            os._exit()
 
 if __name__ == "__main__":
     application = MagickedAdministrator()

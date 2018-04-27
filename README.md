@@ -61,4 +61,4 @@ password = 123
 See the [Steam guide](http://steamcommunity.com/sharedfiles/filedetails/?id=1324364024) for more detailed usage information
 
 ## Running
-Run `pthon main.py` if executing from source. If you're using a binary execute `magicked_admin.exe`.
+Run `python main.py` (python 3 is required!) if executing from source. If you're using a binary execute `magicked_admin.exe`.

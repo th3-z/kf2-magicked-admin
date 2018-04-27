@@ -1,6 +1,5 @@
 import requests
 import sys
-import logging
 
 from hashlib import sha1
 from lxml import html
@@ -10,6 +9,7 @@ from termcolor import colored
 from server.chat.chat import ChatLogger
 from server.managers.server_mapper import ServerMapper
 from database.database import ServerDatabase
+from utils.logger import logger
 
 DIFF_NORM = "0.0000"
 DIFF_HARD = "1.0000"
@@ -19,12 +19,6 @@ DIFF_HOE = "3.0000"
 LEN_SHORT = "0"
 LEN_NORM = "1"
 LEN_LONG = "2"
-
-logger = logging.getLogger(__name__)
-if __debug__ and not hasattr(sys, 'frozen'):
-    logger.setLevel(logging.DEBUG)
-else:
-    logger.setLevel(logging.INFO)
 
 
 class Server:
