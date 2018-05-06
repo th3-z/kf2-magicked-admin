@@ -78,6 +78,8 @@ class ChatLogger(threading.Thread):
             
             if command:
                 print_line = colored(print_line, 'green')
+            elif username == self.server.username:
+                print_line = colored(print_line, 'white')
             else:
                 print_line = colored(print_line, 'yellow')
             print(print_line)
