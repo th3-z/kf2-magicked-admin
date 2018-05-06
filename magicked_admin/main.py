@@ -69,9 +69,9 @@ class MagickedAdministrator:
             server.write_all_players(final=True)
 
         try:
-            sys.exit()
+            sys.exit(0)
         except SystemExit:
-            os._exit()
+            os._exit(0)
 
 if __name__ == "__main__":
     application = MagickedAdministrator()
