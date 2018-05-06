@@ -160,7 +160,7 @@ class CommandOnWaveManager(Command):
         if len(args) < 2:
             return "Missing argument (command)."
             
-        game_length = int(self.server.game['length'])
+        game_length = int(self.server.game.length)
         
         try:
             wc = CommandOnWave(args[1:], int(args[0]), game_length, self.chatbot)

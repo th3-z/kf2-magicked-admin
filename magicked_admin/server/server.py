@@ -11,14 +11,9 @@ from server.managers.server_mapper import ServerMapper
 from database.database import ServerDatabase
 from utils.logger import logger
 
-DIFF_NORM = "0.0000"
-DIFF_HARD = "1.0000"
-DIFF_SUI = "2.0000"
-DIFF_HOE = "3.0000"
-
-LEN_SHORT = "0"
-LEN_NORM = "1"
-LEN_LONG = "2"
+import server.game as game
+from server.game import Game
+from server.game_map import GameMap
 
 
 class Server:
@@ -34,19 +29,15 @@ class Server:
         self.game_password = game_password
 
         self.database = ServerDatabase(name)
-        print("Connecting to: {} ({})".format(self.name, self.address))
+        print("\tConnecting to: {} ({})...".format(self.name, self.address))
         self.session = self.new_session()
+        message = "\tConnected to: {} ({})".format(self.name, self.address)
+        print(colored(message, 'green'))
+
 
         self.general_settings = self.load_general_settings()
-        self.game = {
-            'map_title': 'kf-default',
-            'map_name': 'kf-default',
-            'wave': 0,
-            'length': 7,
-            'difficulty': 'normal'
-        }
-        self.zeds_killed = 0
-        self.zeds_wave = 0
+        self.game = Game(GameMap("kf-default"), game.MODE_SURVIVAL)
+
         self.trader_time = False
         self.players = []
 
@@ -105,8 +96,10 @@ class Server:
         try:
             general_settings_response = self.session.get(general_settings_url)
         except requests.exceptions.RequestException as e:
-            logger.debug("Couldn't get settings " + self.name +
+            logger.warning("Couldn't get settings " + self.name +
                          " (RequestException), sleeping for 3s")
+            # This should retry, not continue to execute this function
+            # general_settings_response may be unassigned.
             sleep(3)
         general_settings_tree = html.fromstring(
             general_settings_response.content
@@ -139,7 +132,7 @@ class Server:
 
     def new_wave(self):
         self.chat.handle_message("server",
-                                 "!new_wave " + str(self.game['wave']),
+                                 "!new_wave " + str(self.game.wave),
                                  admin=True)
         for player in self.players:
             player.wave_kills = 0
@@ -155,7 +148,7 @@ class Server:
 
     def new_game(self):
         message = "New game on {}, map: {}"\
-            .format(self.name, self.game['map_title'])
+            .format(self.name, self.game.game_map.title)
         print(colored(message, 'magenta'))
         self.chat.handle_message("server", "!new_game", admin=True)
 
@@ -284,4 +277,4 @@ class Server:
             sleep(3)
 
     def restart_map(self):
-        self.change_map(self.game['map_title'])
+        self.change_map(self.game.game_map.title)

@@ -170,11 +170,11 @@ class ServerMapper(threading.Thread):
             wave, length = dds[8].split("/")
             difficulty = dds[9]
 
-        self.server.game['map_title'] = map_title
-        self.server.game['map_name'] = map_name
-        self.server.game['wave'] = wave
-        self.server.game['length'] = length
-        self.server.game['difficulty'] = difficulty
+        self.server.game.game_map.title = map_title
+        self.server.game.game_map.name = map_name
+        self.server.game.wave = wave
+        self.server.game.length = length
+        self.server.game.difficulty = difficulty
 
         if int(wave) < self.last_wave:
             self.server.new_game()
