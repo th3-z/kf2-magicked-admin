@@ -17,7 +17,7 @@ class CommandPlayers(Command):
 
         for player in self.server.players:
             message += str(player) + " \n"
-
+        message = message.strip()
         return message
 
 
