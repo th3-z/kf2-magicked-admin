@@ -19,7 +19,7 @@ if not os.path.exists("./magicked_admin.conf"):
     input("Press enter to exit...")
     sys.exit()
 
-config = configparser.ConfigParser()
+config = configparser.ConfigParser(strict=False)
 config.read("./magicked_admin.conf")
 
 class MagickedAdministrator:
