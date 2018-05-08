@@ -186,7 +186,8 @@ class Server:
         self.database.load_player(player)
         player.total_logins += 1
         self.players.append(player)
-        message = "Player {} joined {}".format(player.username, self.name)
+        message = "Player {} joined {} from {}"\
+            .format(player.username, self.name, player.country)
         print(colored(message, 'cyan'))
         self.chat.handle_message("server",
                                  "!player_join " + player.username,
