@@ -30,6 +30,9 @@ class Player:
         self.ping = 0
 
         self.sid = "00000000000000000"
+        self.ip = "0.0.0.0"
+        self.country = "Unknown"
+        self.country_code = "??"
 
     def __str__(self):
         return "username: " + self.username + "\nperk: " + self.perk + \
