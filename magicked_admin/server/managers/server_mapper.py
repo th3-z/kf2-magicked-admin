@@ -193,11 +193,9 @@ class ServerMapper(threading.Thread):
         self.server.game.gamemode = gamemode
 
         if int(wave) < self.last_wave:
-            print("NEW GAME")
             self.server.new_game()
         elif int(wave) > self.last_wave:
             self.server.new_wave()
-            print("NEW WAVE")
         self.last_wave = int(wave)
 
     def run(self):

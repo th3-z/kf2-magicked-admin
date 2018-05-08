@@ -241,6 +241,9 @@ class ServerDatabase:
     def load_game_map(self, game_map):
         lock.acquire(True)
 
+        self.cur.execute("INSERT OR IGNORE INTO maps (name, title) VALUES (?, ?)",
+                         (game_map.name, game_map.title))
+
         # TODO: Change all of these into a single query that returns a list
         self.cur.execute('SELECT (plays_survival) FROM maps WHERE name=?',
                          (game_map.name,))
