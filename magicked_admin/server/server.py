@@ -30,9 +30,9 @@ class Server:
         self.game_password = game_password
 
         self.database = ServerDatabase(name)
-        print("\tConnecting to: {} ({})...".format(self.name, self.address))
+        print("Connecting to: {} ({})...".format(self.name, self.address))
         self.session = self.new_session()
-        message = "\tConnected to: {} ({})".format(self.name, self.address)
+        message = "Connected to: {} ({})".format(self.name, self.address)
         print(colored(message, 'green'))
 
         self.general_settings = self.load_general_settings()
@@ -134,6 +134,9 @@ class Server:
         self.chat.handle_message("server",
                                  "!new_wave " + str(self.game.wave),
                                  admin=True)
+
+        if int(self.game.wave) > int(self.game.game_map.highest_wave):
+            self.game.game_map.highest_wave = int(self.game.wave)
         for player in self.players:
             player.wave_kills = 0
             player.wave_dosh = 0
@@ -147,9 +150,26 @@ class Server:
         self.chat.handle_message("server", "!t_close", admin=True)
 
     def new_game(self):
-        message = "New game on {}, map: {}"\
-            .format(self.name, self.game.game_map.title)
+        message = "New game on {}, map: {}, mode: {}"\
+            .format(self.name, self.game.game_map.title,
+                    self.game.gamemode)
         print(colored(message, 'magenta'))
+
+        self.database.load_game_map(self.game.game_map)
+
+        if self.game.gamemode == game.MODE_ENDLESS:
+            self.game.game_map.plays_endless += 1
+        elif self.game.gamemode == game.MODE_SURVIVAL:
+            self.game.game_map.plays_survival += 1
+        elif self.game.gamemode == game.MODE_SURVIVAL_VS:
+            self.game.game_map.plays_survival_vs += 1
+        elif self.game.gamemode == game.MODE_WEEKLY:
+            self.game.game_map.plays_weekly += 1
+        else:
+            logger.debug("Unknown gamemode {}".format(self.game.gamemode))
+            self.game.game_map.plays_other += 1
+
+
         self.chat.handle_message("server", "!new_game", admin=True)
 
     def get_player(self, username):
@@ -181,9 +201,13 @@ class Server:
                 self.players.remove(player)
 
     def write_all_players(self, final=False):
-        logger.debug("Flushing database ({})".format(self.name))
+        logger.debug("Flushing players ({})".format(self.name))
         for player in self.players:
             self.database.save_player(player, final)
+
+    def write_game_map(self):
+        logger.debug("Writing to database ({})".format(self.name))
+        self.database.save_game_map(self.game.game_map)
 
     def set_difficulty(self, difficulty):
         general_settings_url = "http://" + self.address + \

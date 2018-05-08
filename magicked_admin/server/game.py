@@ -34,7 +34,7 @@ class Game:
     def __str__(self):
         return "Mode: {}\nMap: {}\nDifficulty: {}\nWave {}/{}".format(
             self.gamemode,
-            str(self.game_map),
+            self.game_map.title,
             self.difficulty,
             self.wave,
             self.length

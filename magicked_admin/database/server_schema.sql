@@ -16,6 +16,6 @@ CREATE TABLE maps(
     plays_weekly INTEGER DEFAULT 0,
     plays_endless INTEGER DEFAULT 0,
     plays_survival_vs INTEGER DEFAULT 0,
-    highest_wave INTEGER DEFAULT 0,
-    votes INTEGER DEFAULT 0
+    plays_other INTEGER DEFAULT 0,
+    highest_wave INTEGER DEFAULT 0
 );
