@@ -30,6 +30,24 @@ class CommandGame(Command):
             return self.not_auth_message
         return str(self.server.game)
 
+class CommandGameMap(Command):
+    def __init__(self, server, admin_only = True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+        return str(self.server.game.game_map)
+
+class CommandHighWave(Command):
+    def __init__(self, server, admin_only = True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+        return "{} is the highest wave reached on this map."\
+            .format(self.server.game.game_map.highest_wave)
 
 class CommandHelp(Command):
     def __init__(self, server, admin_only = True):
