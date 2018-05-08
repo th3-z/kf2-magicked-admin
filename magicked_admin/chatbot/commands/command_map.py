@@ -34,6 +34,7 @@ class CommandMap:
             'load_map': CommandLoadMap(self.server),
             'toggle_pass': CommandTogglePassword(self.server),
             'silent': CommandSilent(self.server, self.chatbot),
+            'run': CommandRun(self.server, self.chatbot),
             'length': CommandLength(self.server),
             'difficulty': CommandDifficulty(self.server),
             'players': CommandPlayers(self.server, admin_only=False),
