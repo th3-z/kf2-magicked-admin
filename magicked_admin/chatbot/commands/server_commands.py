@@ -1,6 +1,7 @@
 from chatbot.commands.command import Command
 import server.server as server
 
+from os import path
 
 class CommandSay(Command):
     def __init__(self, server, admin_only=True):
@@ -17,6 +18,26 @@ class CommandSay(Command):
         message = bytes(message.encode("iso-8859-1", "ignore"))\
             .decode('unicode_escape')
         return message
+
+
+class CommandRun(Command):
+    def __init__(self, server, chatbot, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+        self.chatbot = chatbot
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+        if len(args) < 2:
+            return "No file was specified."
+
+        if not path.exists(args[1]):
+            return "File not found"
+
+        self.chatbot.execute_script(args[1])
+
+        return
 
 
 class CommandRestart(Command):
