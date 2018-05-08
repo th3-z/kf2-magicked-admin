@@ -149,6 +149,10 @@ class ServerMapper(threading.Thread):
             player.perk = new_perk
             player.ping = new_ping
 
+            if "Perk Level" in headings:
+                player.perk_level = \
+                    int(player_row[headings.index("Perk Level")])
+
             player.total_kills += new_kills - player.kills
             player.wave_kills += new_kills - player.kills
             player.kills = new_kills
