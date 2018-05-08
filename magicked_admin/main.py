@@ -67,7 +67,7 @@ class MagickedAdministrator:
         print("Terminating, saving data...")
         for server in self.servers:
             server.write_all_players(final=True)
-
+            server.write_game_map()
         try:
             sys.exit(0)
         except SystemExit:
