@@ -17,9 +17,11 @@ from server.game_map import GameMap
 
 
 class Server:
-    def __init__(self, name, address, username, password, game_password):
+    def __init__(self, name, address, username, password, game_password,
+                 max_players):
         self.name = name
         self.address = address
+        self.max_players = max_players
         self.username = username
         self.password = password
         self.password_hash = "$sha1$" + \
@@ -289,7 +291,7 @@ class Server:
             "gametype": "KFGameContent.KFGameInfo_Survival",
             "map": new_map,
             "mutatorGroupCount": "0",
-            "urlextra": "?MaxPlayers=6",
+            "urlextra": "?MaxPlayers={}".format(self.max_players),
             "action": "change"
         }
 
