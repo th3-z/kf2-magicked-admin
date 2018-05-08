@@ -32,6 +32,7 @@ class CommandMap:
             't_close': trader_event_manager,
             't_open': trader_event_manager,
             'record_wave': CommandHighWave(self.server, admin_only=False),
+            'enforce_levels': CommandEnforceLevels(self.server),
             'say': CommandSay(self.server),
             'restart': CommandRestart(self.server),
             'load_map': CommandLoadMap(self.server),

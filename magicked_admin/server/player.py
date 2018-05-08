@@ -26,7 +26,10 @@ class Player:
 
         self.username = username
         self.perk = perk
+        self.perk_level = 99
         self.ping = 0
+
+        self.sid = "00000000000000000"
 
     def __str__(self):
         return "username: " + self.username + "\nperk: " + self.perk + \

@@ -19,7 +19,7 @@ from server.game_map import GameMap
 
 class Server:
     def __init__(self, name, address, username, password, game_password,
-                 max_players):
+                 max_players, level_threshhold=0):
         self.name = name
         self.address = address
         self.max_players = max_players
@@ -42,6 +42,7 @@ class Server:
 
         self.trader_time = False
         self.players = []
+        self.level_threshhold = level_threshhold
 
         self.chat = ChatLogger(self)
         self.chat.start()
@@ -331,6 +332,16 @@ class Server:
             logger.warning("Couldn't set map on {} (RequestException)"
                            .format(self.name))
             sleep(3)
+
+    def enforce_levels(self):
+        for player in self.players:
+            if player.perk_level < self.level_threshhold:
+                self.kick_player(player.sid)
+
+    def kick_player(self, sid):
+        #TODO: Implement
+        print("REMOVED {}".format(sid))
+        return
 
     def restart_map(self):
         self.change_map(self.game.game_map.title)
