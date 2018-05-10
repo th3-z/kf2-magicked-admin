@@ -11,7 +11,7 @@ class CommandSay(Command):
             return self.not_auth_message
         if len(args) < 2:
             return "No message was specified."
-                
+
         message = " ".join(args[1:])
         # Unescape escape characters in say command
         message = bytes(message.encode("iso-8859-1", "ignore"))\
@@ -26,7 +26,7 @@ class CommandRestart(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        
+
         self.server.restart_map()
         return "Restarting map."
 
@@ -45,6 +45,13 @@ class CommandLoadMap(Command):
         self.server.change_map(args[1])
         return "Changing map."
 
+class commandInactiveTimmer(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
 
 class CommandTogglePassword(Command):
     def __init__(self, server, admin_only=True):
@@ -53,8 +60,13 @@ class CommandTogglePassword(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        
-        new_state = self.server.toggle_game_password()
+
+        if len(args) > 1 and args[1] == '-t':
+            self.server.inactive = True
+            new_state = self.server.toggle_game_password(False)
+        else:
+            new_state = self.server.toggle_game_password(False)
+
         if new_state:
             return "Game password enabled"
         else:
@@ -69,9 +81,9 @@ class CommandSilent(Command):
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        
+
         if self.chatbot.silent:
-            self.chatbot.silent = False 
+            self.chatbot.silent = False
             return None
         else:
             self.chatbot.command_handler("server", "say Silent mode enabled.",
@@ -88,7 +100,7 @@ class CommandLength(Command):
             return self.not_auth_message
         if len(args) < 2:
             return "Length not recognised. Options are short, medium, or long."
-        
+
         if args[1] in ["short", "0"]:
             length = server.LEN_SHORT
         elif args[1] in ["medium", "med", "normal", "1"]:
@@ -97,7 +109,7 @@ class CommandLength(Command):
             length = server.LEN_LONG
         else:
             return "Length not recognised. Options are short, medium, or long."
-        
+
         self.server.set_length(length)
         return "Length change will take effect next game."
 
@@ -112,7 +124,7 @@ class CommandDifficulty(Command):
         if len(args) < 2:
             return "Difficulty not recognised. " + \
                    "Options are normal, hard, suicidal, or hell."
-        
+
         if args[1] in ["normal", "0"]:
             difficulty = server.DIFF_NORM
         elif args[1] in ["hard", "1"]:
@@ -124,6 +136,6 @@ class CommandDifficulty(Command):
         else:
             return "Difficulty not recognised. " + \
                    "Options are normal, hard, suicidal, or hell."
-        
+
         self.server.set_difficulty(difficulty)
         return "Difficulty change will take effect next game."

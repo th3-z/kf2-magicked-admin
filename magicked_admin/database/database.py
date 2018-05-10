@@ -1,3 +1,5 @@
+# This file does not follow PEP8 style guidelines, instead a line length of 120 should be used
+
 import sqlite3
 import datetime
 from os import path

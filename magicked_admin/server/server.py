@@ -36,6 +36,7 @@ class Server:
         self.database = ServerDatabase(name)
         print("Connecting to: {} ({})".format(self.name, self.address))
         self.session = self.new_session()
+        self.inactive = True
 
         self.general_settings = self.load_general_settings()
         self.game = {
@@ -230,7 +231,7 @@ class Server:
                            "(RequestException)".format(self.name))
             sleep(3)
 
-    def toggle_game_password(self):
+    def disable_password(self):
         passwords_url = "http://" + self.address + \
                         "/ServerAdmin/policy/passwords"
         payload = {
@@ -238,32 +239,60 @@ class Server:
         }
 
         try:
-            passwords_response = self.session.get(passwords_url)
+            self.session.post(passwords_url, payload)
         except requests.exceptions.RequestException:
-            logger.warning("Couldn't get password state on {} "
-                           "(RequestException), returning".format(self.name))
-            return
-        passwords_tree = html.fromstring(passwords_response.content)
+            logger.warning("Could not disable password on {} (RequestException)"
+                           .format(self.name))
+            sleep(3)
+            return True
+        return False
 
-        password_state = passwords_tree.xpath(
-            '//p[starts-with(text(),"Game password")]//em/text()')[0]
+    # Might combine this to be set_game_password and have the functions for both in here.
+    def toggle_game_password(self, args):
+        passwords_url = "http://" + self.address + \
+                        "/ServerAdmin/policy/passwords"
+        payload = {
+            'action': 'gamepassword'
+        }
 
-        if password_state == 'False':
-            payload['gamepw1'] = self.game_password
-            payload['gamepw2'] = self.game_password
+        if not args:
+            try:
+                passwords_response = self.session.get(passwords_url)
+            except requests.exceptions.RequestException:
+                logger.warning("Couldn't get password state on {} "
+                               "(RequestException), returning".format(self.name))
+                return
+            passwords_tree = html.fromstring(passwords_response.content)
+            password_state = passwords_tree.xpath(
+                '//p[starts-with(text(),"Game password")]//em/text()')[0]
+            if password_state == 'False':
+                payload['gamepw1'] = self.game_password
+                payload['gamepw2'] = self.game_password
+            else:
+                payload['gamepw1'] = ""
+                payload['gamepw2'] = ""
+
+            try:
+                self.session.post(passwords_url, payload)
+            except requests.exceptions.RequestException:
+                logger.warning("Couldn't set password on {} (RequestException)"
+                               .format(self.name))
+                sleep(3)
+            if password_state == 'False':
+                return True
+            else:
+                return False
         else:
             payload['gamepw1'] = ""
             payload['gamepw2'] = ""
-
-        try:
-            self.session.post(passwords_url, payload)
-        except requests.exceptions.RequestException:
-            logger.warning("Couldn't set password on {} (RequestException)"
-                           .format(self.name))
-            sleep(3)
-        if password_state == 'False':
-            return True
-        else:
+            try:
+                self.session.post(passwords_url, payload)
+            except requests.exceptions.RequestException:
+                logger.warning("Could not disable password on {} (RequestException)"
+                               .format(self.name))
+                sleep(3)
+                return True
+            self.inactive = False
             return False
 
     def change_map(self, new_map):
