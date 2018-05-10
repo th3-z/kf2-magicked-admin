@@ -1,20 +1,20 @@
 import threading
 import requests
 import time
+import datetime
 
 from lxml import html
 from lxml.html.clean import Cleaner
 from termcolor import colored
-
 from server.player import Player
 from utils.logger import logger
-
-
+from utils.time import seconds_to_hhmmss
 
 class ServerMapper(threading.Thread):
     def __init__(self, server):
         self.server = server
-
+        self.inactive_time_start = datetime.datetime.now()
+        # Had inactive time here, could likely do better implementation but am tired.
         self.time_interval = 6
         self.last_wave = 0
 
@@ -37,8 +37,19 @@ class ServerMapper(threading.Thread):
         info_tree = html.fromstring(info_page_response.content)
 
         headings, players_table = self.get_current_players(info_tree)
-        self.update_players(headings, players_table)
+        if not players_table:
+            now = datetime.datetime.now()
+            elapsed_time = now - self.inactive_time_start
+            inactive_time = elapsed_time.total_seconds()
+        else:
+            self.inactive_time_start = None
 
+        if self.server.inactive and inactive_time > 30:
+            self.server.toggle_game_password(True)
+            self.server.inactive = False
+            self.inactive_time_start = datetime.datetime.now()
+
+        self.update_players(headings, players_table)
         self.update_game(info_tree)
 
     def get_current_players(self, info_tree):
