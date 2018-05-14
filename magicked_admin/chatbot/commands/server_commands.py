@@ -45,7 +45,8 @@ class CommandLoadMap(Command):
         self.server.change_map(args[1])
         return "Changing map."
 
-class commandInactiveTimmer(Command):
+
+class commandDisablePassword(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
@@ -53,24 +54,34 @@ class commandInactiveTimmer(Command):
         if not self.authorise(admin):
             return self.not_auth_message
 
-class CommandTogglePassword(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+        new_state = self.server.disable_password()
 
-    def execute(self, username, args, admin):
-        if not self.authorise(admin):
-            return self.not_auth_message
-
-        if len(args) > 1 and args[1] == '-t':
-            self.server.inactive = True
-            new_state = self.server.toggle_game_password(False)
+        if new_state:
+            return "Game password disabled"
         else:
-            new_state = self.server.toggle_game_password(False)
+            return "Game password not disabled, please try again"
+
+
+class CommandEnablePassword(Command):
+    """
+    """
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+
+        # Args are for starting the timer for inactivity.
+        if len(args) > 1 and args[1] == '-t':
+            new_state = self.server.enable_password(True)
+        else:
+            new_state = self.server.enable_password(False)
 
         if new_state:
             return "Game password enabled"
         else:
-            return "Game password disabled"
+            return "Game password not enabled, please try again."
 
 
 class CommandSilent(Command):

@@ -6,7 +6,9 @@ from os import path
 from utils.logger import logger
 
 class Chatbot(Listener):
-
+    """
+    Responible for ?
+    """
     def __init__(self, server, greeter_enabled=True):
         self.server = server
         self.chat = server.chat

@@ -10,6 +10,9 @@ ALL_WAVES = 999
 
 
 class CommandGreeter(Command):
+    """
+    Player greeter (more here.)
+    """
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
@@ -95,13 +98,12 @@ class CommandOnTime(threading.Thread):
         while not self.exit_flag.wait(self.time_interval):
             self.chatbot.command_handler("server", self.args, admin=True)
 
-
 class CommandOnTimeManager(Command):
     def __init__(self, server, chatbot, admin_only = True):
         self.command_threads = []
         self.chatbot = chatbot
         Command.__init__(self, server, admin_only)
-    
+
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
@@ -134,11 +136,11 @@ class CommandOnWaveManager(Command):
         self.commands = []
         self.chatbot = chatbot
         Command.__init__(self, server, admin_only)
-       
+
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        
+
         if args[0] == "stop_wc":
             return self.terminate_all()
         elif args[0] == "start_wc":
@@ -148,25 +150,25 @@ class CommandOnWaveManager(Command):
         elif args[0] == "new_wave":
             for command in self.commands:
                 command.new_wave(int(args[1]))
-        
+
     def terminate_all(self):
         if len(self.commands) > 0:
             self.commands = []
             return "Wave commands halted."
         else:
             return "Nothing is running."
-    
+
     def start_command(self, args):
         if len(args) < 2:
             return "Missing argument (command)."
-            
+
         game_length = int(self.server.game['length'])
-        
+
         try:
             wc = CommandOnWave(args[1:], int(args[0]), game_length, self.chatbot)
         except ValueError:
             wc = CommandOnWave(args, ALL_WAVES, game_length, self.chatbot)
-            
+
         self.commands.append(wc)
         return "Wave command started."
 
@@ -175,13 +177,13 @@ class CommandOnTraderManager(Command):
     def __init__(self, server, chatbot, admin_only = True):
         self.commands = []
         self.chatbot = chatbot
-        
+
         Command.__init__(self, server, admin_only)
-        
+
     def execute(self, username, args, admin):
         if not self.authorise(admin):
             return self.not_auth_message
-        
+
         if args[0] == "start_trc":
             if len(args) < 2:
                 return "Missing argument (command)."
@@ -191,14 +193,14 @@ class CommandOnTraderManager(Command):
         elif args[0] == "t_open":
             for command in self.commands:
                 self.chatbot.command_handler("server", command, admin=True)
-    
+
     def terminate_all(self):
         if len(self.commands) > 0:
             self.commands = []
             return "Trader commands stopped."
         else:
             return "Nothing is running."
-    
+
     def start_command(self, args):
         self.commands.append(args)
         return "Trader command started."

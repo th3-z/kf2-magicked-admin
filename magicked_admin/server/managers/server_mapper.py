@@ -11,10 +11,15 @@ from utils.logger import logger
 from utils.time import seconds_to_hhmmss
 
 class ServerMapper(threading.Thread):
+    """
+    This class is responsible for gathering information from the web admin and
+    ... other stuffs.
+    """
     def __init__(self, server):
         self.server = server
         self.inactive_time_start = datetime.datetime.now()
-        # Had inactive time here, could likely do better implementation but am tired.
+        self.inactive_time = 0
+        self.inactive_timer = False
         self.time_interval = 6
         self.last_wave = 0
 
@@ -37,16 +42,19 @@ class ServerMapper(threading.Thread):
         info_tree = html.fromstring(info_page_response.content)
 
         headings, players_table = self.get_current_players(info_tree)
-        if not players_table:
+        # This is working but can for sure be done better, look at it later.
+        if not players_table and self.inactive_time < 30:
             now = datetime.datetime.now()
             elapsed_time = now - self.inactive_time_start
-            inactive_time = elapsed_time.total_seconds()
+            self.inactive_time = elapsed_time.total_seconds()
+        elif not players_table and self.inactive_time > 30:
+            self.server.disable_password()
+            # This needs to be reset?
+            self.inactive_time_start = datetime.datetime.now()
+            self.inactive_time = 0
+            self.inactive_timer = False
         else:
-            self.inactive_time_start = None
-
-        if self.server.inactive and inactive_time > 30:
-            self.server.toggle_game_password(True)
-            self.server.inactive = False
+            # Restart time if there are players?
             self.inactive_time_start = datetime.datetime.now()
 
         self.update_players(headings, players_table)
