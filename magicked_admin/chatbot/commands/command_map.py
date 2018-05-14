@@ -31,7 +31,9 @@ class CommandMap:
             'say': CommandSay(self.server),
             'restart': CommandRestart(self.server),
             'load_map': CommandLoadMap(self.server),
-            'toggle_pass': CommandTogglePassword(self.server),
+            # Might give this a better name?
+            'pass': CommandEnablePassword(self.server),
+            'no_pass': commandDisablePassword(self.server),
             'silent': CommandSilent(self.server, self.chatbot),
             'length': CommandLength(self.server),
             'difficulty': CommandDifficulty(self.server),

@@ -62,8 +62,8 @@ class ServerDatabase:
         return all_rows[0][-1] + 1
 
     def rank_kd(self, username):
-        subquery = "SELECT count(*) FROM players as player2 WHERE player2.kills / player2.deaths >= player1.kills / player1.deaths"
-        query = "SELECT player1.*,({}) AS kd_rank FROM  players AS player1 WHERE player1.username=?".format(subquery)
+        subquery = "SELECT count(*) FROM players as p2 WHERE p2.kills / p2.deaths >= p1.kills / p1.deaths"
+        query = "SELECT p1.*,({}) AS kd_rank FROM  players AS p1 WHERE player1.username=?".format(subquery)
         lock.acquire(True)
         self.cur.execute(query, (username,))
         all_rows = self.cur.fetchall()
