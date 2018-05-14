@@ -72,7 +72,7 @@ class ServerDatabase:
 
     def rank_time(self, username):
         subquery = "SELECT count(*) FROM players as player2 WHERE player2.time_online >= player1.time_online"
-        query = "SELECT player1.*,({}) AS time_rank  FROM  players AS player1 WHERE player1.username=?".format(subquery)
+        query = "SELECT player1.*,({}) AS time_rank  FROM  players AS player1 WHERE p1.username=?".format(subquery)
         lock.acquire(True)
         self.cur.execute(query, (username,))
         all_rows = self.cur.fetchall()
