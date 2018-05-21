@@ -38,8 +38,13 @@ class CommandKills(Command):
 
         player = self.server.get_player(username)
         if player:
-            return "You've killed a total of " + str(player.total_kills) + \
-                    " ZEDs, and " + str(player.kills) + " this game."
+            pos_kills = self.server.database.rank_kills(username)
+            return ("You've killed a total of {} ZEDs (#{}), "
+                    "and {} this game.").format(
+                str(player.total_kills),
+                str(pos_kills),
+                str(player.kills)
+            )
         else:
             return "Player not in game."
 
@@ -54,9 +59,13 @@ class CommandDosh(Command):
 
         player = self.server.get_player(username)
         if player:
-            return ("You've earned £" + str(player.total_dosh) +
-                    " in total, and £" + str(player.game_dosh) +
-                    " this game.").encode("iso-8859-1", "ignore")
+            pos_dosh = self.server.database.rank_dosh(username)
+            return ("You've earned a total of £{} dosh (#{}), "
+                    "and {} this game.").format(
+                str(player.total_dosh),
+                str(pos_dosh),
+                str(player.game_dosh)
+            ).encode("iso-8859-1", "ignore")
         else:
             return "Player not in game."
 

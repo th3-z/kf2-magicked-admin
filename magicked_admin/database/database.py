@@ -234,6 +234,65 @@ class ServerDatabase:
 
         self.conn.commit()
 
+    def save_game_map(self, game_map):
+        lock.acquire(True)
+        self.cur.execute("INSERT OR IGNORE INTO maps (name, title) VALUES (?, ?)",
+                         (game_map.name, game_map.title))
+
+        self.cur.execute("UPDATE maps SET plays_survival = ? WHERE name = ?",
+                         (game_map.plays_survival, game_map.name))
+        self.cur.execute("UPDATE maps SET plays_survival_vs = ? WHERE name = ?",
+                         (game_map.plays_survival_vs, game_map.name))
+        self.cur.execute("UPDATE maps SET plays_weekly = ? WHERE name = ?",
+                         (game_map.plays_weekly, game_map.name))
+        self.cur.execute("UPDATE maps SET plays_endless = ? WHERE name = ?",
+                         (game_map.plays_endless, game_map.name))
+        self.cur.execute("UPDATE maps SET highest_wave = ? WHERE name = ?",
+                         (game_map.highest_wave, game_map.name))
+
+        lock.release()
+
+        self.conn.commit()
+
+    def load_game_map(self, game_map):
+        lock.acquire(True)
+
+        self.cur.execute("INSERT OR IGNORE INTO maps (name, title) VALUES (?, ?)",
+                         (game_map.name, game_map.title))
+
+        # TODO: Change all of these into a single query that returns a list
+        self.cur.execute('SELECT (plays_survival) FROM maps WHERE name=?',
+                         (game_map.name,))
+        plays_survival = int(self.cur.fetchall()[0][0])
+
+        self.cur.execute('SELECT (plays_survival_vs) FROM maps WHERE name=?',
+                         (game_map.name,))
+        plays_survival_vs = int(self.cur.fetchall()[0][0])
+
+        self.cur.execute('SELECT (plays_weekly) FROM maps WHERE name=?',
+                         (game_map.name,))
+        plays_weekly = int(self.cur.fetchall()[0][0])
+
+        self.cur.execute('SELECT (plays_endless) FROM maps WHERE name=?',
+                         (game_map.name,))
+        plays_endless = int(self.cur.fetchall()[0][0])
+
+        self.cur.execute('SELECT (plays_other) FROM maps WHERE name=?',
+                         (game_map.name,))
+        plays_other = int(self.cur.fetchall()[0][0])
+
+        self.cur.execute('SELECT (highest_wave) FROM maps WHERE name=?',
+                         (game_map.name,))
+        highest_wave = int(self.cur.fetchall()[0][0])
+        lock.release()
+
+        game_map.plays_survival = plays_survival
+        game_map.plays_survival_vs = plays_survival_vs
+        game_map.plays_weekly = plays_weekly
+        game_map.plays_endless = plays_endless
+        game_map.plays_other = plays_other
+        game_map.highest_wave = highest_wave
+
     def close(self):
         self.conn.commit()
         self.conn.close()
