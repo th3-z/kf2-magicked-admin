@@ -51,6 +51,7 @@ class Server:
 
         logger.debug("Server " + name + " initialised")
 
+    # This needs more clean naming? Check to see if it is fixed in other branches. 
     def new_session(self):
         login_url = "http://" + self.address + "/ServerAdmin/"
         login_payload = {
