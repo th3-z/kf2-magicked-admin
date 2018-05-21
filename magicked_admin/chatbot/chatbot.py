@@ -7,8 +7,9 @@ from utils.logger import logger
 
 class Chatbot(Listener):
     """
-    Responible for ?
+    responsible for sending chat to the WebAdmin.
     """
+
     def __init__(self, server, greeter_enabled=True):
         self.server = server
         self.chat = server.chat
@@ -26,6 +27,9 @@ class Chatbot(Listener):
         logger.debug("Bot on server " + server.name + " initialised")
 
     def receive_message(self, username, message, admin=False):
+        """
+        
+        """
         if message[0] == '!':
             # Drop the '!' because its no longer relevant
             args = message[1:].split(' ')

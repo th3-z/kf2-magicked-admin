@@ -11,7 +11,7 @@ ALL_WAVES = 999
 
 class CommandGreeter(Command):
     """
-    Player greeter (more here.)
+    Player greater
     """
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)

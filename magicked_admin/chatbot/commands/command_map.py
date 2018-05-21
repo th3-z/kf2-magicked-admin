@@ -11,6 +11,9 @@ class CommandMap:
         self.command_map = self.generate_map()
 
     def generate_map(self):
+        """
+        Generates the command mapping (key/value pairs) that are used by the (chat bot was it?)
+        """
         wave_event_manager = CommandOnWaveManager(self.server, self.chatbot)
         trader_event_manager = CommandOnTraderManager(self.server, self.chatbot)
         time_event_manager = CommandOnTimeManager(self.server, self.chatbot)
