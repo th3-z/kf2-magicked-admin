@@ -1,5 +1,6 @@
 import requests
 import sys
+import datetime
 
 from hashlib import sha1
 from lxml import html
@@ -36,7 +37,6 @@ class Server:
         message = "Connected to: {} ({})".format(self.name, self.address)
         print(colored(message, 'green'))
 
-
         self.general_settings = self.load_general_settings()
         self.game = Game(GameMap("kf-default"), game.MODE_SURVIVAL)
 
@@ -51,6 +51,7 @@ class Server:
 
         logger.debug("Server " + name + " initialised")
 
+    # This needs more clean naming? Check to see if it is fixed in other branches. 
     def new_session(self):
         login_url = "http://" + self.address + "/ServerAdmin/"
         login_payload = {
@@ -249,12 +250,44 @@ class Server:
                            "(RequestException)".format(self.name))
             sleep(3)
 
-    def toggle_game_password(self):
+    # Re-write this to be enable and disbale password, that way when disabling
+    # a password it will just straight up try and disable it and then when enabling it
+    # It will check to see if it is already enabled. Also might look at how to pass parms
+    # To this so that you can set a password not in the config.
+    # This will need to be corrected elsewhere when done.
+    def disable_password(self):
         passwords_url = "http://" + self.address + \
                         "/ServerAdmin/policy/passwords"
         payload = {
             'action': 'gamepassword'
         }
+
+        payload['gamepw1'] = ""
+        payload['gamepw2'] = ""
+
+        self.mapper.inactive_timer = False
+
+        try:
+            self.session.post(passwords_url, payload)
+        except requests.exceptions.RequestException:
+            logger.warning("Could not disable password on {} (RequestException)"
+                           .format(self.name))
+            sleep(3)
+            return False
+        return True
+
+    def enable_password(self, args):
+        passwords_url = "http://" + self.address + \
+                        "/ServerAdmin/policy/passwords"
+        payload = {
+            'action': 'gamepassword'
+        }
+
+        if args:
+            self.mapper.inactive_timer = True
+            self.mapper.inactive_time_start = datetime.datetime.now()
+        else:
+            self.mapper.inactive_timer = False
 
         try:
             passwords_response = self.session.get(passwords_url)
@@ -271,8 +304,7 @@ class Server:
             payload['gamepw1'] = self.game_password
             payload['gamepw2'] = self.game_password
         else:
-            payload['gamepw1'] = ""
-            payload['gamepw2'] = ""
+            return True
 
         try:
             self.session.post(passwords_url, payload)
@@ -280,10 +312,8 @@ class Server:
             logger.warning("Couldn't set password on {} (RequestException)"
                            .format(self.name))
             sleep(3)
-        if password_state == 'False':
-            return True
-        else:
             return False
+        return True
 
     def change_map(self, new_map):
         map_url = "http://" + self.address + "/ServerAdmin/current/change"

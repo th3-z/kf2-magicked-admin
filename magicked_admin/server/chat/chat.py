@@ -8,6 +8,9 @@ from utils.logger import logger
 
 
 class ChatLogger(threading.Thread):
+    """
+
+    """
     def __init__(self, server):
         self.chat_request_url = "http://" + server.address + \
                                 "/ServerAdmin/current/chat+data"
@@ -51,6 +54,8 @@ class ChatLogger(threading.Thread):
                     username_arr = message_tree.xpath('//span[starts-with(@class,\'username\')]/text()')
                     message = message_tree.xpath('//span[@class="message"]/text()')[0]
                     if len(username_arr) < 1:
+                        # toss username arg to cd parser?
+                        # Add in a test here to parse CD
                         logger.debug("Message without username '{}' ({})"
                                      .format(message, self.server.name))
                         continue
@@ -75,7 +80,7 @@ class ChatLogger(threading.Thread):
 
         if self.print_messages and username != "server":
             print_line = username + "@" + self.server.name +  ": " + message
-            
+
             if command:
                 print_line = colored(print_line, 'green')
             elif username == self.server.username:
