@@ -1,6 +1,7 @@
 import threading
 import requests
 import time
+import sys, os
 import datetime
 
 from lxml import html
@@ -167,8 +168,14 @@ class ServerMapper(threading.Thread):
     def update_game(self, info_tree):
         dds = info_tree.xpath('//dd/text()')
 
-        z, zr = info_tree.xpath('//dd[@class="gs_wave"]/text()')[0] \
-            .split("/")
+        try:
+            z, zr = info_tree.xpath('//dd[@class="gs_wave"]/text()')[0]\
+                .split("/")
+        except:
+            logger.error("Gamemode not supported without additional setup, "
+                         "see documentation. Skipping update for {}."
+                         .format(self.server.name))
+            return
         z, zr = int(z), int(zr)
         if z == zr and z > 1:
             # The if ensures trader_open is only sent once
@@ -189,11 +196,20 @@ class ServerMapper(threading.Thread):
             wave, length = dds[8].split("/")
             difficulty = dds[9]
 
-        self.server.game['map_title'] = map_title
-        self.server.game['map_name'] = map_name
-        self.server.game['wave'] = wave
-        self.server.game['length'] = length
-        self.server.game['difficulty'] = difficulty
+        gamemode_pat = '//dl[@id="currentGame"]' \
+                       '//dt[contains(text(), "Game type")]' \
+                       '/following-sibling::dd/@title'
+        gamemode = info_tree.xpath(gamemode_pat)[0]
+
+        if int(wave) < self.last_wave:
+            self.server.write_game_map()
+
+        self.server.game.game_map.title = map_title
+        self.server.game.game_map.name = map_name
+        self.server.game.wave = wave
+        self.server.game.length = length
+        self.server.game.difficulty = difficulty
+        self.server.game.gamemode = gamemode
 
         if int(wave) < self.last_wave:
             self.server.new_game()

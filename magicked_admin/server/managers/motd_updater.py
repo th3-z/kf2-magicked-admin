@@ -19,7 +19,7 @@ class MotdUpdater(threading.Thread):
         self.motd = self.load_motd()
 
         threading.Thread.__init__(self)
-    
+
     def run(self):
         while True:
             self.server.write_all_players()
@@ -55,13 +55,14 @@ class MotdUpdater(threading.Thread):
         if not path.exists(self.server.name + ".motd"):
             logger.warning("No motd file for " + self.server.name)
             return ""
- 
+
         motd_f = open(self.server.name + ".motd")
         motd = motd_f.read()
         motd_f.close()
         return motd
 
     def render_motd(self, src_motd):
+        # Wouldn't this be better to do with something like fuzzy?
         if self.scoreboard_type in ['kills', 'Kills', 'kill', 'Kill']:
             scores = self.server.database.top_kills()
         elif self.scoreboard_type in ['Dosh','dosh']:
@@ -102,7 +103,7 @@ class MotdUpdater(threading.Thread):
 
         motd_tree = html.fromstring(motd_response.content)
 
-        banner_link = motd_tree.xpath('//input[@name="BannerLink"]/@value')[0] 
+        banner_link = motd_tree.xpath('//input[@name="BannerLink"]/@value')[0]
         web_link = motd_tree.xpath('//input[@name="WebLink"]/@value')[0]
 
         return {
@@ -115,4 +116,3 @@ class MotdUpdater(threading.Thread):
                 'liveAdjust': '1',
                 'action': 'save'
         }
-

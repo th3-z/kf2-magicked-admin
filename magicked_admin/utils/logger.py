@@ -4,9 +4,14 @@
 import logging
 import sys
 
-logging.basicConfig(stream=sys.stdout)
+logging.basicConfig(stream=sys.stdout, format="%(levelname)s: %(message)s")
 
 logger = logging.getLogger('')  # type: Logger
 
 # This is the default log level but it will be overwritten in main.py
 logger.setLevel(logging.DEBUG)
+
+# urllib3 spams debug messages (reset connection) constantly
+logging.getLogger("urllib3").setLevel(logging.INFO)
+
+

@@ -48,8 +48,10 @@ class MagickedAdministrator:
                 config[server_name]["enable_greeter"]
             )
 
+            max_players = config[server_name]["max_players"]
+
             server = Server(server_name, address, user, password,
-                            game_password)
+                            game_password, max_players)
             self.servers.append(server)
                 
             if motd_scoreboard:
@@ -67,7 +69,7 @@ class MagickedAdministrator:
         print("Terminating, saving data...")
         for server in self.servers:
             server.write_all_players(final=True)
-
+            server.write_game_map()
         try:
             sys.exit(0)
         except SystemExit:

@@ -10,9 +10,12 @@ CREATE TABLE players(
 );
 
 CREATE TABLE maps(
-    title VARCHAR(64) PRIMARY KEY,
-    name VARCHAR(64) DEFAULT "kf-default",
-    plays INTEGER DEFAULT 0,
-    votes INTEGER DEFAULT 0,
-    resets INTEGER DEFAULT 0
+    name VARCHAR(64) PRIMARY KEY,
+    title VARCHAR(64) DEFAULT "Unnamed",
+    plays_survival INTEGER DEFAULT 0,
+    plays_weekly INTEGER DEFAULT 0,
+    plays_endless INTEGER DEFAULT 0,
+    plays_survival_vs INTEGER DEFAULT 0,
+    plays_other INTEGER DEFAULT 0,
+    highest_wave INTEGER DEFAULT 0
 );
