@@ -1,3 +1,5 @@
+# This file does not follow PEP8 style guidelines, instead a line length of 120 should be used
+
 import sqlite3
 import datetime
 from os import path
@@ -33,35 +35,48 @@ class ServerDatabase:
         conn.close()
 
     def rank_kills(self, username):
-        query = "select  p1.*"\
-                ",("" \
-                ""select  count(*)" \
-                "from    players as p2"" \
-                ""where   p2.kills > p1.kills"\
-                ") as kill_rank"" \
-                ""from    players as p1"" \
-                ""where   p1.username = ?"
+        subquery = "SELECT count(*) FROM players AS player2 WHERE player2.kills >= player1.kills"
+        query = "SELECT player1.*,({}) AS kill_rank FROM players AS player1 WHERE player1.username=?".format(subquery)
         lock.acquire(True)
         self.cur.execute(query, (username,))
         all_rows = self.cur.fetchall()
         lock.release()
-
         return all_rows[0][-1] + 1
 
     def rank_dosh(self, username):
-        query = "select  p1.*"\
-                ",("" \
-                ""select  count(*)" \
-                "from    players as p2"" \
-                ""where   p2.dosh > p1.dosh"\
-                ") as kill_rank"" \
-                ""from    players as p1"" \
-                ""where   p1.username = ?"
+        subquery = "SELECT count(*) FROM players as player2 WHERE player2.dosh >= player1.dosh"
+        query = "SELECT  player1.*,({}) AS dosh_rank FROM  players AS player1 WHERE player1.username=?".format(subquery)
         lock.acquire(True)
         self.cur.execute(query, (username,))
         all_rows = self.cur.fetchall()
         lock.release()
+        return all_rows[0][-1] + 1
 
+    def rank_death(self, username):
+        subquery = "SELECT count(*) FROM players as player2 WHERE player2.deaths <= player1.deaths"
+        query = "SELECT player1.*,({}) AS death_rank FROM  players AS player1 WHERE player1.username=?".format(subquery)
+        lock.acquire(True)
+        self.cur.execute(query, (username,))
+        all_rows = self.cur.fetchall()
+        lock.release()
+        return all_rows[0][-1] + 1
+
+    def rank_kd(self, username):
+        subquery = "SELECT count(*) FROM players as p2 WHERE p2.kills / p2.deaths >= p1.kills / p1.deaths"
+        query = "SELECT p1.*,({}) AS kd_rank FROM  players AS p1 WHERE player1.username=?".format(subquery)
+        lock.acquire(True)
+        self.cur.execute(query, (username,))
+        all_rows = self.cur.fetchall()
+        lock.release()
+        return all_rows[0][-1] + 1
+
+    def rank_time(self, username):
+        subquery = "SELECT count(*) FROM players as player2 WHERE player2.time_online >= player1.time_online"
+        query = "SELECT player1.*,({}) AS time_rank  FROM  players AS player1 WHERE player1.username=?".format(subquery)
+        lock.acquire(True)
+        self.cur.execute(query, (username,))
+        all_rows = self.cur.fetchall()
+        lock.release()
         return all_rows[0][-1] + 1
 
     # SUM(dosh_spent) Add in later.
@@ -80,6 +95,7 @@ class ServerDatabase:
         lock.acquire(True)
         self.cur.execute('SELECT SUM(kills) FROM players')
         all_rows = self.cur.fetchall()
+        lock.release
         # Errors out when you call it with 0 with "NoneType"
         if all_rows and all_rows[0][0]:
             return int(all_rows[0][0])
