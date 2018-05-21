@@ -19,8 +19,13 @@ if not os.path.exists("./magicked_admin.conf"):
     input("Press enter to exit...")
     sys.exit()
 
-config = configparser.ConfigParser()
-config.read("./magicked_admin.conf")
+# Reading the config file
+try:
+    config = configparser.ConfigParser()
+    config.read("./magicked_admin.conf")
+except configparser.DuplicateOptionError as e:
+    sys.exit("Duplicate Values found in Config! Please check options \"" + e.option + "\" for server \"" + e.section +"\".")
+
 
 class MagickedAdministrator:
     
@@ -47,11 +52,10 @@ class MagickedAdministrator:
             enable_greeter = str_to_bool(
                 config[server_name]["enable_greeter"]
             )
-
             server = Server(server_name, address, user, password,
                             game_password)
             self.servers.append(server)
-                
+
             if motd_scoreboard:
                 motd_updater = MotdUpdater(server, scoreboard_type)
                 motd_updater.start()
@@ -61,7 +65,7 @@ class MagickedAdministrator:
             server.chat.add_listener(cb)
             self.chatbots.append(cb)
 
-        print("Initialisation complete")
+            print("Initialisation complete")
             
     def terminate(self, signal, frame):
         print("Terminating, saving data...")
