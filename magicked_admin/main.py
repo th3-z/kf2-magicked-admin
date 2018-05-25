@@ -19,8 +19,12 @@ if not os.path.exists("./magicked_admin.conf"):
     input("Press enter to exit...")
     sys.exit()
 
-config = configparser.ConfigParser()
-config.read("./magicked_admin.conf")
+# Reading the config file
+try:
+    config = configparser.ConfigParser()
+    config.read("./magicked_admin.conf")
+except configparser.DuplicateOptionError as e:
+    sys.exit("Duplicate Values found in Config! Please check options \"" + e.option + "\" for server \"" + e.section +"\".")
 
 class MagickedAdministrator:
     
