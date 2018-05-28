@@ -336,12 +336,20 @@ class Server:
 
     def enforce_levels(self):
         for player in self.players:
-            if player.perk_level < self.level_threshhold:
-                self.kick_player(player.sid)
+            print(player.perk_level)
+            if int(player.perk_level) < int(self.level_threshhold):
+                self.kick_player(player.player_key)
 
-    def kick_player(self, sid):
-        #TODO: Implement
-        print("REMOVED {}".format(sid))
+    def kick_player(self, player_key):
+        url = "http://" + self.address + "/ServerAdmin/current/players+data"
+        payload = {
+            'action': 'kick',
+            'playerkey': player_key,
+            'ajax': '1'
+        }
+
+        self.session.post(url, payload)
+        print("REMOVED {}".format(player_key))
         return
 
     def restart_map(self):
