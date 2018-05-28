@@ -95,7 +95,7 @@ class ServerDatabase:
         lock.acquire(True)
         self.cur.execute('SELECT SUM(kills) FROM players')
         all_rows = self.cur.fetchall()
-        lock.release
+        lock.release()
         # Errors out when you call it with 0 with "NoneType"
         if all_rows and all_rows[0][0]:
             return int(all_rows[0][0])
