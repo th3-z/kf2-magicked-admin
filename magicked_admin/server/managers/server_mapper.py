@@ -143,6 +143,7 @@ class ServerMapper(threading.Thread):
                 player.country_code = detail["country_code"]
                 player.ip = detail["ip"]
                 player.sid = detail["steam_id"]
+                player.player_key = detail["player_key"]
 
                 self.server.player_join(player)
                 continue
@@ -159,9 +160,9 @@ class ServerMapper(threading.Thread):
             player.perk = new_perk
             player.ping = new_ping
 
-            if "Perk Level" in headings:
+            if "level" in headings:
                 player.perk_level = \
-                    int(player_row[headings.index("Perk Level")])
+                    int(player_row[headings.index("level")])
 
             player.total_kills += new_kills - player.kills
             player.wave_kills += new_kills - player.kills
@@ -241,8 +242,18 @@ class ServerMapper(threading.Thread):
         odds = player_tree.xpath('//tr[@class="odd"]//td/text()')
         evens = player_tree.xpath('//tr[@class="even"]//td/text()')
 
+        print("GETTING DETAILS")
+        player_key = player_tree.xpath('//tr/td[text()="{}"]'
+                                       '/following-sibling::td'
+                                       '//input[@name="playerkey"]/@value'
+                                       .format(username))
+        if not player_key:
+            print("ALERT: BAD PLAYER KEY FOR USER: " + username)
+            player_key = "0x0.00"
+        else:
+            player_key = player_key[0]
+            print(username + player_key)
         player_rows = odds + evens
-
         player_rows = [list(group) for k, group in
                        groupby(player_rows, lambda x: x == "\xa0") if not k]
 
@@ -255,7 +266,8 @@ class ServerMapper(threading.Thread):
                     'steam_id': steam_id,
                     'ip': ip,
                     'country': country,
-                    'country_code': country_code
+                    'country_code': country_code,
+                    'player_key': player_key
                 }
 
         logger.warning("Couldn't find player details for: {}".format(username))
@@ -263,7 +275,8 @@ class ServerMapper(threading.Thread):
             'steam_id': "00000000000000000",
             'ip': "0.0.0.0",
             'country': "Unknown",
-            'country_code': "??"
+            'country_code': "??",
+            'player_key': player_key
         }
 
 
