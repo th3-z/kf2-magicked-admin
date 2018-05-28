@@ -19,6 +19,16 @@ class CommandSay(Command):
             .decode('unicode_escape')
         return message
 
+class CommandEnforceLevels(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+
+        self.server.enforce_levels()
+
 
 class CommandRun(Command):
     def __init__(self, server, chatbot, admin_only=True):

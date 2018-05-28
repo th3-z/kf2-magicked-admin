@@ -5,6 +5,7 @@ from utils.logger import logger
 
 import threading
 import datetime
+import time
 
 ALL_WAVES = 999
 
@@ -83,11 +84,12 @@ class CommandOnWave:
 
 
 class CommandOnTime(threading.Thread):
-    def __init__(self, args, time_interval, chatbot):
+    def __init__(self, args, time_interval, chatbot, repeat=False):
         self.exit_flag = threading.Event()
         self.args = args
         self.chatbot = chatbot
         self.time_interval = float(time_interval)
+        self.repeat = repeat
 
         threading.Thread.__init__(self)
 
@@ -95,6 +97,10 @@ class CommandOnTime(threading.Thread):
         self.exit_flag.set()
 
     def run(self):
+        if not self.repeat:
+            time.sleep(self.time_interval)
+            self.chatbot.command_handler("server", self.args, admin=True)
+            return
         while not self.exit_flag.wait(self.time_interval):
             self.chatbot.command_handler("server", self.args, admin=True)
 
@@ -109,6 +115,11 @@ class CommandOnTimeManager(Command):
             return self.not_auth_message
         if args[0] == "stop_tc":
             return self.terminate_all()
+
+        repeat = False
+        if args[1] in ["-r", "--repeat", "-R"]:
+            repeat = True
+
         if len(args) < 2:
             return "Missing argument (command)."
         try:
@@ -116,7 +127,7 @@ class CommandOnTimeManager(Command):
         except ValueError:
             return "Malformed command, \""+args[1]+"\" is not an integer."
 
-        time_command = CommandOnTime(args[2:], time, self.chatbot)
+        time_command = CommandOnTime(args[2:], time, self.chatbot, repeat)
         time_command.start()
         self.command_threads.append(time_command)
         return "Timed command started."

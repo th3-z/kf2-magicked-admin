@@ -19,7 +19,7 @@ from server.game_map import GameMap
 
 class Server:
     def __init__(self, name, address, username, password, game_password,
-                 max_players):
+                 max_players, level_threshhold=0):
         self.name = name
         self.address = address
         self.max_players = max_players
@@ -42,6 +42,7 @@ class Server:
 
         self.trader_time = False
         self.players = []
+        self.level_threshhold = level_threshhold
 
         self.chat = ChatLogger(self)
         self.chat.start()
@@ -185,7 +186,8 @@ class Server:
         self.database.load_player(player)
         player.total_logins += 1
         self.players.append(player)
-        message = "Player {} joined {}".format(player.username, self.name)
+        message = "Player {} joined {} from {}"\
+            .format(player.username, self.name, player.country)
         print(colored(message, 'cyan'))
         self.chat.handle_message("server",
                                  "!player_join " + player.username,
@@ -331,6 +333,24 @@ class Server:
             logger.warning("Couldn't set map on {} (RequestException)"
                            .format(self.name))
             sleep(3)
+
+    def enforce_levels(self):
+        for player in self.players:
+            print(player.perk_level)
+            if int(player.perk_level) < int(self.level_threshhold):
+                self.kick_player(player.player_key)
+
+    def kick_player(self, player_key):
+        url = "http://" + self.address + "/ServerAdmin/current/players+data"
+        payload = {
+            'action': 'kick',
+            'playerkey': player_key,
+            'ajax': '1'
+        }
+
+        self.session.post(url, payload)
+        print("REMOVED {}".format(player_key))
+        return
 
     def restart_map(self):
         self.change_map(self.game.game_map.title)
