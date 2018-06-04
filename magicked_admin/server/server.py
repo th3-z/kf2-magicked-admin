@@ -320,7 +320,7 @@ class Server:
     def change_map(self, new_map):
         map_url = "http://" + self.address + "/ServerAdmin/current/change"
         payload = {
-            "gametype": "KFGameContent.KFGameInfo_Survival",
+            "gametype": self.game.gamemode,
             "map": new_map,
             "mutatorGroupCount": "0",
             "urlextra": "?MaxPlayers={}".format(self.max_players),
