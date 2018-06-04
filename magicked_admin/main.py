@@ -24,7 +24,7 @@ try:
     config = configparser.ConfigParser()
     config.read("./magicked_admin.conf")
 except configparser.DuplicateOptionError as e:
-    sys.exit("Duplicate Values found in Config! Please check options \"" + e.option + "\" for server \"" + e.section +"\".")
+    sys.exit("Duplicate Values found in Config! Please check options \"%s\" for server \"%s\"." % (e.option, e.section))
 
 class MagickedAdministrator:
     
@@ -38,35 +38,41 @@ class MagickedAdministrator:
     def run(self):
 
         for server_name in config.sections():
-            # Changing the log level to the level specified in the config file
-            logger.setLevel(logging.getLevelName(config[server_name]["log_level"]))
-            address = config[server_name]["address"]
-            user = config[server_name]["username"]
-            password = config[server_name]["password"]
-            game_password = config[server_name]["game_password"]
-            motd_scoreboard = str_to_bool(
-                config[server_name]["motd_scoreboard"]
-            )
-            scoreboard_type = config[server_name]["scoreboard_type"]
-            level_threshhold = config[server_name]["level_threshhold"]
-            enable_greeter = str_to_bool(
-                config[server_name]["enable_greeter"]
-            )
+            try:
+                # Changing the log level to the level specified in the config file
+                logger.setLevel(logging.getLevelName(config[server_name]["log_level"]))
+                address = config[server_name]["address"]
+                user = config[server_name]["username"]
+                password = config[server_name]["password"]
+                game_password = config[server_name]["game_password"]
+                motd_scoreboard = str_to_bool(
+                    config[server_name]["motd_scoreboard"]
+                )
+                scoreboard_type = config[server_name]["scoreboard_type"]
+                level_threshhold = config[server_name]["level_threshhold"]
+                enable_greeter = str_to_bool(
+                    config[server_name]["enable_greeter"]
+                )
 
-            max_players = config[server_name]["max_players"]
+                max_players = config[server_name]["max_players"]
 
-            server = Server(server_name, address, user, password,
-                            game_password, max_players, level_threshhold)
-            self.servers.append(server)
-                
-            if motd_scoreboard:
-                motd_updater = MotdUpdater(server, scoreboard_type)
-                motd_updater.start()
-                self.motd_updaters.append(motd_updater)
+                server = Server(server_name, address, user, password,
+                                game_password, max_players, level_threshhold)
+                self.servers.append(server)
 
-            cb = Chatbot(server, greeter_enabled=enable_greeter)
-            server.chat.add_listener(cb)
-            self.chatbots.append(cb)
+                if motd_scoreboard:
+                    motd_updater = MotdUpdater(server, scoreboard_type)
+                    motd_updater.start()
+                    self.motd_updaters.append(motd_updater)
+
+                cb = Chatbot(server, greeter_enabled=enable_greeter)
+                server.chat.add_listener(cb)
+                self.chatbots.append(cb)
+
+            except KeyError as e:
+                sys.exit("Option %s not found in Config. Please add the option and a corresponding value." % (format(str(e))))
+            except Exception as e:
+                sys.exit("Error while reading the config file. Please check the config.\r\nMore information: %s" % (format(str(e))))
 
         print("Initialisation complete")
             
