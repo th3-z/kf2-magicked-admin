@@ -10,6 +10,9 @@ from termcolor import colored
 from server.player import Player
 from utils.logger import logger
 from utils.time import seconds_to_hhmmss
+from utils.geolocation import get_country
+
+from itertools import groupby
 
 class ServerMapper(threading.Thread):
     """
@@ -134,6 +137,14 @@ class ServerMapper(threading.Thread):
                 player.kills = new_kills
                 player.health = new_health
                 player.dosh = new_dosh
+
+                detail = self.get_player_details(player.username)
+                player.country = detail["country"]
+                player.country_code = detail["country_code"]
+                player.ip = detail["ip"]
+                player.sid = detail["steam_id"]
+                player.player_key = detail["player_key"]
+
                 self.server.player_join(player)
                 continue
 
@@ -148,6 +159,10 @@ class ServerMapper(threading.Thread):
 
             player.perk = new_perk
             player.ping = new_ping
+
+            if "level" in headings:
+                player.perk_level = \
+                    int(player_row[headings.index("level")])
 
             player.total_kills += new_kills - player.kills
             player.wave_kills += new_kills - player.kills
@@ -216,6 +231,54 @@ class ServerMapper(threading.Thread):
         elif int(wave) > self.last_wave:
             self.server.new_wave()
         self.last_wave = int(wave)
+
+    def get_player_details(self, username):
+        response = self.server.session\
+            .get("http://{0}/ServerAdmin/current/players"
+                 .format(self.server.address))
+
+        player_tree = html.fromstring(response.content)
+
+        odds = player_tree.xpath('//tr[@class="odd"]//td/text()')
+        evens = player_tree.xpath('//tr[@class="even"]//td/text()')
+
+        print("GETTING DETAILS")
+        player_key = player_tree.xpath('//tr/td[text()="{}"]'
+                                       '/following-sibling::td'
+                                       '//input[@name="playerkey"]/@value'
+                                       .format(username))
+        if not player_key:
+            print("ALERT: BAD PLAYER KEY FOR USER: " + username)
+            player_key = "0x0.00"
+        else:
+            player_key = player_key[0]
+            print(username + player_key)
+        player_rows = odds + evens
+        player_rows = [list(group) for k, group in
+                       groupby(player_rows, lambda x: x == "\xa0") if not k]
+
+        for player in player_rows:
+            if player[0] == username:
+                ip = player[2]
+                steam_id = player[4]
+                country, country_code = get_country(ip)
+                return {
+                    'steam_id': steam_id,
+                    'ip': ip,
+                    'country': country,
+                    'country_code': country_code,
+                    'player_key': player_key
+                }
+
+        logger.warning("Couldn't find player details for: {}".format(username))
+        return {
+            'steam_id': "00000000000000000",
+            'ip': "0.0.0.0",
+            'country': "Unknown",
+            'country_code': "??",
+            'player_key': player_key
+        }
+
 
     def run(self):
         while True:
