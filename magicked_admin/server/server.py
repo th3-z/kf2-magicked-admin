@@ -354,3 +354,21 @@ class Server:
 
     def restart_map(self):
         self.change_map(self.game.game_map.title)
+
+    # Change the GameMode
+    def change_gamemode(self, mode):
+        url = "http://" + self.address + "/ServerAdmin/current/change"
+        payload = {
+            "gametype": mode,
+            "map": self.game.game_map.title,
+            "mutatorGroupCount": "0",
+            "urlextra": "?MaxPlayers={}".format(self.max_players),
+            "action": "change"
+        }
+
+        try:
+            self.session.post(url, payload)
+        except requests.exceptions.RequestException:
+            logger.warning("Couldn't set GameMode on {} (RequestException)"
+                           .format(self.name))
+            sleep(3)
