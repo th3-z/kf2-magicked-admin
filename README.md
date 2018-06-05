@@ -34,6 +34,8 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers. Pro
 * !restart - immediately restarts the current map
 * !load_map _map_name_ - immediately loads _map_name_
 * !toggle\_pass - toggles the configured game password (specified in `magicked_admin.conf`)
+* !game_mode {endless|survival|weekly|versus} - changes the current GameType
+    - Example: !game_mode endless
 
 ### Other features
 * Writing a `server_name.motd` file with pairs of `%PLR` and `%SCR` and enabling the motd_scoreboard option will put a live scoreboard in the motd. 
