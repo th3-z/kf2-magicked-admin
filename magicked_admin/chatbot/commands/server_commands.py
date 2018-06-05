@@ -1,5 +1,6 @@
 from chatbot.commands.command import Command
 import server.server as server
+import server.game as game
 
 from os import path
 
@@ -144,11 +145,11 @@ class CommandLength(Command):
             return "Length not recognised. Options are short, medium, or long."
 
         if args[1] in ["short", "0"]:
-            length = server.LEN_SHORT
+            length = game.LEN_SHORT
         elif args[1] in ["medium", "med", "normal", "1"]:
-            length = server.LEN_NORM
+            length = game.LEN_NORM
         elif args[1] in ["long", "2"]:
-            length = server.LEN_LONG
+            length = game.LEN_LONG
         else:
             return "Length not recognised. Options are short, medium, or long."
 
@@ -168,16 +169,43 @@ class CommandDifficulty(Command):
                    "Options are normal, hard, suicidal, or hell."
 
         if args[1] in ["normal", "0"]:
-            difficulty = server.DIFF_NORM
+            difficulty = game.DIFF_NORM
         elif args[1] in ["hard", "1"]:
-            difficulty = server.DIFF_HARD
+            difficulty = game.DIFF_HARD
         elif args[1] in ["suicidal", "sui", "2"]:
-            difficulty = server.DIFF_SUI
+            difficulty = game.DIFF_SUI
         elif args[1] in ["hell", "hoe", "hellonearth", "3"]:
-            difficulty = server.DIFF_HOE
+            difficulty = game.DIFF_HOE
         else:
             return "Difficulty not recognised. " + \
                    "Options are normal, hard, suicidal, or hell."
 
         self.server.set_difficulty(difficulty)
         return "Difficulty change will take effect next game."
+
+
+class CommandGameMode(Command):
+    def __init__(self, server, admin_only = True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+        if len(args) < 2:
+            return "GameMode not recognised. " + \
+                   "Options are endless, survival, weekly or versus."
+
+        if args[1] in ["e", "end", "endless"]:
+            mode = game.MODE_ENDLESS
+        elif args[1] in ["s", "srv", "survival"]:
+            mode = game.MODE_SURVIVAL
+        elif args[1] in ["w", "week", "weekly"]:
+            mode = game.MODE_WEEKLY
+        elif args[1] in ["v", "vs", "versus"]:
+            mode = game.MODE_SURVIVAL_VS
+        else:
+            return "GameMode not recognised. " + \
+                   "Options are endless, survival, weekly or versus."
+
+        self.server.change_gamemode(mode)
+        return "GameMode will be changed to {0}.".format(str(mode))

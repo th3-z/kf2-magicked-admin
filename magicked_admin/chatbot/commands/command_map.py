@@ -43,6 +43,7 @@ class CommandMap:
             'run': CommandRun(self.server, self.chatbot),
             'length': CommandLength(self.server),
             'difficulty': CommandDifficulty(self.server),
+            'game_mode': CommandGameMode(self.server),
             'players': CommandPlayers(self.server, admin_only=False),
             'game': CommandGame(self.server, admin_only=False),
             'map': CommandGameMap(self.server, admin_only=False),
