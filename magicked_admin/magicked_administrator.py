@@ -65,6 +65,7 @@ class MagickedAdministrator:
         print("\nProgram interrupted, terminating...")
 
         if __debug__:
+            # noinspection PyProtectedMember
             os._exit(0)
 
         for server in self.servers:

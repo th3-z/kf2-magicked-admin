@@ -12,14 +12,14 @@ class Setting:
             die("Configuration file ['{}'] not found".format(CONFIG_PATH))
 
         try:
-            self.config = configparser.SafeConfigParser()
+            self.config = configparser.ConfigParser()
             self.config.read(CONFIG_PATH)
 
         except configparser.DuplicateOptionError as e:
             die("Duplicate key found in config, please check options: "
                 "\"{}\", on server \"{}\"."
                 .format(e.option, e.section)
-            )
+                )
 
     def setting(self, section, setting):
         try:

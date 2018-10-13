@@ -1,3 +1,5 @@
+from web_admin.constants import *
+
 import logging
 import threading
 import time
@@ -7,8 +9,6 @@ from termcolor import colored
 
 init()
 
-
-from web_admin.constants import *
 
 
 class ChatListener(object):

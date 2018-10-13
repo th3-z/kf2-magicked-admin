@@ -259,7 +259,7 @@ class Server:
     def enforce_levels(self):
         for player in self.players:
             print(player.perk_level)
-            if int(player.perk_level) < int(self.level_threshhold):
+            if int(player.perk_level) < int(self.level_threshold):
                 self.kick_player(player.player_key)
 
     def kick_player(self, player_key):
