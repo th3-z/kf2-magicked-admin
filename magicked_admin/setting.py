@@ -5,6 +5,7 @@ from utils import die
 
 CONFIG_PATH = "./magicked_admin.conf"
 
+
 class Setting:
     def __init__(self):
         if not os.path.exists(CONFIG_PATH):

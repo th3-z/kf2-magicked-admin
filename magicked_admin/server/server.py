@@ -1,15 +1,12 @@
 import requests
-import sys
 import datetime
 import threading
 import time
 
-from hashlib import sha1
 from lxml import html
 from time import sleep
 from termcolor import colored
 
-from server.chat.chat import ChatLogger
 from database.database import ServerDatabase
 
 import web_admin as api
