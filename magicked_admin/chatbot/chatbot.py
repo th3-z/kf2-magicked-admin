@@ -1,21 +1,25 @@
-from server.chat.listener import Listener
+from web_admin.chat import ChatListener
 from chatbot.commands.command_map import CommandMap
 from chatbot.commands.event_commands import CommandGreeter
 
 from os import path
 from utils.logger import logger
 
-class Chatbot(Listener):
+
+class Chatbot(ChatListener):
     """
-    responsible for sending chat to the WebAdmin.
+    responsible for sending chat to the web_admin.
     """
 
-    def __init__(self, server, greeter_enabled=True):
-        self.server = server
-        self.chat = server.chat
-        # The in-game chat can fit 21 Ws horizontally
-        self.word_wrap = 21
-        self.max_lines = 7
+    def __init__(self, server, greeter_enabled=True, name=None):
+        self.server_name = server.name
+        if name:
+            self.name = name
+        else:
+            self.name = "Unnamed"
+
+        self.chat = server.web_admin.chat
+        self.chat.add_listener(self)
 
         self.commands = CommandMap(server, self)
         self.silent = False
@@ -27,9 +31,6 @@ class Chatbot(Listener):
         logger.debug("Bot on server " + server.name + " initialised")
 
     def receive_message(self, username, message, admin=False):
-        """
-        
-        """
         if message[0] == '!':
             # Drop the '!' because its no longer relevant
             args = message[1:].split(' ')

@@ -24,7 +24,7 @@ setup(name="Magicked Administrator",
       description="Scripted management, stats, and bot for KF2-Server",
       options = {"build_exe": build_exe_options},
       executables=[
-          Executable("main.py",
+          Executable("magicked_administrator.py",
                      base=base,
                      targetName="magicked_admin.exe",
                      icon="icon.ico"

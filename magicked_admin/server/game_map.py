@@ -1,5 +1,5 @@
 class GameMap:
-    def __init__(self, name, title="Unnamed"):
+    def __init__(self, name, title="kf-default"):
         self.name = name
         self.title = title
 

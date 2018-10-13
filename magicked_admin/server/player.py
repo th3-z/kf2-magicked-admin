@@ -1,14 +1,12 @@
 import datetime
 
 class Player:
-    """
-    Player class abstract
-    """
+
     def __init__(self, username, perk):
         self.total_deaths = 0
         self.total_kills = 0
         self.total_time = 0
-        self.total_dosh = 0
+        self.total_dosh = 9999
         self.total_dosh_spent = 0
         self.total_health_lost = 0
         self.total_logins = 0

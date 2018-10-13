@@ -4,16 +4,20 @@ from lxml import html
 import logging
 import time
 
+from web_admin.constants import *
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
 class WebInterface(object):
-    def __init__(self, address, username, password):
+    def __init__(self, address, username, password, server_name="unnamed"):
         # validate address here, rise if bad
         self.__address = address
         self.__username = username
         self.__password = password
+
+        self.server_name = server_name
 
         self.__urls = {
             'login': 'http://{0}/ServerAdmin/'
@@ -49,6 +53,8 @@ class WebInterface(object):
 
     def __get(self, session, url, retry_interval=6):
         while True:
+            if __debug__:
+                print("GET: " + url)
             try:
                 response = session.get(url, timeout=self.__timeout)
                 return response
@@ -66,10 +72,14 @@ class WebInterface(object):
                                "{}. Retrying in {}"
                                .format(url, str(err), retry_interval))
 
+            if __debug__:
+                print("GET FAILED")
             time.sleep(retry_interval)
 
     def __post(self, session, url, payload, retry_interval=6):
         while True:
+            if __debug__:
+                print("POST: " + url + " PAYLOAD: " + str(payload))
             try:
                 response = session.post(
                     url, payload,
@@ -90,6 +100,8 @@ class WebInterface(object):
                                "{}. Retrying in {}"
                                .format(url, str(err), retry_interval))
 
+            if __debug__:
+                print("POST FAILED")
             time.sleep(retry_interval)
 
     def __new_session(self):
@@ -261,10 +273,15 @@ class WebInterface(object):
             '//input[@checked="checked"]/@value'
         )
 
-        length_val = general_settings_tree.xpath(
-            '//select[@id="settings_GameLength"]' +
-            '//option[@selected="selected"]/@value'
-        )[0]
+        if self.get_game_type() == "KFGameContent.KFGameInfo_Endless":
+            length_val = None
+        else:
+            length_val = general_settings_tree.xpath(
+                '//select[@id="settings_GameLength"]' +
+                '//option[@selected="selected"]/@value'
+            )[0]
+
+
         difficulty_val = general_settings_tree.xpath(
             '//input[@name="settings_GameDifficulty_raw"]/@value'
         )[0]
@@ -311,6 +328,7 @@ class WebInterface(object):
         mutator_count_pattern = "//input[@name=\"mutatorGroupCount\"]/@value"
 
         game_type = map_tree.xpath(game_type_pattern)[0]
+        print(game_type)
         map_name = map_tree.xpath(map_pattern)[0]
         url_extra = map_tree.xpath(url_extra_pattern)[0]
         mutator_count = map_tree.xpath(mutator_count_pattern)[0]

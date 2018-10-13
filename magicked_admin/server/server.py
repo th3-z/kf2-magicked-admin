@@ -1,6 +1,8 @@
 import requests
 import sys
 import datetime
+import threading
+import time
 
 from hashlib import sha1
 from lxml import html
@@ -8,131 +10,48 @@ from time import sleep
 from termcolor import colored
 
 from server.chat.chat import ChatLogger
-from server.managers.server_mapper import ServerMapper
 from database.database import ServerDatabase
 from utils.logger import logger
+
+import web_admin as api
 
 import server.game as game
 from server.game import Game
 from server.game_map import GameMap
+from server.player import Player
 
 
 class Server:
-    def __init__(self, name, address, username, password, game_password,
-                 max_players, level_threshhold=0):
+    def __init__(self, name, address, username, password, ops=None):
         self.name = name
-        self.address = address
-        self.max_players = max_players
-        self.username = username
-        self.password = password
-        self.password_hash = "$sha1$" + \
-                             sha1(password.encode("iso-8859-1", "ignore") +
-                                  username.encode("iso-8859-1", "ignore"))\
-                             .hexdigest()
-        self.game_password = game_password
 
-        self.database = ServerDatabase(name)
-        print("Connecting to: {} ({})...".format(self.name, self.address))
-        self.session = self.new_session()
-        message = "Connected to: {} ({})".format(self.name, self.address)
+        print("Connecting to: {} ({})...".format(name, address))
+        self.web_admin = api.web_admin(address, username, password, ops)
+        message = "Connected to: {} ({})".format(name, address)
         print(colored(message, 'green'))
 
-        self.general_settings = self.load_general_settings()
-        self.game = Game(GameMap("kf-default"), game.MODE_SURVIVAL)
+        self.game_password = None
+        self.level_threshold = None
 
+        self.game = Game(GameMap("kf-default"), api.MODE_UNKNOWN)
         self.trader_time = False
         self.players = []
-        self.level_threshhold = level_threshhold
-
-        self.chat = ChatLogger(self)
-        self.chat.start()
 
         self.mapper = ServerMapper(self)
         self.mapper.start()
 
+        self.database = ServerDatabase(name)
+
         logger.debug("Server " + name + " initialised")
 
-    # This needs more clean naming? Check to see if it is fixed in other branches. 
-    def new_session(self):
-        login_url = "http://" + self.address + "/ServerAdmin/"
-        login_payload = {
-            'password_hash': self.password_hash,
-            'username': self.username,
-            'password': '',
-            'remember': '-1'
-        }
+    def close(self):
+        self.mapper.stop()
+        self.web_admin.close()
 
-        try:
-            s = requests.Session()
+    def set_game_password(self, password):
+        self.game_password = password
 
-            login_page_response = s.get(login_url)
-
-            if "hashAlg = \"sha1\"" not in login_page_response.text:
-                login_payload['password_hash'] = self.password
-
-            login_page_tree = html.fromstring(login_page_response.content)
-
-            token = login_page_tree.xpath('//input[@name="token"]/@value')[0]
-            login_payload.update({'token': token})
-
-            login_response = s.post(login_url, data=login_payload)
-
-            if "Invalid credentials" in login_response.text:
-                logger.error("Bad credentials for server: " + self.name)
-                input("Press enter to exit...")
-                sys.exit()
-
-        # Add in something to retry for X times.
-        except requests.exceptions.RequestException:
-            logger.error("Network error on: " + self.address +
-                         " (" + self.name + "), bad address?")
-            input("Press enter to exit...")
-            sys.exit()
-
-        return s
-
-    def load_general_settings(self):
-        settings = {}
-
-        general_settings_url = "http://" + self.address + \
-                               "/ServerAdmin/settings/general"
-
-        try:
-            general_settings_response = self.session.get(general_settings_url)
-        except requests.exceptions.RequestException as e:
-            logger.warning("Couldn't get settings " + self.name +
-                         " (RequestException), sleeping for 3s")
-            # This should retry, not continue to execute this function
-            # general_settings_response may be unassigned.
-            sleep(3)
-        general_settings_tree = html.fromstring(
-            general_settings_response.content
-        )
-
-        settings_names = general_settings_tree.xpath('//input/@name')
-        settings_vals = general_settings_tree.xpath('//input/@value')
-
-        radio_settings_names = general_settings_tree.xpath(
-            '//input[@checked="checked"]/@name')
-        radio_settings_vals = general_settings_tree.xpath(
-            '//input[@checked="checked"]/@value')
-        length_val = general_settings_tree.xpath(
-            '//select[@id="settings_GameLength"]'
-            '//option[@selected="selected"]/@value')[0]
-        difficulty_val = general_settings_tree.xpath(
-            '//input[@name="settings_GameDifficulty_raw"]/@value')[0]
-
-        settings['settings_GameLength'] = length_val
-        settings['settings_GameDifficulty'] = difficulty_val
-        settings['action'] = 'save'
-
-        for i in range(0,len(settings_names)):
-            settings[settings_names[i]] = settings_vals[i]
-
-        for i in range(0,len(radio_settings_names)):
-            settings[radio_settings_names[i]] = radio_settings_vals[i]
-
-        return settings
+        self.web_admin.set_game_password(password)
 
     def new_wave(self):
         self.chat.handle_message("server",
@@ -174,7 +93,7 @@ class Server:
             self.game.game_map.plays_other += 1
 
 
-        self.chat.handle_message("server", "!new_game", admin=True)
+        self.web_admin.chat.handle_message("server", "!new_game", admin=True)
 
     def get_player(self, username):
         for player in self.players:
@@ -242,7 +161,7 @@ class Server:
 
     def save_settings(self):
         # Addresses a problem where certain requests cause
-        # webadmin to forget settings
+        # web_admin to forget settings
         general_settings_url = "http://" + self.address + \
                                "/ServerAdmin/settings/general"
         try:
@@ -318,6 +237,7 @@ class Server:
         return True
 
     def change_map(self, new_map):
+        self.web_admin.set_map(new_map)
         map_url = "http://" + self.address + "/ServerAdmin/current/change"
         payload = {
             "gametype": self.game.gamemode,
@@ -372,3 +292,122 @@ class Server:
             logger.warning("Couldn't set GameMode on {} (RequestException)"
                            .format(self.name))
             sleep(3)
+
+
+class ServerMapper(threading.Thread):
+
+    def __init__(self, server):
+        threading.Thread.__init__(self)
+
+        self.server = server
+        self.web_admin = server.web_admin
+
+        self.__exit = False
+        # TODO configuration option
+        self.__refresh_rate = 20 if __debug__ else 5
+
+        self.database = ServerDatabase(server.name)
+
+    def run(self):
+        while not self.__exit:
+            self.__poll()
+            time.sleep(self.__refresh_rate)
+
+    def stop(self):
+        self.__exit = True
+
+    def __poll(self):
+        game_now, players_now = self.web_admin.get_game_players()
+
+        self.__update_players(players_now)
+        self.__update_game(game_now)
+
+    def __event_new_game(self):
+        pass
+
+    def __event_wave_start(self):
+        pass
+
+    def __event_wave_end(self):
+        pass
+
+    def __event_trader_open(self):
+        pass
+
+    def __event_trader_close(self):
+        pass
+
+    def __update_game(self, game_now):
+        if game_now.wave < self.server.game.wave:
+            self.__event_new_game()
+        elif game_now.wave > self.server.game.wave:
+            self.__event_wave_start()
+        if game_now.zeds_dead == game_now.zeds_total:
+            self.__event_wave_end()
+
+        if game_now.trader_open and not self.server.trader_time:
+            self.__event_trader_open()
+        if not game_now.trader_open and self.server.trader_time:
+            self.__event_trader_close()
+
+        self.server.game.game_map.title = game_now.map_title
+        self.server.game.game_map.name = game_now.map_name
+        self.server.game.wave = game_now.wave
+        self.server.game.length = game_now.length
+        self.server.game.difficulty = game_now.difficulty
+        self.server.game.zeds_dead = game_now.zeds_dead
+        self.server.game.zeds_total = game_now.zeds_total
+        self.server.game.game_type = game_now.game_type
+
+    def __update_players(self, players_now):
+        # Quitters
+        for player in self.server.players:
+            if player.username not in [p.username for p in players_now]:
+                self.__event_player_quit(player)
+
+        # Joiners
+        for player in players_now:
+            if player.username not in \
+                    [p.username for p in self.server.players]:
+                self.__event_player_join(player)
+
+        for player in self.server.players:
+            try:
+                player_now = next(filter(
+                    lambda p: p.username == player.username, players_now
+                ))
+            except StopIteration:
+                self.server.players = []
+                return
+
+            player.ping = player_now.ping
+
+            player.perk = player_now.perk
+            player.total_kills += player_now.kills - player.kills
+
+            player.wave_kills += player_now.kills - player.kills
+            player.wave_dosh += player_now.dosh - player.dosh
+
+            if player_now.dosh > player.dosh:
+                player.game_dosh += player_now.dosh - player.dosh
+                player.total_dosh += player_now.dosh - player.dosh
+            else:
+                player.total_dosh_spent += player.dosh - player_now.dosh
+
+            player.kills = player_now.kills
+            player.dosh = player_now.dosh
+            player.health = player_now.health
+
+    def __event_player_join(self, player):
+        new_player = Player(player.username, player.perk)
+        new_player.kills = player.kills
+        new_player.dosh = player.dosh
+        self.server.database.load_player(new_player)
+
+        self.server.players.append(new_player)
+        print(player.username + " joined")
+
+    def __event_player_quit(self, player):
+        self.server.players.remove(player)
+        self.server.database.save_player(player)
+        print(player.username + " left")

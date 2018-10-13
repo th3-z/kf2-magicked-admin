@@ -14,7 +14,7 @@ from utils.geolocation import get_country
 
 from itertools import groupby
 
-class ServerMapper(threading.Thread):
+class ServerMapperO(threading.Thread):
     """
     This class is responsible for gathering information from the web admin and
     ... other stuffs.

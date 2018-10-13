@@ -23,7 +23,6 @@ class ServerDatabase:
 
     def build_schema(self):
         print("Building new database...")
-        logger.debug("Building new database...")
 
         conn = sqlite3.connect(self.sqlite_db_file)
         cur = conn.cursor()
@@ -41,7 +40,7 @@ class ServerDatabase:
         self.cur.execute(query, (username,))
         all_rows = self.cur.fetchall()
         lock.release()
-        return all_rows[0][-1] + 1
+        return all_rows[0][-1]
 
     def rank_dosh(self, username):
         subquery = "SELECT count(*) FROM players as player2 WHERE player2.dosh >= player1.dosh"
@@ -50,7 +49,7 @@ class ServerDatabase:
         self.cur.execute(query, (username,))
         all_rows = self.cur.fetchall()
         lock.release()
-        return all_rows[0][-1] + 1
+        return all_rows[0][-1]
 
     def rank_death(self, username):
         subquery = "SELECT count(*) FROM players as player2 WHERE player2.deaths <= player1.deaths"
@@ -194,6 +193,7 @@ class ServerDatabase:
             return 0
 
     def load_player(self, player):
+        # TODO id as parameter, return new player obj
         player.total_kills = self.player_kills(player.username)
         player.total_dosh = self.player_dosh(player.username)
         player.total_deaths = self.player_deaths(player.username)
@@ -209,6 +209,7 @@ class ServerDatabase:
 
         self.cur.execute("UPDATE players SET dosh_spent = ? WHERE username = ?",
                          (player.total_dosh_spent, player.username))
+
         self.cur.execute("UPDATE players SET dosh = ? WHERE username = ?",
                          (player.total_dosh, player.username))
         self.cur.execute("UPDATE players SET kills = ? WHERE username = ?",

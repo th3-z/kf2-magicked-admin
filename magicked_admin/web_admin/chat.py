@@ -1,4 +1,6 @@
 import logging
+import threading
+import time
 from lxml import html
 from colorama import init
 from termcolor import colored
@@ -8,8 +10,10 @@ init()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+from web_admin.constants import *
 
-class Listener(object):
+
+class ChatListener(object):
     """
         Abstract for making classes that can receive messages from Chat.
         Supply:
@@ -20,19 +24,29 @@ class Listener(object):
         raise NotImplementedError("Listener.receive_message() not implemented")
 
 
-class Chat:
-    def __init__(self, web_interface, operators=None,
-                 server_name="unnamed"):
+class Chat(threading.Thread):
+    def __init__(self, web_interface, operators=None):
+        threading.Thread.__init__(self)
 
         self.__web_interface = web_interface
         self.__listeners = []
-
+        self.__exit = False
+        # TODO configuration option
+        self.__refresh_rate = 10 if __debug__ else 3
         self.__print_messages = True
-        self.silent = False
-        self.server_name = server_name
-        self.operators = operators if operators else []
 
-    def poll(self):
+        self.silent = False
+        self.__operators = operators if operators else []
+
+    def run(self):
+        while not self.__exit:
+            self.__poll()
+            time.sleep(self.__refresh_rate)
+
+    def stop(self):
+        self.__exit = True
+
+    def __poll(self):
         username_pattern = "//span[starts-with(@class,\'username\')]/text()"
         user_type_pattern = "//span[starts-with(@class,\'username\')]/@class"
         message_pattern = "//span[@class=\'message\']/text()"
@@ -50,25 +64,22 @@ class Chat:
                 user_type = message_tree.xpath(user_type_pattern)[0]
                 message = message_tree.xpath(message_pattern)[0]
 
-                admin = True if \
-                    "admin" in user_type or username in self.operators \
-                    else False
+                admin = True if "admin" in user_type \
+                                or username in self.__operators else False
 
                 self.handle_message(username, message, admin)
 
     def handle_message(self, username, message, admin, internal=False):
         command = True if message[0] == '!' else False
 
-        if self.__print_messages and not internal:
-            print_line = username + "@" + self.server_name + ": " + message
+        if self.__print_messages and (__debug__ or not internal):
+            print_line = username + "@" + self.__web_interface.server_name \
+                         + ": " + message
             if command:
                 print_line = colored(print_line, 'green')
             else:
                 print_line = colored(print_line, 'yellow')
             print(print_line)
-
-        if internal:
-            logger.debug("Internal message received: {}".format(message))
 
         for listener in self.__listeners:
             listener.receive_message(username, message, admin)
