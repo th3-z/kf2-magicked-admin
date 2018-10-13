@@ -3,8 +3,6 @@ import requests
 import time
 from lxml import html
 from termcolor import colored
-from utils.logger import logger
-
 
 
 class ChatLogger(threading.Thread):
@@ -39,8 +37,8 @@ class ChatLogger(threading.Thread):
                     timeout=2
                 )
             except requests.exceptions.RequestException:
-                logger.debug("Couldn't retrieve chat (RequestException) ({})"
-                             .format(self.server.name))
+                print("Couldn't retrieve chat (RequestException) ({})"
+                      .format(self.server.name))
                 time.sleep(self.time_interval + 3)
                 continue
 
@@ -56,15 +54,16 @@ class ChatLogger(threading.Thread):
                     if len(username_arr) < 1:
                         # toss username arg to cd parser?
                         # Add in a test here to parse CD
-                        logger.debug("Message without username '{}' ({})"
-                                     .format(message, self.server.name))
+                        print("Message without username '{}' ({})"
+                              .format(message, self.server.name))
                         continue
                     username = username_arr[0]
 
                     user_type_arr = message_tree.xpath('//span[starts-with(@class,\'username\')]/@class')
                     if len(user_type_arr) < 1:
-                        logger.debug("Message without user type '{}' ({})"
-                                     .format(message, self.server.name))
+                        if __debug__:
+                            print("Message without user type '{}' ({})"
+                                  .format(message, self.server.name))
                         continue
                     user_type = user_type_arr[0]
 
@@ -112,4 +111,5 @@ class ChatLogger(threading.Thread):
         try:
             self.server.session.post(chat_submit_url, message_payload)
         except requests.exceptions.RequestException:
-            logger.debug("Couldn't submit message (RequestException)")
+            if __debug__:
+                print("Couldn't submit message (RequestException)")

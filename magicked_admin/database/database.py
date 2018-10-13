@@ -1,12 +1,10 @@
-# This file does not follow PEP8 style guidelines, instead a line length of 120 should be used
-
 import sqlite3
 import datetime
 from os import path
-from utils.logger import logger
 from threading import Lock
 
 lock = Lock()
+
 
 class ServerDatabase:
 
@@ -19,7 +17,8 @@ class ServerDatabase:
                                     check_same_thread=False)
         self.cur = self.conn.cursor()
 
-        logger.debug("Database for " + name + " initialised")
+        if __debug__:
+            print("Database for " + name + " initialised")
 
     def build_schema(self):
         print("Building new database...")

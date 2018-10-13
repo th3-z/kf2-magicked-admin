@@ -8,7 +8,6 @@ from lxml import html
 from lxml.html.clean import Cleaner
 from termcolor import colored
 from server.player import Player
-from utils.logger import logger
 from utils.time import seconds_to_hhmmss
 from utils.geolocation import get_country
 
@@ -28,7 +27,8 @@ class ServerMapperO(threading.Thread):
         self.last_wave = 0
 
         threading.Thread.__init__(self)
-        logger.debug("Mapper for " + server.name + " initialised")
+        if __debug__:
+            print("Mapper for " + server.name + " initialised")
 
     def poll(self):
         info_url = "http://" + self.server.address + \
@@ -37,9 +37,9 @@ class ServerMapperO(threading.Thread):
             info_page_response = self.server.session.post(info_url,
                                                           timeout=2)
         except requests.exceptions.RequestException:
-            logger.debug("Couldn't get info page (RequestException)"
-                         " on {} sleeping for 5 seconds"
-                         .format(self.server.name))
+            print("Couldn't get info page (RequestException)"
+                  " on {} sleeping for 5 seconds"
+                  .format(self.server.name))
             time.sleep(5)
             return
 
@@ -79,9 +79,8 @@ class ServerMapperO(threading.Thread):
             headings += heading.xpath('//th/text()')
 
         if not required_headings.issubset(set(headings)):
-            logger.error("Player is missing columns ({}) on {}"
-                         .format(required_headings - set(headings),
-                                 self.server.name))
+            print("Player is missing columns ({}) on {}"
+                  .format(required_headings - set(headings), self.server.name))
 
         player_rows_pat = '//table[@id="players"]//tbody//tr'
         player_rows_tree = info_tree.xpath(player_rows_pat)
@@ -97,13 +96,13 @@ class ServerMapperO(threading.Thread):
                     values += [value.text_content()]
 
             if values[0] == "There are no players":
-                logger.debug("No players on server {}"
-                             .format(self.server.name))
+                if __debug__:
+                    print("No players on server {}".format(self.server.name))
             elif len(values) != len(headings):
-                logger.warning("Player row ({}) length did not "
-                               "match the table length on {}"
-                               .format(player_row[headings.index("Name")],
-                                       self.server.name))
+                print("Player row ({}) length did not "
+                      "match the table length on {}"
+                      .format(player_row[headings.index("Name")],
+                              self.server.name))
             else:
                 players_table += [values]
 
@@ -187,9 +186,9 @@ class ServerMapperO(threading.Thread):
             z, zr = info_tree.xpath('//dd[@class="gs_wave"]/text()')[0]\
                 .split("/")
         except:
-            logger.error("Gamemode not supported without additional setup, "
-                         "see documentation. Skipping update for {}."
-                         .format(self.server.name))
+            print("Gamemode not supported without additional setup, "
+                  "see documentation. Skipping update for {}."
+                  .format(self.server.name))
             return
         z, zr = int(z), int(zr)
         if z == zr and z > 1:
@@ -270,7 +269,7 @@ class ServerMapperO(threading.Thread):
                     'player_key': player_key
                 }
 
-        logger.warning("Couldn't find player details for: {}".format(username))
+        print("Couldn't find player details for: {}".format(username))
         return {
             'steam_id': "00000000000000000",
             'ip': "0.0.0.0",

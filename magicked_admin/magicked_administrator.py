@@ -11,7 +11,6 @@ from chatbot.chatbot import Chatbot
 
 from utils import die
 from utils.text import str_to_bool
-from utils.logger import logger
 
 from setting import Setting
 settings = Setting()
@@ -26,9 +25,6 @@ class MagickedAdministrator:
 
     def run(self):
         for server_name in settings.sections():
-            logger.setLevel(
-                logging.getLevelName(settings.setting(server_name, "log_level"))
-            )
 
             server = Server(server_name,
                             settings.setting(server_name, "address"),

@@ -3,7 +3,6 @@ from chatbot.commands.command_map import CommandMap
 from chatbot.commands.event_commands import CommandGreeter
 
 from os import path
-from utils.logger import logger
 
 
 class Chatbot(ChatListener):
@@ -28,7 +27,8 @@ class Chatbot(ChatListener):
         if path.exists(server.name + ".init"):
             self.execute_script(server.name + ".init")
 
-        logger.debug("Bot on server " + server.name + " initialised")
+        if __debug__:
+            print("Bot on server " + server.name + " initialised")
 
     def receive_message(self, username, message, admin=False):
         if message[0] == '!':
@@ -49,7 +49,8 @@ class Chatbot(ChatListener):
                 self.chat.submit_message(response)
 
     def execute_script(self, file_name):
-        logger.debug("Executing script: " + file_name)
+        if __debug__:
+            print("Executing script: " + file_name)
         print("Executing script: " + file_name)
         with open(file_name) as script:
             for line in script:

@@ -6,9 +6,6 @@ import time
 
 from web_admin.constants import *
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
 
 class WebInterface(object):
     def __init__(self, address, username, password, server_name="unnamed"):
@@ -59,18 +56,22 @@ class WebInterface(object):
                 response = session.get(url, timeout=self.__timeout)
                 return response
             except requests.exceptions.HTTPError:
-                logger.info("HTTPError getting {}. Retrying in {}"
-                            .format(url, retry_interval))
+                if __debug__:
+                    print("HTTPError getting {}. Retrying in {}"
+                          .format(url, retry_interval))
             except requests.exceptions.ConnectionError:
-                logger.info("ConnectionError getting {}. Retrying in {}"
-                            .format(url, retry_interval))
+                if __debug__:
+                    print("ConnectionError getting {}. Retrying in {}"
+                          .format(url, retry_interval))
             except requests.exceptions.Timeout:
-                logger.info("Timeout getting {}. Retrying in {}"
-                            .format(url, retry_interval))
+                if __debug__:
+                    print("Timeout getting {}. Retrying in {}"
+                          .format(url, retry_interval))
             except requests.exceptions.RequestException as err:
-                logger.warning("None-specific RequestException getting {}, "
-                               "{}. Retrying in {}"
-                               .format(url, str(err), retry_interval))
+                if __debug__:
+                    print("None-specific RequestException getting {}, "
+                          "{}. Retrying in {}"
+                          .format(url, str(err), retry_interval))
 
             if __debug__:
                 print("GET FAILED")
@@ -87,18 +88,18 @@ class WebInterface(object):
                 )
                 return response
             except requests.exceptions.HTTPError:
-                logger.info("HTTPError posting {}. Retrying in {}"
-                            .format(url, retry_interval))
+                print("HTTPError posting {}. Retrying in {}"
+                      .format(url, retry_interval))
             except requests.exceptions.ConnectionError:
-                logger.info("ConnectionError posting {}. Retrying in {}"
-                            .format(url, retry_interval))
+                print("ConnectionError posting {}. Retrying in {}"
+                      .format(url, retry_interval))
             except requests.exceptions.Timeout:
-                logger.info("Timeout posting {}. Retrying in {}"
-                            .format(url, retry_interval))
+                print("Timeout posting {}. Retrying in {}"
+                      .format(url, retry_interval))
             except requests.exceptions.RequestException as err:
-                logger.warning("None-specific RequestException posting {}, "
-                               "{}. Retrying in {}"
-                               .format(url, str(err), retry_interval))
+                print("None-specific RequestException posting {}, "
+                      "{}. Retrying in {}"
+                      .format(url, str(err), retry_interval))
 
             if __debug__:
                 print("POST FAILED")

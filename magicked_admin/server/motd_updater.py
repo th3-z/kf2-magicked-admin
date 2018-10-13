@@ -6,7 +6,6 @@ import time
 from lxml import html
 from utils.text import millify
 from utils.text import trim_string
-from utils.logger import logger
 
 
 class MotdUpdater(threading.Thread):
@@ -42,18 +41,19 @@ class MotdUpdater(threading.Thread):
         motd_url = "http://" + self.server.address + \
                    "/ServerAdmin/settings/welcome"
 
-        logger.debug("Updating MOTD ({})".format(self.server.name))
+        if __debug__:
+            print("Updating MOTD ({})".format(self.server.name))
         try:
             self.server.session.post(motd_url, data=payload)
             self.server.save_settings()
         except requests.exceptions.RequestException:
-            logger.warning("Couldn't submit motd (RequestException) to {}"
-                           .format(self.server.name))
+            print("Couldn't submit motd (RequestException) to {}"
+                  .format(self.server.name))
             raise
 
     def load_motd(self):
         if not path.exists(self.server.name + ".motd"):
-            logger.warning("No motd file for " + self.server.name)
+            print("No MOTD file for " + self.server.name)
             return ""
 
         motd_f = open(self.server.name + ".motd")
@@ -68,9 +68,9 @@ class MotdUpdater(threading.Thread):
         elif self.scoreboard_type in ['Dosh','dosh']:
             scores = self.server.database.top_dosh()
         else:
-            logger.error("Bad configuration, scoreboard_type. "
-                         "Options are: dosh, kills ({})"
-                         .format(self.server.name))
+            print("Bad configuration, scoreboard_type. "
+                  "Options are: dosh, kills ({})"
+                  .format(self.server.name))
             return
 
         for player in scores:
@@ -98,7 +98,8 @@ class MotdUpdater(threading.Thread):
         try:
             motd_response = self.server.session.get(motd_url, timeout=2)
         except requests.exceptions.RequestException as e:
-            logger.debug("Couldn't get motd config(RequestException)")
+            if __debug__:
+                print("Couldn't get motd config(RequestException)")
             raise
 
         motd_tree = html.fromstring(motd_response.content)

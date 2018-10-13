@@ -11,7 +11,6 @@ from termcolor import colored
 
 from server.chat.chat import ChatLogger
 from database.database import ServerDatabase
-from utils.logger import logger
 
 import web_admin as api
 
@@ -42,7 +41,8 @@ class Server:
 
         self.database = ServerDatabase(name)
 
-        logger.debug("Server " + name + " initialised")
+        if __debug__:
+            print("Server " + name + " initialised")
 
     def close(self):
         self.mapper.stop()
@@ -89,9 +89,9 @@ class Server:
         elif self.game.gamemode == game.MODE_WEEKLY:
             self.game.game_map.plays_weekly += 1
         else:
-            logger.debug("Unknown gamemode {}".format(self.game.gamemode))
+            if __debug__:
+                print("Unknown gamemode {}".format(self.game.gamemode))
             self.game.game_map.plays_other += 1
-
 
         self.web_admin.chat.handle_message("server", "!new_game", admin=True)
 
@@ -125,12 +125,14 @@ class Server:
                 self.players.remove(player)
 
     def write_all_players(self, final=False):
-        logger.debug("Flushing players ({})".format(self.name))
+        if __debug__:
+            print("Flushing players ({})".format(self.name))
         for player in self.players:
             self.database.save_player(player, final)
 
     def write_game_map(self):
-        logger.debug("Writing to database ({})".format(self.name))
+        if __debug__:
+            print("Writing to database ({})".format(self.name))
         self.database.save_game_map(self.game.game_map)
 
     def set_difficulty(self, difficulty):
@@ -142,8 +144,8 @@ class Server:
         try:
             self.session.post(general_settings_url, self.general_settings)
         except requests.exceptions.RequestException:
-            logger.warning("Couldn't set difficulty on {} (RequestException)"
-                           .format(self.name))
+            print("Couldn't set difficulty on {} (RequestException)"
+                  .format(self.name))
             sleep(3)
 
     def set_length(self, length):
@@ -155,8 +157,8 @@ class Server:
         try:
             self.session.post(general_settings_url, self.general_settings)
         except requests.exceptions.RequestException:
-            logger.warning("Couldn't set length on {} (RequestException)"
-                           .format(self.name))
+            print("Couldn't set length on {} (RequestException)"
+                  .format(self.name))
             sleep(3)
 
     def save_settings(self):
@@ -167,8 +169,8 @@ class Server:
         try:
             self.session.post(general_settings_url, self.general_settings)
         except requests.exceptions.RequestException:
-            logger.warning("Couldn't set general settings on {} "
-                           "(RequestException)".format(self.name))
+            print("Couldn't set general settings on {} "
+                  "(RequestException)".format(self.name))
             sleep(3)
 
     # Re-write this to be enable and disbale password, that way when disabling
@@ -191,8 +193,8 @@ class Server:
         try:
             self.session.post(passwords_url, payload)
         except requests.exceptions.RequestException:
-            logger.warning("Could not disable password on {} (RequestException)"
-                           .format(self.name))
+            print("Could not disable password on {} (RequestException)"
+                  .format(self.name))
             sleep(3)
             return False
         return True
@@ -213,8 +215,9 @@ class Server:
         try:
             passwords_response = self.session.get(passwords_url)
         except requests.exceptions.RequestException:
-            logger.warning("Couldn't get password state on {} "
-                           "(RequestException), returning".format(self.name))
+            if __debug__:
+                print("Couldn't get password state on {} "
+                      "(RequestException), returning".format(self.name))
             return
         passwords_tree = html.fromstring(passwords_response.content)
 
@@ -230,8 +233,9 @@ class Server:
         try:
             self.session.post(passwords_url, payload)
         except requests.exceptions.RequestException:
-            logger.warning("Couldn't set password on {} (RequestException)"
-                           .format(self.name))
+            if __debug__:
+                print("Couldn't set password on {} (RequestException)"
+                      .format(self.name))
             sleep(3)
             return False
         return True
@@ -250,7 +254,8 @@ class Server:
         try:
             self.session.post(map_url, payload)
         except requests.exceptions.RequestException:
-            logger.warning("Couldn't set map on {} (RequestException)"
+            if __debug__:
+                print("Couldn't set map on {} (RequestException)"
                            .format(self.name))
             sleep(3)
 
@@ -289,8 +294,9 @@ class Server:
         try:
             self.session.post(url, payload)
         except requests.exceptions.RequestException:
-            logger.warning("Couldn't set GameMode on {} (RequestException)"
-                           .format(self.name))
+            if __debug__:
+                print("Couldn't set GameMode on {} (RequestException)"
+                      .format(self.name))
             sleep(3)
 
 

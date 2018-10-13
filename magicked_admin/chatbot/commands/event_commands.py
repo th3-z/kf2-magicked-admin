@@ -1,7 +1,6 @@
 from chatbot.commands.command import Command
 from utils.text import millify
 from utils.time import seconds_to_hhmmss
-from utils.logger import logger
 
 import threading
 import datetime
@@ -25,7 +24,8 @@ class CommandGreeter(Command):
             return self.not_auth_message
 
         if args[0] == "new_game":
-            logger.debug("Greeter received new game event")
+            if __debug__:
+                print("Greeter received new game event")
             self.new_game_time = datetime.datetime.now()
             return None
         now = datetime.datetime.now()
@@ -33,10 +33,10 @@ class CommandGreeter(Command):
         seconds = elapsed_time.total_seconds()
 
         if seconds < self.new_game_grace:
-            logger.debug("Skipping welcome {}, new_game happened recently ({})"
-                         " [{}/{}]"
-                         .format(username, self.server.name, seconds,
-                                 self.new_game_grace))
+            if __debug__:
+                print("Skipping welcome {}, new_game happened recently ({})"
+                      " [{}/{}]".format(username, self.server.name, seconds,
+                                        self.new_game_grace))
             return None
 
         if len(args) < 2:
@@ -46,8 +46,9 @@ class CommandGreeter(Command):
 
         player = self.server.get_player(requested_username)
         if not player:
-            logger.debug("DEBUG: Bad player join command (not found) [{}]"
-                         .format(requested_username))
+            if __debug__:
+                print("DEBUG: Bad player join command (not found) [{}]"
+                      .format(requested_username))
             return "Couldn't greet player {}.".format(requested_username)
 
         if player.total_logins > 1:

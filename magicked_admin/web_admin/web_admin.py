@@ -9,9 +9,6 @@ from web_admin.constants import *
 from utils.text import str_to_bool
 from utils.geolocation import get_country
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
 
 class web_admin(object):
     def __init__(self, address, username, password, ops=None,
@@ -62,7 +59,7 @@ class web_admin(object):
 
     def toggle_game_password(self):
         if not self.__game_password:
-            logger.info("Tried to toggle game password before setting value")
+            print("Tried to toggle game password before setting value")
             return False
 
         if self.has_game_password():
@@ -227,7 +224,8 @@ class web_admin(object):
                     'country_code': country_code
                 }
 
-        logger.warning("Couldn't find player details for: {}".format(username))
+        if __debug__:
+            ("Couldn't find player details for: {}".format(username))
         return {
             'steam_id': "00000000000000000",
             'ip': "0.0.0.0",

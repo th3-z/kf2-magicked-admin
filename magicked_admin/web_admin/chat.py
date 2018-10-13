@@ -7,8 +7,6 @@ from termcolor import colored
 
 init()
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 from web_admin.constants import *
 
