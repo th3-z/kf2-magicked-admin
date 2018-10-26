@@ -196,16 +196,16 @@ class CommandGameMode(Command):
                    "Options are endless, survival, weekly or versus."
 
         if args[1] in ["e", "end", "endless"]:
-            mode = game.MODE_ENDLESS
+            mode = game.GAME_TYPE_ENDLESS
         elif args[1] in ["s", "srv", "survival"]:
-            mode = game.MODE_SURVIVAL
+            mode = game.GAME_TYPE_SURVIVAL
         elif args[1] in ["w", "week", "weekly"]:
-            mode = game.MODE_WEEKLY
+            mode = game.GAME_TYPE_WEEKLY
         elif args[1] in ["v", "vs", "versus"]:
-            mode = game.MODE_SURVIVAL_VS
+            mode = game.GAME_TYPE_SURVIVAL_VS
         else:
             return "GameMode not recognised. " + \
                    "Options are endless, survival, weekly or versus."
 
-        self.server.change_gamemode(mode)
+        self.server.change_game_type(mode)
         return "GameMode will be changed to {0}.".format(str(mode))

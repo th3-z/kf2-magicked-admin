@@ -10,13 +10,7 @@ from termcolor import colored
 init()
 
 
-
 class ChatListener(object):
-    """
-        Abstract for making classes that can receive messages from Chat.
-        Supply:
-            receive_message(self, username, message, admin):
-    """
 
     def receive_message(self, username, message, admin):
         raise NotImplementedError("Listener.receive_message() not implemented")

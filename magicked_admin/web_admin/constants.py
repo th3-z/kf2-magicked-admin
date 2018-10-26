@@ -14,11 +14,11 @@ LEN_SHORT = "0"
 LEN_NORM = "1"
 LEN_LONG = "2"
 
-MODE_UNKNOWN = "UnknownGameMode"
-MODE_SURVIVAL = "KFGameContent.KFGameInfo_Survival"
-MODE_WEEKLY = "KFGameContent.KFGameInfo_WeeklySurvival"
-MODE_SURVIVAL_VS = "KFGameContent.KFGameInfo_VersusSurvival"
-MODE_ENDLESS = "KFGameContent.KFGameInfo_Endless"
+GAME_TYPE_UNKNOWN = "UnknownGameType"
+GAME_TYPE_SURVIVAL = "KFGameContent.KFGameInfo_Survival"
+GAME_TYPE_WEEKLY = "KFGameContent.KFGameInfo_WeeklySurvival"
+GAME_TYPE_SURVIVAL_VS = "KFGameContent.KFGameInfo_VersusSurvival"
+GAME_TYPE_ENDLESS = "KFGameContent.KFGameInfo_Endless"
 
 
 ConstGame = namedtuple('Game', ['trader_open', 'zeds_total', 'zeds_dead',

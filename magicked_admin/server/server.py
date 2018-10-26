@@ -13,7 +13,7 @@ import web_admin as api
 
 import server.game as game
 from server.game import Game
-from server.game_map import GameMap
+from server.game import GameMap
 from server.player import Player
 
 
@@ -29,7 +29,7 @@ class Server:
         self.game_password = None
         self.level_threshold = None
 
-        self.game = Game(GameMap("kf-default"), api.MODE_UNKNOWN)
+        self.game = Game(GameMap("kf-default"), api.GAME_TYPE_UNKNOWN)
         self.trader_time = False
         self.players = []
 
@@ -72,22 +72,22 @@ class Server:
     def new_game(self):
         message = "New game on {}, map: {}, mode: {}"\
             .format(self.name, self.game.game_map.title,
-                    self.game.gamemode)
+                    self.game.game_type)
         print(colored(message, 'magenta'))
 
         self.database.load_game_map(self.game.game_map)
 
-        if self.game.gamemode == game.MODE_ENDLESS:
+        if self.game.game_type == game.GAME_TYPE_ENDLESS:
             self.game.game_map.plays_endless += 1
-        elif self.game.gamemode == game.MODE_SURVIVAL:
+        elif self.game.game_type == game.GAME_TYPE_SURVIVAL:
             self.game.game_map.plays_survival += 1
-        elif self.game.gamemode == game.MODE_SURVIVAL_VS:
+        elif self.game.game_type == game.GAME_TYPE_SURVIVAL_VS:
             self.game.game_map.plays_survival_vs += 1
-        elif self.game.gamemode == game.MODE_WEEKLY:
+        elif self.game.game_type == game.GAME_TYPE_WEEKLY:
             self.game.game_map.plays_weekly += 1
         else:
             if __debug__:
-                print("Unknown gamemode {}".format(self.game.gamemode))
+                print("Unknown game_type {}".format(self.game.game_type))
             self.game.game_map.plays_other += 1
 
         self.web_admin.chat.handle_message("server", "!new_game", admin=True)
@@ -241,7 +241,7 @@ class Server:
         self.web_admin.set_map(new_map)
         map_url = "http://" + self.address + "/ServerAdmin/current/change"
         payload = {
-            "gametype": self.game.gamemode,
+            "gametype": self.game.game_type,
             "map": new_map,
             "mutatorGroupCount": "0",
             "urlextra": "?MaxPlayers={}".format(self.max_players),
@@ -278,7 +278,7 @@ class Server:
         self.change_map(self.game.game_map.title)
 
     # Change the GameMode
-    def change_gamemode(self, mode):
+    def change_game_type(self, mode):
         url = "http://" + self.address + "/ServerAdmin/current/change"
         payload = {
             "gametype": mode,
