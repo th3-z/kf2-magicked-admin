@@ -136,30 +136,10 @@ class Server:
         self.database.save_game_map(self.game.game_map)
 
     def set_difficulty(self, difficulty):
-        general_settings_url = "http://" + self.address + \
-                               "/ServerAdmin/settings/general"
-
-        self.general_settings['settings_GameDifficulty'] = difficulty
-        self.general_settings['settings_GameDifficulty_raw'] = difficulty
-        try:
-            self.session.post(general_settings_url, self.general_settings)
-        except requests.exceptions.RequestException:
-            print("Couldn't set difficulty on {} (RequestException)"
-                  .format(self.name))
-            sleep(3)
+        self.web_admin.set_difficulty(difficulty)
 
     def set_length(self, length):
-        general_settings_url = "http://" + self.address + \
-                               "/ServerAdmin/settings/general"
-
-        self.general_settings['settings_GameLength'] = length
-
-        try:
-            self.session.post(general_settings_url, self.general_settings)
-        except requests.exceptions.RequestException:
-            print("Couldn't set length on {} (RequestException)"
-                  .format(self.name))
-            sleep(3)
+        self.web_admin.set_length(length)
 
     def save_settings(self):
         # Addresses a problem where certain requests cause

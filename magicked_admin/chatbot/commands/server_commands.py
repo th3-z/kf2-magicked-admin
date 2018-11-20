@@ -2,6 +2,8 @@ from chatbot.commands.command import Command
 import server.server as server
 import server.game as game
 
+from web_admin.constants import *
+
 from os import path
 
 class CommandSay(Command):
@@ -19,6 +21,7 @@ class CommandSay(Command):
         message = bytes(message.encode("iso-8859-1", "ignore"))\
             .decode('unicode_escape')
         return message
+
 
 class CommandEnforceLevels(Command):
     def __init__(self, server, admin_only=True):
@@ -128,11 +131,11 @@ class CommandLength(Command):
             return "Length not recognised. Options are short, medium, or long."
 
         if args[1] in ["short", "0"]:
-            length = game.LEN_SHORT
+            length = LEN_SHORT
         elif args[1] in ["medium", "med", "normal", "1"]:
-            length = game.LEN_NORM
+            length = LEN_NORM
         elif args[1] in ["long", "2"]:
-            length = game.LEN_LONG
+            length = LEN_LONG
         else:
             return "Length not recognised. Options are short, medium, or long."
 
@@ -152,13 +155,13 @@ class CommandDifficulty(Command):
                    "Options are normal, hard, suicidal, or hell."
 
         if args[1] in ["normal", "0"]:
-            difficulty = game.DIFF_NORM
+            difficulty = DIFF_NORM
         elif args[1] in ["hard", "1"]:
-            difficulty = game.DIFF_HARD
+            difficulty = DIFF_HARD
         elif args[1] in ["suicidal", "sui", "2"]:
-            difficulty = game.DIFF_SUI
+            difficulty = DIFF_SUI
         elif args[1] in ["hell", "hoe", "hellonearth", "3"]:
-            difficulty = game.DIFF_HOE
+            difficulty = DIFF_HOE
         else:
             return "Difficulty not recognised. " + \
                    "Options are normal, hard, suicidal, or hell."
@@ -179,13 +182,13 @@ class CommandGameMode(Command):
                    "Options are endless, survival, weekly or versus."
 
         if args[1] in ["e", "end", "endless"]:
-            mode = game.GAME_TYPE_ENDLESS
+            mode = GAME_TYPE_ENDLESS
         elif args[1] in ["s", "srv", "survival"]:
-            mode = game.GAME_TYPE_SURVIVAL
+            mode = GAME_TYPE_SURVIVAL
         elif args[1] in ["w", "week", "weekly"]:
-            mode = game.GAME_TYPE_WEEKLY
+            mode = GAME_TYPE_WEEKLY
         elif args[1] in ["v", "vs", "versus"]:
-            mode = game.GAME_TYPE_SURVIVAL_VS
+            mode = GAME_TYPE_SURVIVAL_VS
         else:
             return "GameMode not recognised. " + \
                    "Options are endless, survival, weekly or versus."
