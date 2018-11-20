@@ -22,7 +22,7 @@ class Server:
         self.name = name
 
         print("Connecting to: {} ({})...".format(name, address))
-        self.web_admin = api.web_admin(address, username, password, ops)
+        self.web_admin = api.WebAdmin(address, username, password, ops)
         message = "Connected to: {} ({})".format(name, address)
         print(colored(message, 'green'))
 
@@ -49,6 +49,9 @@ class Server:
         self.game_password = password
 
         self.web_admin.set_game_password(password)
+
+    def toggle_game_password(self):
+        self.web_admin.toggle_game_password()
 
     def new_wave(self):
         self.chat.handle_message("server",
@@ -239,22 +242,6 @@ class Server:
 
     def change_map(self, new_map):
         self.web_admin.set_map(new_map)
-        map_url = "http://" + self.address + "/ServerAdmin/current/change"
-        payload = {
-            "gametype": self.game.game_type,
-            "map": new_map,
-            "mutatorGroupCount": "0",
-            "urlextra": "?MaxPlayers={}".format(self.max_players),
-            "action": "change"
-        }
-
-        try:
-            self.session.post(map_url, payload)
-        except requests.exceptions.RequestException:
-            if __debug__:
-                print("Couldn't set map on {} (RequestException)"
-                           .format(self.name))
-            sleep(3)
 
     def enforce_levels(self):
         for player in self.players:

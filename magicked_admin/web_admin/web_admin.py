@@ -10,7 +10,7 @@ from utils.text import str_to_bool
 from utils.geolocation import get_country
 
 
-class web_admin(object):
+class WebAdmin(object):
     def __init__(self, address, username, password, ops=None,
                  server_name="unnamed"):
         self.__web_interface = \
@@ -39,7 +39,7 @@ class web_admin(object):
         self.__general_settings[setting] = value
         self.__save_general_settings()
 
-    def set_game_password(self, password):
+    def set_game_password(self, password=""):
         payload = {
             'action': 'gamepassword',
             'gamepw1': password,
@@ -49,11 +49,11 @@ class web_admin(object):
         self.__web_interface.post_passwords(payload)
 
     def has_game_password(self):
-        response = self.__web_interface.get_passwords
+        response = self.__web_interface.get_passwords()
         passwords_tree = html.fromstring(response.content)
 
-        password_state_pattern = "//p[starts-with(text(),\"Game password\")]" \
-                                 "//em/text()'"
+        password_state_pattern = "//p[starts-with(text(),'Game password')]" \
+                                 "/em/text()"
         password_state = passwords_tree.xpath(password_state_pattern)[0]
         return str_to_bool(password_state)
 

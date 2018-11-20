@@ -78,7 +78,7 @@ class CommandLoadMap(Command):
         return "Changing map."
 
 
-class commandDisablePassword(Command):
+class CommandPassword(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
@@ -86,34 +86,17 @@ class commandDisablePassword(Command):
         if not self.authorise(admin):
             return self.not_auth_message
 
-        new_state = self.server.disable_password()
-
-        if new_state:
+        if len(args) < 2:
+            return "Game password state is " + str(self.server.web_admin.has_game_password())
+        elif args[1] in ['on', 'yes', 'y', '1', 'enable', 'enabled']:
+            self.server.web_admin.set_game_password(self.server.game_password)
+            return "Game password enabled"
+        elif args[1] in ['off', 'no', 'n', '0', 'disable', 'disabled']:
+            self.server.web_admin.set_game_password()
             return "Game password disabled"
         else:
-            return "Game password not disabled, please try again"
-
-
-class CommandEnablePassword(Command):
-    """
-    """
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
-
-    def execute(self, username, args, admin):
-        if not self.authorise(admin):
-            return self.not_auth_message
-
-        # Args are for starting the timer for inactivity.
-        if len(args) > 1 and args[1] == '-t':
-            new_state = self.server.enable_password(True)
-        else:
-            new_state = self.server.enable_password(False)
-
-        if new_state:
-            return "Game password enabled"
-        else:
-            return "Game password not enabled, please try again."
+            return "Unrecognised argument: " + args[1] + "\n" \
+                   + "Options are: on, off"
 
 
 class CommandSilent(Command):
