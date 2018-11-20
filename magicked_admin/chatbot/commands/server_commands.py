@@ -97,9 +97,12 @@ class CommandPassword(Command):
         elif args[1] in ['off', 'no', 'n', '0', 'disable', 'disabled']:
             self.server.web_admin.set_game_password()
             return "Game password disabled"
+        elif args[1] == 'set' and len(args) > 2:
+            self.server.web_admin.set_game_password(args[2])
+            return "Game password set"
         else:
             return "Unrecognised argument: " + args[1] + "\n" \
-                   + "Options are: on, off"
+                   + "Options are: on, off, set <password>"
 
 
 class CommandSilent(Command):
