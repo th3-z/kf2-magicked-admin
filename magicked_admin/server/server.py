@@ -307,7 +307,10 @@ class ServerMapper(threading.Thread):
 
         self.__exit = False
         # TODO configuration option
-        self.__refresh_rate = 20 if __debug__ else 5
+        self.__refresh_rate = 20 if __debug__ else 1
+
+        self.game_timer = time.time()
+        self.written_record = False
 
         self.database = ServerDatabase(server.name)
 
@@ -341,8 +344,14 @@ class ServerMapper(threading.Thread):
         pass
 
     def __update_game(self, game_now):
+        if int(game_now.wave) > int(self.server.game.length) and not self.written_record:
+            self.written_record = True
+            self.server.database.save_map_record(self.server.game, len(self.server.players))
+            print("Recorded game time: " + str(self.server.game.time))
+
         if game_now.wave < self.server.game.wave:
             self.__event_new_game()
+            self.written_record = False
         elif game_now.wave > self.server.game.wave:
             self.__event_wave_start()
         if game_now.zeds_dead == game_now.zeds_total:
@@ -361,6 +370,14 @@ class ServerMapper(threading.Thread):
         self.server.game.zeds_dead = game_now.zeds_dead
         self.server.game.zeds_total = game_now.zeds_total
         self.server.game.game_type = game_now.game_type
+
+        if not self.server.trader_time and 0 < int(
+                self.server.game.wave) <= int(self.server.game.length):
+            now = time.time()
+            self.server.game.time += now - self.game_timer
+            self.game_timer = time.time()
+        else:
+            self.game_timer = time.time()
 
     def __update_players(self, players_now):
         # Quitters
@@ -391,6 +408,9 @@ class ServerMapper(threading.Thread):
             player.wave_kills += player_now.kills - player.kills
             player.wave_dosh += player_now.dosh - player.dosh
 
+            if not player_now.health and player_now.health < player.health:
+                self.__event_player_death(player)
+
             if player_now.dosh > player.dosh:
                 player.game_dosh += player_now.dosh - player.dosh
                 player.total_dosh += player_now.dosh - player.dosh
@@ -414,3 +434,8 @@ class ServerMapper(threading.Thread):
         self.server.players.remove(player)
         self.server.database.save_player(player)
         print(player.username + " left")
+
+    def __event_player_death(self, player):
+        player.total_deaths += 1
+        message = player.username + " died"
+        print(colored(message, 'red'))

@@ -36,7 +36,6 @@ class CommandMap:
             'say': CommandSay(self.server),
             'restart': CommandRestart(self.server),
             'load_map': CommandLoadMap(self.server),
-            # Might give this a better name?
             'pass': CommandEnablePassword(self.server),
             'no_pass': commandDisablePassword(self.server),
             'silent': CommandSilent(self.server, self.chatbot),
@@ -55,6 +54,7 @@ class CommandMap:
             'top_dosh': CommandTopDosh(self.server, admin_only=False),
             'me': CommandMe(self.server, admin_only=False),
             'stats': CommandStats(self.server, admin_only=False),
+            'game_time': CommandGameTime(self.server, admin_only=False),
             'server_kills': CommandServerKills(self.server, admin_only=False),
             'server_dosh': CommandServerDosh(self.server, admin_only=False),
         }

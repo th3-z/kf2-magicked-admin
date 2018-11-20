@@ -26,6 +26,7 @@ class Player:
         self.perk = perk
         self.perk_level = 99
         self.ping = 0
+        self.login_time = 0
 
         self.sid = "00000000000000000"
         self.player_key = "0x0.00"

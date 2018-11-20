@@ -39,6 +39,17 @@ class CommandGameMap(Command):
             return self.not_auth_message
         return str(self.server.game.game_map)
 
+
+class CommandGameTime(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+        return str(self.server.game.time)
+
+
 class CommandHighWave(Command):
     def __init__(self, server, admin_only = True):
         Command.__init__(self, server, admin_only)

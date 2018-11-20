@@ -8,6 +8,7 @@ class Game:
         self.difficulty = api.DIFF_NORM
         self.wave = 0
         self.length = api.LEN_NORM
+        self.time = 0
 
         self.zeds_wave_killed = 0
         self.zeds_wave_total = 0

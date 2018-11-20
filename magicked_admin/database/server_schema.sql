@@ -19,3 +19,11 @@ CREATE TABLE maps(
     plays_other INTEGER DEFAULT 0,
     highest_wave INTEGER DEFAULT 0
 );
+
+CREATE TABLE map_records(
+    map_name VARCHAR(64),
+    game_time DOUBLE DEFAULT 0.0,
+    game_length INTEGER DEFAULT -1,
+    game_difficulty VARCHAR(64),
+    player_count INTEGER DEFAULT 0
+);

@@ -254,6 +254,15 @@ class ServerDatabase:
 
         self.conn.commit()
 
+    def save_map_record(self, game, players):
+        lock.acquire(True)
+        self.cur.execute(
+            "INSERT INTO map_records (map_name, game_time, game_length, game_difficulty, player_count) VALUES (?, ?, ?, ?, ?)",
+            (game.game_map.name, game.time, game.length, game.difficulty,
+             players))
+        lock.release()
+        self.conn.commit()
+
     def load_game_map(self, game_map):
         lock.acquire(True)
 
