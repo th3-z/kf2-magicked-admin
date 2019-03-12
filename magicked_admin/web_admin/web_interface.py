@@ -8,7 +8,7 @@ from web_admin.constants import *
 
 
 class WebInterface(object):
-    def __init__(self, address, username, password, server_name="unnamed"):
+    def __init__(self, address, username, password, server_name="unnamed", protocol="http"):
         # validate address here, rise if bad
         self.__address = address
         self.__username = username
@@ -17,30 +17,30 @@ class WebInterface(object):
         self.server_name = server_name
 
         self.__urls = {
-            'login': 'http://{0}/ServerAdmin/'
-                .format(address),
-            'chat': 'http://{0}/ServerAdmin/current/chat+data'
-                .format(address),
-            'info': 'http://{0}/ServerAdmin/current/info'
-                .format(address),
-            'map': 'http://{0}/ServerAdmin/current/change'
-                .format(address),
-            'players': 'http://{0}/ServerAdmin/current/players'
-                .format(address),
-            'passwords': 'http://{0}/ServerAdmin/policy/passwords'
-                .format(address),
-            'bans': 'http://{0}/ServerAdmin/policy/bans'
-                .format(address),
-            'general_settings': 'http://{0}/ServerAdmin/settings/general'
-                .format(address),
-            'game_type': 'http://{0}/ServerAdmin/settings/gametypes'
-                .format(address),
-            'map_cycle': 'http://{0}/ServerAdmin/settings/maplist'
-                .format(address),
-            'welcome': 'http://{0}/ServerAdmin/settings/welcome'
-                .format(address),
-            'console': 'http://{0}/ServerAdmin/console'
-                .format(address)
+            'login': '{}://{}/ServerAdmin/'
+                .format(protocol, address),
+            'chat': '{}://{}/ServerAdmin/current/chat+data'
+                .format(protocol, address),
+            'info': '{}://{}/ServerAdmin/current/info'
+                .format(protocol, address),
+            'map': '{}://{}/ServerAdmin/current/change'
+                .format(protocol, address),
+            'players': '{}://{}/ServerAdmin/current/players'
+                .format(protocol, address),
+            'passwords': '{}://{}/ServerAdmin/policy/passwords'
+                .format(protocol, address),
+            'bans': '{}://{}/ServerAdmin/policy/bans'
+                .format(protocol, address),
+            'general_settings': '{}://{}/ServerAdmin/settings/general'
+                .format(protocol, address),
+            'game_type': '{}://{}/ServerAdmin/settings/gametypes'
+                .format(protocol, address),
+            'map_cycle': '{}://{}/ServerAdmin/settings/maplist'
+                .format(protocol, address),
+            'welcome': '{}://{}/ServerAdmin/settings/welcome'
+                .format(protocol, address),
+            'console': '{}://{}/ServerAdmin/console'
+                .format(protocol, address)
         }
 
         self.__timeout = 5
