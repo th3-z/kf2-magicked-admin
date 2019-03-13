@@ -8,7 +8,7 @@ from web_admin.constants import *
 
 
 class WebInterface(object):
-    def __init__(self, address, username, password, server_name="unnamed", protocol="http"):
+    def __init__(self, address, username, password, server_name="unnamed", protocol="https"):
         # validate address here, rise if bad
         self.__address = address
         self.__username = username
@@ -46,15 +46,23 @@ class WebInterface(object):
         self.__timeout = 5
 
         self.__session = self.__new_session()
-        self.__chat_session = self.__new_session()
+        #self.__chat_session = self.__new_session()
 
-    def __get(self, session, url, retry_interval=6):
+    def __get(self, session, url, retry_interval=6, login=False):
         while True:
             if __debug__:
                 print("GET: " + url)
             try:
                 response = session.get(url, timeout=self.__timeout)
-                return response
+                if not login:
+                    if "hashAlg" in response.text:
+                        print("Session killed, renewing!")
+                        self.__session = self.__new_session()
+                    else:
+                        return response
+                else:
+                    return response
+
             except requests.exceptions.HTTPError:
                 if __debug__:
                     print("HTTPError getting {}. Retrying in {}"
@@ -72,12 +80,14 @@ class WebInterface(object):
                     print("None-specific RequestException getting {}, "
                           "{}. Retrying in {}"
                           .format(url, str(err), retry_interval))
+            except Exception as err:
+                print("its fucked")
 
             if __debug__:
                 print("GET FAILED")
             time.sleep(retry_interval)
 
-    def __post(self, session, url, payload, retry_interval=6):
+    def __post(self, session, url, payload, retry_interval=6, login=False):
         while True:
             if __debug__:
                 print("POST: " + url + " PAYLOAD: " + str(payload))
@@ -86,6 +96,12 @@ class WebInterface(object):
                     url, payload,
                     timeout=self.__timeout
                 )
+                if not login:
+                    if "hashAlg" in response.text:
+                        print("Session killed, renewing!")
+                        self.__session = self.__new_session()
+                else:
+                    return response
                 return response
             except requests.exceptions.HTTPError:
                 print("HTTPError posting {}. Retrying in {}"
@@ -107,14 +123,14 @@ class WebInterface(object):
 
     def __new_session(self):
         login_payload = {
-            'password_hash': self.__password,
+            'password_hash': '',
             'username': self.__username,
             'password': '',
             'remember': '-1'
         }
 
         session = requests.Session()
-        login_page_response = self.__get(session, self.__urls['login'])
+        login_page_response = self.__get(session, self.__urls['login'], login=True)
 
         if "hashAlg = \"sha1\"" in login_page_response.text:
             hash = "$sha1$" + sha1(
@@ -122,13 +138,22 @@ class WebInterface(object):
                 + self.__username.encode("iso-8859-1", "ignore")
             ).hexdigest()
             login_payload['password_hash'] = hash
+        else:
+            login_payload['password'] = self.__password
+            login_payload['password_hash'] = self.__password
 
         login_page_tree = html.fromstring(login_page_response.content)
         token_pattern = "//input[@name='token']/@value"
         token = login_page_tree.xpath(token_pattern)[0]
         login_payload.update({'token': token})
 
-        self.__post(session, self.__urls['login'], login_payload)
+        response = self.__post(session, self.__urls['login'], login_payload, login=True)
+
+        if "hashAlg" in response.text and __debug__:
+            # TODO Make it red
+            print("Login failure, possibly protocol, hashAlg, or credentials")
+            exit()
+        
 
         return session
 
@@ -138,7 +163,7 @@ class WebInterface(object):
         }
 
         return self.__post(
-            self.__chat_session,
+            self.__session,
             self.__urls['chat'],
             payload
         )
