@@ -30,6 +30,8 @@ class Chat(threading.Thread):
         self.silent = False
         self.__operators = operators if operators else []
 
+        self.__message_buffer = ""
+
     def run(self):
         while not self.__exit:
             self.__poll()
@@ -43,11 +45,13 @@ class Chat(threading.Thread):
         user_type_pattern = "//span[starts-with(@class,\'username\')]/@class"
         message_pattern = "//span[@class=\'message\']/text()"
 
-        response = self.__web_interface.get_new_messages()
+        response = self.__web_interface.get_new_messages().text \
+                   + self.__message_buffer
+        self.__message_buffer = ""
 
-        if response.text:
+        if response:
             # trailing new line ends up in list without the strip
-            messages_html = response.text.strip().split("\r\n\r\n")
+            messages_html = response.strip().split("\r\n\r\n")
 
             for message_html in messages_html:
                 message_tree = html.fromstring(message_html)
@@ -89,4 +93,8 @@ class Chat(threading.Thread):
             'teamsay': '-1'
         }
 
-        return self.__web_interface.post_message(message_payload)
+        response = self.__web_interface.post_message(message_payload)
+        self.__message_buffer += response.text
+
+        return True
+

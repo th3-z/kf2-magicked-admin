@@ -365,4 +365,5 @@ class WebInterface(object):
             "mutatorGroupCount": mutator_count,
             "urlextra": url_extra,
             "action": "change"
-}
+        }
+
