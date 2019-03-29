@@ -37,4 +37,6 @@ class Player:
     def __str__(self):
         return "username: " + self.username + "\nperk: " + self.perk + \
                "\ndosh: " + str(self.dosh) + "\nhealth: " + str(self.health) +\
-               "\nkills: " + str(self.kills)
+               "\nkills: " + str(self.kills) + \
+               "\nCountry: " + str(self.country)
+
