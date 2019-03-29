@@ -28,7 +28,7 @@ class Player:
         self.ping = 0
         self.login_time = 0
 
-        self.sid = "00000000000000000"
+        self.steam_id = "00000000000000000"
         self.player_key = "0x0.00"
         self.ip = "0.0.0.0"
         self.country = "Unknown"
@@ -38,5 +38,5 @@ class Player:
         return "username: " + self.username + "\nperk: " + self.perk + \
                "\ndosh: " + str(self.dosh) + "\nhealth: " + str(self.health) +\
                "\nkills: " + str(self.kills) + \
-               "\nCountry: " + str(self.country)
+               "\nCountry: " + str(self.country_code)
 

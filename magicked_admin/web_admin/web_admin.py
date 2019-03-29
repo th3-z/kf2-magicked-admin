@@ -198,7 +198,7 @@ class WebAdmin(object):
         return ConstGame(trader_open, zeds_total, zeds_dead, map_title,
                          map_name, wave, length, difficulty, game_type)
 
-    def get_player_details(self, username):
+    def get_player_identity(self, username):
         response = self.__web_interface.get_players()
         player_tree = html.fromstring(response.content)
 
@@ -206,11 +206,13 @@ class WebAdmin(object):
         evens = player_tree.xpath('//tr[@class="even"]//td/text()')
 
         player_rows = odds + evens
-
         player_rows = [list(group) for k, group in
                        groupby(player_rows, lambda x: x == "\xa0") if not k]
 
-        print(str(player_rows))
+        player_key = player_tree.xpath('//tr/td[text()="{}"]'
+                                       '/following-sibling::td'
+                                       '//input[@name="playerkey"]/@value'
+        .format(username))
 
         for player in player_rows:
             if player[0] == username:
@@ -218,17 +220,20 @@ class WebAdmin(object):
                 steam_id = player[4]
                 country, country_code = get_country(ip)
                 return {
-                    'steam_id': steam_id,
                     'ip': ip,
                     'country': country,
-                    'country_code': country_code
+                    'country_code': country_code,
+                    'steam_id': steam_id,
+                    'player_key': player_key
                 }
 
         if __debug__:
-            ("Couldn't find player details for: {}".format(username))
+            ("ERROR: Couldn't find identify player: {}".format(username))
         return {
-            'steam_id': "00000000000000000",
             'ip': "0.0.0.0",
             'country': "Unknown",
-            'country_code': "??"
+            'country_code': "??",
+            'steam_id': "00000000000000000",
+            'player_key': "0x0.00"
         }
+

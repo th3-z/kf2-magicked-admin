@@ -1,20 +1,20 @@
 import urllib.request
 import urllib.error
 from contextlib import closing
+
+import requests
 import json
 
 def get_country(ip):
-    url = "http://www.freegeoip.net/json/" + ip
+    url = "https://ipapi.co/" + ip + "/json/"
     unknown = ("Unknown", "??")
-    try:
-        with closing(urllib.request.urlopen(url)) as response:
-            location = json.loads(response.read())
-            country = location['country_name']
-            country_code = location['country_code']
-            if not country:
-                return unknown
-            return country, country_code
-    except urllib.error.HTTPError:
+
+    geo_data = requests.get(url).json()
+    country = geo_data['country_name']
+    country_code = geo_data['country']
+
+    if not country:
         return unknown
-    except urllib.error.URLError:
-        return unknown
+    else:
+        return country, country_code
+

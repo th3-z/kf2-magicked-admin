@@ -389,9 +389,18 @@ class ServerMapper(threading.Thread):
             player.health = player_now.health
 
     def __event_player_join(self, player):
+        identity = self.web_admin.get_player_identity(player.username)
+
         new_player = Player(player.username, player.perk)
         new_player.kills = player.kills
         new_player.dosh = player.dosh
+
+        new_player.ip = identity['ip']
+        new_player.country = identity['country']
+        new_player.country_code = identity['country_code']
+        new_player.steam_id = identity['steam_id']
+        new_player.player_key = identity['player_key']
+
         self.server.database.load_player(new_player)
 
         self.server.players.append(new_player)
@@ -406,3 +415,4 @@ class ServerMapper(threading.Thread):
         player.total_deaths += 1
         message = player.username + " died"
         print(colored(message, 'red'))
+
