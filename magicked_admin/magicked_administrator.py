@@ -57,7 +57,7 @@ class MagickedAdministrator:
         print("Initialisation complete!")
 
         while True:
-            command = input("Ready for input\n")
+            command = input()
             for server in self.servers:
                 server.web_admin.chat.submit_message(command)
             

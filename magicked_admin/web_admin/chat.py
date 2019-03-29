@@ -9,7 +9,6 @@ from termcolor import colored
 
 init()
 
-
 class ChatListener(object):
 
     def receive_message(self, username, message, admin):
@@ -25,9 +24,8 @@ class Chat(threading.Thread):
         self.__exit = False
         # TODO configuration option
         self.__refresh_rate = 10 if __debug__ else 3
-        self.__print_messages = True
 
-        self.silent = False
+        self.__silent = False
         self.__operators = operators if operators else []
 
         self.__message_buffer = ""
@@ -41,34 +39,36 @@ class Chat(threading.Thread):
         self.__exit = True
 
     def __poll(self):
-        username_pattern = "//span[starts-with(@class,\'username\')]/text()"
-        user_type_pattern = "//span[starts-with(@class,\'username\')]/@class"
-        message_pattern = "//span[@class=\'message\']/text()"
-
         response = self.__web_interface.get_new_messages().text \
                    + self.__message_buffer
         self.__message_buffer = ""
+        
+        if not response:
+            return
 
-        if response:
-            # trailing new line ends up in list without the strip
-            messages_html = response.strip().split("\r\n\r\n")
+        username_pattern = ".//span[starts-with(@class,\'username\')]/text()"
+        user_type_pattern = ".//span[starts-with(@class,\'username\')]/@class"
+        message_pattern = ".//span[@class=\'message\']/text()"
 
-            for message_html in messages_html:
-                message_tree = html.fromstring(message_html)
+        message_roots = html.fromstring(response).find_class("chatmessage")
 
-                username = message_tree.xpath(username_pattern)[0]
-                user_type = message_tree.xpath(user_type_pattern)[0]
-                message = message_tree.xpath(message_pattern)[0]
+        for message_root in message_roots:
+            username = message_root.xpath(username_pattern)[0]
+            user_type = message_root.xpath(user_type_pattern)[0]
+            message = message_root.xpath(message_pattern)[0]
 
-                admin = True if "admin" in user_type \
-                                or username in self.__operators else False
+            user_flags = USER_TYPE_NONE
+            if 'admin' in user_type or username in self.__operators: 
+                user_flags += USER_TYPE_ADMIN 
+            if 'spectator' in user_type: 
+                user_flags += USER_TYPE_SPECTATOR 
 
-                self.handle_message(username, message, admin)
+            self.handle_message(username, message, user_flags)
 
-    def handle_message(self, username, message, admin, internal=False):
+    def handle_message(self, username, message, user_flags):
         command = True if message[0] == '!' else False
 
-        if self.__print_messages and (__debug__ or not internal):
+        if __debug__ or ~user_flags & USER_TYPE_SERVER:
             print_line = username + "@" + self.__web_interface.server_name \
                          + ": " + message
             if command:
@@ -78,14 +78,13 @@ class Chat(threading.Thread):
             print(print_line)
 
         for listener in self.__listeners:
-            listener.receive_message(username, message, admin)
+            listener.receive_message(username, message, user_flags)
 
     def add_listener(self, listener):
         self.__listeners.append(listener)
 
     def submit_message(self, message):
-        if self.silent:
-            return
+        if self.__silent: return
 
         message_payload = {
             'ajax': '1',
