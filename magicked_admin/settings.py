@@ -22,7 +22,8 @@ SETTINGS_DEFAULT = {
 class Settings:
     def __init__(self):
         if not os.path.exists(CONFIG_PATH):
-            print("No configuration was found, first time setup is required.")
+            print("No configuration was found, first time setup is required!")
+            print("Please input your web admin details.")
             config = self.construct_config_interactive()
 
             with open(CONFIG_PATH, 'w') as config_file:
@@ -33,10 +34,11 @@ class Settings:
             self.config.read(CONFIG_PATH)
 
         except configparser.DuplicateOptionError as e:
-            die("Duplicate key found in config, please check options: "
-                "\"{}\", on server \"{}\"."
+            print("Duplicate key found in config, see: '{}', under '[{}]'."
                 .format(e.option, e.section)
-                )
+            )
+            die("Please correct this manually  or delete '{}' to create a clean config next run."
+                .format(CONFIG_PATH))
 
     def setting(self, section, setting):
         try:
@@ -55,12 +57,17 @@ class Settings:
         for setting in SETTINGS_DEFAULT:
             new_config.set(SETTINGS_DEFAULT['server_name'], setting, SETTINGS_DEFAULT[setting])
 
-        address = input("address (domain | domain:port | ip:port) [localhost:8080]:\n") or "localhost:8080"
-        username = input("username [Admin]:\n") or "Admin"
-        password = input("password [123]:\n") or "123"
+        address = input("Address (domain | domain:port | ip:port) [localhost:8080]: ") or "localhost:8080"
+        username = input("Username [Admin]: ") or "Admin"
+        password = input("Password [123]: ") or "123"
 
         new_config.set(SETTINGS_DEFAULT['server_name'], 'address', address)
         new_config.set(SETTINGS_DEFAULT['server_name'], 'username', username)
         new_config.set(SETTINGS_DEFAULT['server_name'], 'password', password)
 
         return new_config
+
+    @staticmethod
+    def validate_config(config):
+        pass
+
