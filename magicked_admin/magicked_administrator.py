@@ -16,7 +16,6 @@ from setting import Setting
 settings = Setting()
 
 
-
 class MagickedAdministrator:
     
     def __init__(self):

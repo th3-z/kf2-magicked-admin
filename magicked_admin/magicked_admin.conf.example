@@ -1,17 +1,11 @@
-[DEFAULT]
-log_level = INFO
-game_password = 123
-max_players = 6
-motd_scoreboard = False
-scoreboard_type = dosh
-enable_greeter = False
-
 [server_one]
 address = 127.0.0.1:8080
 username = Admin
 password = 123
-max_players = 6
+
 game_password = 123
-motd_scoreboard = False
+max_players = 6
+motd_scoreboard = True
 scoreboard_type = kills
 enable_greeter = True
+level_threshold = 0
