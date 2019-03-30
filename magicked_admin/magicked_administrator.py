@@ -1,3 +1,16 @@
+'''
+
+Killing Floor 2 Magicked Administrator
+Copyright th3-z (the_z) 2018
+Released under the terms of the MIT license
+
+== Task list ==
+    # Figlet splash screen
+    # Regression tests
+    # Clean up PEP8 violations
+
+'''
+
 import logging
 import signal
 import os
@@ -12,8 +25,8 @@ from chatbot.chatbot import Chatbot
 from utils import die
 from utils.text import str_to_bool
 
-from setting import Setting
-settings = Setting()
+from settings import Settings
+settings = Settings()
 
 
 class MagickedAdministrator:
