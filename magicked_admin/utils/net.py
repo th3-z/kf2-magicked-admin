@@ -12,7 +12,7 @@ def is_valid_address(address):
     try:
         code = urlopen(address).getcode()
     except:
-        return false
+        return False
 
     return code < 400
 

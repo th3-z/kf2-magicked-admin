@@ -1,7 +1,9 @@
 import os
 import configparser
+from getpass import getpass
 
 from utils import die
+from utils.net import is_valid_address, repair_address_scheme
 
 CONFIG_PATH = "./magicked_admin.conf"
 
@@ -69,15 +71,23 @@ class Settings:
         for setting in SETTINGS_DEFAULT:
             new_config.set(SETTINGS_DEFAULT['server_name'], setting, SETTINGS_DEFAULT[setting])
 
-        address = input("Address (domain | domain:port | ip:port) [localhost:8080]: ") or "localhost:8080"
-        username = input("Username [Admin]: ") or "Admin"
-        password = input("Password [123]: ") or "123"
+        while True: 
+            address = input("\nAddress [default - localhost:8080]: ") or "localhost:8080"
+            scheme_address = repair_address_scheme(address)
+            if is_valid_address(scheme_address):
+                break
+            else:
+                print("Address not responding!\nAccepted formats are: 'ip:port', 'domain', or 'domain:port'")
+
+        username = input("Username [default - Admin]: ") or "Admin"
+        password = getpass("Password (will not echo) [default - 123]: ") or "123"
+        print() # \n
 
         new_config.set(SETTINGS_DEFAULT['server_name'], 'address', address)
         new_config.set(SETTINGS_DEFAULT['server_name'], 'username', username)
         new_config.set(SETTINGS_DEFAULT['server_name'], 'password', password)
 
-        return new_config.get
+        return new_config
 
     @staticmethod
     def validate_config(config):
