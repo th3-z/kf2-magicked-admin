@@ -44,9 +44,9 @@ class WebInterface(object):
         }
 
         self.__timeout = 5
+        self.__sleeping = False
 
         self.__session = self.__new_session()
-        #self.__chat_session = self.__new_session()
 
     def __get(self, session, url, retry_interval=6, login=False):
         while True:
@@ -54,6 +54,13 @@ class WebInterface(object):
                 print("GET: " + url)
             try:
                 response = session.get(url, timeout=self.__timeout)
+                if response.status_code != 200:
+                    self.__sleep()
+                    time.sleep(retry_interval)
+                    continue
+                else:
+                    self.__wake()
+
                 if not login:
                     if "hashAlg" in response.text:
                         print("Session killed, renewing!")
@@ -80,11 +87,7 @@ class WebInterface(object):
                     print("None-specific RequestException getting {}, "
                           "{}. Retrying in {}"
                           .format(url, str(err), retry_interval))
-            except Exception as err:
-                print("its fucked")
 
-            if __debug__:
-                print("GET FAILED")
             time.sleep(retry_interval)
 
     def __post(self, session, url, payload, retry_interval=6, login=False):
@@ -96,6 +99,13 @@ class WebInterface(object):
                     url, payload,
                     timeout=self.__timeout
                 )
+                if response.status_code != 200:
+                    self.__sleep()
+                    time.sleep(retry_interval)
+                    continue
+                else:
+                    self.__wake()
+
                 if not login:
                     if "hashAlg" in response.text:
                         print("Session killed, renewing!")
@@ -117,9 +127,18 @@ class WebInterface(object):
                       "{}. Retrying in {}"
                       .format(url, str(err), retry_interval))
 
-            if __debug__:
-                print("POST FAILED")
             time.sleep(retry_interval)
+
+    def __sleep(self):
+        if not self.__sleeping:
+            print("Web admin not responding, sleeping")
+            self.__sleeping = True
+
+    def __wake(self):
+        if self.__sleeping:
+            print("Web admin is back, resuming")
+            self.__sleeping = False
+
 
     def __new_session(self):
         login_payload = {
