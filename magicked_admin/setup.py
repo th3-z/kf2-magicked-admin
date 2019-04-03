@@ -4,12 +4,9 @@ base = None
 
 includefiles = [
     ('database/server_schema.sql','database/server_schema.sql'),
-    ('config/magicked_admin.conf.example','magicked_admin.conf'),
-    ('config/server_one.init.example','server_one.init'),
-    ('config/server_one.motd.example','server_one.motd')
+    ('/home/the_z/.local/lib/python3.5/site-packages/certifi/cacert.pem','certifi/cacert.pem'),
 ]
 
-# "FuzzyWuzzy"
 build_exe_options = {
     "packages": ["os", "queue", "idna", "lxml", "requests", "encodings"],
     "excludes": ["tkinter"],

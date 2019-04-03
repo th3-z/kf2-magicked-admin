@@ -54,7 +54,7 @@ class WebInterface(object):
                 print("GET: " + url)
             try:
                 response = session.get(url, timeout=self.__timeout)
-                if response.status_code != 200:
+                if response.status_code > 400:
                     self.__sleep()
                     time.sleep(retry_interval)
                     continue
@@ -99,7 +99,7 @@ class WebInterface(object):
                     url, payload,
                     timeout=self.__timeout
                 )
-                if response.status_code != 200:
+                if response.status_code > 400:
                     self.__sleep()
                     time.sleep(retry_interval)
                     continue

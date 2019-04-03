@@ -46,7 +46,6 @@ class CommandMap:
             'game': CommandGame(self.server, admin_only=False),
             'map': CommandGameMap(self.server, admin_only=False),
             'help': CommandHelp(self.server, admin_only=False),
-            'info': CommandInfo(self.server, admin_only=False),
             'kills': CommandKills(self.server, admin_only=False),
             'dosh': CommandDosh(self.server, admin_only=False),
             'top_kills': CommandTopKills(self.server, admin_only=False),

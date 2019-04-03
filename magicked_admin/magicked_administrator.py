@@ -14,6 +14,7 @@ Released under the terms of the MIT license
 import logging
 import signal
 import os
+import sys
 
 from colorama import init
 from termcolor import colored
@@ -28,6 +29,21 @@ from utils.text import str_to_bool
 from settings import Settings
 settings = Settings()
 
+REQUESTS_CA_BUNDLE_PATH =  "./certifi/cacert.pem"
+
+if hasattr(sys, "frozen"):
+    import certifi.core
+
+    os.environ["REQUESTS_CA_BUNDLE"] = REQUESTS_CA_BUNDLE_PATH
+    certifi.core.where = REQUESTS_CA_BUNDLE_PATH
+
+    # delay importing until after where has been replaced
+    import requests.utils
+    import requests.adapters
+    # replace these variables in case these modules were
+    # imported before we replaced certifi.core.where
+    requests.utils.DEFAULT_CA_BUNDLE_PATH = REQUESTS_CA_BUNDLE_PATH
+    requests.adapters.DEFAULT_CA_BUNDLE_PATH = REQUESTS_CA_BUNDLE_PATH
 
 class MagickedAdministrator:
     
