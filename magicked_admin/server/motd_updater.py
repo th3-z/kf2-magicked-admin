@@ -7,6 +7,12 @@ from lxml import html
 from utils.text import millify
 from utils.text import trim_string
 
+'''
+This class needs a re-build.
+N.b. utils.find_data_file, utils.DEBUG
+
+'''
+
 
 class MotdUpdater(threading.Thread):
 

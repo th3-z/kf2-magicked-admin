@@ -6,6 +6,7 @@ import time
 from lxml import html
 from colorama import init
 from termcolor import colored
+from utils import DEBUG
 
 init()
 
@@ -23,7 +24,7 @@ class Chat(threading.Thread):
         self.__listeners = []
         self.__exit = False
         # TODO configuration option
-        self.__refresh_rate = 10 if __debug__ else 3
+        self.__refresh_rate = 10 if DEBUG else 3
 
         self.__silent = False
         self.__operators = operators if operators else []
@@ -68,7 +69,7 @@ class Chat(threading.Thread):
     def handle_message(self, username, message, user_flags):
         command = True if message[0] == '!' else False
 
-        if __debug__ or ~user_flags & USER_TYPE_SERVER:
+        if DEBUG or ~user_flags & USER_TYPE_SERVER:
             print_line = username + "@" + self.__web_interface.server_name \
                          + ": " + message
             if command:

@@ -4,6 +4,8 @@ from chatbot.commands.event_commands import CommandGreeter
 
 from os import path
 
+from utils import find_data_file, DEBUG
+
 
 class Chatbot(ChatListener):
     """
@@ -24,10 +26,10 @@ class Chatbot(ChatListener):
         self.silent = False
         self.greeter_enabled = True
 
-        if path.exists(server.name + ".init"):
-            self.execute_script(server.name + ".init")
+        if path.exists(find_data_file(server.name + ".init")):
+            self.execute_script(find_data_file(server.name + ".init"))
 
-        if __debug__:
+        if DEBUG:
             print("Bot on server " + server.name + " initialised")
 
     def receive_message(self, username, message, admin=False):
@@ -49,7 +51,7 @@ class Chatbot(ChatListener):
                 self.chat.submit_message(response)
 
     def execute_script(self, file_name):
-        if __debug__:
+        if DEBUG:
             print("Executing script: " + file_name)
         print("Executing script: " + file_name)
         with open(file_name) as script:

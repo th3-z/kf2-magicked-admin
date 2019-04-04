@@ -2,10 +2,10 @@ import os
 import configparser
 from getpass import getpass
 
-from utils import die
+from utils import die, find_data_file
 from utils.net import is_valid_address, repair_address_scheme
 
-CONFIG_PATH = "./magicked_admin.conf"
+CONFIG_PATH = find_data_file("./magicked_admin.conf")
 
 SETTINGS_DEFAULT = {
     'server_name': 'server_one',

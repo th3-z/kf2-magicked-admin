@@ -3,13 +3,15 @@ import datetime
 from os import path
 from threading import Lock
 
+from utils import find_data_file, DEBUG
+
 lock = Lock()
 
 
 class ServerDatabase:
 
     def __init__(self, name):
-        self.sqlite_db_file = name + "_db" + ".sqlite"
+        self.sqlite_db_file = find_data_file(name + "_db" + ".sqlite")
 
         if not path.exists(self.sqlite_db_file):
             self.build_schema()
@@ -17,7 +19,7 @@ class ServerDatabase:
                                     check_same_thread=False)
         self.cur = self.conn.cursor()
 
-        if __debug__:
+        if DEBUG:
             print("Database for " + name + " initialised")
 
     def build_schema(self):
@@ -26,7 +28,7 @@ class ServerDatabase:
         conn = sqlite3.connect(self.sqlite_db_file)
         cur = conn.cursor()
 
-        with open('database/server_schema.sql') as schema_file:
+        with open(find_data_file('database/server_schema.sql')) as schema_file:
             cur.executescript(schema_file.read())
 
         conn.commit()

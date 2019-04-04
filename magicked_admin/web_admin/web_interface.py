@@ -5,6 +5,7 @@ import logging
 import time
 
 from web_admin.constants import *
+from utils import DEBUG
 
 
 class WebInterface(object):
@@ -50,7 +51,7 @@ class WebInterface(object):
 
     def __get(self, session, url, retry_interval=6, login=False):
         while True:
-            if __debug__:
+            if DEBUG:
                 print("GET: " + url)
             try:
                 response = session.get(url, timeout=self.__timeout)
@@ -71,19 +72,19 @@ class WebInterface(object):
                     return response
 
             except requests.exceptions.HTTPError:
-                if __debug__:
+                if DEBUG:
                     print("HTTPError getting {}. Retrying in {}"
                           .format(url, retry_interval))
             except requests.exceptions.ConnectionError:
-                if __debug__:
+                if DEBUG:
                     print("ConnectionError getting {}. Retrying in {}"
                           .format(url, retry_interval))
             except requests.exceptions.Timeout:
-                if __debug__:
+                if DEBUG:
                     print("Timeout getting {}. Retrying in {}"
                           .format(url, retry_interval))
             except requests.exceptions.RequestException as err:
-                if __debug__:
+                if DEBUG:
                     print("None-specific RequestException getting {}, "
                           "{}. Retrying in {}"
                           .format(url, str(err), retry_interval))
@@ -92,7 +93,7 @@ class WebInterface(object):
 
     def __post(self, session, url, payload, retry_interval=6, login=False):
         while True:
-            if __debug__:
+            if DEBUG:
                 print("POST: " + url + " PAYLOAD: " + str(payload))
             try:
                 response = session.post(
@@ -168,7 +169,7 @@ class WebInterface(object):
 
         response = self.__post(session, self.__urls['login'], login_payload, login=True)
 
-        if "hashAlg" in response.text and __debug__:
+        if "hashAlg" in response.text and DEBUG:
             # TODO Make it red
             print("Login failure, possibly protocol, hashAlg, or credentials")
             exit()

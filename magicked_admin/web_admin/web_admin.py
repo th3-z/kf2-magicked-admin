@@ -8,6 +8,7 @@ from web_admin.constants import *
 
 from utils.text import str_to_bool
 from utils.geolocation import get_country
+from utils import DEBUG
 
 
 class WebAdmin(object):
@@ -227,7 +228,7 @@ class WebAdmin(object):
                     'player_key': player_key
                 }
 
-        if __debug__:
+        if DEBUG:
             ("ERROR: Couldn't find identify player: {}".format(username))
         return {
             'ip': "0.0.0.0",

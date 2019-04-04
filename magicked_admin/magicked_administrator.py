@@ -9,6 +9,7 @@ Released under the terms of the MIT license
     # Regression tests
     # Clean up PEP8 violations
 
+
 '''
 
 import logging
@@ -23,13 +24,13 @@ init()
 from server.server import Server
 from chatbot.chatbot import Chatbot
 
-from utils import die
+from utils import die, find_data_file, DEBUG
 from utils.text import str_to_bool
 
 from settings import Settings
 settings = Settings()
 
-REQUESTS_CA_BUNDLE_PATH =  "./certifi/cacert.pem"
+REQUESTS_CA_BUNDLE_PATH =  find_data_file("./certifi/cacert.pem")
 
 if hasattr(sys, "frozen"):
     import certifi.core
@@ -37,11 +38,8 @@ if hasattr(sys, "frozen"):
     os.environ["REQUESTS_CA_BUNDLE"] = REQUESTS_CA_BUNDLE_PATH
     certifi.core.where = REQUESTS_CA_BUNDLE_PATH
 
-    # delay importing until after where has been replaced
     import requests.utils
     import requests.adapters
-    # replace these variables in case these modules were
-    # imported before we replaced certifi.core.where
     requests.utils.DEFAULT_CA_BUNDLE_PATH = REQUESTS_CA_BUNDLE_PATH
     requests.adapters.DEFAULT_CA_BUNDLE_PATH = REQUESTS_CA_BUNDLE_PATH
 
@@ -92,7 +90,7 @@ class MagickedAdministrator:
     def terminate(self, signal, frame):
         print("\nProgram interrupted, terminating...")
 
-        if __debug__:
+        if DEBUG:
             # noinspection PyProtectedMember
             os._exit(0)
 
@@ -105,7 +103,7 @@ class MagickedAdministrator:
 
 
 if __name__ == "__main__":
-    if __debug__:
+    if DEBUG:
         debug_message = "Debug mode is enabled!"
         print(colored(debug_message, 'red'))
 

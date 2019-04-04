@@ -3,3 +3,5 @@ lxml
 colorama
 termcolor
 cx_Freeze
+certifi
+
