@@ -1,14 +1,28 @@
-import os
+import os, sys
+import site
+
+from os import path
 
 from cx_Freeze import Executable, setup
 
-base = None
-
 ROOT_PATH = os.path.dirname(__file__)
+
+CERT_PATH = None
+
+sites = site.getsitepackages() + [site.getusersitepackages()]
+
+for site in sites:
+    if path.exists(path.join(site, 'certifi/cacert.pem')):
+        CERT_PATH = path.join(site, 'certifi/cacert.pem')
+
+if not CERT_PATH:
+    print("Couldn't find cacert.pem for SSL requests.")
+    sys.exit()
+
 
 includefiles = [
     (os.path.join(ROOT_PATH, 'database/server_schema.sql'),'database/server_schema.sql'),
-    ('/home/the_z/.local/lib/python3.5/site-packages/certifi/cacert.pem','certifi/cacert.pem'),
+    (CERT_PATH,'certifi/cacert.pem'),
 ]
 
 build_exe_options = {
@@ -27,7 +41,7 @@ setup(name="Magicked Administrator",
       options = {"build_exe": build_exe_options},
       executables=[
           Executable(os.path.join(ROOT_PATH, "magicked_administrator.py"),
-                     base=base,
+                     base=None,
                      targetName="magicked_admin.exe",
                      icon=os.path.join(ROOT_PATH, "icon.ico")
                      )
