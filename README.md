@@ -1,6 +1,38 @@
 # Killing Floor 2 Magicked Administrator
 Scripted management, statistics, and bot for ranked Killing Floor 2 servers. Provides in-game commands, player stat tracking and ranking, live MOTD scoreboard and stats, greeter, and admin functions. Running entirely through the web administrator, it does not affect a server's ranked/custom status. It can be ran either directly on the server or remotely, and manage multiple servers at once.
 
+## Download
+soon
+
+## Running from Python sources
+To run from Python sources, install the requirements below and run `python3 -O magicked_admin/magicked_administrator.py`.
+
+### Requirements
+Examples work on Debian 9, may differ for other operating systems.
+
+* Python 3.x - `apt install python3`
+* Pip - `apt install python3-pip`
+* Python 3 dependencies - `pip3 install -r requirements.txt`
+
+## Building from source
+You can build a binary release with `make` after installing both the run and build requirements.
+
+### Requirements
+Examples work on Debian 9, may differ for other operating systems.
+
+* Python 3.x - `apt install python3`
+* Pip - `apt install python3-pip`
+* Python 3 dependencies - `pip3 install -r requirements.txt`
+* Make - `apt install make`
+
+### Reccomended
+Development make targets also use the following dependencies.
+
+* isort - `apt install isort`
+* flake8 - `apt install flake8`
+
+## Usage
+
 ### Player commands
 * !me - display a summary of your stats
 * !stats _player_ - display a summary of _player_'s stats
@@ -42,16 +74,6 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers. Pro
     - `%SRV_D` and `%SRV_K` will be replaced by the total dosh and kills on the server respectively.
 * Writting a `server_name.init` with a list of commands will run the commands when the bot starts on server_name
 
-## Dependancies/building
-* Python 3.4+
-* cx_freeze
-* requests
-* lxml
-* colorama
-* termcolor
-
-build by running the provided scripts `build.bat` or `build.sh` after installing dependancies via pip.
-
 ## Minimal configuration
 If running from source you will need to copy the example configs from the `config` folder to the root folder, the build scripts do this automatically.
 After the cofiguration is present, edit these lines in `magicked_admin.conf` to match your server details:
@@ -62,5 +84,3 @@ password = 123
 ```
 See the [Steam guide](http://steamcommunity.com/sharedfiles/filedetails/?id=1324364024) for more detailed usage information
 
-## Running
-Run `python main.py` (python 3 is required!) if executing from source. If you're using a binary execute `magicked_admin.exe`.
