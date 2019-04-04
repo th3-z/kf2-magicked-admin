@@ -1,7 +1,7 @@
-from chatbot.commands.player_commands import *
-from chatbot.commands.info_commands import *
-from chatbot.commands.server_commands import *
 from chatbot.commands.event_commands import *
+from chatbot.commands.info_commands import *
+from chatbot.commands.player_commands import *
+from chatbot.commands.server_commands import *
 
 
 class CommandMap:

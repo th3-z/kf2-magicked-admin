@@ -1,10 +1,10 @@
-from chatbot.commands.command import Command
-import server.server as server
-import server.game as game
+from os import path
 
+import server.game as game
+import server.server as server
+from chatbot.commands.command import Command
 from web_admin.constants import *
 
-from os import path
 
 class CommandSay(Command):
     def __init__(self, server, admin_only=True):

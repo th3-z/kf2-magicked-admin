@@ -1,11 +1,12 @@
-from os import path
 import threading
-import requests
 import time
+from os import path
 
+import requests
 from lxml import html
-from utils.text import millify
-from utils.text import trim_string
+
+from utils.text import millify, trim_string
+
 
 '''
 This class needs a re-build.

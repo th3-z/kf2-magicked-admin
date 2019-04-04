@@ -1,12 +1,13 @@
-from web_admin.constants import *
-
 import logging
 import threading
 import time
-from lxml import html
+
 from colorama import init
+from lxml import html
 from termcolor import colored
+
 from utils import DEBUG
+from web_admin.constants import *
 
 init()
 
@@ -97,4 +98,3 @@ class Chat(threading.Thread):
         self.__message_buffer += response.text
 
         return True
-

@@ -1,11 +1,11 @@
+import datetime
+import threading
+import time
+
 from chatbot.commands.command import Command
+from utils import DEBUG
 from utils.text import millify
 from utils.time import seconds_to_hhmmss
-from utils import DEBUG
-
-import threading
-import datetime
-import time
 
 ALL_WAVES = 999
 

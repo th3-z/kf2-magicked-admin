@@ -13,21 +13,23 @@ Released under the terms of the MIT license
 '''
 
 import logging
-import signal
 import os
+import signal
 import sys
 
 from colorama import init
 from termcolor import colored
-init()
 
-from server.server import Server
 from chatbot.chatbot import Chatbot
-
-from utils import die, find_data_file, DEBUG
+from server.server import Server
+from settings import Settings
+from utils import DEBUG, die, find_data_file
 from utils.text import str_to_bool
 
-from settings import Settings
+init()
+
+
+
 settings = Settings()
 
 REQUESTS_CA_BUNDLE_PATH =  find_data_file("./certifi/cacert.pem")

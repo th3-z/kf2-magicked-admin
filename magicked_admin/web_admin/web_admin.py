@@ -1,14 +1,14 @@
-from lxml import html
 import logging
 from itertools import groupby
 
-from web_admin.web_interface import WebInterface
+from lxml import html
+
+from utils import DEBUG
+from utils.geolocation import get_country
+from utils.text import str_to_bool
 from web_admin.chat import Chat
 from web_admin.constants import *
-
-from utils.text import str_to_bool
-from utils.geolocation import get_country
-from utils import DEBUG
+from web_admin.web_interface import WebInterface
 
 
 class WebAdmin(object):
@@ -237,4 +237,3 @@ class WebAdmin(object):
             'steam_id': "00000000000000000",
             'player_key': "0x0.00"
         }
-

@@ -1,5 +1,6 @@
 from urllib.request import urlopen
 
+
 def repair_address_scheme(address):
     address = address.strip()
 
@@ -15,4 +16,3 @@ def is_valid_address(address):
         return False
 
     return code < 400
-

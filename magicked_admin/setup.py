@@ -1,5 +1,6 @@
-from cx_Freeze import setup, Executable
 import os
+
+from cx_Freeze import Executable, setup
 
 base = None
 
@@ -32,4 +33,3 @@ setup(name="Magicked Administrator",
                      )
       ]
 )
-

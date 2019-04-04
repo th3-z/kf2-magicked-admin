@@ -1,11 +1,12 @@
-import requests
-from hashlib import sha1
-from lxml import html
 import logging
 import time
+from hashlib import sha1
 
-from web_admin.constants import *
+import requests
+from lxml import html
+
 from utils import DEBUG
+from web_admin.constants import *
 
 
 class WebInterface(object):
@@ -386,4 +387,3 @@ class WebInterface(object):
             "urlextra": url_extra,
             "action": "change"
         }
-

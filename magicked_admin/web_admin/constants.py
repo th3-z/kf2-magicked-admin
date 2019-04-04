@@ -32,4 +32,3 @@ ConstGame = namedtuple('Game', ['trader_open', 'zeds_total', 'zeds_dead',
 
 ConstPlayer = namedtuple('Player', ['username', 'perk', 'kills',
 'health', 'dosh', 'ping'])
-

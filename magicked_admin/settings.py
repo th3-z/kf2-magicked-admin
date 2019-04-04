@@ -1,5 +1,5 @@
-import os
 import configparser
+import os
 from getpass import getpass
 
 from utils import die, find_data_file
@@ -106,6 +106,3 @@ class Settings:
                     errors.append("Section '{}' is missing a required setting: '{}'.".format(section, setting))
 
         return errors
-
-
-

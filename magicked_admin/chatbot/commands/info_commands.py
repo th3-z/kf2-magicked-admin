@@ -1,9 +1,9 @@
+import datetime
+
 from chatbot.commands.command import Command
 from server.player import Player
-from utils.time import seconds_to_hhmmss
 from utils.text import millify
-
-import datetime
+from utils.time import seconds_to_hhmmss
 
 
 class CommandPlayers(Command):

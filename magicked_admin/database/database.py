@@ -1,9 +1,9 @@
-import sqlite3
 import datetime
+import sqlite3
 from os import path
 from threading import Lock
 
-from utils import find_data_file, DEBUG
+from utils import DEBUG, find_data_file
 
 lock = Lock()
 

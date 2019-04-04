@@ -1,10 +1,9 @@
-from web_admin.chat import ChatListener
-from chatbot.commands.command_map import CommandMap
-from chatbot.commands.event_commands import CommandGreeter
-
 from os import path
 
-from utils import find_data_file, DEBUG
+from chatbot.commands.command_map import CommandMap
+from chatbot.commands.event_commands import CommandGreeter
+from utils import DEBUG, find_data_file
+from web_admin.chat import ChatListener
 
 
 class Chatbot(ChatListener):

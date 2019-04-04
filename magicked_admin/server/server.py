@@ -1,19 +1,16 @@
-import requests
 import datetime
 import threading
 import time
-
-from lxml import html
 from time import sleep
+
+import requests
+from lxml import html
 from termcolor import colored
 
-from database.database import ServerDatabase
-
-import web_admin as api
-
 import server.game as game
-from server.game import Game
-from server.game import GameMap
+import web_admin as api
+from database.database import ServerDatabase
+from server.game import Game, GameMap
 from server.player import Player
 from utils import DEBUG
 
@@ -416,4 +413,3 @@ class ServerMapper(threading.Thread):
         player.total_deaths += 1
         message = player.username + " died"
         print(colored(message, 'red'))
-

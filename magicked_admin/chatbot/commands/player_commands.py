@@ -1,5 +1,5 @@
 from chatbot.commands.command import Command
-from utils.text import trim_string, millify
+from utils.text import millify, trim_string
 
 
 class CommandServerDosh(Command):

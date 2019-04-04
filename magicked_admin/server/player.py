@@ -1,5 +1,6 @@
 import datetime
 
+
 class Player:
 
     def __init__(self, username, perk):
@@ -39,4 +40,3 @@ class Player:
                "\ndosh: " + str(self.dosh) + "\nhealth: " + str(self.health) +\
                "\nkills: " + str(self.kills) + \
                "\nCountry: " + str(self.country_code)
-

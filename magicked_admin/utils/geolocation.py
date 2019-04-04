@@ -1,9 +1,10 @@
-import urllib.request
+import json
 import urllib.error
+import urllib.request
 from contextlib import closing
 
 import requests
-import json
+
 
 def get_country(ip):
     url = "https://ipapi.co/" + ip + "/json/"
@@ -17,4 +18,3 @@ def get_country(ip):
         return unknown
     else:
         return country, country_code
-
