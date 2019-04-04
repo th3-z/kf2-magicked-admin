@@ -10,7 +10,7 @@ from web_admin.constants import *
 
 
 class WebInterface(object):
-    def __init__(self, address, username, password, server_name="unnamed", protocol="https"):
+    def __init__(self, address, username, password, server_name="unnamed"):
         # validate address here, rise if bad
         self.__address = address
         self.__username = username
@@ -19,30 +19,30 @@ class WebInterface(object):
         self.server_name = server_name
 
         self.__urls = {
-            'login': '{}://{}/ServerAdmin/'
-                .format(protocol, address),
-            'chat': '{}://{}/ServerAdmin/current/chat+data'
-                .format(protocol, address),
-            'info': '{}://{}/ServerAdmin/current/info'
-                .format(protocol, address),
-            'map': '{}://{}/ServerAdmin/current/change'
-                .format(protocol, address),
-            'players': '{}://{}/ServerAdmin/current/players'
-                .format(protocol, address),
-            'passwords': '{}://{}/ServerAdmin/policy/passwords'
-                .format(protocol, address),
-            'bans': '{}://{}/ServerAdmin/policy/bans'
-                .format(protocol, address),
-            'general_settings': '{}://{}/ServerAdmin/settings/general'
-                .format(protocol, address),
-            'game_type': '{}://{}/ServerAdmin/settings/gametypes'
-                .format(protocol, address),
-            'map_cycle': '{}://{}/ServerAdmin/settings/maplist'
-                .format(protocol, address),
-            'welcome': '{}://{}/ServerAdmin/settings/welcome'
-                .format(protocol, address),
-            'console': '{}://{}/ServerAdmin/console'
-                .format(protocol, address)
+            'login': '{}/ServerAdmin/'
+                .format(address),
+            'chat': '{}/ServerAdmin/current/chat+data'
+                .format(address),
+            'info': '{}/ServerAdmin/current/info'
+                .format(address),
+            'map': '{}/ServerAdmin/current/change'
+                .format(address),
+            'players': '{}/ServerAdmin/current/players'
+                .format(address),
+            'passwords': '{}/ServerAdmin/policy/passwords'
+                .format(address),
+            'bans': '{}/ServerAdmin/policy/bans'
+                .format(address),
+            'general_settings': '{}/ServerAdmin/settings/general'
+                .format(address),
+            'game_type': '{}/ServerAdmin/settings/gametypes'
+                .format(address),
+            'map_cycle': '{}/ServerAdmin/settings/maplist'
+                .format(address),
+            'welcome': '{}/ServerAdmin/settings/welcome'
+                .format(address),
+            'console': '{}/ServerAdmin/console'
+                .format(address)
         }
 
         self.__timeout = 5

@@ -142,8 +142,7 @@ class Server:
     def save_settings(self):
         # Addresses a problem where certain requests cause
         # web_admin to forget settings
-        general_settings_url = "http://" + self.address + \
-                               "/ServerAdmin/settings/general"
+        general_settings_url = self.address + "/ServerAdmin/settings/general"
         try:
             self.session.post(general_settings_url, self.general_settings)
         except requests.exceptions.RequestException:
@@ -157,8 +156,7 @@ class Server:
     # To this so that you can set a password not in the config.
     # This will need to be corrected elsewhere when done.
     def disable_password(self):
-        passwords_url = "http://" + self.address + \
-                        "/ServerAdmin/policy/passwords"
+        passwords_url = self.address + "/ServerAdmin/policy/passwords"
         payload = {
             'action': 'gamepassword'
         }
@@ -178,8 +176,7 @@ class Server:
         return True
 
     def enable_password(self, args):
-        passwords_url = "http://" + self.address + \
-                        "/ServerAdmin/policy/passwords"
+        passwords_url = self.address + "/ServerAdmin/policy/passwords"
         payload = {
             'action': 'gamepassword'
         }
@@ -228,7 +225,7 @@ class Server:
                 self.kick_player(player.player_key)
 
     def kick_player(self, player_key):
-        url = "http://" + self.address + "/ServerAdmin/current/players+data"
+        url = self.address + "/ServerAdmin/current/players+data"
         payload = {
             'action': 'kick',
             'playerkey': player_key,
@@ -244,7 +241,7 @@ class Server:
 
     # Change the GameMode
     def change_game_type(self, mode):
-        url = "http://" + self.address + "/ServerAdmin/current/change"
+        url = self.address + "/ServerAdmin/current/change"
         payload = {
             "gametype": mode,
             "map": self.game.game_map.title,

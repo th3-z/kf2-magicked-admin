@@ -1,6 +1,6 @@
-import os, sys
+import os
 import site
-
+import sys
 from os import path
 
 from cx_Freeze import Executable, setup

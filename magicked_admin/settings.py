@@ -3,7 +3,7 @@ import os
 from getpass import getpass
 
 from utils import die, find_data_file
-from utils.net import is_valid_address, repair_address_scheme
+from utils.net import resolve_address
 
 CONFIG_PATH = find_data_file("./magicked_admin.conf")
 
@@ -73,8 +73,8 @@ class Settings:
 
         while True: 
             address = input("\nAddress [default - localhost:8080]: ") or "localhost:8080"
-            scheme_address = repair_address_scheme(address)
-            if is_valid_address(scheme_address):
+            resolved_address = resolve_address(address)
+            if resolved_address:
                 break
             else:
                 print("Address not responding!\nAccepted formats are: 'ip:port', 'domain', or 'domain:port'")
@@ -83,7 +83,7 @@ class Settings:
         password = getpass("Password (will not echo) [default - 123]: ") or "123"
         print() # \n
 
-        new_config.set(SETTINGS_DEFAULT['server_name'], 'address', address)
+        new_config.set(SETTINGS_DEFAULT['server_name'], 'address', resolved_address)
         new_config.set(SETTINGS_DEFAULT['server_name'], 'username', username)
         new_config.set(SETTINGS_DEFAULT['server_name'], 'password', password)
 
