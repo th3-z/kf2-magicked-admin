@@ -25,7 +25,7 @@ class Chat(threading.Thread):
         self.__listeners = []
         self.__exit = False
         # TODO configuration option
-        self.__refresh_rate = 10 if DEBUG else 3
+        self.__refresh_rate = 3
 
         self.__silent = False
         self.__operators = operators if operators else []

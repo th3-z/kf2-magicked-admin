@@ -5,13 +5,12 @@ from hashlib import sha1
 import requests
 from lxml import html
 
-from utils import DEBUG
+from utils import DEBUG, die
 from web_admin.constants import *
 
 
 class WebInterface(object):
     def __init__(self, address, username, password, server_name="unnamed"):
-        # validate address here, rise if bad
         self.__address = address
         self.__username = username
         self.__password = password
@@ -52,8 +51,6 @@ class WebInterface(object):
 
     def __get(self, session, url, retry_interval=6, login=False):
         while True:
-            if DEBUG:
-                print("GET: " + url)
             try:
                 response = session.get(url, timeout=self.__timeout)
                 if response.status_code > 400:
@@ -74,28 +71,26 @@ class WebInterface(object):
 
             except requests.exceptions.HTTPError:
                 if DEBUG:
-                    print("HTTPError getting {}. Retrying in {}"
+                    print("HTTPError getting {}. Retrying in {}s"
                           .format(url, retry_interval))
             except requests.exceptions.ConnectionError:
                 if DEBUG:
-                    print("ConnectionError getting {}. Retrying in {}"
+                    print("ConnectionError getting {}. Retrying in {}s"
                           .format(url, retry_interval))
             except requests.exceptions.Timeout:
                 if DEBUG:
-                    print("Timeout getting {}. Retrying in {}"
+                    print("Timeout getting {}. Retrying in {}s"
                           .format(url, retry_interval))
             except requests.exceptions.RequestException as err:
                 if DEBUG:
                     print("None-specific RequestException getting {}, "
-                          "{}. Retrying in {}"
+                          "{}. Retrying in {}s"
                           .format(url, str(err), retry_interval))
 
             time.sleep(retry_interval)
 
     def __post(self, session, url, payload, retry_interval=6, login=False):
         while True:
-            if DEBUG:
-                print("POST: " + url + " PAYLOAD: " + str(payload))
             try:
                 response = session.post(
                     url, payload,
@@ -116,18 +111,22 @@ class WebInterface(object):
                     return response
                 return response
             except requests.exceptions.HTTPError:
-                print("HTTPError posting {}. Retrying in {}"
-                      .format(url, retry_interval))
+                if DEBUG:
+                    print("HTTPError posting {}. Retrying in {}s"
+                          .format(url, retry_interval))
             except requests.exceptions.ConnectionError:
-                print("ConnectionError posting {}. Retrying in {}"
-                      .format(url, retry_interval))
+                if DEBUG:
+                    print("ConnectionError posting {}. Retrying in {}s"
+                          .format(url, retry_interval))
             except requests.exceptions.Timeout:
-                print("Timeout posting {}. Retrying in {}"
-                      .format(url, retry_interval))
+                if DEBUG:
+                    print("Timeout posting {}. Retrying in {}s"
+                          .format(url, retry_interval))
             except requests.exceptions.RequestException as err:
-                print("None-specific RequestException posting {}, "
-                      "{}. Retrying in {}"
-                      .format(url, str(err), retry_interval))
+                if DEBUG:
+                    print("None-specific RequestException posting {}, "
+                          "{}. Retrying in {}s"
+                          .format(url, str(err), retry_interval))
 
             time.sleep(retry_interval)
 
@@ -170,11 +169,9 @@ class WebInterface(object):
 
         response = self.__post(session, self.__urls['login'], login_payload, login=True)
 
-        if "hashAlg" in response.text and DEBUG:
-            # TODO Make it red
-            print("Login failure, possibly protocol, hashAlg, or credentials")
-            exit()
-        
+        if "hashAlg" in response.text or "Exceeded login attempts" in response.text and DEBUG:
+            # TODO Expand on handling here, should gracefully terminate
+            die("Login failure, bad credentials or login attempts exceeded.")
 
         return session
 
