@@ -1,11 +1,11 @@
-# Killing Floor 2 Magicked Administrator
-Scripted management, statistics, and bot for ranked Killing Floor 2 servers. Provides in-game commands, player stat tracking and ranking, live MOTD scoreboard and stats, greeter, and admin functions. Running entirely through the web administrator, it does not affect a server's ranked/custom status. It can be ran either directly on the server or remotely, and manage multiple servers at once.
+# Killing Floor 2 Magicked Admin
+Scripted management, statistics, and bot for ranked Killing Floor 2 servers. Provides in-game commands, player stat tracking and ranking, live MOTD scoreboard and stats, greeter, and admin functions. Running entirely through the web admin, it does not affect a server's ranked/custom status. It can be ran either directly on the server or remotely, and manage multiple servers at once.
 
 ## Download
 soon
 
 ## Running from Python sources
-To run from Python sources, install the requirements below and run `python3 -O magicked_admin/magicked_administrator.py`.
+To run from Python sources, install the requirements below and run `python3 -O magicked_admin/magicked_admin.py`.
 
 ### Requirements
 Examples work on Debian 9, may differ for other operating systems.

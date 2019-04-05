@@ -1,6 +1,6 @@
 '''
 
-Killing Floor 2 Magicked Administrator
+Killing Floor 2 Magicked Admin
 Copyright th3-z (the_z) 2018
 Released under the terms of the MIT license
 
@@ -45,7 +45,7 @@ if hasattr(sys, "frozen"):
     requests.utils.DEFAULT_CA_BUNDLE_PATH = REQUESTS_CA_BUNDLE_PATH
     requests.adapters.DEFAULT_CA_BUNDLE_PATH = REQUESTS_CA_BUNDLE_PATH
 
-class MagickedAdministrator:
+class MagickedAdmin:
     
     def __init__(self):
         signal.signal(signal.SIGINT, self.terminate)
@@ -109,5 +109,5 @@ if __name__ == "__main__":
         debug_message = "Debug mode is enabled!"
         print(colored(debug_message, 'red'))
 
-    application = MagickedAdministrator()
+    application = MagickedAdmin()
     application.run()

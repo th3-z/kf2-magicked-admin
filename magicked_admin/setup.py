@@ -1,19 +1,16 @@
 import os
 import site
 import sys
+import certifi
 from os import path
 
 from cx_Freeze import Executable, setup
 
-ROOT_PATH = os.path.dirname(__file__)
+WIN_NT = os.name == "nt"
 
-CERT_PATH = None
-
-sites = site.getsitepackages() + [site.getusersitepackages()]
-
-for site in sites:
-    if path.exists(path.join(site, 'certifi/cacert.pem')):
-        CERT_PATH = path.join(site, 'certifi/cacert.pem')
+SRC_PATH = os.path.dirname(__file__)
+ROOT_PATH = os.path.join(SRC_PATH, '..')
+CERT_PATH = certifi.where()
 
 if not CERT_PATH:
     print("Couldn't find cacert.pem for SSL requests.")
@@ -21,9 +18,13 @@ if not CERT_PATH:
 
 
 includefiles = [
-    (os.path.join(ROOT_PATH, 'database/server_schema.sql'),'database/server_schema.sql'),
+    (os.path.join(SRC_PATH, 'database/server_schema.sql'),'database/server_schema.sql'),
     (CERT_PATH,'certifi/cacert.pem'),
 ]
+
+target_name = "magicked_admin"
+if WIN_NT:
+    target_name += ".exe"
 
 build_exe_options = {
     "packages": ["os", "queue", "idna", "lxml", "requests", "encodings"],
@@ -32,18 +33,19 @@ build_exe_options = {
     "include_files": includefiles,
     "include_msvcr": True,
     "optimize": 2,
+    "build_exe": os.path.join(ROOT_PATH, 'bin/'),
     "zip_include_packages": "*",
     "zip_exclude_packages": ""
 }
-setup(name="Magicked Administrator",
-      version="0.0.1",
+setup(name="Magicked Admin",
+      version="0.1.0",
       description="Scripted management, stats, and bot for KF2-Server",
       options = {"build_exe": build_exe_options},
       executables=[
-          Executable(os.path.join(ROOT_PATH, "magicked_administrator.py"),
+          Executable(os.path.join(SRC_PATH, "magicked_admin.py"),
                      base=None,
-                     targetName="magicked_admin.exe",
-                     icon=os.path.join(ROOT_PATH, "icon.ico")
+                     targetName=target_name,
+                     icon=os.path.join(SRC_PATH, "icon.ico")
                      )
       ]
 )
