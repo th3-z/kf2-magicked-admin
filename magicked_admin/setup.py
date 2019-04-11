@@ -6,6 +6,8 @@ from os import path
 
 from cx_Freeze import Executable, setup
 
+VERSION="0.1"
+
 WIN_NT = os.name == "nt"
 
 SRC_PATH = os.path.dirname(__file__)
@@ -38,7 +40,7 @@ build_exe_options = {
     "zip_exclude_packages": ""
 }
 setup(name="Magicked Admin",
-      version="0.1.0",
+      version=VERSION+".0",
       description="Scripted management, stats, and bot for KF2-Server",
       options = {"build_exe": build_exe_options},
       executables=[

@@ -1,7 +1,16 @@
 import sys, os
 
+from colorama import init
+from termcolor import colored
+
+init()
+
 # __debug__ is always true when building w/ cx_freeze, no known solution
 DEBUG = __debug__ and not hasattr(sys, 'frozen')
+
+VERSION_TEXT="0.1.0"
+if DEBUG: VERSION_TEXT += "#DEBUG"
+BANNER_URL="https://th3-z.xyz/kf2-ma"
 
 def die(message=None):
     if message:
@@ -20,3 +29,21 @@ def find_data_file(filename):
 
     return os.path.join(datadir, filename)
 
+
+def banner():
+    # figlet -f rectangles "example"
+    lines = [
+            colored("               _     _         _ \n", 'blue'),
+            colored(" _____ ___ ___|_|___| |_ ___ _| |\n", 'blue'),
+            colored("|     | .'| . | |  _| '_| -_| . |\n", 'blue'),
+            colored("|_|_|_|__,|_  |_|___|_,_|___|___|\n", 'blue'),
+            colored("        _ |___| _       \n", 'blue'),
+            colored("  ___ _| |_____|_|___   ", 'blue'),
+            colored(" | .'| . |     | |   |  ", 'blue'),
+            colored(" |__,|___|_|_|_|_|_|_|  \n", 'blue')
+            ]
+
+    lines[5] += colored("<<V{}>>\n".format(VERSION_TEXT), 'yellow')
+    lines[6] += colored(BANNER_URL+"\n", 'grey')
+
+    print(str.join('', lines))

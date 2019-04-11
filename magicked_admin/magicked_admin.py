@@ -23,12 +23,12 @@ from termcolor import colored
 from chatbot.chatbot import Chatbot
 from server.server import Server
 from settings import Settings
-from utils import DEBUG, die, find_data_file
+from utils import DEBUG, die, find_data_file, banner
 from utils.text import str_to_bool
 
 init()
 
-
+banner()
 
 settings = Settings()
 
@@ -105,9 +105,5 @@ class MagickedAdmin:
 
 
 if __name__ == "__main__":
-    if DEBUG:
-        debug_message = "Debug mode is enabled!"
-        print(colored(debug_message, 'red'))
-
     application = MagickedAdmin()
     application.run()
