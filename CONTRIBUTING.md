@@ -1,6 +1,9 @@
-#Contributing
+Contributing
+============
 
-## Code
+Code
+----
+
 If you wish to contribute code, please see `ISSUES.md` for the current task
 list. Once you've completed a task, update the `ISSUES.md` file and send me the 
 [patches](https://git-scm.com/docs/git-format-patch) with your commits by 
@@ -11,7 +14,9 @@ your environment.
 
 N.b., all contributions will be released under the MIT license.
 
-## Reporting bugs
+Reporting bugs
+--------------
+
 All issues, including bugs, are tracked in the `ISSUES.md` file. Bug reports
 can be submitted by email to the [author](mailto:the\_z@znel.org) or relevant 
 contributor. Good bug reports should include the following.
@@ -27,7 +32,8 @@ contributor. Good bug reports should include the following.
     - Operating system.
     - Configuration file, please censor any credentials.
 
-## Style
+Style
+-----
 
 ### Commit messages
 * Imperative present tense.
