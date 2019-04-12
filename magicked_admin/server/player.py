@@ -36,7 +36,8 @@ class Player:
         self.country_code = "??"
 
     def __str__(self):
-        return "username: " + self.username + "\nperk: " + self.perk + \
-               "\ndosh: " + str(self.dosh) + "\nhealth: " + str(self.health) +\
+        return "Username: " + self.username + "\nperk: " + self.perk + \
+               "\nDosh: " + str(self.dosh) + "\nhealth: " + str(self.health) +\
                "\nkills: " + str(self.kills) + \
-               "\nCountry: " + str(self.country_code)
+               "\nCountry: " + str(self.country_code) + \
+               "\nPlayer key: " + str(self.player_key)
