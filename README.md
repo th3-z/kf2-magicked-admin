@@ -8,32 +8,44 @@ the web admin, it does not affect a server's ranked/custom status. It can be
 ran either directly on the server or remotely, and manage multiple servers at 
 once.
 
-Download
---------
+Downloads
+---------
 
-soon
+I'll put builds here once I've got master ready for releases. I currently
+have no access to a Windows machine, assistance is needed here.
+
+Users looking for the most recent stable version should visit the releases page
+on GitHub for now, you want 
+[0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7). The 
+Documentation on this page isn't valid for 0.0.7, so please visit the 
+[Steam guide](http://steamcommunity.com/sharedfiles/filedetails/?id=1324364024) 
+for more information about 0.0.7.
 
 Running from Python sources
 ---------------------------
 
-To run from Python sources, install the requirements below and run 
-`python3 -O magicked_admin/magicked_admin.py`.
-
 ### Requirements
-Examples work on Debian 9, may differ for other operating systems.
+Examples work on Debian 9 and Ubuntu 18.04, may differ for other operating 
+systems. Install the following packages.
 
 * Python 3.x - `apt install python3`
 * Pip - `apt install python3-pip`
 * Python 3 dependencies - `pip3 install -r requirements.txt`
 
-Building from source
---------------------
+### Running 
+`git clone https://th3-z.xyz/git/kf2-magicked-admin.git`  
+`cd kf2-magicked-admin`  
+`python3 -O magicked_admin/magicked_admin.py`  
+
+Building
+--------
 
 You can build a binary release with `make` after installing both the run and 
 build requirements.
 
 ### Requirements
-Examples work on Debian 9, may differ for other operating systems.
+Examples work on Debian 9 and Ubuntu 18.04, may differ for other operating 
+systems.
 
 * Python 3.x - `apt install python3`
 * Pip - `apt install python3-pip`
@@ -48,6 +60,10 @@ Development make targets also use the following dependencies.
 
 Usage
 -----
+
+This usage documentation is from the old version (0.0.7). Although 
+functionally the program is mostly unchanged, many of these will not work 
+right in master. This is a complete list of the features that need testing.
 
 ### Player commands
 * !me - display a summary of your stats
@@ -96,16 +112,10 @@ enabling the motd_scoreboard option will put a live scoreboard in the motd.
 * Writting a `server_name.init` with a list of commands will run the commands 
 when the bot starts on server_name.
 
-Minimal configuration
+Configuration
 ---------------------
-If running from source you will need to copy the example configs from the 
-`config` folder to the root folder, the build scripts do this automatically.
-After the cofiguration is present, edit these lines in `magicked_admin.conf` 
-to match your server details:
 
-    address = 127.0.0.1:8080
-    username = Admin
-    password = 123
-
-See the [Steam guide](http://steamcommunity.com/sharedfiles/filedetails/?id=1324364024) for more detailed usage information.
+There is a config file, `magicked_admin.conf`, that is created after the first
+run, you can change the settings with this file. I haven't documentation the 
+options here, so you'll just have to figure it out.
 

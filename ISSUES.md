@@ -16,6 +16,16 @@ Detailed template description. Status options are as follows: 'Confirmed',
 __dev-notes__  
 Example developer notes. Please delete issues after they are addressed.
 
+Greeter and MOTD scoreboards
+----------------------------
+_status_:   Confirmed  
+_category_: Feature  
+_date_:     2019-04-12  
+__desc__  
+These two features are currently non-functional and disabled. They work on the
+0.0.8 branch if a working example is needed. They need repairs.  
+__dev-notes__  
+
 Add top players rank by wave achieved
 -------------------------------------
 _status_:   Confirmed  
@@ -26,11 +36,12 @@ I'm not sure if this tool is still being maintained and updated. Would you
 consider adding a rank system sorted by highest wave number achieved by a 
 player?  
 __dev-notes__  
+This is for the endless mode. Should probably record which map it was on too.  
 
 The enable\_greeter config option not working
 ---------------------------------------------
-_status_:   Confirmed  
-_category_: Feature  
+_status_:   Unconfirmed  
+_category_: Bug  
 _date_:     2019-04-11  
 __desc__  
 enable\_greeter config option has no effect on wether the greeter is enabled 
@@ -39,8 +50,8 @@ __dev-notes__
 
 Commands !help and !kills not working
 -------------------------------------
-_status_:   Confirmed  
-_category_: Feature  
+_status_:   Unconfirmed  
+_category_: Bug  
 _date_:     2019-04-11  
 __desc__  
 Tested the latest build today (Python 3.6.5, master branch). Unfortunately, 
@@ -68,7 +79,7 @@ __dev-notes__
 
 Set a default Additional URL variable
 -------------------------------------
-_status_:   Confirmed  
+_status_:   Unconfirmed  
 _category_: Feature  
 _date_:     2019-04-11  
 __desc__  
@@ -78,8 +89,8 @@ __dev-notes__
 
 Wrong player rank in !kills and !dosh
 -------------------------------------
-_status_:   Confirmed  
-_category_: Feature  
+_status_:   Unconfirmed  
+_category_: Bug  
 _date_:     2019-04-11  
 __desc__  
 !kills and !dosh tells me im ranked second highest when im first on !top\_kills
@@ -88,8 +99,8 @@ __dev-notes__
 
 Command, !toggle\_pass, is broken
 ---------------------------------
-_status_:   Confirmed  
-_category_: Feature  
+_status_:   Unconfirmed  
+_category_: Bug  
 _date_:     2019-04-11  
 __desc__  
 !toggle\_pass does not print to in-game chat and doesnt toggle game pass  
@@ -97,7 +108,7 @@ __dev-notes__
 
 Player log files
 ----------------
-_status_:   Confirmed  
+_status_:   Unconfirmed  
 _category_: Feature  
 _date_:     2019-04-11  
 __desc__  
@@ -122,7 +133,7 @@ __dev-notes__
 Greeter doesnt work on first player
 -----------------------------------
 _status_:   Confirmed  
-_category_: Feature  
+_category_: Bug  
 _date_:     2019-04-11  
 __desc__  
 There is no in-game chat with only 1 player present, so the greeting goes 
@@ -147,25 +158,9 @@ _category_: Feature
 _date_:     2019-04-11  
 __desc__  
 Get player level from info page when it is enabled. option to boot perks below
- a certain level.  
+a certain level.  
 __dev-notes__  
-
-Duplicate config option issue
------------------------------
-_status_:   Confirmed  
-_category_: Feature  
-_date_:     2019-04-11  
-__desc__  
-Having duplicate entries in the config file causes a crash  
-__dev-notes__  
-
-Wave command top\_kills fails to return top kills for the wave
---------------------------------------------------------------
-_status_:   Confirmed  
-_category_: Feature  
-_date_:     2019-04-11 
-__desc__  
-__dev-notes__  
+Not sure if the new prestige levels can be detected
 
 Player rankings on existing commands
 ------------------------------------
@@ -205,11 +200,12 @@ Easiest way to implement this is probably retrieving the top 100 or so
 dosh/kill scores on initialisation and comparing them to the online player's 
 scores. Only respond to milestones such as: 100,50,25,15,10,5,4,3,2,1.  
 __dev-notes__  
+Not sure if the new prestige levels can be detected
 
 Function, database.load\_player, creating unnecessary player records
 --------------------------------------------------------------------
 _status_:   Confirmed  
-_category_: Feature  
+_category_: Bug  
 _date_:     2019-04-11  
 __desc__  
 When a name is misspell in the stats command a new record is added for the 
@@ -219,7 +215,7 @@ __dev-notes__
 Username collisions
 -------------------
 _status_:   Confirmed  
-_category_: Feature  
+_category_: Bug  
 _date_:     2019-04-11  
 __desc__  
 Should be using steam ID as primary key to avoid collisions. Can be read from 
@@ -235,23 +231,16 @@ __desc__
 The info page parsing assumes the server is running survival mode. 
 The info page is different on weekly servers.  
 __dev-notes__  
+This can be address by modification of the webadmin pages, still looking for
+an easier solution
 
 Unicode support
 ---------------
 _status_:   Confirmed  
-_category_: Feature  
+_category_: Bug  
 _date_:     2019-04-11  
-__desc__
+__desc__  
 Players with pure Unicode names (e.g. Chinese players) of the same length will
 collide because the characters are replaced with ?s.  
 __dev-notes__
-
-Bad configuration errors
-------------------------
-_status_:   Confirmed  
-_category_: Feature  
-_date_:     2019-04-11  
-__desc__  
-Malformed configs generate unhanded errors.  
-__dev-notes__  
 
