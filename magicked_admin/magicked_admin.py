@@ -1,15 +1,7 @@
 '''
-
 Killing Floor 2 Magicked Admin
 Copyright th3-z (the_z) 2018
 Released under the terms of the MIT license
-
-== Task list ==
-    # Figlet splash screen
-    # Regression tests
-    # Clean up PEP8 violations
-
-
 '''
 
 import logging
@@ -25,6 +17,7 @@ from server.server import Server
 from settings import Settings
 from utils import DEBUG, die, find_data_file, banner
 from utils.text import str_to_bool
+from server.motd_updater import MotdUpdater
 
 init()
 
@@ -71,9 +64,9 @@ class MagickedAdmin:
                 settings.setting(server_name, "motd_scoreboard")
             )
 
-            #if has_motd_scoreboard:
-                #scoreboard_type = settings.setting(server_name, "scoreboard_type")
-                #MotdUpdater(server, scoreboard_type).start()
+            if has_motd_scoreboard:
+                scoreboard_type = settings.setting(server_name, "scoreboard_type")
+                MotdUpdater(server, scoreboard_type).start()
 
             self.servers.append(server)
 
@@ -93,7 +86,6 @@ class MagickedAdmin:
         print("\nProgram interrupted, terminating...")
 
         if DEBUG:
-            # noinspection PyProtectedMember
             os._exit(0)
 
         for server in self.servers:

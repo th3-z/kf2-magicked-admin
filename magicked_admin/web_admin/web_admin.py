@@ -120,17 +120,21 @@ class WebAdmin(object):
     def set_motd(self, motd):
         self.__motd_settings["ServerMOTD"] = motd\
             .encode("iso-8859-1", "ignore")
-        self.__web_interface.post_motd(self.__motd_settings)
+        self.__web_interface.post_welcome(self.__motd_settings)
+
         # Setting the MOTD resets changes to general settings
         self.__save_general_settings()
 
+    def get_motd(self):
+        return self.__motd_settings['ServerMOTD']
+
     def set_banner(self, banner_link):
         self.__motd_settings["BannerLink"] = banner_link
-        self.__web_interface.post_motd(self.__motd_settings)
+        self.__web_interface.post_welcome(self.__motd_settings)
 
     def set_web_link(self, web_link):
         self.__motd_settings["WebLink"] = web_link
-        self.__web_interface.post_motd(self.__motd_settings)
+        self.__web_interface.post_welcome(self.__motd_settings)
 
     def get_players(self):
         response = self.__web_interface.get_server_info()

@@ -16,14 +16,14 @@ Detailed template description. Status options are as follows: 'Confirmed',
 __dev-notes__  
 Example developer notes. Please delete issues after they are addressed.
 
-Greeter and MOTD scoreboards
-----------------------------
+Greeter
+-------
 _status_:   Confirmed  
 _category_: Feature  
 _date_:     2019-04-12  
 __desc__  
-These two features are currently non-functional and disabled. They work on the
-0.0.8 branch if a working example is needed. They need repairs.  
+This feature is currently non-functional and disabled. They work on the 0.0.8 
+branch if a working example is needed.    
 __dev-notes__  
 
 Add top players rank by wave achieved

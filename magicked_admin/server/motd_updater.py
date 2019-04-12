@@ -6,79 +6,61 @@ import requests
 from lxml import html
 
 from utils.text import millify, trim_string
-
-
-'''
-This class needs a re-build.
-N.b. utils.find_data_file, utils.DEBUG
-
-'''
+from utils import DEBUG, find_data_file, warning
 
 
 class MotdUpdater(threading.Thread):
 
     def __init__(self, server, scoreboard_type):
         self.server = server
+        self.motd_path = find_data_file(server.name + ".motd")
 
         self.scoreboard_type = scoreboard_type
-        self.time_interval = 5 * 60
+        self.time_interval = 5*60
+
+        if not path.exists(find_data_file(self.server.name + ".motd")):
+            warning("No MOTD file for {} found, pulling from web admin!".format(self.server.name))
+            
+            with open(self.motd_path, "w+") as motd_file:
+                motd_file.write(self.server.web_admin.get_motd())
+                
+
         self.motd = self.load_motd()
 
         threading.Thread.__init__(self)
 
     def run(self):
+        if not self.motd:
+            return
+
         while True:
             self.server.write_all_players()
-            try:
-                motd_payload = self.get_configuration()
-            except requests.exceptions.RequestException:
-                continue
 
             motd = self.render_motd(self.motd)
-            motd_payload['ServerMOTD'] = motd.encode("iso-8859-1", "ignore")
+            self.server.web_admin.set_motd(motd) 
 
-            try:
-                self.submit_motd(motd_payload)
-            except requests.exceptions.RequestException:
-                continue
+            if DEBUG:
+                print("Updated the MOTD!")
 
             time.sleep(self.time_interval)
 
-    def submit_motd(self, payload):
-        motd_url = "http://" + self.server.address + \
-                   "/ServerAdmin/settings/welcome"
-
-        if __debug__:
-            print("Updating MOTD ({})".format(self.server.name))
-        try:
-            self.server.session.post(motd_url, data=payload)
-            self.server.save_settings()
-        except requests.exceptions.RequestException:
-            print("Couldn't submit motd (RequestException) to {}"
-                  .format(self.server.name))
-            raise
-
     def load_motd(self):
-        if not path.exists(self.server.name + ".motd"):
-            print("No MOTD file for " + self.server.name)
-            return ""
-
-        motd_f = open(self.server.name + ".motd")
+        motd_f = open(find_data_file(self.server.name + ".motd"))
         motd = motd_f.read()
         motd_f.close()
         return motd
 
     def render_motd(self, src_motd):
-        # Wouldn't this be better to do with something like fuzzy?
         if self.scoreboard_type in ['kills', 'Kills', 'kill', 'Kill']:
             scores = self.server.database.top_kills()
         elif self.scoreboard_type in ['Dosh','dosh']:
             scores = self.server.database.top_dosh()
         else:
+            # TODO Colour, rewrite text
             print("Bad configuration, scoreboard_type. "
                   "Options are: dosh, kills ({})"
                   .format(self.server.name))
-            return
+            return src_motd
 
         for player in scores:
             name = player[0].replace("<", "&lt;")
@@ -97,30 +79,3 @@ class MotdUpdater(threading.Thread):
             src_motd = src_motd.replace("%SRV_D", millify(server_dosh), 1)
 
         return src_motd
-
-    def get_configuration(self):
-        motd_url = "http://" + self.server.address + \
-                   "/ServerAdmin/settings/welcome"
-
-        try:
-            motd_response = self.server.session.get(motd_url, timeout=2)
-        except requests.exceptions.RequestException as e:
-            if __debug__:
-                print("Couldn't get motd config(RequestException)")
-            raise
-
-        motd_tree = html.fromstring(motd_response.content)
-
-        banner_link = motd_tree.xpath('//input[@name="BannerLink"]/@value')[0]
-        web_link = motd_tree.xpath('//input[@name="WebLink"]/@value')[0]
-
-        return {
-                'BannerLink': banner_link,
-                'ClanMotto': '',
-                'ClanMottoColor': '#FF0000',
-                'ServerMOTDColor': '#FF0000',
-                'WebLink': web_link,
-                'WebLinkColor': '#FF0000',
-                'liveAdjust': '1',
-                'action': 'save'
-        }

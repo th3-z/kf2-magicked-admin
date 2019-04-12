@@ -47,3 +47,7 @@ def banner():
     lines[6] += colored(BANNER_URL+"\n", 'grey')
 
     print(str.join('', lines))
+
+def warning(mesg):
+    print(colored(' [!] ', 'yellow') + mesg)
+
