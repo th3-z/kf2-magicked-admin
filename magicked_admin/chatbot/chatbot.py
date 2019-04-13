@@ -5,11 +5,10 @@ from chatbot.commands.event_commands import CommandGreeter
 from utils import DEBUG, find_data_file
 from web_admin.chat import ChatListener
 
+from chatbot import SCRIPT_TEMPLATE
+
 
 class Chatbot(ChatListener):
-    """
-    responsible for sending chat to the web_admin.
-    """
 
     def __init__(self, server, greeter_enabled=True, name=None):
         self.server_name = server.name
@@ -25,8 +24,14 @@ class Chatbot(ChatListener):
         self.silent = False
         self.greeter_enabled = True
 
-        if path.exists(find_data_file(server.name + ".init")):
-            self.execute_script(find_data_file(server.name + ".init"))
+        script_path = find_data_file(server.name + ".init")
+
+        if path.exists(script_path):
+            self.execute_script(script_path)
+        else:
+            with open(script_path,'w+') as script_file:
+                script_file.write(SCRIPT_TEMPLATE)
+
 
         if DEBUG:
             print("Bot on server " + server.name + " initialised")
@@ -51,10 +56,12 @@ class Chatbot(ChatListener):
 
     def execute_script(self, file_name):
         if DEBUG:
-            print("Executing script: " + file_name)
-        print("Executing script: " + file_name)
+            print("Executing script: " + path.basename(file_name))
         with open(file_name) as script:
             for line in script:
-                print("\t\t" + line.strip())
-                args = line.split()
-                self.command_handler("server", args, admin=True)
+                command = line[:line.find(";")].strip()
+                if command:
+                    if DEBUG:
+                        print("\t\t" + command)
+                    args = command.split()
+                    self.command_handler("server", args, admin=True)

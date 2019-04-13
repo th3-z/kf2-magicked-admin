@@ -68,7 +68,7 @@ class CommandHelp(Command):
         if not self.authorise(admin):
             return self.not_auth_message
         return "Player commands:\n !me, !dosh, !kills, !server_dosh," \
-               " !server_kills, !top_dosh, !top_kills, !stats, !info"
+               " !server_kills, !top_dosh, !top_kills, !stats"
 
 
 class CommandMe(Command):

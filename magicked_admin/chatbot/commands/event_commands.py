@@ -124,12 +124,13 @@ class CommandOnTimeManager(Command):
 
         if len(args) < 2:
             return "Missing argument (command)."
+
         try:
-            time = int(args[1])
+            time = int(args[1]) if not repeat else int(args[2])
         except ValueError:
             return "Malformed command, \""+args[1]+"\" is not an integer."
 
-        time_command = CommandOnTime(args[2:], time, self.chatbot, repeat)
+        time_command = CommandOnTime(args[2:] if not repeat else args[3:], time, self.chatbot, repeat)
         time_command.start()
         self.command_threads.append(time_command)
         return "Timed command started."
