@@ -34,6 +34,29 @@ class CommandEnforceLevels(Command):
         self.server.enforce_levels()
 
 
+class CommandEnforceDosh(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+
+        self.server.enforce_dosh()
+
+
+class CommandKick(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(admin):
+            return self.not_auth_message
+
+        self.server.kick_player(args[1])
+        return "Player, {}, was kicked.".format(args[1])
+
+
 class CommandRun(Command):
     def __init__(self, server, chatbot, admin_only=True):
         Command.__init__(self, server, admin_only)

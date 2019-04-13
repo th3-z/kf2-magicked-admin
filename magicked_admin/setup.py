@@ -1,9 +1,9 @@
 import os
 import site
 import sys
-import certifi
 from os import path
 
+import certifi
 from cx_Freeze import Executable, setup
 
 VERSION="0.1"

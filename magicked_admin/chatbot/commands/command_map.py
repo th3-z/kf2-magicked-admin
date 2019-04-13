@@ -11,9 +11,6 @@ class CommandMap:
         self.command_map = self.generate_map()
 
     def generate_map(self):
-        """
-        Generates the command mapping (key/value pairs) that are used by the (chat bot was it?)
-        """
         wave_event_manager = CommandOnWaveManager(self.server, self.chatbot)
         trader_event_manager = CommandOnTraderManager(self.server, self.chatbot)
         time_event_manager = CommandOnTimeManager(self.server, self.chatbot)
@@ -33,6 +30,7 @@ class CommandMap:
             't_open': trader_event_manager,
             'record_wave': CommandHighWave(self.server, admin_only=False),
             'enforce_levels': CommandEnforceLevels(self.server),
+            'enforce_dosh': CommandEnforceDosh(self.server),
             'say': CommandSay(self.server),
             'restart': CommandRestart(self.server),
             'load_map': CommandLoadMap(self.server),
@@ -47,6 +45,7 @@ class CommandMap:
             'map': CommandGameMap(self.server, admin_only=False),
             'help': CommandHelp(self.server, admin_only=False),
             'kills': CommandKills(self.server, admin_only=False),
+            'kick': CommandKick(self.server, admin_only=True),
             'dosh': CommandDosh(self.server, admin_only=False),
             'top_kills': CommandTopKills(self.server, admin_only=False),
             'top_dosh': CommandTopDosh(self.server, admin_only=False),

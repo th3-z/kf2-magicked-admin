@@ -53,7 +53,7 @@ class GameMap:
         self.votes = 0
 
     def __str__(self):
-        return ("Title: {}\nPlays survival: {}\nPlays survival_vs: {}\n" \
+        return ("Title: {}\nPlays survival: {}\nPlays survival_vs: {}\n"
                 "Plays endless: {}\nPlays weekly: {}")\
             .format(self.title, self.plays_survival, self.plays_survival_vs,
                     self.plays_endless, self.plays_weekly)

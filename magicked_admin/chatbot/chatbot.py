@@ -1,11 +1,10 @@
 from os import path
 
+from chatbot import SCRIPT_TEMPLATE
 from chatbot.commands.command_map import CommandMap
 from chatbot.commands.event_commands import CommandGreeter
 from utils import DEBUG, find_data_file
 from web_admin.chat import ChatListener
-
-from chatbot import SCRIPT_TEMPLATE
 
 
 class Chatbot(ChatListener):

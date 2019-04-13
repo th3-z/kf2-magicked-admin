@@ -1,8 +1,8 @@
-'''
+"""
 Killing Floor 2 Magicked Admin
 Copyright th3-z (the_z) 2018
 Released under the terms of the MIT license
-'''
+"""
 
 import logging
 import os
@@ -13,11 +13,11 @@ from colorama import init
 from termcolor import colored
 
 from chatbot.chatbot import Chatbot
+from server.motd_updater import MotdUpdater
 from server.server import Server
 from settings import Settings
-from utils import DEBUG, die, find_data_file, banner
+from utils import DEBUG, banner, die, find_data_file
 from utils.text import str_to_bool
-from server.motd_updater import MotdUpdater
 
 init()
 
@@ -57,8 +57,14 @@ class MagickedAdmin:
                 settings.setting(server_name, "game_password")
             server.url_extras = \
                 settings.setting(server_name, "url_extras")
-            server.level_threshold = \
-                settings.setting(server_name, "level_threshold")
+
+            level_threshold = int(settings.setting(server_name, "level_threshold"))
+            if level_threshold > 0:
+                server.level_threshold = level_threshold
+
+            dosh_threshold = int(settings.setting(server_name, "dosh_threshold"))
+            if dosh_threshold > 0:
+                server.dosh_threshold = dosh_threshold
 
             has_motd_scoreboard = str_to_bool(
                 settings.setting(server_name, "motd_scoreboard")

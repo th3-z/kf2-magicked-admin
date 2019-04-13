@@ -18,9 +18,10 @@ SETTINGS_DEFAULT = {
     'max_players': "6",
     'enable_greeter': "True",
     'level_threshold': "0",
+    'dosh_threshold': "0",
 }
 
-SETTINGS_REQUIRED = ['address', 'password', 'motd_scoreboard', 'scoreboard_type', 'max_players', 'enable_greeter']
+SETTINGS_REQUIRED = ['address', 'password', 'motd_scoreboard', 'scoreboard_type', 'level_threshold', 'dosh_threshold', 'max_players', 'enable_greeter']
 
 CONFIG_DIE_MESG = "Please correct this manually  or delete '{}' to create a clean config next run.".format(CONFIG_PATH)
 

@@ -5,8 +5,8 @@ from os import path
 import requests
 from lxml import html
 
-from utils.text import millify, trim_string
 from utils import DEBUG, find_data_file, warning
+from utils.text import millify, trim_string
 
 
 class MotdUpdater(threading.Thread):

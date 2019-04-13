@@ -28,6 +28,8 @@ class WebInterface(object):
                 .format(address),
             'players': '{}/ServerAdmin/current/players'
                 .format(address),
+            'players_action': '{}/ServerAdmin/current/players+data'
+                .format(address),
             'passwords': '{}/ServerAdmin/policy/passwords'
                 .format(address),
             'bans': '{}/ServerAdmin/policy/bans'
@@ -238,9 +240,17 @@ class WebInterface(object):
         )
 
     def post_bans(self, payload):
+        print(str(payload))
         return self.__post(
             self.__session,
             self.__urls['bans'],
+            payload
+        )
+
+    def post_players_action(self, payload):
+        return self.__post(
+            self.__session,
+            self.__urls['players_action'],
             payload
         )
 

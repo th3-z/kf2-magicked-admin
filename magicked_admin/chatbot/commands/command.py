@@ -1,7 +1,5 @@
 class Command:
-    """
-    Abstract for creating commands. By default contains the functions (XYZ)
-    """
+
     def __init__(self, server, admin_only=True):
         self.server = server
         self.admin_only = admin_only

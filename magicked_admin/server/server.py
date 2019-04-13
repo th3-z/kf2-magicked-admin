@@ -1,7 +1,6 @@
 import datetime
 import threading
 import time
-from time import sleep
 
 import requests
 from lxml import html
@@ -13,6 +12,7 @@ from database.database import ServerDatabase
 from server.game import Game, GameMap
 from server.player import Player
 from utils import DEBUG
+from web_admin.constants import *
 
 
 class Server:
@@ -26,6 +26,7 @@ class Server:
 
         self.game_password = None
         self.level_threshold = None
+        self.dosh_threshold = None
 
         self.game = Game(GameMap("kf-default"), api.GAME_TYPE_UNKNOWN)
         self.trader_time = False
@@ -52,7 +53,7 @@ class Server:
         self.web_admin.toggle_game_password()
 
     def new_wave(self):
-        self.chat.handle_message("server",
+        self.web_admin.chat.handle_message("server",
                                  "!new_wave " + str(self.game.wave),
                                  admin=True)
 
@@ -64,11 +65,11 @@ class Server:
 
     def trader_open(self):
         self.trader_time = True
-        self.chat.handle_message("server", "!t_open", admin=True)
+        self.web_admin.chat.handle_message("server", "!t_open", admin=True)
 
     def trader_close(self):
         self.trader_time = False
-        self.chat.handle_message("server", "!t_close", admin=True)
+        self.web_admin.chat.handle_message("server", "!t_close", admin=True)
 
     def new_game(self):
         message = "New game on {}, map: {}, mode: {}"\
@@ -78,13 +79,13 @@ class Server:
 
         self.database.load_game_map(self.game.game_map)
 
-        if self.game.game_type == game.GAME_TYPE_ENDLESS:
+        if self.game.game_type == GAME_TYPE_ENDLESS:
             self.game.game_map.plays_endless += 1
-        elif self.game.game_type == game.GAME_TYPE_SURVIVAL:
+        elif self.game.game_type == GAME_TYPE_SURVIVAL:
             self.game.game_map.plays_survival += 1
-        elif self.game.game_type == game.GAME_TYPE_SURVIVAL_VS:
+        elif self.game.game_type == GAME_TYPE_SURVIVAL_VS:
             self.game.game_map.plays_survival_vs += 1
-        elif self.game.game_type == game.GAME_TYPE_WEEKLY:
+        elif self.game.game_type == GAME_TYPE_WEEKLY:
             self.game.game_map.plays_weekly += 1
         else:
             if DEBUG:
@@ -106,7 +107,7 @@ class Server:
         message = "Player {} joined {} from {}"\
             .format(player.username, self.name, player.country)
         print(colored(message, 'cyan'))
-        self.chat.handle_message("server",
+        self.web_admin.chat.handle_message("server",
                                  "!player_join " + player.username,
                                  admin=True)
 
@@ -116,7 +117,7 @@ class Server:
                 message = "Player {} quit {}"\
                     .format(quit_player.username, self.name)
                 print(colored(message, 'cyan'))
-                self.chat.handle_message("server",
+                self.web_admin.chat.handle_message("server",
                                          "!p_quit " + player.username,
                                          admin=True)
                 self.database.save_player(player, final=True)
@@ -139,124 +140,44 @@ class Server:
     def set_length(self, length):
         self.web_admin.set_length(length)
 
-    def save_settings(self):
-        # Addresses a problem where certain requests cause
-        # web_admin to forget settings
-        general_settings_url = self.address + "/ServerAdmin/settings/general"
-        try:
-            self.session.post(general_settings_url, self.general_settings)
-        except requests.exceptions.RequestException:
-            print("Couldn't set general settings on {} "
-                  "(RequestException)".format(self.name))
-            sleep(3)
-
-    # Re-write this to be enable and disbale password, that way when disabling
-    # a password it will just straight up try and disable it and then when enabling it
-    # It will check to see if it is already enabled. Also might look at how to pass parms
-    # To this so that you can set a password not in the config.
-    # This will need to be corrected elsewhere when done.
     def disable_password(self):
-        passwords_url = self.address + "/ServerAdmin/policy/passwords"
-        payload = {
-            'action': 'gamepassword'
-        }
+        self.web_admin.set_game_password()
 
-        payload['gamepw1'] = ""
-        payload['gamepw2'] = ""
-
-        self.mapper.inactive_timer = False
-
-        try:
-            self.session.post(passwords_url, payload)
-        except requests.exceptions.RequestException:
-            print("Could not disable password on {} (RequestException)"
-                  .format(self.name))
-            sleep(3)
-            return False
-        return True
-
-    def enable_password(self, args):
-        passwords_url = self.address + "/ServerAdmin/policy/passwords"
-        payload = {
-            'action': 'gamepassword'
-        }
-
-        if args:
-            self.mapper.inactive_timer = True
-            self.mapper.inactive_time_start = datetime.datetime.now()
+    def enable_password(self, password):
+        if password:
+            self.web_admin.set_game_password(password)
         else:
-            self.mapper.inactive_timer = False
-
-        try:
-            passwords_response = self.session.get(passwords_url)
-        except requests.exceptions.RequestException:
-            if DEBUG:
-                print("Couldn't get password state on {} "
-                      "(RequestException), returning".format(self.name))
-            return
-        passwords_tree = html.fromstring(passwords_response.content)
-
-        password_state = passwords_tree.xpath(
-            '//p[starts-with(text(),"Game password")]//em/text()')[0]
-
-        if password_state == 'False':
-            payload['gamepw1'] = self.game_password
-            payload['gamepw2'] = self.game_password
-        else:
-            return True
-
-        try:
-            self.session.post(passwords_url, payload)
-        except requests.exceptions.RequestException:
-            if DEBUG:
-                print("Couldn't set password on {} (RequestException)"
-                      .format(self.name))
-            sleep(3)
-            return False
-        return True
+            self.web_admin.set_game_password(self.game_password)
 
     def change_map(self, new_map):
         self.web_admin.set_map(new_map)
 
+    def kick_player(self, username):
+        player = self.get_player(username)
+        self.web_admin.kick_player(player.player_key)
+
     def enforce_levels(self):
+        if not self.level_threshold:
+            return
+
         for player in self.players:
-            print(player.perk_level)
+            print(player)
             if int(player.perk_level) < int(self.level_threshold):
-                self.kick_player(player.player_key)
+                self.web_admin.kick_player(player.player_key)
 
-    def kick_player(self, player_key):
-        url = self.address + "/ServerAdmin/current/players+data"
-        payload = {
-            'action': 'kick',
-            'playerkey': player_key,
-            'ajax': '1'
-        }
+    def enforce_dosh(self):
+        if not self.dosh_threshold:
+            return
 
-        self.session.post(url, payload)
-        print("REMOVED {}".format(player_key))
-        return
+        for player in self.players:
+            if int(player.dosh) > self.dosh_threshold:
+                self.web_admin.kick_player(player.player_key)
 
     def restart_map(self):
         self.change_map(self.game.game_map.title)
 
-    # Change the GameMode
     def change_game_type(self, mode):
-        url = self.address + "/ServerAdmin/current/change"
-        payload = {
-            "gametype": mode,
-            "map": self.game.game_map.title,
-            "mutatorGroupCount": "0",
-            "urlextra": "?MaxPlayers={}".format(self.max_players),
-            "action": "change"
-        }
-
-        try:
-            self.session.post(url, payload)
-        except requests.exceptions.RequestException:
-            if DEBUG:
-                print("Couldn't set GameMode on {} (RequestException)"
-                      .format(self.name))
-            sleep(3)
+        self.web_admin.set_game_type(mode)
 
 
 class ServerMapper(threading.Thread):

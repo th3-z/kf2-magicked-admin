@@ -40,6 +40,14 @@ class WebAdmin(object):
         self.__general_settings[setting] = value
         self.__save_general_settings()
 
+    def kick_player(self, player_key):
+        payload = {
+            "ajax": "1",
+            "action": "kick",
+            "playerkey": player_key
+        }
+        self.__web_interface.post_players_action(payload)
+
     def set_game_password(self, password=""):
         payload = {
             'action': 'gamepassword',
