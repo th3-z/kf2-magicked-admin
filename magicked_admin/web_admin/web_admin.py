@@ -189,6 +189,9 @@ class WebAdmin(object):
     @staticmethod
     def __get_game(info_tree):
         zed_status_pattern = "//dd[@class=\"gs_wave\"]/text()"
+        zed_time_pattern = "//dd[@class=\"gs_time\"]/text()"
+
+
         zeds_dead, zeds_total = \
             info_tree.xpath(zed_status_pattern)[0].split("/")
         zeds_dead, zeds_total = int(zeds_dead), int(zeds_total)

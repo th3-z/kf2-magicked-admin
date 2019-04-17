@@ -5,7 +5,7 @@ from hashlib import sha1
 import requests
 from lxml import html
 
-from utils import DEBUG, die
+from utils import DEBUG, die, warning
 from web_admin.constants import *
 
 
@@ -16,6 +16,7 @@ class WebInterface(object):
         self.__password = password
 
         self.server_name = server_name
+        self.ma_installed = False
 
         self.__urls = {
             'login': '{}/ServerAdmin/'
@@ -174,6 +175,12 @@ class WebInterface(object):
         if "hashAlg" in response.text or "Exceeded login attempts" in response.text and DEBUG:
             # TODO Expand on handling here, should gracefully terminate
             die("Login failure, bad credentials or login attempts exceeded.")
+
+        if "<!-- KF2-MA-INSTALLED-FLAG -->" in response.text:
+            self.ma_installed = True
+            print("Detected KF2-MA install on server.")
+        else:
+            warning("KF2-MA install not detect on server.")
 
         return session
 
