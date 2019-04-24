@@ -1,4 +1,3 @@
-import datetime
 import sqlite3
 from os import path
 from threading import Lock
@@ -167,7 +166,7 @@ class ServerDatabase:
         all_rows = self.cur.fetchall()
         lock.release()
         if all_rows:
-            return int(all_rows[0][0])
+            return int(all_rows[0][0]) + 1
         else:
             return 0
 
@@ -203,7 +202,7 @@ class ServerDatabase:
         player.total_health_lost = self.player_health_lost(player.username)
         player.total_time = self.player_time(player.username)
 
-    def save_player(self, player, final=False):
+    def save_player(self, player):
         lock.acquire(True)
         self.cur.execute("INSERT OR IGNORE INTO players (username) VALUES (?)",
                          (player.username,))
@@ -221,18 +220,9 @@ class ServerDatabase:
                          (player.total_health_lost, player.username))
         self.cur.execute("UPDATE players SET logins = ? WHERE username = ?",
                          (player.total_logins, player.username))
+        self.cur.execute("UPDATE players SET time_online = ? WHERE username = ?",
+                         (int(player.total_time), player.username))
         lock.release()
-
-        if final:
-            now = datetime.datetime.now()
-            elapsed_time = now - player.session_start
-            seconds = elapsed_time.total_seconds()
-            new_time = player.total_time + seconds
-
-            lock.acquire(True)
-            self.cur.execute("UPDATE players SET time_online = ? WHERE username = ?",
-                             (new_time, player.username))
-            lock.release()
 
         self.conn.commit()
 

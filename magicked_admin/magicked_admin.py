@@ -4,7 +4,6 @@ Copyright th3-z (the_z) 2018
 Released under the terms of the MIT license
 """
 
-import logging
 import os
 import signal
 import sys
@@ -91,12 +90,7 @@ class MagickedAdmin:
     def terminate(self, signal, frame):
         print("\nProgram interrupted, terminating...")
 
-        if DEBUG:
-            os._exit(0)
-
         for server in self.servers:
-            server.write_all_players(final=True)
-            server.write_game_map()
             server.close()
 
         die()

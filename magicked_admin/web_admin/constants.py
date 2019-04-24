@@ -20,7 +20,7 @@ GAME_TYPE_WEEKLY = "KFGameContent.KFGameInfo_WeeklySurvival"
 GAME_TYPE_SURVIVAL_VS = "KFGameContent.KFGameInfo_VersusSurvival"
 GAME_TYPE_ENDLESS = "KFGameContent.KFGameInfo_Endless"
 
-USER_TYPE_NONE      = 0 # Enumerated ^2s for bitwise ops
+USER_TYPE_NONE      = 0  # Enumerated ^2s for bitwise ops
 USER_TYPE_ADMIN     = 1
 USER_TYPE_SPECTATOR = 2
 USER_TYPE_SERVER    = 4

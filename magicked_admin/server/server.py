@@ -1,4 +1,3 @@
-import datetime
 import threading
 import time
 
@@ -11,7 +10,7 @@ import web_admin as api
 from database.database import ServerDatabase
 from server.game import Game, GameMap
 from server.player import Player
-from utils import DEBUG
+from utils import DEBUG, debug
 from web_admin.constants import *
 
 
@@ -25,54 +24,150 @@ class Server:
         print(colored(message, 'green'))
 
         self.game_password = None
+
         self.level_threshold = None
         self.dosh_threshold = None
 
-        self.game = Game(GameMap("kf-default"), api.GAME_TYPE_UNKNOWN)
+        self.game = Game(GameMap("kf-default"), GAME_TYPE_UNKNOWN)
         self.trader_time = False
         self.players = []
 
-        self.mapper = ServerMapper(self)
-        self.mapper.start()
+        # Initial game's record data is discarded because some may be missed
+        self.record_games = True
+
+        self.tracker = GameTracker(self)
+        self.tracker.start()
 
         self.database = ServerDatabase(name)
 
-        if DEBUG:
-            print("Server " + name + " initialised")
-
     def close(self):
-        self.mapper.stop()
+        self.tracker.stop()
+        self.write_game_map()
+        self.write_all_players()
         self.web_admin.close()
+
+    def get_player_by_username(self, username):
+        for player in self.players:
+            if player.username == username:
+                return player
+        return None
+
+    def get_player_by_key(self, player_key):
+        for player in self.players:
+            if player.player_key == player_key:
+                return player
+        return None
+
+    def get_player_by_sid(self, sid):
+        for player in self.players:
+            if player.sid == sid:
+                return player
+        return None
 
     def set_game_password(self, password):
         self.game_password = password
-
         self.web_admin.set_game_password(password)
 
     def toggle_game_password(self):
         self.web_admin.toggle_game_password()
 
-    def new_wave(self):
-        self.web_admin.chat.handle_message("server",
-                                 "!new_wave " + str(self.game.wave),
-                                 admin=True)
-
-        if int(self.game.wave) > int(self.game.game_map.highest_wave):
-            self.game.game_map.highest_wave = int(self.game.wave)
+    def write_all_players(self):
+        if DEBUG:
+            debug("Flushing players on {}".format(self.name))
         for player in self.players:
-            player.wave_kills = 0
-            player.wave_dosh = 0
+            self.database.save_player(player)
 
-    def trader_open(self):
-        self.trader_time = True
-        self.web_admin.chat.handle_message("server", "!t_open", admin=True)
+    def write_game_map(self):
+        if DEBUG:
+            debug("Writing game to database ({})".format(self.name))
+        self.database.save_game_map(self.game.game_map)
 
-    def trader_close(self):
-        self.trader_time = False
-        self.web_admin.chat.handle_message("server", "!t_close", admin=True)
+    def set_difficulty(self, difficulty):
+        self.web_admin.set_difficulty(difficulty)
 
-    def new_game(self):
-        message = "New game on {}, map: {}, mode: {}"\
+    def set_length(self, length):
+        self.web_admin.set_length(length)
+
+    def disable_password(self):
+        self.web_admin.set_game_password()
+
+    def enable_password(self, password=None):
+        if password:
+            self.web_admin.set_game_password(password)
+        else:
+            self.web_admin.set_game_password(self.game_password)
+
+    def change_map(self, new_map):
+        self.web_admin.set_map(new_map)
+
+    def kick_player(self, username):
+        player = self.get_player_by_username(username)
+        self.web_admin.kick_player(player.player_key)
+
+    def enforce_levels(self):
+        if not self.level_threshold:
+            return
+
+        for player in self.players:
+            print(player)
+            if player.perk_level < self.level_threshold:
+                self.web_admin.kick_player(player.player_key)
+
+    def enforce_dosh(self):
+        if not self.dosh_threshold:
+            return
+
+        for player in self.players:
+            if player.dosh > self.dosh_threshold:
+                self.web_admin.kick_player(player.player_key)
+
+    def restart_map(self):
+        self.change_map(self.game.game_map.title)
+
+    def change_game_type(self, mode):
+        self.web_admin.set_game_type(mode)
+
+    def event_player_join(self, player):
+        identity = self.web_admin.get_player_identity(player.username)
+
+        new_player = Player(player.username, player.perk)
+        new_player.kills = player.kills
+        new_player.dosh = player.dosh
+
+        new_player.ip = identity['ip']
+        new_player.country = identity['country']
+        new_player.country_code = identity['country_code']
+        new_player.steam_id = identity['steam_id']
+        new_player.player_key = identity['player_key']
+
+        self.database.load_player(new_player)
+
+        self.players.append(new_player)
+        message = "Player {} joined {} from {}" \
+            .format(new_player.username, self.name, new_player.country)
+        print(colored(message, 'cyan'))
+        self.web_admin.chat.handle_message("server",
+                                           "!player_join " + new_player.username,
+                                           USER_TYPE_SERVER)
+
+    def event_player_quit(self, player):
+        self.players.remove(player)
+        self.database.save_player(player)
+
+        message = "Player {} quit {}" \
+            .format(player.username, self.name)
+        print(colored(message, 'cyan'))
+        self.web_admin.chat.handle_message("server",
+                                           "!player_quit " + player.username,
+                                           USER_TYPE_SERVER)
+
+    def event_player_death(self, player):
+        player.total_deaths += 1
+        message = "Player {} died on {}".format(player.username, self.name)
+        print(colored(message, 'red'))
+
+    def event_new_game(self):
+        message = "New game on {}, map: {}, mode: {}" \
             .format(self.name, self.game.game_map.title,
                     self.game.game_type)
         print(colored(message, 'magenta'))
@@ -92,95 +187,37 @@ class Server:
                 print("Unknown game_type {}".format(self.game.game_type))
             self.game.game_map.plays_other += 1
 
-        self.web_admin.chat.handle_message("server", "!new_game", admin=True)
+        self.web_admin.chat.handle_message("server", "!new_game", USER_TYPE_SERVER)
 
-    def get_player(self, username):
-        for player in self.players:
-            if player.username == username:
-                return player
-        return None
+    def event_end_game(self, win=False):
+        if win and self.game.game_type == GAME_TYPE_SURVIVAL:
+            self.database.save_map_record(self.game, len(self.players))
+            print("Recorded game time: " + str(self.game.time))
 
-    def player_join(self, player):
-        self.database.load_player(player)
-        player.total_logins += 1
-        self.players.append(player)
-        message = "Player {} joined {} from {}"\
-            .format(player.username, self.name, player.country)
-        print(colored(message, 'cyan'))
+    def event_wave_start(self):
         self.web_admin.chat.handle_message("server",
-                                 "!player_join " + player.username,
-                                 admin=True)
+                                           "!new_wave " + str(self.game.wave),
+                                           USER_TYPE_SERVER)
 
-    def player_quit(self, quit_player):
+        if int(self.game.wave) > int(self.game.game_map.highest_wave):
+            self.game.game_map.highest_wave = int(self.game.wave)
         for player in self.players:
-            if player.username == quit_player.username:
-                message = "Player {} quit {}"\
-                    .format(quit_player.username, self.name)
-                print(colored(message, 'cyan'))
-                self.web_admin.chat.handle_message("server",
-                                         "!p_quit " + player.username,
-                                         admin=True)
-                self.database.save_player(player, final=True)
-                self.players.remove(player)
+            player.wave_kills = 0
+            player.wave_dosh = 0
 
-    def write_all_players(self, final=False):
-        if DEBUG:
-            print("Flushing players ({})".format(self.name))
-        for player in self.players:
-            self.database.save_player(player, final)
+    def event_wave_end(self):
+        pass
 
-    def write_game_map(self):
-        if DEBUG:
-            print("Writing to database ({})".format(self.name))
-        self.database.save_game_map(self.game.game_map)
+    def event_trader_open(self):
+        self.trader_time = True
+        self.web_admin.chat.handle_message("server", "!t_open", USER_TYPE_SERVER)
 
-    def set_difficulty(self, difficulty):
-        self.web_admin.set_difficulty(difficulty)
-
-    def set_length(self, length):
-        self.web_admin.set_length(length)
-
-    def disable_password(self):
-        self.web_admin.set_game_password()
-
-    def enable_password(self, password):
-        if password:
-            self.web_admin.set_game_password(password)
-        else:
-            self.web_admin.set_game_password(self.game_password)
-
-    def change_map(self, new_map):
-        self.web_admin.set_map(new_map)
-
-    def kick_player(self, username):
-        player = self.get_player(username)
-        self.web_admin.kick_player(player.player_key)
-
-    def enforce_levels(self):
-        if not self.level_threshold:
-            return
-
-        for player in self.players:
-            print(player)
-            if int(player.perk_level) < int(self.level_threshold):
-                self.web_admin.kick_player(player.player_key)
-
-    def enforce_dosh(self):
-        if not self.dosh_threshold:
-            return
-
-        for player in self.players:
-            if int(player.dosh) > self.dosh_threshold:
-                self.web_admin.kick_player(player.player_key)
-
-    def restart_map(self):
-        self.change_map(self.game.game_map.title)
-
-    def change_game_type(self, mode):
-        self.web_admin.set_game_type(mode)
+    def event_trader_close(self):
+        self.trader_time = False
+        self.web_admin.chat.handle_message("server", "!t_close", USER_TYPE_SERVER)
 
 
-class ServerMapper(threading.Thread):
+class GameTracker(threading.Thread):
 
     def __init__(self, server):
         threading.Thread.__init__(self)
@@ -191,11 +228,10 @@ class ServerMapper(threading.Thread):
         self.__exit = False
         # TODO configuration option
         self.__refresh_rate = 20 if DEBUG else 1
+        self.__boss_reached = False
 
         self.game_timer = time.time()
-        self.written_record = False
-
-        self.database = ServerDatabase(server.name)
+        self.written_record = True  # Ignore records for first match
 
     def run(self):
         while not self.__exit:
@@ -211,39 +247,24 @@ class ServerMapper(threading.Thread):
         self.__update_players(players_now)
         self.__update_game(game_now)
 
-    def __event_new_game(self):
-        pass
-
-    def __event_wave_start(self):
-        pass
-
-    def __event_wave_end(self):
-        pass
-
-    def __event_trader_open(self):
-        pass
-
-    def __event_trader_close(self):
-        pass
-
     def __update_game(self, game_now):
-        if int(game_now.wave) > int(self.server.game.length) and not self.written_record:
-            self.written_record = True
-            self.server.database.save_map_record(self.server.game, len(self.server.players))
-            print("Recorded game time: " + str(self.server.game.time))
+        # Game type specific code
+        if game_now.game_type == GAME_TYPE_SURVIVAL:
+            self.__update_game_survival(game_now)
+        elif game_now.game_type == GAME_TYPE_ENDLESS:
+            self.__update_game_survival_vs(game_now)
+        elif game_now.game_type == GAME_TYPE_WEEKLY:
+            self.__update_game_survival_vs(game_now)
+        elif game_now.game_type == GAME_TYPE_SURVIVAL_VS:
+            self.__update_game_survival_vs(game_now)
 
-        if game_now.wave < self.server.game.wave:
-            self.__event_new_game()
-            self.written_record = False
-        elif game_now.wave > self.server.game.wave:
-            self.__event_wave_start()
-        if game_now.zeds_dead == game_now.zeds_total:
-            self.__event_wave_end()
+        if game_now.wave and (game_now.wave < self.server.game.wave):
+            self.server.event_new_game()
 
         if game_now.trader_open and not self.server.trader_time:
-            self.__event_trader_open()
+            self.server.event_trader_open()
         if not game_now.trader_open and self.server.trader_time:
-            self.__event_trader_close()
+            self.server.event_trader_close()
 
         self.server.game.game_map.title = game_now.map_title
         self.server.game.game_map.name = game_now.map_name
@@ -262,17 +283,38 @@ class ServerMapper(threading.Thread):
         else:
             self.game_timer = time.time()
 
+    def __update_game_survival(self, game_now):
+        # Boss wave
+        if game_now.wave > self.server.game.length:
+            # Attempt to identify game over on boss wave
+            game_over = True
+            for player in self.server.players:
+                if player.health and player.kills and player.ping:
+                    game_over = False
+
+            if game_over:
+                self.server.event_end_game(False)
+
+    def __update_game_endless(self, game_now):
+        pass
+
+    def __update_game_weekly(self, game_now):
+        pass
+
+    def __update_game_survival_vs(self, game_now):
+        pass
+
     def __update_players(self, players_now):
         # Quitters
         for player in self.server.players:
             if player.username not in [p.username for p in players_now]:
-                self.__event_player_quit(player)
+                self.server.event_player_quit(player)
 
         # Joiners
         for player in players_now:
             if player.username not in \
                     [p.username for p in self.server.players]:
-                self.__event_player_join(player)
+                self.server.event_player_join(player)
 
         for player in self.server.players:
             try:
@@ -292,7 +334,7 @@ class ServerMapper(threading.Thread):
             player.wave_dosh += player_now.dosh - player.dosh
 
             if not player_now.health and player_now.health < player.health:
-                self.__event_player_death(player)
+                self.server.event_player_death(player)
 
             if player_now.dosh > player.dosh:
                 player.game_dosh += player_now.dosh - player.dosh
@@ -304,30 +346,4 @@ class ServerMapper(threading.Thread):
             player.dosh = player_now.dosh
             player.health = player_now.health
 
-    def __event_player_join(self, player):
-        identity = self.web_admin.get_player_identity(player.username)
-
-        new_player = Player(player.username, player.perk)
-        new_player.kills = player.kills
-        new_player.dosh = player.dosh
-
-        new_player.ip = identity['ip']
-        new_player.country = identity['country']
-        new_player.country_code = identity['country_code']
-        new_player.steam_id = identity['steam_id']
-        new_player.player_key = identity['player_key']
-
-        self.server.database.load_player(new_player)
-
-        self.server.players.append(new_player)
-        print(player.username + " joined")
-
-    def __event_player_quit(self, player):
-        self.server.players.remove(player)
-        self.server.database.save_player(player)
-        print(player.username + " left")
-
-    def __event_player_death(self, player):
-        player.total_deaths += 1
-        message = player.username + " died"
-        print(colored(message, 'red'))
+            player.update_time()

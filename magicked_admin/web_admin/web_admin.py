@@ -1,9 +1,8 @@
-import logging
 from itertools import groupby
 
 from lxml import html
 
-from utils import DEBUG
+from utils import DEBUG, warning
 from utils.geolocation import get_country
 from utils.text import str_to_bool
 from web_admin.chat import Chat
@@ -68,7 +67,7 @@ class WebAdmin(object):
 
     def toggle_game_password(self):
         if not self.__game_password:
-            print("Tried to toggle game password before setting value")
+            warning("Tried to toggle game password before setting value")
             return False
 
         if self.has_game_password():
@@ -162,54 +161,110 @@ class WebAdmin(object):
     @staticmethod
     def __get_players(info_tree):
         players = []
+        theads_path = "//table[@id=\"players\"]/thead//th[position()>1]//text()"
+        theads_result = info_tree.xpath(theads_path)
 
-        odds = info_tree.xpath('//tr[@class="odd"]//td/text()')
-        evens = info_tree.xpath('//tr[@class="even"]//td/text()')
-        player_rows = odds + evens
+        if len(theads_result):
+            name_col = theads_result.index("Name")
+            perk_col = theads_result.index("Perk")
+            dosh_col = theads_result.index("Dosh")
+            health_col = theads_result.index("Health")
+            kills_col = theads_result.index("Kills")
+            ping_col = theads_result.index("Ping")
+        else:
+            return players
 
-        player_rows = [list(group) for k, group in
-                       groupby(player_rows, lambda x: x == "\xa0") if not k]
+        # xpath to <td>s and retrieve text manually to catch empty text()
+        trows_path = "//table[@id=\"players\"]/tbody//td"
+        trows_result = info_tree.xpath(trows_path)
+        trows_result = [trow.text if trow.text else "" for trow in trows_result]
 
-        for player_row in player_rows:
-            if len(player_row) < 7:
-                # Player is dead TODO
-                username, perk, dosh = player_row[:3]
-                health = 0
-                kills, ping = player_row[3:5]
-            else:
-                # Player is alive
-                username, perk, dosh, health, kills, ping \
-                    = player_row[:6]
+        # No players in game, a message is left in the table
+        if len(trows_result) == 1:
+            return players
 
-            player = ConstPlayer(username, perk, int(kills),
-                                 int(health), int(dosh), int(ping))
+        trows_result = [list(group) for k, group in
+                       groupby(trows_result, lambda x: x == "\xa0") if not k]
+
+        for player_row in trows_result:
+            player = ConstPlayer(
+                player_row[name_col],
+                player_row[perk_col],
+                int(player_row[kills_col] or 0),
+                int(player_row[health_col] or 0),
+                int(player_row[dosh_col] or 0),
+                int(player_row[ping_col] or 0)
+            )
             players.append(player)
+
         return players
 
     @staticmethod
     def __get_game(info_tree):
-        zed_status_pattern = "//dd[@class=\"gs_wave\"]/text()"
-        zed_time_pattern = "//dd[@class=\"gs_time\"]/text()"
+        zeds_path = "//dd[@class=\"zeds_result\"]/text()"
+        zeds_result = info_tree.xpath(zeds_path)
 
-
-        zeds_dead, zeds_total = \
-            info_tree.xpath(zed_status_pattern)[0].split("/")
-        zeds_dead, zeds_total = int(zeds_dead), int(zeds_total)
-
-        if zeds_dead == zeds_total and zeds_total > 1:
-            trader_open = True
+        if len(zeds_result):
+            zeds_dead, zeds_total = map(int, zeds_result[0].split("/"))
+            if zeds_dead == zeds_total and zeds_total > 1:
+                trader_open = True
+            else:
+                trader_open = False
         else:
+            zeds_dead, zeds_total = None, None
             trader_open = False
 
-        zeds_total = int(zeds_total)
-        zeds_dead = int(zeds_dead)
+        players_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Players\"]/following-sibling::dd[1]/text()"
+        players_result = info_tree.xpath(players_path)
 
-        dds = info_tree.xpath('//dd/text()')
-        game_type = info_tree.xpath('//dl//dd/@title')[0]
-        map_title = info_tree.xpath('//dl//dd/@title')[1]
-        map_name = dds[0]
-        wave, length = [int(val) for val in dds[7].split("/")]
-        difficulty = dds[8]
+        if len(players_result):
+            players, players_max = map(int, players_result[0].split("/"))
+        else:
+            players, players_max = None, None
+
+        wave_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Wave\"]/following-sibling::dd[1]/text()"
+        wave_result = info_tree.xpath(wave_path)
+
+        if len(wave_result):
+            wave, length = map(int, wave_result[0].split("/"))
+        else:
+            wave, length = None, LEN_UNKNOWN
+
+        difficulty_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Difficulty\"]/following-sibling::dd[1]/text()"
+        difficulty_result = info_tree.xpath(difficulty_path)
+
+        if len(difficulty_result):
+            difficulty_name = map(int, wave_result[0].split("/"))
+            if difficulty_name == "Normal":
+                difficulty = DIFF_NORM
+            elif difficulty_name == "Hard":
+                difficulty = DIFF_HARD
+            elif difficulty_name == "Suicidal":
+                difficulty = DIFF_SUI
+            elif difficulty_name == "Hell on Earth":
+                difficulty = DIFF_HOE
+            else:
+                difficulty = DIFF_UNKNOWN
+        else:
+            difficulty = DIFF_UNKNOWN
+
+        game_type_path = "//dl[@id=\"currentGame\"]/dt[text()=\"Game type\"]/following-sibling::dd[1]/@title"
+        game_type_result = info_tree.xpath(game_type_path)
+
+        if len(game_type_result):
+            game_type = game_type_result[0]
+        else:
+            game_type = GAME_TYPE_UNKNOWN
+
+        map_title_path = "//dl[@id=\"currentGame\"]/dt[text()=\"Map\"]/following-sibling::dd[1]/@title"
+        map_title_result = info_tree.xpath(map_title_path)
+        map_name_path = "//dl[@id=\"currentGame\"]/dt[text()=\"Map\"]/following-sibling::dd[1]/text()"
+        map_name_result = info_tree.xpath(map_name_path)
+
+        if len(map_title_result) and len(map_name_result):
+            map_title, map_name = map_title_result[0], map_name_result[0]
+        else:
+            map_title, map_name = None, None
 
         return ConstGame(trader_open, zeds_total, zeds_dead, map_title,
                          map_name, wave, length, difficulty, game_type)
@@ -218,37 +273,50 @@ class WebAdmin(object):
         response = self.__web_interface.get_players()
         player_tree = html.fromstring(response.content)
 
-        odds = player_tree.xpath('//tr[@class="odd"]//td/text()')
-        evens = player_tree.xpath('//tr[@class="even"]//td/text()')
+        theads_path = "//table[@id=\"players\"]/thead//th[position()>1]//text()"
+        theads_result = player_tree.xpath(theads_path)
 
-        player_rows = odds + evens
-        player_rows = [list(group) for k, group in
-                       groupby(player_rows, lambda x: x == "\xa0") if not k]
+        name_col = theads_result.index("Player name")
+        ip_col = theads_result.index("IP")
+        sid_col = theads_result.index("Steam ID")
+        nid_col = theads_result.index("Unique Net ID")
+        player_key_col = 5
 
-        player_key = player_tree.xpath('//tr/td[text()="{}"]'
-                                       '/following-sibling::td'
-                                       '//input[@name="playerkey"]/@value'
-        .format(username))
+        trows_path = "//table[@id=\"players\"]/tbody//td"
+        trows_result = player_tree.xpath(trows_path)
+        trows_result = [trow.text if trow.text else "" for trow in
+                        trows_result]
+        trows_result = [list(group) for k, group in
+                        groupby(trows_result, lambda x: x == "\xa0") if not k]
 
-        for player in player_rows:
-            if player[0] == username:
-                ip = player[2]
-                steam_id = player[4]
+        player_keys_path = "//table[@id=\"players\"]/tbody//input[@name=\"playerkey\"]//@value"
+        player_keys_result = player_tree.xpath(player_keys_path)
+        for i in range(0, len(player_keys_result)):
+            trows_result[i][player_key_col] = player_keys_result[i]
+
+        for player_row in trows_result:
+            if player_row[name_col] == username:
+                ip = player_row[ip_col]
+                sid = player_row[sid_col]
+                nid = player_row[nid_col]
+                player_key = player_row[player_key_col]
+
                 country, country_code = get_country(ip)
                 return {
                     'ip': ip,
                     'country': country,
                     'country_code': country_code,
-                    'steam_id': steam_id,
+                    'steam_id': sid,
+                    'network_id': nid,
                     'player_key': player_key
                 }
 
-        if DEBUG:
-            ("ERROR: Couldn't find identify player: {}".format(username))
+        warning("ERROR: Couldn't find identify player: {}".format(username))
         return {
             'ip': "0.0.0.0",
             'country': "Unknown",
             'country_code': "??",
             'steam_id': "00000000000000000",
+            'network_id': "0x0",
             'player_key': "0x0.00"
         }

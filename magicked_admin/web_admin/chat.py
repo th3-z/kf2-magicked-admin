@@ -1,4 +1,3 @@
-import logging
 import threading
 import time
 
@@ -10,6 +9,7 @@ from utils import DEBUG
 from web_admin.constants import *
 
 init()
+
 
 class ChatListener(object):
 

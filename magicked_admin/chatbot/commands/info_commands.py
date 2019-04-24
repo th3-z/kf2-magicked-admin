@@ -1,4 +1,4 @@
-import datetime
+import time
 
 from chatbot.commands.command import Command
 from server.player import Player
@@ -96,22 +96,21 @@ class CommandStats(Command):
         self.server.write_all_players()
         requested_username = " ".join(args[1:])
 
-        player = self.server.get_player(requested_username)
+        player = self.server.get_player_by_username(requested_username)
         if player:
-            now = datetime.datetime.now()
+            now = time.time()
             elapsed_time = now - player.session_start
-            session_time = elapsed_time.total_seconds()
         else:
-            session_time = 0
+            elapsed_time = 0
             player = Player(requested_username, "no-perk")
             self.server.database.load_player(player)
 
-        time = seconds_to_hhmmss(
-            player.total_time + session_time
+        fmt_time = seconds_to_hhmmss(
+            player.total_time + elapsed_time
         )
         message = "Stats for {}:\n".format(player.username) +\
                   "Total play time: {} ({} sessions)\n"\
-                      .format(time, player.total_logins) +\
+                      .format(fmt_time, player.total_logins) +\
                   "Total deaths: {}\n".format(player.total_deaths) +\
                   "Total kills: {}\n".format(millify(player.total_kills)) +\
                   "Total dosh earned: {}\n"\

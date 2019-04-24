@@ -1,4 +1,3 @@
-import datetime
 import threading
 import time
 
@@ -16,7 +15,7 @@ class CommandGreeter(Command):
         Command.__init__(self, server, admin_only)
 
         self.new_game_grace = 35
-        self.new_game_time = datetime.datetime.now()
+        self.new_game_time = time.time()
 
     def execute(self, username, args, admin):
         if not self.authorise(admin):
@@ -25,16 +24,15 @@ class CommandGreeter(Command):
         if args[0] == "new_game":
             if DEBUG:
                 print("Greeter received new game event")
-            self.new_game_time = datetime.datetime.now()
+            self.new_game_time = time.time()
             return None
-        now = datetime.datetime.now()
+        now = time.time()
         elapsed_time = now - self.new_game_time
-        seconds = elapsed_time.total_seconds()
 
-        if seconds < self.new_game_grace:
+        if elapsed_time  < self.new_game_grace:
             if DEBUG:
                 print("Skipping welcome {}, new_game happened recently ({})"
-                      " [{}/{}]".format(username, self.server.name, seconds,
+                      " [{}/{}]".format(username, self.server.name, elapsed_time,
                                         self.new_game_grace))
             return None
 
@@ -43,7 +41,7 @@ class CommandGreeter(Command):
 
         requested_username = " ".join(args[1:])
 
-        player = self.server.get_player(requested_username)
+        player = self.server.get_player_by_username(requested_username)
         if not player:
             if DEBUG:
                 print("DEBUG: Bad player join command (not found) [{}]"

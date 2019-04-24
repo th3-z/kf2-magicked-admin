@@ -56,10 +56,8 @@ class MotdUpdater(threading.Thread):
         elif self.scoreboard_type in ['Dosh','dosh']:
             scores = self.server.database.top_dosh()
         else:
-            # TODO Colour, rewrite text
-            print("Bad configuration, scoreboard_type. "
-                  "Options are: dosh, kills ({})"
-                  .format(self.server.name))
+            warning("Scoreboard_type not recognised '{}' for {}. Options are: dosh, kills"
+                    .format(self.scoreboard_type, self.server.name))
             return src_motd
 
         for player in scores:
