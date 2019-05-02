@@ -11,7 +11,7 @@ class CommandSay(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         if len(args) < 2:
             return "No message was specified."
@@ -22,13 +22,32 @@ class CommandSay(Command):
             .decode('unicode_escape')
         return message
 
+class CommandOp(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(username, admin):
+            return self.not_auth_message
+        
+        player = self.server.get_player_by_username(args[1])
+        if not player:
+            return "Couldn't identify player '{}'"
+        
+        if args[0] == "deop":
+            player.op = False
+            return "Deoped {}".format(player.username)
+        else:
+            player.op = True
+            return "Oped {}".format(player.username)
+
 
 class CommandEnforceLevels(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         self.server.enforce_levels()
@@ -39,7 +58,7 @@ class CommandEnforceDosh(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         self.server.enforce_dosh()
@@ -50,11 +69,15 @@ class CommandKick(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
-        self.server.kick_player(args[1])
-        return "Player, {}, was kicked.".format(args[1])
+        kicked =  self.server.kick_player(args[1])
+
+        if kicked:
+            return "Player, {}, was kicked.".format(kicked)
+        else:
+            return "Player not found."
 
 
 class CommandRun(Command):
@@ -64,7 +87,7 @@ class CommandRun(Command):
         self.chatbot = chatbot
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         if len(args) < 2:
             return "No file was specified."
@@ -82,7 +105,7 @@ class CommandRestart(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         self.server.restart_map()
@@ -94,7 +117,7 @@ class CommandLoadMap(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         if len(args) < 2:
@@ -109,7 +132,7 @@ class CommandPassword(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         if len(args) < 2:
@@ -134,7 +157,7 @@ class CommandSilent(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         if self.chatbot.silent:
@@ -151,7 +174,7 @@ class CommandLength(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         if len(args) < 2:
             return "Length not recognised. Options are short, medium, or long."
@@ -174,7 +197,7 @@ class CommandDifficulty(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         if len(args) < 2:
             return "Difficulty not recognised. " + \
@@ -201,7 +224,7 @@ class CommandGameMode(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         if len(args) < 2:
             return "GameMode not recognised. " + \

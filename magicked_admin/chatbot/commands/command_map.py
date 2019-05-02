@@ -54,6 +54,8 @@ class CommandMap:
             'game_time': CommandGameTime(self.server, admin_only=False),
             'server_kills': CommandServerKills(self.server, admin_only=False),
             'server_dosh': CommandServerDosh(self.server, admin_only=False),
+            'op': CommandOp(self.server, admin_only=True),
+            'deop': CommandOp(self.server, admin_only=True),
         }
 
         return command_map

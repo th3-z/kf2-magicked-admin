@@ -10,11 +10,11 @@ from web_admin.constants import *
 
 
 class Server:
-    def __init__(self, name, address, username, password, ops=None):
+    def __init__(self, name, address, username, password):
         self.name = name
 
         print("Connecting to: {} ({})...".format(name, address))
-        self.web_admin = api.WebAdmin(address, username, password, ops)
+        self.web_admin = api.WebAdmin(address, username, password)
         message = "Connected to: {} ({})".format(name, address)
         print(colored(message, 'green'))
 
@@ -43,7 +43,8 @@ class Server:
 
     def get_player_by_username(self, username):
         for player in self.players:
-            if player.username == username:
+            # Unidentifable players are given None keys.
+            if player.username == username and player.player_key:
                 return player
         return None
 
@@ -55,7 +56,7 @@ class Server:
 
     def get_player_by_sid(self, sid):
         for player in self.players:
-            if player.sid == sid:
+            if player.steam_id == sid:
                 return player
         return None
 
@@ -97,7 +98,13 @@ class Server:
 
     def kick_player(self, username):
         player = self.get_player_by_username(username)
+        if not player:
+            player = self.get_player_by_sid(username)
+        if not player: 
+            return False
+        
         self.web_admin.kick_player(player.player_key)
+        return player.username
 
     def enforce_levels(self):
         if not self.level_threshold:

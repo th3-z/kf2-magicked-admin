@@ -11,11 +11,10 @@ from web_admin.web_interface import WebInterface
 
 
 class WebAdmin(object):
-    def __init__(self, address, username, password, ops=None,
-                 server_name="unnamed"):
+    def __init__(self, address, username, password, server_name="unnamed"):
         self.__web_interface = \
             WebInterface(address, username, password, server_name)
-        self.chat = Chat(self.__web_interface, ops)
+        self.chat = Chat(self.__web_interface)
         self.chat.start()
 
         self.__general_settings = \
@@ -294,29 +293,35 @@ class WebAdmin(object):
         for i in range(0, len(player_keys_result)):
             trows_result[i][player_key_col] = player_keys_result[i]
 
+        # Duplicate usernames cannot be identified reliably
+        players_found = 0
+
         for player_row in trows_result:
             if player_row[name_col] == username:
+                players_found += 1
                 ip = player_row[ip_col]
                 sid = player_row[sid_col]
                 nid = player_row[nid_col]
                 player_key = player_row[player_key_col]
-
                 country, country_code = get_country(ip)
-                return {
-                    'ip': ip,
-                    'country': country,
-                    'country_code': country_code,
-                    'steam_id': sid,
-                    'network_id': nid,
-                    'player_key': player_key
-                }
 
-        warning("ERROR: Couldn't find identify player: {}".format(username))
-        return {
-            'ip': "0.0.0.0",
-            'country': "Unknown",
-            'country_code': "??",
-            'steam_id': "00000000000000000",
-            'network_id': "0x0",
-            'player_key': "0x0.00"
-        }
+        if players_found == 1:
+            return {
+                'ip': ip,
+                'country': country,
+                'country_code': country_code,
+                'steam_id': sid,
+                'network_id': nid,
+                'player_key': player_key
+            }
+        else:
+            warning("Couldn't find identify player: {}".format(username))
+            return {
+                'ip': None,
+                'country': "Unknown",
+                'country_code': "??",
+                'steam_id': None,
+                'network_id': None,
+                'player_key': None
+            }
+

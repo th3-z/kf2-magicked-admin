@@ -1,6 +1,7 @@
 CREATE TABLE players(
     username VARCHAR(64) PRIMARY KEY,
     kills INTEGER DEFAULT 0,
+    op INTEGER DEFAULT 0,
     dosh INTEGER DEFAULT 0,
     dosh_spent INTEGER DEFAULT 0,
     deaths INTEGER DEFAULT 0,

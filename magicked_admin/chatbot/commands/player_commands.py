@@ -7,7 +7,7 @@ class CommandServerDosh(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         self.server.write_all_players()
@@ -20,7 +20,7 @@ class CommandServerKills(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         self.server.write_all_players()
@@ -33,7 +33,7 @@ class CommandKills(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         player = self.server.get_player_by_username(username)
@@ -54,7 +54,7 @@ class CommandDosh(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         player = self.server.get_player_by_username(username)
@@ -75,7 +75,7 @@ class CommandTopKills(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         if len(args) > 1 and args[1] == '-w' and len(self.server.players) > 0:
@@ -102,7 +102,7 @@ class CommandTopDosh(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         if len(args) > 1 and args[1] == '-w' and len(self.server.players) > 0:
@@ -124,3 +124,4 @@ class CommandTopDosh(Command):
             "\t£"+str(millify(doshers[3][1])) + "\t-\t" + trim_string(doshers[3][0],20) + "\n" + \
             "\t£"+str(millify(doshers[4][1])) + "\t-\t" + trim_string(doshers[4][0],20)
         return message.encode("iso-8859-1","ignore")
+

@@ -5,8 +5,10 @@ class Command:
         self.admin_only = admin_only
         self.not_auth_message = "You're not authorised to use that command."
 
-    def authorise(self, admin):
-        if admin and self.admin_only:
+    def authorise(self, username, admin):
+        player = self.server.get_player_by_username(username)
+
+        if (admin or player.op) and self.admin_only:
             return True
         elif self.admin_only:
             return False

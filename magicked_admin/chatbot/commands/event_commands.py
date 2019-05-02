@@ -18,7 +18,7 @@ class CommandGreeter(Command):
         self.new_game_time = time.time()
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         if args[0] == "new_game":
@@ -109,7 +109,7 @@ class CommandOnTimeManager(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         if args[0] == "stop_tc":
             return self.terminate_all()
@@ -148,7 +148,7 @@ class CommandOnWaveManager(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         if args[0] == "stop_wc":
@@ -191,7 +191,7 @@ class CommandOnTraderManager(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         if args[0] == "start_trc":

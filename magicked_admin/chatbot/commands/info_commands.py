@@ -11,7 +11,7 @@ class CommandPlayers(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         message = ""
 
@@ -26,7 +26,7 @@ class CommandGame(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         return str(self.server.game)
 
@@ -35,7 +35,7 @@ class CommandGameMap(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         return str(self.server.game.game_map)
 
@@ -45,7 +45,7 @@ class CommandGameTime(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         return str(self.server.game.time)
 
@@ -55,7 +55,7 @@ class CommandHighWave(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         return "{} is the highest wave reached on this map."\
             .format(self.server.game.game_map.highest_wave)
@@ -65,7 +65,7 @@ class CommandHelp(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         return "Player commands:\n !me, !dosh, !kills, !server_dosh," \
                " !server_kills, !top_dosh, !top_kills, !stats"
@@ -76,7 +76,7 @@ class CommandMe(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
 
         stats_command = CommandStats(self.server, admin_only=False)
@@ -88,7 +88,7 @@ class CommandStats(Command):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, admin):
-        if not self.authorise(admin):
+        if not self.authorise(username, admin):
             return self.not_auth_message
         if len(args) < 2:
             return "Missing argument (username)"

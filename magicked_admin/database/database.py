@@ -222,6 +222,8 @@ class ServerDatabase:
                          (player.total_logins, player.username))
         self.cur.execute("UPDATE players SET time_online = ? WHERE username = ?",
                          (int(player.total_time), player.username))
+        self.cur.execute("UPDATE players SET op  = ? WHERE username = ?",
+                         (1 if player.op else 0, player.username))
         lock.release()
 
         self.conn.commit()

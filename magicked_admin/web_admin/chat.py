@@ -18,17 +18,15 @@ class ChatListener(object):
 
 
 class Chat(threading.Thread):
-    def __init__(self, web_interface, operators=None):
+    def __init__(self, web_interface):
         threading.Thread.__init__(self)
 
         self.__web_interface = web_interface
         self.__listeners = []
         self.__exit = False
-        # TODO configuration option
         self.__refresh_rate = 3
 
         self.__silent = False
-        self.__operators = operators if operators else []
 
         self.__message_buffer = ""
 
@@ -60,7 +58,7 @@ class Chat(threading.Thread):
             message = message_root.xpath(message_pattern)[0]
 
             user_flags = USER_TYPE_NONE
-            if 'admin' in user_type or username in self.__operators: 
+            if 'admin' in user_type: 
                 user_flags += USER_TYPE_ADMIN 
             if 'spectator' in user_type: 
                 user_flags += USER_TYPE_SPECTATOR 
