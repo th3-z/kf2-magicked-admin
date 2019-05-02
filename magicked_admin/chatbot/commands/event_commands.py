@@ -48,7 +48,7 @@ class CommandGreeter(Command):
                       .format(requested_username))
             return "Couldn't greet player {}.".format(requested_username)
 
-        if player.total_logins > 1:
+        if player.sessions > 1:
             pos_kills = self.server.database.rank_kills(requested_username)
             pos_dosh = self.server.database.rank_dosh(requested_username)
             return "\nWelcome back {}.\n" \
@@ -59,7 +59,7 @@ class CommandGreeter(Command):
                                   pos_kills,
                                   millify(player.total_dosh),
                                   pos_dosh,
-                                  player.total_logins,
+                                  player.sessions,
                                   seconds_to_hhmmss(player.total_time))\
                 .encode("iso-8859-1", "ignore")
         else:
@@ -172,7 +172,7 @@ class CommandOnWaveManager(Command):
         if len(args) < 2:
             return "Missing argument (command)."
             
-        game_length = int(self.server.game.length)
+        game_length = self.server.game.length
         
         try:
             wc = CommandOnWave(args[1:], int(args[0]), game_length, self.chatbot)

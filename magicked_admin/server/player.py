@@ -7,14 +7,13 @@ class Player:
         self.total_deaths = 0
         self.total_kills = 0
         self.total_dosh = 0
-        self.total_dosh_spent = 0
-        self.total_health_lost = 0
-        self.total_logins = 0
 
+        self.sessions = 0
         self.total_time = 0
         self.__total_timer = time.time()
         self.session_start = time.time()
 
+        # game_kills is equivalent to kills
         self.game_dosh = 0
 
         self.wave_kills = 0
@@ -28,7 +27,6 @@ class Player:
         self.perk = perk
         self.perk_level = 99
         self.ping = 0
-        self.login_time = 0
 
         self.steam_id = None
         self.network_id = None
@@ -48,13 +46,12 @@ class Player:
         self.total_deaths = 0
         self.total_kills = 0
         self.total_dosh = 0
-        self.total_dosh_spent = 0
-        self.total_health_lost = 0
-        self.total_logins = 0
         self.total_time = 0
-
+        self.sessions = 0
 
     def __str__(self):
         return "Username: " + self.username + \
                "\nCountry: " + str(self.country) + " (" + self.ip + ")"\
+               "\nOP: " + str(self.op) + \
                "\nSteam ID: " + str(self.steam_id)
+

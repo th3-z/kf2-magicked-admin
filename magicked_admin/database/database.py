@@ -2,7 +2,7 @@ import sqlite3
 from os import path
 from threading import Lock
 
-from utils import DEBUG, find_data_file
+from utils import find_data_file, info
 
 lock = Lock()
 
@@ -10,292 +10,298 @@ lock = Lock()
 class ServerDatabase:
 
     def __init__(self, name):
-        self.sqlite_db_file = find_data_file(name + "_db" + ".sqlite")
+        self.sqlite_db_file = find_data_file(name + ".sqlite")
 
         if not path.exists(self.sqlite_db_file):
             self.build_schema()
         self.conn = sqlite3.connect(self.sqlite_db_file,
                                     check_same_thread=False)
+
+        # Assemble rows into dicts (col->val) rather than tuples
+        self.conn.row_factory = lambda c, r: \
+            dict([(col[0], r[idx]) for idx, col in enumerate(c.description)])
+
         self.cur = self.conn.cursor()
 
-        if DEBUG:
-            print("Database for " + name + " initialised")
-
     def build_schema(self):
-        print("Building new database...")
+        info("Building new database...")
 
         conn = sqlite3.connect(self.sqlite_db_file)
         cur = conn.cursor()
 
         with open(find_data_file('database/server_schema.sql')) as schema_file:
+            lock.acquire(True)
             cur.executescript(schema_file.read())
+            lock.release()
 
         conn.commit()
         conn.close()
 
-    def rank_kills(self, username):
-        subquery = "SELECT count(*) FROM players AS player2 WHERE player2.kills >= player1.kills"
-        query = "SELECT player1.*,({}) AS kill_rank FROM players AS player1 WHERE player1.username=?".format(subquery)
+    def close(self):
+        self.conn.commit()
+        self.conn.close()
+
+    def __rank_by_col(self, steam_id, col):
+        query = """
+            SELECT 
+                player1.*, 
+                COALESCE(
+                    SELECT 
+                        count(*)
+                    FROM
+                        players as player2
+                    WHERE
+                        players.{} >= player1.{}
+                ), 0) AS col_rank
+            FROM
+                players AS player1
+            WHERE 
+                player1.steam_id = ?
+        """
+
+        query.format(col, col)
+
         lock.acquire(True)
-        self.cur.execute(query, (username,))
+        self.cur.execute(query, (steam_id,))
         all_rows = self.cur.fetchall()
         lock.release()
         return all_rows[0][-1]
 
-    def rank_dosh(self, username):
-        subquery = "SELECT count(*) FROM players as player2 WHERE player2.dosh >= player1.dosh"
-        query = "SELECT  player1.*,({}) AS dosh_rank FROM  players AS player1 WHERE player1.username=?".format(subquery)
+    def rank_dosh(self, steam_id):
+        return self.__rank_by_col(steam_id, "dosh")
+
+    def rank_kills(self, steam_id):
+        return self.__rank_by_col(steam_id, "dosh")
+
+    def rank_time(self, steam_id):
+        return self.__rank_by_col(steam_id, "time_online")
+
+    def rank_kd(self, steam_id):
+        query = """
+            SELECT 
+                player1.*, 
+                (
+                    SELECT 
+                        count(*)
+                    FROM
+                        players as player2
+                    WHERE
+                        (player2.kills/player2.deaths) >= (player1.kills/player1.deaths)
+                ) AS kd_rank
+            FROM
+                players AS player1
+            WHERE 
+                player1.steam_id = ?
+        """
+
         lock.acquire(True)
-        self.cur.execute(query, (username,))
+        self.cur.execute(query, (steam_id,))
         all_rows = self.cur.fetchall()
         lock.release()
         return all_rows[0][-1]
 
-    def rank_death(self, username):
-        subquery = "SELECT count(*) FROM players as player2 WHERE player2.deaths <= player1.deaths"
-        query = "SELECT player1.*,({}) AS death_rank FROM  players AS player1 WHERE player1.username=?".format(subquery)
-        lock.acquire(True)
-        self.cur.execute(query, (username,))
-        all_rows = self.cur.fetchall()
-        lock.release()
-        return all_rows[0][-1] + 1
+    def __server_sum_col(self, col):
+        query = """
+            SELECT 
+                COALESCE(SUM({}), 0) as total
+            FROM 
+                players
+        """
 
-    def rank_kd(self, username):
-        subquery = "SELECT count(*) FROM players as p2 WHERE p2.kills / p2.deaths >= p1.kills / p1.deaths"
-        query = "SELECT p1.*,({}) AS kd_rank FROM  players AS p1 WHERE player1.username=?".format(subquery)
-        lock.acquire(True)
-        self.cur.execute(query, (username,))
-        all_rows = self.cur.fetchall()
-        lock.release()
-        return all_rows[0][-1] + 1
+        query.format(col)
 
-    def rank_time(self, username):
-        subquery = "SELECT count(*) FROM players as player2 WHERE player2.time_online >= player1.time_online"
-        query = "SELECT player1.*,({}) AS time_rank  FROM  players AS player1 WHERE p1.username=?".format(subquery)
         lock.acquire(True)
-        self.cur.execute(query, (username,))
+        self.cur.execute(query)
         all_rows = self.cur.fetchall()
         lock.release()
-        return all_rows[0][-1] + 1
 
-    # SUM(dosh_spent) Add in later.
-    def server_dosh(self):
-        lock.acquire(True)
-        self.cur.execute('SELECT SUM(dosh) FROM players')
-        all_rows = self.cur.fetchall()
-        lock.release()
-        # Errors out when you call it with 0 with "NoneType"
         if all_rows and all_rows[0][0]:
-            return int(all_rows[0][0])
+            return all_rows[0][0]
         else:
             return 0
 
     def server_kills(self):
+        self.__server_sum_col("kills")
+
+    def server_dosh(self):
+        self.__server_sum_col("dosh")
+
+    def server_time(self):
+        self.__server_sum_col("time")
+
+    def __server_top_by_col(self, col):
+        query = """
+            SELECT
+                username, 
+                {}
+            FROM
+                players
+            ORDER BY
+                {} DESC
+        """
+
+        query.format(col, col)
+
         lock.acquire(True)
-        self.cur.execute('SELECT SUM(kills) FROM players')
+        self.cur.execute(query)
         all_rows = self.cur.fetchall()
         lock.release()
-        # Errors out when you call it with 0 with "NoneType"
-        if all_rows and all_rows[0][0]:
-            return int(all_rows[0][0])
-        else:
-            return 0
+        return all_rows
 
     def top_kills(self):
-        lock.acquire(True)
-        self.cur.execute('SELECT username, kills FROM players ORDER BY kills DESC')
-        all_rows = self.cur.fetchall()
-        lock.release()
-        return all_rows
+        self.__server_top_by_col("kills")
 
     def top_dosh(self):
-        lock.acquire(True)
-        self.cur.execute('SELECT username, dosh FROM players ORDER BY dosh DESC')
-        all_rows = self.cur.fetchall()
-        lock.release()
-        return all_rows
+        self.__server_top_by_col("dosh")
 
-    def player_dosh(self, username):
-        lock.acquire(True)
-        self.cur.execute('SELECT (dosh) FROM players WHERE username=?',
-                         (username,))
-        all_rows = self.cur.fetchall()
-        lock.release()
-        if all_rows:
-            return int(all_rows[0][0])
-        else:
-            return 0
+    def top_time(self):
+        self.__server_top_by_col("time")
 
-    def player_dosh_spent(self, username):
-        lock.acquire(True)
-        self.cur.execute('SELECT (dosh_spent) FROM players WHERE username=?',
-                         (username,))
-        all_rows = self.cur.fetchall()
-        lock.release()
-        if all_rows:
-            return int(all_rows[0][0])
-        else:
-            return 0
+    def __init_player(self, steam_id):
+        # Other columns have defaults in schema
+        init_sql = """
+            INSERT INTO players(steam_id)
+            VALUES(?)
+        """
 
-    def player_kills(self, username):
         lock.acquire(True)
-        self.cur.execute('SELECT (kills) FROM players WHERE username=?',
-                         (username,))
-        all_rows = self.cur.fetchall()
+        self.cur.execute(init_sql, (steam_id,))
+        self.conn.commit()
         lock.release()
-        if all_rows:
-            return int(all_rows[0][0])
-        else:
-            return 0
 
-    def player_deaths(self, username):
+    def load_player(self, player, r_flag=False):
+        if not player.steam_id:
+            return
+
+        player_sql = """
+            SELECT
+                username, kills, dosh, deaths, sessions, time_online, op
+            FROM 
+                players
+            WHERE
+                steam_id = ?
+        """
+
         lock.acquire(True)
-        self.cur.execute('SELECT (deaths) FROM players WHERE username=?',
-                         (username,))
-        all_rows = self.cur.fetchall()
+        self.cur.execute(player_sql, (player.steam_id,))
+        player_result = self.cur.fetchall()
         lock.release()
-        if all_rows:
-            return int(all_rows[0][0])
-        else:
-            return 0
 
-    def player_logins(self, username):
-        lock.acquire(True)
-        self.cur.execute('SELECT (logins) FROM players WHERE username=?',
-                         (username,))
-        all_rows = self.cur.fetchall()
-        lock.release()
-        if all_rows:
-            return int(all_rows[0][0]) + 1
-        else:
-            return 0
+        if len(player_result) != 1 and not r_flag:
+            # Init player row and retry, never retry more than once
+            self.__init_player(player.steam_id)
+            self.load_player(player, True)
+            return
 
-    def player_time(self, username):
-        lock.acquire(True)
-        self.cur.execute('SELECT (time_online) FROM players WHERE username=?',
-                         (username,))
-        all_rows = self.cur.fetchall()
-        lock.release()
-        if all_rows:
-            return int(all_rows[0][0])
-        else:
-            return 0
-
-    def player_health_lost(self, username):
-        lock.acquire(True)
-        self.cur.execute('SELECT (health_lost) FROM players WHERE username=?',
-                         (username,))
-        all_rows = self.cur.fetchall()
-        lock.release()
-        if all_rows:
-            return int(all_rows[0][0])
-        else:
-            return 0
-
-    def load_player(self, player):
-        # TODO id as parameter, return new player obj
-        player.total_kills = self.player_kills(player.username)
-        player.total_dosh = self.player_dosh(player.username)
-        player.total_deaths = self.player_deaths(player.username)
-        player.total_dosh_spent = self.player_dosh_spent(player.username)
-        player.total_logins = self.player_logins(player.username)
-        player.total_health_lost = self.player_health_lost(player.username)
-        player.total_time = self.player_time(player.username)
+        player_result = player_result[0]
+        player.total_kills = player_result['kills']
+        player.total_dosh = player_result['dosh']
+        player.total_deaths = player_result['deaths']
+        player.sessions = player_result['sessions']
+        player.total_time = player_result['time_online']
+        player.op = player_result['op']
 
     def save_player(self, player):
+        save_sql = """
+            UPDATE players SET
+                username = ?,
+                kills = ?,
+                dosh = ?,
+                deaths = ?,
+                sessions = ?,
+                time_online = ?,
+                op = ?
+            WHERE
+                steam_id = ?
+        """
+
         lock.acquire(True)
-        self.cur.execute("INSERT OR IGNORE INTO players (username) VALUES (?)",
-                         (player.username,))
-
-        self.cur.execute("UPDATE players SET dosh_spent = ? WHERE username = ?",
-                         (player.total_dosh_spent, player.username))
-
-        self.cur.execute("UPDATE players SET dosh = ? WHERE username = ?",
-                         (player.total_dosh, player.username))
-        self.cur.execute("UPDATE players SET kills = ? WHERE username = ?",
-                         (player.total_kills, player.username))
-        self.cur.execute("UPDATE players SET deaths = ? WHERE username = ?",
-                         (player.total_deaths, player.username))
-        self.cur.execute("UPDATE players SET health_lost = ? WHERE username = ?",
-                         (player.total_health_lost, player.username))
-        self.cur.execute("UPDATE players SET logins = ? WHERE username = ?",
-                         (player.total_logins, player.username))
-        self.cur.execute("UPDATE players SET time_online = ? WHERE username = ?",
-                         (int(player.total_time), player.username))
-        self.cur.execute("UPDATE players SET op  = ? WHERE username = ?",
-                         (1 if player.op else 0, player.username))
+        self.cur.execute(save_sql,
+                         (player.username, player.total_kills,
+                          player.total_dosh, player.total_deaths,
+                          player.sessions, player.total_time, player.op,
+                          player.steam_id))
         lock.release()
-
         self.conn.commit()
 
-    def save_game_map(self, game_map):
+    def __init_game_map(self, title):
+        # Other columns have defaults in schema
+        init_sql = """
+            INSERT INTO maps(title)
+            VALUES(?)
+        """
+
         lock.acquire(True)
-        self.cur.execute("INSERT OR IGNORE INTO maps (name, title) VALUES (?, ?)",
-                         (game_map.name, game_map.title))
+        self.cur.execute(init_sql, (title,))
+        lock.release()
+        self.conn.commit()
 
-        self.cur.execute("UPDATE maps SET plays_survival = ? WHERE name = ?",
-                         (game_map.plays_survival, game_map.name))
-        self.cur.execute("UPDATE maps SET plays_survival_vs = ? WHERE name = ?",
-                         (game_map.plays_survival_vs, game_map.name))
-        self.cur.execute("UPDATE maps SET plays_weekly = ? WHERE name = ?",
-                         (game_map.plays_weekly, game_map.name))
-        self.cur.execute("UPDATE maps SET plays_endless = ? WHERE name = ?",
-                         (game_map.plays_endless, game_map.name))
-        self.cur.execute("UPDATE maps SET highest_wave = ? WHERE name = ?",
-                         (game_map.highest_wave, game_map.name))
+    def load_game_map(self, game_map, r_flag=False):
+        map_sql = """
+            SELECT
+                name, plays_survival, plays_weekly, plays_endless,
+                plays_survival_vs, plays_other, highest_wave
+            FROM 
+                maps
+            WHERE
+                title = ?
+        """
 
+        lock.acquire(True)
+        self.cur.execute(map_sql, (game_map.title,))
+        map_result = self.cur.fetchall()
         lock.release()
 
+        if len(map_result) != 1 and not r_flag:
+            # Init map row and retry, never retry more than once
+            self.__init_game_map(game_map.title)
+            self.load_game_map(game_map, True)
+            return
+
+        map_result = map_result[0]
+        game_map.plays_survival = map_result['plays_survival']
+        game_map.plays_survival_vs = map_result['plays_survival_vs']
+        game_map.plays_weekly = map_result['plays_weekly']
+        game_map.plays_endless = map_result['plays_endless']
+        game_map.plays_other = map_result['plays_other']
+        game_map.highest_wave = map_result['highest_wave']
+
+    def save_game_map(self, game_map):
+        save_query = """
+            UPDATE maps SET
+                name = ?,
+                plays_survival = ?,
+                plays_survival_vs = ?,
+                plays_weekly = ?,
+                plays_endless = ?,
+                plays_other = ?,
+                highest_wave = ?
+            WHERE
+                title = ?
+        """
+
+        lock.acquire(True)
+        self.cur.execute(save_query,
+                         (game_map.name, game_map.plays_survival,
+                          game_map.plays_survival_vs, game_map.plays_weekly,
+                          game_map.plays_endless, game_map.plays_other,
+                          game_map.highest_wave, game_map.title))
+        lock.release()
         self.conn.commit()
 
     def save_map_record(self, game, players):
+        save_query = """
+            INSERT INTO map_records SET
+                title = ?,
+                game_time = ?,
+                game_length = ?,
+                game_difficulty = ?,
+                player_count = ?
+        """
+
         lock.acquire(True)
-        self.cur.execute(
-            "INSERT INTO map_records (map_name, game_time, game_length, game_difficulty, player_count) VALUES (?, ?, ?, ?, ?)",
-            (game.game_map.name, game.time, game.length, game.difficulty,
-             players))
+        self.cur.execute(save_query,
+                         (game.game_map.title, game.time, game.length,
+                          game.difficulty, players))
         lock.release()
         self.conn.commit()
-
-    def load_game_map(self, game_map):
-        lock.acquire(True)
-
-        self.cur.execute("INSERT OR IGNORE INTO maps (name, title) VALUES (?, ?)",
-                         (game_map.name, game_map.title))
-
-        # TODO: Change all of these into a single query that returns a list
-        self.cur.execute('SELECT (plays_survival) FROM maps WHERE name=?',
-                         (game_map.name,))
-        plays_survival = int(self.cur.fetchall()[0][0])
-
-        self.cur.execute('SELECT (plays_survival_vs) FROM maps WHERE name=?',
-                         (game_map.name,))
-        plays_survival_vs = int(self.cur.fetchall()[0][0])
-
-        self.cur.execute('SELECT (plays_weekly) FROM maps WHERE name=?',
-                         (game_map.name,))
-        plays_weekly = int(self.cur.fetchall()[0][0])
-
-        self.cur.execute('SELECT (plays_endless) FROM maps WHERE name=?',
-                         (game_map.name,))
-        plays_endless = int(self.cur.fetchall()[0][0])
-
-        self.cur.execute('SELECT (plays_other) FROM maps WHERE name=?',
-                         (game_map.name,))
-        plays_other = int(self.cur.fetchall()[0][0])
-
-        self.cur.execute('SELECT (highest_wave) FROM maps WHERE name=?',
-                         (game_map.name,))
-        highest_wave = int(self.cur.fetchall()[0][0])
-        lock.release()
-
-        game_map.plays_survival = plays_survival
-        game_map.plays_survival_vs = plays_survival_vs
-        game_map.plays_weekly = plays_weekly
-        game_map.plays_endless = plays_endless
-        game_map.plays_other = plays_other
-        game_map.highest_wave = highest_wave
-
-    def close(self):
-        self.conn.commit()
-        self.conn.close()

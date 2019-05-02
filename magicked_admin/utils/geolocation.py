@@ -11,10 +11,11 @@ def get_country(ip):
     unknown = ("Unknown", "??")
 
     geo_data = requests.get(url).json()
-    country = geo_data['country_name']
-    country_code = geo_data['country']
 
-    if not country:
-        return unknown
-    else:
+    if 'country_name' in geo_data:
+        country = geo_data['country_name']
+        country_code = geo_data['country']
         return country, country_code
+    else:
+        return unknown
+

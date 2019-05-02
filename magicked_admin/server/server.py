@@ -18,12 +18,13 @@ class Server:
         message = "Connected to: {} ({})".format(name, address)
         print(colored(message, 'green'))
 
-        self.game_password = None
+        self.database = ServerDatabase(name)
 
+        self.game_password = None
         self.level_threshold = None
         self.dosh_threshold = None
 
-        self.game = Game(GameMap("kf-default"), GAME_TYPE_UNKNOWN)
+        self.game = Game(GameMap(), GAME_TYPE_UNKNOWN)
         self.trader_time = False
         self.players = []
 
@@ -33,8 +34,6 @@ class Server:
         self.tracker = GameTracker(self)
         self.tracker.start()
 
-        self.database = ServerDatabase(name)
-
     def close(self):
         self.tracker.stop()
         self.write_game_map()
@@ -42,11 +41,19 @@ class Server:
         self.web_admin.close()
 
     def get_player_by_username(self, username):
+        matched_players = 0
+        matched_player = None
+
         for player in self.players:
-            # Unidentifable players are given None keys.
-            if player.username == username and player.player_key:
-                return player
-        return None
+            # Unidentifiable players have no steam_id
+            if username in player.username and player.steam_id:
+                matched_players += 1
+                matched_player = player
+
+        if matched_players == 1:
+            return matched_player
+        else:
+            return None
 
     def get_player_by_key(self, player_key):
         for player in self.players:
@@ -55,10 +62,18 @@ class Server:
         return None
 
     def get_player_by_sid(self, sid):
+        matched_players = 0
+        matched_player = None
+
         for player in self.players:
-            if player.steam_id == sid:
-                return player
-        return None
+            if sid in player.steam_id:
+                matched_players += 1
+                matched_player = player
+
+        if matched_players == 1:
+            return matched_player
+        else:
+            return None
 
     def set_game_password(self, password):
         self.game_password = password
@@ -75,7 +90,9 @@ class Server:
 
     def write_game_map(self):
         if DEBUG:
-            debug("Writing game to database ({})".format(self.name))
+            debug("Writing game to database ({})".format(
+                self.game.game_map.name
+            ))
         self.database.save_game_map(self.game.game_map)
 
     def set_difficulty(self, difficulty):
@@ -192,17 +209,24 @@ class Server:
         self.web_admin.chat.handle_message("server", "!new_game", USER_TYPE_SERVER)
 
     def event_end_game(self, win=False):
+        message = "Game on {}, map: {}, mode: {}, win: {} ended." \
+            .format(self.name, self.game.game_map.title,
+                    self.game.game_type, str(win))
+        print(colored(message, 'magenta'))
+
+        self.write_game_map()
+
         if win and self.game.game_type == GAME_TYPE_SURVIVAL:
             self.database.save_map_record(self.game, len(self.players))
-            print("Recorded game time: " + str(self.game.time))
+            print("Recorded game win record: " + str(self.game.time))
 
     def event_wave_start(self):
         self.web_admin.chat.handle_message("server",
                                            "!new_wave " + str(self.game.wave),
                                            USER_TYPE_SERVER)
 
-        if int(self.game.wave) > int(self.game.game_map.highest_wave):
-            self.game.game_map.highest_wave = int(self.game.wave)
+        if self.game.wave > self.game.game_map.highest_wave:
+            self.game.game_map.highest_wave = self.game.wave
         for player in self.players:
             player.wave_kills = 0
             player.wave_dosh = 0

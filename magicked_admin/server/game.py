@@ -1,13 +1,14 @@
 import web_admin as api
+from web_admin.constants import *
 
 
 class Game:
     def __init__(self, game_map, game_type):
         self.game_map = game_map
         self.game_type = game_type
-        self.difficulty = api.DIFF_NORM
+        self.difficulty = api.DIFF_UNKNOWN
         self.wave = 0
-        self.length = api.LEN_NORM
+        self.length = api.LEN_UNKNOWN
         self.time = 0
 
         self.zeds_wave_killed = 0
@@ -31,7 +32,7 @@ class Game:
 
 
 class GameMap:
-    def __init__(self, name, title="kf-default"):
+    def __init__(self, name="Unnamed", title=GAME_MAP_TITLE_UNKNOWN):
         self.name = name
         self.title = title
 

@@ -22,6 +22,7 @@ class CommandSay(Command):
             .decode('unicode_escape')
         return message
 
+
 class CommandOp(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
@@ -35,10 +36,12 @@ class CommandOp(Command):
             return "Couldn't identify player '{}'"
         
         if args[0] == "deop":
-            player.op = False
+            player.op = 0
+            self.server.write_all_players()
             return "Deoped {}".format(player.username)
         else:
-            player.op = True
+            player.op = 1
+            self.server.write_all_players()
             return "Oped {}".format(player.username)
 
 
@@ -72,7 +75,10 @@ class CommandKick(Command):
         if not self.authorise(username, admin):
             return self.not_auth_message
 
-        kicked =  self.server.kick_player(args[1])
+        if len(args) < 2:
+            return "Missing argument, username or Steam ID."
+
+        kicked = self.server.kick_player(args[1])
 
         if kicked:
             return "Player, {}, was kicked.".format(kicked)

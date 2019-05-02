@@ -1,7 +1,6 @@
 import threading
 import time
 
-from utils import DEBUG
 from web_admin.constants import *
 
 
@@ -14,9 +13,10 @@ class GameTracker(threading.Thread):
         self.web_admin = server.web_admin
 
         self.__exit = False
-        # TODO configuration option
-        self.__refresh_rate = 20 if DEBUG else 1
+        self.__refresh_rate = 1
         self.__boss_reached = False
+
+        self.previous_wave = 0
 
         self.game_timer = time.time()
 
@@ -45,8 +45,20 @@ class GameTracker(threading.Thread):
         elif game_now.game_type == GAME_TYPE_SURVIVAL_VS:
             self.__update_game_survival_vs(game_now)
 
-        if game_now.wave and (game_now.wave < self.server.game.wave):
-            self.server.event_new_game()
+        new_game = False
+
+        # W/o installation wave cannot be determined on endless/weekly
+        if game_now.wave is not None:
+            new_map = self.server.game.game_map.title != game_now.map_title
+            wave_reset = game_now.wave < self.server.game.wave
+
+            if new_map or wave_reset:
+                new_game = True
+
+        # Trigger end-game before loading next map's info
+        if new_game and self.server.game.game_map.title \
+                != GAME_MAP_TITLE_UNKNOWN:
+            self.server.event_end_game(False)
 
         if game_now.trader_open and not self.server.trader_time:
             self.server.event_trader_open()
@@ -62,13 +74,22 @@ class GameTracker(threading.Thread):
         self.server.game.zeds_total = game_now.zeds_total
         self.server.game.game_type = game_now.game_type
 
-        if not self.server.trader_time and 0 < int(
-                self.server.game.wave) <= int(self.server.game.length):
-            now = time.time()
-            self.server.game.time += now - self.game_timer
-            self.game_timer = time.time()
-        else:
-            self.game_timer = time.time()
+        if new_game and game_now.map_title != GAME_MAP_TITLE_UNKNOWN:
+            self.server.event_new_game()
+
+        # TODO something better
+        if self.server.game.wave is not None:
+            if not self.server.trader_time \
+                    and 0 < self.server.game.wave <= self.server.game.length:
+                now = time.time()
+                self.server.game.time += now - self.game_timer
+                self.game_timer = time.time()
+            else:
+                self.game_timer = time.time()
+
+            if game_now.wave > self.previous_wave:
+                self.server.event_wave_start()
+                self.previous_wave = self.server.game.wave
 
     def __update_game_survival(self, game_now):
         # Boss wave
@@ -101,7 +122,11 @@ class GameTracker(threading.Thread):
         for player in players_now:
             if player.username not in \
                     [p.username for p in self.server.players]:
-                self.server.event_player_join(player)
+
+                # Filter pawns in KF-SantasWorkshop
+                if "KFAIController_ScriptedPawn_" not in player.username \
+                        and player.dosh == 0:
+                    self.server.event_player_join(player)
 
         for player in self.server.players:
             try:
@@ -126,8 +151,6 @@ class GameTracker(threading.Thread):
             if player_now.dosh > player.dosh:
                 player.game_dosh += player_now.dosh - player.dosh
                 player.total_dosh += player_now.dosh - player.dosh
-            else:
-                player.total_dosh_spent += player.dosh - player_now.dosh
 
             player.kills = player_now.kills
             player.dosh = player_now.dosh

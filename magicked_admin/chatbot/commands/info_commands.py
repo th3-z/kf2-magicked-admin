@@ -110,7 +110,7 @@ class CommandStats(Command):
         )
         message = "Stats for {}:\n".format(player.username) +\
                   "Total play time: {} ({} sessions)\n"\
-                      .format(fmt_time, player.total_logins) +\
+                      .format(fmt_time, player.sessions) +\
                   "Total deaths: {}\n".format(player.total_deaths) +\
                   "Total kills: {}\n".format(millify(player.total_kills)) +\
                   "Total dosh earned: {}\n"\

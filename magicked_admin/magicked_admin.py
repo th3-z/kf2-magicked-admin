@@ -15,7 +15,7 @@ from chatbot.chatbot import Chatbot
 from server.motd_updater import MotdUpdater
 from server.server import Server
 from settings import Settings
-from utils import DEBUG, banner, die, find_data_file
+from utils import banner, die, find_data_file, warning, info
 from utils.text import str_to_bool
 
 init()
@@ -24,7 +24,7 @@ banner()
 
 settings = Settings()
 
-REQUESTS_CA_BUNDLE_PATH =  find_data_file("./certifi/cacert.pem")
+REQUESTS_CA_BUNDLE_PATH = find_data_file("./certifi/cacert.pem")
 
 if hasattr(sys, "frozen"):
     import certifi.core
@@ -37,11 +37,13 @@ if hasattr(sys, "frozen"):
     requests.utils.DEFAULT_CA_BUNDLE_PATH = REQUESTS_CA_BUNDLE_PATH
     requests.adapters.DEFAULT_CA_BUNDLE_PATH = REQUESTS_CA_BUNDLE_PATH
 
+
 class MagickedAdmin:
     
     def __init__(self):
         signal.signal(signal.SIGINT, self.terminate)
         self.servers = []
+        self.terminating = False
 
     def run(self):
         for server_name in settings.sections():
@@ -88,7 +90,14 @@ class MagickedAdmin:
                 server.web_admin.chat.submit_message(command)
             
     def terminate(self, signal, frame):
-        print("\nProgram interrupted, terminating...")
+        if self.terminating:
+            warning("Okay, skipping cleanup")
+            os._exit(0)
+            return
+
+        self.terminating = True
+
+        info("Program interrupted, terminating...")
 
         for server in self.servers:
             server.close()

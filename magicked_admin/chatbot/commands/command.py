@@ -8,7 +8,7 @@ class Command:
     def authorise(self, username, admin):
         player = self.server.get_player_by_username(username)
 
-        if (admin or player.op) and self.admin_only:
+        if (admin or (player and player.op)) and self.admin_only:
             return True
         elif self.admin_only:
             return False
