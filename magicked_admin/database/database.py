@@ -291,12 +291,12 @@ class ServerDatabase:
 
     def save_map_record(self, game, players):
         save_query = """
-            INSERT INTO map_records SET
-                title = ?,
-                game_time = ?,
-                game_length = ?,
-                game_difficulty = ?,
-                player_count = ?
+            INSERT INTO map_records (
+                map_title, game_time, game_length, game_difficulty, 
+                player_count
+            ) VALUES (
+                ?, ?, ?, ?, ?
+            )
         """
 
         lock.acquire(True)
@@ -305,3 +305,4 @@ class ServerDatabase:
                           game.difficulty, players))
         lock.release()
         self.conn.commit()
+
