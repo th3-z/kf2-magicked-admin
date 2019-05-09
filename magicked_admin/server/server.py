@@ -5,7 +5,7 @@ from database.database import ServerDatabase
 from server.game import Game, GameMap
 from server.game_tracker import GameTracker
 from server.player import Player
-from utils import DEBUG, debug, warning
+from utils import DEBUG, debug, warning, info
 from web_admin.constants import *
 
 
@@ -13,10 +13,10 @@ class Server:
     def __init__(self, name, address, username, password):
         self.name = name
 
-        print("Connecting to: {} ({})...".format(name, address))
+        info("Connecting to: {} ({})...".format(name, address))
         self.web_admin = api.WebAdmin(address, username, password)
         message = "Connected to: {} ({})".format(name, address)
-        print(colored(message, 'green'))
+        info(colored(message, 'green'))
 
         self.database = ServerDatabase(name)
 
@@ -83,16 +83,14 @@ class Server:
         self.web_admin.toggle_game_password()
 
     def write_all_players(self):
-        if DEBUG:
-            debug("Flushing players on {}".format(self.name))
+        debug("Flushing players on {}".format(self.name))
         for player in self.players:
             self.database.save_player(player)
 
     def write_game_map(self):
-        if DEBUG:
-            debug("Writing game to database ({})".format(
-                self.game.game_map.name
-            ))
+        debug("Writing game to database ({})".format(
+              self.game.game_map.name
+        ))
         self.database.save_game_map(self.game.game_map)
 
     def set_difficulty(self, difficulty):
@@ -186,7 +184,7 @@ class Server:
 
     def event_new_game(self):
         message = "New game on {}, map: {}, mode: {}" \
-            .format(self.name, self.game.game_map.title,
+            .format(self.name, self.game.game_map.name,
                     self.game.game_type)
         print(colored(message, 'magenta'))
 
@@ -207,10 +205,10 @@ class Server:
         self.web_admin.chat.handle_message("server", "!new_game", USER_TYPE_SERVER)
 
     def event_end_game(self, victory=False):
-        message = "Game on {}, map: {}, mode: {}, victory: {} ended." \
-            .format(self.name, self.game.game_map.title,
-                    self.game.game_type, str(victory))
-        print(colored(message, 'magenta'))
+        debug("End game on {}, map: {}, mode: {}, victory: {}".format(
+              self.name, self.game.game_map.title, self.game.game_type, 
+              str(victory)
+        ))
 
         self.write_game_map()
         self.database.save_map_record(self.game, len(self.players), victory)

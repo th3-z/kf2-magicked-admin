@@ -82,7 +82,7 @@ class MagickedAdmin:
                     settings.setting(server_name, "username")
                     )
 
-        print("Initialisation complete!")
+        info("Initialisation complete!")
 
         while True:
             command = input()
@@ -91,7 +91,7 @@ class MagickedAdmin:
             
     def terminate(self, signal, frame):
         if self.terminating:
-            warning("Okay, skipping cleanup")
+            warning("Closing immediately!")
             os._exit(0)
             return
 

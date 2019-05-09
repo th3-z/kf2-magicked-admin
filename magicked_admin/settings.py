@@ -2,7 +2,7 @@ import configparser
 import os
 from getpass import getpass
 
-from utils import die, find_data_file
+from utils import die, find_data_file, info, fatal
 from utils.net import resolve_address
 
 CONFIG_PATH = find_data_file("./magicked_admin.conf")
@@ -30,8 +30,8 @@ class Settings:
 
     def __init__(self):
         if not os.path.exists(CONFIG_PATH):
-            print("No configuration was found, first time setup is required!")
-            print("Please input your web admin details.")
+            info("No configuration was found, first time setup is required!")
+            print("     Please input your web admin details below.")
             config = self.construct_config_interactive()
 
             with open(CONFIG_PATH, 'w') as config_file:
@@ -42,7 +42,7 @@ class Settings:
             self.config.read(CONFIG_PATH)
 
         except configparser.DuplicateOptionError as e:
-            print("Configuration error(s) found!\nSection '{}' has a duplicate setting: '{}'."
+            fatal("Configuration error(s) found!\nSection '{}' has a duplicate setting: '{}'."
                 .format(e.section, e.option)
             )
             die(CONFIG_DIE_MESG)
@@ -50,9 +50,9 @@ class Settings:
         config_errors = self.validate_config(self.config)
 
         if config_errors:
-            print("Configuration error(s) found!")
+            fatal("Configuration error(s) found!")
             for error in config_errors:
-                print(error)
+                print("\t\t" + error)
             die(CONFIG_DIE_MESG)
 
     def setting(self, section, setting):

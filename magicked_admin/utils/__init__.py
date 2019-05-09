@@ -8,9 +8,7 @@ init()
 # __debug__ is always true when building w/ cx_freeze, no known solution
 DEBUG = __debug__ and not hasattr(sys, 'frozen')
 
-VERSION_TEXT = "0.1.0"
-if DEBUG:
-    VERSION_TEXT += "#DEBUG"
+VERSION = "0.1.1"
 BANNER_URL = "https://th3-z.xyz/kf2-ma"
 
 
@@ -32,6 +30,12 @@ def find_data_file(filename):
 
 
 def banner():
+    version_text = colored("<<", 'magenta')
+    version_text += colored(VERSION, 'magenta')
+    if DEBUG:
+        version_text += colored("#DEBUG", 'red')
+    version_text += colored(">>", 'magenta')
+
     # figlet -f rectangles "example"
     lines = [
             colored("               _     _         _\n", 'blue'),
@@ -44,7 +48,7 @@ def banner():
             colored(" |__,|___|_|_|_|_|_|_|\n", 'blue')
             ]
 
-    lines[5] += colored("   <<V{}>>\n".format(VERSION_TEXT), 'magenta')
+    lines[5] += "   {}\n".format(version_text)
     lines[6] += colored("  "+BANNER_URL+"\n", 'magenta')
 
     print(str.join('', lines))
@@ -55,8 +59,12 @@ def warning(mesg):
 
 
 def debug(mesg):
-    print(colored(' [#] ' + mesg, 'red'))
+    if DEBUG:
+        print(colored(' [#] ' + mesg, 'red'))
 
 
 def info(mesg):
     print(colored(' [*] ', 'magenta') + mesg)
+
+def fatal(mesg):
+    print(colored(' [!] ', 'red') + mesg)

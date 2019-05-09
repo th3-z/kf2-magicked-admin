@@ -3,7 +3,7 @@ from os import path
 from chatbot import SCRIPT_TEMPLATE
 from chatbot.commands.command_map import CommandMap
 from chatbot.commands.event_commands import CommandGreeter
-from utils import DEBUG, find_data_file
+from utils import debug, find_data_file
 from web_admin.chat import ChatListener
 
 
@@ -31,10 +31,6 @@ class Chatbot(ChatListener):
             with open(script_path,'w+') as script_file:
                 script_file.write(SCRIPT_TEMPLATE)
 
-
-        if DEBUG:
-            print("Bot on server " + server.name + " initialised")
-
     def receive_message(self, username, message, admin=False):
         if message[0] == '!':
             # Drop the '!' because its no longer relevant
@@ -54,13 +50,14 @@ class Chatbot(ChatListener):
                 self.chat.submit_message(response)
 
     def execute_script(self, file_name):
-        if DEBUG:
-            print("Executing script: " + path.basename(file_name))
+        debug("Executing script: " + path.basename(file_name))
+
         with open(file_name) as script:
             for line in script:
+                buffered_output = ""
                 command = line[:line.find(";")].strip()
                 if command:
-                    if DEBUG:
-                        print("\t\t" + command)
+                    debug( "!" + command)
                     args = command.split()
                     self.command_handler("server", args, admin=True)
+

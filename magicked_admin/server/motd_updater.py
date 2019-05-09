@@ -39,8 +39,7 @@ class MotdUpdater(threading.Thread):
             motd = self.render_motd(self.motd)
             self.server.web_admin.set_motd(motd) 
 
-            if DEBUG:
-                print("Updated the MOTD!")
+            debug("Updated the MOTD!")
 
             time.sleep(self.time_interval)
 

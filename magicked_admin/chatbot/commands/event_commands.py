@@ -2,7 +2,7 @@ import threading
 import time
 
 from chatbot.commands.command import Command
-from utils import DEBUG
+from utils import DEBUG, debug
 from utils.text import millify
 from utils.time import seconds_to_hhmmss
 
@@ -14,27 +14,9 @@ class CommandGreeter(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
-        self.new_game_grace = 35
-        self.new_game_time = time.time()
-
     def execute(self, username, args, admin):
         if not self.authorise(username, admin):
             return self.not_auth_message
-
-        if args[0] == "new_game":
-            if DEBUG:
-                print("Greeter received new game event")
-            self.new_game_time = time.time()
-            return None
-        now = time.time()
-        elapsed_time = now - self.new_game_time
-
-        if elapsed_time  < self.new_game_grace:
-            if DEBUG:
-                print("Skipping welcome {}, new_game happened recently ({})"
-                      " [{}/{}]".format(username, self.server.name, elapsed_time,
-                                        self.new_game_grace))
-            return None
 
         if len(args) < 2:
             return "Missing argument (username)"
@@ -43,10 +25,10 @@ class CommandGreeter(Command):
 
         player = self.server.get_player_by_username(requested_username)
         if not player:
-            if DEBUG:
-                print("DEBUG: Bad player join command (not found) [{}]"
-                      .format(requested_username))
-            return "Couldn't greet player {}.".format(requested_username)
+            debug("Bad player join command (not found) [{}]"
+                  .format(requested_username)
+            )
+            return None
 
         if player.sessions > 1:
             pos_kills = self.server.database.rank_kills(requested_username)

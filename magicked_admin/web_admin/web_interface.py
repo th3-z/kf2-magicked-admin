@@ -4,7 +4,7 @@ from hashlib import sha1
 import requests
 from lxml import html
 
-from utils import DEBUG, die, warning
+from utils import die, warning, debug, info
 from web_admin.constants import *
 
 
@@ -64,7 +64,7 @@ class WebInterface(object):
 
                 if not login:
                     if "hashAlg" in response.text:
-                        print("Session killed, renewing!")
+                        info("Session killed, renewing!")
                         self.__session = self.__new_session()
                     else:
                         return response
@@ -72,22 +72,18 @@ class WebInterface(object):
                     return response
 
             except requests.exceptions.HTTPError:
-                if DEBUG:
-                    print("HTTPError getting {}. Retrying in {}s"
-                          .format(url, retry_interval))
+                debug("HTTPError getting {}. Retrying in {}s"
+                      .format(url, retry_interval))
             except requests.exceptions.ConnectionError:
-                if DEBUG:
-                    print("ConnectionError getting {}. Retrying in {}s"
-                          .format(url, retry_interval))
+                debug("ConnectionError getting {}. Retrying in {}s"
+                      .format(url, retry_interval))
             except requests.exceptions.Timeout:
-                if DEBUG:
-                    print("Timeout getting {}. Retrying in {}s"
-                          .format(url, retry_interval))
+                debug("Timeout getting {}. Retrying in {}s"
+                      .format(url, retry_interval))
             except requests.exceptions.RequestException as err:
-                if DEBUG:
-                    print("None-specific RequestException getting {}, "
-                          "{}. Retrying in {}s"
-                          .format(url, str(err), retry_interval))
+                debug("None-specific RequestException getting {}, "
+                      "{}. Retrying in {}s"
+                      .format(url, str(err), retry_interval))
 
             time.sleep(retry_interval)
 
@@ -107,39 +103,35 @@ class WebInterface(object):
 
                 if not login:
                     if "hashAlg" in response.text:
-                        print("Session killed, renewing!")
+                        info("Session killed, renewing!")
                         self.__session = self.__new_session()
                 else:
                     return response
                 return response
             except requests.exceptions.HTTPError:
-                if DEBUG:
-                    print("HTTPError posting {}. Retrying in {}s"
-                          .format(url, retry_interval))
+                debug("HTTPError posting {}. Retrying in {}s"
+                      .format(url, retry_interval))
             except requests.exceptions.ConnectionError:
-                if DEBUG:
-                    print("ConnectionError posting {}. Retrying in {}s"
-                          .format(url, retry_interval))
+                debug("ConnectionError posting {}. Retrying in {}s"
+                      .format(url, retry_interval))
             except requests.exceptions.Timeout:
-                if DEBUG:
-                    print("Timeout posting {}. Retrying in {}s"
-                          .format(url, retry_interval))
+                debug("Timeout posting {}. Retrying in {}s"
+                      .format(url, retry_interval))
             except requests.exceptions.RequestException as err:
-                if DEBUG:
-                    print("None-specific RequestException posting {}, "
-                          "{}. Retrying in {}s"
-                          .format(url, str(err), retry_interval))
+                debug("None-specific RequestException posting {}, "
+                      "{}. Retrying in {}s"
+                      .format(url, str(err), retry_interval))
 
             time.sleep(retry_interval)
 
     def __sleep(self):
         if not self.__sleeping:
-            print("Web admin not responding, sleeping")
+            info("Web admin not responding, sleeping")
             self.__sleeping = True
 
     def __wake(self):
         if self.__sleeping:
-            print("Web admin is back, resuming")
+            info("Web admin is back, resuming")
             self.__sleeping = False
 
 
@@ -171,13 +163,13 @@ class WebInterface(object):
 
         response = self.__post(session, self.__urls['login'], login_payload, login=True)
 
-        if "hashAlg" in response.text or "Exceeded login attempts" in response.text and DEBUG:
+        if "hashAlg" in response.text or "Exceeded login attempts" in response.text:
             # TODO Expand on handling here, should gracefully terminate
             die("Login failure, bad credentials or login attempts exceeded.")
 
         if "<!-- KF2-MA-INSTALLED-FLAG -->" in response.text:
             self.ma_installed = True
-            print("Detected KF2-MA install on server.")
+            info("Detected KF2-MA install on server.")
         else:
             warning("KF2-MA install not detect on server.")
 
@@ -246,7 +238,6 @@ class WebInterface(object):
         )
 
     def post_bans(self, payload):
-        print(str(payload))
         return self.__post(
             self.__session,
             self.__urls['bans'],
@@ -391,7 +382,6 @@ class WebInterface(object):
         mutator_count_pattern = "//input[@name=\"mutatorGroupCount\"]/@value"
 
         game_type = map_tree.xpath(game_type_pattern)[0]
-        print(game_type)
         map_name = map_tree.xpath(map_pattern)[0]
         url_extra = map_tree.xpath(url_extra_pattern)[0]
         mutator_count = map_tree.xpath(mutator_count_pattern)[0]
