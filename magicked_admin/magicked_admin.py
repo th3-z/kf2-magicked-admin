@@ -15,7 +15,7 @@ from chatbot.chatbot import Chatbot
 from server.motd_updater import MotdUpdater
 from server.server import Server
 from settings import Settings
-from utils import banner, die, find_data_file, warning, info
+from utils import banner, die, find_data_file, info, warning
 from utils.text import str_to_bool
 
 init()

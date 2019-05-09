@@ -2,7 +2,7 @@ import configparser
 import os
 from getpass import getpass
 
-from utils import die, find_data_file, info, fatal
+from utils import die, fatal, find_data_file, info
 from utils.net import resolve_address
 
 CONFIG_PATH = find_data_file("./magicked_admin.conf")

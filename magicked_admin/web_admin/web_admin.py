@@ -331,4 +331,3 @@ class WebAdmin(object):
                 'network_id': None,
                 'player_key': None
             }
-

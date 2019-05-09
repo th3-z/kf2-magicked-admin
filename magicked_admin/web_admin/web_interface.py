@@ -4,7 +4,7 @@ from hashlib import sha1
 import requests
 from lxml import html
 
-from utils import die, warning, debug, info
+from utils import debug, die, info, warning
 from web_admin.constants import *
 
 

@@ -60,4 +60,3 @@ class Chatbot(ChatListener):
                     debug( "!" + command)
                     args = command.split()
                     self.command_handler("server", args, admin=True)
-

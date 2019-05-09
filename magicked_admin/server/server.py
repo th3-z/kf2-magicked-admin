@@ -5,7 +5,7 @@ from database.database import ServerDatabase
 from server.game import Game, GameMap
 from server.game_tracker import GameTracker
 from server.player import Player
-from utils import DEBUG, debug, warning, info
+from utils import DEBUG, debug, info, warning
 from web_admin.constants import *
 
 
@@ -248,4 +248,3 @@ class Server:
     def event_trader_close(self):
         self.trader_time = False
         self.web_admin.chat.handle_message("server", "!t_close", USER_TYPE_SERVER)
-

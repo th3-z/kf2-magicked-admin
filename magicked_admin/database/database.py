@@ -306,4 +306,3 @@ class ServerDatabase:
                           int(victory)))
         lock.release()
         self.conn.commit()
-

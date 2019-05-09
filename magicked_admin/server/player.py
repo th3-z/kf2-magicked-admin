@@ -54,4 +54,3 @@ class Player:
                "\nCountry: " + str(self.country) + " (" + self.ip + ")"\
                "\nOP: " + str(self.op) + \
                "\nSteam ID: " + str(self.steam_id)
-

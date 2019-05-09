@@ -124,4 +124,3 @@ class CommandTopDosh(Command):
             "\t£"+str(millify(doshers[3][1])) + "\t-\t" + trim_string(doshers[3][0],20) + "\n" + \
             "\t£"+str(millify(doshers[4][1])) + "\t-\t" + trim_string(doshers[4][0],20)
         return message.encode("iso-8859-1","ignore")
-

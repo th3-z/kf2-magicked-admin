@@ -18,4 +18,3 @@ def get_country(ip):
         return country, country_code
     else:
         return unknown
-
