@@ -93,6 +93,13 @@ class WebAdmin(object):
             self.set_general_setting("settings_bDisableMapVote", "1")
             return True
 
+    def get_maps(self):
+        response = self.__web_interface.get_maplist()
+        maplist_tree = html.fromstring(response.content)
+
+        available_path = "//textarea[@id='allmaps']/text()"
+        return maplist_tree.xpath(available_path)[0].split('\n')
+
     def set_server_name(self, name):
         self.set_general_setting("settings_ServerName", name)
 

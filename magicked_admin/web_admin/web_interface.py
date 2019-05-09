@@ -38,7 +38,7 @@ class WebInterface(object):
                 .format(address),
             'game_type': '{}/ServerAdmin/settings/gametypes'
                 .format(address),
-            'map_cycle': '{}/ServerAdmin/settings/maplist'
+            'maplist': '{}/ServerAdmin/settings/maplist'
                 .format(address),
             'welcome': '{}/ServerAdmin/settings/welcome'
                 .format(address),
@@ -277,16 +277,16 @@ class WebInterface(object):
             payload
         )
 
-    def get_map_cycle(self):
+    def get_maplist(self):
         return self.__get(
             self.__session,
-            self.__urls['map_cycle']
+            self.__urls['maplist']
         )
 
-    def post_map_cycle(self, payload):
+    def post_maplist(self, payload):
         return self.__post(
             self.__session,
-            self.__urls['map_cycle'],
+            self.__urls['maplist'],
             payload
         )
 

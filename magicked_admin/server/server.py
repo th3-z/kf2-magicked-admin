@@ -106,9 +106,23 @@ class Server:
             self.web_admin.set_game_password(password)
         else:
             self.web_admin.set_game_password(self.game_password)
+    
+    def get_maps(self, active_only=False):
+        return self.web_admin.get_maps()
 
     def change_map(self, new_map):
-        self.web_admin.set_map(new_map)
+        matches = 0
+        matched_title = None
+
+        for map_title in self.get_maps():
+            if new_map.upper() in map_title.upper():
+                matches += 1
+                matched_title = map_title
+
+        if matched_title and matches == 1: 
+            self.web_admin.set_map(matched_title)
+        else:
+            return None
 
     def kick_player(self, username):
         player = self.get_player_by_username(username)
@@ -234,3 +248,4 @@ class Server:
     def event_trader_close(self):
         self.trader_time = False
         self.web_admin.chat.handle_message("server", "!t_close", USER_TYPE_SERVER)
+
