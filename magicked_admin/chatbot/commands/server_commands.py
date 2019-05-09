@@ -56,6 +56,48 @@ class CommandEnforceLevels(Command):
         self.server.enforce_levels()
 
 
+class CommandGameMap(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(username, admin):
+            return self.not_auth_message
+
+        if args[0] == "maps":
+            message =  ", ".join(self.server.get_maps())
+            return message
+
+        elif len(args) == 1:
+            map_title = self.server.game.game_map.title
+
+        elif len(args) == 2:
+            map_title = self.server.find_map(args[1])
+
+        self.server.write_game_map()
+
+        game_map = game.GameMap(map_title)
+        self.server.database.load_game_map(game_map)
+
+        total_plays = game_map.plays_survival \
+                      + game_map.plays_weekly \
+                      + game_map.plays_endless \
+                      + game_map.plays_survival_vs \
+                      + game_map.plays_other
+        
+        message = "Stats for {} ({}):\n".format(game_map.name, game_map.title)
+        message += "Total plays: {} \n".format(total_plays)
+        message += "Record wave: {} \n".format(game_map.highest_wave)
+        message += "Survival wins: {} \n".format(game_map.wins_survival)
+        return message
+
+
+
+
+
+
+
+
 class CommandEnforceDosh(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)

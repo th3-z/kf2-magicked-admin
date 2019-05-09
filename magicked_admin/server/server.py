@@ -110,16 +110,24 @@ class Server:
     def get_maps(self, active_only=False):
         return self.web_admin.get_maps()
 
-    def change_map(self, new_map):
+    def find_map(self, search_title):
         matches = 0
         matched_title = None
 
         for map_title in self.get_maps():
-            if new_map.upper() in map_title.upper():
+            if search_title.upper() in map_title.upper():
                 matches += 1
                 matched_title = map_title
 
         if matched_title and matches == 1: 
+            return matched_title
+        else:
+            return None
+
+    def change_map(self, new_map):
+        matched_title = self.find_map(new_map)
+
+        if matched_title: 
             self.web_admin.set_map(matched_title)
         else:
             return None
@@ -183,7 +191,7 @@ class Server:
         self.players.remove(player)
         self.database.save_player(player)
 
-        message = "Player {} quit {}" \
+        message = "Player {} left {}" \
             .format(player.username, self.name)
         print(colored(message, 'cyan'))
         self.web_admin.chat.handle_message("server",
@@ -198,7 +206,7 @@ class Server:
     def event_new_game(self):
         message = "New game on {}, map: {}, mode: {}" \
             .format(self.name, self.game.game_map.name,
-                    self.game.game_type)
+                    GAME_TYPE_NAME[self.game.game_type])
         print(colored(message, 'magenta'))
 
         self.database.load_game_map(self.game.game_map)

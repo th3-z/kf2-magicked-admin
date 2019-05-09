@@ -232,7 +232,7 @@ class ServerDatabase:
         """
 
         lock.acquire(True)
-        self.cur.execute(init_sql, (title,))
+        self.cur.execute(init_sql, (title.upper(),))
         lock.release()
         self.conn.commit()
 
@@ -248,13 +248,13 @@ class ServerDatabase:
         """
 
         lock.acquire(True)
-        self.cur.execute(map_sql, (game_map.title,))
+        self.cur.execute(map_sql, (game_map.title.upper(),))
         map_result = self.cur.fetchall()
         lock.release()
 
         if len(map_result) != 1 and not r_flag:
             # Init map row and retry, never retry more than once
-            self.__init_game_map(game_map.title)
+            self.__init_game_map(game_map.title.upper())
             self.load_game_map(game_map, True)
             return
 
@@ -265,6 +265,7 @@ class ServerDatabase:
         game_map.plays_endless = map_result['plays_endless']
         game_map.plays_other = map_result['plays_other']
         game_map.highest_wave = map_result['highest_wave']
+        game_map.name = map_result['name']
 
     def save_game_map(self, game_map):
         save_query = """
@@ -285,7 +286,7 @@ class ServerDatabase:
                          (game_map.name, game_map.plays_survival,
                           game_map.plays_survival_vs, game_map.plays_weekly,
                           game_map.plays_endless, game_map.plays_other,
-                          game_map.highest_wave, game_map.title))
+                          game_map.highest_wave, game_map.title.upper()))
         lock.release()
         self.conn.commit()
 
@@ -301,7 +302,7 @@ class ServerDatabase:
 
         lock.acquire(True)
         self.cur.execute(save_query,
-                         (game.game_map.title, game.time, game.length,
+                         (game.game_map.title.upper(), game.time, game.length,
                           game.difficulty, players, game.wave,
                           int(victory)))
         lock.release()

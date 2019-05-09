@@ -54,6 +54,8 @@ class CommandMap:
             'server_dosh': CommandServerDosh(self.server, admin_only=False),
             'op': CommandOp(self.server, admin_only=True),
             'deop': CommandOp(self.server, admin_only=True),
+            'map': CommandGameMap(self.server, admin_only=False),
+            'maps': CommandGameMap(self.server, admin_only=False),
         }
 
         return command_map

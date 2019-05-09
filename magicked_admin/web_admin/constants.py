@@ -19,6 +19,13 @@ GAME_TYPE_SURVIVAL      = "kfgamecontent.KFGameInfo_Survival"
 GAME_TYPE_WEEKLY        = "kfgamecontent.KFGameInfo_Weekly"
 GAME_TYPE_SURVIVAL_VS   = "kfgamecontent.KFGameInfo_VersusSurvival"
 GAME_TYPE_ENDLESS       = "kfgamecontent.KFGameInfo_Endless"
+GAME_TYPE_NAME = {
+    GAME_TYPE_UNKNOWN       : "Unknown",
+    GAME_TYPE_SURVIVAL      : "Survival",
+    GAME_TYPE_WEEKLY        : "Weekly",
+    GAME_TYPE_SURVIVAL_VS   : "Versus Survival",
+    GAME_TYPE_ENDLESS       : "Endless"
+}
 
 GAME_MAP_TITLE_UNKNOWN = "kf-default"
 

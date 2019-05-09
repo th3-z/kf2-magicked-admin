@@ -32,7 +32,7 @@ class Game:
 
 
 class GameMap:
-    def __init__(self, name="Unnamed", title=GAME_MAP_TITLE_UNKNOWN):
+    def __init__(self, title=GAME_MAP_TITLE_UNKNOWN, name="Unknown"):
         self.name = name
         self.title = title
 
@@ -42,6 +42,7 @@ class GameMap:
         self.plays_survival_vs = 0
         self.plays_other = 0
         self.highest_wave = 0
+        self.wins_survival = 0
         self.votes = 0
 
     def reset_stats(self):
@@ -51,6 +52,7 @@ class GameMap:
         self.plays_survival_vs = 0
         self.plays_other = 0
         self.highest_wave = 0
+        self.wins_survival = 0
         self.votes = 0
 
     def __str__(self):

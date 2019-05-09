@@ -13,7 +13,7 @@ CREATE TABLE players(
 
 CREATE TABLE maps(
     title VARCHAR(64) PRIMARY KEY,
-    name VARCHAR(64) DEFAULT "Unnamed Map",
+    name VARCHAR(64) DEFAULT "Unknown",
     plays_survival INTEGER DEFAULT 0,
     plays_weekly INTEGER DEFAULT 0,
     plays_endless INTEGER DEFAULT 0,
