@@ -206,17 +206,15 @@ class Server:
 
         self.web_admin.chat.handle_message("server", "!new_game", USER_TYPE_SERVER)
 
-    def event_end_game(self, win=False):
-        message = "Game on {}, map: {}, mode: {}, win: {} ended." \
+    def event_end_game(self, victory=False):
+        message = "Game on {}, map: {}, mode: {}, victory: {} ended." \
             .format(self.name, self.game.game_map.title,
-                    self.game.game_type, str(win))
+                    self.game.game_type, str(victory))
         print(colored(message, 'magenta'))
 
         self.write_game_map()
+        self.database.save_map_record(self.game, len(self.players), victory)
 
-        if win and self.game.game_type == GAME_TYPE_SURVIVAL:
-            self.database.save_map_record(self.game, len(self.players))
-            print("Recorded game win record: " + str(self.game.time))
 
     def event_wave_start(self):
         self.web_admin.chat.handle_message("server",

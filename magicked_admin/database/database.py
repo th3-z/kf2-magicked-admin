@@ -29,7 +29,7 @@ class ServerDatabase:
         conn = sqlite3.connect(self.sqlite_db_file)
         cur = conn.cursor()
 
-        with open(find_data_file('database/server_schema.sql')) as schema_file:
+        with open(find_data_file('database/schema.sql')) as schema_file:
             lock.acquire(True)
             cur.executescript(schema_file.read())
             lock.release()
@@ -289,20 +289,21 @@ class ServerDatabase:
         lock.release()
         self.conn.commit()
 
-    def save_map_record(self, game, players):
+    def save_map_record(self, game, players, victory):
         save_query = """
             INSERT INTO map_records (
                 map_title, game_time, game_length, game_difficulty, 
-                player_count
+                player_count, game_wave, game_victory
             ) VALUES (
-                ?, ?, ?, ?, ?
+                ?, ?, ?, ?, ?, ?, ?
             )
         """
 
         lock.acquire(True)
         self.cur.execute(save_query,
                          (game.game_map.title, game.time, game.length,
-                          game.difficulty, players))
+                          game.difficulty, players, game.wave,
+                          int(victory)))
         lock.release()
         self.conn.commit()
 
