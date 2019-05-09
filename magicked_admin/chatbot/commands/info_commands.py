@@ -6,6 +6,86 @@ from utils.text import millify
 from utils.time import seconds_to_hhmmss
 
 
+lps_test_frames = [
+    "T",
+    "H",
+    "E",
+    " ",
+    "Q",
+    "U",
+    "I",
+    "C",
+    "K",
+    " ",
+    "B",
+    "R",
+    "O",
+    "W",
+    "N",
+    " ",
+    "F",
+    "O",
+    "X",
+    " ",
+    "J",
+    "U",
+    "M",
+    "P",
+    "S",
+    " ",
+    "O",
+    "V",
+    "E",
+    "R",
+    " ",
+    "T",
+    "H",
+    "E",
+    " ",
+    "L",
+    "A",
+    "Z",
+    "Y",
+    " ",
+    "D",
+    "O",
+    "G",
+    ".",
+    " ",
+    " ",
+    " "
+]
+
+fps = 10
+scroll_height = 7
+
+
+class CommandLpsTest(Command):
+    def __init__(self, server, chatbot, admin_only = True):
+        self.chatbot = chatbot
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(username, admin):
+            return self.not_auth_message
+
+        for i in range(0, 50):
+            line_start = i % len(lps_test_frames)
+            line_end = (i + scroll_height) % len(lps_test_frames)
+
+            message = "\n"
+            if line_start > line_end:
+                message += "\n".join(lps_test_frames[:line_end])
+                message += "\n"
+                message += "\n".join(lps_test_frames[line_start:])
+            else:
+                message += "\n".join(lps_test_frames[line_start:line_end])
+
+            self.chatbot.chat.submit_message(message)
+
+            time.sleep(1/fps)
+
+
 class CommandPlayers(Command):
     def __init__(self, server, admin_only = True):
         Command.__init__(self, server, admin_only)

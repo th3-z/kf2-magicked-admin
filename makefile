@@ -3,6 +3,8 @@ build:
 
 clean:
 	-@rm -rf bin
+	-@rm -rf magicked_admin/*.sqlite
+	-@rm -rf magicked_admin/magicked_admin.conf
 	-@find . -name '*.pyc' -exec rm -f {} +
 	-@find . -name '*.pyo' -exec rm -f {} +
 
