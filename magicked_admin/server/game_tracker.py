@@ -35,8 +35,6 @@ class GameTracker(threading.Thread):
         self.__update_game(game_now)
 
     def __update_game(self, game_now):
-        survival_boss_defeat = self.__survival_boss_defeat()
-
         new_game = False
 
         # W/o installation wave cannot be determined on endless/weekly
@@ -51,11 +49,13 @@ class GameTracker(threading.Thread):
         if new_game and self.server.game.game_map.title \
                 != GAME_MAP_TITLE_UNKNOWN:
             if game_now.game_type == GAME_TYPE_SURVIVAL:
+                survival_boss_defeat = self.__survival_boss_defeat()
                 self.server.event_end_game(not survival_boss_defeat)
             else:
                 self.server.event_end_game(False)
 
         if game_now.trader_open and not self.server.trader_time:
+            self.server.event_wave_end()
             self.server.event_trader_open()
         if not game_now.trader_open and self.server.trader_time:
             self.server.event_trader_close()
@@ -72,7 +72,7 @@ class GameTracker(threading.Thread):
         if new_game and game_now.map_title != GAME_MAP_TITLE_UNKNOWN:
             self.server.event_new_game()
 
-        # TODO something better
+        # TODO something better, abstract tracker per mode, test INSTALLED
         if self.server.game.wave is not None:
             if not self.server.trader_time \
                     and 0 < self.server.game.wave <= self.server.game.length:
@@ -93,7 +93,7 @@ class GameTracker(threading.Thread):
             if player.health and player.kills and player.ping:
                 game_over = False
 
-        return not game_over
+        return game_over
 
     def __update_players(self, players_now):
         # Quitters

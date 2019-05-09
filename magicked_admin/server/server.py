@@ -5,7 +5,7 @@ from database.database import ServerDatabase
 from server.game import Game, GameMap
 from server.game_tracker import GameTracker
 from server.player import Player
-from utils import DEBUG, debug
+from utils import DEBUG, debug, warning
 from web_admin.constants import *
 
 
@@ -128,7 +128,6 @@ class Server:
             return
 
         for player in self.players:
-            print(player)
             if player.perk_level < self.level_threshold:
                 self.web_admin.kick_player(player.player_key)
 
@@ -202,11 +201,8 @@ class Server:
         elif self.game.game_type == GAME_TYPE_WEEKLY:
             self.game.game_map.plays_weekly += 1
         else:
-            if DEBUG:
-                print("Unknown game_type {}".format(self.game.game_type))
+            warning("Unknown game_type {}".format(self.game.game_type))
             self.game.game_map.plays_other += 1
-
-        print(str(self.game.game_map))
 
         self.web_admin.chat.handle_message("server", "!new_game", USER_TYPE_SERVER)
 
