@@ -64,7 +64,7 @@ def debug(mesg):
 
 
 def info(mesg):
-    print(colored(' [*] ', 'magenta') + mesg)
+    print(colored(' [*] ', 'green') + mesg)
 
 def fatal(mesg):
     print(colored(' [!] ', 'red') + mesg)

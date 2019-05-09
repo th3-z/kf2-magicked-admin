@@ -13,10 +13,9 @@ class Server:
     def __init__(self, name, address, username, password):
         self.name = name
 
-        info("Connecting to: {} ({})...".format(name, address))
+        info("Connecting to {} ({})...".format(name, address))
         self.web_admin = api.WebAdmin(address, username, password)
-        message = "Connected to: {} ({})".format(name, address)
-        info(colored(message, 'green'))
+        info("Connected to {} ({})".format(name,address))
 
         self.database = ServerDatabase(name)
 

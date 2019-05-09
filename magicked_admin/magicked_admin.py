@@ -82,7 +82,7 @@ class MagickedAdmin:
                     settings.setting(server_name, "username")
                     )
 
-        info("Initialisation complete!")
+        info("Initialisation complete!\n")
 
         while True:
             command = input()
