@@ -43,7 +43,7 @@ class MagickedAdmin:
     def __init__(self):
         signal.signal(signal.SIGINT, self.terminate)
         self.servers = []
-        self.terminating = False
+        self.sigint_count = 0
 
     def run(self):
         for server_name in settings.sections():
@@ -90,14 +90,18 @@ class MagickedAdmin:
                 server.web_admin.chat.submit_message(command)
             
     def terminate(self, signal, frame):
-        if self.terminating:
+        if self.sigint_count > 2:
+            print() # \n
             warning("Closing immediately!")
             os._exit(0)
             return
-
-        self.terminating = True
-
-        info("Program interrupted, terminating...")
+        
+        self.sigint_count += 1
+        if self.sigint_count > 1:
+            return
+        
+        print() # \n
+        info("Program interrupted, saving data...")
 
         for server in self.servers:
             server.close()
