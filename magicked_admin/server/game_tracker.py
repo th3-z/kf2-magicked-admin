@@ -35,15 +35,7 @@ class GameTracker(threading.Thread):
         self.__update_game(game_now)
 
     def __update_game(self, game_now):
-        # Game type specific code
-        if game_now.game_type == GAME_TYPE_SURVIVAL:
-            self.__update_game_survival(game_now)
-        elif game_now.game_type == GAME_TYPE_ENDLESS:
-            self.__update_game_survival_vs(game_now)
-        elif game_now.game_type == GAME_TYPE_WEEKLY:
-            self.__update_game_survival_vs(game_now)
-        elif game_now.game_type == GAME_TYPE_SURVIVAL_VS:
-            self.__update_game_survival_vs(game_now)
+        survival_boss_defeat = self.__survival_boss_defeat()
 
         new_game = False
 
@@ -58,7 +50,10 @@ class GameTracker(threading.Thread):
         # Trigger end-game before loading next map's info
         if new_game and self.server.game.game_map.title \
                 != GAME_MAP_TITLE_UNKNOWN:
-            self.server.event_end_game(False)
+            if game_now.game_type == GAME_TYPE_SURVIVAL:
+                self.server.event_end_game(not survival_boss_defeat)
+            else:
+                self.server.event_end_game(False)
 
         if game_now.trader_open and not self.server.trader_time:
             self.server.event_trader_open()
@@ -91,26 +86,14 @@ class GameTracker(threading.Thread):
                 self.server.event_wave_start()
                 self.previous_wave = self.server.game.wave
 
-    def __update_game_survival(self, game_now):
-        # Boss wave
-        if game_now.wave > self.server.game.length:
-            # Attempt to identify game over on boss wave
-            game_over = True
-            for player in self.server.players:
-                if player.health and player.kills and player.ping:
-                    game_over = False
+    def __survival_boss_defeat(self):
+        game_over = True
 
-            if game_over:
-                self.server.event_end_game(False)
+        for player in self.server.players:
+            if player.health and player.kills and player.ping:
+                game_over = False
 
-    def __update_game_endless(self, game_now):
-        pass
-
-    def __update_game_weekly(self, game_now):
-        pass
-
-    def __update_game_survival_vs(self, game_now):
-        pass
+        return not game_over
 
     def __update_players(self, players_now):
         # Quitters

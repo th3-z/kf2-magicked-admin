@@ -206,6 +206,8 @@ class Server:
                 print("Unknown game_type {}".format(self.game.game_type))
             self.game.game_map.plays_other += 1
 
+        print(str(self.game.game_map))
+
         self.web_admin.chat.handle_message("server", "!new_game", USER_TYPE_SERVER)
 
     def event_end_game(self, win=False):
