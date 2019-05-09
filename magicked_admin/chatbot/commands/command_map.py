@@ -57,6 +57,7 @@ class CommandMap:
             'map': CommandGameMap(self.server, admin_only=False),
             'maps': CommandGameMap(self.server, admin_only=False),
             'lps': CommandLpsTest(self.server, self.chatbot, admin_only=False),
+            'player_count': CommandPlayerCount(self.server, admin_only=False),
         }
 
         return command_map
