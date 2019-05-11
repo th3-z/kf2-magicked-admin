@@ -68,6 +68,7 @@ class GameTracker(threading.Thread):
         self.server.game.zeds_dead = game_now.zeds_dead
         self.server.game.zeds_total = game_now.zeds_total
         self.server.game.game_type = game_now.game_type
+        self.server.game.players_max = game_now.players_max
 
         if new_game and game_now.map_title != GAME_MAP_TITLE_UNKNOWN:
             self.server.event_new_game()

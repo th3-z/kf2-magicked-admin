@@ -36,6 +36,9 @@ class CommandKills(Command):
         if not self.authorise(username, admin):
             return self.not_auth_message
 
+        if args[1]:
+            username = args[1]
+
         player = self.server.get_player_by_username(username)
         if player:
             pos_kills = self.server.database.rank_kills(username)
@@ -46,7 +49,7 @@ class CommandKills(Command):
                 str(player.kills)
             )
         else:
-            return "Player not in game."
+            return "Player {} not in game.".format(username)
 
 
 class CommandDosh(Command):

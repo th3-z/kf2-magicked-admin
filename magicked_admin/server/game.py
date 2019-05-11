@@ -7,6 +7,7 @@ class Game:
         self.game_map = game_map
         self.game_type = game_type
         self.difficulty = api.DIFF_UNKNOWN
+        self.players_max = 0
         self.wave = 0
         self.length = api.LEN_UNKNOWN
         self.time = 0

@@ -45,27 +45,27 @@ class ServerDatabase:
         query = """
             SELECT 
                 player1.*, 
-                COALESCE(
+                COALESCE((
                     SELECT 
                         count(*)
                     FROM
                         players as player2
                     WHERE
-                        players.{} >= player1.{}
+                        player2.{} >= player1.{}
                 ), 0) AS col_rank
             FROM
                 players AS player1
             WHERE 
                 player1.steam_id = ?
-        """
+        """.format(col, col)
 
-        query.format(col, col)
+        print(query)
 
         lock.acquire(True)
         self.cur.execute(query, (steam_id,))
         all_rows = self.cur.fetchall()
         lock.release()
-        return all_rows[0][-1]
+        return all_rows["col_rank"]
 
     def rank_dosh(self, steam_id):
         return self.__rank_by_col(steam_id, "dosh")

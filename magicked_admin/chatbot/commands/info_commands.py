@@ -99,7 +99,9 @@ class CommandPlayerCount(Command):
         if not self.authorise(username, admin):
             return self.not_auth_message
 
-        return "{} Players are online".format(len(self.server.players))
+        return "{}/{} Players are online".format(
+            len(self.server.players), self.server.game.players_max
+        )
 
 
 class CommandPlayers(Command):

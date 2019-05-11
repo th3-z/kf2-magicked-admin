@@ -273,7 +273,8 @@ class WebAdmin(object):
             map_title, map_name = None, None
 
         return ConstGame(trader_open, zeds_total, zeds_dead, map_title,
-                         map_name, wave, length, difficulty, game_type)
+                         map_name, wave, length, difficulty, game_type,
+                         players_max)
 
     def get_player_identity(self, username):
         response = self.__web_interface.get_players()

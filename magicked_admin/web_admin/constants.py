@@ -36,7 +36,7 @@ USER_TYPE_SERVER    = 4
 
 ConstGame = namedtuple('Game', ['trader_open', 'zeds_total', 'zeds_dead',
                                 'map_title', 'map_name', 'wave', 'length',
-                                'difficulty', 'game_type'])
+                                'difficulty', 'game_type', 'players_max'])
 
 
 ConstPlayer = namedtuple('Player', ['username', 'perk', 'kills', 'health',
