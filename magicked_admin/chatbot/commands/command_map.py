@@ -44,6 +44,7 @@ class CommandMap:
             'help': CommandHelp(self.server, admin_only=False),
             'kills': CommandKills(self.server, admin_only=False),
             'kick': CommandKick(self.server, admin_only=True),
+            'ban': CommandBan(self.server, admin_only=True),
             'dosh': CommandDosh(self.server, admin_only=False),
             'top_kills': CommandTopKills(self.server, admin_only=False),
             'top_dosh': CommandTopDosh(self.server, admin_only=False),

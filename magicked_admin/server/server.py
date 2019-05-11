@@ -142,6 +142,16 @@ class Server:
         self.web_admin.kick_player(player.player_key)
         return player.username
 
+    def ban_player(self, username):
+        player = self.get_player_by_username(username)
+        if not player:
+            player = self.get_player_by_sid(username)
+        if not player:
+            return False
+
+        self.web_admin.ban_player(player.player_key)
+        return player.username
+
     def enforce_levels(self):
         if not self.level_threshold:
             return
@@ -233,7 +243,6 @@ class Server:
 
         self.write_game_map()
         self.database.save_map_record(self.game, len(self.players), victory)
-
 
     def event_wave_start(self):
         self.web_admin.chat.handle_message("server",

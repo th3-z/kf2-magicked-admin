@@ -122,6 +122,25 @@ class CommandKick(Command):
             return "Player not found."
 
 
+class CommandBan(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, admin):
+        if not self.authorise(username, admin):
+            return self.not_auth_message
+
+        if len(args) < 2:
+            return "Missing argument, username or Steam ID."
+
+        kicked = self.server.ban_player(args[1])
+
+        if kicked:
+            return "Player, {}, was banned.".format(kicked)
+        else:
+            return "Player not found."
+
+
 class CommandRun(Command):
     def __init__(self, server, chatbot, admin_only=True):
         Command.__init__(self, server, admin_only)

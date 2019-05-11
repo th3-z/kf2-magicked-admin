@@ -46,6 +46,14 @@ class WebAdmin(object):
         }
         self.__web_interface.post_players_action(payload)
 
+    def ban_player(self, player_key):
+        payload = {
+            "ajax": "1",
+            "action": "ban",
+            "playerkey": player_key
+        }
+        self.__web_interface.post_players_action(payload)
+
     def set_game_password(self, password=""):
         payload = {
             'action': 'gamepassword',
