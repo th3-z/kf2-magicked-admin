@@ -5,6 +5,7 @@ from chatbot.commands.command import Command
 from utils import DEBUG, debug
 from utils.text import millify
 from utils.time import seconds_to_hhmmss
+from web_admin.constants import *
 
 ALL_WAVES = 999
 
@@ -14,8 +15,8 @@ class CommandGreeter(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
-    def execute(self, username, args, admin):
-        if not self.authorise(username, admin):
+    def execute(self, username, args, user_flags):
+        if not self.authorise(username, user_flags):
             return self.not_auth_message
 
         if len(args) < 2:
@@ -60,7 +61,7 @@ class CommandOnWave:
 
     def new_wave(self, wave):
         if wave == self.wave or self.wave == ALL_WAVES:
-            self.chatbot.command_handler("server", self.args, admin=True)
+            self.chatbot.command_handler("server", self.args, USER_TYPE_INTERNAL)
 
 
 class CommandOnTime(threading.Thread):
@@ -79,19 +80,20 @@ class CommandOnTime(threading.Thread):
     def run(self):
         if not self.repeat:
             time.sleep(self.time_interval)
-            self.chatbot.command_handler("server", self.args, admin=True)
+            self.chatbot.command_handler("server", self.args, USER_TYPE_INTERNAL)
             return
         while not self.exit_flag.wait(self.time_interval):
-            self.chatbot.command_handler("server", self.args, admin=True)
+            self.chatbot.command_handler("server", self.args, USER_TYPE_INTERNAL)
+
 
 class CommandOnTimeManager(Command):
-    def __init__(self, server, chatbot, admin_only = True):
+    def __init__(self, server, chatbot, admin_only=True):
         self.command_threads = []
         self.chatbot = chatbot
         Command.__init__(self, server, admin_only)
 
-    def execute(self, username, args, admin):
-        if not self.authorise(username, admin):
+    def execute(self, username, args, user_flags):
+        if not self.authorise(username, user_flags):
             return self.not_auth_message
         if args[0] == "stop_tc":
             return self.terminate_all()
@@ -124,13 +126,13 @@ class CommandOnTimeManager(Command):
 
 
 class CommandOnWaveManager(Command):
-    def __init__(self, server, chatbot, admin_only = True):
+    def __init__(self, server, chatbot, admin_only=True):
         self.commands = []
         self.chatbot = chatbot
         Command.__init__(self, server, admin_only)
 
-    def execute(self, username, args, admin):
-        if not self.authorise(username, admin):
+    def execute(self, username, args, user_flags):
+        if not self.authorise(username, user_flags):
             return self.not_auth_message
 
         if args[0] == "stop_wc":
@@ -166,14 +168,14 @@ class CommandOnWaveManager(Command):
 
 
 class CommandOnTraderManager(Command):
-    def __init__(self, server, chatbot, admin_only = True):
+    def __init__(self, server, chatbot, admin_only=True):
         self.commands = []
         self.chatbot = chatbot
 
         Command.__init__(self, server, admin_only)
 
-    def execute(self, username, args, admin):
-        if not self.authorise(username, admin):
+    def execute(self, username, args, user_flags):
+        if not self.authorise(username, user_flags):
             return self.not_auth_message
 
         if args[0] == "start_trc":
@@ -184,7 +186,7 @@ class CommandOnTraderManager(Command):
             return self.terminate_all()
         elif args[0] == "t_open":
             for command in self.commands:
-                self.chatbot.command_handler("server", command, admin=True)
+                self.chatbot.command_handler("server", command, USER_TYPE_INTERNAL)
 
     def terminate_all(self):
         if len(self.commands) > 0:

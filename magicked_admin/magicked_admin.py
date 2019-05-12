@@ -91,7 +91,7 @@ class MagickedAdmin:
             
     def terminate(self, signal, frame):
         if self.sigint_count > 2:
-            print() # \n
+            print()  # \n
             warning("Closing immediately!")
             os._exit(0)
             return
@@ -100,7 +100,7 @@ class MagickedAdmin:
         if self.sigint_count > 1:
             return
         
-        print() # \n
+        print()  # \n
         info("Program interrupted, saving data...")
 
         for server in self.servers:

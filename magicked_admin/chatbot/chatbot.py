@@ -5,6 +5,7 @@ from chatbot.commands.command_map import CommandMap
 from chatbot.commands.event_commands import CommandGreeter
 from utils import debug, find_data_file
 from web_admin.chat import ChatListener
+from web_admin.constants import *
 
 
 class Chatbot(ChatListener):
@@ -28,16 +29,16 @@ class Chatbot(ChatListener):
         if path.exists(script_path):
             self.execute_script(script_path)
         else:
-            with open(script_path,'w+') as script_file:
+            with open(script_path, 'w+') as script_file:
                 script_file.write(SCRIPT_TEMPLATE)
 
-    def receive_message(self, username, message, admin=False):
+    def receive_message(self, username, message, user_flags):
         if message[0] == '!':
             # Drop the '!' because its no longer relevant
             args = message[1:].split(' ')
-            self.command_handler(username, args, admin)
+            self.command_handler(username, args, user_flags)
 
-    def command_handler(self, username, args, admin=False):
+    def command_handler(self, username, args, user_flags):
         if args is None or len(args) == 0:
             return
 
@@ -45,7 +46,7 @@ class Chatbot(ChatListener):
             command = self.commands.command_map[args[0].lower()]
             if not self.greeter_enabled and isinstance(command, CommandGreeter):
                 return
-            response = command.execute(username, args, admin)
+            response = command.execute(username, args, user_flags)
             if not self.silent:
                 self.chat.submit_message(response)
 
@@ -54,9 +55,8 @@ class Chatbot(ChatListener):
 
         with open(file_name) as script:
             for line in script:
-                buffered_output = ""
                 command = line[:line.find(";")].strip()
                 if command:
-                    debug( "!" + command)
+                    debug("!" + command)
                     args = command.split()
-                    self.command_handler("server", args, admin=True)
+                    self.command_handler("server", args, USER_TYPE_INTERNAL)

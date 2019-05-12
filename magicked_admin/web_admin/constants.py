@@ -32,7 +32,7 @@ GAME_MAP_TITLE_UNKNOWN = "kf-default"
 USER_TYPE_NONE      = 0  # Enumerated ^2s for bitwise ops
 USER_TYPE_ADMIN     = 1
 USER_TYPE_SPECTATOR = 2
-USER_TYPE_SERVER    = 4
+USER_TYPE_INTERNAL  = 4
 
 ConstGame = namedtuple('Game', ['trader_open', 'zeds_total', 'zeds_dead',
                                 'map_title', 'map_name', 'wave', 'length',

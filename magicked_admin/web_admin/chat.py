@@ -13,7 +13,7 @@ init()
 
 class ChatListener(object):
 
-    def receive_message(self, username, message, admin):
+    def receive_message(self, username, message, user_flags):
         raise NotImplementedError("Listener.receive_message() not implemented")
 
 
@@ -68,7 +68,7 @@ class Chat(threading.Thread):
     def handle_message(self, username, message, user_flags):
         command = True if message[0] == '!' else False
 
-        if DEBUG or ~user_flags & USER_TYPE_SERVER:
+        if DEBUG or ~user_flags & USER_TYPE_INTERNAL:
             print_line = username + "@" + self.__web_interface.server_name \
                          + ": " + message
             if command:

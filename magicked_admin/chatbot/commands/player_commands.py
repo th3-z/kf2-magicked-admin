@@ -6,8 +6,8 @@ class CommandServerDosh(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
-    def execute(self, username, args, admin):
-        if not self.authorise(username, admin):
+    def execute(self, username, args, user_flags):
+        if not self.authorise(username, user_flags):
             return self.not_auth_message
 
         self.server.write_all_players()
@@ -19,8 +19,8 @@ class CommandServerKills(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
-    def execute(self, username, args, admin):
-        if not self.authorise(username, admin):
+    def execute(self, username, args, user_flags):
+        if not self.authorise(username, user_flags):
             return self.not_auth_message
 
         self.server.write_all_players()
@@ -29,11 +29,11 @@ class CommandServerKills(Command):
 
 
 class CommandKills(Command):
-    def __init__(self, server, admin_only = True):
+    def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
-    def execute(self, username, args, admin):
-        if not self.authorise(username, admin):
+    def execute(self, username, args, user_flags):
+        if not self.authorise(username, user_flags):
             return self.not_auth_message
 
         if args[1]:
@@ -56,8 +56,8 @@ class CommandDosh(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
-    def execute(self, username, args, admin):
-        if not self.authorise(username, admin):
+    def execute(self, username, args, user_flags):
+        if not self.authorise(username, user_flags):
             return self.not_auth_message
 
         player = self.server.get_player_by_username(username)
@@ -77,8 +77,8 @@ class CommandTopKills(Command):
     def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
-    def execute(self, username, args, admin):
-        if not self.authorise(username, admin):
+    def execute(self, username, args, user_flags):
+        if not self.authorise(username, user_flags):
             return self.not_auth_message
 
         if len(args) > 1 and args[1] == '-w' and len(self.server.players) > 0:
@@ -101,11 +101,11 @@ class CommandTopKills(Command):
 
 
 class CommandTopDosh(Command):
-    def __init__(self, server, admin_only = True):
+    def __init__(self, server, admin_only=True):
         Command.__init__(self, server, admin_only)
 
-    def execute(self, username, args, admin):
-        if not self.authorise(username, admin):
+    def execute(self, username, args, user_flags):
+        if not self.authorise(username, user_flags):
             return self.not_auth_message
 
         if len(args) > 1 and args[1] == '-w' and len(self.server.players) > 0:
