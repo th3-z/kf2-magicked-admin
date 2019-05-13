@@ -1,11 +1,11 @@
 import threading
 import time
 
-from web_admin.constants import *
-from utils import warning, BANNER_URL
-
 from colorama import init
 from termcolor import colored
+
+from utils import BANNER_URL, warning
+from web_admin.constants import *
 
 init()
 

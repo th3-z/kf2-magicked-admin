@@ -5,7 +5,6 @@ from server.player import Player
 from utils.text import millify
 from utils.time import seconds_to_hhmmss
 
-
 lps_test_frames = [
     "-",
     "-",
