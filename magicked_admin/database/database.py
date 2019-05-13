@@ -73,7 +73,7 @@ class ServerDatabase:
         return self.__rank_by_col(steam_id, "dosh")
 
     def rank_kills(self, steam_id):
-        return self.__rank_by_col(steam_id, "dosh")
+        return self.__rank_by_col(steam_id, "kills")
 
     def rank_time(self, steam_id):
         return self.__rank_by_col(steam_id, "time_online")

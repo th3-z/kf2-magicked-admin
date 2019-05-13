@@ -36,12 +36,9 @@ class CommandKills(Command):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
 
-        if args[1]:
-            username = args[1]
-
         player = self.server.get_player_by_username(username)
         if player:
-            pos_kills = self.server.database.rank_kills(username)
+            pos_kills = self.server.database.rank_kills(player.steam_id)
             return ("You've killed a total of {} ZEDs (#{}), "
                     "and {} this game.").format(
                 str(player.total_kills),
@@ -62,9 +59,9 @@ class CommandDosh(Command):
 
         player = self.server.get_player_by_username(username)
         if player:
-            pos_dosh = self.server.database.rank_dosh(username)
+            pos_dosh = self.server.database.rank_dosh(player.steam_id)
             return ("You've earned a total of £{} dosh (#{}), "
-                    "and {} this game.").format(
+                    "and £{} this game.").format(
                 str(player.total_dosh),
                 str(pos_dosh),
                 str(player.game_dosh)

@@ -67,14 +67,19 @@ class Chat(threading.Thread):
 
     def handle_message(self, username, message, user_flags):
         command = True if message[0] == '!' else False
+        internal = user_flags & USER_TYPE_INTERNAL
 
-        if DEBUG or ~user_flags & USER_TYPE_INTERNAL:
+        if DEBUG or not internal:
             print_line = username + "@" + self.__web_interface.server_name \
                          + ": " + message
             if command:
-                print_line = colored(print_line, 'green')
+                print_line = colored(
+                    print_line, 'red' if internal else 'green'
+                )
             else:
-                print_line = colored(print_line, 'yellow')
+                print_line = colored(
+                    print_line, 'red' if internal else 'yellow'
+                )
             print(print_line)
 
         for listener in self.__listeners:
