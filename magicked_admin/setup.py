@@ -20,7 +20,7 @@ if not CERT_PATH:
 
 
 includefiles = [
-    (os.path.join(SRC_PATH, 'database/server_schema.sql'),'database/server_schema.sql'),
+    (os.path.join(SRC_PATH, 'database/schema.sql'),'database/schema.sql'),
     (CERT_PATH,'certifi/cacert.pem'),
 ]
 
