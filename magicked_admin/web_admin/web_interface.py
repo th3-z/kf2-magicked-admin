@@ -171,7 +171,8 @@ class WebInterface(object):
             self.ma_installed = True
             info("Detected KF2-MA install on server.")
         else:
-            warning("KF2-MA install not detect on server.")
+            warning("KF2-MA install not detected on server side! "
+                    "Consequently, only Survival mode will function fully.")
 
         return session
 

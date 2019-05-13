@@ -90,7 +90,7 @@ class MagickedAdmin:
                 server.web_admin.chat.submit_message(command)
             
     def terminate(self, signal, frame):
-        if self.sigint_count > 2:
+        if self.sigint_count > 1:
             print()  # \n
             warning("Closing immediately!")
             os._exit(0)

@@ -54,8 +54,8 @@ class GameTracker(threading.Thread):
             # Pick up the transition between supported and unsupported modes
             new_type = self.server.game.game_type != game_now.game_type
             if new_type:
-                message = ("Game type ({}) suport not installed, please patch "
-                           "your webadmin to correct this! Guidance is "
+                message = ("Game type ({}) support not installed, please "
+                           "patch your webadmin to correct this! Guidance is "
                            "available at: {}.") 
                 warning(message.format(
                     game_now.game_type, colored(BANNER_URL, 'magenta')
