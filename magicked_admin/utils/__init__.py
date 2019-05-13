@@ -8,7 +8,7 @@ init()
 # __debug__ is always true when building w/ cx_freeze, no known solution
 DEBUG = __debug__ and not hasattr(sys, 'frozen')
 
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 BANNER_URL = "https://th3-z.xyz/kf2-ma"
 
 
