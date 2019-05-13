@@ -59,13 +59,15 @@ class ServerDatabase:
                 player1.steam_id = ?
         """.format(col, col)
 
-        print(query)
-
         lock.acquire(True)
         self.cur.execute(query, (steam_id,))
-        all_rows = self.cur.fetchall()
+        result = self.cur.fetchall()
         lock.release()
-        return all_rows["col_rank"]
+
+        if len(result):
+            return result[0]["col_rank"]
+        else:
+            return None
 
     def rank_dosh(self, steam_id):
         return self.__rank_by_col(steam_id, "dosh")
@@ -96,9 +98,13 @@ class ServerDatabase:
 
         lock.acquire(True)
         self.cur.execute(query, (steam_id,))
-        all_rows = self.cur.fetchall()
+        result = self.cur.fetchall()
         lock.release()
-        return all_rows[0][-1]
+
+        if len(result):
+            return result[0]["kd_rank"]
+        else:
+            return None
 
     def __server_sum_col(self, col):
         query = """
@@ -106,28 +112,26 @@ class ServerDatabase:
                 COALESCE(SUM({}), 0) as total
             FROM 
                 players
-        """
-
-        query.format(col)
+        """.format(col)
 
         lock.acquire(True)
         self.cur.execute(query)
-        all_rows = self.cur.fetchall()
+        result = self.cur.fetchall()
         lock.release()
 
-        if all_rows and all_rows[0][0]:
-            return all_rows[0][0]
+        if len(result):
+            return result[0]["total"]
         else:
             return 0
 
     def server_kills(self):
-        self.__server_sum_col("kills")
+        return self.__server_sum_col("kills")
 
     def server_dosh(self):
-        self.__server_sum_col("dosh")
+        return self.__server_sum_col("dosh")
 
     def server_time(self):
-        self.__server_sum_col("time")
+        return self.__server_sum_col("time")
 
     def __server_top_by_col(self, col):
         query = """
@@ -138,24 +142,26 @@ class ServerDatabase:
                 players
             ORDER BY
                 {} DESC
-        """
-
-        query.format(col, col)
+        """.format(col, col)
 
         lock.acquire(True)
         self.cur.execute(query)
-        all_rows = self.cur.fetchall()
+        result = self.cur.fetchall()
         lock.release()
-        return all_rows
+        
+        if len(result):
+            return result[0]
+        else:
+            return []
 
     def top_kills(self):
-        self.__server_top_by_col("kills")
+        return self.__server_top_by_col("kills")
 
     def top_dosh(self):
-        self.__server_top_by_col("dosh")
+        return self.__server_top_by_col("dosh")
 
     def top_time(self):
-        self.__server_top_by_col("time")
+        return self.__server_top_by_col("time")
 
     def __init_player(self, steam_id):
         # Other columns have defaults in schema
@@ -307,3 +313,4 @@ class ServerDatabase:
                           int(victory)))
         lock.release()
         self.conn.commit()
+

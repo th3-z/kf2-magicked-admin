@@ -2,6 +2,8 @@ import math
 
 
 def millify(n):
+    if not n: return '0'
+
     millnames = ['', 'K', 'M', 'B', 'T']
         
     n = float(n)
