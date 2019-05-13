@@ -14,7 +14,7 @@ class Server:
         self.name = name
 
         info("Connecting to {} ({})...".format(name, address))
-        self.web_admin = api.WebAdmin(address, username, password)
+        self.web_admin = api.WebAdmin(address, username, password, name)
         info("Connected to {} ({})".format(name,address))
 
         self.database = ServerDatabase(name)

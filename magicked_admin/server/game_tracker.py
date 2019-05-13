@@ -2,7 +2,12 @@ import threading
 import time
 
 from web_admin.constants import *
+from utils import warning, BANNER_URL
 
+from colorama import init
+from termcolor import colored
+
+init()
 
 class GameTracker(threading.Thread):
 
@@ -40,15 +45,28 @@ class GameTracker(threading.Thread):
         # W/o installation wave cannot be determined on endless/weekly
         if game_now.wave is not None:
             new_map = self.server.game.game_map.title != game_now.map_title
-            wave_reset = game_now.wave < self.server.game.wave
+            wave_reset = self.server.game.wave == None or \
+                         game_now.wave < self.server.game.wave
 
             if new_map or wave_reset:
                 new_game = True
+        else:
+            # Pick up the transition between supported and unsupported modes
+            new_type = self.server.game.game_type != game_now.game_type
+            if new_type:
+                message = ("Game type ({}) not supported, please patch your "
+                           "webadmin to correct this! Guidance is available "
+                           "at: {}") 
+                warning(message.format(
+                    game_now.game_type, colored(BANNER_URL, 'magenta')
+                ))
+
+                # TODO end_game should be triggered
 
         # Trigger end-game before loading next map's info
         if new_game and self.server.game.game_map.title \
                 != GAME_MAP_TITLE_UNKNOWN:
-            if game_now.game_type == GAME_TYPE_SURVIVAL:
+            if self.server.game.game_type == GAME_TYPE_SURVIVAL:
                 survival_boss_defeat = self.__survival_boss_defeat()
                 self.server.event_end_game(not survival_boss_defeat)
             else:
