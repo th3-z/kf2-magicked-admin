@@ -111,12 +111,16 @@ class CommandPlayers(Command):
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
-        message = ""
 
-        for player in self.server.players:
+        players = self.server.players
+        if not players:
+            return "No players present."
+
+        message = ""
+        for player in players:
             message += str(player) + " \n"
-        message = message.strip()
-        return message
+
+        return message.strip()
 
 
 class CommandGame(Command):
