@@ -8,66 +8,14 @@ the web admin, it does not affect a server's ranked/custom status. It can be
 ran either directly on the server or remotely, and manage multiple servers at 
 once.
 
-Downloads
----------
+Web homepage and VCS located [here](https://th3-z.xyz/kf2-ma).
 
-I'll put builds here once I've got master ready for releases. I currently
-have no access to a Windows machine, assistance is needed here.
-
-Users looking for the most recent stable version should visit the releases page
-on GitHub for now, you want 
-[0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7). The 
-Documentation on this page isn't valid for 0.0.7, so please visit the 
-[Steam guide](http://steamcommunity.com/sharedfiles/filedetails/?id=1324364024) 
-for more information about 0.0.7.
-
-Running from Python sources
----------------------------
-
-### Requirements
-Examples work on Debian 9 and Ubuntu 18.04, may differ for other operating 
-systems. Install the following packages.
-
-* Python 3.x - `apt install python3`
-* Pip - `apt install python3-pip`
-* Python 3 dependencies - `pip3 install -r requirements.txt`
-    - This might complain about cx_freeze not installing if you haven't got zlib, but it's not needed to run the program
-
-### Running 
-`git clone https://th3-z.xyz/git/kf2-magicked-admin.git`  
-`cd kf2-magicked-admin`  
-`python3 -O magicked_admin/magicked_admin.py`  
-
-Building
+Features
 --------
 
-You can build a binary release with `make` after installing both the run and 
-build requirements.
+This section is out of date.
 
-### Requirements
-Examples work on Debian 9 and Ubuntu 18.04, may differ for other operating 
-systems.
-
-* Python 3.x - `apt install python3`
-* Pip - `apt install python3-pip`
-* Python 3 dependencies - `pip3 install -r requirements.txt`
-* Make - `apt install make`
-* zlib-dev - `apt install zlib1g-dev`
-
-### Reccomended
-Development make targets also use the following dependencies.
-
-* isort - `apt install isort`
-* flake8 - `apt install flake8`
-
-Usage
------
-
-This usage documentation is from the old version (0.0.7). Although 
-functionally the program is mostly unchanged, many of these will not work 
-right in master. This is a complete list of the features that need testing.
-
-### Player commands
+### Commands
 * !me - display a summary of your stats
 * !stats _player_ - display a summary of _player_'s stats
 * !help - displays the help text in chat
@@ -79,7 +27,7 @@ right in master. This is a complete list of the features that need testing.
 * !server\_kills - displays total number of zeds killed on the server
 * !server\_dosh - displays total dosh earned on the server 
 
-### Admin commands
+#### Operator commands
 * !difficulty {normal|hard|suicidal|hell} - sets difficulty of next game
     - Example: !difficulty hard
 * !length {short|medium|long} - sets length of next game
@@ -106,7 +54,15 @@ with other commands
 * !game_mode {endless|survival|weekly|versus} - changes the current GameType
     - Example: !game_mode endless
 
-### Other features
+### MOTD leaderboard
+
+### Greeter
+
+### Init scripts
+
+### Webadmin patcher
+
+### Other
 * Writing a `server_name.motd` file with pairs of `%PLR` and `%SCR` and 
 enabling the motd_scoreboard option will put a live scoreboard in the motd. 
     - `%SRV_D` and `%SRV_K` will be replaced by the total dosh and kills on 
@@ -114,10 +70,103 @@ enabling the motd_scoreboard option will put a live scoreboard in the motd.
 * Writting a `server_name.init` with a list of commands will run the commands 
 when the bot starts on server_name.
 
-Configuration
+Downloads
+---------
+
+Pending initial release.
+
+Users looking for the most recent stable version should visit the releases page
+on GitHub for now, you want 
+[0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7). The 
+Documentation on this page isn't valid for 0.0.7, so please visit the 
+[Steam guide](http://steamcommunity.com/sharedfiles/filedetails/?id=1324364024) 
+for more information about 0.0.7.
+
+Configuration options
 ---------------------
 
-There is a config file, `magicked_admin.conf`, that is created after the first
-run, you can change the settings with this file. I haven't documentation the 
-options here, so you'll just have to figure it out.
+Basic setup is done on the first run. However this does not cover all of the 
+options KF2-MA can offer. Please see the config file, `magicked_admin.conf`, 
+for more configuration options as some features are disabled by default.
+
+Each server managed by KF2-MA has a section that looks something like 
+`[server_one]`, followed by serveral options (`x = y`). Copy and edit the 
+default server section if you want to manage multiple servers. `[server_one]`
+is the name of the server, this can be changed to whatever you want.
+
+### Options
+* address
+    - Web address of the server's webadmin panel. Requires scheme and protocol,
+    e.g. `https://0.0.0.0:8080`
+* username
+    - Webadmin username to login with, this will appear in the chat when the 
+    bot has something to output. It's reccomended to create a separate account
+    for the bot.
+* password
+    - Webadmin password that matches the username above.
+* game\_password
+    - Default game password to set when the password is toggled using 
+    `!password`.
+* motd\_scoreboard
+    - Boolean value, enable or disable the MOTD scoreboard feature. Defaults to
+    disabled.
+* scoreboard\_type
+    - Possible values: `kills`, `dosh`. Change the type of scores that are
+    displayed in the MOTD scoreboard.
+* enable\_greeter
+    - Boolean value, enable or disable the greeter that runs when a player 
+    joins the match.
+* dosh\_threshold
+    - Integer value, configures the `!enforce_dosh` command. The dosh threshold
+    is the amount of dosh a player can carry before they are kicked by the next
+    call to `!enforce_dosh`.
+
+Running from Python sources
+---------------------------
+
+Before contributing code you will need to install the Python requirements.
+
+### Requirements
+Examples work on Debian 9 and Ubuntu 18.04, may differ for other operating 
+systems. Install the following packages.
+
+* Python 3.x - `apt install python3`
+* Pip - `apt install python3-pip`
+* Python 3 dependencies - `pip3 install -r requirements.txt`
+    - This might complain about cx\_freeze not installing if you haven't got 
+    zlib, but cx\_freeze is only needed for building.
+
+### Running 
+`git clone https://th3-z.xyz/git/kf2-magicked-admin.git`
+    - Please don't clone the GitHub mirror!
+`cd kf2-magicked-admin`  
+`python3 -O magicked_admin/magicked_admin.py`  
+
+The `-O` flag runs the program in release mode, remove it to run KF2-MA in 
+debug mode. Debug mode will enable more detailed output.
+
+Building
+--------
+
+You can build a binary release for distribution with `make` after installing 
+both the run and build requirements. 
+
+### Requirements
+Examples work on Debian 9 and Ubuntu 18.04, may differ for other operating 
+systems.
+
+* Python 3.x - `apt install python3`
+* Pip - `apt install python3-pip`
+* Python 3 dependencies - `pip3 install -r requirements.txt`
+* Make - `apt install make`
+* zlib-dev - `apt install zlib1g-dev`
+
+### Reccomended
+Development make targets also use the following dependencies.
+
+* isort - `apt install isort`
+* flake8 - `apt install flake8`
+
+### Windows users
+You can build the program without make by running `setup.py`.
 
