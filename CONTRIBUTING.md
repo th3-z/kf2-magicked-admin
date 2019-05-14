@@ -1,18 +1,14 @@
 Contributing
 ============
 
-I'm currently accepting contributions to this project. Master is busted right 
-now so there's a lot of testing and debugging that needs doing. I also have no
-access to a Windows or Mac OS PC for testing on those platforms.
+I'm currently accepting contributions to this project. 
 
 The codebase on GitHub is a mirror of the version on my 
-[VCS](https://git.th3-z.xyz/kf2-magicked-admin). You can work from
-the GitHub version and I'll look into pull requests occasionally but it is not 
-the cannonical version.
+[VCS](https://git.th3-z.xyz/kf2-magicked-admin). Please clone the version from
+my VCS, instructions in `README.md`, as this is the cannonical version.
 
-The `ISSUES.md` file contains all the old feature requests and bug reports
-before I did some major refactor work. I'm not sure which of these are still
-valid, and it certainly isn't a complete list.
+The `ISSUES.md` file contains an incomplete list of know issues, this includes
+planned features and bugs.
 
 I can be contacted by [email](mailto:the_z@znel.org) or on
 [Steam](https://steamcommunity.com/id/th3-z), either is fine.
@@ -24,23 +20,19 @@ Clone the current master branch and gave a go at some of the following tasks.
 The binaries on the release page are not useful to contributors, they are out
 of date. Tasks, in order of increasing complexity.
 
-- Bug reports are desperately needed right now. There are no plans to add
-features until master is stable again. 
-    * Testing on Windows is needed, let me know if you can build and  or run 
-    this on Windows.
+- Bug reports are needed right now. There are no plans to add new features 
+until master is stable. 
+    * You will need a Killing Floor 2 server for testing.
     * Testing on multiple servers. This tools can manage multiple servers at
-    once, I only have one, I have no idea if this still works.
-    * The `README.md` file has a 'Usage' section, these features need extensive
-    testing.
+    once, I only have one.
     * Please don't send me bug reports for the releases (0.0.7). These are out
     of date.
 - Linting. I have added a make target that runs a linter, `make lint`. Running 
 this will give you a huge list (200+) of minor code style errors. I want this 
 to return no issues.
 - Debugging. Check the bugs in `ISSUES.md`, see if you can replicate them, and
-fix them. Send me patches via email. Master has been sparsely tested, so it
-shouldn't be difficult to find more issues. If you find an issue you can't
-correct, please add it to the `ISSUES.md` and send me a patch with the details.
+fix them. Send me patches via email. If you find an issue you can't correct, 
+please add it to the `ISSUES.md` and send me a patch.
 - Feature additions. I'm not focussing on new features right now, but if you 
 can't help yourself, see `ISSUES.md`.
 
@@ -48,8 +40,8 @@ Code
 ----
 
 If you wish to contribute code, please see `ISSUES.md` for the current task
-list. Once you've completed a task, update the `ISSUES.md` file and send me the 
-[patches](https://git-scm.com/docs/git-format-patch) with your commits by 
+list. Once you've completed a task, update the `ISSUES.md` file and send me a
+[patch](https://git-scm.com/docs/git-format-patch) with your changes by 
 [email](mailto:the\_z@znel.org).
 
 The `README.md` file has further details about dependencies and configuring
