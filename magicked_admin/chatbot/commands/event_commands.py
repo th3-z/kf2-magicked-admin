@@ -32,11 +32,11 @@ class CommandGreeter(Command):
             return None
 
         if player.sessions > 1:
-            pos_kills = self.server.database.rank_kills(requested_username)
-            pos_dosh = self.server.database.rank_dosh(requested_username)
+            pos_kills = self.server.database.rank_kills(player.steam_id)
+            pos_dosh = self.server.database.rank_dosh(player.steam_id)
             return "\nWelcome back {}.\n" \
-                   "You've killed {} zeds (#{}) and  \n" \
-                   "earned £{} (#{}) \nover {} sessions " \
+                   "You've killed {} zeds (rank #{}) and  \n" \
+                   "earned £{} (rank #{}) \nover {} sessions " \
                    "({}).".format(player.username,
                                   millify(player.total_kills),
                                   pos_kills,
