@@ -78,6 +78,7 @@ class GameTracker(threading.Thread):
         if not game_now.trader_open and self.server.trader_time:
             self.server.event_trader_close()
 
+
         self.server.game.game_map.title = game_now.map_title
         self.server.game.game_map.name = game_now.map_name
         self.server.game.wave = game_now.wave
@@ -102,6 +103,7 @@ class GameTracker(threading.Thread):
                 self.game_timer = time.time()
 
             if game_now.wave > self.previous_wave:
+                print("new")
                 self.server.event_wave_start()
                 self.previous_wave = self.server.game.wave
 

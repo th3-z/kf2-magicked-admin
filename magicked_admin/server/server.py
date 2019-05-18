@@ -194,7 +194,7 @@ class Server:
         message = "Player {} joined {} from {}" \
             .format(new_player.username, self.name, new_player.country)
         print(colored(message, 'cyan'))
-        self.web_admin.chat.handle_message("server",
+        self.web_admin.chat.handle_message("internal_command",
                                            "!player_join " + new_player.username,
                                            USER_TYPE_INTERNAL)
 
@@ -205,7 +205,7 @@ class Server:
         message = "Player {} left {}" \
             .format(player.username, self.name)
         print(colored(message, 'cyan'))
-        self.web_admin.chat.handle_message("server",
+        self.web_admin.chat.handle_message("internal_command",
                                            "!player_quit " + player.username,
                                            USER_TYPE_INTERNAL)
 
@@ -234,7 +234,7 @@ class Server:
             warning("Unknown game_type {}".format(self.game.game_type))
             self.game.game_map.plays_other += 1
 
-        self.web_admin.chat.handle_message("server", "!new_game", USER_TYPE_INTERNAL)
+        self.web_admin.chat.handle_message("internal_command", "!new_game", USER_TYPE_INTERNAL)
 
     def event_end_game(self, victory=False):
         debug("End game on {}, map: {}, mode: {}, victory: {}".format(
@@ -246,7 +246,7 @@ class Server:
         self.database.save_map_record(self.game, len(self.players), victory)
 
     def event_wave_start(self):
-        self.web_admin.chat.handle_message("server",
+        self.web_admin.chat.handle_message("internal_command",
                                            "!new_wave " + str(self.game.wave),
                                            USER_TYPE_INTERNAL)
 
@@ -261,8 +261,8 @@ class Server:
 
     def event_trader_open(self):
         self.trader_time = True
-        self.web_admin.chat.handle_message("server", "!t_open", USER_TYPE_INTERNAL)
+        self.web_admin.chat.handle_message("internal_command", "!t_open", USER_TYPE_INTERNAL)
 
     def event_trader_close(self):
         self.trader_time = False
-        self.web_admin.chat.handle_message("server", "!t_close", USER_TYPE_INTERNAL)
+        self.web_admin.chat.handle_message("internal_command", "!t_close", USER_TYPE_INTERNAL)

@@ -215,7 +215,7 @@ class WebAdmin(object):
 
     @staticmethod
     def __get_game(info_tree):
-        zeds_path = "//dd[@class=\"zeds_result\"]/text()"
+        zeds_path = "//dd[@class=\"gs_wave\"]/text()"
         zeds_result = info_tree.xpath(zeds_path)
 
         if len(zeds_result):

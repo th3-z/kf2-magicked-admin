@@ -225,7 +225,7 @@ class CommandSilent(Command):
             self.chatbot.silent = False
             return None
         else:
-            self.chatbot.command_handler("server", "say Silent mode enabled.",
+            self.chatbot.command_handler("internal_command", "say Silent mode enabled.",
                                          USER_TYPE_INTERNAL)
             self.chatbot.silent = True
 

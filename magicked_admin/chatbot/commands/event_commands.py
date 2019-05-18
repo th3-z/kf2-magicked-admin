@@ -61,7 +61,7 @@ class CommandOnWave:
 
     def new_wave(self, wave):
         if wave == self.wave or self.wave == ALL_WAVES:
-            self.chatbot.command_handler("server", self.args, USER_TYPE_INTERNAL)
+            self.chatbot.command_handler("internal_command", self.args, USER_TYPE_INTERNAL)
 
 
 class CommandOnTime(threading.Thread):
@@ -80,10 +80,10 @@ class CommandOnTime(threading.Thread):
     def run(self):
         if not self.repeat:
             time.sleep(self.time_interval)
-            self.chatbot.command_handler("server", self.args, USER_TYPE_INTERNAL)
+            self.chatbot.command_handler("internal_command", self.args, USER_TYPE_INTERNAL)
             return
         while not self.exit_flag.wait(self.time_interval):
-            self.chatbot.command_handler("server", self.args, USER_TYPE_INTERNAL)
+            self.chatbot.command_handler("internal_command", self.args, USER_TYPE_INTERNAL)
 
 
 class CommandOnTimeManager(Command):
@@ -186,7 +186,7 @@ class CommandOnTraderManager(Command):
             return self.terminate_all()
         elif args[0] == "t_open":
             for command in self.commands:
-                self.chatbot.command_handler("server", command, USER_TYPE_INTERNAL)
+                self.chatbot.command_handler("internal_command", command, USER_TYPE_INTERNAL)
 
     def terminate_all(self):
         if len(self.commands) > 0:

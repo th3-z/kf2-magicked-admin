@@ -59,4 +59,4 @@ class Chatbot(ChatListener):
                 if command:
                     debug("!" + command)
                     args = command.split()
-                    self.command_handler("server", args, USER_TYPE_INTERNAL)
+                    self.command_handler("internal_command", args, USER_TYPE_INTERNAL)
