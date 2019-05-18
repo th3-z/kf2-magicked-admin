@@ -188,6 +188,7 @@ class Server:
         new_player.player_key = identity['player_key']
 
         self.database.load_player(new_player)
+        new_player.sessions += 1
 
         self.players.append(new_player)
         message = "Player {} joined {} from {}" \
