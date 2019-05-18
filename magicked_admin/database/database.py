@@ -242,11 +242,32 @@ class ServerDatabase:
         lock.release()
         self.conn.commit()
 
+    def highest_wave(self, game_map):
+        highest_wave_sql = """
+            SELECT 
+                game_wave
+            FROM
+                map_records
+            WHERE
+                map_title = ?
+            ORDER BY game_wave DESC
+        """
+
+        lock.acquire(True)
+        self.cur.execute(highest_wave_sql, (game_map.title.upper(),))
+        highest_wave_result = self.cur.fetchall()
+        lock.release()
+
+        if not len(highest_wave_result):
+            return 0
+
+        return highest_wave_result[0]['game_wave']
+
     def load_game_map(self, game_map, r_flag=False):
         map_sql = """
             SELECT
                 name, plays_survival, plays_weekly, plays_endless,
-                plays_survival_vs, plays_other, highest_wave
+                plays_survival_vs, plays_other
             FROM 
                 maps
             WHERE
@@ -265,12 +286,13 @@ class ServerDatabase:
             return
 
         map_result = map_result[0]
+
         game_map.plays_survival = map_result['plays_survival']
         game_map.plays_survival_vs = map_result['plays_survival_vs']
         game_map.plays_weekly = map_result['plays_weekly']
         game_map.plays_endless = map_result['plays_endless']
         game_map.plays_other = map_result['plays_other']
-        game_map.highest_wave = map_result['highest_wave']
+        game_map.highest_wave = self.highest_wave(game_map)
         game_map.name = map_result['name']
 
     def save_game_map(self, game_map):
