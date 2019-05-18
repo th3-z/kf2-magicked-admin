@@ -85,16 +85,18 @@ class CommandTopKills(Command):
                 .format(top_killer.username, top_killer.wave_kills)
 
         self.server.write_all_players()
-        killers = self.server.database.top_kills()
-        if len(killers) < 5:
-            return "Not enough data."
-        # [row][col]
-        return "\n\nTop 5 players by total kills:\n" + \
-            "\t"+str(millify(killers[0][1])) + "\t-\t" + trim_string(killers[0][0],20) + "\n" + \
-            "\t"+str(millify(killers[1][1])) + "\t-\t" + trim_string(killers[1][0],20) + "\n" + \
-            "\t"+str(millify(killers[2][1])) + "\t-\t" + trim_string(killers[2][0],20) + "\n" + \
-            "\t"+str(millify(killers[3][1])) + "\t-\t" + trim_string(killers[3][0],20) + "\n" + \
-            "\t"+str(millify(killers[4][1])) + "\t-\t" + trim_string(killers[4][0],20)
+        records = self.server.database.top_kills()
+
+        message = "\n\nTop 5 players by total kills:\n"
+
+        for player in records[:5]:
+            username = trim_string(player['username'], 20)
+            kills = millify(player['kills'])
+            message += "\t{}\t-   {}\n".format(
+                kills, username
+            )
+
+        return message
 
 
 class CommandTopDosh(Command):
@@ -113,14 +115,15 @@ class CommandTopDosh(Command):
                 .encode("iso-8859-1", "ignore")
 
         self.server.write_all_players()
-        doshers = self.server.database.top_dosh()
-        if len(doshers) < 5:
-            return "Not enough data."
+        records = self.server.database.top_dosh()
 
-        message = "\n\nTop 5 players by earnings:\n" + \
-            "\t£"+str(millify(doshers[0][1])) + "\t-\t" + trim_string(doshers[0][0],20) + "\n" + \
-            "\t£"+str(millify(doshers[1][1])) + "\t-\t" + trim_string(doshers[1][0],20) + "\n" + \
-            "\t£"+str(millify(doshers[2][1])) + "\t-\t" + trim_string(doshers[2][0],20) + "\n" + \
-            "\t£"+str(millify(doshers[3][1])) + "\t-\t" + trim_string(doshers[3][0],20) + "\n" + \
-            "\t£"+str(millify(doshers[4][1])) + "\t-\t" + trim_string(doshers[4][0],20)
-        return message.encode("iso-8859-1","ignore")
+        message = "\n\nTop 5 players by Dosh earned:\n"
+
+        for player in records[:5]:
+            username = trim_string(player['username'], 20)
+            dosh = millify(player['dosh'])
+            message += "\t£{}\t-   {}\n".format(
+                dosh, username
+            )
+
+        return message

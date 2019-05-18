@@ -103,7 +103,6 @@ class GameTracker(threading.Thread):
                 self.game_timer = time.time()
 
             if game_now.wave > self.previous_wave:
-                print("new")
                 self.server.event_wave_start()
                 self.previous_wave = self.server.game.wave
 

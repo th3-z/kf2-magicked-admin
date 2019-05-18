@@ -150,7 +150,7 @@ class ServerDatabase:
         lock.release()
         
         if len(result):
-            return result[0]
+            return result
         else:
             return []
 
