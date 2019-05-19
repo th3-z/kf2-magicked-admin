@@ -192,7 +192,7 @@ class CommandTopWaveDosh(Command):
         top = self.server.players[0]
         return pad_output(
             "Player {} earned the most Dosh this wave: £{}".format(
-                top.username, millify(top.wave_kills)
+                top.username, millify(top.wave_dosh)
             )
         )
 
