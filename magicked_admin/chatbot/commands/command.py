@@ -1,13 +1,13 @@
 from utils import debug
 from web_admin.constants import *
-
+from utils.text import pad_output
 
 class Command:
 
     def __init__(self, server, admin_only=True):
         self.server = server
         self.admin_only = admin_only
-        self.not_auth_message = "You're not authorised to use that command."
+        self.not_auth_message = pad_output("You're not authorised to use that command.")
 
     def authorise(self, username, user_flags):
         player = self.server.get_player_by_username(username)

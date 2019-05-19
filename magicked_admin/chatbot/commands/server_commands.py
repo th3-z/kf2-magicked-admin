@@ -4,7 +4,7 @@ import server.game as game
 import server.server as server
 from chatbot.commands.command import Command
 from web_admin.constants import *
-
+from utils.text import pad_output
 
 class CommandSay(Command):
     def __init__(self, server, admin_only=True):
@@ -14,7 +14,7 @@ class CommandSay(Command):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
         if len(args) < 2:
-            return "No message was specified."
+            return pad_output("No message was specified.")
 
         message = " ".join(args[1:])
         # Unescape escape characters in say command
@@ -33,16 +33,16 @@ class CommandOp(Command):
         
         player = self.server.get_player_by_username(args[1])
         if not player:
-            return "Couldn't identify player '{}'".format(args[1])
+            return pad_output("Couldn't identify player '{}'".format(args[1]))
         
         if args[0] == "deop":
             player.op = 0
             self.server.write_all_players()
-            return "Deoped {}".format(player.username)
+            return pad_output("Deoped {}".format(player.username))
         else:
             player.op = 1
             self.server.write_all_players()
-            return "Oped {}".format(player.username)
+            return pad_output("Oped {}".format(player.username))
 
 
 class CommandEnforceLevels(Command):
@@ -89,7 +89,7 @@ class CommandGameMap(Command):
         message += "Total plays: {} \n".format(total_plays)
         message += "Record wave: {} \n".format(game_map.highest_wave)
         message += "Survival wins: {} \n".format(game_map.wins_survival)
-        return message
+        return pad_output(message)
 
 
 class CommandEnforceDosh(Command):
@@ -112,14 +112,14 @@ class CommandKick(Command):
             return self.not_auth_message
 
         if len(args) < 2:
-            return "Missing argument, username or Steam ID."
+            return pad_output("Missing argument, username or Steam ID.")
 
         kicked = self.server.kick_player(args[1])
 
         if kicked:
-            return "Player, {}, was kicked.".format(kicked)
+            return pad_output("Player, {}, was kicked.".format(kicked))
         else:
-            return "Player not found."
+            return pad_output("Player not found.")
 
 
 class CommandBan(Command):
@@ -131,14 +131,14 @@ class CommandBan(Command):
             return self.not_auth_message
 
         if len(args) < 2:
-            return "Missing argument, username or Steam ID."
+            return pad_output("Missing argument, username or Steam ID.")
 
         kicked = self.server.ban_player(args[1])
 
         if kicked:
-            return "Player, {}, was banned.".format(kicked)
+            return pad_output("Player, {}, was banned.".format(kicked))
         else:
-            return "Player not found."
+            return pad_output("Player not found.")
 
 
 class CommandRun(Command):
@@ -151,10 +151,10 @@ class CommandRun(Command):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
         if len(args) < 2:
-            return "No file was specified."
+            return pad_output("No file was specified.")
 
         if not path.exists(args[1]):
-            return "File not found"
+            return pad_output("File not found")
 
         self.chatbot.execute_script(args[1])
 
@@ -170,7 +170,7 @@ class CommandRestart(Command):
             return self.not_auth_message
 
         self.server.restart_map()
-        return "Restarting map."
+        return pad_output("Restarting map...")
 
 
 class CommandLoadMap(Command):
@@ -182,10 +182,10 @@ class CommandLoadMap(Command):
             return self.not_auth_message
 
         if len(args) < 2:
-            return "Missing argument (map name)"
+            return pad_output("Missing argument (map name)")
 
         self.server.change_map(args[1])
-        return "Changing map."
+        return pad_output("Changing map.")
 
 
 class CommandPassword(Command):
@@ -195,6 +195,8 @@ class CommandPassword(Command):
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
+
+        # TODO rewrite
 
         if len(args) < 2:
             return "Game password state is " + str(self.server.web_admin.has_game_password())
@@ -225,8 +227,11 @@ class CommandSilent(Command):
             self.chatbot.silent = False
             return None
         else:
-            self.chatbot.command_handler("internal_command", "say Silent mode enabled.",
-                                         USER_TYPE_INTERNAL)
+            self.chatbot.command_handler(
+                "internal_command",
+                pad_output("say Silent mode enabled."),
+                USER_TYPE_INTERNAL
+            )
             self.chatbot.silent = True
 
 
@@ -238,7 +243,7 @@ class CommandLength(Command):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
         if len(args) < 2:
-            return "Length not recognised. Options are short, medium, or long."
+            return pad_output("Length not recognised. Options are short, medium, or long.")
 
         if args[1] in ["short", "0"]:
             length = LEN_SHORT
@@ -247,10 +252,10 @@ class CommandLength(Command):
         elif args[1] in ["long", "2"]:
             length = LEN_LONG
         else:
-            return "Length not recognised. Options are short, medium, or long."
+            return pad_output("Length not recognised. Options are short, medium, or long.")
 
         self.server.set_length(length)
-        return "Length change will take effect next game."
+        return pad_output("Length change will take effect next game.")
 
 
 class CommandDifficulty(Command):
@@ -261,8 +266,10 @@ class CommandDifficulty(Command):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
         if len(args) < 2:
-            return "Difficulty not recognised. " + \
-                   "Options are normal, hard, suicidal, or hell."
+            return pad_output(
+                "Difficulty not recognised. "
+                "Options are normal, hard, suicidal, or hell."
+            )
 
         if args[1] in ["normal", "0"]:
             difficulty = DIFF_NORM
@@ -273,11 +280,13 @@ class CommandDifficulty(Command):
         elif args[1] in ["hell", "hoe", "hellonearth", "3"]:
             difficulty = DIFF_HOE
         else:
-            return "Difficulty not recognised. " + \
-                   "Options are normal, hard, suicidal, or hell."
+            return pad_output(
+                "Difficulty not recognised. "
+                "Options are normal, hard, suicidal, or hell."
+            )
 
         self.server.set_difficulty(difficulty)
-        return "Difficulty change will take effect next game."
+        return pad_output("Difficulty change will take effect next game.")
 
 
 class CommandGameMode(Command):
@@ -288,8 +297,10 @@ class CommandGameMode(Command):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
         if len(args) < 2:
-            return "GameMode not recognised. " + \
-                   "Options are endless, survival, weekly or versus."
+            return pad_output(
+                "GameMode not recognised. "
+                "Options are endless, survival, weekly or versus."
+            )
 
         if args[1] in ["e", "end", "endless"]:
             mode = GAME_TYPE_ENDLESS
@@ -300,8 +311,10 @@ class CommandGameMode(Command):
         elif args[1] in ["v", "vs", "versus"]:
             mode = GAME_TYPE_SURVIVAL_VS
         else:
-            return "GameMode not recognised. " + \
-                   "Options are endless, survival, weekly or versus."
+            return pad_output(
+                "GameMode not recognised. "
+                "Options are endless, survival, weekly or versus."
+            )
 
         self.server.change_game_type(mode)
-        return "GameMode will be changed to {0}.".format(str(mode))
+        return pad_output("GameMode will be changed to {0}.".format(str(mode)))

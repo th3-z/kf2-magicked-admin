@@ -4,6 +4,7 @@ from chatbot.commands.command import Command
 from server.player import Player
 from utils.text import millify
 from utils.time import seconds_to_hhmmss
+from utils.text import pad_output
 
 lps_test_frames = [
     "-",
@@ -98,9 +99,9 @@ class CommandPlayerCount(Command):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
 
-        return "{}/{} Players are online".format(
+        return pad_output("{}/{} Players are online".format(
             len(self.server.players), self.server.game.players_max
-        )
+        ))
 
 
 class CommandPlayers(Command):
@@ -119,7 +120,7 @@ class CommandPlayers(Command):
         for player in players:
             message += str(player) + " \n"
 
-        return message.strip()
+        return pad_output(message.strip())
 
 
 class CommandGame(Command):
@@ -129,7 +130,8 @@ class CommandGame(Command):
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
-        return str(self.server.game)
+        return pad_output(str(self.server.game))
+
 
 class CommandGameMap(Command):
     def __init__(self, server, admin_only=True):
@@ -138,7 +140,7 @@ class CommandGameMap(Command):
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
-        return str(self.server.game.game_map)
+        return pad_output(str(self.server.game.game_map))
 
 
 class CommandGameTime(Command):
@@ -158,8 +160,8 @@ class CommandHighWave(Command):
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
-        return "{} is the highest wave reached on this map."\
-            .format(self.server.game.game_map.highest_wave)
+        return pad_output("{} is the highest wave reached on this map."\
+            .format(self.server.game.game_map.highest_wave))
 
 
 class CommandHelp(Command):
@@ -169,8 +171,9 @@ class CommandHelp(Command):
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
-        return "Player commands:\n !me, !dosh, !kills, !server_dosh," \
-               " !server_kills, !top_dosh, !top_kills, !stats"
+        return pad_output("Player commands:\n !me, !dosh, !kills, "
+                          "!server_dosh, !server_kills, !top_dosh, !top_kills,"
+                          " !stats")
 
 
 class CommandStats(Command):
@@ -200,13 +203,14 @@ class CommandStats(Command):
         fmt_time = seconds_to_hhmmss(
             player.total_time + elapsed_time
         )
-        message = "Stats for {}:\n".format(player.username) +\
-                  "Total play time: {} ({} sessions)\n"\
-                      .format(fmt_time, player.sessions) +\
-                  "Total deaths: {}\n".format(player.total_deaths) +\
-                  "Total kills: {}\n".format(millify(player.total_kills)) +\
-                  "Total dosh earned: {}\n"\
-                      .format(millify(player.total_dosh)) +\
-                  "Dosh this game: {}".format(millify(player.game_dosh))
+        message = pad_output(
+                    "Stats for {}:\n".format(player.username) +\
+                    "Total play time: {} ({} sessions)\n"\
+                    .format(fmt_time, player.sessions) +\
+                    "Total deaths: {}\n".format(player.total_deaths) +\
+                    "Total kills: {}\n".format(millify(player.total_kills)) +\
+                    "Total dosh earned: {}\n"\
+                    .format(millify(player.total_dosh)) +\
+                    "Dosh this game: {}".format(millify(player.game_dosh)))
 
         return message

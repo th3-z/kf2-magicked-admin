@@ -71,7 +71,7 @@ class Chat(threading.Thread):
 
         if DEBUG or not internal:
             print_line = username + "@" + self.__web_interface.server_name \
-                         + ": " + message
+                         + ": " + message.strip()
             if command:
                 print_line = colored(
                     print_line, 'red' if internal else 'green'
@@ -89,11 +89,12 @@ class Chat(threading.Thread):
         self.__listeners.append(listener)
 
     def submit_message(self, message):
-        if self.__silent: return
+        if self.__silent:
+            return
 
         message_payload = {
             'ajax': '1',
-            'message': message,
+            'message': message.encode("iso-8859-1", "ignore"),
             'teamsay': '-1'
         }
 

@@ -47,7 +47,7 @@ class Chatbot(ChatListener):
             if not self.greeter_enabled and isinstance(command, CommandGreeter):
                 return
             response = command.execute(username, args, user_flags)
-            if not self.silent:
+            if not self.silent and response:
                 self.chat.submit_message(response)
 
     def execute_script(self, file_name):

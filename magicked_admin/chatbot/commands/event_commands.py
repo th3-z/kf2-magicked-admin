@@ -6,6 +6,7 @@ from utils import DEBUG, debug
 from utils.text import millify
 from utils.time import seconds_to_hhmmss
 from web_admin.constants import *
+from utils.text import pad_output
 
 ALL_WAVES = 999
 
@@ -20,7 +21,7 @@ class CommandGreeter(Command):
             return self.not_auth_message
 
         if len(args) < 2:
-            return "Missing argument (username)"
+            return pad_output("Missing argument (username)")
 
         requested_username = " ".join(args[1:])
 
@@ -34,17 +35,19 @@ class CommandGreeter(Command):
         if player.sessions > 1:
             pos_kills = self.server.database.rank_kills(player.steam_id)
             pos_dosh = self.server.database.rank_dosh(player.steam_id)
-            return "\nWelcome back {}.\n" \
-                   "You've killed {} zeds (rank #{}) and  \n" \
-                   "earned £{} (rank #{}) \nover {} sessions " \
-                   "({}).".format(player.username,
-                                  millify(player.total_kills),
-                                  pos_kills,
-                                  millify(player.total_dosh),
-                                  pos_dosh,
-                                  player.sessions,
-                                  seconds_to_hhmmss(player.total_time))\
-                .encode("iso-8859-1", "ignore")
+            return pad_output(
+                        "\nWelcome back {}.\n" \
+                        "You've killed {} zeds (rank #{}) and  \n"
+                        "earned £{} (rank #{}) \nover {} sessions "
+                        "({}).".format(
+                            player.username,
+                            millify(player.total_kills),
+                            pos_kills,
+                            millify(player.total_dosh),
+                            pos_dosh,
+                            player.sessions,
+                            seconds_to_hhmmss(player.total_time)
+                        ))
         else:
             return None
 
@@ -103,26 +106,26 @@ class CommandOnTimeManager(Command):
             repeat = True
 
         if len(args) < 2:
-            return "Missing argument (command)."
+            return pad_output("Missing argument (command).")
 
         try:
             time = int(args[1]) if not repeat else int(args[2])
         except ValueError:
-            return "Malformed command, \""+args[1]+"\" is not an integer."
+            return pad_output("Malformed command, \""+args[1]+"\" is not an integer.")
 
         time_command = CommandOnTime(args[2:] if not repeat else args[3:], time, self.chatbot, repeat)
         time_command.start()
         self.command_threads.append(time_command)
-        return "Timed command started."
+        return pad_output("Timed command started.")
 
     def terminate_all(self):
         if len(self.command_threads) > 0:
             for command_thread in self.command_threads:
                 command_thread.terminate()
                 self.command_threads = []
-            return "Timed command stopped"
+            return pad_output("Timed command stopped")
         else:
-            return "Nothing is running."
+            return pad_output("Nothing is running.")
 
 
 class CommandOnWaveManager(Command):
@@ -139,7 +142,7 @@ class CommandOnWaveManager(Command):
             return self.terminate_all()
         elif args[0] == "start_wc":
             if len(args) < 2:
-                return "Missing argument (command)."
+                return pad_output("Missing argument (command).")
             return self.start_command(args[1:])
         elif args[0] == "new_wave":
             for command in self.commands:
@@ -148,13 +151,13 @@ class CommandOnWaveManager(Command):
     def terminate_all(self):
         if len(self.commands) > 0:
             self.commands = []
-            return "Wave commands halted."
+            return pad_output("Wave commands halted.")
         else:
-            return "Nothing is running."
+            return pad_output("Nothing is running.")
 
     def start_command(self, args):
         if len(args) < 2:
-            return "Missing argument (command)."
+            return pad_output("Missing argument (command).")
             
         game_length = self.server.game.length
         
@@ -164,7 +167,7 @@ class CommandOnWaveManager(Command):
             wc = CommandOnWave(args, ALL_WAVES, game_length, self.chatbot)
 
         self.commands.append(wc)
-        return "Wave command started."
+        return pad_output("Wave command started.")
 
 
 class CommandOnTraderManager(Command):
@@ -180,7 +183,7 @@ class CommandOnTraderManager(Command):
 
         if args[0] == "start_trc":
             if len(args) < 2:
-                return "Missing argument (command)."
+                return pad_output("Missing argument (command).")
             return self.start_command(args[1:])
         elif args[0] == "stop_trc":
             return self.terminate_all()
@@ -191,10 +194,10 @@ class CommandOnTraderManager(Command):
     def terminate_all(self):
         if len(self.commands) > 0:
             self.commands = []
-            return "Trader commands stopped."
+            return pad_output("Trader commands stopped.")
         else:
-            return "Nothing is running."
+            return pad_output("Nothing is running.")
 
     def start_command(self, args):
         self.commands.append(args)
-        return "Trader command started."
+        return pad_output("Trader command started.")
