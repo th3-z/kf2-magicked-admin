@@ -161,7 +161,7 @@ class ServerDatabase:
         return self.__server_top_by_col("dosh")
 
     def top_time(self):
-        return self.__server_top_by_col("time")
+        return self.__server_top_by_col("time_online")
 
     def __init_player(self, steam_id):
         # Other columns have defaults in schema

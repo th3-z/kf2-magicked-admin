@@ -47,6 +47,7 @@ class CommandMap:
             'dosh': CommandDosh(self.server, admin_only=False),
             'top_kills': CommandTopKills(self.server, admin_only=False),
             'top_dosh': CommandTopDosh(self.server, admin_only=False),
+            'top_time': CommandTopTime(self.server, admin_only=False),
             'stats': CommandStats(self.server, admin_only=False),
             'game_time': CommandGameTime(self.server, admin_only=False),
             'server_kills': CommandServerKills(self.server, admin_only=False),

@@ -1,5 +1,6 @@
 from chatbot.commands.command import Command
 from utils.text import millify, trim_string
+from utils.time import seconds_to_hhmmss
 
 
 class CommandServerDosh(Command):
@@ -124,6 +125,29 @@ class CommandTopDosh(Command):
             dosh = millify(player['dosh'])
             message += "\t£{}\t-   {}\n".format(
                 dosh, username
+            )
+
+        return message
+
+
+class CommandTopTime(Command):
+    def __init__(self, server, admin_only=True):
+        Command.__init__(self, server, admin_only)
+
+    def execute(self, username, args, user_flags):
+        if not self.authorise(username, user_flags):
+            return self.not_auth_message
+
+        self.server.write_all_players()
+        records = self.server.database.top_time()
+
+        message = "\n\nTop 5 players by play time:\n"
+
+        for player in records[:5]:
+            username = trim_string(player['username'], 20)
+            time = seconds_to_hhmmss(player['time_online'])
+            message += "\t{}\t-   {}\n".format(
+                time, username
             )
 
         return message
