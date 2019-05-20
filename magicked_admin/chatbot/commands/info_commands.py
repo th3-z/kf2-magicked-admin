@@ -203,14 +203,19 @@ class CommandStats(Command):
         fmt_time = seconds_to_hhmmss(
             player.total_time + elapsed_time
         )
+
+        pos_kills = self.server.database.rank_kills(player.steam_id) or 0
+        pos_dosh = self.server.database.rank_dosh(player.steam_id) or 0
+        pos_time = self.server.database.rank_time(player.steam_id) or 0
+
         message = pad_output(
                     "Stats for {}:\n".format(player.username) +\
                     "Total play time: {} ({} sessions)\n"\
                     .format(fmt_time, player.sessions) +\
                     "Total deaths: {}\n".format(player.total_deaths) +\
-                    "Total kills: {}\n".format(millify(player.total_kills)) +\
-                    "Total dosh earned: {}\n"\
-                    .format(millify(player.total_dosh)) +\
+                    "Total kills: {} (rank #{}) \n".format(millify(player.total_kills), pos_kills) +\
+                    "Total dosh earned: £{} (rank #{})\n"\
+                    .format(millify(player.total_dosh), pos_dosh) +\
                     "Dosh this game: {}".format(millify(player.game_dosh)))
 
         return message
