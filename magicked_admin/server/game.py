@@ -31,6 +31,12 @@ class Game:
             self.length
         )
 
+    def new_game(self):
+        self.wave = 0
+        self.time = 0
+        self.zeds_killed = 0
+        self.dosh_earned = 0
+
 
 class GameMap:
     def __init__(self, title=GAME_MAP_TITLE_UNKNOWN, name="Unknown"):

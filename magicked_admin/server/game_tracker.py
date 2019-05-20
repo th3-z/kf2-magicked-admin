@@ -78,7 +78,6 @@ class GameTracker(threading.Thread):
         if not game_now.trader_open and self.server.trader_time:
             self.server.event_trader_close()
 
-
         self.server.game.game_map.title = game_now.map_title
         self.server.game.game_map.name = game_now.map_name
         self.server.game.wave = game_now.wave

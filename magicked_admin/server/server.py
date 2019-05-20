@@ -221,6 +221,7 @@ class Server:
         print(colored(message, 'magenta'))
 
         self.database.load_game_map(self.game.game_map)
+        self.game.new_game()
 
         if self.game.game_type == GAME_TYPE_ENDLESS:
             self.game.game_map.plays_endless += 1
