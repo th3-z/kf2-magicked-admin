@@ -5,8 +5,8 @@ from utils.text import pad_output
 
 
 class CommandServerDosh(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -20,8 +20,8 @@ class CommandServerDosh(Command):
 
 
 class CommandServerKills(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -35,8 +35,8 @@ class CommandServerKills(Command):
 
 
 class CommandKills(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -58,8 +58,8 @@ class CommandKills(Command):
 
 
 class CommandDosh(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -81,8 +81,8 @@ class CommandDosh(Command):
 
 
 class CommandTopKills(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -104,8 +104,8 @@ class CommandTopKills(Command):
 
 
 class CommandTopDosh(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -127,8 +127,8 @@ class CommandTopDosh(Command):
 
 
 class CommandTopTime(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -150,8 +150,8 @@ class CommandTopTime(Command):
 
 
 class CommandTopWaveKills(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -174,8 +174,8 @@ class CommandTopWaveKills(Command):
 
 
 class CommandTopWaveDosh(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):

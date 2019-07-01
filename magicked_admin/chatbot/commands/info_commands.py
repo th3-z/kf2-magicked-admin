@@ -66,9 +66,9 @@ scroll_height = 7
 
 
 class CommandLpsTest(Command):
-    def __init__(self, server, chatbot, admin_only=True):
+    def __init__(self, server, chatbot):
         self.chatbot = chatbot
-        Command.__init__(self, server, admin_only)
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -92,8 +92,8 @@ class CommandLpsTest(Command):
 
 
 class CommandPlayerCount(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -105,8 +105,8 @@ class CommandPlayerCount(Command):
 
 
 class CommandPlayers(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -124,8 +124,8 @@ class CommandPlayers(Command):
 
 
 class CommandGame(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -134,7 +134,7 @@ class CommandGame(Command):
 
 
 class CommandGameMap(Command):
-    def __init__(self, server, admin_only=True):
+    def __init__(self, server, admin_only=False):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, user_flags):
@@ -144,8 +144,8 @@ class CommandGameMap(Command):
 
 
 class CommandGameTime(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -154,31 +154,34 @@ class CommandGameTime(Command):
 
 
 class CommandHighWave(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
-        return pad_output("{} is the highest wave reached on this map."\
-            .format(self.server.game.game_map.highest_wave))
+        return pad_output(
+            "{} is the highest wave reached on this map."
+            .format(self.server.game.game_map.highest_wave)
+        )
 
 
 class CommandHelp(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
-        return pad_output("Player commands:\n !me, !dosh, !kills, "
-                          "!server_dosh, !server_kills, !top_dosh, !top_kills,"
-                          " !stats")
+        return pad_output(
+            "Player commands:\n !me, !dosh, !kills, !server_dosh, "
+            "!server_kills, !top_dosh, !top_kills, !stats"
+        )
 
 
 class CommandStats(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -206,16 +209,21 @@ class CommandStats(Command):
 
         pos_kills = self.server.database.rank_kills(player.steam_id) or 0
         pos_dosh = self.server.database.rank_dosh(player.steam_id) or 0
+        # todo Add pos_time to output
         pos_time = self.server.database.rank_time(player.steam_id) or 0
 
         message = pad_output(
-                    "Stats for {}:\n".format(player.username) +\
-                    "Total play time: {} ({} sessions)\n"\
-                    .format(fmt_time, player.sessions) +\
-                    "Total deaths: {}\n".format(player.total_deaths) +\
-                    "Total kills: {} (rank #{}) \n".format(millify(player.total_kills), pos_kills) +\
-                    "Total dosh earned: £{} (rank #{})\n"\
-                    .format(millify(player.total_dosh), pos_dosh) +\
-                    "Dosh this game: {}".format(millify(player.game_dosh)))
+            "Stats for {}:\n"
+            "Total play time: {} ({} sessions)\n"
+            "Total deaths: {}\n"
+            "Total kills: {} (rank #{}) \n"
+            "Total dosh earned: £{} (rank #{})\n"
+            "Dosh this game: {}"
+            .format(
+                player.username, fmt_time, player.sessions,
+                player.total_deaths, millify(player.total_kills), pos_kills,
+                millify(player.total_dosh), pos_dosh, millify(player.game_dosh)
+            )
+        )
 
         return message

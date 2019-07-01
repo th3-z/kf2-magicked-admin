@@ -11,9 +11,15 @@ class CommandMap:
         self.command_map = self.generate_map()
 
     def generate_map(self):
-        wave_event_manager = CommandOnWaveManager(self.server, self.chatbot)
-        trader_event_manager = CommandOnTraderManager(self.server, self.chatbot)
-        time_event_manager = CommandOnTimeManager(self.server, self.chatbot)
+        wave_event_manager = CommandOnWaveManager(
+            self.server, self.chatbot
+        )
+        trader_event_manager = CommandOnTraderManager(
+            self.server, self.chatbot
+        )
+        time_event_manager = CommandOnTimeManager(
+            self.server, self.chatbot
+        )
 
         command_map = {
             'player_join': CommandGreeter(self.server),
@@ -26,7 +32,7 @@ class CommandMap:
             'stop_trc': trader_event_manager,
             't_close': trader_event_manager,
             't_open': trader_event_manager,
-            'record_wave': CommandHighWave(self.server, admin_only=False),
+            'record_wave': CommandHighWave(self.server),
             'enforce_levels': CommandEnforceLevels(self.server),
             'enforce_dosh': CommandEnforceDosh(self.server),
             'say': CommandSay(self.server),
@@ -38,28 +44,28 @@ class CommandMap:
             'length': CommandLength(self.server),
             'difficulty': CommandDifficulty(self.server),
             'game_mode': CommandGameMode(self.server),
-            'players': CommandPlayers(self.server, admin_only=False),
-            'game': CommandGame(self.server, admin_only=False),
-            'help': CommandHelp(self.server, admin_only=False),
-            'kills': CommandKills(self.server, admin_only=False),
-            'kick': CommandKick(self.server, admin_only=True),
-            'ban': CommandBan(self.server, admin_only=True),
-            'dosh': CommandDosh(self.server, admin_only=False),
-            'top_kills': CommandTopKills(self.server, admin_only=False),
-            'top_dosh': CommandTopDosh(self.server, admin_only=False),
-            'top_time': CommandTopTime(self.server, admin_only=False),
-            'top_wave_kills': CommandTopWaveKills(self.server, admin_only=False),
-            'top_wave_dosh': CommandTopWaveDosh(self.server, admin_only=False),
-            'stats': CommandStats(self.server, admin_only=False),
-            'game_time': CommandGameTime(self.server, admin_only=False),
-            'server_kills': CommandServerKills(self.server, admin_only=False),
-            'server_dosh': CommandServerDosh(self.server, admin_only=False),
-            'op': CommandOp(self.server, admin_only=True),
-            'deop': CommandOp(self.server, admin_only=True),
-            'map': CommandGameMap(self.server, admin_only=False),
-            'maps': CommandGameMap(self.server, admin_only=False),
-            'lps': CommandLpsTest(self.server, self.chatbot, admin_only=False),
-            'player_count': CommandPlayerCount(self.server, admin_only=False),
+            'players': CommandPlayers(self.server),
+            'game': CommandGame(self.server),
+            'help': CommandHelp(self.server),
+            'kills': CommandKills(self.server),
+            'kick': CommandKick(self.server),
+            'ban': CommandBan(self.server),
+            'dosh': CommandDosh(self.server),
+            'top_kills': CommandTopKills(self.server),
+            'top_dosh': CommandTopDosh(self.server),
+            'top_time': CommandTopTime(self.server),
+            'top_wave_kills': CommandTopWaveKills(self.server),
+            'top_wave_dosh': CommandTopWaveDosh(self.server),
+            'stats': CommandStats(self.server),
+            'game_time': CommandGameTime(self.server),
+            'server_kills': CommandServerKills(self.server),
+            'server_dosh': CommandServerDosh(self.server),
+            'op': CommandOp(self.server),
+            'deop': CommandOp(self.server),
+            'map': CommandGameMap(self.server),
+            'maps': CommandGameMap(self.server),
+            'lps': CommandLpsTest(self.server, self.chatbot),
+            'player_count': CommandPlayerCount(self.server),
         }
 
         return command_map

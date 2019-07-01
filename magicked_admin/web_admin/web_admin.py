@@ -26,6 +26,10 @@ class WebAdmin(object):
 
         self.__game_password = None
 
+    def supported_mode(self, mode):
+        # The other modes have various bits of data omitted!
+        return self.__web_interface.ma_installed or mode == GAME_TYPE_SURVIVAL
+
     def close(self):
         self.chat.stop()
 

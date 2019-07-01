@@ -33,6 +33,9 @@ class Server:
         self.tracker = GameTracker(self)
         self.tracker.start()
 
+    def supported_mode(self):
+        return self.web_admin.supported_mode(self.game.game_type)
+
     def close(self):
         self.tracker.stop()
         self.write_game_map()

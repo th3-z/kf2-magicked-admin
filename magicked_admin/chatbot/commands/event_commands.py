@@ -2,7 +2,7 @@ import threading
 import time
 
 from chatbot.commands.command import Command
-from utils import DEBUG, debug
+from utils import debug
 from utils.text import millify
 from utils.time import seconds_to_hhmmss
 from web_admin.constants import *
@@ -13,8 +13,8 @@ ALL_WAVES = 999
 
 class CommandGreeter(Command):
 
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -36,18 +36,19 @@ class CommandGreeter(Command):
             pos_kills = self.server.database.rank_kills(player.steam_id)
             pos_dosh = self.server.database.rank_dosh(player.steam_id)
             return pad_output(
-                        "\nWelcome back {}.\n" \
-                        "You've killed {} zeds (rank #{}) and  \n"
-                        "earned £{} (rank #{}) \nover {} sessions "
-                        "({}).".format(
-                            player.username,
-                            millify(player.total_kills),
-                            pos_kills,
-                            millify(player.total_dosh),
-                            pos_dosh,
-                            player.sessions,
-                            seconds_to_hhmmss(player.total_time)
-                        ))
+                "\nWelcome back {}.\n"
+                "You've killed {} zeds (rank #{}) and  \n"
+                "earned £{} (rank #{}) \n"
+                "over {} sessions ({}).".format(
+                    player.username,
+                    millify(player.total_kills),
+                    pos_kills,
+                    millify(player.total_dosh),
+                    pos_dosh,
+                    player.sessions,
+                    seconds_to_hhmmss(player.total_time)
+                )
+            )
         else:
             return None
 
@@ -64,7 +65,9 @@ class CommandOnWave:
 
     def new_wave(self, wave):
         if wave == self.wave or self.wave == ALL_WAVES:
-            self.chatbot.command_handler("internal_command", self.args, USER_TYPE_INTERNAL)
+            self.chatbot.command_handler(
+                "internal_command", self.args, USER_TYPE_INTERNAL
+            )
 
 
 class CommandOnTime(threading.Thread):
@@ -83,17 +86,21 @@ class CommandOnTime(threading.Thread):
     def run(self):
         if not self.repeat:
             time.sleep(self.time_interval)
-            self.chatbot.command_handler("internal_command", self.args, USER_TYPE_INTERNAL)
+            self.chatbot.command_handler(
+                "internal_command", self.args, USER_TYPE_INTERNAL
+            )
             return
         while not self.exit_flag.wait(self.time_interval):
-            self.chatbot.command_handler("internal_command", self.args, USER_TYPE_INTERNAL)
+            self.chatbot.command_handler(
+                "internal_command", self.args, USER_TYPE_INTERNAL
+            )
 
 
 class CommandOnTimeManager(Command):
-    def __init__(self, server, chatbot, admin_only=True):
+    def __init__(self, server, chatbot):
         self.command_threads = []
         self.chatbot = chatbot
-        Command.__init__(self, server, admin_only)
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -111,9 +118,13 @@ class CommandOnTimeManager(Command):
         try:
             time = int(args[1]) if not repeat else int(args[2])
         except ValueError:
-            return pad_output("Malformed command, \""+args[1]+"\" is not an integer.")
+            return pad_output(
+                "Malformed command, \"{}\" is not an integer.".format(args[1])
+            )
 
-        time_command = CommandOnTime(args[2:] if not repeat else args[3:], time, self.chatbot, repeat)
+        time_command = CommandOnTime(
+            args[2:] if not repeat else args[3:], time, self.chatbot, repeat
+        )
         time_command.start()
         self.command_threads.append(time_command)
         return pad_output("Timed command started.")
@@ -129,10 +140,10 @@ class CommandOnTimeManager(Command):
 
 
 class CommandOnWaveManager(Command):
-    def __init__(self, server, chatbot, admin_only=True):
+    def __init__(self, server, chatbot):
         self.commands = []
         self.chatbot = chatbot
-        Command.__init__(self, server, admin_only)
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -162,7 +173,9 @@ class CommandOnWaveManager(Command):
         game_length = self.server.game.length
         
         try:
-            wc = CommandOnWave(args[1:], int(args[0]), game_length, self.chatbot)
+            wc = CommandOnWave(
+                args[1:], int(args[0]), game_length, self.chatbot
+            )
         except ValueError:
             wc = CommandOnWave(args, ALL_WAVES, game_length, self.chatbot)
 
@@ -171,11 +184,11 @@ class CommandOnWaveManager(Command):
 
 
 class CommandOnTraderManager(Command):
-    def __init__(self, server, chatbot, admin_only=True):
+    def __init__(self, server, chatbot):
         self.commands = []
         self.chatbot = chatbot
 
-        Command.__init__(self, server, admin_only)
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -189,7 +202,9 @@ class CommandOnTraderManager(Command):
             return self.terminate_all()
         elif args[0] == "t_open":
             for command in self.commands:
-                self.chatbot.command_handler("internal_command", command, USER_TYPE_INTERNAL)
+                self.chatbot.command_handler(
+                    "internal_command", command, USER_TYPE_INTERNAL
+                )
 
     def terminate_all(self):
         if len(self.commands) > 0:

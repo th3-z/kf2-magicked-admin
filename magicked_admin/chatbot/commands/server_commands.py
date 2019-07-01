@@ -6,9 +6,10 @@ from chatbot.commands.command import Command
 from web_admin.constants import *
 from utils.text import pad_output
 
+
 class CommandSay(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -24,8 +25,8 @@ class CommandSay(Command):
 
 
 class CommandOp(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -46,8 +47,8 @@ class CommandOp(Command):
 
 
 class CommandEnforceLevels(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -57,8 +58,8 @@ class CommandEnforceLevels(Command):
 
 
 class CommandGameMap(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -93,8 +94,8 @@ class CommandGameMap(Command):
 
 
 class CommandEnforceDosh(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -104,8 +105,8 @@ class CommandEnforceDosh(Command):
 
 
 class CommandKick(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -123,8 +124,8 @@ class CommandKick(Command):
 
 
 class CommandBan(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -142,8 +143,8 @@ class CommandBan(Command):
 
 
 class CommandRun(Command):
-    def __init__(self, server, chatbot, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server, chatbot):
+        Command.__init__(self, server, admin_only=True)
 
         self.chatbot = chatbot
 
@@ -162,8 +163,8 @@ class CommandRun(Command):
 
 
 class CommandRestart(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -174,8 +175,8 @@ class CommandRestart(Command):
 
 
 class CommandLoadMap(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -189,8 +190,8 @@ class CommandLoadMap(Command):
 
 
 class CommandPassword(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -199,7 +200,8 @@ class CommandPassword(Command):
         # TODO rewrite
 
         if len(args) < 2:
-            return "Game password state is " + str(self.server.web_admin.has_game_password())
+            return "Game password state is " \
+                   + str(self.server.web_admin.has_game_password())
         elif args[1] in ['on', 'yes', 'y', '1', 'enable', 'enabled']:
             self.server.web_admin.set_game_password(self.server.game_password)
             return "Game password enabled"
@@ -215,9 +217,9 @@ class CommandPassword(Command):
 
 
 class CommandSilent(Command):
-    def __init__(self, server, chatbot, admin_only=True):
+    def __init__(self, server, chatbot):
         self.chatbot = chatbot
-        Command.__init__(self, server, admin_only)
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -236,14 +238,16 @@ class CommandSilent(Command):
 
 
 class CommandLength(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
             return self.not_auth_message
         if len(args) < 2:
-            return pad_output("Length not recognised. Options are short, medium, or long.")
+            return pad_output(
+                "Length not recognised. Options are short, medium, or long."
+            )
 
         if args[1] in ["short", "0"]:
             length = LEN_SHORT
@@ -252,15 +256,17 @@ class CommandLength(Command):
         elif args[1] in ["long", "2"]:
             length = LEN_LONG
         else:
-            return pad_output("Length not recognised. Options are short, medium, or long.")
+            return pad_output(
+                "Length not recognised. Options are short, medium, or long."
+            )
 
         self.server.set_length(length)
         return pad_output("Length change will take effect next game.")
 
 
 class CommandDifficulty(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
@@ -290,8 +296,8 @@ class CommandDifficulty(Command):
 
 
 class CommandGameMode(Command):
-    def __init__(self, server, admin_only=True):
-        Command.__init__(self, server, admin_only)
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True)
 
     def execute(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
