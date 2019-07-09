@@ -195,14 +195,23 @@ class WebAdmin(object):
         # xpath to <td>s and retrieve text manually to catch empty text()
         trows_path = "//table[@id=\"players\"]/tbody//td"
         trows_result = info_tree.xpath(trows_path)
-        trows_result = [trow.text if trow.text else "" for trow in trows_result]
+        trows_result = [
+            trow.text if trow.text else ""
+            for trow in trows_result
+        ]
 
-        # No players in game, a message is left in the table
+        # If players in game, a lone message is left in the table
         if len(trows_result) == 1:
             return players
 
-        trows_result = [list(group) for k, group in
-                       groupby(trows_result, lambda x: x == "\xa0") if not k]
+	# Group rows in the table by the non-breaking space in first cell	
+        trows_result = [
+            list(group)
+            for k, group in groupby(
+                trows_result, lambda x: x == "\xa0"
+            )
+            if not k
+        ]
 
         for player_row in trows_result:
             player = ConstPlayer(

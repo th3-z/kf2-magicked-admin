@@ -356,8 +356,12 @@ class WebInterface(object):
 
         banner_link = motd_tree.xpath('//input[@name="BannerLink"]/@value')[0]
         web_link = motd_tree.xpath('//input[@name="WebLink"]/@value')[0]
-        clan_motto = motd_tree.xpath('//textarea[@name="ClanMotto"]/text()')[0]
-        motd = motd_tree.xpath('//textarea[@name="ServerMOTD"]/text()')[0]
+
+        clan_motto = motd_tree.xpath('//textarea[@name="ClanMotto"]/text()')
+        clan_motto = clan_motto[0] if len(clan_motto) else ""
+
+        motd = motd_tree.xpath('//textarea[@name="ServerMOTD"]/text()')
+        motd = motd[0] if len(motd) else ""
 
         return {
             'BannerLink': banner_link,
