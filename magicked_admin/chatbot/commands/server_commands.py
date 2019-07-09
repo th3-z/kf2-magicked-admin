@@ -9,11 +9,12 @@ from utils.text import pad_output
 
 class CommandSay(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+
         if len(args) < 2:
             return pad_output("No message was specified.")
 
@@ -26,11 +27,11 @@ class CommandSay(Command):
 
 class CommandOp(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
         
         player = self.server.get_player_by_username(args[1])
         if not player:
@@ -48,22 +49,22 @@ class CommandOp(Command):
 
 class CommandEnforceLevels(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         self.server.enforce_levels()
 
 
 class CommandGameMap(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         if args[0] == "maps":
             message = ", ".join(self.server.get_maps())
@@ -95,22 +96,22 @@ class CommandGameMap(Command):
 
 class CommandEnforceDosh(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         self.server.enforce_dosh()
 
 
 class CommandKick(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         if len(args) < 2:
             return pad_output("Missing argument, username or Steam ID.")
@@ -125,11 +126,11 @@ class CommandKick(Command):
 
 class CommandBan(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         if len(args) < 2:
             return pad_output("Missing argument, username or Steam ID.")
@@ -144,13 +145,14 @@ class CommandBan(Command):
 
 class CommandRun(Command):
     def __init__(self, server, chatbot):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
         self.chatbot = chatbot
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+        
         if len(args) < 2:
             return pad_output("No file was specified.")
 
@@ -164,11 +166,11 @@ class CommandRun(Command):
 
 class CommandRestart(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         self.server.restart_map()
         return pad_output("Restarting map...")
@@ -176,11 +178,11 @@ class CommandRestart(Command):
 
 class CommandLoadMap(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         if len(args) < 2:
             return pad_output("Missing argument (map name)")
@@ -191,14 +193,13 @@ class CommandLoadMap(Command):
 
 class CommandPassword(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         # TODO rewrite
-
         if len(args) < 2:
             return "Game password state is " \
                    + str(self.server.web_admin.has_game_password())
@@ -219,11 +220,11 @@ class CommandPassword(Command):
 class CommandSilent(Command):
     def __init__(self, server, chatbot):
         self.chatbot = chatbot
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         if self.chatbot.silent:
             self.chatbot.silent = False
@@ -239,11 +240,12 @@ class CommandSilent(Command):
 
 class CommandLength(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+
         if len(args) < 2:
             return pad_output(
                 "Length not recognised. Options are short, medium, or long."
@@ -266,11 +268,12 @@ class CommandLength(Command):
 
 class CommandDifficulty(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+
         if len(args) < 2:
             return pad_output(
                 "Difficulty not recognised. "
@@ -297,11 +300,12 @@ class CommandDifficulty(Command):
 
 class CommandGameMode(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+
         if len(args) < 2:
             return pad_output(
                 "GameMode not recognised. "
@@ -324,3 +328,4 @@ class CommandGameMode(Command):
 
         self.server.change_game_type(mode)
         return pad_output("GameMode will be changed to {0}.".format(str(mode)))
+

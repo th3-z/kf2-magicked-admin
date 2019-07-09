@@ -14,11 +14,11 @@ ALL_WAVES = 999
 class CommandGreeter(Command):
 
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         if len(args) < 2:
             return pad_output("Missing argument (username)")
@@ -100,11 +100,12 @@ class CommandOnTimeManager(Command):
     def __init__(self, server, chatbot):
         self.command_threads = []
         self.chatbot = chatbot
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+
         if args[0] == "stop_tc":
             return self.terminate_all()
 
@@ -143,11 +144,11 @@ class CommandOnWaveManager(Command):
     def __init__(self, server, chatbot):
         self.commands = []
         self.chatbot = chatbot
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=True)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         if args[0] == "stop_wc":
             return self.terminate_all()
@@ -188,11 +189,11 @@ class CommandOnTraderManager(Command):
         self.commands = []
         self.chatbot = chatbot
 
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=True)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         if args[0] == "start_trc":
             if len(args) < 2:

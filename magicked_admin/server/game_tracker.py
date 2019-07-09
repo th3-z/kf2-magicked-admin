@@ -43,6 +43,7 @@ class GameTracker(threading.Thread):
         new_game = False
 
         # W/o installation wave cannot be determined on endless/weekly
+        # TODO Refactor method
         if game_now.wave is not None:
             new_map = self.server.game.game_map.title != game_now.map_title
             wave_reset = self.server.game.wave == None or \

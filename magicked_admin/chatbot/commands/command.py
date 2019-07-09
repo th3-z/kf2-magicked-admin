@@ -35,7 +35,15 @@ class Command:
         return authorised
 
     def supported(self):
-        return self.requires_patch or self.server.supported_mode()
+        return (not self.requires_patch) or self.server.supported_mode()
 
+    def execute_pretest(self, username, user_flags):
+        if not self.authorise(username, user_flags):
+            return self.not_auth_message
+        if not self.supported():
+            return self.not_supported_message
+        return None
+    
     def execute(self, username, args, user_flags):
         raise NotImplementedError("Command.execute() not implemented")
+

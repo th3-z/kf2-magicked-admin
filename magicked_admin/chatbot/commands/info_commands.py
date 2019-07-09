@@ -68,11 +68,11 @@ scroll_height = 7
 class CommandLpsTest(Command):
     def __init__(self, server, chatbot):
         self.chatbot = chatbot
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         for i in range(0, 300):
             line_start = i % len(lps_test_frames)
@@ -93,11 +93,11 @@ class CommandLpsTest(Command):
 
 class CommandPlayerCount(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         return pad_output("{}/{} Players are online".format(
             len(self.server.players), self.server.game.players_max
@@ -106,11 +106,11 @@ class CommandPlayerCount(Command):
 
 class CommandPlayers(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=True)
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         players = self.server.players
         if not players:
@@ -125,41 +125,45 @@ class CommandPlayers(Command):
 
 class CommandGame(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+
         return pad_output(str(self.server.game))
 
 
 class CommandGameMap(Command):
-    def __init__(self, server, admin_only=False):
+    def __init__(self, server, admin_only=False, requires_patch=False):
         Command.__init__(self, server, admin_only)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+
         return pad_output(str(self.server.game.game_map))
 
 
 class CommandGameTime(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+
         return str(self.server.game.time)
 
 
 class CommandHighWave(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=True)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+
         return pad_output(
             "{} is the highest wave reached on this map."
             .format(self.server.game.game_map.highest_wave)
@@ -168,11 +172,12 @@ class CommandHighWave(Command):
 
 class CommandHelp(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+
         return pad_output(
             "Player commands:\n !me, !dosh, !kills, !server_dosh, "
             "!server_kills, !top_dosh, !top_kills, !stats"
@@ -181,11 +186,11 @@ class CommandHelp(Command):
 
 class CommandStats(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         self.server.write_all_players()
 

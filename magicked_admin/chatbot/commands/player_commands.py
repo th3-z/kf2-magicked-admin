@@ -6,11 +6,11 @@ from utils.text import pad_output
 
 class CommandServerDosh(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         self.server.write_all_players()
         dosh = self.server.database.server_dosh()
@@ -21,11 +21,11 @@ class CommandServerDosh(Command):
 
 class CommandServerKills(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         self.server.write_all_players()
         kills = self.server.database.server_kills()
@@ -36,11 +36,11 @@ class CommandServerKills(Command):
 
 class CommandKills(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         player = self.server.get_player_by_username(username)
         if player:
@@ -59,11 +59,11 @@ class CommandKills(Command):
 
 class CommandDosh(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         player = self.server.get_player_by_username(username)
         if player:
@@ -82,11 +82,11 @@ class CommandDosh(Command):
 
 class CommandTopKills(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         self.server.write_all_players()
         records = self.server.database.top_kills()
@@ -105,11 +105,11 @@ class CommandTopKills(Command):
 
 class CommandTopDosh(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         self.server.write_all_players()
         records = self.server.database.top_dosh()
@@ -128,11 +128,11 @@ class CommandTopDosh(Command):
 
 class CommandTopTime(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         self.server.write_all_players()
         records = self.server.database.top_time()
@@ -151,11 +151,11 @@ class CommandTopTime(Command):
 
 class CommandTopWaveKills(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=True)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         if not len(self.server.players):
             return None
@@ -175,11 +175,11 @@ class CommandTopWaveKills(Command):
 
 class CommandTopWaveDosh(Command):
     def __init__(self, server):
-        Command.__init__(self, server, admin_only=False)
+        Command.__init__(self, server, admin_only=False, requires_patch=True)
 
     def execute(self, username, args, user_flags):
-        if not self.authorise(username, user_flags):
-            return self.not_auth_message
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         if not len(self.server.players):
             return None
