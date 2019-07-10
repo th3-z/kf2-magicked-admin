@@ -11,27 +11,21 @@ class CommandMap:
         self.command_map = self.generate_map()
 
     def generate_map(self):
-        wave_event_manager = CommandOnWaveManager(
-            self.server, self.chatbot
-        )
-        trader_event_manager = CommandOnTraderManager(
-            self.server, self.chatbot
-        )
-        time_event_manager = CommandOnTimeManager(
-            self.server, self.chatbot
-        )
+        scheduler = self.chatbot.scheduler
 
         command_map = {
-            'player_join': CommandGreeter(self.server),
-            'stop_wc': wave_event_manager,
-            'start_wc': wave_event_manager,
-            'new_wave': wave_event_manager,
-            'start_tc': time_event_manager,
-            'stop_tc': time_event_manager,
-            'start_trc': trader_event_manager,
-            'stop_trc': trader_event_manager,
-            't_close': trader_event_manager,
-            't_open': trader_event_manager,
+            'start_jc': CommandStartJoinCommand(self.server, scheduler),
+            'stop_jc': CommandStopJoinCommands(self.server, scheduler),
+
+            'start_wc': CommandStartWaveCommand(self.server, scheduler),
+            'stop_wc': CommandStopWaveCommands(self.server, scheduler),
+
+            'start_tc': CommandStartTimeCommand(self.server, scheduler),
+            'stop_tc': CommandStopTimeCommands(self.server, scheduler),
+
+            'start_trc': CommandStartTraderCommand(self.server, scheduler),
+            'stop_trc': CommandStopTraderCommands(self.server, scheduler),
+
             'record_wave': CommandHighWave(self.server),
             'enforce_levels': CommandEnforceLevels(self.server),
             'enforce_dosh': CommandEnforceDosh(self.server),
@@ -61,9 +55,9 @@ class CommandMap:
             'server_kills': CommandServerKills(self.server),
             'server_dosh': CommandServerDosh(self.server),
             'op': CommandOp(self.server),
-            'deop': CommandOp(self.server),
+            'deop': CommandDeop(self.server),
             'map': CommandGameMap(self.server),
-            'maps': CommandGameMap(self.server),
+            'maps': CommandGameMaps(self.server),
             'lps': CommandLpsTest(self.server, self.chatbot),
             'player_count': CommandPlayerCount(self.server),
         }

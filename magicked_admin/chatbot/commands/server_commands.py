@@ -37,14 +37,26 @@ class CommandOp(Command):
         if not player:
             return pad_output("Couldn't identify player '{}'".format(args[1]))
         
-        if args[0] == "deop":
-            player.op = 0
-            self.server.write_all_players()
-            return pad_output("Deoped {}".format(player.username))
-        else:
-            player.op = 1
-            self.server.write_all_players()
-            return pad_output("Oped {}".format(player.username))
+        player.op = 1
+        self.server.write_all_players()
+        return pad_output("Oped {}".format(player.username))
+
+
+class CommandDeop(Command):
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+
+    def execute(self, username, args, user_flags):
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
+        
+        player = self.server.get_player_by_username(args[1])
+        if not player:
+            return pad_output("Couldn't identify player '{}'".format(args[1]))
+        
+        player.op = 0
+        self.server.write_all_players()
+        return pad_output("Deoped {}".format(player.username))
 
 
 class CommandEnforceLevels(Command):
@@ -58,7 +70,7 @@ class CommandEnforceLevels(Command):
         self.server.enforce_levels()
 
 
-class CommandGameMap(Command):
+class CommandGameMaps(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
@@ -66,9 +78,17 @@ class CommandGameMap(Command):
         err = self.execute_pretest(username, user_flags)
         if err: return err
 
-        if args[0] == "maps":
-            message = ", ".join(self.server.get_maps())
-            return message
+        message = ", ".join(self.server.get_maps())
+        return message
+
+
+class CommandGameMap(Command):
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
+
+    def execute(self, username, args, user_flags):
+        err = self.execute_pretest(username, user_flags)
+        if err: return err
 
         elif len(args) == 1:
             map_title = self.server.game.game_map.title

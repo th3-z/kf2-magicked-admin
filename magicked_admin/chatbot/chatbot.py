@@ -1,8 +1,10 @@
 from os import path
 
 from chatbot import SCRIPT_TEMPLATE
-from chatbot.commands.command_map import CommandMap
-from chatbot.commands.event_commands import CommandGreeter
+
+from chatbot.command_map import CommandMap
+from chatbot.command_scheduler import CommandScheduler
+
 from utils import debug, find_data_file
 from web_admin.chat import ChatListener
 from web_admin.constants import *
@@ -19,6 +21,9 @@ class Chatbot(ChatListener):
 
         self.chat = server.web_admin.chat
         self.chat.add_listener(self)
+
+        self.scheduler = CommandScheduler(server, self)
+        self.chat.add_listener(self.scheduler)
 
         self.commands = CommandMap(server, self)
         self.silent = False
@@ -44,8 +49,7 @@ class Chatbot(ChatListener):
 
         if args[0].lower() in self.commands.command_map:
             command = self.commands.command_map[args[0].lower()]
-            if not self.greeter_enabled and isinstance(command, CommandGreeter):
-                return
+
             response = command.execute(username, args, user_flags)
             if not self.silent and response:
                 self.chat.submit_message(response)
