@@ -5,7 +5,7 @@ from os import path
 import requests
 from lxml import html
 
-from utils import DEBUG, find_data_file, warning
+from utils import DEBUG, find_data_file, warning, debug
 from utils.text import millify, trim_string
 
 
@@ -23,7 +23,6 @@ class MotdUpdater(threading.Thread):
             
             with open(self.motd_path, "w+") as motd_file:
                 motd_file.write(self.server.web_admin.get_motd())
-                
 
         self.motd = self.load_motd()
 
@@ -52,17 +51,26 @@ class MotdUpdater(threading.Thread):
     def render_motd(self, src_motd):
         if self.scoreboard_type in ['kills', 'Kills', 'kill', 'Kill']:
             scores = self.server.database.top_kills()
-        elif self.scoreboard_type in ['Dosh','dosh']:
+            scores = [
+                {'score': score['kills'], 'username': score['username']}
+                for score in scores
+            ]
+        elif self.scoreboard_type in ['Dosh', 'dosh']:
             scores = self.server.database.top_dosh()
+            scores = [
+                {'score': score['dosh'], 'username': score['username']}
+                for score in scores
+            ]
         else:
             warning("Scoreboard_type not recognised '{}' for {}. Options are: dosh, kills"
                     .format(self.scoreboard_type, self.server.name))
             return src_motd
 
         for player in scores:
-            name = player[0].replace("<", "&lt;")
+            if not player['username']: continue
+            name = player['username'].replace("<", "&lt;")
             name = trim_string(name, 12)
-            score = player[1]
+            score = player['score']
 
             src_motd = src_motd.replace("%PLR", name, 1)
             src_motd = src_motd.replace("%SCR", millify(score), 1)
