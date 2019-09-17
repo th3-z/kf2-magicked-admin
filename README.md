@@ -8,8 +8,6 @@ the web admin, it does not affect a server's ranked/custom status. It can be
 ran either directly on the server or remotely, and manage multiple servers at 
 once.
 
-Web homepage and VCS located [here](https://th3-z.xyz/kf2-ma).
-
 Features
 --------
 
@@ -73,14 +71,14 @@ when the bot starts on server_name.
 Downloads
 ---------
 
-Pending initial release.
-
-Users looking for the most recent stable version should visit the releases page
-on GitHub for now, you want 
-[0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7). The 
-Documentation on this page isn't valid for 0.0.7, so please visit the 
+The most recent stable version is 
+[0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7). This 
+release is quite old and doesn't align with the documentation here. See the 
 [Steam guide](http://steamcommunity.com/sharedfiles/filedetails/?id=1324364024) 
 for more information about 0.0.7.
+
+More recent versions are available for testing on the 
+[releases](https://github.com/th3-z/kf-magicked-admin/releases) page.
 
 Configuration options
 ---------------------
@@ -127,7 +125,7 @@ Running from Python sources
 Before contributing code you will need to install the Python requirements.
 
 ### Requirements
-Examples work on Debian 9 and Ubuntu 18.04, may differ for other operating 
+Examples work on Debian 10 and Ubuntu 19.04, may differ for other operating 
 systems. Install the following packages.
 
 * Python 3.x - `apt install python3`
@@ -137,9 +135,12 @@ systems. Install the following packages.
     zlib, but cx\_freeze is only needed for building.
 
 ### Running 
-`git clone https://th3-z.xyz/git/kf2-magicked-admin.git`
-    - Please don't clone the GitHub mirror!
+`git clone git@github.com:th3-z/kf2-magicked-admin.git`
+
 `cd kf2-magicked-admin`  
+
+`pip3 install -r requirements.txt`
+
 `python3 -O magicked_admin/magicked_admin.py`  
 
 The `-O` flag runs the program in release mode, remove it to run KF2-MA in 
@@ -152,7 +153,7 @@ You can build a binary release for distribution with `make` after installing
 both the run and build requirements. 
 
 ### Requirements
-Examples work on Debian 9 and Ubuntu 18.04, may differ for other operating 
+Examples work on Debian 10 and Ubuntu 19.04, may differ for other operating 
 systems.
 
 * Python 3.x - `apt install python3`
