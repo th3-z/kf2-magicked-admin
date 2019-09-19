@@ -15,7 +15,7 @@ isort:
 	@sh -c "isort --recursive ."
 
 lint:
-	@flake8 --ignore F405,E501
+	@flake8 --ignore F405,E501,F403,E722
 
 .PHONY: build
 
