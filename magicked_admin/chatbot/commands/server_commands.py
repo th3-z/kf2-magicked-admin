@@ -47,11 +47,11 @@ class CommandSay(Command):
             return err
         elif args.help:
             return self.format_response(self.help_text, args)
-        
+
         message = ' '.join(args.message)
 
         # Unescape escape characters e.g. \n -> newline
-        message = bytes(message.encode("iso-8859-1", "ignore"))\
+        message = bytes(message.encode("iso-8859-1", "ignore")) \
             .decode('unicode_escape')
 
         return self.format_response(message, args)
@@ -77,7 +77,7 @@ class CommandOp(Command):
         else:
             player.op = 1
             message = "Oped {}".format(player.username)
-        
+
         self.server.write_all_players()
 
         return self.format_response(message, args)
@@ -103,7 +103,7 @@ class CommandDeop(Command):
         else:
             player.op = 0
             message = "Deoped {}".format(player.username)
-        
+
         self.server.write_all_players()
 
         return self.format_response(message, args)
@@ -156,7 +156,7 @@ class CommandGameMap(Command):
             return err
         elif args.help:
             return self.format_response(self.help_text, args)
-        
+
         if args.map_name:
             map_title = self.server.find_map(args.map_title)
         else:
@@ -172,7 +172,7 @@ class CommandGameMap(Command):
                       + game_map.plays_endless \
                       + game_map.plays_survival_vs \
                       + game_map.plays_other
-        
+
         message = "Stats for {} ({}):\n".format(game_map.name, game_map.title)
         message += "Total plays: {} \n".format(total_plays)
         message += "Record wave: {} \n".format(game_map.highest_wave)
@@ -240,7 +240,7 @@ class CommandRun(Command):
             return err
         elif args.help:
             return self.format_response(self.help_text, args)
-        
+
         if not args.file:
             return self.format_response("No file was specified.", args)
 

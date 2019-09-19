@@ -1,12 +1,13 @@
-from utils import debug
-from web_admin.constants import *
-from utils.text import pad_output
 import gettext
-
-from chatbot.commands.argument_parser import ArgumentParser
 from argparse import ArgumentError
 
+from chatbot.commands.argument_parser import ArgumentParser
+from utils import debug
+from utils.text import pad_output
+from web_admin.constants import *
+
 _ = gettext.gettext
+
 
 class Command:
     def __init__(self, server, admin_only=True, requires_patch=False):
@@ -17,9 +18,9 @@ class Command:
         not_auth_message = "You're not authorised to use that command."
         self.not_auth_message = pad_output(not_auth_message)
 
-        not_supported_message = "This action isn't supported without Killing"\
-                                " Floor 2 Magicked Administrator's server"\
-                                " side patch! Please review the documentation"\
+        not_supported_message = "This action isn't supported without Killing" \
+                                " Floor 2 Magicked Administrator's server" \
+                                " side patch! Please review the documentation" \
                                 " at 'th3-z.xyz/kf2ma' for guidance."
         self.not_supported_message = pad_output(not_supported_message)
 
@@ -77,8 +78,8 @@ class Command:
         except SystemExit:
             error = None
             debug("Argparse tried to exit!\n\tCommand: {}\n\tArgs: {}".format(
-                args[0], args[1:] 
-             ))
+                args[0], args[1:]
+            ))
 
         return args, error
 
@@ -89,7 +90,6 @@ class Command:
             return pad_output(message)
         else:
             return message
-            
+
     def execute(self, username, args, user_flags):
         raise NotImplementedError("Command.execute() not implemented")
-

@@ -148,7 +148,7 @@ class ServerDatabase:
         self.cur.execute(query)
         result = self.cur.fetchall()
         lock.release()
-        
+
         if len(result):
             return result
         else:

@@ -51,6 +51,7 @@ class Player:
 
     def __str__(self):
         return "Username: " + self.username + \
-               "\nCountry: " + str(self.country) + " (" + self.ip + ")"\
-               "\nOP: " + str(self.op) + \
+               "\nCountry: " + str(self.country) + " (" + self.ip + ")" \
+                                                                    "\nOP: " + str(
+            self.op) + \
                "\nSteam ID: " + str(self.steam_id)

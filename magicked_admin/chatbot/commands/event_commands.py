@@ -1,7 +1,7 @@
-from chatbot.commands.command import Command
 from chatbot.command_scheduler import (
     CommandOnTime, CommandOnWave, CommandOnJoin, CommandOnTrader
 )
+from chatbot.commands.command import Command
 
 
 class CommandStartJoinCommand(Command):

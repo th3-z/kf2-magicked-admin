@@ -2,13 +2,9 @@ import threading
 import time
 
 from chatbot.commands.command import Command
-from utils import debug
-from utils.text import millify
-from utils.time import seconds_to_hhmmss
-from web_admin.constants import *
-from web_admin.chat import ChatListener
 from utils import warning
-from utils.text import pad_output
+from web_admin.chat import ChatListener
+from web_admin.constants import *
 
 ALL_WAVES = 999
 
@@ -66,7 +62,7 @@ class CommandScheduler(ChatListener):
         """
         if not user_flags & USER_TYPE_INTERNAL:
             return
-        
+
         for command in self.scheduled_commands:
             if command.event_check(self.server, message):
                 self.run_command(command, message)
@@ -103,7 +99,7 @@ class ScheduledCommand(Command):
         warning(
             "Scheduled command ({}) ran directly by {}, please use "
             "CommandScheduler"
-            .format(
+                .format(
                 " ".join(args),
                 username
             )
@@ -158,13 +154,13 @@ class CommandOnWave(ScheduledCommand):
         wave = (length + 1) + (self.wave + 1) if self.wave < 0 else self.wave
 
         message = message.split()
-        
+
         if message[0] == "new_wave":
             new_wave = message[1]
 
             if new_wave == wave:
                 return True
-        
+
         return False
 
 
@@ -211,4 +207,3 @@ class CommandOnTrader(ScheduledCommand):
             return True
 
         return False
-
