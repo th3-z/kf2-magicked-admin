@@ -1,10 +1,8 @@
 from os import path
 
 from chatbot import SCRIPT_TEMPLATE
-
 from chatbot.command_map import CommandMap
 from chatbot.command_scheduler import CommandScheduler
-
 from utils import debug, find_data_file
 from web_admin.chat import ChatListener
 from web_admin.constants import *
@@ -63,4 +61,5 @@ class Chatbot(ChatListener):
                 if command:
                     debug("!" + command)
                     args = command.split()
-                    self.command_handler("internal_command", args, USER_TYPE_INTERNAL)
+                    self.command_handler("internal_command", args,
+                                         USER_TYPE_INTERNAL)

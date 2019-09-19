@@ -13,7 +13,7 @@ class MotdUpdater(threading.Thread):
         self.motd_path = find_data_file(server.name + ".motd")
 
         self.scoreboard_type = scoreboard_type
-        self.time_interval = 5*60
+        self.time_interval = 5 * 60
 
         if not path.exists(find_data_file(self.server.name + ".motd")):
             warning(
@@ -21,7 +21,7 @@ class MotdUpdater(threading.Thread):
                     self.server.name
                 )
             )
-            
+
             with open(self.motd_path, "w+") as motd_file:
                 motd_file.write(self.server.web_admin.get_motd())
 
@@ -37,7 +37,7 @@ class MotdUpdater(threading.Thread):
             self.server.write_all_players()
 
             motd = self.render_motd(self.motd)
-            self.server.web_admin.set_motd(motd) 
+            self.server.web_admin.set_motd(motd)
 
             debug("Updated the MOTD!")
 

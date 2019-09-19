@@ -5,7 +5,7 @@ from database.database import ServerDatabase
 from server.game import Game, GameMap
 from server.game_tracker import GameTracker
 from server.player import Player
-from utils import DEBUG, debug, info, warning
+from utils import debug, info, warning
 from web_admin.constants import *
 
 
@@ -15,7 +15,7 @@ class Server:
 
         info("Connecting to {} ({})...".format(name, address))
         self.web_admin = api.WebAdmin(address, username, password, name)
-        info("Connected to {} ({})".format(name,address))
+        info("Connected to {} ({})".format(name, address))
 
         self.database = ServerDatabase(name)
 
@@ -91,7 +91,7 @@ class Server:
 
     def write_game_map(self):
         debug("Writing game to database ({})".format(
-              self.game.game_map.name
+            self.game.game_map.name
         ))
         self.database.save_game_map(self.game.game_map)
 
@@ -109,7 +109,7 @@ class Server:
             self.web_admin.set_game_password(password)
         else:
             self.web_admin.set_game_password(self.game_password)
-    
+
     def get_maps(self, active_only=False):
         return self.web_admin.get_maps()
 
@@ -122,7 +122,7 @@ class Server:
                 matches += 1
                 matched_title = map_title
 
-        if matched_title and matches == 1: 
+        if matched_title and matches == 1:
             return matched_title
         else:
             return None
@@ -130,7 +130,7 @@ class Server:
     def change_map(self, new_map):
         matched_title = self.find_map(new_map)
 
-        if matched_title: 
+        if matched_title:
             self.web_admin.set_map(matched_title)
         else:
             return None
@@ -139,9 +139,9 @@ class Server:
         player = self.get_player_by_username(username)
         if not player:
             player = self.get_player_by_sid(username)
-        if not player: 
+        if not player:
             return False
-        
+
         self.web_admin.kick_player(player.player_key)
         return player.username
 
@@ -238,12 +238,13 @@ class Server:
             warning("Unknown game_type {}".format(self.game.game_type))
             self.game.game_map.plays_other += 1
 
-        self.web_admin.chat.handle_message("internal_command", "!new_game", USER_TYPE_INTERNAL)
+        self.web_admin.chat.handle_message("internal_command", "!new_game",
+                                           USER_TYPE_INTERNAL)
 
     def event_end_game(self, victory=False):
         debug("End game on {}, map: {}, mode: {}, victory: {}".format(
-              self.name, self.game.game_map.title, self.game.game_type, 
-              str(victory)
+            self.name, self.game.game_map.title, self.game.game_type,
+            str(victory)
         ))
 
         self.write_game_map()
@@ -265,8 +266,10 @@ class Server:
 
     def event_trader_open(self):
         self.trader_time = True
-        self.web_admin.chat.handle_message("internal_command", "!t_open", USER_TYPE_INTERNAL)
+        self.web_admin.chat.handle_message("internal_command", "!t_open",
+                                           USER_TYPE_INTERNAL)
 
     def event_trader_close(self):
         self.trader_time = False
-        self.web_admin.chat.handle_message("internal_command", "!t_close", USER_TYPE_INTERNAL)
+        self.web_admin.chat.handle_message("internal_command", "!t_close",
+                                           USER_TYPE_INTERNAL)
