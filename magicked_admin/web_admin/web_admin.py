@@ -143,7 +143,7 @@ class WebAdmin(object):
         self.__web_interface.post_map_cycle(payload)
 
     def set_motd(self, motd):
-        self.__motd_settings["ServerMOTD"] = motd\
+        self.__motd_settings["ServerMOTD"] = motd \
             .encode("iso-8859-1", "ignore")
         self.__web_interface.post_welcome(self.__motd_settings)
 
@@ -204,7 +204,7 @@ class WebAdmin(object):
         if len(trows_result) == 1:
             return players
 
-	# Group rows in the table by the non-breaking space in first cell	
+        # Group rows in the table by the non-breaking space in first cell
         trows_result = [
             list(group)
             for k, group in groupby(
