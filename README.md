@@ -41,7 +41,7 @@ This section is out of date.
 * !start\_trc _command_ - run _command_ every time the trader opens
     - Example: !start\_trc say Traders open.
 * !stop\_trc - stop trader commands
-* !say _mesg_ - display _mesg_ in the chat, generally for use in conjuction 
+* !say _mesg_ - display _mesg_ in the chat, generally for use in conjunction
 with other commands
     - Example: !say This is an example.
 * !silent - toggles output in chat
@@ -65,7 +65,7 @@ with other commands
 enabling the motd_scoreboard option will put a live scoreboard in the motd. 
     - `%SRV_D` and `%SRV_K` will be replaced by the total dosh and kills on 
     the server respectively.
-* Writting a `server_name.init` with a list of commands will run the commands 
+* Witting a `server_name.init` with a list of commands will run the commands
 when the bot starts on server_name.
 
 Downloads
@@ -88,7 +88,7 @@ options KF2-MA can offer. Please see the config file, `magicked_admin.conf`,
 for more configuration options as some features are disabled by default.
 
 Each server managed by KF2-MA has a section that looks something like 
-`[server_one]`, followed by serveral options (`x = y`). Copy and edit the 
+`[server_one]`, followed by several options (`x = y`). Copy and edit the
 default server section if you want to manage multiple servers. `[server_one]`
 is the name of the server, this can be changed to whatever you want.
 
@@ -98,7 +98,7 @@ is the name of the server, this can be changed to whatever you want.
     e.g. `https://0.0.0.0:8080`
 * username
     - Webadmin username to login with, this will appear in the chat when the 
-    bot has something to output. It's reccomended to create a separate account
+    bot has something to output. It's recommended to create a separate account
     for the bot.
 * password
     - Webadmin password that matches the username above.
@@ -162,7 +162,7 @@ systems.
 * Make - `apt install make`
 * zlib-dev - `apt install zlib1g-dev`
 
-### Reccomended
+### Recommended
 Development make targets also use the following dependencies.
 
 * isort - `apt install isort`
