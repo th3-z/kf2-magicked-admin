@@ -1,12 +1,11 @@
 import os
 import sys
 
-from distutils.core import setup
-from babel.messages import frontend as babel
 import certifi
+from babel.messages import frontend as babel
 from cx_Freeze import Executable, setup
 
-VERSION="0.1"
+VERSION = "0.1"
 
 WIN_NT = os.name == "nt"
 
@@ -18,10 +17,9 @@ if not CERT_PATH:
     print("Couldn't find cacert.pem for SSL requests.")
     sys.exit()
 
-
 includefiles = [
-    (os.path.join(SRC_PATH, 'database/schema.sql'),'database/schema.sql'),
-    (CERT_PATH,'certifi/cacert.pem'),
+    (os.path.join(SRC_PATH, 'database/schema.sql'), 'database/schema.sql'),
+    (CERT_PATH, 'certifi/cacert.pem'),
 ]
 
 target_name = "magicked_admin"
@@ -41,15 +39,15 @@ build_exe_options = {
 }
 setup(
     name="Magicked Admin",
-    version=VERSION+".0",
+    version=VERSION + ".0",
     description="Scripted management, stats, and bot for KF2-Server",
-    options = {"build_exe": build_exe_options},
+    options={"build_exe": build_exe_options},
     executables=[
-      Executable(os.path.join(SRC_PATH, "magicked_admin.py"),
-                 base=None,
-                 targetName=target_name,
-                 icon=os.path.join(SRC_PATH, "icon.ico")
-                 )
+        Executable(os.path.join(SRC_PATH, "magicked_admin.py"),
+                   base=None,
+                   targetName=target_name,
+                   icon=os.path.join(SRC_PATH, "icon.ico")
+                   )
     ],
     cmdclass={
         'compile_catalog': babel.compile_catalog,

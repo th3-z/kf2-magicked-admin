@@ -64,7 +64,7 @@ class CommandMarquee(Command):
 
             self.chatbot.chat.submit_message(message)
 
-            time.sleep(1/self.fps)
+            time.sleep(1 / self.fps)
 
 
 class CommandPlayerCount(Command):
@@ -175,7 +175,7 @@ class CommandHighWave(Command):
 
         return self.format_response(
             "{} is the highest wave reached on this map."
-            .format(self.server.game.game_map.highest_wave),
+                .format(self.server.game.game_map.highest_wave),
             args
         )
 

@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 from colorama import init
 from termcolor import colored
@@ -40,18 +40,18 @@ def banner():
 
     # figlet -f rectangles "example"
     lines = [
-            colored("               _     _         _\n", 'blue'),
-            colored(" _____ ___ ___|_|___| |_ ___ _| |\n", 'blue'),
-            colored("|     | .'| . | |  _| '_| -_| . |\n", 'blue'),
-            colored("|_|_|_|__,|_  |_|___|_,_|___|___|\n", 'blue'),
-            colored("        _ |___| _ \n", 'blue'),
-            colored("  ___ _| |_____|_|___", 'blue'),
-            colored(" | .'| . |     | |   |", 'blue'),
-            colored(" |__,|___|_|_|_|_|_|_|\n", 'blue')
-            ]
+        colored("               _     _         _\n", 'blue'),
+        colored(" _____ ___ ___|_|___| |_ ___ _| |\n", 'blue'),
+        colored("|     | .'| . | |  _| '_| -_| . |\n", 'blue'),
+        colored("|_|_|_|__,|_  |_|___|_,_|___|___|\n", 'blue'),
+        colored("        _ |___| _ \n", 'blue'),
+        colored("  ___ _| |_____|_|___", 'blue'),
+        colored(" | .'| . |     | |   |", 'blue'),
+        colored(" |__,|___|_|_|_|_|_|_|\n", 'blue')
+    ]
 
     lines[5] += "   {}\n".format(version_text)
-    lines[6] += colored("  "+BANNER_URL+"\n", 'magenta')
+    lines[6] += colored("  " + BANNER_URL + "\n", 'magenta')
 
     print(str.join('', lines))
 
@@ -67,6 +67,7 @@ def debug(mesg):
 
 def info(mesg):
     print(colored(' [*] ', 'green') + mesg)
+
 
 def fatal(mesg):
     print(colored(' [!] ', 'red') + mesg)

@@ -9,6 +9,7 @@ from web_admin.constants import *
 
 init()
 
+
 class GameTracker(threading.Thread):
 
     def __init__(self, server):
@@ -57,7 +58,7 @@ class GameTracker(threading.Thread):
             if new_type:
                 message = ("Game type ({}) support not installed, please "
                            "patch your webadmin to correct this! Guidance is "
-                           "available at: {}.") 
+                           "available at: {}.")
                 warning(message.format(
                     game_now.game_type, colored(BANNER_URL, 'magenta')
                 ))

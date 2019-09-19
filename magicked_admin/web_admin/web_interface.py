@@ -5,7 +5,6 @@ import requests
 from lxml import html
 
 from utils import debug, die, info, warning
-from web_admin.constants import *
 
 
 class WebInterface(object):
@@ -134,7 +133,6 @@ class WebInterface(object):
             info("Web admin is back, resuming")
             self.__sleeping = False
 
-
     def __new_session(self):
         login_payload = {
             'password_hash': '',
@@ -144,7 +142,8 @@ class WebInterface(object):
         }
 
         session = requests.Session()
-        login_page_response = self.__get(session, self.__urls['login'], login=True)
+        login_page_response = self.__get(session, self.__urls['login'],
+                                         login=True)
 
         if "hashAlg = \"sha1\"" in login_page_response.text:
             hash = "$sha1$" + sha1(
@@ -161,7 +160,8 @@ class WebInterface(object):
         token = login_page_tree.xpath(token_pattern)[0]
         login_payload.update({'token': token})
 
-        response = self.__post(session, self.__urls['login'], login_payload, login=True)
+        response = self.__post(session, self.__urls['login'], login_payload,
+                               login=True)
 
         if "hashAlg" in response.text or "Exceeded login attempts" in response.text:
             # TODO Expand on handling here, should gracefully terminate
@@ -332,7 +332,6 @@ class WebInterface(object):
                 '//select[@id="settings_GameLength"]' +
                 '//option[@selected="selected"]/@value'
             )[0]
-
 
         difficulty_val = general_settings_tree.xpath(
             '//input[@name="settings_GameDifficulty_raw"]/@value'

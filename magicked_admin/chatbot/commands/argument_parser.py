@@ -13,12 +13,12 @@ class ArgumentParser(argparse.ArgumentParser):
             elif action.metavar == name:
                 return action
             elif action.dest == name:
-                return action 
+                return action
 
     def error(self, message):
         exc = sys.exc_info()[1]
         if exc:
             exc.argument = self._get_action_from_name(exc.argument_name)
-            raise exc 
+            raise exc
         else:
             raise argparse.ArgumentError(None, message)

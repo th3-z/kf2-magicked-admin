@@ -43,10 +43,10 @@ class ServerDatabase:
 
     def __rank_by_col(self, steam_id, col):
         query = """
-            SELECT 
-                player1.*, 
+            SELECT
+                player1.*,
                 COALESCE((
-                    SELECT 
+                    SELECT
                         count(*)
                     FROM
                         players as player2
@@ -55,7 +55,7 @@ class ServerDatabase:
                 ), 0) AS col_rank
             FROM
                 players AS player1
-            WHERE 
+            WHERE
                 player1.steam_id = ?
         """.format(col, col)
 
@@ -80,10 +80,10 @@ class ServerDatabase:
 
     def rank_kd(self, steam_id):
         query = """
-            SELECT 
-                player1.*, 
+            SELECT
+                player1.*,
                 (
-                    SELECT 
+                    SELECT
                         count(*)
                     FROM
                         players as player2
@@ -92,7 +92,7 @@ class ServerDatabase:
                 ) AS kd_rank
             FROM
                 players AS player1
-            WHERE 
+            WHERE
                 player1.steam_id = ?
         """
 
@@ -108,9 +108,9 @@ class ServerDatabase:
 
     def __server_sum_col(self, col):
         query = """
-            SELECT 
+            SELECT
                 COALESCE(SUM({}), 0) as total
-            FROM 
+            FROM
                 players
         """.format(col)
 
@@ -136,7 +136,7 @@ class ServerDatabase:
     def __server_top_by_col(self, col):
         query = """
             SELECT
-                username, 
+                username,
                 {} as score
             FROM
                 players
@@ -148,7 +148,7 @@ class ServerDatabase:
         self.cur.execute(query)
         result = self.cur.fetchall()
         lock.release()
-        
+
         if len(result):
             return result
         else:
@@ -182,7 +182,7 @@ class ServerDatabase:
         player_sql = """
             SELECT
                 username, kills, dosh, deaths, sessions, time_online, op
-            FROM 
+            FROM
                 players
             WHERE
                 steam_id = ?
@@ -244,7 +244,7 @@ class ServerDatabase:
 
     def highest_wave(self, game_map):
         highest_wave_sql = """
-            SELECT 
+            SELECT
                 game_wave
             FROM
                 map_records
@@ -268,7 +268,7 @@ class ServerDatabase:
             SELECT
                 name, plays_survival, plays_weekly, plays_endless,
                 plays_survival_vs, plays_other
-            FROM 
+            FROM
                 maps
             WHERE
                 title = ?
@@ -321,7 +321,7 @@ class ServerDatabase:
     def save_map_record(self, game, players, victory):
         save_query = """
             INSERT INTO map_records (
-                map_title, game_time, game_length, game_difficulty, 
+                map_title, game_time, game_length, game_difficulty,
                 player_count, game_wave, game_victory
             ) VALUES (
                 ?, ?, ?, ?, ?, ?, ?

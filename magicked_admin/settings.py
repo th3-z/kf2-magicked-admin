@@ -21,9 +21,12 @@ SETTINGS_DEFAULT = {
     'dosh_threshold': "0",
 }
 
-SETTINGS_REQUIRED = ['address', 'password', 'motd_scoreboard', 'scoreboard_type', 'level_threshold', 'dosh_threshold', 'max_players', 'enable_greeter']
+SETTINGS_REQUIRED = ['address', 'password', 'motd_scoreboard',
+                     'scoreboard_type', 'level_threshold', 'dosh_threshold',
+                     'max_players', 'enable_greeter']
 
-CONFIG_DIE_MESG = "Please correct this manually  or delete '{}' to create a clean config next run.".format(CONFIG_PATH)
+CONFIG_DIE_MESG = "Please correct this manually  or delete '{}' to create a clean config next run.".format(
+    CONFIG_PATH)
 
 
 class Settings:
@@ -42,9 +45,10 @@ class Settings:
             self.config.read(CONFIG_PATH)
 
         except configparser.DuplicateOptionError as e:
-            fatal("Configuration error(s) found!\nSection '{}' has a duplicate setting: '{}'."
+            fatal(
+                "Configuration error(s) found!\nSection '{}' has a duplicate setting: '{}'."
                 .format(e.section, e.option)
-            )
+                )
             die(CONFIG_DIE_MESG)
 
         config_errors = self.validate_config(self.config)
@@ -70,21 +74,26 @@ class Settings:
         new_config.add_section(SETTINGS_DEFAULT['server_name'])
 
         for setting in SETTINGS_DEFAULT:
-            new_config.set(SETTINGS_DEFAULT['server_name'], setting, SETTINGS_DEFAULT[setting])
+            new_config.set(SETTINGS_DEFAULT['server_name'], setting,
+                           SETTINGS_DEFAULT[setting])
 
-        while True: 
-            address = input("\nAddress [default - localhost:8080]: ") or "localhost:8080"
+        while True:
+            address = input(
+                "\nAddress [default - localhost:8080]: ") or "localhost:8080"
             resolved_address = resolve_address(address)
             if resolved_address:
                 break
             else:
-                print("Address not responding!\nAccepted formats are: 'ip:port', 'domain', or 'domain:port'")
+                print(
+                    "Address not responding!\nAccepted formats are: 'ip:port', 'domain', or 'domain:port'")
 
         username = input("Username [default - Admin]: ") or "Admin"
-        password = getpass("Password (will not echo) [default - 123]: ") or "123"
-        print() # \n
+        password = getpass(
+            "Password (will not echo) [default - 123]: ") or "123"
+        print()  # \n
 
-        new_config.set(SETTINGS_DEFAULT['server_name'], 'address', resolved_address)
+        new_config.set(SETTINGS_DEFAULT['server_name'], 'address',
+                       resolved_address)
         new_config.set(SETTINGS_DEFAULT['server_name'], 'username', username)
         new_config.set(SETTINGS_DEFAULT['server_name'], 'password', password)
 
@@ -104,6 +113,8 @@ class Settings:
                 try:
                     config.get(section, setting)
                 except configparser.NoOptionError:
-                    errors.append("Section '{}' is missing a required setting: '{}'.".format(section, setting))
+                    errors.append(
+                        "Section '{}' is missing a required setting: '{}'.".format(
+                            section, setting))
 
         return errors

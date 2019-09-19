@@ -42,7 +42,7 @@ class Chat(threading.Thread):
         response = self.__web_interface.get_new_messages().text \
                    + self.__message_buffer
         self.__message_buffer = ""
-        
+
         if not response:
             return
 
@@ -58,10 +58,10 @@ class Chat(threading.Thread):
             message = message_root.xpath(message_pattern)[0]
 
             user_flags = USER_TYPE_NONE
-            if 'admin' in user_type: 
-                user_flags += USER_TYPE_ADMIN 
-            if 'spectator' in user_type: 
-                user_flags += USER_TYPE_SPECTATOR 
+            if 'admin' in user_type:
+                user_flags += USER_TYPE_ADMIN
+            if 'spectator' in user_type:
+                user_flags += USER_TYPE_SPECTATOR
 
             self.handle_message(username, message, user_flags)
 
