@@ -1,64 +1,11 @@
 import time
+import os
 
 from chatbot.commands.command import Command
 from server.player import Player
+from utils import find_data_file
 from utils.text import millify
 from utils.time import seconds_to_hhmmss
-
-lps_test_frames = [
-    "-",
-    "-",
-    "-",
-    "-",
-    "-",
-    "-",
-    "-",
-    "-",
-    "T",
-    "H",
-    "E",
-    "-",
-    "Q",
-    "U",
-    "I",
-    "C",
-    "K",
-    "-",
-    "B",
-    "R",
-    "O",
-    "W",
-    "N",
-    "-",
-    "F",
-    "O",
-    "X",
-    "-",
-    "J",
-    "U",
-    "M",
-    "P",
-    "S",
-    "-",
-    "O",
-    "V",
-    "E",
-    "R",
-    "-",
-    "T",
-    "H",
-    "E",
-    "-",
-    "L",
-    "A",
-    "Z",
-    "Y",
-    "-",
-    "D",
-    "O",
-    "G",
-    "."
-]
 
 
 class CommandMarquee(Command):
@@ -67,10 +14,25 @@ class CommandMarquee(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
         self.help_text = "marquee help"
+        self.parser.add_argument("iterations")
         self.parser.add_argument("filename", nargs="*")
 
+        self.folder = "marquee"
         self.fps = 10
         self.scroll_height = 7
+        self.marquee = []
+
+    def load_file(self, filename):
+        path = find_data_file(self.folder + "/" + filename)
+        print(path)
+        if not os.path.isfile(path):
+            return False
+
+        with open(path) as file:
+            lines = file.readlines()
+
+        self.marquee = [line.strip() for line in lines]
+        return True
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -82,17 +44,23 @@ class CommandMarquee(Command):
         if not args.filename:
             return self.format_response("Missing argument: filename", args)
 
+        file_loaded = self.load_file(" ".join(args.filename))
+        if not file_loaded:
+            return self.format_response("Couldn't find file", args)
+
         for i in range(0, 300):
-            line_start = i % len(lps_test_frames)
-            line_end = (i + self.scroll_height) % len(lps_test_frames)
+            line_start = i % len(self.marquee)
+            line_end = (i + self.scroll_height) % len(self.marquee)
 
             message = "\n"
             if line_start > line_end:
-                message += "\n".join(lps_test_frames[:line_end])
+                message += "\n".join(self.marquee[:line_end])
                 message += "\n"
-                message += "\n".join(lps_test_frames[line_start:])
+                message += "\n".join(self.marquee[line_start:])
             else:
-                message += "\n".join(lps_test_frames[line_start:line_end])
+                message += "\n".join(self.marquee[line_start:line_end])
+
+            print(message)
 
             self.chatbot.chat.submit_message(message)
 
