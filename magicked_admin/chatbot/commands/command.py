@@ -1,12 +1,10 @@
-from utils import debug
 from web_admin.constants import *
 from utils.text import pad_output
-import gettext
+from utils import debug
 
 from chatbot.commands.argument_parser import ArgumentParser
 from argparse import ArgumentError
 
-_ = gettext.gettext
 
 class Command:
     def __init__(self, server, admin_only=True, requires_patch=False):
@@ -84,7 +82,7 @@ class Command:
 
     # TODO: Add *vars for str.format(message, *vars) and apply lang translation
     def format_response(self, message, args):
-        message = _(message.replace("£", self.currency_symbol))
+        message = message.replace("£", self.currency_symbol)
         if args.pad:
             return pad_output(message)
         else:
