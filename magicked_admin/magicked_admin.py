@@ -17,6 +17,7 @@ from server.server import Server
 from settings import Settings
 from utils import banner, die, find_data_file, info, warning
 from utils.text import str_to_bool
+from utils.net import phone_home
 
 init()
 
@@ -41,6 +42,7 @@ if hasattr(sys, "frozen"):
 class MagickedAdmin:
     
     def __init__(self):
+        phone_home()
         signal.signal(signal.SIGINT, self.terminate)
         self.servers = []
         self.sigint_count = 0

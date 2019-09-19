@@ -137,7 +137,7 @@ class ServerDatabase:
         query = """
             SELECT
                 username, 
-                {}
+                {} as score
             FROM
                 players
             ORDER BY

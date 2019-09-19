@@ -2,10 +2,7 @@ import threading
 import time
 from os import path
 
-import requests
-from lxml import html
-
-from utils import DEBUG, find_data_file, warning, debug
+from utils import debug, find_data_file, warning
 from utils.text import millify, trim_string
 
 
@@ -19,7 +16,11 @@ class MotdUpdater(threading.Thread):
         self.time_interval = 5*60
 
         if not path.exists(find_data_file(self.server.name + ".motd")):
-            warning("No MOTD file for {} found, pulling from web admin!".format(self.server.name))
+            warning(
+                "No MOTD file for {} found, pulling from web admin!".format(
+                    self.server.name
+                )
+            )
             
             with open(self.motd_path, "w+") as motd_file:
                 motd_file.write(self.server.web_admin.get_motd())
@@ -51,19 +52,15 @@ class MotdUpdater(threading.Thread):
     def render_motd(self, src_motd):
         if self.scoreboard_type in ['kills', 'Kills', 'kill', 'Kill']:
             scores = self.server.database.top_kills()
-            scores = [
-                {'score': score['kills'], 'username': score['username']}
-                for score in scores
-            ]
         elif self.scoreboard_type in ['Dosh', 'dosh']:
             scores = self.server.database.top_dosh()
-            scores = [
-                {'score': score['dosh'], 'username': score['username']}
-                for score in scores
-            ]
         else:
-            warning("Scoreboard_type not recognised '{}' for {}. Options are: dosh, kills"
-                    .format(self.scoreboard_type, self.server.name))
+            warning(
+                "Scoreboard_type not recognised '{}' for {}. Options are: "
+                "dosh, kills".format(
+                    self.scoreboard_type, self.server.name
+                )
+            )
             return src_motd
 
         for player in scores:

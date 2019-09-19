@@ -1,8 +1,8 @@
 import os
-import site
 import sys
-from os import path
 
+from distutils.core import setup
+from babel.messages import frontend as babel
 import certifi
 from cx_Freeze import Executable, setup
 
@@ -39,15 +39,22 @@ build_exe_options = {
     "zip_include_packages": "*",
     "zip_exclude_packages": ""
 }
-setup(name="Magicked Admin",
-      version=VERSION+".0",
-      description="Scripted management, stats, and bot for KF2-Server",
-      options = {"build_exe": build_exe_options},
-      executables=[
-          Executable(os.path.join(SRC_PATH, "magicked_admin.py"),
-                     base=None,
-                     targetName=target_name,
-                     icon=os.path.join(SRC_PATH, "icon.ico")
-                     )
-      ]
+setup(
+    name="Magicked Admin",
+    version=VERSION+".0",
+    description="Scripted management, stats, and bot for KF2-Server",
+    options = {"build_exe": build_exe_options},
+    executables=[
+      Executable(os.path.join(SRC_PATH, "magicked_admin.py"),
+                 base=None,
+                 targetName=target_name,
+                 icon=os.path.join(SRC_PATH, "icon.ico")
+                 )
+    ],
+    cmdclass={
+        'compile_catalog': babel.compile_catalog,
+        'extract_messages': babel.extract_messages,
+        'init_catalog': babel.init_catalog,
+        'update_catalog': babel.update_catalog
+    }
 )

@@ -58,8 +58,15 @@ class CommandMap:
             'deop': CommandDeop(self.server),
             'map': CommandGameMap(self.server),
             'maps': CommandGameMaps(self.server),
-            'lps': CommandLpsTest(self.server, self.chatbot),
+            'marquee': CommandMarquee(self.server, self.chatbot),
             'player_count': CommandPlayerCount(self.server),
+
+            # TODO List internal commands and their listeners
+            # Internal command list:
+            # 'player_join' -> []
+            # 't_open' -> []
+            # 'new_wave' -> []
+            # 'new_game' -> []
         }
 
         return command_map
