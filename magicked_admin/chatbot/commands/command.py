@@ -1,7 +1,12 @@
 from utils import debug
 from web_admin.constants import *
 from utils.text import pad_output
+import gettext
 
+from chatbot.commands.argument_parser import ArgumentParser
+from argparse import ArgumentError
+
+_ = gettext.gettext
 
 class Command:
     def __init__(self, server, admin_only=True, requires_patch=False):
@@ -17,6 +22,21 @@ class Command:
                                 " side patch! Please review the documentation"\
                                 " at 'th3-z.xyz/kf2ma' for guidance."
         self.not_supported_message = pad_output(not_supported_message)
+
+        self.help_text = "The help text for this command hasn't been written!"
+        self.currency_symbol = "$"
+        # TODO: implement
+        self.language = "en_GB.lang"
+
+        self.parser = ArgumentParser(add_help=False)
+        self.parser.add_argument(
+            "-h", "--help",
+            action="store_true"
+        )
+        self.parser.add_argument(
+            "-p", "--pad",
+            action="store_true"
+        )
 
     def authorise(self, username, user_flags):
         player = self.server.get_player_by_username(username)
@@ -37,13 +57,39 @@ class Command:
     def supported(self):
         return (not self.requires_patch) or self.server.supported_mode()
 
-    def execute_pretest(self, username, user_flags):
+    def parse_args(self, username, args, user_flags):
         if not self.authorise(username, user_flags):
-            return self.not_auth_message
-        if not self.supported():
-            return self.not_supported_message
-        return None
-    
+            return None, self.not_auth_message
+        elif not self.supported():
+            return None, self.not_supported_message
+
+        try:
+            args, _ = self.parser.parse_known_args(args[1:])
+            error = None
+        except ArgumentError as exc:
+            if exc.argument:
+                error = "{} Argument ({})".format(exc.message, exc.argument)
+            else:
+                error = exc.message
+            debug("Argparse error in {}: {}".format(
+                self.__class__.__name__, error
+            ))
+        except SystemExit:
+            error = None
+            debug("Argparse tried to exit!\n\tCommand: {}\n\tArgs: {}".format(
+                args[0], args[1:] 
+             ))
+
+        return args, error
+
+    # TODO: Add *vars for str.format(message, *vars) and apply lang translation
+    def format_response(self, message, args):
+        message = _(message.replace("£", self.currency_symbol))
+        if args.pad:
+            return pad_output(message)
+        else:
+            return message
+            
     def execute(self, username, args, user_flags):
         raise NotImplementedError("Command.execute() not implemented")
 

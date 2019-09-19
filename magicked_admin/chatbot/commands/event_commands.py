@@ -1,219 +1,208 @@
-import threading
-import time
-
 from chatbot.commands.command import Command
-from utils import debug
-from utils.text import millify
-from utils.time import seconds_to_hhmmss
-from web_admin.constants import *
-from utils.text import pad_output
-
-ALL_WAVES = 999
+from chatbot.command_scheduler import (
+    CommandOnTime, CommandOnWave, CommandOnJoin, CommandOnTrader
+)
 
 
-class CommandGreeter(Command):
-
-    def __init__(self, server):
+class CommandStartJoinCommand(Command):
+    def __init__(self, server, scheduler):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
+        self.scheduler = scheduler
+
+        self.help_text = "start_jc help"
+        self.parser.add_argument("command", nargs="*")
 
     def execute(self, username, args, user_flags):
-        err = self.execute_pretest(username, user_flags)
-        if err: return err
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        elif args.help:
+            return self.format_response(self.help_text, args)
 
-        if len(args) < 2:
-            return pad_output("Missing argument (username)")
-
-        requested_username = " ".join(args[1:])
-
-        player = self.server.get_player_by_username(requested_username)
-        if not player:
-            debug("Bad player join command (not found) [{}]"
-                  .format(requested_username)
-            )
-            return None
-
-        if player.sessions > 1:
-            pos_kills = self.server.database.rank_kills(player.steam_id)
-            pos_dosh = self.server.database.rank_dosh(player.steam_id)
-            return pad_output(
-                "\nWelcome back {}.\n"
-                "You've killed {} zeds (rank #{}) and  \n"
-                "earned £{} (rank #{}) \n"
-                "over {} sessions ({}).".format(
-                    player.username,
-                    millify(player.total_kills),
-                    pos_kills,
-                    millify(player.total_dosh),
-                    pos_dosh,
-                    player.sessions,
-                    seconds_to_hhmmss(player.total_time)
-                )
-            )
-        else:
-            return None
-
-
-class CommandOnWave:
-    def __init__(self, args, wave, length, chatbot):
-        if wave > 0:
-            self.wave = wave
-        if wave < 0:
-            # the boss wave is length+1, this should equate to -1
-            self.wave = (length + 1) + (wave + 1)
-        self.args = args
-        self.chatbot = chatbot
-
-    def new_wave(self, wave):
-        if wave == self.wave or self.wave == ALL_WAVES:
-            self.chatbot.command_handler(
-                "internal_command", self.args, USER_TYPE_INTERNAL
+        if not args.command:
+            return self.format_response(
+                "Please specify a command to run", args
             )
 
-
-class CommandOnTime(threading.Thread):
-    def __init__(self, args, time_interval, chatbot, repeat=False):
-        self.exit_flag = threading.Event()
-        self.args = args
-        self.chatbot = chatbot
-        self.time_interval = float(time_interval)
-        self.repeat = repeat
-
-        threading.Thread.__init__(self)
-
-    def terminate(self):
-        self.exit_flag.set()
-
-    def run(self):
-        if not self.repeat:
-            time.sleep(self.time_interval)
-            self.chatbot.command_handler(
-                "internal_command", self.args, USER_TYPE_INTERNAL
-            )
-            return
-        while not self.exit_flag.wait(self.time_interval):
-            self.chatbot.command_handler(
-                "internal_command", self.args, USER_TYPE_INTERNAL
-            )
+        command = CommandOnJoin(self.server, " ".join(args.command))
+        self.scheduler.schedule_command(command)
+        return self.format_response("Player join command started", args)
 
 
-class CommandOnTimeManager(Command):
-    def __init__(self, server, chatbot):
-        self.command_threads = []
-        self.chatbot = chatbot
+class CommandStopJoinCommands(Command):
+    def __init__(self, server, scheduler):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
+        self.scheduler = scheduler
+
+        self.help_text = "stop_jc help"
 
     def execute(self, username, args, user_flags):
-        err = self.execute_pretest(username, user_flags)
-        if err: return err
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        elif args.help:
+            return self.format_response(self.help_text, args)
 
-        if args[0] == "stop_tc":
-            return self.terminate_all()
-
-        repeat = False
-        if args[1] in ["-r", "--repeat", "-R"]:
-            repeat = True
-
-        if len(args) < 2:
-            return pad_output("Missing argument (command).")
-
-        try:
-            time = int(args[1]) if not repeat else int(args[2])
-        except ValueError:
-            return pad_output(
-                "Malformed command, \"{}\" is not an integer.".format(args[1])
-            )
-
-        time_command = CommandOnTime(
-            args[2:] if not repeat else args[3:], time, self.chatbot, repeat
+        return self.format_response(
+            self.scheduler.unschedule_commands(CommandOnJoin),
+            args
         )
-        time_command.start()
-        self.command_threads.append(time_command)
-        return pad_output("Timed command started.")
-
-    def terminate_all(self):
-        if len(self.command_threads) > 0:
-            for command_thread in self.command_threads:
-                command_thread.terminate()
-                self.command_threads = []
-            return pad_output("Timed command stopped")
-        else:
-            return pad_output("Nothing is running.")
 
 
-class CommandOnWaveManager(Command):
-    def __init__(self, server, chatbot):
-        self.commands = []
-        self.chatbot = chatbot
-        Command.__init__(self, server, admin_only=True, requires_patch=True)
+class CommandStartWaveCommand(Command):
+    def __init__(self, server, scheduler):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+        self.scheduler = scheduler
+
+        self.help_text = "start_wc help"
+        self.parser.add_argument("wave")
+        self.parser.add_argument("command", nargs="*")
 
     def execute(self, username, args, user_flags):
-        err = self.execute_pretest(username, user_flags)
-        if err: return err
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        elif args.help:
+            return self.format_response(self.help_text, args)
 
-        if args[0] == "stop_wc":
-            return self.terminate_all()
-        elif args[0] == "start_wc":
-            if len(args) < 2:
-                return pad_output("Missing argument (command).")
-            return self.start_command(args[1:])
-        elif args[0] == "new_wave":
-            for command in self.commands:
-                command.new_wave(int(args[1]))
-
-    def terminate_all(self):
-        if len(self.commands) > 0:
-            self.commands = []
-            return pad_output("Wave commands halted.")
-        else:
-            return pad_output("Nothing is running.")
-
-    def start_command(self, args):
-        if len(args) < 2:
-            return pad_output("Missing argument (command).")
-            
-        game_length = self.server.game.length
-        
         try:
-            wc = CommandOnWave(
-                args[1:], int(args[0]), game_length, self.chatbot
-            )
+            interval = int(args.wave)
         except ValueError:
-            wc = CommandOnWave(args, ALL_WAVES, game_length, self.chatbot)
+            return self.format_response(
+                "'{}' is not a valid wave number".format(args.interval),
+                args
+            )
 
-        self.commands.append(wc)
-        return pad_output("Wave command started.")
+        if not args.command:
+            return self.format_response(
+                "Please specify a command to run", args
+            )
+
+        command = CommandOnWave(
+            self.server, " ".join(args.command), interval
+        )
+        self.scheduler.schedule_command(command)
+        return self.format_response("Wave start command started", args)
 
 
-class CommandOnTraderManager(Command):
-    def __init__(self, server, chatbot):
-        self.commands = []
-        self.chatbot = chatbot
+class CommandStopWaveCommands(Command):
+    def __init__(self, server, scheduler):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+        self.scheduler = scheduler
 
-        Command.__init__(self, server, admin_only=True, requires_patch=True)
+        self.help_text = "stop_wc help"
 
     def execute(self, username, args, user_flags):
-        err = self.execute_pretest(username, user_flags)
-        if err: return err
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        elif args.help:
+            return self.format_response(self.help_text, args)
 
-        if args[0] == "start_trc":
-            if len(args) < 2:
-                return pad_output("Missing argument (command).")
-            return self.start_command(args[1:])
-        elif args[0] == "stop_trc":
-            return self.terminate_all()
-        elif args[0] == "t_open":
-            for command in self.commands:
-                self.chatbot.command_handler(
-                    "internal_command", command, USER_TYPE_INTERNAL
-                )
+        return self.format_response(
+            self.scheduler.unschedule_commands(CommandOnWave),
+            args
+        )
 
-    def terminate_all(self):
-        if len(self.commands) > 0:
-            self.commands = []
-            return pad_output("Trader commands stopped.")
-        else:
-            return pad_output("Nothing is running.")
 
-    def start_command(self, args):
-        self.commands.append(args)
-        return pad_output("Trader command started.")
+class CommandStartTimeCommand(Command):
+    def __init__(self, server, scheduler):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+        self.scheduler = scheduler
+
+        self.help_text = "start_tc help"
+        self.parser.add_argument("interval")
+        self.parser.add_argument("command", nargs="*")
+
+    def execute(self, username, args, user_flags):
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        elif args.help:
+            return self.format_response(self.help_text, args)
+
+        try:
+            interval = float(args.interval)
+        except ValueError:
+            return self.format_response(
+                "'{}' is not a valid time interval".format(args.interval),
+                args
+            )
+
+        if not args.command:
+            return self.format_response(
+                "Please specify a command to run", args
+            )
+
+        command = CommandOnTime(
+            self.server, " ".join(args.command), interval
+        )
+        self.scheduler.schedule_command(command)
+        return self.format_response("Time interval command started", args)
+
+
+class CommandStopTimeCommands(Command):
+    def __init__(self, server, scheduler):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+        self.scheduler = scheduler
+
+        self.help_text = "stop_tc help"
+
+    def execute(self, username, args, user_flags):
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        elif args.help:
+            return self.format_response(self.help_text, args)
+
+        return self.format_response(
+            self.scheduler.unschedule_commands(CommandOnTime),
+            args
+        )
+
+
+class CommandStartTraderCommand(Command):
+    def __init__(self, server, scheduler):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+        self.scheduler = scheduler
+
+        self.help_text = "start_tc help"
+        self.parser.add_argument("command", nargs="*")
+
+    def execute(self, username, args, user_flags):
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        elif args.help:
+            return self.format_response(self.help_text, args)
+
+        if not args.command:
+            return self.format_response(
+                "Please specify a command to run", args
+            )
+
+        command = CommandOnTrader(
+            self.server, " ".join(args.command)
+        )
+        self.scheduler.schedule_command(command)
+        return self.format_response("Trader open command started", args)
+
+
+class CommandStopTraderCommands(Command):
+    def __init__(self, server, scheduler):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+        self.scheduler = scheduler
+
+        self.help_text = "stop_wc help"
+
+    def execute(self, username, args, user_flags):
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        elif args.help:
+            return self.format_response(self.help_text, args)
+
+        return self.format_response(
+            self.scheduler.unschedule_commands(CommandOnTrader),
+            args
+        )

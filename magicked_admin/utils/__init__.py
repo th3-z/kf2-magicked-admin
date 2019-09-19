@@ -1,4 +1,5 @@
-import sys, os
+import sys
+import os
 
 from colorama import init
 from termcolor import colored
@@ -6,6 +7,7 @@ from termcolor import colored
 init()
 
 # __debug__ is always true when building w/ cx_freeze, no known solution
+# TODO: Switch to Nuitka for compilation
 DEBUG = __debug__ and not hasattr(sys, 'frozen')
 
 VERSION = "0.1.2"

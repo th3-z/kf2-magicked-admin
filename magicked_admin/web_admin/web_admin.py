@@ -3,7 +3,7 @@ from itertools import groupby
 from lxml import html
 
 from utils import DEBUG, warning
-from utils.geolocation import get_country
+from utils.net import get_country
 from utils.text import str_to_bool
 from web_admin.chat import Chat
 from web_admin.constants import *
