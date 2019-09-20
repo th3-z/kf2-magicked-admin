@@ -16,7 +16,7 @@ isort:
 
 lint:
 	@# TODO: Slowly remove ignores
-	@flake8 --ignore F405,E501,F403,E722,W503
+	@flake8 --ignore F405,E501,F403,E722,W503,F401
 
 .PHONY: build
 
