@@ -54,15 +54,15 @@ with other commands
 
 ### MOTD leaderboard
 
-TODO
+TODO: Docs
 
 ### Greeter
 
-TODO
+TODO: Docs
 
 ### Init scripts
 
-TODO
+TODO: Docs
 
 ### Other
 * Writing a `server_name.motd` file with pairs of `%PLR` and `%SCR` and 
