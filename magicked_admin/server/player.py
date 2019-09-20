@@ -50,8 +50,6 @@ class Player:
         self.sessions = 0
 
     def __str__(self):
-        return "Username: " + self.username + \
-               "\nCountry: " + str(self.country) + " (" + self.ip + ")" \
-                                                                    "\nOP: " + str(
-            self.op) + \
-               "\nSteam ID: " + str(self.steam_id)
+        return "Username: {}\nCountry: {} ({})\nOP: {}\nSteam ID:{}".format(
+            self.username, self.country, self.ip, self.op, self.steam_id
+        )

@@ -48,7 +48,7 @@ class Settings:
             fatal(
                 "Configuration error(s) found!\nSection '{}' has a duplicate setting: '{}'."
                 .format(e.section, e.option)
-                )
+            )
             die(CONFIG_DIE_MESG)
 
         config_errors = self.validate_config(self.config)

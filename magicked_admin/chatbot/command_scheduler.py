@@ -98,8 +98,7 @@ class ScheduledCommand(Command):
     def execute(self, username, args, user_flags):
         warning(
             "Scheduled command ({}) ran directly by {}, please use "
-            "CommandScheduler"
-                .format(
+            "CommandScheduler".format(
                 " ".join(args),
                 username
             )

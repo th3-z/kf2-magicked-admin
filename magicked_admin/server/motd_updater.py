@@ -64,7 +64,8 @@ class MotdUpdater(threading.Thread):
             return src_motd
 
         for player in scores:
-            if not player['username']: continue
+            if not player['username']:
+                continue
             name = player['username'].replace("<", "&lt;")
             name = trim_string(name, 12)
             score = player['score']

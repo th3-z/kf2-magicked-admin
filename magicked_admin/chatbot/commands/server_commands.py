@@ -168,10 +168,10 @@ class CommandGameMap(Command):
         self.server.database.load_game_map(game_map)
 
         total_plays = game_map.plays_survival \
-                      + game_map.plays_weekly \
-                      + game_map.plays_endless \
-                      + game_map.plays_survival_vs \
-                      + game_map.plays_other
+            + game_map.plays_weekly \
+            + game_map.plays_endless \
+            + game_map.plays_survival_vs \
+            + game_map.plays_other
 
         message = "Stats for {} ({}):\n".format(game_map.name, game_map.title)
         message += "Total plays: {} \n".format(total_plays)

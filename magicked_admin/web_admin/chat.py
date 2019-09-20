@@ -40,7 +40,7 @@ class Chat(threading.Thread):
 
     def __poll(self):
         response = self.__web_interface.get_new_messages().text \
-                   + self.__message_buffer
+            + self.__message_buffer
         self.__message_buffer = ""
 
         if not response:
@@ -71,7 +71,7 @@ class Chat(threading.Thread):
 
         if DEBUG or not internal:
             print_line = username + "@" + self.__web_interface.server_name \
-                         + ": " + message.strip()
+                + ": " + message.strip()
             if command:
                 print_line = colored(
                     print_line, 'red' if internal else 'green'

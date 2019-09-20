@@ -17,32 +17,23 @@ class WebInterface(object):
         self.ma_installed = False
 
         self.__urls = {
-            'login': '{}/ServerAdmin/'
-                .format(address),
-            'chat': '{}/ServerAdmin/current/chat+data'
-                .format(address),
-            'info': '{}/ServerAdmin/current/info'
-                .format(address),
-            'map': '{}/ServerAdmin/current/change'
-                .format(address),
-            'players': '{}/ServerAdmin/current/players'
-                .format(address),
-            'players_action': '{}/ServerAdmin/current/players+data'
-                .format(address),
-            'passwords': '{}/ServerAdmin/policy/passwords'
-                .format(address),
-            'bans': '{}/ServerAdmin/policy/bans'
-                .format(address),
-            'general_settings': '{}/ServerAdmin/settings/general'
-                .format(address),
-            'game_type': '{}/ServerAdmin/settings/gametypes'
-                .format(address),
-            'maplist': '{}/ServerAdmin/settings/maplist'
-                .format(address),
-            'welcome': '{}/ServerAdmin/settings/welcome'
-                .format(address),
-            'console': '{}/ServerAdmin/console'
-                .format(address)
+            'login': '{}/ServerAdmin/'.format(address),
+            'chat': '{}/ServerAdmin/current/chat+data'.format(address),
+            'info': '{}/ServerAdmin/current/info'.format(address),
+            'map': '{}/ServerAdmin/current/change'.format(address),
+            'players': '{}/ServerAdmin/current/players'.format(address),
+            'passwords': '{}/ServerAdmin/policy/passwords'.format(address),
+            'bans': '{}/ServerAdmin/policy/bans'.format(address),
+            'game_type': '{}/ServerAdmin/settings/gametypes'.format(address),
+            'maplist': '{}/ServerAdmin/settings/maplist'.format(address),
+            'welcome': '{}/ServerAdmin/settings/welcome'.format(address),
+            'console': '{}/ServerAdmin/console'.format(address),
+            'general_settings': '{}/ServerAdmin/settings/general'.format(
+                address
+            ),
+            'players_action': '{}/ServerAdmin/current/players+data'.format(
+                address
+            )
         }
 
         self.__timeout = 5

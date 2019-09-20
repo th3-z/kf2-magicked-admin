@@ -4,7 +4,8 @@ CHAT_LINE_HEIGHT = 8
 
 
 def millify(n):
-    if not n: return '0'
+    if not n:
+        return '0'
 
     millnames = ['', 'K', 'M', 'B', 'T']
 

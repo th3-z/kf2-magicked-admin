@@ -247,7 +247,7 @@ class WebAdmin(object):
         if len(players_result):
             players, players_max = map(int, players_result[0].split("/"))
         else:
-            players, players_max = None, None
+            players_max = None
 
         wave_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Wave\"]/following-sibling::dd[1]/text()"
         wave_result = info_tree.xpath(wave_path)

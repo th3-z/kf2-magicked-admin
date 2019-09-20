@@ -174,9 +174,9 @@ class CommandHighWave(Command):
             return self.format_response(self.help_text, args)
 
         return self.format_response(
-            "{} is the highest wave reached on this map."
-                .format(self.server.game.game_map.highest_wave),
-            args
+            "{} is the highest wave reached on this map.".format(
+                self.server.game.game_map.highest_wave
+            ), args
         )
 
 
@@ -237,7 +237,7 @@ class CommandStats(Command):
         pos_kills = self.server.database.rank_kills(player.steam_id) or 0
         pos_dosh = self.server.database.rank_dosh(player.steam_id) or 0
         # todo Add pos_time to output
-        pos_time = self.server.database.rank_time(player.steam_id) or 0
+        # pos_time = self.server.database.rank_time(player.steam_id) or 0
 
         message = "Stats for {}:\n"
         "Total play time: {} ({} sessions)\n"
