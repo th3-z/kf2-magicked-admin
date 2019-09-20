@@ -11,7 +11,7 @@ once.
 Features
 --------
 
-This section is out of date.
+TODO: This section is out of date
 
 ### Commands
 * !me - display a summary of your stats
@@ -54,11 +54,15 @@ with other commands
 
 ### MOTD leaderboard
 
+TODO
+
 ### Greeter
+
+TODO
 
 ### Init scripts
 
-### Webadmin patcher
+TODO
 
 ### Other
 * Writing a `server_name.motd` file with pairs of `%PLR` and `%SCR` and 
