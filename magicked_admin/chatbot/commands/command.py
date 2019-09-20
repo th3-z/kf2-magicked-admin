@@ -1,3 +1,5 @@
+from argparse import ArgumentError
+
 from chatbot.commands.argument_parser import ArgumentParser
 from utils import debug
 from utils.text import pad_output
