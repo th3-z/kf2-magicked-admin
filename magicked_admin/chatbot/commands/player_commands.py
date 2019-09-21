@@ -19,7 +19,7 @@ class CommandServerDosh(Command):
         self.server.write_all_players()
         dosh = self.server.database.server_dosh()
         return self.format_response(
-            millify(dosh) + " Dosh has been earned on this server",
+            "£{} has been earned on this server".format(millify(dosh)),
             args
         )
 
@@ -40,7 +40,7 @@ class CommandServerKills(Command):
         self.server.write_all_players()
         kills = self.server.database.server_kills()
         return self.format_response(
-            millify(kills) + " ZEDs have been killed on this server",
+            "{} ZEDs have been killed on this server".format(millify(kills)),
             args
         )
 
@@ -66,7 +66,7 @@ class CommandKills(Command):
         if player:
             pos_kills = self.server.database.rank_kills(player.steam_id)
             return self.format_response(
-                "You've killed a total of {} ZEDs (#{}), and {} this game."
+                "You've killed a total of {} ZEDs (#{}), and {} this game"
                 "".format(
                     str(player.total_kills),
                     str(pos_kills),
@@ -76,7 +76,7 @@ class CommandKills(Command):
             )
         else:
             return self.format_response(
-                "Player {} not in game.".format(username), args
+                "Player {} not in game".format(username), args
             )
 
 
@@ -101,7 +101,7 @@ class CommandDosh(Command):
         if player:
             pos_dosh = self.server.database.rank_dosh(player.steam_id)
             return self.format_response(
-                "You've earned a total of £{} dosh (#{}), and £{} this game."
+                "You've earned a total of £{} dosh (#{}), and £{} this game"
                 "".format(
                     str(player.total_dosh),
                     str(pos_dosh),
@@ -110,7 +110,7 @@ class CommandDosh(Command):
                 args
             )
         else:
-            return self.format_response("Player not in game.", args)
+            return self.format_response("Player not in game", args)
 
 
 class CommandTopKills(Command):

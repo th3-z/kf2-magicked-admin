@@ -63,6 +63,11 @@ class CommandScheduler(ChatListener):
         if not user_flags & USER_TYPE_INTERNAL:
             return
 
+        if message[0] == '!':
+            message = message[1:]
+        else:
+            return
+
         for command in self.scheduled_commands:
             if command.event_check(self.server, message):
                 self.run_command(command, message)
@@ -157,7 +162,7 @@ class CommandOnWave(ScheduledCommand):
         if message[0] == "new_wave":
             new_wave = message[1]
 
-            if new_wave == wave:
+            if int(new_wave) == wave:
                 return True
 
         return False
@@ -171,8 +176,8 @@ class CommandOnJoin(ScheduledCommand):
         if not message:
             return False
 
-        message = message.split()
-        if message[0] == "!player_join":
+        args = message.split()
+        if args[0] == "player_join":
             return True
 
         return False
@@ -193,16 +198,21 @@ class CommandOnJoin(ScheduledCommand):
 
 
 class CommandOnTrader(ScheduledCommand):
-    def __init__(self, server, command):
+    def __init__(self, server, command, on_close=False):
         ScheduledCommand.__init__(self, server, command)
+
+        # TODO: Implemented but un-used
+        self.on_close = on_close
 
     def event_check(self, server, message):
         if not message:
             return False
 
-        message = message.split()
+        args = message.split()
 
-        if message[0] == "t_open":
+        if args[0] == "t_open" and not self.on_close:
+            return True
+        elif args[0] == "t_close" and self.on_close:
             return True
 
         return False

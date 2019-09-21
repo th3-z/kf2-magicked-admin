@@ -21,17 +21,17 @@ class CommandBan(Command):
 
         if not args.username:
             return self.format_response(
-                "Missing argument, username or Steam ID.", args
+                "Missing argument, username or Steam ID", args
             )
 
         banned = self.server.ban_player(args.username)
 
         if banned:
             return self.format_response(
-                "Player, {}, was banned.".format(banned), args
+                "Player, {}, was banned".format(banned), args
             )
         else:
-            return self.format_response("Player not found.", args)
+            return self.format_response("Player not found", args)
 
 
 class CommandSay(Command):
@@ -148,7 +148,7 @@ class CommandGameMap(Command):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
         self.help_text = "game map help text"
-        self.parser.add_argument("map_title")
+        self.parser.add_argument("map_name", nargs="?")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -158,7 +158,7 @@ class CommandGameMap(Command):
             return self.format_response(self.help_text, args)
 
         if args.map_name:
-            map_title = self.server.find_map(args.map_title)
+            map_title = self.server.find_map(args.map_name)
         else:
             map_title = self.server.game.game_map.title
 
@@ -213,17 +213,17 @@ class CommandKick(Command):
 
         if not args.username:
             return self.format_response(
-                "Missing argument, username or Steam ID.", args.pad_output
+                "Missing argument, username or Steam ID", args.pad_output
             )
 
         kicked = self.server.kick_player(args.username)
 
         if kicked:
             return self.format_response(
-                "Player, {}, was kicked.".format(kicked), args
+                "Player, {}, was kicked".format(kicked), args
             )
         else:
-            return self.format_response("Player not found.", args)
+            return self.format_response("Player not found", args)
 
 
 class CommandRun(Command):
@@ -242,7 +242,7 @@ class CommandRun(Command):
             return self.format_response(self.help_text, args)
 
         if not args.file:
-            return self.format_response("No file was specified.", args)
+            return self.format_response("No file was specified", args)
 
         if not path.exists(args.file):
             return self.format_response("File not found", args)
@@ -285,7 +285,7 @@ class CommandLoadMap(Command):
             return self.format_response("Missing argument (map name)", args)
 
         self.server.change_map(args.map_name)
-        return self.format_response("Changing map.", args)
+        return self.format_response("Changing map", args)
 
 
 class CommandPassword(Command):
@@ -345,7 +345,7 @@ class CommandSilent(Command):
         else:
             self.chatbot.command_handler(
                 "internal_command",
-                "say Silent mode enabled.",
+                "say Silent mode enabled".split(),
                 USER_TYPE_INTERNAL
             )
             self.chatbot.silent = True
@@ -366,8 +366,8 @@ class CommandLength(Command):
             return self.format_response(self.help_text, args)
 
         if not args.length:
-            message = "Length not recognised. Options are " \
-                      "short, medium, or long."
+            message = "Length not recognised, options are: " \
+                      "short, medium, or long"
             return self.format_response(message, args)
 
         if args.length in ["short", "0"]:
@@ -378,13 +378,13 @@ class CommandLength(Command):
             length = LEN_LONG
         else:
             return self.format_response(
-                "Length not recognised. Options are short, medium, or long.",
+                "Length not recognised, options are: short, medium, or long",
                 args
             )
 
         self.server.set_length(length)
         return self.format_response(
-            "Length change will take effect next game.",
+            "Length change will take effect next game",
             args
         )
 
@@ -404,8 +404,8 @@ class CommandDifficulty(Command):
             return self.format_response(self.help_text, args)
 
         if not args.length:
-            message = "Difficulty not recognised. Options are normal, hard, " \
-                      "suicidal, or hell."
+            message = "Difficulty not recognised, options are: normal, hard, " \
+                      "suicidal, or hell"
             return self.format_response(message, args)
 
         if args.length in ["normal", "0"]:
@@ -418,14 +418,14 @@ class CommandDifficulty(Command):
             difficulty = DIFF_HOE
         else:
             return self.format_response(
-                "Difficulty not recognised. Options are normal, hard, "
-                "suicidal, or hell.",
+                "Difficulty not recognised, options are: normal, hard, "
+                "suicidal, or hell",
                 args
             )
 
         self.server.set_difficulty(difficulty)
         return self.format_response(
-            "Difficulty change will take effect next game.",
+            "Difficulty change will take effect next game",
             args
         )
 
@@ -446,8 +446,8 @@ class CommandGameMode(Command):
 
         if not args.length:
             return self.format_response(
-                "GameMode not recognised.  Options are endless, survival, "
-                "weekly or versus.",
+                "GameMode not recognised, options are: endless, survival, "
+                "weekly or versus",
                 args
             )
 
@@ -461,13 +461,13 @@ class CommandGameMode(Command):
             mode = GAME_TYPE_SURVIVAL_VS
         else:
             return self.format_response(
-                "GameMode not recognised. Options are endless, survival, "
-                "weekly or versus.",
+                "GameMode not recognised, options are: endless, survival, "
+                "weekly or versus",
                 args
             )
 
         self.server.change_game_type(mode)
         return self.format_response(
-            "Game mode will be changed to {0}.".format(str(mode)),
+            "Game mode will be changed to {0}".format(str(mode)),
             args
         )

@@ -1,7 +1,7 @@
 from argparse import ArgumentError
 
 from chatbot.commands.argument_parser import ArgumentParser
-from utils import debug
+from utils import debug, BANNER_URL
 from utils.text import pad_output
 from web_admin.constants import *
 
@@ -12,13 +12,13 @@ class Command:
         self.admin_only = admin_only
         self.requires_patch = requires_patch
 
-        not_auth_message = "You're not authorised to use that command."
+        not_auth_message = "You're not authorised to use that command"
         self.not_auth_message = pad_output(not_auth_message)
 
         not_supported_message = "This action isn't supported without Killing" \
                                 " Floor 2 Magicked Administrator's server" \
                                 " side patch! Please review the documentation" \
-                                " at 'th3-z.xyz/kf2ma' for guidance."
+                                " at '{}' for guidance.".format(BANNER_URL)
         self.not_supported_message = pad_output(not_supported_message)
 
         self.help_text = "The help text for this command hasn't been written!"

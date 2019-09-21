@@ -65,10 +65,10 @@ class CommandStartWaveCommand(Command):
             return self.format_response(self.help_text, args)
 
         try:
-            interval = int(args.wave)
+            wave = int(args.wave)
         except ValueError:
             return self.format_response(
-                "'{}' is not a valid wave number".format(args.interval),
+                "'{}' is not a valid wave number".format(args.wave),
                 args
             )
 
@@ -78,7 +78,7 @@ class CommandStartWaveCommand(Command):
             )
 
         command = CommandOnWave(
-            self.server, " ".join(args.command), interval
+            self.server, " ".join(args.command), wave
         )
         self.scheduler.schedule_command(command)
         return self.format_response("Wave start command started", args)

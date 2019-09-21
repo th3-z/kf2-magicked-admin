@@ -14,7 +14,7 @@ class CommandMarquee(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
         self.help_text = "marquee help"
-        self.parser.add_argument("iterations")
+        # self.parser.add_argument("iterations")
         self.parser.add_argument("filename", nargs="*")
 
         self.folder = "marquee"
@@ -24,7 +24,6 @@ class CommandMarquee(Command):
 
     def load_file(self, filename):
         path = find_data_file(self.folder + "/" + filename)
-        print(path)
         if not os.path.isfile(path):
             return False
 
@@ -60,9 +59,9 @@ class CommandMarquee(Command):
             else:
                 message += "\n".join(self.marquee[line_start:line_end])
 
-            print(message)
-
-            self.chatbot.chat.submit_message(message)
+            self.chatbot.chat.submit_message(
+                self.format_response(message, args)
+            )
 
             time.sleep(1 / self.fps)
 
@@ -148,7 +147,7 @@ class CommandGameTime(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "map help"
+        self.help_text = "game time help"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -174,17 +173,17 @@ class CommandHighWave(Command):
             return self.format_response(self.help_text, args)
 
         return self.format_response(
-            "{} is the highest wave reached on this map.".format(
+            "{} is the highest wave reached on this map".format(
                 self.server.game.game_map.highest_wave
             ), args
         )
 
 
-class CommandHelp(Command):
+class CommandCommands(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "help help?"
+        self.help_text = "commands help"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -193,11 +192,26 @@ class CommandHelp(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
-        return self.format_response(
-            "Player commands:\n !me, !dosh, !kills, !server_dosh, "
-            "!server_kills, !top_dosh, !top_kills, !stats",
-            args
-        )
+        message = "\nAvailable commands:\n" \
+            "\t!record_wave,\n" \
+            "\t!game,\n" \
+            "\t!kills,\n" \
+            "\t!dosh,\n" \
+            "\t!top_kills,\n" \
+            "\t!top_dosh,\n" \
+            "\t!top_time,\n" \
+            "\t!top_wave_kills,\n" \
+            "\t!top_wave_dosh,\n" \
+            "\t!stats,\n" \
+            "\t!game_time,\n" \
+            "\t!server_kills,\n" \
+            "\t!server_dosh,\n" \
+            "\t!map,\n" \
+            "\t!maps,\n" \
+            "\t!player_count\n" \
+            "Commands have help, e.g. '!stats -h'"
+
+        return self.format_response(message, args)
 
 
 class CommandStats(Command):
