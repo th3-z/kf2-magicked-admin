@@ -61,11 +61,6 @@ class MagickedAdmin:
             server.url_extras = \
                 settings.setting(server_name, "url_extras")
 
-            level_threshold = int(
-                settings.setting(server_name, "level_threshold"))
-            if level_threshold > 0:
-                server.level_threshold = level_threshold
-
             dosh_threshold = int(
                 settings.setting(server_name, "dosh_threshold"))
             if dosh_threshold > 0:

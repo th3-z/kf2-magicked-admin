@@ -30,7 +30,6 @@ class CommandMap:
             'stop_tc': CommandStopTimeCommands(self.server, scheduler),
             'start_trc': CommandStartTraderCommand(self.server, scheduler),
             'stop_trc': CommandStopTraderCommands(self.server, scheduler),
-            'enforce_levels': CommandEnforceLevels(self.server),
             'enforce_dosh': CommandEnforceDosh(self.server),
             'say': CommandSay(self.server),
             'restart': CommandRestart(self.server),

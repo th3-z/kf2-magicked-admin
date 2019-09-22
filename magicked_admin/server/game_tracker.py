@@ -47,7 +47,7 @@ class GameTracker(threading.Thread):
         # TODO Refactor method
         if game_now.wave is not None:
             new_map = self.server.game.game_map.title != game_now.map_title
-            wave_drop = game_now.wave < self.server.game.wave
+            wave_drop = game_now.wave < (self.server.game.wave or 0)
             wave_reset = self.server.game.wave is None or wave_drop
 
             if new_map or wave_reset:

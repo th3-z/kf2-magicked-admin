@@ -35,6 +35,10 @@ class Command:
             "-p", "--pad",
             action="store_true"
         )
+        self.parser.add_argument(
+            "-q", "--quiet",
+            action="store_true"
+        )
 
     def authorise(self, username, user_flags):
         player = self.server.get_player_by_username(username)
@@ -84,9 +88,10 @@ class Command:
     def format_response(self, message, args):
         message = message.replace("£", self.currency_symbol)
         if args.pad:
-            return pad_output(message)
-        else:
-            return message
+            message = pad_output(message)
+        if args.quiet:
+            message = None
+        return message
 
     def execute(self, username, args, user_flags):
         raise NotImplementedError("Command.execute() not implemented")

@@ -20,7 +20,6 @@ class Server:
         self.database = ServerDatabase(name)
 
         self.game_password = None
-        self.level_threshold = None
         self.dosh_threshold = None
 
         self.game = Game(GameMap(), GAME_TYPE_UNKNOWN)
@@ -152,16 +151,8 @@ class Server:
         if not player:
             return False
 
-        self.web_admin.ban_player(player.player_key)
+        self.web_admin.ban_player(player.steam_id, player.player_key)
         return player.username
-
-    def enforce_levels(self):
-        if not self.level_threshold:
-            return
-
-        for player in self.players:
-            if player.perk_level < self.level_threshold:
-                self.web_admin.kick_player(player.player_key)
 
     def enforce_dosh(self):
         if not self.dosh_threshold:
@@ -220,7 +211,7 @@ class Server:
     def event_new_game(self):
         message = "New game on {}, map: {}, mode: {}" \
             .format(self.name, self.game.game_map.name,
-                    GAME_TYPE_NAME[self.game.game_type])
+                    GAME_TYPE_DISPLAY[self.game.game_type])
         print(colored(message, 'magenta'))
 
         self.database.load_game_map(self.game.game_map)

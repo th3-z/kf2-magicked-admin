@@ -1,11 +1,12 @@
 from os import path
 
-from chatbot import SCRIPT_TEMPLATE
+from chatbot import INIT_TEMPLATE
 from chatbot.command_map import CommandMap
 from chatbot.command_scheduler import CommandScheduler
 from utils import debug, find_data_file
 from web_admin.chat import ChatListener
 from web_admin.constants import *
+from utils import warning
 
 
 class Chatbot(ChatListener):
@@ -27,13 +28,13 @@ class Chatbot(ChatListener):
         self.silent = False
         self.greeter_enabled = True
 
-        script_path = find_data_file(server.name + ".init")
+        init_path = find_data_file(server.name + ".init")
 
-        if path.exists(script_path):
-            self.execute_script(script_path)
+        if path.exists(init_path):
+            self.execute_script(init_path)
         else:
-            with open(script_path, 'w+') as script_file:
-                script_file.write(SCRIPT_TEMPLATE)
+            with open(init_path, 'w+') as script_file:
+                script_file.write(INIT_TEMPLATE)
 
     def receive_message(self, username, message, user_flags):
         if message[0] == '!':
@@ -52,10 +53,10 @@ class Chatbot(ChatListener):
             if not self.silent and response:
                 self.chat.submit_message(response)
 
-    def execute_script(self, file_name):
-        debug("Executing script: " + path.basename(file_name))
+    def execute_script(self, filename):
+        debug("Executing script: " + path.basename(filename))
 
-        with open(file_name) as script:
+        with open(filename) as script:
             for line in script:
                 command = line[:line.find(";")].strip()
                 if command:

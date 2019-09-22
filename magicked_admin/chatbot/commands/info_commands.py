@@ -231,7 +231,9 @@ class CommandStats(Command):
         self.server.write_all_players()
 
         if args.username:
-            username = args.username
+            username = " ".join(args.username)
+
+        print(username)
 
         player = self.server.get_player_by_username(username)
         if player:
@@ -253,15 +255,15 @@ class CommandStats(Command):
         # todo Add pos_time to output
         # pos_time = self.server.database.rank_time(player.steam_id) or 0
 
-        message = "Stats for {}:\n"
-        "Total play time: {} ({} sessions)\n"
-        "Total deaths: {}\n"
-        "Total kills: {} (rank #{}) \n"
-        "Total dosh earned: £{} (rank #{})\n"
-        "Dosh this game: {}".format(
-            player.username, fmt_time, player.sessions,
-            player.total_deaths, millify(player.total_kills), pos_kills,
-            millify(player.total_dosh), pos_dosh, millify(player.game_dosh)
-        )
+        message = "Stats for {}:\n" \
+            "Total play time: {} ({} sessions)\n" \
+            "Total deaths: {}\n" \
+            "Total kills: {} (rank #{}) \n" \
+            "Total dosh earned: £{} (rank #{})\n" \
+            "Dosh this game: {}".format(
+                player.username, fmt_time, player.sessions,
+                player.total_deaths, millify(player.total_kills), pos_kills,
+                millify(player.total_dosh), pos_dosh, millify(player.game_dosh)
+            )
 
         return self.format_response(message, args)

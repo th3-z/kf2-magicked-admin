@@ -50,7 +50,7 @@ class CommandKills(Command):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
         self.help_text = "kills help"
-        self.parser.add_argument("username")
+        self.parser.add_argument("username", nargs="*")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -60,7 +60,7 @@ class CommandKills(Command):
             return self.format_response(self.help_text, args)
 
         if args.username:
-            username = args.username
+            username = " ".join(args.username)
 
         player = self.server.get_player_by_username(username)
         if player:
@@ -85,7 +85,7 @@ class CommandDosh(Command):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
         self.help_text = "dosh help"
-        self.parser.add_argument("username")
+        self.parser.add_argument("username", nargs="*")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -95,7 +95,7 @@ class CommandDosh(Command):
             return self.format_response(self.help_text, args)
 
         if args.username:
-            username = args.username
+            username = " ".join(args.username)
 
         player = self.server.get_player_by_username(username)
         if player:

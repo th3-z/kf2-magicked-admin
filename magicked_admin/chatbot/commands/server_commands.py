@@ -3,6 +3,7 @@ from os import path
 import server.game as game
 from chatbot.commands.command import Command
 from web_admin.constants import *
+from utils import find_data_file
 
 
 class CommandBan(Command):
@@ -107,22 +108,6 @@ class CommandDeop(Command):
         self.server.write_all_players()
 
         return self.format_response(message, args)
-
-
-class CommandEnforceLevels(Command):
-    def __init__(self, server):
-        Command.__init__(self, server, admin_only=True, requires_patch=False)
-
-        self.help_text = "enforce_levels help"
-
-    def execute(self, username, args, user_flags):
-        args, err = self.parse_args(username, args, user_flags)
-        if err:
-            return err
-        elif args.help:
-            return self.format_response(self.help_text, args)
-
-        self.server.enforce_levels()
 
 
 class CommandGameMaps(Command):
@@ -232,7 +217,9 @@ class CommandRun(Command):
 
         self.chatbot = chatbot
         self.help_text = "run help"
-        self.parser.add_argument("file")
+        self.parser.add_argument("file", nargs="*")
+
+        self.scripts_folder = "scripts"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -242,12 +229,14 @@ class CommandRun(Command):
             return self.format_response(self.help_text, args)
 
         if not args.file:
-            return self.format_response("No file was specified", args)
+            return self.format_response("No script was specified", args)
 
-        if not path.exists(args.file):
-            return self.format_response("File not found", args)
+        args.file = " ".join(args.file)
+        script_path = find_data_file(self.scripts_folder + "/" + args.file)
+        if not path.exists(script_path):
+            return self.format_response("Script not found", args)
 
-        self.chatbot.execute_script(args.file)
+        self.chatbot.execute_script(script_path)
 
 
 class CommandRestart(Command):
@@ -293,7 +282,8 @@ class CommandPassword(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
         self.help_text = "password help"
-        self.parser.add_argument("state")
+        self.parser.add_argument("-s", "--set", type=str)
+        self.parser.add_argument("state", nargs="?")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -302,25 +292,29 @@ class CommandPassword(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
-        if not args.state:
+        if not (args.state or args.set):
             enabled = self.server.web_admin.has_game_password()
-            message = "Game password is {}".format(
-                "enabled" if enabled else "disabled"
+            return self.format_response(
+                "Game password is currently {}".format(
+                    "enabled" if enabled else "disabled"
+                ), args
             )
 
+        if args.set:
+            self.server.game_password = args.set
+
+        if args.set or args.state in ['on', 'yes', 'y', '1', 'enable']:
+            self.server.web_admin.set_game_password(
+                self.server.game_password
+            )
+            message = "Game password enabled"
+
+        elif args.state in ['off', 'no', 'n', '0', 'disable']:
+            self.server.web_admin.set_game_password()
+            message = "Game password disabled"
+
         else:
-            if args.state in ['on', 'yes', 'y', '1', 'enable']:
-                self.server.web_admin.set_game_password(
-                    self.server.game_password
-                )
-                message = "Game password enabled"
-
-            elif args.state in ['off', 'no', 'n', '0', 'disable']:
-                self.server.web_admin.set_game_password()
-                message = "Game password disabled"
-
-            else:
-                message = "Unrecognised option {}".format(args.state)
+            message = "Unrecognised option {}".format(args.state)
 
         return self.format_response(message, args)
 
@@ -343,11 +337,13 @@ class CommandSilent(Command):
             self.chatbot.silent = False
             return self.format_response("Silent mode disabled", args)
         else:
-            self.chatbot.command_handler(
-                "internal_command",
-                "say Silent mode enabled".split(),
-                USER_TYPE_INTERNAL
-            )
+            message = self.format_response("Silent mode enabled", args)
+            if message:
+                self.chatbot.command_handler(
+                    "internal_command",
+                    "say {}".format(message).split(),
+                    USER_TYPE_INTERNAL
+                )
             self.chatbot.silent = True
 
 
@@ -403,18 +399,18 @@ class CommandDifficulty(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
-        if not args.length:
+        if not args.difficulty:
             message = "Difficulty not recognised, options are: normal, hard, " \
                       "suicidal, or hell"
             return self.format_response(message, args)
 
-        if args.length in ["normal", "0"]:
+        if args.difficulty in ["normal", "0"]:
             difficulty = DIFF_NORM
-        elif args.length in ["hard", "1"]:
+        elif args.difficulty in ["hard", "1"]:
             difficulty = DIFF_HARD
-        elif args.length in ["suicidal", "sui", "2"]:
+        elif args.difficulty in ["suicidal", "sui", "2"]:
             difficulty = DIFF_SUI
-        elif args.length in ["hell", "hoe", "hellonearth", "3"]:
+        elif args.difficulty in ["hell", "hoe", "hellonearth", "3"]:
             difficulty = DIFF_HOE
         else:
             return self.format_response(
@@ -444,7 +440,7 @@ class CommandGameMode(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
-        if not args.length:
+        if not args.game_mode:
             return self.format_response(
                 "GameMode not recognised, options are: endless, survival, "
                 "weekly or versus",

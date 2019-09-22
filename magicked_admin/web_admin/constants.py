@@ -8,18 +8,31 @@ DIFF_NORM = "0.0000"
 DIFF_HARD = "1.0000"
 DIFF_SUI = "2.0000"
 DIFF_HOE = "3.0000"
+DIFF_DISPLAY = {
+    DIFF_UNKNOWN: "Unknown",
+    DIFF_NORM: "Normal",
+    DIFF_HARD: "Hard",
+    DIFF_SUI: "Suicidal",
+    DIFF_HOE: "HoE"
+}
 
 LEN_UNKNOWN = 0
 LEN_SHORT = 4
 LEN_NORM = 7
 LEN_LONG = 10
+LEN_DISPLAY = {
+    LEN_UNKNOWN: "Unknown",
+    LEN_SHORT: "Short",
+    LEN_NORM: "Normal",
+    LEN_LONG: "Long"
+}
 
 GAME_TYPE_UNKNOWN = "kfgamecontent.KFGameInfo_Unknown"
 GAME_TYPE_SURVIVAL = "kfgamecontent.KFGameInfo_Survival"
 GAME_TYPE_WEEKLY = "kfgamecontent.KFGameInfo_Weekly"
 GAME_TYPE_SURVIVAL_VS = "kfgamecontent.KFGameInfo_VersusSurvival"
 GAME_TYPE_ENDLESS = "kfgamecontent.KFGameInfo_Endless"
-GAME_TYPE_NAME = {
+GAME_TYPE_DISPLAY = {
     GAME_TYPE_UNKNOWN: "Unknown",
     GAME_TYPE_SURVIVAL: "Survival",
     GAME_TYPE_WEEKLY: "Weekly",

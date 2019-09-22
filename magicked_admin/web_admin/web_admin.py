@@ -50,13 +50,22 @@ class WebAdmin(object):
         }
         self.__web_interface.post_players_action(payload)
 
-    def ban_player(self, player_key):
+    def ban_player(self, steam_id, player_key):
         payload = {
-            "ajax": "1",
-            "action": "ban",
-            "playerkey": player_key
+            "uniqueid": "",
+            "action": "add",
+            "steamint64": steam_id
         }
-        self.__web_interface.post_players_action(payload)
+        self.__web_interface.post_bans(payload)
+        self.kick_player(player_key)
+
+    def unban_player(self, steam_id):
+        payload = {
+            "uniqueid": "",
+            "action": "delete",
+            "steamint64": steam_id
+        }
+        self.__web_interface.post_bans(payload)
 
     def set_game_password(self, password=""):
         payload = {
@@ -261,7 +270,7 @@ class WebAdmin(object):
         difficulty_result = info_tree.xpath(difficulty_path)
 
         if len(difficulty_result):
-            difficulty_name = map(int, wave_result[0].split("/"))
+            difficulty_name = difficulty_result[0]
             if difficulty_name == "Normal":
                 difficulty = DIFF_NORM
             elif difficulty_name == "Hard":

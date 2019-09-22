@@ -1,0 +1,13 @@
+; Scripts can be ran with !run <script_name>. For example, this file can be
+; executed with `!run example`
+; Lines starting with ; will be ignored. 
+; Commands in scripts should not be prefixed with '!'
+;
+; Example script - Sets up a private game
+silent -q ; -q supresses command output
+password set 123
+difficulty hell
+length long
+load_map biotics
+silent -q
+say Example script ran successfully
