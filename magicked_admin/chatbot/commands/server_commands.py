@@ -115,6 +115,10 @@ class CommandGameMaps(Command):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
         self.help_text = "game maps help text"
+        self.parser.add_argument(
+            "-a", "--all",
+            action="store_true"
+        )
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -123,7 +127,7 @@ class CommandGameMaps(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
-        message = ", ".join(self.server.get_maps())
+        message = ", ".join(self.server.get_maps(not args.all))
 
         return self.format_response(message, args)
 

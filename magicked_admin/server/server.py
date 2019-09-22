@@ -110,7 +110,10 @@ class Server:
             self.web_admin.set_game_password(self.game_password)
 
     def get_maps(self, active_only=False):
-        return self.web_admin.get_maps()
+        if active_only:
+            return self.web_admin.get_active_maps()
+        else:
+            return self.web_admin.get_maps()
 
     def find_map(self, search_title):
         matches = 0
