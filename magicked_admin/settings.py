@@ -48,7 +48,7 @@ class Settings:
                 "Configuration error(s) found!\nSection '{}' has a duplicate setting: '{}'."
                 .format(e.section, e.option)
             )
-            die(CONFIG_DIE_MESG)
+            die(CONFIG_DIE_MESG, pause=True)
 
         config_errors = self.validate_config(self.config)
 
@@ -56,7 +56,7 @@ class Settings:
             fatal("Configuration error(s) found!")
             for error in config_errors:
                 print("\t\t" + error)
-            die(CONFIG_DIE_MESG)
+            die(CONFIG_DIE_MESG, pause=True)
 
     def setting(self, section, setting):
         try:

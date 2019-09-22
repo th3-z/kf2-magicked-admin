@@ -13,7 +13,7 @@ class MotdUpdater(threading.Thread):
         self.motd_path = find_data_file(server.name + ".motd")
 
         self.scoreboard_type = scoreboard_type
-        self.time_interval = 5 * 60
+        self.time_interval = 5
 
         if not path.exists(find_data_file(self.server.name + ".motd")):
             warning(

@@ -14,9 +14,11 @@ VERSION = "0.1.3"
 BANNER_URL = "https://th3-z.xyz/kf2-ma"
 
 
-def die(message=None):
+def die(message=None, pause=False):
     if message:
         print(colored(' [!] ', 'red') + message)
+    if pause:
+        input("\nPress enter to exit...")
     sys.exit(0)
 
 
