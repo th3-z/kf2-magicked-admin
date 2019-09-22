@@ -76,13 +76,7 @@ Downloads
 ---------
 
 The most recent stable version is 
-[0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7). This 
-release is quite old and doesn't align with the documentation here. See the 
-[Steam guide](http://steamcommunity.com/sharedfiles/filedetails/?id=1324364024) 
-for more information about 0.0.7.
-
-More recent versions are available for testing on the 
-[releases](https://github.com/th3-z/kf-magicked-admin/releases) page.
+[0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3). 
 
 Configuration options
 ---------------------
