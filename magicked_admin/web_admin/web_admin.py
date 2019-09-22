@@ -119,7 +119,18 @@ class WebAdmin(object):
         maplist_tree = html.fromstring(response.content)
 
         available_path = "//textarea[@id='allmaps']/text()"
-        return maplist_tree.xpath(available_path)[0].split('\n')
+        maps = maplist_tree.xpath(available_path)[0].split('\n')
+
+        return maps
+
+    def get_active_maps(self):
+        response = self.__web_interface.get_maplist()
+        maplist_tree = html.fromstring(response.content)
+
+        mapcycle_path = "//textarea[@id='mapcycle']/text()"
+        maps = maplist_tree.xpath(mapcycle_path)[0].split('\n')
+
+        return maps
 
     def set_server_name(self, name):
         self.set_general_setting("settings_ServerName", name)
