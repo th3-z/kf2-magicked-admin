@@ -10,12 +10,12 @@ class MotdUpdater(threading.Thread):
 
     def __init__(self, server, scoreboard_type):
         self.server = server
-        self.motd_path = find_data_file(server.name + ".motd")
+        self.motd_path = find_data_file("conf/" + server.name + ".motd")
 
         self.scoreboard_type = scoreboard_type
         self.time_interval = 5 * 60
 
-        if not path.exists(find_data_file(self.server.name + ".motd")):
+        if not path.exists(find_data_file(self.motd_path)):
             warning(
                 "No MOTD file for {} found, pulling from web admin!".format(
                     self.server.name
@@ -44,7 +44,7 @@ class MotdUpdater(threading.Thread):
             time.sleep(self.time_interval)
 
     def load_motd(self):
-        motd_f = open(find_data_file(self.server.name + ".motd"))
+        motd_f = open(find_data_file(self.motd_path))
         motd = motd_f.read()
         motd_f.close()
         return motd
