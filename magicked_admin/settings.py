@@ -5,7 +5,8 @@ from getpass import getpass
 from utils import die, fatal, find_data_file, info
 from utils.net import resolve_address
 
-CONFIG_PATH = find_data_file("./conf/magicked_admin.conf")
+CONFIG_PATH = find_data_file("conf/magicked_admin.conf")
+CONFIG_PATH_DISPLAY = "conf/magicked_admin.conf"
 
 SETTINGS_DEFAULT = {
     'server_name': 'server_one',
@@ -29,15 +30,24 @@ CONFIG_DIE_MESG = "Please correct this manually  or delete '{}' to create a clea
 
 
 class Settings:
-
-    def __init__(self):
+    def __init__(self, skip_setup=False):
         if not os.path.exists(CONFIG_PATH):
             info("No configuration was found, first time setup is required!")
-            print("     Please input your web admin details below.")
-            config = self.construct_config_interactive()
+
+            if not skip_setup:
+                config = self.construct_config_interactive()
+            else:
+                config = self.construct_config_template()
 
             with open(CONFIG_PATH, 'w') as config_file:
                 config.write(config_file)
+
+            if skip_setup:
+                info("Guided setup was skipped, a template has been generated.")
+                die(
+                    "Setup is not complete yet, please amend '{}' with your "
+                    "server details.".format(CONFIG_PATH_DISPLAY)
+                )
 
         try:
             self.config = configparser.ConfigParser()
@@ -69,6 +79,7 @@ class Settings:
 
     @staticmethod
     def construct_config_interactive():
+        print("     Please input your web admin details below.")
         new_config = configparser.ConfigParser()
         new_config.add_section(SETTINGS_DEFAULT['server_name'])
 
@@ -96,6 +107,24 @@ class Settings:
         new_config.set(SETTINGS_DEFAULT['server_name'], 'username', username)
         new_config.set(SETTINGS_DEFAULT['server_name'], 'password', password)
 
+        return new_config
+
+    @staticmethod
+    def construct_config_template():
+        new_config = configparser.ConfigParser()
+        new_config.add_section(SETTINGS_DEFAULT['server_name'])
+
+        for setting in SETTINGS_DEFAULT:
+            new_config.set(SETTINGS_DEFAULT['server_name'], setting,
+                           SETTINGS_DEFAULT[setting])
+
+        new_config.set(
+            SETTINGS_DEFAULT['server_name'],
+            'address',
+            "http://localhost:8080"
+        )
+        new_config.set(SETTINGS_DEFAULT['server_name'], 'username', "Admin")
+        new_config.set(SETTINGS_DEFAULT['server_name'], 'password', "123")
         return new_config
 
     @staticmethod
