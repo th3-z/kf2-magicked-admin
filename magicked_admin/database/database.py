@@ -10,7 +10,7 @@ lock = Lock()
 class ServerDatabase:
 
     def __init__(self, name):
-        self.sqlite_db_file = find_data_file(name + ".sqlite")
+        self.sqlite_db_file = find_data_file("conf/" + name + ".sqlite")
 
         if not path.exists(self.sqlite_db_file):
             self.build_schema()

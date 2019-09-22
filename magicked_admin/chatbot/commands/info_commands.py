@@ -17,7 +17,7 @@ class CommandMarquee(Command):
         # self.parser.add_argument("iterations")
         self.parser.add_argument("filename", nargs="*")
 
-        self.folder = "marquee"
+        self.folder = "conf/marquee"
         self.fps = 10
         self.scroll_height = 7
         self.marquee = []
