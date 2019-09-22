@@ -7,6 +7,7 @@ Released under the terms of the MIT license
 import os
 import signal
 import sys
+import argparse
 
 from colorama import init
 
@@ -20,11 +21,18 @@ from utils.text import str_to_bool
 
 init()
 
-banner()
+parser = argparse.ArgumentParser(
+    description='Killing Floor 2 Magicked Administrator'
+)
+parser.add_argument('-s', '--skip_setup', action='store_true',
+                    help='Skips the guided setup process')
+args = parser.parse_args()
 
-settings = Settings()
+banner()
+settings = Settings(skip_setup=args.skip_setup)
 
 REQUESTS_CA_BUNDLE_PATH = find_data_file("./certifi/cacert.pem")
+
 
 if hasattr(sys, "frozen"):
     import certifi.core
