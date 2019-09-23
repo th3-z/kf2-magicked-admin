@@ -1,3 +1,6 @@
+<p align="center">
+    <img width=103 height=102 src="https://files.th3-z.xyz/standing/kf2ma.png"/>
+</p>
 <h1 align="center">Killing Floor 2 Magicked Admin</h1>
 
 Scripted management, statistics, and bot for ranked Killing Floor 2 servers. 
