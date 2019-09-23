@@ -6,6 +6,9 @@ I'm currently accepting contributions to this project.
 I can be contacted by [email](mailto:the_z@znel.org) or on
 [Steam](https://steamcommunity.com/id/th3-z), either is fine.
 
+We have a Steam group chat for contributors to discuss development,
+an invite will be provided.
+
 How can I contribute?
 ---------------------
 
@@ -67,10 +70,7 @@ see [PEP8](https://www.python.org/dev/peps/pep-0008/). Please Use `make lint`
 to check for style issues, this will use `flake8` to test compliance.
 
 ### Documents
-Documents are all written in Markdown, to the 
-[CommonMark](https://spec.commonmark.org/current/) specification. Use of GFM
-and other extensions are erroneous, and should be raised as issues, with the
-exception of the `.github` folder.
+Documents are all written in GitHub flavoured markdown.
 
 * Maximum line length of 79 characters.
 
