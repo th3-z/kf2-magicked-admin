@@ -44,7 +44,7 @@ Escape sequences as follows are available to format messages.
 
 #### Player commands
 
-Commands that can be executed by any user.
+Commands that can be executed by any player.
 <details>
   <summary>Click to see the player commands!</summary>
 	
