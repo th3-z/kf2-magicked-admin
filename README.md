@@ -11,8 +11,12 @@ once.
 Downloads
 ---------
 
-The most recent stable version is 
-[0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3). 
+The most recent stable version is `0.1.3`. Binaries are provided on the releases 
+page for Windows users. Linux and Mac OS users should clone the repo and run
+from source.
+
+
+[Release 0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3)
 
 Features
 --------
@@ -174,16 +178,16 @@ Options can be configured in the config file `magicked_admin.conf`.
     for the bot.
 * `password`
     - Webadmin password that matches the username above.
-* `game\_password`
+* `game_password`
     - Default game password to set when the password is toggled using 
     `!password <on|off>`.
-* `motd\_scoreboard`
+* `motd_scoreboard`
     - Boolean value, enable or disable the MOTD scoreboard feature. Defaults to
     disabled.
-* `scoreboard\_type`
+* `scoreboard_type`
     - Possible values: `kills`, or `dosh`. Change the type of scores that are
     displayed in the MOTD scoreboard.
-* `dosh\_threshold`
+* `dosh_threshold`
     - Integer value, configures the `!enforce_dosh` command. The dosh threshold
     is the amount of dosh a player can carry before they are kicked by the next
     call to `!enforce_dosh`.
@@ -200,8 +204,8 @@ systems. Install the following packages.
 * Python 3.x - `apt install python3`
 * Pip - `apt install python3-pip`
 * Python 3 dependencies - `pip3 install -r requirements.txt`
-    - This might complain about cx\_freeze not installing if you haven't got 
-    zlib, but cx\_freeze is only needed for building.
+    - This might complain about cx_freeze not installing if you haven't got 
+    zlib, but cx_freeze is only needed for building.
 
 ### Running 
 `git clone git@github.com:th3-z/kf2-magicked-admin.git`
