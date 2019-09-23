@@ -1,12 +1,3 @@
----
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
-
----
-
 **Describe the bug**
 A clear and concise description of what the bug is.
 
@@ -25,11 +16,13 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. Windows]
- - KF2-MA version: [e.g. 0.1.2]
+ - KF2-MA version: [e.g. 0.1.3]
 
 **Server (please complete the following information):**
  - Mods: [e.g. ControlledDifficulty]
  - Web admin resource modifications: [e.g. Perk levels on info page]
 
-**Additional context**
-Add any other context about the problem here.
+**Log**
+```
+Paste any relevant log output here
+```
