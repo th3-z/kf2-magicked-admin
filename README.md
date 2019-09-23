@@ -45,7 +45,9 @@ Escape sequences as follows are available to format messages.
 #### Player commands
 
 Commands that can be executed by any user.
-
+<details>
+  <summary>Click to see the player commands!</summary>
+	
 * `!commands` - Shows a list of all commands available to players
 * `!stats <user>` - Shows general statistics about a user
     - Example: `!stats` Shows stats about yourself
@@ -68,12 +70,16 @@ Commands that can be executed by any user.
 * `!game` - Shows information about the current game
 * `!maps` - Shows the maplist
 * `!player_count` - Shows the player count and max players
-			
+</details>
+
 #### Admin commands
 
 Commands that can be ran by server administrators or users authorized with 
 the `!op` command.
 
+<details>
+  <summary>Click to see the admin commands!</summary>
+	
 * `!op <user>` - Gives a user administrative rights
     - Example: `!op the_z`
 * `!deop <user>` - Revokes a user's administrative rights
@@ -132,6 +138,7 @@ the `!op` command.
 * `!enforce_dosh` - Kicks all players that have more dosh than the 
                  `dosh_threshold` configuration option
     - Example: `!start_tc 600 enforce_dosh`
+</details>
 
 ### MOTD leaderboard
 
