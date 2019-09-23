@@ -16,6 +16,7 @@ Please delete options that are not relevant.
 # Checklist:
 
 - [ ] Follows the style guidelines of this project
-- [ ] Corresponding changes to the documentation
+- [ ] Corresponding changes to the documentation and help texts
 - [ ] Generates no new warnings
 - [ ] Linter passes
+- [ ] I agree to these changes being released under the terms of the MIT license
