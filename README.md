@@ -16,7 +16,16 @@ page for Windows users. Linux and Mac OS users should clone the repo and run
 from source.
 
 
+
 [Release 0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3)
+
+<details>
+<summary>Old releases</summary>
+
+Release `0.0.7` has been extensively tested and aligns closer with the Steam guide.
+* [Release 0.1.2](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.2)
+* [Release 0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7)
+</details>
 
 Features
 --------
@@ -45,8 +54,9 @@ Escape sequences as follows are available to format messages.
 #### Player commands
 
 Commands that can be executed by any player.
+
 <details>
-  <summary>Click to see the 18 player commands!</summary>
+<summary>Click to see the 18 player commands!</summary>
 	
 * `!commands` - Shows a list of all commands available to players
 * `!stats <user>` - Shows general statistics about a user
@@ -78,7 +88,7 @@ Commands that can be ran by server administrators or users authorized with
 the `!op` command.
 
 <details>
-  <summary>Click to see the 24 admin commands!</summary>
+<summary>Click to see the 24 admin commands!</summary>
 	
 * `!op <user>` - Gives a user administrative rights
     - Example: `!op the_z`
