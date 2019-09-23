@@ -40,7 +40,8 @@ def run():
     if not validate_files(target_path):
         die("Server file validation failed, possible reasons:"
             "\n\t - Game update"
-            "\n\t - User mods")
+            "\n\t - User mods"
+            "\n\t - Patches already applied")
 
     info("Patching files...")
     patches_path = find_data_file(PATCHES_PATH)

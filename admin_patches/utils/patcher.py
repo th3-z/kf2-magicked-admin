@@ -2,7 +2,8 @@ import os
 from hashlib import md5
 
 from checksums import ORIG_MD5
-from utils.patch import
+from utils import find_data_file, info
+from utils.patch import fromfile
 
 
 def md5sum(fname):
@@ -26,4 +27,15 @@ def validate_files(target_path):
 
 
 def patch_files(target_path, patches_path):
+    for filename in os.listdir(target_path):
+        if filename not in ORIG_MD5.keys():
+            continue
+        patch_path = find_data_file(
+            os.path.join(patches_path, filename + ".patch")
+        )
+
+        info("Applying {}".format(filename + ".patch"))
+
+        patch = fromfile(patch_path)
+        patch.apply(0, target_path)
     return True
