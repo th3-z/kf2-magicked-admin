@@ -1,5 +1,4 @@
-Killing Floor 2 Magicked Admin
-==============================
+<h1 align="center">Killing Floor 2 Magicked Admin</h1>
 
 Scripted management, statistics, and bot for ranked Killing Floor 2 servers. 
 Provides in-game commands, player stat tracking and ranking, live MOTD 
