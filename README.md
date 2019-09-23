@@ -31,6 +31,10 @@ Many commands will look for closest matches to their parameters.
 For example '_biotics_' will match '_kf-biotics-lab_' and '_userO_' will match
 '_userOne™/@:®_'.
 
+All commands have in-game help text that can be accessed with the `-h` parameter.
+
+* Example: `!commands -h`
+
 Escape sequences as follows are available to format messages.
 
 * `\n` - Newline
