@@ -8,75 +8,130 @@ the web admin, it does not affect a server's ranked/custom status. It can be
 ran either directly on the server or remotely, and manage multiple servers at 
 once.
 
-Features
---------
-
-TODO: This section is out of date
-
-### Commands
-* !me - display a summary of your stats
-* !stats _player_ - display a summary of _player_'s stats
-* !help - displays the help text in chat
-* !info - displays information about this project
-* !dosh - display the players recorded dosh and rank by dosh
-* !top\_dosh - displays the players with the highest recorded dosh
-* !kills - display the players recorded kills and rank by kills
-* !top\_kills - displays the players with the most recorded kills
-* !server\_kills - displays total number of zeds killed on the server
-* !server\_dosh - displays total dosh earned on the server 
-
-#### Operator commands
-* !difficulty {normal|hard|suicidal|hell} - sets difficulty of next game
-    - Example: !difficulty hard
-* !length {short|medium|long} - sets length of next game
-    - Example: !length medium
-* !start\_tc _n command_ - repeat _command_ every _n_ seconds
-    - Example: !start\_tc 5 say test
-* !stop\_tc - stop all timed commands
-* !start\_wc _n command_ - run _command_ when wave _n_ is reached.
-    - Example: !start\_wc say Wave Started. - posts a message EVERY wave.
-    - Example: !start\_wc 4 say Wave 4 Started. - This posts a message when 
-    wave 4 starts.
-* !stop\_wc - stop all wave commands
-* !start\_trc _command_ - run _command_ every time the trader opens
-    - Example: !start\_trc say Traders open.
-* !stop\_trc - stop trader commands
-* !say _mesg_ - display _mesg_ in the chat, generally for use in conjunction
-with other commands
-    - Example: !say This is an example.
-* !silent - toggles output in chat
-* !restart - immediately restarts the current map
-* !load\_map _map-name_ - immediately loads _map-name_
-* !toggle\_pass - toggles the configured game password (specified in 
-`magicked_admin.conf`)
-* !game_mode {endless|survival|weekly|versus} - changes the current GameType
-    - Example: !game_mode endless
-
-### MOTD leaderboard
-
-TODO: Docs
-
-### Greeter
-
-TODO: Docs
-
-### Init scripts
-
-TODO: Docs
-
-### Other
-* Writing a `server_name.motd` file with pairs of `%PLR` and `%SCR` and 
-enabling the motd_scoreboard option will put a live scoreboard in the motd. 
-    - `%SRV_D` and `%SRV_K` will be replaced by the total dosh and kills on 
-    the server respectively.
-* Witting a `server_name.init` with a list of commands will run the commands
-when the bot starts on server_name.
-
 Downloads
 ---------
 
 The most recent stable version is 
 [0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3). 
+
+Features
+--------
+
+### Commands
+
+When inputting commands into the chat they need to be prefixed with `!`.
+When writting commands into a script, or chaining them this should be 
+omitted. 
+
+Many commands will look for closest matches to their parameters. 
+For example '_biotics_' will match '_kf-biotics-lab_' and '_userO_' will match
+'_userOne™/@:®_'.
+
+#### Player commands
+
+Commands that can be executed by any user.
+
+* `!commands` - Shows a list of all commands available to players
+* `!stats <user>` - Shows general statistics about a user
+    - Example: `!stats` Shows stats about yourself
+    - Example: `!stats the_z` Shows stats about the_z
+* `!kills` - Shows kill statistics about yourself
+* `!dosh` - Shows dosh statistics about yourself
+* `!map` - Shows statistics about the current map
+* `!record_wave` - Shows the highest wave achieved on the current map
+* `!top_kills` - Shows the global kills leaderboard
+* `!top_dosh` - Shows the global dosh leaderboard
+* `!top_time` - Shows the global play time leaderboard
+* `!top_wave_kills` - Shows information about who killed the most ZEDs 
+                      in the current wave. Generally for use with `start_trc`
+    - Example: `!start_trc top_wave_kills`
+* `!top_wave_dosh` - Shwows information about who earned the most dosh in 
+                     the current wave. Generally for use with `!start_trc`
+    - Example: `!start_trc top_wave_dosh`
+* `!server_kills` - Shows total kills on the server
+* `!server_dosh` - Shows total dosh earned on the server
+* `!game` - Shows information about the current game
+* `!maps` - Shows the maplist
+* `!player_count` - Shows the player count and max players
+			
+#### Admin commands
+
+Commands that can be ran by server administrators or users authorized with 
+the `!op` command.
+
+* `!op <user>` - Gives a user administrative rights
+    - Example: `!op the_z`
+* `!deop <user>` - Revokes a user's administrative rights
+    - Example: `!deop the_z`
+* `!say <message>` - Echoes a message into chat
+    - Example: `!say The quick brown fox jumps over the lazy dog`
+    - Example: `!start_trc say The trader is open`
+* `!players` - 
+* `!kick <user>` - 
+    - Example: `!kick the_z`
+* `!ban <user>` - 
+    - Example: `!ban the_z`
+    - Warnng: The web admin currently has a bug that causes bans to persist
+      after they are deleted, thus there is no unban command
+* `!length <length>` - Change the length to <length> next game
+    - Example: `!length short`
+* `!difficulty <difficulty>` - Change the difficulty to `<difficulty>` next 
+                               game
+    - Example: `!difficulty hell`
+* `!game_mode <game_mode>` - Immediately change the game mode to `<game_mode>`
+    - Example: `!game_mode endless` Changes the game mode to Endless
+* `!load_map <map>` - Immediately change the map to `<map>`
+    - Example: `!load_map biotics` Changes the map to Biotics Lab
+* `!restart` - Immediately restart the current game
+* `!password [--set] <on|off>`
+    - Example: `!password on` Enables the game password defined in the config
+    - Example: `!password off` Disables the game password
+    - Example: `!password --set somePass` Sets a specific password
+* `!start_jc <command>`
+	- Example: ``
+* `!stop_jc`
+* `!start_wc <command>`
+    - Example: ``
+* `!stop_wc
+* `!start_tc <command>`
+    - Example: ``
+* `!stop_tc
+* `!start_trc <command>`
+    - Example: ``
+* `!stop_trc`
+* `!silent`
+* `!run`
+    - Example: ``
+* `!marquee`
+    - Example: ``
+* `!enforce_dosh`
+
+
+
+
+### MOTD leaderboard
+
+Writing a `server_name.motd` file containing pairs of `%PLR` and `%SCR` and 
+enabling the `motd_scoreboard` option will put a live leaderboard in the motd 
+and update it every 5 minutes. 
+
+`%SRV_D` and `%SRV_K` will be replaced by the total dosh and kills on the 
+server respectively.
+
+The `scoreboard_type` configuration option allows you to change the score 
+metric on the leaderboard. The options for this are: `dosh` or `kills`.
+
+### Scripts
+
+Writting a `server_name.init` in the root folder with a series of commands 
+will run the commands in sequence when the bot starts on `server_name`.
+
+Additional scripts can be written in the `scripts` folder and ran with the 
+`!run` command. There is an example already in there that can be ran with 
+`!run example`.
+
+* Comments can be added to scripts by prefixing a line with `;`.
+
 
 Configuration options
 ---------------------
@@ -91,6 +146,9 @@ default server section if you want to manage multiple servers. `[server_one]`
 is the name of the server, this can be changed to whatever you want.
 
 ### Options
+
+Options can be configured in the config file `magicked_admin.conf`.
+
 * address
     - Web address of the server's webadmin panel. Requires scheme and protocol,
     e.g. `https://0.0.0.0:8080`
@@ -102,16 +160,13 @@ is the name of the server, this can be changed to whatever you want.
     - Webadmin password that matches the username above.
 * game\_password
     - Default game password to set when the password is toggled using 
-    `!password`.
+    `!password <on|off>`.
 * motd\_scoreboard
     - Boolean value, enable or disable the MOTD scoreboard feature. Defaults to
     disabled.
 * scoreboard\_type
-    - Possible values: `kills`, `dosh`. Change the type of scores that are
+    - Possible values: `kills`, or `dosh`. Change the type of scores that are
     displayed in the MOTD scoreboard.
-* enable\_greeter
-    - Boolean value, enable or disable the greeter that runs when a player 
-    joins the match.
 * dosh\_threshold
     - Integer value, configures the `!enforce_dosh` command. The dosh threshold
     is the amount of dosh a player can carry before they are kicked by the next
@@ -168,4 +223,6 @@ Development make targets also use the following dependencies.
 
 ### Windows users
 You can build the program without make by running `setup.py`.
+
+* `python3 setup.py build`
 
