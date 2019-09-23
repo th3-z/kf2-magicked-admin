@@ -27,6 +27,13 @@ Many commands will look for closest matches to their parameters.
 For example '_biotics_' will match '_kf-biotics-lab_' and '_userO_' will match
 '_userOne™/@:®_'.
 
+Escape sequences as follows are available to format messages.
+
+* `\n` - Newline
+    - Example: `!say line 0\nline 1`
+* `\t` - Tab
+    - Example: `!say line 0\n\tline 1 is indented`
+
 #### Player commands
 
 Commands that can be executed by any user.
@@ -66,14 +73,14 @@ the `!op` command.
 * `!say <message>` - Echoes a message into chat
     - Example: `!say The quick brown fox jumps over the lazy dog`
     - Example: `!start_trc say The trader is open`
-* `!players` - 
-* `!kick <user>` - 
+* `!players` - Shows detailed information about players on the server
+* `!kick <user>` - Kicks `<user>` from the match
     - Example: `!kick the_z`
-* `!ban <user>` - 
+* `!ban <user>` - Bans `<user>` from the server
     - Example: `!ban the_z`
     - Warnng: The web admin currently has a bug that causes bans to persist
       after they are deleted, thus there is no unban command
-* `!length <length>` - Change the length to <length> next game
+* `!length <length>` - Change the length to `<length>` next game
     - Example: `!length short`
 * `!difficulty <difficulty>` - Change the difficulty to `<difficulty>` next 
                                game
@@ -87,27 +94,36 @@ the `!op` command.
     - Example: `!password on` Enables the game password defined in the config
     - Example: `!password off` Disables the game password
     - Example: `!password --set somePass` Sets a specific password
-* `!start_jc <command>`
-	- Example: ``
-* `!stop_jc`
-* `!start_wc <command>`
-    - Example: ``
-* `!stop_wc
-* `!start_tc <command>`
-    - Example: ``
-* `!stop_tc
-* `!start_trc <command>`
-    - Example: ``
-* `!stop_trc`
-* `!silent`
-* `!run`
-    - Example: ``
-* `!marquee`
-    - Example: ``
-* `!enforce_dosh`
-
-
-
+* `!start_jc <command>` - Start a command that runs every time a player joins
+	- Example: `!start_jc say Welcome %PLR%` - Greets a player on join
+	- Available tokens: `%PLR` - username, `%KLL%` - total kills, `%DSH%` - 
+      total dosh
+* `!stop_jc` - Stops all join commands
+* `!start_wc [wave] <command>` - Start a command that runs on wave `[wave]`
+    - `[wave`] Can be omitted to have the command run every wave
+    - `[wave`] Can be negative to count backwards from the boss wave
+    - Example: `!start_wc -1 say Welcome to the boss wave`
+* `!stop_wc` - Stops all wave commands
+* `!start_tc <seconds> <command>` - Start a command that runs every 
+                                    `<seconds>` seconds
+    - Example: `!start_tc 600 say Join our Steam group!\n 
+	http://steam.group/`
+* `!stop_tc` - Stops all timed commands
+* `!start_trc <command>` - Start a commands that runs when the trader opens
+    - Example: `!start_trc top_wave_dosh` - Shows who earned the most dosh 
+	this wave when the trader opens
+* `!stop_trc` - Stop all commands that run on trader open
+* `!silent` - Toggles suppression of all chat output, commands still have 
+              effect, but the response will not be visible to players
+* `!run <script_name>` - Executes a script from the `scripts` folder, more
+                         information in the scripts section
+    - Example: `!run example`
+* `!marquee <marquee_name>` - Runs a marquee in the chat from the `marquee` 
+                              folder, _experimental_
+    - Example: `!marquee example`
+* `!enforce_dosh` - Kicks all players that have more dosh than the 
+                 `dosh_threshold` configuration option
+    - Example: `!start_tc 600 enforce_dosh`
 
 ### MOTD leaderboard
 
@@ -149,25 +165,25 @@ is the name of the server, this can be changed to whatever you want.
 
 Options can be configured in the config file `magicked_admin.conf`.
 
-* address
+* `address`
     - Web address of the server's webadmin panel. Requires scheme and protocol,
     e.g. `https://0.0.0.0:8080`
-* username
+* `username`
     - Webadmin username to login with, this will appear in the chat when the 
     bot has something to output. It's recommended to create a separate account
     for the bot.
-* password
+* `password`
     - Webadmin password that matches the username above.
-* game\_password
+* `game\_password`
     - Default game password to set when the password is toggled using 
     `!password <on|off>`.
-* motd\_scoreboard
+* `motd\_scoreboard`
     - Boolean value, enable or disable the MOTD scoreboard feature. Defaults to
     disabled.
-* scoreboard\_type
+* `scoreboard\_type`
     - Possible values: `kills`, or `dosh`. Change the type of scores that are
     displayed in the MOTD scoreboard.
-* dosh\_threshold
+* `dosh\_threshold`
     - Integer value, configures the `!enforce_dosh` command. The dosh threshold
     is the amount of dosh a player can carry before they are kicked by the next
     call to `!enforce_dosh`.
