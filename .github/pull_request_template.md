@@ -19,4 +19,5 @@ Please delete options that are not relevant.
 - [ ] Corresponding changes to the documentation and help texts
 - [ ] Generates no new warnings
 - [ ] Linter passes
+- [ ] Added relevant labels to the pull request
 - [ ] I agree to these changes being released under the terms of the MIT license
