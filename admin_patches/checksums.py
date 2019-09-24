@@ -2,6 +2,7 @@
 ORIG_MD5 = {
     "gamesummary.inc": "c058a82cc997d82cb6b135aec3d3e398",
     "current_rules.inc": "fa1f6df26241de95d1e2b67383c2382d",
+    "header_base.inc": "47c04f5c37a02e14dd848898c9b1445c",
     # "about.html": "170c37c1a24bc3f5ed7fad5f0cd6988d",
     # "console.html": "e677bf40becdaf7351ca152bcdb9ab81",
     # "current_bot_empty.inc": "7010a3c6ce19005916cb8da47b9b6c9f",
@@ -58,7 +59,6 @@ ORIG_MD5 = {
     # "gamesummary_base.inc": "3319af6efb70753866b2bafce634e258",
     # "gamesummary.js": "3723867be22e71f8f655b3ac1815c119",
     # "gamesummary_kfgameinfo_survival.inc": "86f11c0d38193fd39ab6b966a8ade24a",
-    # "header_base.inc": "47c04f5c37a02e14dd848898c9b1445c",
     # "header.inc": "562ac9fa12fb6f1dbfc0352bf99ea76a",
     # "login.html": "08bfb87514ab579bd89e470fc50bd245",
     # "message_error.inc": "9c3885f94344bf53cf90effa965e255a",
