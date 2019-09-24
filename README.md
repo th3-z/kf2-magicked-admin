@@ -214,6 +214,17 @@ Options can be configured in the config file `magicked_admin.conf`.
     - Integer value, configures the `!enforce_dosh` command. The dosh threshold
     is the amount of dosh a player can carry before they are kicked by the next
     call to `!enforce_dosh`.
+    
+Running with Docker
+---------------------------
+
+Running with docker is easy. Just issue this command:
+```
+    docker run -it -p 1880:1880 --name kf-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3-z/kf-magicked-admin
+```
+You will need to change `<host config folder location>` to wheverever you want to store your config folder. `/mnt/user/appdata/kf-magicked-admin` is a popular choice for systems running Unraid.
+
+After this command runs the container will exit out and the logs will tell you to setup the config file. Go to your `conf` folder and set things up then run the container again and you are good to go!
 
 Running from Python sources
 ---------------------------
