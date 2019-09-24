@@ -269,11 +269,13 @@ systems.
 * Make - `apt install make`
 * zlib-dev - `apt install zlib1g-dev`
 
-### Recommended
+### Development
 Development make targets also use the following dependencies.
 
-* isort - `apt install isort`
-* flake8 - `apt install flake8`
+* isort - `pip3 install isort`
+* flake8 - `pip3 install flake8`
+* pytest - `pip3 install pytest`
+* pytest-cov - `pip3 install pytest-cov`
 
 ### Windows users
 You can build the program without make by running `setup.py`.
