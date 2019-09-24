@@ -19,9 +19,9 @@ run:
 isort:
 	@sh -c "isort --recursive ."
 
-coverage:
-	@echo "\n$(YELLOW_COLOR)Running coverage report...$(NO_COLOR)\n"
-	@pytest --cov=magicked_admin tests/
+pytest:
+	@echo "\n$(YELLOW_COLOR)Running tests...$(NO_COLOR)\n"
+	@pytest tests --cov-fail-under=1 --cov=magicked_admin
 
 
 lint:
@@ -30,11 +30,7 @@ lint:
 		echo "$(GREEN_COLOR)success!$(NO_COLOR)" \
 		|| { echo "$(RED_COLOR)failure!$(NO_COLOR)\n"; exit 1; }
 
-pytest:
-	@echo "\n$(YELLOW_COLOR)Running pytests...$(NO_COLOR)\n"
-	@pytest
-
-test: lint pytest coverage
+test: lint pytest
 
 
 .PHONY: build
