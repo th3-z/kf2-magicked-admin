@@ -5,3 +5,4 @@ termcolor
 cx_Freeze
 certifi
 babel
+

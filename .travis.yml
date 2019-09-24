@@ -1,10 +1,14 @@
 language: python
 python:
-  - "3.5"
-  - "3.6"
   - "3.7"
 
+os:
+  - linux
+
 install:
+    - pip install flake8
+    - pip install pytest
+    - pip install pytest-cov
     - pip install -r requirements.txt
 
 script:

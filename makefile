@@ -19,15 +19,18 @@ run:
 isort:
 	@sh -c "isort --recursive ."
 
+pytest:
+	@echo "\n$(YELLOW_COLOR)Running tests...$(NO_COLOR)\n"
+	@pytest tests --cov-fail-under=1 --cov=magicked_admin
+
+
 lint:
 	@echo "$(YELLOW_COLOR)Checking lints...$(NO_COLOR)\n"
-	@flake8 --ignore F405,E501,F403,E722,W503,F401 && \
+	@flake8 --ignore F405,E501,F403,E722,W503,F401 --exclude=admin_patches/utils/patch.py && \
 		echo "$(GREEN_COLOR)success!$(NO_COLOR)" \
 		|| { echo "$(RED_COLOR)failure!$(NO_COLOR)\n"; exit 1; }
 
-test: lint
-	@echo "\n$(YELLOW_COLOR)Running pytests...$(NO_COLOR)\n"
-	@pytest-3
+test: lint pytest
 
 
 .PHONY: build
