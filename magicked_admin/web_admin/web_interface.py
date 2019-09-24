@@ -163,9 +163,8 @@ class WebInterface(object):
             info("Detected KF2-MA install on server.")
         else:
             pass
-            # TODO: Implement webadmin patches
-            # warning("KF2-MA install not detected on server side! "
-            #        "Consequently, only Survival mode will function fully.")
+            warning("KF2-MA install not detected on server side! "
+                    "Consequently, only Survival mode will function fully.")
 
         return session
 
