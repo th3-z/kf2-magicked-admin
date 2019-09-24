@@ -322,8 +322,8 @@ class WebInterface(object):
             length_val = None
         else:
             length_val = general_settings_tree.xpath(
-                '//select[@id="settings_GameLength"]' +
-                '//option[@selected="selected"]/@value'
+                '//select[@id="settings_GameLength"]'
+                + '//option[@selected="selected"]/@value'
             )[0]
 
         difficulty_val = general_settings_tree.xpath(

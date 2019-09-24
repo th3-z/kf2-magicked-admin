@@ -113,7 +113,7 @@ class ScheduledCommand(Command):
         """
         Should return True if required conditions for execution are met
         """
-        raise NotImplemented("event_check() must be implemented")
+        raise NotImplementedError("event_check() must be implemented")
 
     def reset(self):
         """
