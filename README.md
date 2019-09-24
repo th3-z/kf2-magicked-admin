@@ -2,7 +2,7 @@
     <img width=103 height=102 src="https://files.th3-z.xyz/standing/kf2ma.png"/>
 </p>
 <h1 align="center">Killing Floor 2 Magicked Admin</h1>
-
+<img src="https://travis-ci.com/th3-z/kf2-magicked-admin.svg?branch=master"/>
 Scripted management, statistics, and bot for ranked Killing Floor 2 servers. 
 Provides in-game commands, player stat tracking and ranking, live MOTD 
 scoreboard and stats, greeter, and admin functions. Running entirely through 
