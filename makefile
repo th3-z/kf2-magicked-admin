@@ -21,7 +21,7 @@ isort:
 
 lint:
 	@echo "$(YELLOW_COLOR)Checking lints...$(NO_COLOR)\n"
-	@flake8 --ignore F405,E501,F403,E722,W503,F401 && \
+	@flake8 --ignore F405,E501,F403,E722,W503,F401 --exclude=admin_patches/utils/patch.py && \
 		echo "$(GREEN_COLOR)success!$(NO_COLOR)" \
 		|| { echo "$(RED_COLOR)failure!$(NO_COLOR)\n"; exit 1; }
 
