@@ -1,11 +1,19 @@
 from os import path
 from tkinter import *
 from tkinter.filedialog import askdirectory
+import argparse
 
 from utils import find_data_file, die, info
 from utils.patcher import validate_files, patch_files
 
 PATCHES_PATH = "patches"
+
+parser = argparse.ArgumentParser(
+    description='Killing Floor 2 Admin Patches'
+)
+parser.add_argument('-t', '--target', type=str,
+                    help='Specify server location')
+args = parser.parse_args()
 
 
 def test_dir(d):
@@ -27,8 +35,12 @@ def ask_dir():
 
 
 def run():
-    info("Please open your server's install folder in the file dialogue")
-    server_path = ask_dir()
+    if args.target:
+        server_path = args.target
+    else:
+        info("Please open your server's install folder in the file dialogue")
+        server_path = ask_dir()
+
     if not server_path:
         die("User cancelled installation")
     if not test_dir(server_path):
