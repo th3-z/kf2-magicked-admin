@@ -175,6 +175,17 @@ Additional scripts can be written in the `scripts` folder and ran with the
 
 * Comments can be added to scripts by prefixing a line with `;`.
 
+### Webadmin patches
+
+For gamemodes other than survival to function in full patches have to be
+applied to the `KFGame/Web/ServerAdmin` folder on the server. For this reason
+a script is provided in the `admin-patches` folder that will automatically
+patch your server.
+
+There is currently no CLI or Windows build for this component. You can run it
+with `python3 admin-patches/admin-patches.py`. A dialogue box will appear
+asking you to locate your server.
+
 
 Configuration options
 ---------------------
