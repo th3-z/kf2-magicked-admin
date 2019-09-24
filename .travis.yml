@@ -7,3 +7,6 @@ python:
 install:
     - pip install requirements.txt
 
+script:
+    - pytest
+
