@@ -15,7 +15,7 @@ install:
 
 script:
     - make lint
-    - make test
+    - make pytest
     - make coverage
 
 

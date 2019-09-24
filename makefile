@@ -30,9 +30,11 @@ lint:
 		echo "$(GREEN_COLOR)success!$(NO_COLOR)" \
 		|| { echo "$(RED_COLOR)failure!$(NO_COLOR)\n"; exit 1; }
 
-test:
+pytest:
 	@echo "\n$(YELLOW_COLOR)Running pytests...$(NO_COLOR)\n"
 	@pytest
+
+test: lint pytest coverage
 
 
 .PHONY: build
