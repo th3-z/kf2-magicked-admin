@@ -3,6 +3,10 @@
 *.sqlite
 *.init
 *.conf
+magicked_admin/conf/
+
+# Coverage reports
+.coverage
 
 # Builds
 bin/
