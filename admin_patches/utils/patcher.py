@@ -2,7 +2,7 @@ import os
 from hashlib import md5
 
 from checksums import ORIG_MD5
-from utils import find_data_file, info
+from utils import find_data_file, info, warning
 from utils.patch import fromfile
 
 
@@ -37,5 +37,7 @@ def patch_files(target_path, patches_path):
         info("Applying {}".format(filename + ".patch"))
 
         patch = fromfile(patch_path)
-        patch.apply(0, target_path)
+        success = patch.apply(0, target_path)
+        if not success:
+            warning("Patch failed to apply successfully")
     return True
