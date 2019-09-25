@@ -11,15 +11,17 @@ ROOT_PATH = os.path.join(SRC_PATH, '..')
 
 
 includefiles = [
-    (os.path.join(SRC_PATH, 'patches/something.patch'), 'patches/something.patch'),
+    (os.path.join(SRC_PATH, 'patches/current_rules.inc.patch'), 'patches/current_rules.inc.patch'),
+    (os.path.join(SRC_PATH, 'patches/gamesummary.inc.patch'), 'patches/gamesummary.inc.patch'),
+    (os.path.join(SRC_PATH, 'patches/header_base.inc.patch'), 'patches/header_base.inc.patch'),
 ]
 
-target_name = "magicked_admin"
+target_name = "admin_patches"
 if WIN_NT:
     target_name += ".exe"
 
 build_exe_options = {
-    "packages": ["os", "queue", "idna", "encodings"],
+    "packages": ["os", "queue", "idna", "encodings", "tkinter"],
     "excludes": [],
     "includes": [],
     "include_files": includefiles,
