@@ -47,7 +47,7 @@ def run(target=None):
             .format(server_path), pause=True)
 
     info("Validating files...")
-    target_path = path.join(server_path, "KFGame/Web/ServerAdmin/")
+    target_path = path.join(server_path, "KFGame/Web/ServerAdmin")
     if not validate_files(target_path):
         die("Server file validation failed, possible reasons:"
             "\n\t - Game update"
@@ -56,6 +56,7 @@ def run(target=None):
 
     info("Patching files...")
     patches_path = find_data_file(PATCHES_PATH)
+
     if not patch_files(target_path, patches_path):
         die("Patching failed")
     else:
