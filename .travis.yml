@@ -1,11 +1,12 @@
 language: python
 python:
-  - "3.7"
+    - "3.7"
 
 os:
-  - linux
+    - linux
 
 install:
+    - pip install python-coveralls
     - pip install flake8
     - pip install pytest
     - pip install pytest-cov
@@ -13,4 +14,5 @@ install:
 
 script:
     - make test
-
+after_success:
+    - coveralls
