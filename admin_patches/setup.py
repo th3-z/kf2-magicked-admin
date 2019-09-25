@@ -23,7 +23,7 @@ if WIN_NT:
 build_exe_options = {
     "packages": ["os", "queue", "idna", "encodings", "tkinter"],
     "excludes": [],
-    "includes": [],
+    "includes": ["tkinter"],
     "include_files": includefiles,
     "include_msvcr": True,
     "optimize": 2,
