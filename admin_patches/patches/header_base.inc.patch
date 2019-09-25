@@ -1,12 +1,12 @@
-diff --git a/ServerAdmin/header_base.inc b/ServerAdmin/header_base.inc
-index 217a460..9b085bd 100755
---- a/ServerAdmin/header_base.inc
-+++ b/ServerAdmin/header_base.inc
+diff --git a/header_base.inc b/header_base.inc
+index 217a460..9e2fe92 100755
+--- a/header_base.inc
++++ b/header_base.inc
 @@ -1,6 +1,7 @@
  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
  <head>
-+    <!-- KF2-MA-INSTALLED-FLAG -->
++	<!-- KF2-MA-INSTALLED-FLAG -->
  	<title>Killing Floor 2 WebAdmin - <%page.title%></title>
  	<link rel="stylesheet" type="text/css" href="/images/kf2.css?gzip" />
  	<link rel="stylesheet" type="text/css" href="/images/kf2modern.css?gzip" />
