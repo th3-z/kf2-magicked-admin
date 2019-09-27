@@ -9,7 +9,9 @@ class CommandStartJoinCommand(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
         self.scheduler = scheduler
 
-        self.help_text = "start_jc help"
+        self.help_text = "Usage: !start_jc COMMAND\n" \
+                         "\tCOMMAND - Command to run\n" \
+                         "Desc: Runs a command when a player joins the match"
         self.parser.add_argument("command", nargs="*")
 
     def execute(self, username, args, user_flags):
@@ -34,7 +36,8 @@ class CommandStopJoinCommands(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
         self.scheduler = scheduler
 
-        self.help_text = "stop_jc help"
+        self.help_text = "Usage: !stop_jc\n" \
+                         "Desc: Stops all join commands"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -54,7 +57,11 @@ class CommandStartWaveCommand(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
         self.scheduler = scheduler
 
-        self.help_text = "start_wc help"
+        self.help_text = "Usage: !start_wc [--wave] COMMAND\n" \
+                         "\t-w --wave - Optional, wave to run on\n" \
+                         "\tCOMMAND - Command to run\n" \
+                         "Desc: Run a command at the start of a wave, wave" \
+                         " can be omitted top run on every wave"
         self.parser.add_argument("--wave", "-w")
         self.parser.add_argument("command", nargs="*")
 
@@ -93,7 +100,8 @@ class CommandStopWaveCommands(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
         self.scheduler = scheduler
 
-        self.help_text = "stop_wc help"
+        self.help_text = "Usage: !stop_wc\n" \
+                         "Desc: Stops all wave commands"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -113,7 +121,11 @@ class CommandStartTimeCommand(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
         self.scheduler = scheduler
 
-        self.help_text = "start_tc help"
+        self.help_text = "Usage: !start_tc [-r -t] COMMAND\n" \
+                         "\tCOMMAND - Command to run\n" \
+                         "\t-r --repeat - Optional, run repeatedly\n" \
+                         "\t-t --time - Seconds before running\n" \
+                         "Desc: Runs a command after some time delay"
         self.parser.add_argument("--time", "-t")
         self.parser.add_argument("--repeat", "-r", action="store_true")
         self.parser.add_argument("command", nargs="*")
@@ -158,7 +170,8 @@ class CommandStopTimeCommands(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
         self.scheduler = scheduler
 
-        self.help_text = "stop_tc help"
+        self.help_text = "Usage: !stop_tc\n" \
+                         "Desc: Stops all timed commands"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -178,7 +191,11 @@ class CommandStartTraderCommand(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
         self.scheduler = scheduler
 
-        self.help_text = "start_tc help"
+        self.help_text = "Usage: !start_trc [--wave] COMMAND\n" \
+                         "\tCOMMAND - Command to run\n" \
+                         "\t-w --wave - Optional, wave to run on\n" \
+                         "Desc: Runs a command when the trader opens, wave" \
+                         " can be omitted to run every time the trader opens"
         self.parser.add_argument("--wave", "-w")
         self.parser.add_argument("command", nargs="*")
 
@@ -215,7 +232,8 @@ class CommandStopTraderCommands(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
         self.scheduler = scheduler
 
-        self.help_text = "stop_wc help"
+        self.help_text = "Usage: !stop_trc\n" \
+                         "Desc: Stops all trader commands"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
