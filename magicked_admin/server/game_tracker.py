@@ -118,7 +118,8 @@ class GameTracker(threading.Thread):
 
         # And wave start
         if game_now.wave > self.previous_wave:
-            self.server.event_wave_start()
+            if self.server.game.wave > 0:
+                self.server.event_wave_start()
             self.previous_wave = self.server.game.wave
 
     def __survival_boss_defeat(self):

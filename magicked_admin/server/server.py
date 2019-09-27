@@ -260,10 +260,12 @@ class Server:
 
     def event_trader_open(self):
         self.trader_time = True
-        self.web_admin.chat.handle_message("internal_command", "!t_open",
+        command = "!t_open {}".format(self.game.wave)
+        self.web_admin.chat.handle_message("internal_command", command,
                                            USER_TYPE_INTERNAL)
 
     def event_trader_close(self):
         self.trader_time = False
-        self.web_admin.chat.handle_message("internal_command", "!t_close",
+        command = "!t_close {}".format(self.game.wave)
+        self.web_admin.chat.handle_message("internal_command", command,
                                            USER_TYPE_INTERNAL)
