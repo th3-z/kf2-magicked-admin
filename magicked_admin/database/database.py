@@ -267,7 +267,7 @@ class ServerDatabase:
         map_sql = """
             SELECT
                 name, plays_survival, plays_weekly, plays_endless,
-                plays_survival_vs, plays_other
+                plays_survival_vs, plays_other, highest_wave
             FROM
                 maps
             WHERE
@@ -292,7 +292,7 @@ class ServerDatabase:
         game_map.plays_weekly = map_result['plays_weekly']
         game_map.plays_endless = map_result['plays_endless']
         game_map.plays_other = map_result['plays_other']
-        game_map.highest_wave = self.highest_wave(game_map)
+        game_map.highest_wave = map_result['highest_wave']
         game_map.name = map_result['name']
 
     def save_game_map(self, game_map):

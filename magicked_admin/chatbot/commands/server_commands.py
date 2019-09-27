@@ -10,8 +10,10 @@ class CommandBan(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.parser.add_argument("username")
-        self.help_text = "Help text for the ban command"
+        self.parser.add_argument("username", nargs="*")
+        self.help_text = "Usage: !ban USERNAME\n" \
+                         "\tUSERNAME - Player to ban\n" \
+                         "Desc: Bans a player from the server"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -20,12 +22,14 @@ class CommandBan(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
-        if not args.username:
+        if args.username:
+            username = " ".join(args.username)
+        else:
             return self.format_response(
                 "Missing argument, username or Steam ID", args
             )
 
-        banned = self.server.ban_player(args.username)
+        banned = self.server.ban_player(username)
 
         if banned:
             return self.format_response(
@@ -39,7 +43,9 @@ class CommandSay(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "this is the say help"
+        self.help_text = "Usage: !say MESSAGE\n" \
+                         "\tMESSAGE - Message to echo\n" \
+                         "Desc: Echos a message in chat"
         self.parser.add_argument("message", nargs="*")
 
     def execute(self, username, args, user_flags):
@@ -62,8 +68,10 @@ class CommandOp(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "op help"
-        self.parser.add_argument("username")
+        self.help_text = "Usage: !op USERNAME\n" \
+                         "\tUSERNAME - Player to give operator status\n" \
+                         "Desc: Allows a player to use admin commands"
+        self.parser.add_argument("username", nargs="*")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -72,9 +80,16 @@ class CommandOp(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
-        player = self.server.get_player_by_username(args.username)
+        if args.username:
+            username = " ".join(args.username)
+        else:
+            return self.format_response(
+                "Missing argument, username or Steam ID", args
+            )
+
+        player = self.server.get_player_by_username(username)
         if not player:
-            message = "Couldn't find player '{}'".format(args.username)
+            message = "Couldn't find player '{}'".format(username)
         else:
             player.op = 1
             message = "Oped {}".format(player.username)
@@ -88,8 +103,11 @@ class CommandDeop(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "deop help"
-        self.parser.add_argument("username")
+        self.help_text = "Usage: !deop USERNAME\n" \
+                         "\tUSERNAME - Player to revoke op status for\n" \
+                         "Desc: Revokes a players ability to use admin " \
+                         "commands"
+        self.parser.add_argument("username", nargs="*")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -98,9 +116,16 @@ class CommandDeop(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
-        player = self.server.get_player_by_username(args.username)
+        if args.username:
+            username = " ".join(args.username)
+        else:
+            return self.format_response(
+                "Missing argument, username or Steam ID", args
+            )
+
+        player = self.server.get_player_by_username(username)
         if not player:
-            message = "Couldn't find player '{}'".format(args.username)
+            message = "Couldn't find player '{}'".format(username)
         else:
             player.op = 0
             message = "Deoped {}".format(player.username)
@@ -114,7 +139,9 @@ class CommandGameMaps(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "game maps help text"
+        self.help_text = "Usage: !maps [--all]\n" \
+                         "\t-a --all - Show all available maps\n" \
+                         "Desc: Shows maps that are in the map cycle"
         self.parser.add_argument(
             "-a", "--all",
             action="store_true"
@@ -136,7 +163,8 @@ class CommandGameMap(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "game map help text"
+        self.help_text = "Usage: !map\n" \
+                         "Desc: Shows statistics about the current map"
         self.parser.add_argument("map_name", nargs="?")
 
     def execute(self, username, args, user_flags):
@@ -154,6 +182,7 @@ class CommandGameMap(Command):
         self.server.write_game_map()
 
         game_map = game.GameMap(map_title)
+        self.server.write_game_map()
         self.server.database.load_game_map(game_map)
 
         total_plays = game_map.plays_survival \
@@ -162,7 +191,7 @@ class CommandGameMap(Command):
             + game_map.plays_survival_vs \
             + game_map.plays_other
 
-        message = "Stats for {} ({}):\n".format(game_map.name, game_map.title)
+        message = "Stats for {}:\n".format(game_map.name)
         message += "Total plays: {} \n".format(total_plays)
         message += "Record wave: {} \n".format(game_map.highest_wave)
         message += "Survival wins: {} \n".format(game_map.wins_survival)
@@ -174,7 +203,9 @@ class CommandEnforceDosh(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "enforce_dosh help"
+        self.help_text = "Usage: !enforce_dosh\n" \
+                         "Desc: Kicks players with more dosh than the " \
+                         "threshold configured in 'conf/magicked_admin.conf'"
         # TODO amount optional argument
 
     def execute(self, username, args, user_flags):
@@ -191,7 +222,10 @@ class CommandKick(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.parser.add_argument("username")
+        self.parser.add_argument("username", nargs="*")
+        self.help_text = "Usage: !kick USERNAME\n" \
+                         "\tUSERNAME - Player to kick\n" \
+                         "Desc: Kicks a player from the match"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -200,12 +234,14 @@ class CommandKick(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
-        if not args.username:
+        if args.username:
+            username = " ".join(args.username)
+        else:
             return self.format_response(
-                "Missing argument, username or Steam ID", args.pad_output
+                "Missing argument, username or Steam ID", args
             )
 
-        kicked = self.server.kick_player(args.username)
+        kicked = self.server.kick_player(username)
 
         if kicked:
             return self.format_response(
@@ -220,7 +256,9 @@ class CommandRun(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
         self.chatbot = chatbot
-        self.help_text = "run help"
+        self.help_text = "Usage: !run FILE\n" \
+                         "\tFILE - Some file in 'conf/scripts'\n" \
+                         "Desc: Runs a script"
         self.parser.add_argument("file", nargs="*")
 
         self.scripts_folder = "scripts"
@@ -247,7 +285,8 @@ class CommandRestart(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "restart help"
+        self.help_text = "Usage: !restart\n" \
+                         "Desc: Restarts the match"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -264,8 +303,10 @@ class CommandLoadMap(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "load map help"
-        self.parser.add_argument("map_name")
+        self.help_text = "Usage: !load_map MAP_NAME\n" \
+                         "\tMAP_NAME - Map to load\n" \
+                         "Desc: Immediately changes the map."
+        self.parser.add_argument("map_name", nargs="?")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -285,7 +326,12 @@ class CommandPassword(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "password help"
+        self.help_text = "Usage: !password [--set] STATE\n" \
+                         "\tSTATE - On, off, or new password\n" \
+                         "\t-s --set - Set a new password\n" \
+                         "Desc: Enables or disables the game password " \
+                         "configured in 'conf/magicked_admin.conf', state " \
+                         "can be on, off, or a new password."
         self.parser.add_argument("-s", "--set", type=str)
         self.parser.add_argument("state", nargs="?")
 
@@ -328,7 +374,9 @@ class CommandSilent(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
         self.chatbot = chatbot
-        self.help_text = "silent help"
+        self.help_text = "Usage: !silent [--quiet]\n" \
+                         "\t-q --quiet - Suppresses output'\n" \
+                         "Desc: Toggles command output globally"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -355,8 +403,10 @@ class CommandLength(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "length help"
-        self.parser.add_argument("length")
+        self.help_text = "Usage: !length LENGTH\n" \
+                         "\tLENGTH - Length to change to\n" \
+                         "Desc: Changes the game length next match"
+        self.parser.add_argument("length", nargs="?")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -393,8 +443,10 @@ class CommandDifficulty(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "difficulty help"
-        self.parser.add_argument("difficulty")
+        self.help_text = "Usage: !difficulty DIFFICULTY\n" \
+                         "\tDIFFICULTY - Difficulty to change to\n" \
+                         "Desc: Changes the difficulty next match"
+        self.parser.add_argument("difficulty", nargs="?")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -434,8 +486,10 @@ class CommandGameMode(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "game mode help"
-        self.parser.add_argument("game_mode")
+        self.help_text = "Usage: !game_mode MODE\n" \
+                         "\tMODE - Mode to change to\n" \
+                         "Desc: Immediately changes the game mode"
+        self.parser.add_argument("game_mode", nargs="?")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -446,7 +500,7 @@ class CommandGameMode(Command):
 
         if not args.game_mode:
             return self.format_response(
-                "GameMode not recognised, options are: endless, survival, "
+                "Mode not recognised, options are: endless, survival, "
                 "weekly or versus",
                 args
             )

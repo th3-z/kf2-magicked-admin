@@ -13,7 +13,9 @@ class CommandMarquee(Command):
         self.chatbot = chatbot
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "marquee help"
+        self.help_text = "Usage: !marquee FILE\n" \
+                         "\tFILE - Some file in 'conf/marquee'\n" \
+                         "Desc: Runs a marquee in chat"
         # self.parser.add_argument("iterations")
         self.parser.add_argument("filename", nargs="*")
 
@@ -70,7 +72,8 @@ class CommandPlayerCount(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "player count help"
+        self.help_text = "Usage: !players\n" \
+                         "Desc: Shows the number of players currently online"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -91,7 +94,9 @@ class CommandPlayers(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "players help"
+        self.help_text = "Usage: !players\n" \
+                         "Desc: Shows detailed information about online " \
+                         "players"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -115,7 +120,8 @@ class CommandGame(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "game help"
+        self.help_text = "Usage: !game\n" \
+                         "Desc: Shows current game info and rules"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -131,7 +137,8 @@ class CommandGameMap(Command):
     def __init__(self, server, admin_only=False, requires_patch=False):
         Command.__init__(self, server, admin_only)
 
-        self.help_text = "map help"
+        self.help_text = "Usage: !map\n" \
+                         "Desc: Shows statistics about the current map"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -147,7 +154,9 @@ class CommandGameTime(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "game time help"
+        self.help_text = "Usage: !game_time\n" \
+                         "Desc: Shows the number of seconds since the match " \
+                         "started. Excludes trader time and the boss wave."
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -163,7 +172,8 @@ class CommandHighWave(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=True)
 
-        self.help_text = "highest wave help"
+        self.help_text = "Usage: !record_wave\n" \
+                         "Desc: Shows the highest wave reached on this map"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -183,7 +193,8 @@ class CommandCommands(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "commands help"
+        self.help_text = "Usage: !commands\n" \
+                         "Desc: Lists all player commands"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -200,8 +211,6 @@ class CommandCommands(Command):
             "\t!top_kills,\n" \
             "\t!top_dosh,\n" \
             "\t!top_time,\n" \
-            "\t!top_wave_kills,\n" \
-            "\t!top_wave_dosh,\n" \
             "\t!stats,\n" \
             "\t!game_time,\n" \
             "\t!server_kills,\n" \
@@ -218,7 +227,10 @@ class CommandStats(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "stats help"
+        self.help_text = "Usage: !stats USERNAME\n" \
+                         "\tUSERNAME - Person to get stats for\n" \
+                         "Desc: Shows statistics about a player, username " \
+                         "can be omitted to get personal stats"
         self.parser.add_argument("username", nargs="*")
 
     def execute(self, username, args, user_flags):
@@ -232,8 +244,6 @@ class CommandStats(Command):
 
         if args.username:
             username = " ".join(args.username)
-
-        print(username)
 
         player = self.server.get_player_by_username(username)
         if player:

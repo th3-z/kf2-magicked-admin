@@ -7,7 +7,8 @@ class CommandServerDosh(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "server dosh help"
+        self.help_text = "Usage: !server_dosh\n" \
+                         "Desc: Shows total dosh earned on this server"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -28,7 +29,8 @@ class CommandServerKills(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "server dosh help"
+        self.help_text = "Usage: !server_kills\n" \
+                         "Desc: Shows total ZEDs killed on this server"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -49,7 +51,10 @@ class CommandKills(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "kills help"
+        self.help_text = "Usage: !kills USERNAME\n" \
+                         "\tUSERNAME - User to get kill stats for\n" \
+                         "Desc: Shows kill statistics for a player, username" \
+                         " can be omitted to get personal stats"
         self.parser.add_argument("username", nargs="*")
 
     def execute(self, username, args, user_flags):
@@ -84,7 +89,10 @@ class CommandDosh(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "dosh help"
+        self.help_text = "Usage: !dosh USERNAME\n" \
+                         "\tUSERNAME - User to get dosh stats for\n" \
+                         "Desc: Shows dosh statistics for a player, username" \
+                         " can be omitted to get personal stats"
         self.parser.add_argument("username", nargs="*")
 
     def execute(self, username, args, user_flags):
@@ -117,7 +125,8 @@ class CommandTopKills(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "top kills help"
+        self.help_text = "Usage: !top_kills\n" \
+                         "Desc: Show the global kills leaderboard"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -145,7 +154,8 @@ class CommandTopDosh(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "top dosh help"
+        self.help_text = "Usage: !top_dosh\n" \
+                         "Desc: Shows the global dosh leaderboard"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -173,7 +183,8 @@ class CommandTopTime(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "top time help"
+        self.help_text = "Usage: !top_time\n" \
+                         "Desc: Shows the global play time leaderboard"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -201,7 +212,8 @@ class CommandTopWaveKills(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=True)
 
-        self.help_text = "top wave kills help"
+        self.help_text = "Usage: !top_wave_kills\n" \
+                         "Desc: Shows who killed the most ZEDs in this wave"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -231,7 +243,8 @@ class CommandTopWaveDosh(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=True)
 
-        self.help_text = "top wave dosh help"
+        self.help_text = "Usage: !top_wave_dosh\n" \
+                         "Desc: Shows who earned the most dosh this wave"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)

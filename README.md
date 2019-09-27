@@ -45,9 +45,14 @@ Many commands will look for closest matches to their parameters.
 For example '_biotics_' will match '_kf-biotics-lab_' and '_userO_' will match
 '_userOne™/@:®_'.
 
-All commands have in-game help text that can be accessed with the `-h` parameter.
+All commands have in-game help text that can be accessed with the `-h` flag.
 
 * Example: `!commands -h`
+
+All commands also have the following flags.
+
+* `-q` - Suppresses output
+* `-p` - Pads output to hide the username line
 
 Escape sequences as follows are available to format messages.
 
