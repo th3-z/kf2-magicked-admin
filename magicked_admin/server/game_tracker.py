@@ -40,22 +40,17 @@ class GameTracker(threading.Thread):
         self.__update_players(players_now)
         self.__update_game(game_now)
 
-    def __update_game(self, game_now):
+    @staticmethod
+    def __is_new_game(game_now, game_before):
+        # Skip until a map name is available
+        if game_now.map_title == GAME_MAP_TITLE_UNKNOWN:
+            return False
+
         new_game = False
-
-        # W/o installation wave cannot be determined on endless/weekly
-        # TODO Refactor method
-        if game_now.wave is not None:
-            new_map = self.server.game.game_map.title != game_now.map_title
-            wave_drop = game_now.wave < (self.server.game.wave or 0)
-            wave_reset = self.server.game.wave is None or wave_drop
-
-            if new_map or wave_reset:
-                new_game = True
-        else:
-            # Pick up the transition between supported and unsupported modes
-            new_type = self.server.game.game_type != game_now.game_type
-            if new_type:
+        # An unsupported game mode wont have a wave counter
+        if game_now.wave is None:
+            # Initial mode change
+            if game_before.game_type != game_now.game_type:
                 message = ("Game type ({}) support not installed, please "
                            "patch your webadmin to correct this! Guidance is "
                            "available at: {}")
@@ -63,49 +58,68 @@ class GameTracker(threading.Thread):
                     game_now.game_type, colored(BANNER_URL, 'magenta')
                 ))
 
-                # TODO end_game should be triggered
+                # This new game is the last that will be detected because it
+                # depends on the wave counter being present
+                new_game = True
 
-        # Trigger end-game before loading next map's info
-        if new_game and self.server.game.game_map.title \
-                != GAME_MAP_TITLE_UNKNOWN:
-            if self.server.game.game_type == GAME_TYPE_SURVIVAL:
-                survival_boss_defeat = self.__survival_boss_defeat()
-                self.server.event_end_game(not survival_boss_defeat)
-            else:
+        # Supported mode always has a valid wave, try to detect a game change
+        else:
+            map_change = game_before.game_map.title != game_now.map_title
+            wave_drop = game_now.wave < (game_before.wave or 0)
+            wave_reset = game_before.wave is None or wave_drop
+
+            if map_change or wave_reset:
+                new_game = True
+
+        return new_game
+
+    def __update_game(self, game_now):
+        new_game = self.__is_new_game(game_now, self.server.game)
+
+        # End previous game before loading next game's info
+        if new_game:
+            # TODO: Victory detection
+            # Skip event until map is initialised
+            if self.server.game.game_map.title != GAME_MAP_TITLE_UNKNOWN:
                 self.server.event_end_game(False)
 
+        # Trader open/closed
         if game_now.trader_open and not self.server.trader_time:
+            # End waves on trader close
             self.server.event_wave_end()
             self.server.event_trader_open()
         if not game_now.trader_open and self.server.trader_time:
             self.server.event_trader_close()
+
+        # Game timer
+        if game_now.wave is not None:
+            # Not in lobby or boss wave
+            is_zed_wave = 0 < game_now.wave <= game_now.length
+            if not self.server.trader_time and is_zed_wave:
+                now = time.time()
+                self.server.game.time += now - self.game_timer
+            self.game_timer = time.time()
 
         self.server.game.game_map.title = game_now.map_title
         self.server.game.game_map.name = game_now.map_name
         self.server.game.wave = game_now.wave
         self.server.game.length = game_now.length
         self.server.game.difficulty = game_now.difficulty
+
         self.server.game.zeds_dead = game_now.zeds_dead
         self.server.game.zeds_total = game_now.zeds_total
         self.server.game.game_type = game_now.game_type
         self.server.game.players_max = game_now.players_max
 
-        if new_game and game_now.map_title != GAME_MAP_TITLE_UNKNOWN:
+        # New game after loading next game's info
+        if new_game:
             self.server.event_new_game()
+            self.previous_wave = 0
 
-        # TODO something better, abstract tracker per mode, test INSTALLED
-        if self.server.game.wave is not None:
-            if not self.server.trader_time \
-                    and 0 < self.server.game.wave <= self.server.game.length:
-                now = time.time()
-                self.server.game.time += now - self.game_timer
-                self.game_timer = time.time()
-            else:
-                self.game_timer = time.time()
-
-            if game_now.wave > self.previous_wave:
-                self.server.event_wave_start()
-                self.previous_wave = self.server.game.wave
+        # And wave start
+        if game_now.wave > self.previous_wave:
+            self.server.event_wave_start()
+            self.previous_wave = self.server.game.wave
 
     def __survival_boss_defeat(self):
         game_over = True

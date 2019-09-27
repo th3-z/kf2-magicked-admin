@@ -160,9 +160,11 @@ class CommandOnWave(ScheduledCommand):
         message = message.split()
 
         if message[0] == "new_wave":
-            new_wave = message[1]
+            if wave == ALL_WAVES:
+                return True
 
-            if int(new_wave) == wave:
+            new_wave = message[1]
+            if wave or int(new_wave) == wave:
                 return True
 
         return False

@@ -468,6 +468,8 @@ class CommandGameMode(Command):
 
         self.server.change_game_type(mode)
         return self.format_response(
-            "Game mode will be changed to {0}".format(str(mode)),
+            "Game mode will be changed to {0}".format(
+                str(GAME_TYPE_DISPLAY[mode])
+            ),
             args
         )
