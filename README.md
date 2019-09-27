@@ -128,7 +128,7 @@ the `!op` command.
 	- Available tokens: `%PLR` - username, `%KLL%` - total kills, `%DSH%` - 
       total dosh
 * `!stop_jc` - Stops all join commands
-* `!start_wc [-w <wave>] <command>` - Start a command that runs on wave `[wave]`
+* `!start_wc [-w <wave>] <command>` - Start a command that runs on wave `<wave>`
     - `-w` Wave to run the command on, can be omitted to have the command
     run every wave
     - `-w` Can be negative to count backwards from the boss wave
@@ -150,7 +150,7 @@ the `!op` command.
 * `!stop_trc` - Stop all commands that run on trader open
 * `!silent` - Toggles suppression of all chat output, commands still have 
               effect, but the response will not be visible to players
-* `!run <script_name>` - Executes a script from the `scripts` folder, more
+* `!run <script_name>` - Executes a script from the `conf/scripts` folder, more
                          information in the scripts section
     - Example: `!run example`
 * `!marquee <marquee_name>` - Runs a marquee in the chat from the
@@ -200,7 +200,7 @@ Configuration options
 ---------------------
 
 Basic setup is done on the first run. However this does not cover all of the 
-options KF2-MA can offer. Please see the config file, `magicked_admin.conf`, 
+options KF2-MA can offer. Please see the config file, `conf/magicked_admin.conf`, 
 for more configuration options as some features are disabled by default.
 
 Each server managed by KF2-MA has a section that looks something like 
@@ -242,9 +242,13 @@ Running with docker is easy. Just issue this command:
 ```
     docker run -it -p 1880:1880 --name kf-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3-z/kf-magicked-admin
 ```
-You will need to change `<host config folder location>` to wheverever you want to store your config folder. `/mnt/user/appdata/kf-magicked-admin` is a popular choice for systems running Unraid.
+You will need to change `<host config folder location>` to wheverever you want
+to store your config folder. `/mnt/user/appdata/kf-magicked-admin` is a popular
+choice for systems running Unraid.
 
-After this command runs the container will exit out and the logs will tell you to setup the config file. Go to your `conf` folder and set things up then run the container again and you are good to go!
+After this command runs the container will exit out and the logs will tell you
+to setup the config file. Go to your `conf` folder and set things up then run 
+the container again and you are good to go!
 
 Running from Python sources
 ---------------------------
