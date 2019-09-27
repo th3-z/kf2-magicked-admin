@@ -211,9 +211,14 @@ class CommandOnTrader(ScheduledCommand):
 
         args = message.split()
 
+        # Translate negative input to positive, '-1' runs on boss wave
+        length = server.game.length
+        wave = (length + 1) + (self.wave + 1) if self.wave < 0 else self.wave
+
         if args[0] == "t_open":
-            wave = int(args[1])
-            if self.wave != ALL_WAVES and wave != self.wave:
+
+            new_wave = int(args[1])
+            if self.wave != ALL_WAVES and new_wave != wave:
                 return False
             return True
         else:
