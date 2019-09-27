@@ -128,27 +128,33 @@ the `!op` command.
 	- Available tokens: `%PLR` - username, `%KLL%` - total kills, `%DSH%` - 
       total dosh
 * `!stop_jc` - Stops all join commands
-* `!start_wc [wave] <command>` - Start a command that runs on wave `[wave]`
-    - `[wave`] Can be omitted to have the command run every wave
-    - `[wave`] Can be negative to count backwards from the boss wave
+* `!start_wc [-w <wave>] <command>` - Start a command that runs on wave `[wave]`
+    - `-w` Wave to run the command on, can be omitted to have the command
+    run every wave
+    - `-w` Can be negative to count backwards from the boss wave
     - Example: `!start_wc -1 say Welcome to the boss wave`
 * `!stop_wc` - Stops all wave commands
-* `!start_tc <seconds> <command>` - Start a command that runs every 
-                                    `<seconds>` seconds
-    - Example: `!start_tc 600 say Join our Steam group!\n 
+* `!start_tc [-r, -t <seconds>] <command>` - Start a command that runs after
+    `<seconds>` seconds
+    - Option `-r`: Add to have the command run repeatedly
+    - Option `-t`: Required, the number of seconds before the command runs
+    - Example: `!start_tc -rt 600 say Join our Steam group!\n
 	http://steam.group/`
 * `!stop_tc` - Stops all timed commands
-* `!start_trc <command>` - Start a commands that runs when the trader opens
+* `!start_trc [-w <wave>] <command>` - Start a commands that runs when the trader opens
+    - `-w` Wave to run the command on, can be omitted to have the command
+        run every wave
+    - `-w` Can be negative to count backwards from the boss wave
     - Example: `!start_trc top_wave_dosh` - Shows who earned the most dosh 
-	this wave when the trader opens
+	every wave when the trader opens
 * `!stop_trc` - Stop all commands that run on trader open
 * `!silent` - Toggles suppression of all chat output, commands still have 
               effect, but the response will not be visible to players
 * `!run <script_name>` - Executes a script from the `scripts` folder, more
                          information in the scripts section
     - Example: `!run example`
-* `!marquee <marquee_name>` - Runs a marquee in the chat from the `marquee` 
-                              folder, _experimental_
+* `!marquee <marquee_name>` - Runs a marquee in the chat from the
+                              `conf/marquee` folder, _experimental_
     - Example: `!marquee example`
 * `!enforce_dosh` - Kicks all players that have more dosh than the 
                  `dosh_threshold` configuration option
@@ -157,9 +163,9 @@ the `!op` command.
 
 ### MOTD leaderboard
 
-Writing a `server_name.motd` file containing pairs of `%PLR` and `%SCR` and 
-enabling the `motd_scoreboard` option will put a live leaderboard in the motd 
-and update it every 5 minutes. 
+Writing a `conf/server_name.motd` file containing pairs of `%PLR` and `%SCR`
+and enabling the `motd_scoreboard` option will put a live leaderboard in the
+motd and update it every 5 minutes.
 
 `%SRV_D` and `%SRV_K` will be replaced by the total dosh and kills on the 
 server respectively.
@@ -169,10 +175,10 @@ metric on the leaderboard. The options for this are: `dosh` or `kills`.
 
 ### Scripts
 
-Writting a `server_name.init` in the root folder with a series of commands 
+Writting a `server_name.init` in the `conf` folder with a series of commands
 will run the commands in sequence when the bot starts on `server_name`.
 
-Additional scripts can be written in the `scripts` folder and ran with the 
+Additional scripts can be written in the `conf/scripts` folder and ran with the
 `!run` command. There is an example already in there that can be ran with 
 `!run example`.
 
@@ -204,7 +210,7 @@ is the name of the server, this can be changed to whatever you want.
 
 ### Options
 
-Options can be configured in the config file `magicked_admin.conf`.
+Options can be configured in the config file `conf/magicked_admin.conf`.
 
 * `address`
     - Web address of the server's webadmin panel. Requires scheme and protocol,
