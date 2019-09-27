@@ -164,7 +164,7 @@ class CommandOnWave(ScheduledCommand):
                 return True
 
             new_wave = message[1]
-            if wave or int(new_wave) == wave:
+            if int(new_wave) == wave:
                 return True
 
         return False
@@ -200,11 +200,10 @@ class CommandOnJoin(ScheduledCommand):
 
 
 class CommandOnTrader(ScheduledCommand):
-    def __init__(self, server, command, on_close=False):
+    def __init__(self, server, command, wave=ALL_WAVES):
         ScheduledCommand.__init__(self, server, command)
 
-        # TODO: Implemented but un-used
-        self.on_close = on_close
+        self.wave = wave
 
     def event_check(self, server, message):
         if not message:
@@ -212,9 +211,10 @@ class CommandOnTrader(ScheduledCommand):
 
         args = message.split()
 
-        if args[0] == "t_open" and not self.on_close:
+        if args[0] == "t_open":
+            wave = int(args[1])
+            if self.wave != ALL_WAVES and wave != self.wave:
+                return False
             return True
-        elif args[0] == "t_close" and self.on_close:
-            return True
-
-        return False
+        else:
+            return False

@@ -55,7 +55,7 @@ class CommandStartWaveCommand(Command):
         self.scheduler = scheduler
 
         self.help_text = "start_wc help"
-        self.parser.add_argument("--wave", "-w", type=int)
+        self.parser.add_argument("--wave", "-w")
         self.parser.add_argument("command", nargs="*")
 
     def execute(self, username, args, user_flags):
@@ -114,7 +114,8 @@ class CommandStartTimeCommand(Command):
         self.scheduler = scheduler
 
         self.help_text = "start_tc help"
-        self.parser.add_argument("interval")
+        self.parser.add_argument("--time", "-t")
+        self.parser.add_argument("--repeat", "-r", action="store_true")
         self.parser.add_argument("command", nargs="*")
 
     def execute(self, username, args, user_flags):
@@ -124,11 +125,17 @@ class CommandStartTimeCommand(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
+        if not args.time:
+            return self.format_response(
+                "Please specify a time interval, '!start_tc -h' for help",
+                args
+            )
+
         try:
-            interval = float(args.interval)
+            interval = float(args.time)
         except ValueError:
             return self.format_response(
-                "'{}' is not a valid time interval".format(args.interval),
+                "'{}' is not a valid time interval".format(args.time),
                 args
             )
 
@@ -137,8 +144,10 @@ class CommandStartTimeCommand(Command):
                 "Please specify a command to run", args
             )
 
+        run_once = False if args.repeat else True
+
         command = CommandOnTime(
-            self.server, " ".join(args.command), interval
+            self.server, " ".join(args.command), interval, run_once=run_once
         )
         self.scheduler.schedule_command(command)
         return self.format_response("Time interval command started", args)
@@ -170,6 +179,7 @@ class CommandStartTraderCommand(Command):
         self.scheduler = scheduler
 
         self.help_text = "start_tc help"
+        self.parser.add_argument("--wave", "-w")
         self.parser.add_argument("command", nargs="*")
 
     def execute(self, username, args, user_flags):
@@ -184,8 +194,17 @@ class CommandStartTraderCommand(Command):
                 "Please specify a command to run", args
             )
 
+        wave = args.wave if args.wave else ALL_WAVES
+        try:
+            wave = int(wave)
+        except ValueError:
+            return self.format_response(
+                "'{}' is not a valid wave number".format(args.wave),
+                args
+            )
+
         command = CommandOnTrader(
-            self.server, " ".join(args.command)
+            self.server, " ".join(args.command), wave=wave
         )
         self.scheduler.schedule_command(command)
         return self.format_response("Trader open command started", args)
