@@ -208,6 +208,38 @@ class CommandTopTime(Command):
         return self.format_response(message[:-1], args)
 
 
+class CommandScoreboard(Command):
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=False, requires_patch=False)
+
+        self.help_text = "Usage: !scoreboard\n" \
+                         "Desc: Shows full player scoreboard"
+
+    def execute(self, username, args, user_flags):
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        elif args.help:
+            return self.format_response(self.help_text, args)
+
+        message = "Scoreboard (name, kills, dosh):\n"
+
+        self.server.players.sort(
+            key=lambda player: player.kills,
+            reverse=True
+        )
+
+        for player in self.server.players:
+            username = trim_string(player.username, 20)
+            dosh = millify(player.dosh)
+            kills = player.kills
+            message += "{}\t- {}Kills £{}\n".format(
+                username, kills, dosh
+            )
+
+        return self.format_response(message[:-1], args)
+
+
 class CommandTopWaveKills(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=True)

@@ -64,7 +64,8 @@ class CommandMap:
             'server_dosh': CommandServerDosh(self.server),
             'map': CommandGameMap(self.server),
             'maps': CommandGameMaps(self.server),
-            'player_count': CommandPlayerCount(self.server)
+            'player_count': CommandPlayerCount(self.server),
+            'scoreboard': CommandScoreboard(self.server)
         }
 
         return command_map
