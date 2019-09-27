@@ -1,5 +1,6 @@
 from chatbot.command_scheduler import (CommandOnJoin, CommandOnTime,
-                                       CommandOnTrader, CommandOnWave)
+                                       CommandOnTrader, CommandOnWave,
+                                       ALL_WAVES)
 from chatbot.commands.command import Command
 
 
@@ -54,7 +55,7 @@ class CommandStartWaveCommand(Command):
         self.scheduler = scheduler
 
         self.help_text = "start_wc help"
-        self.parser.add_argument("wave")
+        self.parser.add_argument("--wave", "-w", type=int)
         self.parser.add_argument("command", nargs="*")
 
     def execute(self, username, args, user_flags):
@@ -64,13 +65,16 @@ class CommandStartWaveCommand(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
-        try:
-            wave = int(args.wave)
-        except ValueError:
-            return self.format_response(
-                "'{}' is not a valid wave number".format(args.wave),
-                args
-            )
+        if args.wave:
+            try:
+                wave = int(args.wave)
+            except ValueError:
+                return self.format_response(
+                    "'{}' is not a valid wave number".format(args.wave),
+                    args
+                )
+        else:
+            wave = ALL_WAVES
 
         if not args.command:
             return self.format_response(
