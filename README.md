@@ -73,11 +73,11 @@ Commands that can be executed by any player.
     - Example: `!stats` Shows stats about yourself
     - Example: `!stats the_z` Shows stats about the_z
 * `!kills <user>` - Shows kill statistics about a user
-    - Example: `!stats` Shows kill stats about yourself
-    - Example: `!stats the_z` Shows killstats about the_z
+    - Example: `!kills` Shows kill stats about yourself
+    - Example: `!kills the_z` Shows kill stats about the_z
 * `!dosh <user>` - Shows dosh statistics about a user
-    - Example: `!stats` Shows dosh stats about yourself
-    - Example: `!stats the_z` Shows dosh stats about the_z
+    - Example: `!dosh` Shows dosh stats about yourself
+    - Example: `!dosh the_z` Shows dosh stats about the_z
 * `!map` - Shows statistics about the current map
 * `!record_wave` - Shows the highest wave achieved on the current map
 * `!top_kills` - Shows the global kills leaderboard
