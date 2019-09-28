@@ -17,8 +17,9 @@ class Command:
 
         not_supported_message = "This action isn't supported without Killing" \
                                 " Floor 2 Magicked Administrator's server" \
-                                " side patch! Please review the documentation" \
-                                " at '{}' for guidance.".format(BANNER_URL)
+                                " side patch! Please review the " \
+                                "documentation at '{}' for guidance."\
+                                .format(BANNER_URL)
         self.not_supported_message = pad_output(not_supported_message)
 
         self.help_text = "The help text for this command hasn't been written!"

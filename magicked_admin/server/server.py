@@ -191,9 +191,11 @@ class Server:
         message = "Player {} joined {} from {}" \
             .format(new_player.username, self.name, new_player.country)
         print(colored(message, 'cyan'))
-        self.web_admin.chat.handle_message("internal_command",
-                                           "!player_join " + new_player.username,
-                                           USER_TYPE_INTERNAL)
+        self.web_admin.chat.handle_message(
+            "internal_command",
+            "!player_join " + new_player.username,
+            USER_TYPE_INTERNAL
+        )
 
     def event_player_quit(self, player):
         self.players.remove(player)
