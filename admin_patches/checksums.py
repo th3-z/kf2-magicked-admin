@@ -35,12 +35,15 @@ ORIG_MD5 = {
     # "current_players.html": "48848e49df8169cc6676a564a2895a2e",
     # "current_players_row_action.inc": "dcc591344e3b32d1be9c31fa6178e74c",
     # "current_players_row.inc": "764a48d8b4432590078b543ff1c24a9d",
-    # "current_rules_kfgameinfo_survival.inc": "d6aa00c399d931dcf779675dc254248d",
+    # "current_rules_kfgameinfo_survival.inc":
+    #   "d6aa00c399d931dcf779675dc254248d",
     # "current_spectators.inc": "7718da7b0511ee4ccfad4b121ddc48eb",
     # "current_team.inc": "3fcd59406c7aa8de84a44a5c1cafc0e4",
     # "current_teams.inc": "f5b3aa0467f707b6403c83a90443781c",
-    # "default_maplist_additional_cycle.inc": "6386dace1fd22a6cbff8e3eac4399c96",
-    # "default_maplist_additional_edit.inc": "bd99f835e37a019c599145dddbd96de8",
+    # "default_maplist_additional_cycle.inc":
+    #   "6386dace1fd22a6cbff8e3eac4399c96",
+    # "default_maplist_additional_edit.inc":
+    #   "bd99f835e37a019c599145dddbd96de8",
     # "default_maplist_additional.html": "65054dbba0f9378786e87ecacf7078dc",
     # "default_maplist_editor.inc": "5a9639f8b0e8d0d1c69e28c6c5057965",
     # "default_maplist_editor.js": "a05e7705d7f91d33fd35d1e096672aaf",
@@ -51,14 +54,16 @@ ORIG_MD5 = {
     # "default_settings_general.html": "396c0a06a827502ad4f9d21f4be6bd61",
     # "default_settings_mutators.html": "6e202f2f4c8c4339ee32ae9fed020841",
     # "default_settings_mutators.inc": "39a575248d33be12a957d61f18a9e0be",
-    # "default_settings_mutators_select.inc": "486212f1d398bb956335e78bebdfa5c4",
+    # "default_settings_mutators_select.inc":
+    #   "486212f1d398bb956335e78bebdfa5c4",
     # "default_settings_password.html": "1e402364ec8db2ced6fd4349c2fac3b0",
     # "default_settings_welcome.html": "97bc67c1adb95825b0d5f905f0ef0aff",
     # "footer_base.inc": "91c52188cc249642954061d1c1619f73",
     # "footer.inc": "65f63d4deb9c28ea43adf1bab6d509e0",
     # "gamesummary_base.inc": "3319af6efb70753866b2bafce634e258",
     # "gamesummary.js": "3723867be22e71f8f655b3ac1815c119",
-    # "gamesummary_kfgameinfo_survival.inc": "86f11c0d38193fd39ab6b966a8ade24a",
+    # "gamesummary_kfgameinfo_survival.inc":
+    #   "86f11c0d38193fd39ab6b966a8ade24a",
     # "header.inc": "562ac9fa12fb6f1dbfc0352bf99ea76a",
     # "login.html": "08bfb87514ab579bd89e470fc50bd245",
     # "message_error.inc": "9c3885f94344bf53cf90effa965e255a",

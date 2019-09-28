@@ -25,8 +25,8 @@ SETTINGS_REQUIRED = ['address', 'password', 'motd_scoreboard',
                      'scoreboard_type', 'dosh_threshold',
                      'max_players', 'enable_greeter']
 
-CONFIG_DIE_MESG = "Please correct this manually  or delete '{}' to create a clean config next run.".format(
-    CONFIG_PATH)
+CONFIG_DIE_MESG = "Please correct this manually  or delete '{}' to create " \
+                  "a clean config next run.".format(CONFIG_PATH)
 
 
 class Settings:
@@ -43,21 +43,18 @@ class Settings:
                 config.write(config_file)
 
             if skip_setup:
-                info("Guided setup was skipped, a template has been generated.")
-                die(
-                    "Setup is not complete yet, please amend '{}' with your "
-                    "server details.".format(CONFIG_PATH_DISPLAY)
-                )
+                info("Guided setup was skipped, a template has been "
+                     "generated.")
+                die("Setup is not complete yet, please amend '{}' with your "
+                    "server details.".format(CONFIG_PATH_DISPLAY))
 
         try:
             self.config = configparser.ConfigParser()
             self.config.read(CONFIG_PATH)
 
         except configparser.DuplicateOptionError as e:
-            fatal(
-                "Configuration error(s) found!\nSection '{}' has a duplicate setting: '{}'."
-                .format(e.section, e.option)
-            )
+            fatal("Configuration error(s) found!\nSection '{}' has a duplicate"
+                  " setting: '{}'.".format(e.section, e.option))
             die(CONFIG_DIE_MESG, pause=True)
 
         config_errors = self.validate_config(self.config)
@@ -94,8 +91,8 @@ class Settings:
             if resolved_address:
                 break
             else:
-                print(
-                    "Address not responding!\nAccepted formats are: 'ip:port', 'domain', or 'domain:port'")
+                print("Address not responding!\nAccepted formats are: "
+                      "'ip:port', 'domain', or 'domain:port'")
 
         username = input("Username [default - Admin]: ") or "Admin"
         password = getpass(
@@ -142,7 +139,8 @@ class Settings:
                     config.get(section, setting)
                 except configparser.NoOptionError:
                     errors.append(
-                        "Section '{}' is missing a required setting: '{}'.".format(
-                            section, setting))
+                        "Section '{}' is missing a required setting: "
+                        "'{}'.".format(section, setting)
+                    )
 
         return errors
