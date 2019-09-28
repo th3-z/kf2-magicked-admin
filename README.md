@@ -87,6 +87,8 @@ Commands that can be executed by any player.
     - Example: `!start_trc top_wave_dosh`
 * `!server_kills` - Shows total kills on the server
 * `!server_dosh` - Shows total dosh earned on the server
+* `!scoreboard` - Shows the complete player scoreboard, useful on servers with >6 max players
+    - Alias: `!sb` Does the same
 * `!game` - Shows information about the current game
 * `!maps` - Shows the maplist
 * `!player_count` - Shows the player count and max players
