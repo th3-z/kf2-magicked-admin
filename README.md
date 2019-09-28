@@ -4,7 +4,7 @@
 
 <h1 align="center">Killing Floor 2 Magicked Admin</h1>
 
-[![Downloads](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg)](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg) [![Build Status](https://travis-ci.com/th3-z/kf2-magicked-admin.svg?branch=master)](https://travis-ci.com/th3-z/kf2-magicked-admin) [![Coverage Status](https://coveralls.io/repos/github/th3-z/kf2-magicked-admin/badge.svg)](https://coveralls.io/github/th3-z/kf2-magicked-admin)
+[![Downloads](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg)](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg) [![Build Status](https://travis-ci.com/th3-z/kf2-magicked-admin.svg?branch=master)](https://travis-ci.com/th3-z/kf2-magicked-admin) [![Coverage Status](https://coveralls.io/repos/github/th3-z/kf2-magicked-admin/badge.svg?branch=master)](https://coveralls.io/github/th3-z/kf2-magicked-admin?branch=master)
 
 Scripted management, statistics, and bot for ranked Killing Floor 2 servers. 
 Provides in-game commands, player stat tracking and ranking, live MOTD 
