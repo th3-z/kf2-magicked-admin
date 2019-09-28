@@ -47,19 +47,23 @@ def phone_home():
         code = urlopen("https://www.th3-z.xyz/kf2-ma-ping")
     except Exception:
         return False
-    return code == 200
+    return code
 
 
 # Get geographical information for an ip address
 def get_country(ip):
-    url = "https://ipapi.co/" + ip + "/json/"
+    url = "http://ip-api.com/" + "/json/" + ip
     unknown = ("Unknown", "??")
+
+    print(url)
 
     geo_data = requests.get(url).json()
 
-    if 'country_name' in geo_data:
-        country = geo_data['country_name']
-        country_code = geo_data['country']
+    print(geo_data)
+
+    if 'country' in geo_data:
+        country = geo_data['country']
+        country_code = geo_data['countryCode']
         return country, country_code
     else:
         return unknown
