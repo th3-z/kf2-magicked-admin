@@ -233,7 +233,7 @@ class CommandScoreboard(Command):
             username = trim_string(player.username, 20)
             dosh = millify(player.dosh)
             kills = player.kills
-            message += "{}\t- {}Kills £{}\n".format(
+            message += "{}\t- {} Kills, £{}\n".format(
                 username, kills, dosh
             )
 
