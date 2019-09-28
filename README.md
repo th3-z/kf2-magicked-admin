@@ -251,10 +251,10 @@ Running with Docker
 
 Running with docker is easy. Just issue this command:
 ```
-    docker run -it -p 1880:1880 --name kf-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3-z/kf-magicked-admin
+    docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3z/kf2-magicked-admin
 ```
 You will need to change `<host config folder location>` to wheverever you want
-to store your config folder. `/mnt/user/appdata/kf-magicked-admin` is a popular
+to store your config folder. `/mnt/user/appdata/kf2-magicked-admin` is a popular
 choice for systems running Unraid.
 
 After this command runs the container will exit out and the logs will tell you
