@@ -186,7 +186,7 @@ metric on the leaderboard. The options for this are: `dosh` or `kills`.
 
 ### Scripts
 
-Writting a `server_name.init` in the `conf` folder with a series of commands
+Writing a `server_name.init` in the `conf` folder with a series of commands
 will run the commands in sequence when the bot starts on `server_name`.
 
 Additional scripts can be written in the `conf/scripts` folder and ran with the
