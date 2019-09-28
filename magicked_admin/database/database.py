@@ -88,7 +88,8 @@ class ServerDatabase:
                     FROM
                         players as player2
                     WHERE
-                        (player2.kills/player2.deaths) >= (player1.kills/player1.deaths)
+                        (player2.kills/player2.deaths)
+                        >= (player1.kills/player1.deaths)
                 ) AS kd_rank
             FROM
                 players AS player1

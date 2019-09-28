@@ -154,9 +154,11 @@ class WebInterface(object):
         response = self.__post(session, self.__urls['login'], login_payload,
                                login=True)
 
-        if "hashAlg" in response.text or "Exceeded login attempts" in response.text:
+        if "hashAlg" in response.text \
+                or "Exceeded login attempts" in response.text:
             # TODO Expand on handling here, should gracefully terminate
-            die("Login failure, bad credentials or login attempts exceeded.", pause=True)
+            die("Login failure, bad credentials or login attempts exceeded.",
+                pause=True)
 
         if "<!-- KF2-MA-INSTALLED-FLAG -->" in response.text:
             self.ma_installed = True

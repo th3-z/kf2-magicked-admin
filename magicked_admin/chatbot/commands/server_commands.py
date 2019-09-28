@@ -456,8 +456,8 @@ class CommandDifficulty(Command):
             return self.format_response(self.help_text, args)
 
         if not args.difficulty:
-            message = "Difficulty not recognised, options are: normal, hard, " \
-                      "suicidal, or hell"
+            message = "Difficulty not recognised, options are: normal, " \
+                      "hard, suicidal, or hell"
             return self.format_response(message, args)
 
         if args.difficulty in ["normal", "0"]:

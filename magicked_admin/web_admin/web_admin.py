@@ -199,7 +199,8 @@ class WebAdmin(object):
     @staticmethod
     def __get_players(info_tree):
         players = []
-        theads_path = "//table[@id=\"players\"]/thead//th[position()>1]//text()"
+        theads_path = "//table[@id=\"players\"]/thead//th[position()>1]" \
+                      "//text()"
         theads_result = info_tree.xpath(theads_path)
 
         if len(theads_result):
@@ -261,7 +262,8 @@ class WebAdmin(object):
             zeds_dead, zeds_total = None, None
             trader_open = False
 
-        players_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Players\"]/following-sibling::dd[1]/text()"
+        players_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Players\"]" \
+                       "/following-sibling::dd[1]/text()"
         players_result = info_tree.xpath(players_path)
 
         if len(players_result):
@@ -269,7 +271,8 @@ class WebAdmin(object):
         else:
             players_max = None
 
-        wave_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Wave\"]/following-sibling::dd[1]/text()"
+        wave_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Wave\"]" \
+                    "/following-sibling::dd[1]/text()"
         wave_result = info_tree.xpath(wave_path)
 
         if len(wave_result):
@@ -277,7 +280,9 @@ class WebAdmin(object):
         else:
             wave, length = None, LEN_UNKNOWN
 
-        difficulty_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Difficulty\"]/following-sibling::dd[1]/text()"
+        difficulty_path = "//dl[@id=\"currentRules\"]" \
+                          "/dt[text()=\"Difficulty\"]" \
+                          "/following-sibling::dd[1]/text()"
         difficulty_result = info_tree.xpath(difficulty_path)
 
         if len(difficulty_result):
@@ -295,7 +300,8 @@ class WebAdmin(object):
         else:
             difficulty = DIFF_UNKNOWN
 
-        game_type_path = "//dl[@id=\"currentGame\"]/dt[text()=\"Game type\"]/following-sibling::dd[1]/@title"
+        game_type_path = "//dl[@id=\"currentGame\"]/dt[text()=\"Game type\"]" \
+                         "/following-sibling::dd[1]/@title"
         game_type_result = info_tree.xpath(game_type_path)
 
         if len(game_type_result):
@@ -303,9 +309,11 @@ class WebAdmin(object):
         else:
             game_type = GAME_TYPE_UNKNOWN
 
-        map_title_path = "//dl[@id=\"currentGame\"]/dt[text()=\"Map\"]/following-sibling::dd[1]/@title"
+        map_title_path = "//dl[@id=\"currentGame\"]/dt[text()=\"Map\"]" \
+                         "/following-sibling::dd[1]/@title"
         map_title_result = info_tree.xpath(map_title_path)
-        map_name_path = "//dl[@id=\"currentGame\"]/dt[text()=\"Map\"]/following-sibling::dd[1]/text()"
+        map_name_path = "//dl[@id=\"currentGame\"]/dt[text()=\"Map\"]" \
+                        "/following-sibling::dd[1]/text()"
         map_name_result = info_tree.xpath(map_name_path)
 
         if len(map_title_result) and len(map_name_result):
@@ -321,7 +329,8 @@ class WebAdmin(object):
         response = self.__web_interface.get_players()
         player_tree = html.fromstring(response.content)
 
-        theads_path = "//table[@id=\"players\"]/thead//th[position()>1]//text()"
+        theads_path = "//table[@id=\"players\"]/thead//th[position()>1]" \
+                      "//text()"
         theads_result = player_tree.xpath(theads_path)
 
         name_col = theads_result.index("Player name")
@@ -337,7 +346,8 @@ class WebAdmin(object):
         trows_result = [list(group) for k, group in
                         groupby(trows_result, lambda x: x == "\xa0") if not k]
 
-        player_keys_path = "//table[@id=\"players\"]/tbody//input[@name=\"playerkey\"]//@value"
+        player_keys_path = "//table[@id=\"players\"]/tbody" \
+                           "//input[@name=\"playerkey\"]//@value"
         player_keys_result = player_tree.xpath(player_keys_path)
         for i in range(0, len(player_keys_result)):
             trows_result[i][player_key_col] = player_keys_result[i]
