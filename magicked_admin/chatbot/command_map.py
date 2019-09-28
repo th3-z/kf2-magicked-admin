@@ -65,7 +65,8 @@ class CommandMap:
             'map': CommandGameMap(self.server),
             'maps': CommandGameMaps(self.server),
             'player_count': CommandPlayerCount(self.server),
-            'scoreboard': CommandScoreboard(self.server)
+            'scoreboard': CommandScoreboard(self.server),
+            'sb': CommandScoreboard(self.server)
         }
 
         return command_map
