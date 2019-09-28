@@ -15,7 +15,7 @@ def __add_address_scheme(address):
 def __is_valid_address(address):
     try:
         code = urlopen(address).getcode()
-    except:
+    except Exception:
         return False
     return code == 200
 
@@ -26,7 +26,7 @@ def __follow_redirect(address):
         response = urlopen(address)
         redirect_url = urlparse(response.geturl())
         return redirect_url.scheme + "://" + redirect_url.netloc
-    except:
+    except Exception:
         return address
 
 
@@ -45,7 +45,7 @@ def phone_home():
     try:
         # See git.th3-z.xyz/www-th3-z-xyz/
         code = urlopen("https://www.th3-z.xyz/kf2-ma-ping")
-    except:
+    except Exception:
         return False
     return code == 200
 
