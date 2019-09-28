@@ -5,7 +5,7 @@
 ;
 ; Example script - Sets up a private game
 silent -q ; -q supresses command output
-password set 123
+password --set 123
 difficulty hell
 length long
 load_map biotics
