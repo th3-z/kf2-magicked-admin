@@ -295,22 +295,14 @@ You can build a binary release for distribution with `make` after installing
 both the run and build requirements. 
 
 ### Requirements
-Examples work on Debian 10 and Ubuntu 19.04, may differ for other operating 
+Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating 
 systems.
 
 * Python 3.x - `apt install python3`
 * Pip - `apt install python3-pip`
-* Python 3 dependencies - `pip3 install -r requirements.txt`
+* Pip dependencies - `pip3 install -r requirements.txt`
 * Make - `apt install make`
 * zlib-dev - `apt install zlib1g-dev`
-
-### Development
-Development make targets also use the following dependencies.
-
-* isort - `pip3 install isort`
-* flake8 - `pip3 install flake8`
-* pytest - `pip3 install pytest`
-* pytest-cov - `pip3 install pytest-cov`
 
 ### Windows users
 You can build the program without make by running `setup.py`.
