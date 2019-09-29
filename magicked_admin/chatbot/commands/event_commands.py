@@ -14,6 +14,8 @@ class CommandStartJoinCommand(Command):
                          "Desc: Runs a command when a player joins the match"
         self.parser.add_argument("command", nargs="*")
 
+        self.run_delay = 8
+
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
         if err:
@@ -26,7 +28,11 @@ class CommandStartJoinCommand(Command):
                 "Please specify a command to run", args
             )
 
-        command = CommandOnJoin(self.server, " ".join(args.command))
+        delayed_command = [
+            "start_tc", "-qt", str(self.run_delay), *args.command
+        ]
+
+        command = CommandOnJoin(self.server, " ".join(delayed_command))
         self.scheduler.schedule_command(command)
         return self.format_response("Player join command started", args)
 
