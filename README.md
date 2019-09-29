@@ -268,7 +268,7 @@ Before contributing code you will need to install the Python requirements.
 Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating 
 systems. Install the following packages.
 
-* Python 3.x - `apt install python3`
+* Python 3.7 - `apt install python3`
 * Pip - `apt install python3-pip`
 * Python 3 dependencies - `pip3 install -r requirements.txt`
     - This might complain about cx_freeze not installing if you haven't got 
@@ -296,7 +296,7 @@ both the run and build requirements.
 Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating 
 systems.
 
-* Python 3.x - `apt install python3`
+* Python 3.7 - `apt install python3`
 * Pip - `apt install python3-pip`
 * Pip dependencies - `pip3 install -r requirements.txt`
 * Make - `apt install make`
