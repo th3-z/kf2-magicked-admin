@@ -11,7 +11,7 @@ from utils import warning
 
 class Chatbot(ChatListener):
 
-    def __init__(self, server, greeter_enabled=True, name=None):
+    def __init__(self, server, name=None):
         self.server_name = server.name
         if name:
             self.name = name

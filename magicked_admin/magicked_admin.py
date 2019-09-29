@@ -85,11 +85,7 @@ class MagickedAdmin:
 
             self.servers.append(server)
 
-            Chatbot(server,
-                    str_to_bool(
-                        settings.setting(server_name, "enable_greeter")),
-                    settings.setting(server_name, "username")
-                    )
+            Chatbot(server, settings.setting(server_name, "username"))
 
         info("Initialisation complete!\n")
 
