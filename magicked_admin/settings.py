@@ -80,6 +80,8 @@ class Settings:
         new_config.add_section(SETTINGS_DEFAULT['server_name'])
 
         for setting in SETTINGS_DEFAULT:
+            if setting == "server_name":
+                continue
             new_config.set(SETTINGS_DEFAULT['server_name'], setting,
                            SETTINGS_DEFAULT[setting])
 
@@ -111,6 +113,8 @@ class Settings:
         new_config.add_section(SETTINGS_DEFAULT['server_name'])
 
         for setting in SETTINGS_DEFAULT:
+            if setting == "server_name":
+                continue
             new_config.set(SETTINGS_DEFAULT['server_name'], setting,
                            SETTINGS_DEFAULT[setting])
 
