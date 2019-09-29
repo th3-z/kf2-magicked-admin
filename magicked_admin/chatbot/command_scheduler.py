@@ -190,11 +190,11 @@ class CommandOnJoin(ScheduledCommand):
 
         username = " ".join(message[1:])
 
-        if "%PLR%" in self.command:
+        if "%PLR" in self.command:
             player = self.server.get_player_by_username(username)
-            command = command.replace("%PLR%", player.username)
-            command = command.replace("%DSH%", str(player.total_dosh))
-            command = command.replace("%KLL%", str(player.total_kills))
+            command = command.replace("%PLR", player.username)
+            command = command.replace("%DSH", str(player.total_dosh))
+            command = command.replace("%KLL", str(player.total_kills))
 
         return command
 
