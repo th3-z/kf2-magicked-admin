@@ -17,13 +17,12 @@ SETTINGS_DEFAULT = {
     'motd_scoreboard': 'False',
     'scoreboard_type': 'Kills',
     'max_players': "6",
-    'enable_greeter': "True",
     'dosh_threshold': "0",
 }
 
 SETTINGS_REQUIRED = ['address', 'password', 'motd_scoreboard',
                      'scoreboard_type', 'dosh_threshold',
-                     'max_players', 'enable_greeter']
+                     'max_players']
 
 CONFIG_DIE_MESG = "Please correct this manually  or delete '{}' to create " \
                   "a clean config next run.".format(CONFIG_PATH)
