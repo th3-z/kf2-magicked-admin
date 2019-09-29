@@ -92,7 +92,8 @@ Commands that can be executed by any player.
 * `!scoreboard` - Shows the complete player scoreboard, useful on servers with >6 max players
     - Alias: `!sb` Does the same
 * `!game` - Shows information about the current game
-* `!maps` - Shows the maplist
+* `!maps [--all]` - Shows the current map cycle
+    - Option `-a`: Show all available maps
 * `!player_count` - Shows the player count and max players
 </details>
 
@@ -133,8 +134,8 @@ the `!op` command.
     - Example: `!password off` Disables the game password
     - Example: `!password --set somePass` Sets a specific password
 * `!start_jc <command>` - Start a command that runs every time a player joins
-	- Example: `!start_jc say Welcome %PLR%` - Greets a player on join
-	- Available tokens: `%PLR` - username, `%KLL%` - total kills, `%DSH%` - 
+	- Example: `!start_jc say Welcome %PLR` - Greets a player on join
+	- Available tokens: `%PLR` - username, `%KLL` - total kills, `%DSH` - 
       total dosh
 * `!stop_jc` - Stops all join commands
 * `!start_wc [-w <wave>] <command>` - Start a command that runs on wave `<wave>`
