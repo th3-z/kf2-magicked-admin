@@ -265,7 +265,7 @@ Running from Python sources
 Before contributing code you will need to install the Python requirements.
 
 ### Requirements
-Examples work on Debian 10 and Ubuntu 19.04, may differ for other operating 
+Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating 
 systems. Install the following packages.
 
 * Python 3.x - `apt install python3`
