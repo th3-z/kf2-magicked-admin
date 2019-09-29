@@ -5,6 +5,6 @@ INIT_TEMPLATE = '''
 ;
 ; Example:
 ; silent
-; start_wc 1 Welcome to wave 1
+; start_wc -w 1 Welcome to wave 1
 ; silent
 '''

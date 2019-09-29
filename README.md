@@ -4,7 +4,7 @@
 
 <h1 align="center">Killing Floor 2 Magicked Admin</h1>
 
-[![Downloads](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg)](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg) [![Build Status](https://travis-ci.com/th3-z/kf2-magicked-admin.svg?branch=master)](https://travis-ci.com/th3-z/kf2-magicked-admin) [![Coverage Status](https://coveralls.io/repos/github/th3-z/kf2-magicked-admin/badge.svg)](https://coveralls.io/github/th3-z/kf2-magicked-admin)
+[![Downloads](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg)](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg) [![Build Status](https://travis-ci.com/th3-z/kf2-magicked-admin.svg?branch=master)](https://travis-ci.com/th3-z/kf2-magicked-admin) [![Coverage Status](https://coveralls.io/repos/github/th3-z/kf2-magicked-admin/badge.svg?branch=master)](https://coveralls.io/github/th3-z/kf2-magicked-admin?branch=master)
 
 Scripted management, statistics, and bot for ranked Killing Floor 2 servers. 
 Provides in-game commands, player stat tracking and ranking, live MOTD 
@@ -16,18 +16,16 @@ once.
 Downloads
 ---------
 
-The most recent stable version is `0.1.3`. Binaries are provided on the releases 
+The most recent stable version is `0.1.4`. Binaries are provided on the releases 
 page for Windows users. Linux and Mac OS users should clone the repo and run
 from source.
 
-
-
-[Release 0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3)
+[Release 0.1.4](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.4)
 
 <details>
 <summary>Old releases</summary>
 
-Release `0.0.7` has been extensively tested and aligns closer with the Steam guide.
+* [Release 0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3)
 * [Release 0.1.2](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.2)
 * [Release 0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7)
 </details>
@@ -73,11 +71,11 @@ Commands that can be executed by any player.
     - Example: `!stats` Shows stats about yourself
     - Example: `!stats the_z` Shows stats about the_z
 * `!kills <user>` - Shows kill statistics about a user
-    - Example: `!stats` Shows kill stats about yourself
-    - Example: `!stats the_z` Shows killstats about the_z
+    - Example: `!kills` Shows kill stats about yourself
+    - Example: `!kills the_z` Shows kill stats about the_z
 * `!dosh <user>` - Shows dosh statistics about a user
-    - Example: `!stats` Shows dosh stats about yourself
-    - Example: `!stats the_z` Shows dosh stats about the_z
+    - Example: `!dosh` Shows dosh stats about yourself
+    - Example: `!dosh the_z` Shows dosh stats about the_z
 * `!map` - Shows statistics about the current map
 * `!record_wave` - Shows the highest wave achieved on the current map
 * `!top_kills` - Shows the global kills leaderboard
@@ -186,7 +184,7 @@ metric on the leaderboard. The options for this are: `dosh` or `kills`.
 
 ### Scripts
 
-Writting a `server_name.init` in the `conf` folder with a series of commands
+Writing a `server_name.init` in the `conf` folder with a series of commands
 will run the commands in sequence when the bot starts on `server_name`.
 
 Additional scripts can be written in the `conf/scripts` folder and ran with the
@@ -267,14 +265,14 @@ Running from Python sources
 Before contributing code you will need to install the Python requirements.
 
 ### Requirements
-Examples work on Debian 10 and Ubuntu 19.04, may differ for other operating 
+Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating 
 systems. Install the following packages.
 
-* Python 3.x - `apt install python3`
+* Python 3.7 - `apt install python3`
 * Pip - `apt install python3-pip`
 * Python 3 dependencies - `pip3 install -r requirements.txt`
     - This might complain about cx_freeze not installing if you haven't got 
-    zlib, but cx_freeze is only needed for building.
+    zlib-dev, but cx_freeze is only needed for building.
 
 ### Running 
 `git clone git@github.com:th3-z/kf2-magicked-admin.git`
@@ -295,22 +293,14 @@ You can build a binary release for distribution with `make` after installing
 both the run and build requirements. 
 
 ### Requirements
-Examples work on Debian 10 and Ubuntu 19.04, may differ for other operating 
+Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating 
 systems.
 
-* Python 3.x - `apt install python3`
+* Python 3.7 - `apt install python3`
 * Pip - `apt install python3-pip`
-* Python 3 dependencies - `pip3 install -r requirements.txt`
+* Pip dependencies - `pip3 install -r requirements.txt`
 * Make - `apt install make`
 * zlib-dev - `apt install zlib1g-dev`
-
-### Development
-Development make targets also use the following dependencies.
-
-* isort - `pip3 install isort`
-* flake8 - `pip3 install flake8`
-* pytest - `pip3 install pytest`
-* pytest-cov - `pip3 install pytest-cov`
 
 ### Windows users
 You can build the program without make by running `setup.py`.

@@ -75,7 +75,7 @@ class Settings:
 
     @staticmethod
     def construct_config_interactive():
-        print("     Please input your web admin details below.")
+        print("    Please input your web admin details below.")
         new_config = configparser.ConfigParser()
         new_config.add_section(SETTINGS_DEFAULT['server_name'])
 
