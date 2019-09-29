@@ -272,7 +272,7 @@ systems. Install the following packages.
 * Pip - `apt install python3-pip`
 * Python 3 dependencies - `pip3 install -r requirements.txt`
     - This might complain about cx_freeze not installing if you haven't got 
-    zlib, but cx_freeze is only needed for building.
+    zlib-dev, but cx_freeze is only needed for building.
 
 ### Running 
 `git clone git@github.com:th3-z/kf2-magicked-admin.git`
