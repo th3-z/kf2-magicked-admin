@@ -9,3 +9,4 @@ isort
 flake8
 pytest
 pytest-cov
+patch==1.*
