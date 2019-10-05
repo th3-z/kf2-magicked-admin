@@ -9,9 +9,9 @@ build:
 
 i18n-init:
 	@pybabel extract admin_patches -o locale/admin_patches.pot
-	@pybabel init -l es_ES -i locale/admin_patches.pot -d locale -o ./locale/es_ES/admin_patches.po
+	@pybabel init -l en_GB -i locale/admin_patches.pot -d locale -o ./locale/en_GB/admin_patches.po
 	@pybabel extract magicked_admin -o locale/magicked_admin.pot
-	@pybabel init -l es_ES -i locale/magicked_admin.pot -d locale -o ./locale/es_ES/magicked_admin.po
+	@pybabel init -l en_GB -i locale/magicked_admin.pot -d locale -o ./locale/en_GB/magicked_admin.po
 
 clean:
 	-@rm -rf bin
