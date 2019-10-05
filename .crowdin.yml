@@ -1,0 +1,9 @@
+files:
+  - source: /locale/*/admin_patches.po
+    translation: /locale/%locale_with_underscore%/admin_patches.export.po
+  - source: /locale/*/magicked_admin.po
+    translation: /locale/%locale_with_underscore%/magicked_admin.export.po
+  - source: /docs/steam_guide.txt
+    translation: /locale/%locale_with_underscore%/docs/steam_guide.txt
+  - source: README.md
+    translation: /locale/%locale_with_underscore%/docs/README.md
