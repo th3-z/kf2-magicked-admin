@@ -4,6 +4,6 @@ files:
   - source: /locale/*/magicked_admin.po
     translation: /locale/%locale_with_underscore%/magicked_admin.export.po
   - source: /docs/steam_guide.txt
-    translation: /docs/steam_guide.%locale_with_underscore%.txt
+    translation: /locale/%locale_with_underscore%/docs/steam_guide.txt
   - source: README.md
-    translation: /docs/README.%locale_with_underscore%.md
+    translation: /locale/%locale_with_underscore%/docs/README.md
