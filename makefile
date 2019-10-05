@@ -3,13 +3,15 @@ GREEN_COLOR=\033[32m
 RED_COLOR=\033[31m
 YELLOW_COLOR=\033[33;01m
 
-build: locale
+build:
 	@python3 magicked_admin/setup.py build -b bin/magicked_admin
 	@python3 admin_patches/setup.py build -b bin/admin_patches
 
-locale:
+i18n-init:
 	@pybabel extract admin_patches -o admin_patches/locale/admin_patches.pot
+	@pybabel init -l es_ES -i admin_patches/locale/admin_patches.pot -d admin_patches/locale
 	@pybabel extract magicked_admin -o magicked_admin/locale/magicked_admin.pot
+	@pybabel init -l es_ES -i magicked_admin/locale/magicked_admin.pot -d magicked_admin/locale
 
 clean:
 	-@rm -rf bin
