@@ -1,9 +1,12 @@
 import os
 from hashlib import md5
+import gettext
 
 from checksums import ORIG_MD5
 from utils import find_data_file, info, warning
 from utils.patch import fromfile
+
+_ = gettext.gettext
 
 
 def md5sum(fname):
@@ -34,10 +37,10 @@ def patch_files(target_path, patches_path):
             os.path.join(patches_path, filename + ".patch")
         )
 
-        info("Applying {}".format(filename + ".patch"))
+        info(_("Applying {}").format(filename + ".patch"))
 
         patch = fromfile(patch_path)
         success = patch.apply(0, target_path)
         if not success:
-            warning("Patch failed to apply successfully")
+            warning(_("Patch failed to apply successfully"))
     return True

@@ -4,7 +4,14 @@ RED_COLOR=\033[31m
 YELLOW_COLOR=\033[33;01m
 
 build:
-	@python3 magicked_admin/setup.py build -b bin
+	@python3 magicked_admin/setup.py build -b bin/magicked_admin
+	@python3 admin_patches/setup.py build -b bin/admin_patches
+
+i18n-init:
+	@pybabel extract admin_patches -o locale/admin_patches.pot
+	@pybabel init -l en_GB -i locale/admin_patches.pot -d locale -o ./locale/en_GB/admin_patches.po
+	@pybabel extract magicked_admin -o locale/magicked_admin.pot
+	@pybabel init -l en_GB -i locale/magicked_admin.pot -d locale -o ./locale/en_GB/magicked_admin.po
 
 clean:
 	-@rm -rf bin
