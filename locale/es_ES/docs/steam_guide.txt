@@ -1,72 +1,72 @@
-# KF2 Magicked Admin - Dedicated Server Tool [0.1.4]
+# KF2 Admin Magicked - Herramienta de servidor Dedicada [0.1.4]
 
-Scripted management, statistics, and bot for ranked Killing Floor 2 servers. Provides in-game commands, player stat tracking and ranking, live welcome screen scoreboard and stats, greeter, and admin functions. Running entirely through the web admin, it does not affect a server's ranked/custom status. It can be ran either directly on the server or remotely, and manage multiple servers at once.
+Administración, estadísticas y bot de scripts para servidores clasificados de Killing Floor 2. Proporciona comandos en el juego, seguimiento de estadísticas y clasificación de los jugadores, tablero de puntuación y estadísticas de pantalla de bienvenida en vivo, saludo y funciones de administración. Ejecutando enteramente a través del administrador web, no afecta el estado de un servidor de clasificatoria/personalizado. Puede ejecutarse directamente en el servidor o remotamente, y administrar múltiples servidores a la vez.
 [list]
-[*]Present real-time leaderboards in your welcome screen and in-game chat
-[*]Record player statistics including: kills, dosh, deaths and play time
-[*]A variety of in-game administrative commands
-[*]A variety of in-game commands for players
-[*]Automatically issue commands based on: time, wave, joins, or trader state
-[*]Read player messages from your desktop
+[*]Presenta tabla de clasificación en tiempo real en su pantalla de bienvenida y en el chat en el juego.
+[*]Estadísticas del jugador de registro incluyendo: matanzas, dinero(DOSH), muertes y tiempo de juego.
+[*]Una variedad de comandos administrativos en el juego
+[*]Una variedad de comandos en el juego para jugadores
+[*]Envía automáticamente comandos basados en: tiempo, oleadas, bienvenidas al servidor o en el trader.
+[*]Leer mensajes de jugador desde tu escritorio
 [/list]
 
-[b]Notes[/b]
+[b]Notas[/b]
 [list]
-[*]KF2 Magicked Admin will [b]not[/b] alter the servers ranked or custom status.
-[*]KF2 Magicked Admin works with weekly, survival, and endless game modes.
-[*]KF2 Magicked Admin can manage multiple servers in a single instance
+[*]KF2 Magicked Admin [b]no[/b] altera el estado de los servidores clasificados o personalizados.
+[*]KF2 Magicked Admin trabaja con modos de juego semanales, de supervivencia y sin fin.
+[*]KF2 Magicked Admin puede administrar varios servidores en una sola instancia
 [/list]
 
-If you have any feedback for KF2 Magicked Administrator, or this guide, let me know.
-Please rate and favourite the guide if you found it useful.
+Si tienes alguna opinión para el administrador de Magicked KF2, o esta guía, háganoslo saber.
+Por favor, califique y prefiera la guía si la encuentra útil.
 
-If you need some help anywhere, add me on steam, and I will do my best to help you.
+Si necesitas ayuda en cualquier lugar, agregarme a Steam, y haré todo lo que esté en mi mano para ayudarles.
 
-Thanks.
+Gracias.
 
-## Downloads
-The latest version as of writing is '[b]0.1.4[/b]', released on the 29th of September 2019. A Windows executable is provided for this release [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-magicked-admin-0.1.4.zip]here[/url].
+## Descargas
+La última versión de la escritura es '[b]0.1.4[/b]', liberada el 29 de septiembre de 2019. Se proporciona un ejecutable de Windows para esta versión [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-magicked-admin-0.1.4.zip]aquí[/url].
 
-For Linux and Mac OS it is recommended to run the program from Python sources since you likely already have it installed. The source for '[b]0.1.4[/b]' is available [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.4.zip]here[/url]. You just need to install the requirements with '[b]pip3 install -r requirements.txt[/b]' and run it with '[b]python3 -O magicked_admin/magicked_admin.py[/b]'.
+Para Linux y Mac OS se recomienda ejecutar el programa desde fuentes Python ya que probablemente ya lo tengas instalado. La fuente para '[b].1.4[/b]' está disponible [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.4.zip]aquí[/url]. Sólo necesitas instalar los requisitos con '[b]pip3 install -r requirements.txt[/b]' y ejecutarlo con '[b]python3 -O magicked_admin/magicked_admin.py[/b]'.
 
-Development versions and build instructions are available on GitHub [url=https://github.com/th3-z/kf2-magicked-admin]here[/url].
+Las versiones de desarrollo y las instrucciones de construcción están disponibles en GitHub [url=https://github.com/th3-z/kf2-magicked-admin]aquí[/url].
 
-[b]Note[/b]: If you want to use Magicked Admin on an endless or weekly mode server there is an extra step that you have to do which I talk about in the "Endless and weekly game mode support" section.
+[b]Nota[/b]: Si quieres usar el Administrador Magicked en un servidor de modo Sin Fin o semanal, hay un paso extra que tienes que hacer, lo mencionaré en el "Soporte de modo juego sin fin y semanal".
 
-[h1]Running[/h1]
+[h1]Ejecutando[/h1]
 [olist]
-[*]Extract '[b]kf2-magicked-admin-0.1.4.zip[/b]' anywhere you like.
+[*]Extraer '[b]kf2-magicked-admin-0.1.4.zip[/b]' en cualquier lugar que te guste.
 
-[*]Double click the executable file
+[*]Haga doble clic en el archivo ejecutable
 
-[*]You will be guided through the first time setup
+[*]Será guiado a través de la primera configuración
 
-[b]Note[/b]: If you want to re-run the first time setup, just delete the file '[b]conf/magicked_admin.conf[/b]'
+[b]Nota[/b]: Si desea volver a ejecutar la primera configuración, simplemente elimine el archivo '[b]conf/magicked_admin.conf[/b]'
 [/olist]
 
-[h1]Running with Docker[/h1]
+[h1]Ejecutando con Docker[/h1]
 
-A Docker image is also available. Running with docker is easy, just issue the following command.
+También está disponible una imagen Docker. Ejecutar con Docker es fácil, sólo emite el siguiente comando.
 [code]docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3z/kf2-magicked-admin[/code]
 
-You will need to change '[b]<host config folder location>[/b]' to wherever you want to store your config folder. '[b]/mnt/user/appdata/kf2-magicked-admin[/b]' is a popular choice for systems running Unraid.
+Necesitarás cambiar '[b]<host config folder location>[/b]' a donde quieras guardar tu carpeta de configuración. '[b]/mnt/user/appdata/kf2-magicked-admin[/b]' es una elección popular para sistemas que ejecutan Unraid.
 
-After this command runs the container will exit out and the logs will tell you to setup the config file. Go to your '[b]conf[/b]' folder and set things up, then run the container again and you are good to go!
+Después de que este comando se ejecute el contenedor se cerrará y los registros le dirán que configurará el archivo de configuración. Vaya a su archivo '[b]conf[/b]' y configure las cosas, luego ejecute el contenedor de nuevo y estará listo para seguir!
 
-## Commands
-In the following sections I will describe all the commands. However there are some general things to note that apply to them all.
+## Comandos
+En las siguientes secciones describiré todos los comandos. Sin embargo, hay algunas cosas generales que hay que señalar que se aplican a todos ellos.
 
-When inputting commands into the chat they need to be prefixed with '[b]![/b]'. When writing commands into a script, or chaining them the '[b]![/b]' should be omitted.
+Cuando introduzcas comandos en el chat, deben ser prefijados con '[b]![/b]'. Cuando escribas comandos en un script, o encadenarlos el simbolo '[b]![/b]' debe ser omitido.
 
-Many commands will look for closest matches to their parameters. For example '[i]biotics[/i]' will match '[i]kf-biotics-lab[/i]' and 'userO' will match '[i]userOne™/@:®[/i]'.
+Muchos comandos buscarán coincidencias más cercanas a sus parámetros. Por ejemplo '[i]biotics[/i]' coincidirá '[i]kf-biotics-lab[/i]' y 'userO' coincidirán '[i]userOne™/@:®[/i]'.
 
-All commands have in-game help text that can be accessed with the '[b]-h'[/b] flag.
+Todos los comandos tienen texto de ayuda en el juego que se puede acceder con la parámetro '[b]-h'[/b].
 [list]
-[*] Example: '[b]!commands -h'[/b]
+[*] Ejemplo: '[b]!commands -h'[/b]
 [/list]
-All commands also have the following flags.
+Todos los comandos también tienen los siguientes parámetros.
 [list]
-[*] Option '[b]-q[/b]': Suppresses output
+[*] Opción '[b]-q[/b]': Supresiones de salida
 [*] Option '[b]-p[/b]': Pads output to hide the username line
 [/list]
 Escape sequences as follows are available to format messages.
@@ -403,39 +403,39 @@ You first need to open '[b]conf/magicked_admin.conf[/b]' and here you can change
 
 You then need to go back and change '[b]server_one.motd[/b]' and '[b]server_one.init[/b]' to the name you just set it to in '[b]conf/magicked_admin.conf[/b]'.
 
-## Resetting stats
-To [b]reset[/b] the scoreboard all you have to do is [b]delete[/b] the '[b]conf/*.sqlite[/b]' file associated with the server name, a new one will be created the next time you start KF2 Magicked Admin.
+## Restableciendo estadísticas
+Para [b]restablecer[/b] el marcador todo lo que tienes que hacer es [b]eliminar[/b] el archivo '[b]conf/*.sqlite[/b]' asociado con el nombre del servidor, se creará un nuevo en la próxima vez que inicies el Administrador Magicked KF2.
 
-If I wanted to reset the stats on '[b]server_four[/b]', I would delete the '[b]conf/server_four.sqlite[/b]' file and restart KF2 Magicked Admin.
+Si quería restablecer las estadísticas en '[b]server_four[/b]', eliminaría el  archivo '[b]conf/server_four.sqlite[/b]' y reiniciar KF2 Magicked Admin.
 
-## Planned features
-[h1]Next release - 0.1.5[/h1]
-The following features are currently slated for the next release.
+## Características planificadas
+[h1]Próxima versión - 0.1.5[/h1]
+Las siguientes características están actualmente listadas para la próxima versión.
 [list]
-[*] Date/time commands, i.e. run a command at a specific time of day or date
-[*] Player session logging, logs SteamIDs and timestamps for player sessions to a file
-[*] `!restart` delay, a countdown before restarting the match
+[*] Comandos de fecha/hora, i.e. ejecutar un comando en una hora específica del día o la fecha
+[*] Registro de sesión de jugador, registros de SteamIDs y marcas de tiempo para sesiones de jugador a un archivo
+[*] `!restart` retraso, una cuenta atrás antes de reiniciar la partida
 [/list]
 
-[h1]Future[/h1]
+[h1]Futuro[/h1]
 [list]
-[*] Support for community translations via crowdin
+[*] Soporte para traducciones de la comunidad a través de crowdin
 [/list]
 
-We are accepting feature requests on the [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url].
+Estamos aceptando peticiones de características en el rastreador de problemas [url=https://github.com/th3-z/kf2-magicked-admin/issues][/url].
 
-## Bugs?
-None known as of writing.
+# ¿Errores?
+Ninguno conocido como escrito.
 
-If you find a bug, please add it to the [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url]if you have a GitHub account.
+Si encuentra un error, por favor, agregue al gestor de incidencias [url=https://github.com/th3-z/kf2-magicked-admin/issues][/url]si tiene una cuenta de GitHub.
 
-If you don't have a GitHub account you can write it in the comments or message [url=https://steamcommunity.com/id/th3-z]me[/url] on Steam.
+Si no tienes una cuenta de GitHub, puedes escribirla en los comentarios o mensaje [url=https://steamcommunity.com/id/th3-z]me[/url] en Steam.
 
-## Credits
-KF2 Magicked Admin is open source software (MIT), authored by the_z (th3-z).
-For full source code (Python+SQLite) and developer guidance visit the [url=github.com/th3-z/kf2-magicked-admin]GitHub repository.[/url]
+Créditos
+KF2 Magicked Admin es software de código abierto (MIT), escrito por the_z (th3-z).
+Para código fuente completo (Python+SQLite) y orientación de desarrolladores visite el repositorio [url=github.com/th3-z/kf2-magicked-admin]GitHub.[/url]
 
-[b]Contributors[/b]
+[b]Contribuidores[/b]
 
 Developers:
 [list]
@@ -450,4 +450,4 @@ Testers:
 [*] [url=https://steamcommunity.com/profiles/76561198299290553/]WabbitToonz[/url]
 [/list]
 
-Contributions are welcome.
+Las contribuciones son bienvenidas.
