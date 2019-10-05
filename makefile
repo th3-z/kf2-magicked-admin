@@ -8,10 +8,10 @@ build:
 	@python3 admin_patches/setup.py build -b bin/admin_patches
 
 i18n-init:
-	@pybabel extract admin_patches -o admin_patches/locale/admin_patches.pot
-	@pybabel init -l es_ES -i admin_patches/locale/admin_patches.pot -d admin_patches/locale
-	@pybabel extract magicked_admin -o magicked_admin/locale/magicked_admin.pot
-	@pybabel init -l es_ES -i magicked_admin/locale/magicked_admin.pot -d magicked_admin/locale
+	@pybabel extract admin_patches -o locale/admin_patches.pot
+	@pybabel init -l es_ES -i locale/admin_patches.pot -d locale -o ./locale/es_ES/admin_patches.po
+	@pybabel extract magicked_admin -o locale/magicked_admin.pot
+	@pybabel init -l es_ES -i locale/magicked_admin.pot -d locale -o ./locale/es_ES/magicked_admin.po
 
 clean:
 	-@rm -rf bin
