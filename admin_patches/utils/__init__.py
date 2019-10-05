@@ -1,5 +1,8 @@
 import os
 import sys
+import gettext
+
+_ = gettext.gettext
 
 # __debug__ is always true when building w/ cx_freeze, no known solution
 # TODO: Switch to Nuitka for compilation
@@ -12,7 +15,7 @@ def die(mesg, pause=False):
     if mesg:
         fatal(mesg)
     if pause:
-        input("\nPress enter to exit...")
+        input(_("\nPress enter to exit..."))
     sys.exit(0)
 
 
