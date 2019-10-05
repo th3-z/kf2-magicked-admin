@@ -35,7 +35,7 @@ build_exe_options = {
     "include_files": includefiles,
     "include_msvcr": True,
     "optimize": 2,
-    "build_exe": os.path.join(ROOT_PATH, 'bin/'),
+    "build_exe": os.path.join(ROOT_PATH, 'bin/magicked_admin'),
     "zip_include_packages": "*",
     "zip_exclude_packages": ""
 }

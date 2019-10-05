@@ -1,5 +1,6 @@
 import os
 
+from babel.messages import frontend as babel
 from cx_Freeze import Executable, setup
 
 VERSION = "0.1"
@@ -30,7 +31,7 @@ build_exe_options = {
     "include_files": includefiles,
     "include_msvcr": True,
     "optimize": 2,
-    "build_exe": os.path.join(ROOT_PATH, 'bin/'),
+    "build_exe": os.path.join(ROOT_PATH, 'bin/admin_patches'),
     "zip_include_packages": "*",
     "zip_exclude_packages": ""
 }
@@ -45,5 +46,11 @@ setup(
                    targetName=target_name,
                    icon=os.path.join(SRC_PATH, "icon.ico")
                    )
-    ]
+    ],
+    cmdclass={
+        'compile_catalog': babel.compile_catalog,
+        'extract_messages': babel.extract_messages,
+        'init_catalog': babel.init_catalog,
+        'update_catalog': babel.update_catalog
+    }
 )
