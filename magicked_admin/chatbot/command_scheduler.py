@@ -105,9 +105,9 @@ class ScheduledCommand(Command):
         warning(
             _("Scheduled command ({}) ran directly by {}, please use "
               "CommandScheduler").format(
-                  " ".join(args),
-                  username
-              )
+                " ".join(args),
+                username
+            )
         )
 
     def event_check(self, server, message):

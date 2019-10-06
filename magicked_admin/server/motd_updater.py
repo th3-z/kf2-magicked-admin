@@ -62,7 +62,7 @@ class MotdUpdater(threading.Thread):
                 _("Scoreboard_type not recognised '{}' for {}. Options are: "
                   "dosh, kills").format(
                     self.scoreboard_type, self.server.name
-                  )
+                )
             )
             return src_motd
 

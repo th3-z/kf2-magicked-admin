@@ -5,6 +5,7 @@ import requests
 
 _ = gettext.gettext
 
+
 # Add http scheme if no scheme
 def __add_address_scheme(address):
     if len(address) < 9 or "://" not in address[:8]:
