@@ -6,7 +6,7 @@ import gettext
 from utils import die, fatal, find_data_file, info
 from utils.net import resolve_address
 
-_ = gettext.gettext()
+_ = gettext.gettext
 
 CONFIG_PATH = find_data_file("conf/magicked_admin.conf")
 CONFIG_PATH_DISPLAY = "conf/magicked_admin.conf"
