@@ -1,6 +1,7 @@
+import gettext
 from urllib.parse import urlparse
 from urllib.request import urlopen
-import gettext
+
 import requests
 
 _ = gettext.gettext

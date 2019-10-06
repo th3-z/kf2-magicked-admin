@@ -1,6 +1,7 @@
+import gettext
+
 import web_admin as api
 from web_admin.constants import *
-import gettext
 
 _ = gettext.gettext
 

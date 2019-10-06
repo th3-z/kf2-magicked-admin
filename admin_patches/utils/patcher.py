@@ -1,6 +1,6 @@
+import gettext
 import os
 from hashlib import md5
-import gettext
 
 from checksums import ORIG_MD5
 from utils import find_data_file, info, warning

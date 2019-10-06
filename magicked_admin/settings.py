@@ -1,7 +1,7 @@
 import configparser
+import gettext
 import os
 from getpass import getpass
-import gettext
 
 from utils import die, fatal, find_data_file, info
 from utils.net import resolve_address

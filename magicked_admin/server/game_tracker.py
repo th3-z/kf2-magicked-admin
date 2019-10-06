@@ -1,12 +1,12 @@
+import gettext
 import threading
 import time
-import gettext
+
 from colorama import init
 from termcolor import colored
 
 from utils import BANNER_URL, warning
 from web_admin.constants import *
-
 
 _ = gettext.gettext
 init()

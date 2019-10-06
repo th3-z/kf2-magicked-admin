@@ -2,8 +2,8 @@ from os import path
 
 import server.game as game
 from chatbot.commands.command import Command
-from web_admin.constants import *
 from utils import find_data_file
+from web_admin.constants import *
 
 
 class CommandBan(Command):

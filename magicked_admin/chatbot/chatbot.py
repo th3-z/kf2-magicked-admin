@@ -1,13 +1,12 @@
-from os import path
 import gettext
+from os import path
 
 from chatbot import INIT_TEMPLATE
 from chatbot.command_map import CommandMap
 from chatbot.command_scheduler import CommandScheduler
-from utils import debug, find_data_file
+from utils import debug, find_data_file, warning
 from web_admin.chat import ChatListener
 from web_admin.constants import *
-from utils import warning
 
 _ = gettext.gettext
 

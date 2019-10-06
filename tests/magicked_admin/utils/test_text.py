@@ -1,8 +1,7 @@
 import pytest
 
-from magicked_admin.utils.text import (
-    str_to_bool, trim_string, pad_output, millify
-)
+from magicked_admin.utils.text import (millify, pad_output, str_to_bool,
+                                       trim_string)
 
 
 def test_str_to_bool():
