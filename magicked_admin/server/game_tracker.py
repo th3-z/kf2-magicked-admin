@@ -1,12 +1,14 @@
 import threading
 import time
-
+import gettext
 from colorama import init
 from termcolor import colored
 
 from utils import BANNER_URL, warning
 from web_admin.constants import *
 
+
+_ = gettext.gettext
 init()
 
 
@@ -51,9 +53,9 @@ class GameTracker(threading.Thread):
         if game_now.wave is None:
             # Initial mode change
             if game_before.game_type != game_now.game_type:
-                message = ("Game type ({}) support not installed, please "
-                           "patch your webadmin to correct this! Guidance is "
-                           "available at: {}")
+                message = (_("Game type ({}) support not installed, please "
+                             "patch your webadmin to correct this! Guidance is"
+                             " available at: {}"))
                 warning(message.format(
                     game_now.game_type, colored(BANNER_URL, 'magenta')
                 ))
