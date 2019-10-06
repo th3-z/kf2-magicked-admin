@@ -1,5 +1,6 @@
-from itertools import groupby
 import gettext
+from itertools import groupby
+
 from lxml import html
 
 from utils import warning

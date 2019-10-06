@@ -1,9 +1,9 @@
-from os import path
 import argparse
 import gettext
+from os import path
 
-from utils import find_data_file, die, info
-from utils.patcher import validate_files, patch_files
+from utils import die, find_data_file, info
+from utils.patcher import patch_files, validate_files
 
 _ = gettext.gettext
 

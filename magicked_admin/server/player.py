@@ -1,5 +1,5 @@
-import time
 import gettext
+import time
 
 _ = gettext.gettext
 

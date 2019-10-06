@@ -4,10 +4,11 @@ Copyright th3-z (the_z) 2018
 Released under the terms of the MIT license
 """
 
+import argparse
+import gettext
 import os
 import signal
 import sys
-import argparse
 
 from colorama import init
 
@@ -18,7 +19,6 @@ from settings import Settings
 from utils import banner, die, find_data_file, info, warning
 from utils.net import phone_home
 from utils.text import str_to_bool
-import gettext
 
 _ = gettext.gettext
 

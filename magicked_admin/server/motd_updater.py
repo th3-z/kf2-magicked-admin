@@ -1,6 +1,6 @@
+import gettext
 import threading
 import time
-import gettext
 from os import path
 
 from utils import debug, find_data_file, warning

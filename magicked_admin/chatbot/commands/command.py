@@ -1,8 +1,8 @@
-from argparse import ArgumentError
 import gettext
+from argparse import ArgumentError
 
 from chatbot.commands.argument_parser import ArgumentParser
-from utils import debug, BANNER_URL
+from utils import BANNER_URL, debug
 from utils.text import pad_output
 from web_admin.constants import *
 

@@ -1,5 +1,6 @@
-from termcolor import colored
 import gettext
+
+from termcolor import colored
 
 import web_admin as api
 from database.database import ServerDatabase

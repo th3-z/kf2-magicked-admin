@@ -1,7 +1,7 @@
+import gettext
 import sqlite3
 from os import path
 from threading import Lock
-import gettext
 
 from utils import find_data_file, info
 

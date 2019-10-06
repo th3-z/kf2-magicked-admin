@@ -1,6 +1,7 @@
+import gettext
 import time
 from hashlib import sha1
-import gettext
+
 import requests
 from lxml import html
 

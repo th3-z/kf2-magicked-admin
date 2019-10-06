@@ -1,6 +1,6 @@
+import gettext
 import threading
 import time
-import gettext
 
 from chatbot.commands.command import Command
 from utils import warning

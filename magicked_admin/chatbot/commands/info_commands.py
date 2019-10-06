@@ -1,5 +1,5 @@
-import time
 import os
+import time
 
 from chatbot.commands.command import Command
 from server.player import Player

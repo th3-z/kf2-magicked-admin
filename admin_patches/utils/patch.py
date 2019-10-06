@@ -12,12 +12,18 @@
 """
 from __future__ import print_function
 
+import copy
+import logging
+import os
+import posixpath
+import re
+import shutil
+import sys
+from os.path import abspath, exists, isfile
+
 __author__ = "anatoly techtonik <techtonik@gmail.com>"
 __version__ = "1.16"
 
-import copy
-import logging
-import re
 
 # cStringIO doesn't support unicode in 2.5
 try:
@@ -29,11 +35,6 @@ try:
 except ImportError:
   import urllib.request as urllib_request
 
-from os.path import exists, isfile, abspath
-import os
-import posixpath
-import shutil
-import sys
 
 
 PY3K = sys.version_info >= (3, 0)
