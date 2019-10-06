@@ -6,7 +6,7 @@ from os import path
 from utils import debug, find_data_file, warning
 from utils.text import millify, trim_string
 
-_ = gettext.gettext()
+_ = gettext.gettext
 
 
 class MotdUpdater(threading.Thread):

@@ -21,7 +21,7 @@ clean:
 	-@find . -name '*.pyo' -exec rm -f {} +
 
 run:
-	-@./bin/magicked_admin
+	-@./bin/magicked_admin/magicked_admin
 
 isort:
 	@sh -c "isort --recursive ."
