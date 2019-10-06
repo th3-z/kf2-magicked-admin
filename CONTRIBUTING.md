@@ -14,12 +14,10 @@ How can I contribute?
 
 - Bug reports.
     * You will need a Killing Floor 2 server for testing.
-    * Testing on multiple servers. This tools can manage multiple servers at
-    once, I only have one.
-    * Please don't raise issues for release 0.0.7. This release is out
-    of date.
-- Translations. The project needs translators, please contact me if you can
-help with this.
+    * Raise bug reports on the issue tracker, a template is provided.
+- Translations.
+    * Translations are done via [Crowdin](https://crowdin.com/project/kf2-magicked-admin)
+    * Anyone is welcome to make contributions to the translations.
 - Debugging. Check the bugs on the issue tracker, see if you can replicate them, and
 try to fix them.
 - Features. Desired features are listed on the issue tracker, implement and raise a
