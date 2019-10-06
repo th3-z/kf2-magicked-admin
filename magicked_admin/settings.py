@@ -1,9 +1,12 @@
 import configparser
 import os
 from getpass import getpass
+import gettext
 
 from utils import die, fatal, find_data_file, info
 from utils.net import resolve_address
+
+_ = gettext.gettext()
 
 CONFIG_PATH = find_data_file("conf/magicked_admin.conf")
 CONFIG_PATH_DISPLAY = "conf/magicked_admin.conf"
@@ -24,14 +27,15 @@ SETTINGS_REQUIRED = ['address', 'password', 'motd_scoreboard',
                      'scoreboard_type', 'dosh_threshold',
                      'max_players']
 
-CONFIG_DIE_MESG = "Please correct this manually  or delete '{}' to create " \
-                  "a clean config next run.".format(CONFIG_PATH)
+CONFIG_DIE_MESG = _("Please correct this manually  or delete '{}' to create "
+                    "a clean config next run.").format(CONFIG_PATH)
 
 
 class Settings:
     def __init__(self, skip_setup=False):
         if not os.path.exists(CONFIG_PATH):
-            info("No configuration was found, first time setup is required!")
+            info(_("No configuration was found, first time setup is "
+                   "required!"))
 
             if not skip_setup:
                 config = self.construct_config_interactive()
@@ -42,24 +46,24 @@ class Settings:
                 config.write(config_file)
 
             if skip_setup:
-                info("Guided setup was skipped, a template has been "
-                     "generated.")
-                die("Setup is not complete yet, please amend '{}' with your "
-                    "server details.".format(CONFIG_PATH_DISPLAY))
+                info(_("Guided setup was skipped, a template has been "
+                       "generated."))
+                die(_("Setup is not complete yet, please amend '{}' with your "
+                      "server details.").format(CONFIG_PATH_DISPLAY))
 
         try:
             self.config = configparser.ConfigParser()
             self.config.read(CONFIG_PATH)
 
         except configparser.DuplicateOptionError as e:
-            fatal("Configuration error(s) found!\nSection '{}' has a duplicate"
-                  " setting: '{}'.".format(e.section, e.option))
+            fatal(_("Configuration error(s) found!\nSection '{}' has a "
+                    "duplicate setting: '{}'.").format(e.section, e.option))
             die(CONFIG_DIE_MESG, pause=True)
 
         config_errors = self.validate_config(self.config)
 
         if config_errors:
-            fatal("Configuration error(s) found!")
+            fatal(_("Configuration error(s) found!"))
             for error in config_errors:
                 print("\t\t" + error)
             die(CONFIG_DIE_MESG, pause=True)
@@ -75,7 +79,7 @@ class Settings:
 
     @staticmethod
     def construct_config_interactive():
-        print("    Please input your web admin details below.")
+        print(_("    Please input your web admin details below."))
         new_config = configparser.ConfigParser()
         new_config.add_section(SETTINGS_DEFAULT['server_name'])
 
@@ -87,17 +91,18 @@ class Settings:
 
         while True:
             address = input(
-                "\nAddress [default - localhost:8080]: ") or "localhost:8080"
+                _("\nAddress [default - localhost:8080]: ")
+            ) or "localhost:8080"
             resolved_address = resolve_address(address)
             if resolved_address:
                 break
             else:
-                print("Address not responding!\nAccepted formats are: "
-                      "'ip:port', 'domain', or 'domain:port'")
+                print(_("Address not responding!\nAccepted formats are: "
+                      "'ip:port', 'domain', or 'domain:port'"))
 
-        username = input("Username [default - Admin]: ") or "Admin"
+        username = input(_("Username [default - Admin]: ")) or "Admin"
         password = getpass(
-            "Password (will not echo) [default - 123]: ") or "123"
+            _("Password (will not echo) [default - 123]: ")) or "123"
         print()  # \n
 
         new_config.set(SETTINGS_DEFAULT['server_name'], 'address',
@@ -133,7 +138,7 @@ class Settings:
         errors = []
 
         if len(sections) < 1:
-            errors.append("Config file has no sections.")
+            errors.append(_("Config file has no sections."))
             return errors
 
         for section in sections:
@@ -142,8 +147,8 @@ class Settings:
                     config.get(section, setting)
                 except configparser.NoOptionError:
                     errors.append(
-                        "Section '{}' is missing a required setting: "
-                        "'{}'.".format(section, setting)
+                        _("Section '{}' is missing a required setting: "
+                          "'{}'.").format(section, setting)
                     )
 
         return errors

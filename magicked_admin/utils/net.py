@@ -1,8 +1,9 @@
 from urllib.parse import urlparse
 from urllib.request import urlopen
-
+import gettext
 import requests
 
+_ = gettext.gettext
 
 # Add http scheme if no scheme
 def __add_address_scheme(address):
@@ -53,7 +54,7 @@ def phone_home():
 # Get geographical information for an ip address
 def get_country(ip):
     url = "http://ip-api.com/" + "/json/" + ip
-    unknown = ("Unknown", "??")
+    unknown = (_("Unknown"), "??")
 
     geo_data = requests.get(url).json()
 

@@ -1,9 +1,10 @@
 import os
 import sys
-
+import gettext
 from colorama import init
 from termcolor import colored
 
+_ = gettext.gettext
 init()
 
 # __debug__ is always true when building w/ cx_freeze, no known solution
@@ -18,7 +19,7 @@ def die(message=None, pause=False):
     if message:
         print(colored(' [!] ', 'red') + message)
     if pause:
-        input("\nPress enter to exit...")
+        input(_("\nPress enter to exit..."))
     sys.exit(0)
 
 

@@ -1,9 +1,12 @@
 import threading
 import time
+import gettext
 from os import path
 
 from utils import debug, find_data_file, warning
 from utils.text import millify, trim_string
+
+_ = gettext.gettext()
 
 
 class MotdUpdater(threading.Thread):
@@ -17,7 +20,7 @@ class MotdUpdater(threading.Thread):
 
         if not path.exists(find_data_file(self.motd_path)):
             warning(
-                "No MOTD file for {} found, pulling from web admin!".format(
+                _("No MOTD file for {} found, pulling from web admin!").format(
                     self.server.name
                 )
             )
@@ -39,7 +42,7 @@ class MotdUpdater(threading.Thread):
             motd = self.render_motd(self.motd)
             self.server.web_admin.set_motd(motd)
 
-            debug("Updated the MOTD!")
+            debug(_("Updated the MOTD!"))
 
             time.sleep(self.time_interval)
 
@@ -56,10 +59,10 @@ class MotdUpdater(threading.Thread):
             scores = self.server.database.top_dosh()
         else:
             warning(
-                "Scoreboard_type not recognised '{}' for {}. Options are: "
-                "dosh, kills".format(
+                _("Scoreboard_type not recognised '{}' for {}. Options are: "
+                  "dosh, kills").format(
                     self.scoreboard_type, self.server.name
-                )
+                  )
             )
             return src_motd
 

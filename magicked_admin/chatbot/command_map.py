@@ -1,7 +1,11 @@
+import gettext
+
 from chatbot.commands.event_commands import *
 from chatbot.commands.info_commands import *
 from chatbot.commands.player_commands import *
 from chatbot.commands.server_commands import *
+
+_ = gettext.gettext
 
 # Internal command definitions
 COMMAND_NEW_WAVE = "new_wave"  # Params: wave number
@@ -22,51 +26,51 @@ class CommandMap:
 
         command_map = {
             # Operator commands
-            'start_jc': CommandStartJoinCommand(self.server, scheduler),
-            'stop_jc': CommandStopJoinCommands(self.server, scheduler),
-            'start_wc': CommandStartWaveCommand(self.server, scheduler),
-            'stop_wc': CommandStopWaveCommands(self.server, scheduler),
-            'start_tc': CommandStartTimeCommand(self.server, scheduler),
-            'stop_tc': CommandStopTimeCommands(self.server, scheduler),
-            'start_trc': CommandStartTraderCommand(self.server, scheduler),
-            'stop_trc': CommandStopTraderCommands(self.server, scheduler),
-            'enforce_dosh': CommandEnforceDosh(self.server),
-            'say': CommandSay(self.server),
-            'restart': CommandRestart(self.server),
-            'load_map': CommandLoadMap(self.server),
-            'password': CommandPassword(self.server),
-            'silent': CommandSilent(self.server, self.chatbot),
-            'run': CommandRun(self.server, self.chatbot),
-            'length': CommandLength(self.server),
-            'difficulty': CommandDifficulty(self.server),
-            'game_mode': CommandGameMode(self.server),
-            'players': CommandPlayers(self.server),
-            'kick': CommandKick(self.server),
-            'ban': CommandBan(self.server),
-            'op': CommandOp(self.server),
-            'deop': CommandDeop(self.server),
-            'marquee': CommandMarquee(self.server, self.chatbot),
+            _('start_jc'): CommandStartJoinCommand(self.server, scheduler),
+            _('stop_jc'): CommandStopJoinCommands(self.server, scheduler),
+            _('start_wc'): CommandStartWaveCommand(self.server, scheduler),
+            _('stop_wc'): CommandStopWaveCommands(self.server, scheduler),
+            _('start_tc'): CommandStartTimeCommand(self.server, scheduler),
+            _('stop_tc'): CommandStopTimeCommands(self.server, scheduler),
+            _('start_trc'): CommandStartTraderCommand(self.server, scheduler),
+            _('stop_trc'): CommandStopTraderCommands(self.server, scheduler),
+            _('enforce_dosh'): CommandEnforceDosh(self.server),
+            _('say'): CommandSay(self.server),
+            _('restart'): CommandRestart(self.server),
+            _('load_map'): CommandLoadMap(self.server),
+            _('password'): CommandPassword(self.server),
+            _('silent'): CommandSilent(self.server, self.chatbot),
+            _('run'): CommandRun(self.server, self.chatbot),
+            _('length'): CommandLength(self.server),
+            _('difficulty'): CommandDifficulty(self.server),
+            _('game_mode'): CommandGameMode(self.server),
+            _('players'): CommandPlayers(self.server),
+            _('kick'): CommandKick(self.server),
+            _('ban'): CommandBan(self.server),
+            _('op'): CommandOp(self.server),
+            _('deop'): CommandDeop(self.server),
+            _('marquee'): CommandMarquee(self.server, self.chatbot),
 
             # Player commands
-            'commands': CommandCommands(self.server),
-            'record_wave': CommandHighWave(self.server),
-            'game': CommandGame(self.server),
-            'kills': CommandKills(self.server),
-            'dosh': CommandDosh(self.server),
-            'top_kills': CommandTopKills(self.server),
-            'top_dosh': CommandTopDosh(self.server),
-            'top_time': CommandTopTime(self.server),
-            'top_wave_kills': CommandTopWaveKills(self.server),
-            'top_wave_dosh': CommandTopWaveDosh(self.server),
-            'stats': CommandStats(self.server),
-            'game_time': CommandGameTime(self.server),
-            'server_kills': CommandServerKills(self.server),
-            'server_dosh': CommandServerDosh(self.server),
-            'map': CommandGameMap(self.server),
-            'maps': CommandGameMaps(self.server),
-            'player_count': CommandPlayerCount(self.server),
-            'scoreboard': CommandScoreboard(self.server),
-            'sb': CommandScoreboard(self.server)
+            _('commands'): CommandCommands(self.server),
+            _('record_wave'): CommandHighWave(self.server),
+            _('game'): CommandGame(self.server),
+            _('kills'): CommandKills(self.server),
+            _('dosh'): CommandDosh(self.server),
+            _('top_kills'): CommandTopKills(self.server),
+            _('top_dosh'): CommandTopDosh(self.server),
+            _('top_time'): CommandTopTime(self.server),
+            _('top_wave_kills'): CommandTopWaveKills(self.server),
+            _('top_wave_dosh'): CommandTopWaveDosh(self.server),
+            _('stats'): CommandStats(self.server),
+            _('game_time'): CommandGameTime(self.server),
+            _('server_kills'): CommandServerKills(self.server),
+            _('server_dosh'): CommandServerDosh(self.server),
+            _('map'): CommandGameMap(self.server),
+            _('maps'): CommandGameMaps(self.server),
+            _('player_count'): CommandPlayerCount(self.server),
+            _('scoreboard'): CommandScoreboard(self.server),
+            _('sb'): CommandScoreboard(self.server)
         }
 
         return command_map

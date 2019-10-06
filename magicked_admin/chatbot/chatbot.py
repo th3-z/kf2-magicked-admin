@@ -1,4 +1,5 @@
 from os import path
+import gettext
 
 from chatbot import INIT_TEMPLATE
 from chatbot.command_map import CommandMap
@@ -8,6 +9,8 @@ from web_admin.chat import ChatListener
 from web_admin.constants import *
 from utils import warning
 
+_ = gettext.gettext
+
 
 class Chatbot(ChatListener):
 
@@ -16,7 +19,7 @@ class Chatbot(ChatListener):
         if name:
             self.name = name
         else:
-            self.name = "Unnamed"
+            self.name = _("Unnamed")
 
         self.chat = server.web_admin.chat
         self.chat.add_listener(self)
@@ -54,7 +57,7 @@ class Chatbot(ChatListener):
                 self.chat.submit_message(response)
 
     def execute_script(self, filename):
-        debug("Executing script: " + path.basename(filename))
+        debug(_("Executing script: ") + path.basename(filename))
 
         with open(filename) as script:
             for line in script:

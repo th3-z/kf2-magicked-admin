@@ -18,14 +18,17 @@ from settings import Settings
 from utils import banner, die, find_data_file, info, warning
 from utils.net import phone_home
 from utils.text import str_to_bool
+import gettext
+
+_ = gettext.gettext
 
 init()
 
 parser = argparse.ArgumentParser(
-    description='Killing Floor 2 Magicked Administrator'
+    description=_('Killing Floor 2 Magicked Administrator')
 )
 parser.add_argument('-s', '--skip_setup', action='store_true',
-                    help='Skips the guided setup process')
+                    help=_('Skips the guided setup process'))
 args = parser.parse_args()
 
 banner()
@@ -87,7 +90,7 @@ class MagickedAdmin:
 
             Chatbot(server, settings.setting(server_name, "username"))
 
-        info("Initialisation complete!\n")
+        info(_("Initialisation complete!\n"))
 
         while True:
             command = input()
@@ -97,7 +100,7 @@ class MagickedAdmin:
     def terminate(self, signal, frame):
         if self.sigint_count > 1:
             print()  # \n
-            warning("Closing immediately!")
+            warning(_("Closing immediately!"))
             os._exit(0)
             return
 
@@ -106,7 +109,7 @@ class MagickedAdmin:
             return
 
         print()  # \n
-        info("Program interrupted, saving data...")
+        info(_("Program interrupted, saving data..."))
 
         for server in self.servers:
             server.close()

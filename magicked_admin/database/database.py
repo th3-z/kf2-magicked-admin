@@ -1,9 +1,11 @@
 import sqlite3
 from os import path
 from threading import Lock
+import gettext
 
 from utils import find_data_file, info
 
+_ = gettext.gettext
 lock = Lock()
 
 
@@ -24,7 +26,7 @@ class ServerDatabase:
         self.cur = self.conn.cursor()
 
     def build_schema(self):
-        info("Building new database...")
+        info(_("Building new database..."))
 
         conn = sqlite3.connect(self.sqlite_db_file)
         cur = conn.cursor()

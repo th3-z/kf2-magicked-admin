@@ -1,4 +1,7 @@
 import time
+import gettext
+
+_ = gettext.gettext
 
 
 class Player:
@@ -32,7 +35,7 @@ class Player:
         self.network_id = None
         self.player_key = None
         self.ip = None
-        self.country = "Unknown"
+        self.country = _("Unknown")
         self.country_code = "??"
         self.op = False
 
@@ -50,6 +53,6 @@ class Player:
         self.sessions = 0
 
     def __str__(self):
-        return "Username: {}\nCountry: {} ({})\nOP: {}\nSteam ID:{}".format(
+        return _("Username: {}\nCountry: {} ({})\nOP: {}\nSteam ID:{}").format(
             self.username, self.country, self.ip, self.op, self.steam_id
         )

@@ -1,5 +1,8 @@
 import web_admin as api
 from web_admin.constants import *
+import gettext
+
+_ = gettext.gettext
 
 
 class Game:
@@ -23,7 +26,7 @@ class Game:
         self.password_enabled = False
 
     def __str__(self):
-        return "Mode: {}\nMap: {}\nDifficulty: {}\nWave {}/{}".format(
+        return _("Mode: {}\nMap: {}\nDifficulty: {}\nWave {}/{}").format(
             GAME_TYPE_DISPLAY[self.game_type],
             self.game_map.name,
             DIFF_DISPLAY[self.difficulty],
@@ -63,7 +66,11 @@ class GameMap:
         self.votes = 0
 
     def __str__(self):
-        return ("Title: {}\nPlays survival: {}\nPlays survival_vs: {}\n"
-                "Plays endless: {}\nPlays weekly: {}") \
-            .format(self.title, self.plays_survival, self.plays_survival_vs,
-                    self.plays_endless, self.plays_weekly)
+        map_str = _("Title: {}\nPlays survival: {}\nPlays survival_vs: {}\n"
+                    "Plays endless: {}\nPlays weekly: {}").format(
+                        self.title, self.plays_survival,
+                        self.plays_survival_vs, self.plays_endless,
+                        self.plays_weekly
+                    )
+
+        return map_str

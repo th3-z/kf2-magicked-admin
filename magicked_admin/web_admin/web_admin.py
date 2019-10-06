@@ -1,5 +1,5 @@
 from itertools import groupby
-
+import gettext
 from lxml import html
 
 from utils import warning
@@ -8,6 +8,8 @@ from utils.text import str_to_bool
 from web_admin.chat import Chat
 from web_admin.constants import *
 from web_admin.web_interface import WebInterface
+
+_ = gettext.gettext
 
 
 class WebAdmin(object):
@@ -87,7 +89,7 @@ class WebAdmin(object):
 
     def toggle_game_password(self):
         if not self.__game_password:
-            warning("Tried to toggle game password before setting value")
+            warning(_("Tried to toggle game password before setting value"))
             return False
 
         if self.has_game_password():
@@ -374,7 +376,7 @@ class WebAdmin(object):
                 'player_key': player_key
             }
         else:
-            warning("Couldn't find identify player: {}".format(username))
+            warning(_("Couldn't find identify player: {}").format(username))
             return {
                 'ip': None,
                 'country': "Unknown",

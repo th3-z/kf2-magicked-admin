@@ -1,11 +1,13 @@
 import threading
 import time
+import gettext
 
 from chatbot.commands.command import Command
 from utils import warning
 from web_admin.chat import ChatListener
 from web_admin.constants import *
 
+_ = gettext.gettext
 ALL_WAVES = 999
 
 
@@ -50,11 +52,10 @@ class CommandScheduler(ChatListener):
                 stopped += 1
 
         if stopped:
-            message = "Stopped {} command".format(stopped)
-            message += "s" if stopped > 1 else ""
+            message = _("Stopped {} command(s)").format(stopped)
             return message
         else:
-            return "None running"
+            return _("None running")
 
     def receive_message(self, username, message, user_flags):
         """
@@ -102,11 +103,11 @@ class ScheduledCommand(Command):
 
     def execute(self, username, args, user_flags):
         warning(
-            "Scheduled command ({}) ran directly by {}, please use "
-            "CommandScheduler".format(
-                " ".join(args),
-                username
-            )
+            _("Scheduled command ({}) ran directly by {}, please use "
+              "CommandScheduler").format(
+                  " ".join(args),
+                  username
+              )
         )
 
     def event_check(self, server, message):

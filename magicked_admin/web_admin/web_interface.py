@@ -1,10 +1,12 @@
 import time
 from hashlib import sha1
-
+import gettext
 import requests
 from lxml import html
 
 from utils import debug, die, info, warning
+
+_ = gettext.gettext
 
 
 class WebInterface(object):
@@ -54,7 +56,7 @@ class WebInterface(object):
 
                 if not login:
                     if "hashAlg" in response.text:
-                        info("Session killed, renewing!")
+                        info(_("Session killed, renewing!"))
                         self.__session = self.__new_session()
                     else:
                         return response
@@ -93,7 +95,7 @@ class WebInterface(object):
 
                 if not login:
                     if "hashAlg" in response.text:
-                        info("Session killed, renewing!")
+                        info(_("Session killed, renewing!"))
                         self.__session = self.__new_session()
                 else:
                     return response
@@ -116,12 +118,12 @@ class WebInterface(object):
 
     def __sleep(self):
         if not self.__sleeping:
-            info("Web admin not responding, sleeping")
+            info(_("Web admin not responding, sleeping"))
             self.__sleeping = True
 
     def __wake(self):
         if self.__sleeping:
-            info("Web admin is back, resuming")
+            info(_("Web admin is back, resuming"))
             self.__sleeping = False
 
     def __new_session(self):
@@ -157,16 +159,16 @@ class WebInterface(object):
         if "hashAlg" in response.text \
                 or "Exceeded login attempts" in response.text:
             # TODO Expand on handling here, should gracefully terminate
-            die("Login failure, bad credentials or login attempts exceeded.",
+            die(_("Login failure, bad credentials or login attempts exceeded."),
                 pause=True)
 
         if "<!-- KF2-MA-INSTALLED-FLAG -->" in response.text:
             self.ma_installed = True
-            info("Detected KF2-MA install on server.")
+            info(_("Detected KF2-MA install on server."))
         else:
             pass
-            warning("KF2-MA install not detected on server side! "
-                    "Consequently, only Survival mode will function fully.")
+            warning(_("KF2-MA install not detected on server side! "
+                      "Consequently, only Survival mode will function fully."))
 
         return session
 
