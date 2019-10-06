@@ -76,6 +76,9 @@ Commands that can be executed by any player.
 * `!dosh <user>` - Shows dosh statistics about a user
     - Example: `!dosh` Shows dosh stats about yourself
     - Example: `!dosh the_z` Shows dosh stats about the_z
+* `!time <user>` - Shows time statistics about a user
+    - Example: `!dosh` Shows time stats about yourself
+    - Example: `!dosh the_z` Shows time stats about the_z
 * `!map` - Shows statistics about the current map
 * `!record_wave` - Shows the highest wave achieved on the current map
 * `!top_kills` - Shows the global kills leaderboard
