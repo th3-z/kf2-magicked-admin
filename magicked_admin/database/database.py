@@ -53,16 +53,16 @@ class ServerDatabase:
                     FROM
                         players as player2
                     WHERE
-                        player2.{} >= player1.{}
+                        player2.? >= player1.?
                 ), 0) AS col_rank
             FROM
                 players AS player1
             WHERE
                 player1.steam_id = ?
-        """.format(col, col)
+        """
 
         lock.acquire(True)
-        self.cur.execute(query, (steam_id,))
+        self.cur.execute(query, (col, col, steam_id,))
         result = self.cur.fetchall()
         lock.release()
 
@@ -112,17 +112,17 @@ class ServerDatabase:
     def __server_sum_col(self, col):
         query = """
             SELECT
-                COALESCE(SUM({}), 0) as total
+                COALESCE(SUM(?), 0) as total
             FROM
                 players
-        """.format(col)
+        """
 
         lock.acquire(True)
-        self.cur.execute(query)
+        self.cur.execute(query, (col,))
         result = self.cur.fetchall()
         lock.release()
 
-        if len(result):
+        if result:
             return result[0]["total"]
         else:
             return 0
@@ -140,15 +140,15 @@ class ServerDatabase:
         query = """
             SELECT
                 username,
-                {} as score
+                ? AS score
             FROM
                 players
             ORDER BY
-                {} DESC
-        """.format(col, col)
+                ? DESC
+        """
 
         lock.acquire(True)
-        self.cur.execute(query)
+        self.cur.execute(query, (col, col,))
         result = self.cur.fetchall()
         lock.release()
 
