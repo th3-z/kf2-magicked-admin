@@ -92,10 +92,11 @@ class MagickedAdmin:
 
         info(_("Initialisation complete!\n"))
 
-        while True:
-            command = input()
-            for server in self.servers:
-                server.web_admin.chat.submit_message(command)
+        if not args.skip_setup:
+            while True:
+                command = input()
+                for server in self.servers:
+                    server.web_admin.chat.submit_message(command)
 
     def terminate(self, signal, frame):
         if self.sigint_count > 1:
