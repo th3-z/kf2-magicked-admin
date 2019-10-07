@@ -1,5 +1,6 @@
 import os
 import time
+import gettext
 
 from chatbot.commands.command import Command
 from server.player import Player
@@ -7,15 +8,17 @@ from utils import find_data_file
 from utils.text import millify
 from utils.time import seconds_to_hhmmss
 
+_ = gettext.gettext
+
 
 class CommandMarquee(Command):
     def __init__(self, server, chatbot):
         self.chatbot = chatbot
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "Usage: !marquee FILE\n" \
-                         "\tFILE - Some file in 'conf/marquee'\n" \
-                         "Desc: Runs a marquee in chat"
+        self.help_text = _("Usage: !marquee FILE\n"
+                           "\tFILE - Some file in 'conf/marquee'\n"
+                           "Desc: Runs a marquee in chat")
         # self.parser.add_argument("iterations")
         self.parser.add_argument("filename", nargs="*")
 
@@ -43,11 +46,11 @@ class CommandMarquee(Command):
             return self.format_response(self.help_text, args)
 
         if not args.filename:
-            return self.format_response("Missing argument: filename", args)
+            return self.format_response(_("Missing argument: filename"), args)
 
         file_loaded = self.load_file(" ".join(args.filename))
         if not file_loaded:
-            return self.format_response("Couldn't find file", args)
+            return self.format_response(_("Couldn't find file"), args)
 
         for i in range(0, 300):
             line_start = i % len(self.marquee)
@@ -72,8 +75,9 @@ class CommandPlayerCount(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "Usage: !players\n" \
-                         "Desc: Shows the number of players currently online"
+        self.help_text = _("Usage: !players\n"
+                           "Desc: Shows the number of players currently "
+                           "online")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -83,7 +87,7 @@ class CommandPlayerCount(Command):
             return self.format_response(self.help_text, args)
 
         return self.format_response(
-            "{}/{} Players are online".format(
+            _("{}/{} Players are online").format(
                 len(self.server.players), self.server.game.players_max
             ),
             args
@@ -94,9 +98,9 @@ class CommandPlayers(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = "Usage: !players\n" \
-                         "Desc: Shows detailed information about online " \
-                         "players"
+        self.help_text = _("Usage: !players\n"
+                           "Desc: Shows detailed information about online "
+                           "players")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -107,7 +111,7 @@ class CommandPlayers(Command):
 
         players = self.server.players
         if not players:
-            return self.format_response("No players in game", args)
+            return self.format_response(_("No players in game"), args)
 
         message = ""
         for player in players:
@@ -120,8 +124,8 @@ class CommandGame(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "Usage: !game\n" \
-                         "Desc: Shows current game info and rules"
+        self.help_text = _("Usage: !game\n"
+                           "Desc: Shows current game info and rules")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -137,8 +141,8 @@ class CommandGameMap(Command):
     def __init__(self, server, admin_only=False, requires_patch=False):
         Command.__init__(self, server, admin_only)
 
-        self.help_text = "Usage: !map\n" \
-                         "Desc: Shows statistics about the current map"
+        self.help_text = _("Usage: !map\n"
+                           "Desc: Shows statistics about the current map")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -154,9 +158,10 @@ class CommandGameTime(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "Usage: !game_time\n" \
-                         "Desc: Shows the number of seconds since the match " \
-                         "started. Excludes trader time and the boss wave."
+        self.help_text = _("Usage: !game_time\n"
+                           "Desc: Shows the number of seconds since the "
+                           "match started. Excludes trader time and the boss"
+                           " wave.")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -172,8 +177,8 @@ class CommandHighWave(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=True)
 
-        self.help_text = "Usage: !record_wave\n" \
-                         "Desc: Shows the highest wave reached on this map"
+        self.help_text = _("Usage: !record_wave\n"
+                           "Desc: Shows the highest wave reached on this map")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -183,7 +188,7 @@ class CommandHighWave(Command):
             return self.format_response(self.help_text, args)
 
         return self.format_response(
-            "{} is the highest wave reached on this map".format(
+            _("{} is the highest wave reached on this map").format(
                 self.server.game.game_map.highest_wave
             ), args
         )
@@ -193,8 +198,8 @@ class CommandCommands(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "Usage: !commands\n" \
-                         "Desc: Lists all player commands"
+        self.help_text = _("Usage: !commands\n"
+                           "Desc: Lists all player commands")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -203,22 +208,22 @@ class CommandCommands(Command):
         elif args.help:
             return self.format_response(self.help_text, args)
 
-        message = "\nAvailable commands:\n" \
-            "\t!record_wave,\n" \
-            "\t!game,\n" \
-            "\t!kills,\n" \
-            "\t!dosh,\n" \
-            "\t!top_kills,\n" \
-            "\t!top_dosh,\n" \
-            "\t!top_time,\n" \
-            "\t!stats,\n" \
-            "\t!game_time,\n" \
-            "\t!server_kills,\n" \
-            "\t!server_dosh,\n" \
-            "\t!map,\n" \
-            "\t!maps,\n" \
-            "\t!player_count\n" \
-            "Commands have help, e.g. '!stats -h'"
+        message = _("\nAvailable commands:\n"
+                    "\t!record_wave,\n"
+                    "\t!game,\n"
+                    "\t!kills,\n"
+                    "\t!dosh,\n"
+                    "\t!top_kills,\n"
+                    "\t!top_dosh,\n"
+                    "\t!top_time,\n"
+                    "\t!stats,\n"
+                    "\t!game_time,\n"
+                    "\t!server_kills,\n"
+                    "\t!server_dosh,\n"
+                    "\t!map,\n"
+                    "\t!maps,\n"
+                    "\t!player_count\n"
+                    "Commands have help, e.g. '!stats -h'")
 
         return self.format_response(message, args)
 
@@ -227,10 +232,10 @@ class CommandStats(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=False, requires_patch=False)
 
-        self.help_text = "Usage: !stats USERNAME\n" \
-                         "\tUSERNAME - Person to get stats for\n" \
-                         "Desc: Shows statistics about a player, username " \
-                         "can be omitted to get personal stats"
+        self.help_text = _("Usage: !stats USERNAME\n"
+                           "\tUSERNAME - Person to get stats for\n"
+                           "Desc: Shows statistics about a player, username "
+                           "can be omitted to get personal stats")
         self.parser.add_argument("username", nargs="*")
 
     def execute(self, username, args, user_flags):
@@ -265,15 +270,15 @@ class CommandStats(Command):
         # todo Add pos_time to output
         # pos_time = self.server.database.rank_time(player.steam_id) or 0
 
-        message = "Stats for {}:\n" \
-            "Total play time: {} ({} sessions)\n" \
-            "Total deaths: {}\n" \
-            "Total kills: {} (rank #{}) \n" \
-            "Total dosh earned: £{} (rank #{})\n" \
-            "Dosh this game: {}".format(
-                player.username, fmt_time, player.sessions,
-                player.total_deaths, millify(player.total_kills), pos_kills,
-                millify(player.total_dosh), pos_dosh, millify(player.game_dosh)
-            )
+        message = _("Stats for {}:\n"
+                    "Total play time: {} ({} sessions)\n"
+                    "Total deaths: {}\n"
+                    "Total kills: {} (rank #{}) \n"
+                    "Total dosh earned: £{} (rank #{})\n"
+                    "Dosh this game: {}").format(
+                        player.username, fmt_time, player.sessions,
+                        player.total_deaths, millify(player.total_kills),
+                        pos_kills, millify(player.total_dosh), pos_dosh,
+                        millify(player.game_dosh))
 
         return self.format_response(message, args)
