@@ -119,7 +119,7 @@ class GameTracker(threading.Thread):
             self.previous_wave = 0
 
         # And wave start
-        if game_now.wave > self.previous_wave:
+        if (game_now.wave or 0) > self.previous_wave:
             if self.server.game.wave > 0:
                 self.server.event_wave_start()
             self.previous_wave = self.server.game.wave
