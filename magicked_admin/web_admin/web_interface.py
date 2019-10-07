@@ -140,11 +140,11 @@ class WebInterface(object):
                                          login=True)
 
         if "hashAlg = \"sha1\"" in login_page_response.text:
-            hash = "$sha1$" + sha1(
+            hex_dig = "$sha1$" + sha1(
                 self.__password.encode("iso-8859-1", "ignore")
                 + self.__username.encode("iso-8859-1", "ignore")
             ).hexdigest()
-            login_payload['password_hash'] = hash
+            login_payload['password_hash'] = hex_dig
         else:
             login_payload['password'] = self.__password
             login_payload['password_hash'] = self.__password
@@ -338,11 +338,11 @@ class WebInterface(object):
                     'settings_GameDifficulty': difficulty_val,
                     'action': 'save'}
 
-        for i in range(0, len(settings_names)):
-            settings[settings_names[i]] = settings_vals[i]
+        for i, setting_name in enumerate(settings_names):
+            settings[setting_name] = settings_vals[i]
 
-        for i in range(0, len(radio_settings_names)):
-            settings[radio_settings_names[i]] = radio_settings_vals[i]
+        for i, radio_setting_name in enumerate(radio_settings_names):
+            settings[radio_setting_name] = radio_settings_vals[i]
 
         return settings
 
@@ -354,10 +354,10 @@ class WebInterface(object):
         web_link = motd_tree.xpath('//input[@name="WebLink"]/@value')[0]
 
         clan_motto = motd_tree.xpath('//textarea[@name="ClanMotto"]/text()')
-        clan_motto = clan_motto[0] if len(clan_motto) else ""
+        clan_motto = clan_motto[0] if clan_motto else ""
 
         motd = motd_tree.xpath('//textarea[@name="ServerMOTD"]/text()')
-        motd = motd[0] if len(motd) else ""
+        motd = motd[0] if motd else ""
 
         return {
             'BannerLink': banner_link,
