@@ -66,7 +66,7 @@ class ServerDatabase:
         result = self.cur.fetchall()
         lock.release()
 
-        if len(result):
+        if result:
             return result[0]["col_rank"]
         else:
             return None
@@ -104,7 +104,7 @@ class ServerDatabase:
         result = self.cur.fetchall()
         lock.release()
 
-        if len(result):
+        if result:
             return result[0]["kd_rank"]
         else:
             return None
@@ -152,10 +152,7 @@ class ServerDatabase:
         result = self.cur.fetchall()
         lock.release()
 
-        if len(result):
-            return result
-        else:
-            return []
+        return result or []
 
     def top_kills(self):
         return self.__server_top_by_col("kills")
@@ -261,7 +258,7 @@ class ServerDatabase:
         highest_wave_result = self.cur.fetchall()
         lock.release()
 
-        if not len(highest_wave_result):
+        if not highest_wave_result:
             return 0
 
         return highest_wave_result[0]['game_wave']
