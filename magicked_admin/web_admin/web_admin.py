@@ -206,7 +206,7 @@ class WebAdmin(object):
                       "//text()"
         theads_result = info_tree.xpath(theads_path)
 
-        if len(theads_result):
+        if theads_result:
             name_col = theads_result.index("Name")
             perk_col = theads_result.index("Perk")
             dosh_col = theads_result.index("Dosh")
@@ -225,7 +225,7 @@ class WebAdmin(object):
         ]
 
         # If players in game, a lone message is left in the table
-        if len(trows_result) == 1:
+        if trows_result == 1:
             return players
 
         # Group rows in the table by the non-breaking space in first cell
@@ -255,12 +255,9 @@ class WebAdmin(object):
         zeds_path = "//dd[@class=\"gs_wave\"]/text()"
         zeds_result = info_tree.xpath(zeds_path)
 
-        if len(zeds_result):
+        if zeds_result:
             zeds_dead, zeds_total = map(int, zeds_result[0].split("/"))
-            if zeds_dead == zeds_total and zeds_total > 1:
-                trader_open = True
-            else:
-                trader_open = False
+            trader_open = bool(zeds_dead == zeds_total and zeds_total > 1)
         else:
             zeds_dead, zeds_total = None, None
             trader_open = False
@@ -269,7 +266,7 @@ class WebAdmin(object):
                        "/following-sibling::dd[1]/text()"
         players_result = info_tree.xpath(players_path)
 
-        if len(players_result):
+        if players_result:
             players, players_max = map(int, players_result[0].split("/"))
         else:
             players_max = None
@@ -278,7 +275,7 @@ class WebAdmin(object):
                     "/following-sibling::dd[1]/text()"
         wave_result = info_tree.xpath(wave_path)
 
-        if len(wave_result):
+        if wave_result:
             wave, length = map(int, wave_result[0].split("/"))
         else:
             wave, length = None, LEN_UNKNOWN
@@ -288,7 +285,7 @@ class WebAdmin(object):
                           "/following-sibling::dd[1]/text()"
         difficulty_result = info_tree.xpath(difficulty_path)
 
-        if len(difficulty_result):
+        if difficulty_result:
             difficulty_name = difficulty_result[0]
             if difficulty_name == "Normal":
                 difficulty = DIFF_NORM
@@ -307,7 +304,7 @@ class WebAdmin(object):
                          "/following-sibling::dd[1]/@title"
         game_type_result = info_tree.xpath(game_type_path)
 
-        if len(game_type_result):
+        if game_type_result:
             game_type = game_type_result[0]
         else:
             game_type = GAME_TYPE_UNKNOWN
@@ -319,7 +316,7 @@ class WebAdmin(object):
                         "/following-sibling::dd[1]/text()"
         map_name_result = info_tree.xpath(map_name_path)
 
-        if len(map_title_result) and len(map_name_result):
+        if map_title_result and map_name_result:
             map_title, map_name = map_title_result[0], map_name_result[0]
         else:
             map_title, map_name = None, None
@@ -352,8 +349,8 @@ class WebAdmin(object):
         player_keys_path = "//table[@id=\"players\"]/tbody" \
                            "//input[@name=\"playerkey\"]//@value"
         player_keys_result = player_tree.xpath(player_keys_path)
-        for i in range(0, len(player_keys_result)):
-            trows_result[i][player_key_col] = player_keys_result[i]
+        for i, player_key in enumerate(player_keys_result):
+            trows_result[i][player_key_col] = player_key
 
         # Duplicate usernames cannot be identified reliably
         players_found = 0
