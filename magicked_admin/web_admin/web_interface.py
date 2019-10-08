@@ -12,6 +12,7 @@ _ = gettext.gettext
 
 class WebInterface(object):
     def __init__(self, address, username, password, server_name="unnamed"):
+        info(_("Connecting to {} ({})...").format(server_name, address))
         self.__address = address
         self.__username = username
         self.__password = password
@@ -43,6 +44,7 @@ class WebInterface(object):
         self.__sleeping = False
 
         self.__session = self.__new_session()
+        info(_("Connected to {} ({})").format(server_name, address))
 
     def __get(self, session, url, retry_interval=6, login=False):
         while True:
