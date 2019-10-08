@@ -13,12 +13,10 @@ import sys
 from colorama import init
 
 from chatbot.chatbot import Chatbot
-from server.motd_updater import MotdUpdater
 from server.server import Server
 from settings import Settings
 from utils import banner, die, find_data_file, info, warning
 from utils.net import phone_home
-from utils.text import str_to_bool
 
 _ = gettext.gettext
 
@@ -72,15 +70,6 @@ class MagickedAdmin:
                 settings.setting(server_name, "game_password")
             server.url_extras = \
                 settings.setting(server_name, "url_extras")
-
-            has_motd_scoreboard = str_to_bool(
-                settings.setting(server_name, "motd_scoreboard")
-            )
-
-            if has_motd_scoreboard:
-                scoreboard_type = settings.setting(server_name,
-                                                   "scoreboard_type")
-                MotdUpdater(server, scoreboard_type).start()
 
             self.servers.append(server)
 
