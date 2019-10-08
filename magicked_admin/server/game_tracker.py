@@ -33,7 +33,7 @@ class GameTracker(threading.Thread):
             self.__poll()
             time.sleep(self.__refresh_rate)
 
-    def stop(self):
+    def close(self):
         self.__exit = True
 
     def __poll(self):

@@ -38,6 +38,9 @@ class Chatbot(ChatListener):
             with open(init_path, 'w+') as script_file:
                 script_file.write(INIT_TEMPLATE)
 
+    def stop(self):
+        self.scheduler.stop()
+
     def receive_message(self, username, message, user_flags):
         if message[0] == '!':
             # Drop the '!' because its no longer relevant

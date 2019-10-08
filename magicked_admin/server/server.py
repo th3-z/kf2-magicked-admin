@@ -39,7 +39,7 @@ class Server:
         return self.web_admin.supported_mode(self.game.game_type)
 
     def close(self):
-        self.tracker.stop()
+        self.tracker.close()
         self.write_game_map()
         self.write_all_players()
         self.web_admin.close()

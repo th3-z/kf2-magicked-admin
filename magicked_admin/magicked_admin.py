@@ -56,6 +56,7 @@ class MagickedAdmin:
         phone_home()
         signal.signal(signal.SIGINT, self.terminate)
         self.servers = []
+        self.bots = []
         self.sigint_count = 0
 
     def run(self):
@@ -83,7 +84,9 @@ class MagickedAdmin:
 
             self.servers.append(server)
 
-            Chatbot(server, settings.setting(server_name, "username"))
+            self.bots.append(
+                Chatbot(server, settings.setting(server_name, "username"))
+            )
 
         info(_("Initialisation complete!\n"))
 

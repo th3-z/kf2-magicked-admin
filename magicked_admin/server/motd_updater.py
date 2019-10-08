@@ -14,6 +14,7 @@ class MotdUpdater(threading.Thread):
     def __init__(self, server, scoreboard_type):
         self.server = server
         self.motd_path = find_data_file("conf/" + server.name + ".motd")
+        self.__exit = False
 
         self.scoreboard_type = scoreboard_type
         self.time_interval = 5 * 60
@@ -32,11 +33,15 @@ class MotdUpdater(threading.Thread):
 
         threading.Thread.__init__(self)
 
+    def stop(self):
+        self.__exit = True
+
     def run(self):
         if not self.motd:
             return
 
-        while True:
+        # TODO: Can take up to time_interval seconds to close
+        while not self.__exit:
             self.server.write_all_players()
 
             motd = self.render_motd(self.motd)

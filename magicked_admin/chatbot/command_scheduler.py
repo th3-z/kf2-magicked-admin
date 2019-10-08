@@ -40,6 +40,9 @@ class CommandScheduler(ChatListener):
         self.poller = CommandSchedulerPollThread(self, self.poll_interval)
         self.poller.start()
 
+    def stop(self):
+        self.poller.stop()
+
     def schedule_command(self, command):
         self.scheduled_commands.append(command)
 
