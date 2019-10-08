@@ -24,7 +24,6 @@ class Server:
         self.database = ServerDatabase(name)
 
         self.game_password = None
-        self.dosh_threshold = None
 
         self.game = Game(GameMap(), GAME_TYPE_UNKNOWN)
         self.trader_time = False
@@ -160,14 +159,6 @@ class Server:
 
         self.web_admin.ban_player(player.steam_id, player.player_key)
         return player.username
-
-    def enforce_dosh(self):
-        if not self.dosh_threshold:
-            return
-
-        for player in self.players:
-            if player.dosh > self.dosh_threshold:
-                self.web_admin.kick_player(player.player_key)
 
     def restart_map(self):
         self.change_map(self.game.game_map.title)

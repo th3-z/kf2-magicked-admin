@@ -72,11 +72,6 @@ class MagickedAdmin:
             server.url_extras = \
                 settings.setting(server_name, "url_extras")
 
-            dosh_threshold = int(
-                settings.setting(server_name, "dosh_threshold"))
-            if dosh_threshold > 0:
-                server.dosh_threshold = dosh_threshold
-
             has_motd_scoreboard = str_to_bool(
                 settings.setting(server_name, "motd_scoreboard")
             )

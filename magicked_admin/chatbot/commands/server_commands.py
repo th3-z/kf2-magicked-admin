@@ -205,11 +205,11 @@ class CommandEnforceDosh(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
 
-        self.help_text = _("Usage: !enforce_dosh\n"
+        self.help_text = _("Usage: !enforce_dosh AMOUNT\n"
+                           "\tAMOUNT - Kicks players over this amount\n"
                            "Desc: Kicks players with more dosh than the "
-                           "threshold configured in "
-                           "'conf/magicked_admin.conf'")
-        # TODO amount optional argument
+                           "amount specified")
+        self.parser.add_argument("amount", nargs="?")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -218,7 +218,22 @@ class CommandEnforceDosh(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        self.server.enforce_dosh()
+        if not args.amount:
+            return self.format_response(
+                _("Please specify a maximum amount of dosh"), args
+            )
+
+        try:
+            amount = int(args.amount)
+        except ValueError:
+            return self.format_response(
+                _("'{}' is not a valid number").format(args.amount),
+                args
+            )
+
+        for player in self.server.players:
+            if player.dosh > amount:
+                self.server.web_admin.kick_player(player.player_key)
 
 
 class CommandKick(Command):

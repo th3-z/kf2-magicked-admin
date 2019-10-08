@@ -169,9 +169,8 @@ the `!op` command.
 * `!marquee <marquee_name>` - Runs a marquee in the chat from the
                               `conf/marquee` folder, _experimental_
     - Example: `!marquee example`
-* `!enforce_dosh` - Kicks all players that have more dosh than the 
-                 `dosh_threshold` configuration option
-    - Example: `!start_tc 600 enforce_dosh`
+* `!enforce_dosh <amount>` - Kicks all players that have more dosh than the specified `amount`
+    - Example: `!start_tc 600 enforce_dosh 60000`
 </details>
 
 ### MOTD leaderboard
@@ -243,10 +242,6 @@ Options can be configured in the config file `conf/magicked_admin.conf`.
 * `scoreboard_type`
     - Possible values: `kills`, or `dosh`. Change the type of scores that are
     displayed in the MOTD scoreboard.
-* `dosh_threshold`
-    - Integer value, configures the `!enforce_dosh` command. The dosh threshold
-    is the amount of dosh a player can carry before they are kicked by the next
-    call to `!enforce_dosh`.
     
 Running with Docker
 ---------------------------
