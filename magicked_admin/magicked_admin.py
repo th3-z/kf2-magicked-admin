@@ -57,7 +57,6 @@ if hasattr(sys, "frozen"):
 
 
 class MagickedAdmin:
-
     def __init__(self):
         phone_home()
         signal.signal(signal.SIGINT, self.terminate)

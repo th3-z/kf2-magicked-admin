@@ -8,7 +8,6 @@ _ = gettext.gettext
 
 
 class MotdUpdater:
-
     def __init__(self, server):
         self.server = server
         self.motd_path = find_data_file("conf/" + server.name + ".motd")
