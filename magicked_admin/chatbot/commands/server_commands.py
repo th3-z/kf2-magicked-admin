@@ -22,7 +22,7 @@ class CommandBan(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if args.username:
@@ -55,7 +55,7 @@ class CommandSay(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         message = ' '.join(args.message)
@@ -80,7 +80,7 @@ class CommandOp(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if args.username:
@@ -116,7 +116,7 @@ class CommandDeop(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if args.username:
@@ -154,7 +154,7 @@ class CommandGameMaps(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         message = ", ".join(self.server.get_maps(not args.all))
@@ -174,7 +174,7 @@ class CommandGameMap(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if args.map_name:
@@ -216,7 +216,7 @@ class CommandEnforceDosh(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         self.server.enforce_dosh()
@@ -235,7 +235,7 @@ class CommandKick(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if args.username:
@@ -271,7 +271,7 @@ class CommandRun(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if not args.file:
@@ -296,7 +296,7 @@ class CommandRestart(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         self.server.restart_map()
@@ -316,7 +316,7 @@ class CommandLoadMap(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if not args.map_name:
@@ -343,7 +343,7 @@ class CommandPassword(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if not (args.state or args.set):
@@ -386,7 +386,7 @@ class CommandSilent(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if self.chatbot.silent:
@@ -416,7 +416,7 @@ class CommandLength(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if not args.length:
@@ -457,7 +457,7 @@ class CommandDifficulty(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if not args.difficulty:
@@ -500,7 +500,7 @@ class CommandGameMode(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if not args.game_mode:

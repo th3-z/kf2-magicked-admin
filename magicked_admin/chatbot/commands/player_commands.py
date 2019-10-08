@@ -18,7 +18,7 @@ class CommandServerDosh(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         self.server.write_all_players()
@@ -40,7 +40,7 @@ class CommandServerKills(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         self.server.write_all_players()
@@ -66,7 +66,7 @@ class CommandKills(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if args.username:
@@ -104,7 +104,7 @@ class CommandDosh(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if args.username:
@@ -138,7 +138,7 @@ class CommandTopKills(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         self.server.write_all_players()
@@ -167,7 +167,7 @@ class CommandTopDosh(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         self.server.write_all_players()
@@ -196,7 +196,7 @@ class CommandTopTime(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         self.server.write_all_players()
@@ -225,7 +225,7 @@ class CommandScoreboard(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         message = _("Scoreboard (name, kills, dosh):\n")
@@ -258,7 +258,7 @@ class CommandTopWaveKills(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if not len(self.server.players):
@@ -289,7 +289,7 @@ class CommandTopWaveDosh(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if not len(self.server.players):
