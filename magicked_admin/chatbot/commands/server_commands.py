@@ -268,6 +268,39 @@ class CommandKick(Command):
         )
 
 
+class CommandUpdateMotd(Command):
+    def __init__(self, server, motd_updater):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+
+        self.motd_updater = motd_updater
+
+        self.parser.add_argument("score_type", nargs="?")
+        self.help_text = _("Usage: !update_motd TYPE\n"
+                           "\tTYPE - Score type, one of: kills, dosh, time\n"
+                           "Desc: Updates the MOTD scoreboard.")
+
+    def execute(self, username, args, user_flags):
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        if args.help:
+            return self.format_response(self.help_text, args)
+
+        if not args.score_type:
+            return self.format_response(_("Missing argument: type"), args)
+
+        if args.score_type.lower() not in ['kill', 'kills', 'dosh', 'time']:
+            return self.format_response(
+                _("Unrecognised score type: {}").format(args.score_type), args
+            )
+
+        self.motd_updater.update()
+
+        return self.format_response(
+            _("Updated the MOTD"), args
+        )
+
+
 class CommandRun(Command):
     def __init__(self, server, chatbot):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
