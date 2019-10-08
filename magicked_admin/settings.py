@@ -18,14 +18,11 @@ SETTINGS_DEFAULT = {
     # password = 123
     'game_password': '123',
     'motd_scoreboard': 'False',
-    'scoreboard_type': 'Kills',
-    'max_players': "6",
-    'dosh_threshold': "0",
+    'scoreboard_type': 'Kills'
 }
 
 SETTINGS_REQUIRED = ['address', 'password', 'motd_scoreboard',
-                     'scoreboard_type', 'dosh_threshold',
-                     'max_players']
+                     'scoreboard_type']
 
 CONFIG_DIE_MESG = _("Please correct this manually  or delete '{}' to create "
                     "a clean config next run.").format(CONFIG_PATH)

@@ -204,8 +204,8 @@ Commands that can be ran by server administrators, and users authorized with the
 [*] '[b]!marquee <marquee_name>[/b]' - Runs a marquee in the chat from the '[b]conf/marquee[/b]' folder, [i]experimental[/i]
     - Example: '[b]!marquee example[/b]'
 
-[*] '[b]!enforce_dosh[/b]' - Kicks all players that have more dosh than the 'dosh_threshold' configuration option
-    - Example: '[b]!start_tc 600 enforce_dosh[/b]'
+[*] '[b]!enforce_dosh <amount>[/b]' - Kicks all players that have more dosh than the specified amount.
+    - Example: '[b]!start_tc 600 enforce_dosh 60000[/b]'
 [/list]
 
 ## Welcome screen leaderboards
@@ -308,8 +308,6 @@ The following options can be configured in the config file '[b]conf/magicked_adm
 [*] '[b]scoreboard_type[/b]' - Possible values: '[b]kills[/b]', or '[b]dosh[/b]'. Change the type of scores that are displayed in the motd leaderboard.
     - Example: '[b]scoreboard_type=dosh[/b]'
 
-[*] '[b]dosh_threshold[/b]' - Integer value, configures the '[b]!enforce_dosh[/b]' command. The dosh threshold is the amount of dosh a player can carry before they are kicked by the next call to '[b]!enforce_dosh[/b]'. This can be useful on endless servers where it is possible to crash the server by dropping a huge amount of dosh.
-    - Example: '[b]dosh_threshold=40000[/b]'
 [/list]
 
 ## Renaming the chatbot (multi-admin)
@@ -375,9 +373,6 @@ Below is an example.
 game_password = 123
 motd_scoreboard = False
 scoreboard_type = Kills
-max_players = 6
-enable_greeter = True
-dosh_threshold = 40000
 address = http://127.0.0.1:8080
 username = Admin
 password = root
@@ -386,9 +381,6 @@ password = root
 game_password = Hunter69
 motd_scoreboard = True
 scoreboard_type = Dosh
-max_players = 6
-enable_greeter = True
-dosh_threshold = 40000
 address = http://127.0.0.1:8081
 username = Admin
 password = 123

@@ -39,7 +39,7 @@ def resolve_address(address):
 
     if not __is_valid_address(address):
         return None
- 
+
     return __follow_redirect(address)
 
 
