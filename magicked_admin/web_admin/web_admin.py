@@ -364,16 +364,7 @@ class WebAdmin(object):
                 player_key = player_row[player_key_col]
                 country, country_code = get_country(ip)
 
-        if players_found == 1:
-            return {
-                'ip': ip,
-                'country': country,
-                'country_code': country_code,
-                'steam_id': sid,
-                'network_id': nid,
-                'player_key': player_key
-            }
-        else:
+        if players_found != 1:
             warning(_("Couldn't find identify player: {}").format(username))
             return {
                 'ip': None,
@@ -383,3 +374,12 @@ class WebAdmin(object):
                 'network_id': None,
                 'player_key': None
             }
+
+        return {
+            'ip': ip,
+            'country': country,
+            'country_code': country_code,
+            'steam_id': sid,
+            'network_id': nid,
+            'player_key': player_key
+        }

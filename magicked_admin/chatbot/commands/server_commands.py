@@ -33,13 +33,12 @@ class CommandBan(Command):
             )
 
         banned = self.server.ban_player(username)
-
-        if banned:
-            return self.format_response(
-                _("Player, {}, was banned").format(banned), args
-            )
-        else:
+        if not banned:
             return self.format_response(_("Player not found"), args)
+
+        return self.format_response(
+            _("Player, {}, was banned").format(banned), args
+        )
 
 
 class CommandSay(Command):
@@ -246,13 +245,12 @@ class CommandKick(Command):
             )
 
         kicked = self.server.kick_player(username)
-
-        if kicked:
-            return self.format_response(
-                _("Player, {}, was kicked").format(kicked), args
-            )
-        else:
+        if not kicked:
             return self.format_response(_("Player not found"), args)
+
+        return self.format_response(
+            _("Player, {}, was kicked").format(kicked), args
+        )
 
 
 class CommandRun(Command):
