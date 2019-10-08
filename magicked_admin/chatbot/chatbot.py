@@ -30,7 +30,7 @@ class Chatbot(ChatListener):
         self.silent = False
         self.greeter_enabled = True
 
-        init_path = find_data_file("conf/" + server.name + ".init")
+        init_path = find_data_file("conf/scripts/" + server.name + ".init")
 
         if path.exists(init_path):
             self.execute_script(init_path)
