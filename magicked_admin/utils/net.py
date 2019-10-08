@@ -39,8 +39,8 @@ def resolve_address(address):
 
     if not __is_valid_address(address):
         return None
-    else:
-        return __follow_redirect(address)
+ 
+    return __follow_redirect(address)
 
 
 # Ping home url
@@ -60,9 +60,9 @@ def get_country(ip):
 
     geo_data = requests.get(url).json()
 
-    if 'country' in geo_data:
-        country = geo_data['country']
-        country_code = geo_data['countryCode']
-        return country, country_code
-    else:
+    if 'country' not in geo_data:
         return unknown
+
+    country = geo_data['country']
+    country_code = geo_data['countryCode']
+    return country, country_code
