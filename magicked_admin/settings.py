@@ -17,12 +17,9 @@ SETTINGS_DEFAULT = {
     # username = Admin
     # password = 123
     'game_password': '123',
-    'motd_scoreboard': 'False',
-    'scoreboard_type': 'Kills'
 }
 
-SETTINGS_REQUIRED = ['address', 'password', 'motd_scoreboard',
-                     'scoreboard_type']
+SETTINGS_REQUIRED = ['address', 'username', 'password']
 
 CONFIG_DIE_MESG = _("Please correct this manually  or delete '{}' to create "
                     "a clean config next run.").format(CONFIG_PATH)
