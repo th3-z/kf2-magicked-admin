@@ -16,9 +16,10 @@ COMMAND_TRADER_CLOSE = "t_close"
 
 
 class CommandMap:
-    def __init__(self, server, chatbot):
+    def __init__(self, server, chatbot, motd_updater):
         self.server = server
         self.chatbot = chatbot
+        self.motd_updater = motd_updater
         self.command_map = self.generate_map()
 
     def generate_map(self):
@@ -50,6 +51,8 @@ class CommandMap:
             _('op'): CommandOp(self.server),
             _('deop'): CommandDeop(self.server),
             _('marquee'): CommandMarquee(self.server, self.chatbot),
+            _('update_motd'): CommandMarquee(self.server, self.motd_updater),
+            _('reload_motd'): CommandMarquee(self.server, self.motd_updater),
 
             # Player commands
             _('commands'): CommandCommands(self.server),

@@ -2,6 +2,7 @@ import gettext
 from os import path
 
 from chatbot import INIT_TEMPLATE
+from chatbot.motd_updater import MotdUpdater
 from chatbot.command_map import CommandMap
 from chatbot.command_scheduler import CommandScheduler
 from utils import debug, find_data_file, warning
@@ -26,9 +27,8 @@ class Chatbot(ChatListener):
         self.scheduler = CommandScheduler(server, self)
         self.chat.add_listener(self.scheduler)
 
-        self.commands = CommandMap(server, self)
+        self.commands = CommandMap(server, self, MotdUpdater(server))
         self.silent = False
-        self.greeter_enabled = True
 
         init_path = find_data_file("conf/scripts/" + server.name + ".init")
 
