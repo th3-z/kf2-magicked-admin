@@ -76,7 +76,7 @@ class Server:
 
         if matched_players != 1:
             return None
-        
+
         return matched_player
 
     def set_game_password(self, password):
@@ -128,7 +128,7 @@ class Server:
                 matched_title = map_title
 
         if matches != 1:
-            return None 
+            return None
 
         return matched_title
 
@@ -137,7 +137,7 @@ class Server:
 
         if not matched_title:
             return None
-        
+
         self.web_admin.set_map(matched_title)
 
     def kick_player(self, username):
