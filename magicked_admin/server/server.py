@@ -54,10 +54,10 @@ class Server:
                 matched_players += 1
                 matched_player = player
 
-        if matched_players == 1:
-            return matched_player
-        else:
+        if matched_players != 1:
             return None
+
+        return matched_player
 
     def get_player_by_key(self, player_key):
         for player in self.players:
@@ -74,10 +74,10 @@ class Server:
                 matched_players += 1
                 matched_player = player
 
-        if matched_players == 1:
-            return matched_player
-        else:
+        if matched_players != 1:
             return None
+        
+        return matched_player
 
     def set_game_password(self, password):
         self.game_password = password
@@ -127,18 +127,18 @@ class Server:
                 matches += 1
                 matched_title = map_title
 
-        if matched_title and matches == 1:
-            return matched_title
-        else:
-            return None
+        if matches != 1:
+            return None 
+
+        return matched_title
 
     def change_map(self, new_map):
         matched_title = self.find_map(new_map)
 
-        if matched_title:
-            self.web_admin.set_map(matched_title)
-        else:
+        if not matched_title:
             return None
+        
+        self.web_admin.set_map(matched_title)
 
     def kick_player(self, username):
         player = self.get_player_by_username(username)
