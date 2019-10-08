@@ -12,7 +12,7 @@ import sys
 
 from colorama import init
 
-from chatbot.chatbot import Chatbot
+from chatbot.chatbot import Chatbot, CommandScheduler, CommandMap, MotdUpdater
 from server.server import Server
 from settings import Settings
 from utils import banner, die, find_data_file, info, warning
@@ -57,21 +57,43 @@ class MagickedAdmin:
         self.bots = []
         self.sigint_count = 0
 
+    def makeServer(self, name, settings):
+        address = settings.setting(name, "address")
+        username = settings.setting(name, "username")
+        password = settings.setting(name, "password")
+        game_password = settings.setting(name, "game_password")
+        url_extras = settings.setting(name, "url_extras")
+
+        server = Server(name, address, username, password)
+        if game_password:
+            server.game_password = game_password
+        if url_extras:
+            server.url_extras = url_extras
+
+        return server
+
+    def makeBot(self, name, server):
+        chatbot = Chatbot(server, commands)
+        commands = CommandMap(server, chatbot, MotdUpdater(server)).generate_map()
+
+
+        scheduler = CommandScheduler(server, chatbot)
+
+        self.bots.append(
+            chatbot
+        )
+
+        server.web_admin.chat.add_listener(chatbot)
+        server.web_admin.chat.add_listener(scheduler)
+
+
     def run(self):
         for server_name in settings.sections():
+            self.servers.append(
+                self.makeServer(server_name, settings)
+            )
 
-            server = Server(server_name,
-                            settings.setting(server_name, "address"),
-                            settings.setting(server_name, "username"),
-                            settings.setting(server_name, "password")
-                            )
-
-            server.game_password = \
-                settings.setting(server_name, "game_password")
-            server.url_extras = \
-                settings.setting(server_name, "url_extras")
-
-            self.servers.append(server)
+            scheduler = CommandScheduler(server, self)
 
             self.bots.append(
                 Chatbot(server, settings.setting(server_name, "username"))
