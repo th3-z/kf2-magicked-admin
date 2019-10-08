@@ -6,19 +6,15 @@ from lxml import html
 from utils import warning
 from utils.net import get_country
 from utils.text import str_to_bool
-from web_admin.chat import Chat
 from web_admin.constants import *
-from web_admin.web_interface import WebInterface
 
 _ = gettext.gettext
 
 
 class WebAdmin(object):
-    def __init__(self, address, username, password, server_name="unnamed"):
-        self.__web_interface = \
-            WebInterface(address, username, password, server_name)
-        self.chat = Chat(self.__web_interface)
-        self.chat.start()
+    def __init__(self, web_interface, chat):
+        self.__web_interface = web_interface
+        self.chat = chat
 
         self.__general_settings = \
             self.__web_interface.get_payload_general_settings()
@@ -32,9 +28,6 @@ class WebAdmin(object):
     def supported_mode(self, mode):
         # The other modes have various bits of data omitted!
         return self.__web_interface.ma_installed or mode == GAME_TYPE_SURVIVAL
-
-    def close(self):
-        self.chat.stop()
 
     def __save_general_settings(self):
         self.__web_interface.post_general_settings(

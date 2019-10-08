@@ -2,47 +2,34 @@ import gettext
 
 from termcolor import colored
 
-import web_admin as api
-from database.database import ServerDatabase
-from server.game import Game, GameMap
-from server.game_tracker import GameTracker
 from server.player import Player
-from utils import debug, info, warning
+from utils import debug, warning
 from web_admin.constants import *
 
 _ = gettext.gettext
 
 
 class Server:
-    def __init__(self, name, address, username, password):
+    def __init__(self, web_admin, database, game, name):
         self.name = name
-
-        info(_("Connecting to {} ({})...").format(name, address))
-        self.web_admin = api.WebAdmin(address, username, password, name)
-        info(_("Connected to {} ({})").format(name, address))
-
-        self.database = ServerDatabase(name)
+        self.database = database
+        self.web_admin = web_admin
 
         self.game_password = None
 
-        self.game = Game(GameMap(), GAME_TYPE_UNKNOWN)
+        self.game = game
         self.trader_time = False
         self.players = []
 
         # Initial game's record data is discarded because some may be missed
         self.record_games = True
 
-        self.tracker = GameTracker(self)
-        self.tracker.start()
-
     def supported_mode(self):
         return self.web_admin.supported_mode(self.game.game_type)
 
-    def close(self):
-        self.tracker.close()
+    def stop(self):
         self.write_game_map()
         self.write_all_players()
-        self.web_admin.close()
 
     def get_player_by_username(self, username):
         matched_players = 0

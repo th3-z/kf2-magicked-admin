@@ -12,11 +12,19 @@ import sys
 
 from colorama import init
 
-from chatbot.chatbot import Chatbot, CommandScheduler, CommandMap, MotdUpdater
+from chatbot.chatbot import Chatbot, CommandScheduler, MotdUpdater
+from chatbot.commands import get_commands
 from server.server import Server
 from settings import Settings
 from utils import banner, die, find_data_file, info, warning
 from utils.net import phone_home
+from server.game_tracker import GameTracker
+from database.database import ServerDatabase
+from server.game import Game, GameMap
+from web_admin import WebAdmin
+from web_admin.web_interface import WebInterface
+from web_admin.chat import Chat
+from web_admin.constants import *
 
 _ = gettext.gettext
 
@@ -53,58 +61,70 @@ class MagickedAdmin:
     def __init__(self):
         phone_home()
         signal.signal(signal.SIGINT, self.terminate)
-        self.servers = []
-        self.bots = []
+        self.stop_list = []
         self.sigint_count = 0
 
-    def makeServer(self, name, settings):
+    def make_server(self, name):
         address = settings.setting(name, "address")
         username = settings.setting(name, "username")
         password = settings.setting(name, "password")
         game_password = settings.setting(name, "game_password")
         url_extras = settings.setting(name, "url_extras")
 
-        server = Server(name, address, username, password)
+        web_interface = WebInterface(address, username, password, name)
+        chat = Chat(WebInterface)
+        chat.start()
+
+        web_admin = WebAdmin(web_interface, chat)
+        database = ServerDatabase(name)
+        game = Game(GameMap(), GAME_TYPE_UNKNOWN)
+
+        server = Server(web_admin, database, game, name)
+
         if game_password:
             server.game_password = game_password
         if url_extras:
             server.url_extras = url_extras
 
+        tracker = GameTracker(server)
+        tracker.start()
+
+        self.stop_list.append(server)
+        self.stop_list.append(chat)
+        self.stop_list.append(tracker)
+
         return server
 
-    def makeBot(self, name, server):
-        chatbot = Chatbot(server, commands)
-        commands = CommandMap(server, chatbot, MotdUpdater(server)).generate_map()
-
-
+    def make_chatbot(self, name, server):
+        chatbot = Chatbot(server, name)
         scheduler = CommandScheduler(server, chatbot)
+        self.stop_list.append(scheduler)
 
-        self.bots.append(
-            chatbot
+        commands = get_commands(
+            server, chatbot, scheduler, MotdUpdater(server)
         )
+        for name, command in commands.items():
+            chatbot.add_command(name, command)
 
         server.web_admin.chat.add_listener(chatbot)
         server.web_admin.chat.add_listener(scheduler)
 
+        return chatbot
 
     def run(self):
+        servers = []
+
         for server_name in settings.sections():
-            self.servers.append(
-                self.makeServer(server_name, settings)
-            )
-
-            scheduler = CommandScheduler(server, self)
-
-            self.bots.append(
-                Chatbot(server, settings.setting(server_name, "username"))
-            )
+            server = self.makeServer(server_name, settings)
+            self.makeBot(settings.setting(server_name, "username"), server)
+            servers.append(server)
 
         info(_("Initialisation complete!\n"))
 
         if not args.skip_setup:
             while True:
                 command = input()
-                for server in self.servers:
+                for server in servers:
                     server.web_admin.chat.submit_message(command)
 
     def terminate(self, signal, frame):
@@ -121,9 +141,8 @@ class MagickedAdmin:
         print()  # \n
         info(_("Program interrupted, saving data..."))
 
-        for server in self.servers:
-            server.close()
-
+        for item in self.stop_list:
+            item.close()
         die()
 
 

@@ -3,7 +3,6 @@ from os import path
 
 from chatbot import INIT_TEMPLATE
 from chatbot.motd_updater import MotdUpdater
-from chatbot.command_map import CommandMap
 from chatbot.command_scheduler import CommandScheduler
 from utils import debug, find_data_file, warning
 from web_admin.chat import ChatListener
@@ -14,7 +13,7 @@ _ = gettext.gettext
 
 class Chatbot(ChatListener):
 
-    def __init__(self, server, name=None):
+    def __init__(self, server, commands, name=None):
         self.server_name = server.name
         if name:
             self.name = name
@@ -22,12 +21,7 @@ class Chatbot(ChatListener):
             self.name = _("Unnamed")
 
         self.chat = server.web_admin.chat
-        self.chat.add_listener(self)
-
-        self.scheduler = CommandScheduler(server, self)
-        self.chat.add_listener(self.scheduler)
-
-        self.commands = CommandMap(server, self, MotdUpdater(server))
+        self.commands = {}
         self.silent = False
 
         init_path = find_data_file("conf/scripts/" + server.name + ".init")
@@ -38,8 +32,8 @@ class Chatbot(ChatListener):
             with open(init_path, 'w+') as script_file:
                 script_file.write(INIT_TEMPLATE)
 
-    def stop(self):
-        self.scheduler.stop()
+    def add_command(self, name, command):
+        self.commands[name] = command
 
     def receive_message(self, username, message, user_flags):
         if message[0] == '!':
@@ -51,8 +45,8 @@ class Chatbot(ChatListener):
         if args is None or len(args) == 0:
             return
 
-        if args[0].lower() in self.commands.command_map:
-            command = self.commands.command_map[args[0].lower()]
+        if args[0].lower() in self.commands:
+            command = self.commands[args[0].lower()]
 
             response = command.execute(username, args, user_flags)
             if not self.silent and response:
