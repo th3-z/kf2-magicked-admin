@@ -274,10 +274,10 @@ class CommandUpdateMotd(Command):
 
         self.motd_updater = motd_updater
 
-        self.parser.add_argument("score_type", nargs="?")
+        self.parser.add_argument("score_type", nargs="?", type=str)
         self.help_text = _("Usage: !update_motd TYPE\n"
                            "\tTYPE - Score type, one of: kills, dosh, time\n"
-                           "Desc: Updates the MOTD scoreboard.")
+                           "Desc: Updates the MOTD scoreboard")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -298,6 +298,29 @@ class CommandUpdateMotd(Command):
 
         return self.format_response(
             _("Updated the MOTD"), args
+        )
+
+
+class CommandReloadMotd(Command):
+    def __init__(self, server, motd_updater):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+
+        self.motd_updater = motd_updater
+
+        self.help_text = _("Usage: !reload_motd\n"
+                           "Desc: Reload the server's *.motd file")
+
+    def execute(self, username, args, user_flags):
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        if args.help:
+            return self.format_response(self.help_text, args)
+
+        self.motd_updater.reload()
+
+        return self.format_response(
+            _("Reloaded the MOTD"), args
         )
 
 
