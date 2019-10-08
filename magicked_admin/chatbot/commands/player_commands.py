@@ -124,7 +124,7 @@ class CommandDosh(Command):
                 str(player.game_dosh)
             ),
             args
-        ) 
+        )
 
 
 class CommandTopKills(Command):
