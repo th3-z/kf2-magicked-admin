@@ -24,7 +24,7 @@ class CommandStartJoinCommand(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if not args.command:
@@ -53,7 +53,7 @@ class CommandStopJoinCommands(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         return self.format_response(
@@ -79,7 +79,7 @@ class CommandStartWaveCommand(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if args.wave:
@@ -117,7 +117,7 @@ class CommandStopWaveCommands(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         return self.format_response(
@@ -144,7 +144,7 @@ class CommandStartTimeCommand(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if not args.time:
@@ -187,7 +187,7 @@ class CommandStopTimeCommands(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         return self.format_response(
@@ -214,7 +214,7 @@ class CommandStartTraderCommand(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         if not args.command:
@@ -250,7 +250,7 @@ class CommandStopTraderCommands(Command):
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
-        elif args.help:
+        if args.help:
             return self.format_response(self.help_text, args)
 
         return self.format_response(
