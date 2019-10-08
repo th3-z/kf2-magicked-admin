@@ -12,13 +12,9 @@ _ = gettext.gettext
 
 
 class Chatbot(ChatListener):
-
-    def __init__(self, server, commands, name=None):
+    def __init__(self, server, name):
         self.server_name = server.name
-        if name:
-            self.name = name
-        else:
-            self.name = _("Unnamed")
+        self.name = name or "Unnamed"
 
         self.chat = server.web_admin.chat
         self.commands = {}

@@ -13,7 +13,6 @@ init()
 
 
 class GameTracker(threading.Thread):
-
     def __init__(self, server):
         threading.Thread.__init__(self)
 

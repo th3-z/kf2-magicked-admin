@@ -29,7 +29,6 @@ class CommandSchedulerPollThread(threading.Thread):
 
 
 class CommandScheduler(ChatListener):
-
     def __init__(self, server, chatbot):
         self.server = server
         self.chatbot = chatbot
