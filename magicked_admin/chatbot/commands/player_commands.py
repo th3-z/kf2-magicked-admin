@@ -73,21 +73,21 @@ class CommandKills(Command):
             username = " ".join(args.username)
 
         player = self.server.get_player_by_username(username)
-        if player:
-            pos_kills = self.server.database.rank_kills(player.steam_id)
-            return self.format_response(
-                _("You've killed a total of {} ZEDs (#{}), and {} this game")
-                .format(
-                    str(player.total_kills),
-                    str(pos_kills),
-                    str(player.kills)
-                ),
-                args
-            )
-        else:
+        if not player:
             return self.format_response(
                 _("Player {} not in game").format(username), args
             )
+
+        pos_kills = self.server.database.rank_kills(player.steam_id)
+        return self.format_response(
+            _("You've killed a total of {} ZEDs (#{}), and {} this game")
+            .format(
+                str(player.total_kills),
+                str(pos_kills),
+                str(player.kills)
+            ),
+            args
+        )
 
 
 class CommandDosh(Command):
@@ -111,20 +111,20 @@ class CommandDosh(Command):
             username = " ".join(args.username)
 
         player = self.server.get_player_by_username(username)
-        if player:
-            pos_dosh = self.server.database.rank_dosh(player.steam_id)
-            return self.format_response(
-                _("You've earned a total of £{} dosh (#{}), and £{} this"
-                  " game")
-                .format(
-                    str(player.total_dosh),
-                    str(pos_dosh),
-                    str(player.game_dosh)
-                ),
-                args
-            )
-        else:
+        if not player:
             return self.format_response(_("Player not in game"), args)
+
+        pos_dosh = self.server.database.rank_dosh(player.steam_id)
+        return self.format_response(
+            _("You've earned a total of £{} dosh (#{}), and £{} this"
+              " game")
+            .format(
+                str(player.total_dosh),
+                str(pos_dosh),
+                str(player.game_dosh)
+            ),
+            args
+        ) 
 
 
 class CommandTopKills(Command):
@@ -261,7 +261,7 @@ class CommandTopWaveKills(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        if not len(self.server.players):
+        if not self.server.players:
             return self.format_response(_("No players in game"), args)
 
         self.server.players.sort(
@@ -292,7 +292,7 @@ class CommandTopWaveDosh(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        if not len(self.server.players):
+        if not self.server.players:
             return None
 
         self.server.players.sort(
