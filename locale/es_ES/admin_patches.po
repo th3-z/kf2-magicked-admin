@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-05 19:33+0100\n"
-"PO-Revision-Date: 2019-10-09 20:08\n"
+"PO-Revision-Date: 2019-10-09 20:18\n"
 "Last-Translator: the_z (th3-z)\n"
 "Language: es_ES\n"
 "Language-Team: Spanish\n"
@@ -23,7 +23,7 @@ msgstr "Killing Floor 2 Parches de administrador"
 
 #: admin_patches/admin_patches.py:16
 msgid "Specify server location"
-msgstr "Especificar ubicación del servidor"
+msgstr "Parchimiento fallido"
 
 #: admin_patches/admin_patches.py:29
 msgid "KFGame/Web/ServerAdmin/current_rules.inc"
@@ -67,22 +67,23 @@ msgstr "Parchando archivos..."
 
 #: admin_patches/admin_patches.py:69
 msgid "Patching failed"
-msgstr ""
+msgstr "Falló el parchamiento"
 
 #: admin_patches/admin_patches.py:72
 msgid "Patches installed successfully!\n"
-msgstr ""
+msgstr "Parches instalados exitosamente!\n"
 
 #: admin_patches/utils/__init__.py:18
 msgid "\n"
 "Press enter to exit..."
-msgstr ""
+msgstr "\n"
+"Presione Entrar para salir..."
 
 #: admin_patches/utils/patcher.py:40
 msgid "Applying {}"
-msgstr ""
+msgstr "Aplicando {}"
 
 #: admin_patches/utils/patcher.py:45
 msgid "Patch failed to apply successfully"
-msgstr ""
+msgstr "Parche fallado para aplicar exitosamente"
 
