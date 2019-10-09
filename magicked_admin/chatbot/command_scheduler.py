@@ -4,6 +4,7 @@ import time
 
 from chatbot.commands.command import Command
 from utils import warning
+from utils.time import seconds_to_hhmmss
 from web_admin.chat import ChatListener
 from web_admin.constants import *
 
@@ -195,9 +196,24 @@ class CommandOnJoin(ScheduledCommand):
 
         if "%PLR" in self.command:
             player = self.server.get_player_by_username(username)
+            pos_kills = self.server.database.rank_kills(player.steam_id)
+            pos_dosh = self.server.database.rank_dosh(player.steam_id)
+            pos_time = self.server.database.rank_time(player.steam_id)
+
             command = command.replace("%PLR", player.username)
+            command = command.replace(
+                "%BCK", "back" if player.sessions > 1 else ""
+            )
+
             command = command.replace("%DSH", str(player.total_dosh))
+            command = command.replace("%DRK", str(pos_dosh))
+
             command = command.replace("%KLL", str(player.total_kills))
+            command = command.replace("%KRK", str(pos_kills))
+
+            command = command.replace("%TME", seconds_to_hhmmss(player.total_time))
+            command = command.replace("%TRK", str(pos_time))
+            command = command.replace("%SES", str(player.sessions))
 
         return command
 
