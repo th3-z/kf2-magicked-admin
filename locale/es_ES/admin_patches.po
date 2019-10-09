@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-05 19:33+0100\n"
-"PO-Revision-Date: 2019-10-07 13:42\n"
+"PO-Revision-Date: 2019-10-09 20:08\n"
 "Last-Translator: the_z (th3-z)\n"
 "Language: es_ES\n"
 "Language-Team: Spanish\n"
@@ -19,47 +19,51 @@ msgstr ""
 
 #: admin_patches/admin_patches.py:13
 msgid "Killing Floor 2 Admin Patches"
-msgstr ""
+msgstr "Killing Floor 2 Parches de administrador"
 
 #: admin_patches/admin_patches.py:16
 msgid "Specify server location"
-msgstr ""
+msgstr "Especificar ubicación del servidor"
 
 #: admin_patches/admin_patches.py:29
 msgid "KFGame/Web/ServerAdmin/current_rules.inc"
-msgstr ""
+msgstr "KFGame/Web/ServerAdmin/current_rules.inc"
 
 #: admin_patches/admin_patches.py:39
 msgid "Select Killing Floor 2 server location"
-msgstr ""
+msgstr "Seleccione la ubicación del servidor de Killing Floor 2"
 
 #: admin_patches/admin_patches.py:47
 msgid "Please open your server's install folder in the file dialogue"
-msgstr ""
+msgstr "Por favor, abre la carpeta de instalación de tu servidor en el cuadro de archivos"
 
 #: admin_patches/admin_patches.py:52
 msgid "User cancelled installation"
-msgstr ""
+msgstr "Instalación cancelada por el usuario"
 
 #: admin_patches/admin_patches.py:54
 msgid "Killing Floor 2 server not found in path:\n"
 "\t{}"
-msgstr ""
+msgstr "El servidor Floor 2 no se encuentra en la ruta:\n"
+"\t{}"
 
 #: admin_patches/admin_patches.py:57
 msgid "Validating files..."
-msgstr ""
+msgstr "Validando archivos..."
 
 #: admin_patches/admin_patches.py:60
 msgid "Server file validation failed, possible reasons:\n"
 "\t - Game update\n"
 "\t - User mods\n"
 "\t - Patches already applied"
-msgstr ""
+msgstr "Falló la validación de los archivos del servidor, posibles razones:\n"
+"\t - Actualización de juego\n"
+"\t - Mods de usuario\n"
+"\t - Parches ya aplicados"
 
 #: admin_patches/admin_patches.py:65
 msgid "Patching files..."
-msgstr ""
+msgstr "Parchando archivos..."
 
 #: admin_patches/admin_patches.py:69
 msgid "Patching failed"
