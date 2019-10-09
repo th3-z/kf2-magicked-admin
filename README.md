@@ -169,25 +169,28 @@ the `!op` command.
 * `!marquee <marquee_name>` - Runs a marquee in the chat from the
                               `conf/marquee` folder, _experimental_
     - Example: `!marquee example`
+* `!update_motd <type>` - Refreshes the welcome screen leaderboard, type is 
+                          one of: kills, dosh, or time
+    - Example: `!start_tc 300 update_motd kills`
+* `!reload_motd` - Reloads the server's `*.motd` file from `conf`
 * `!enforce_dosh <amount>` - Kicks all players that have more dosh than the specified `amount`
     - Example: `!start_tc 600 enforce_dosh 60000`
 </details>
 
 ### MOTD leaderboard
 
-Writing a `conf/server_name.motd` file containing pairs of `%PLR` and `%SCR`
-and enabling the `motd_scoreboard` option will put a live leaderboard in the
-motd and update it every 5 minutes.
+Create a `conf/server_name.motd` file containing pairs of `%PLR` and `%SCR`.
+`%PLR` will be replaced with player names and `%SCR` will be replaced with
+their current score. You can now use `!update_motd <type>` to draw the
+leaderboard into your welcome screen, `<type>` should be kills, dosh, or time
+depending on the desired score metric.
 
 `%SRV_D` and `%SRV_K` will be replaced by the total dosh and kills on the 
 server respectively.
 
-The `scoreboard_type` configuration option allows you to change the score 
-metric on the leaderboard. The options for this are: `dosh` or `kills`.
-
 ### Scripts
 
-Writing a `server_name.init` in the `conf` folder with a series of commands
+Writing a `server_name.init` in the `conf/scripts` folder with a series of commands
 will run the commands in sequence when the bot starts on `server_name`.
 
 Additional scripts can be written in the `conf/scripts` folder and ran with the
