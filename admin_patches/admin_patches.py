@@ -49,7 +49,7 @@ def run(target=None):
         server_path = ask_dir()
 
     if not server_path:
-        die(_("User cancelled installation"))
+        die(_("User cancelled installation"), pause=True)
     if not test_dir(server_path):
         die(_("Killing Floor 2 server not found in path:\n\t{}")
             .format(server_path), pause=True)
@@ -60,13 +60,13 @@ def run(target=None):
         die(_("Server file validation failed, possible reasons:"
               "\n\t - Game update"
               "\n\t - User mods"
-              "\n\t - Patches already applied"))
+              "\n\t - Patches already applied"), pause=True)
 
     info(_("Patching files..."))
     patches_path = find_data_file(PATCHES_PATH)
 
     if not patch_files(target_path, patches_path):
-        die(_("Patching failed"))
+        die(_("Patching failed"), pause=True)
     else:
         print()  # \n
         info(_("Patches installed successfully!\n"))
@@ -74,3 +74,4 @@ def run(target=None):
 
 if __name__ == "__main__":
     run()
+    die(pause=True)
