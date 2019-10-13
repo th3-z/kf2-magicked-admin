@@ -58,7 +58,10 @@ def get_country(ip):
     url = "http://ip-api.com/" + "/json/" + ip
     unknown = (_("Unknown"), "??")
 
-    geo_data = requests.get(url).json()
+    try:
+        geo_data = requests.get(url).json()
+    except Exception:
+        return unknown
 
     if 'country' not in geo_data:
         return unknown

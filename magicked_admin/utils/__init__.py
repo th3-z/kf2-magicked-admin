@@ -1,6 +1,8 @@
 import os
 import sys
 import gettext
+import logging
+import logging.handlers
 from colorama import init
 from termcolor import colored
 
@@ -15,14 +17,6 @@ VERSION = "0.1.4"
 BANNER_URL = "https://th3-z.xyz/kf2-ma"
 
 
-def die(message=None, pause=False):
-    if message:
-        print(colored(' [!] ', 'red') + message)
-    if pause:
-        input(_("\nPress enter to exit..."))
-    sys.exit(0)
-
-
 def find_data_file(filename):
     if getattr(sys, 'frozen', False):
         datadir = os.path.dirname(sys.executable)
@@ -32,6 +26,20 @@ def find_data_file(filename):
         )
 
     return os.path.join(datadir, filename)
+
+
+# TODO: logging module
+logger = logging.getLogger("kf2-magicked-admin")
+handler = logging.handlers.WatchedFileHandler(
+    os.environ.get("LOGFILE", find_data_file("conf/magicked_admin.log"))
+)
+formatter = logging.Formatter(
+    "[%(asctime)s %(levelname)s] %(message)s",
+    "%Y-%m-%d %H:%M:%S"
+)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
 
 
 def banner():
@@ -59,18 +67,37 @@ def banner():
     print(str.join('', lines))
 
 
-def warning(mesg):
-    print(colored(' [!] ', 'yellow') + mesg)
+def warning(mesg, log=True, display=True):
+    if display:
+        print(colored(' [!] ', 'yellow') + mesg)
+    if log:
+        logger.warning(mesg)
 
 
-def debug(mesg):
-    if DEBUG:
+def debug(mesg, log=True, display=True):
+    if DEBUG and display:
         print(colored(' [#] ' + mesg, 'red'))
+    if log:
+        logger.debug(mesg)
 
 
-def info(mesg):
-    print(colored(' [*] ', 'green') + mesg)
+def info(mesg, log=True, display=True):
+    if display:
+        print(colored(' [*] ', 'green') + mesg)
+    if log:
+        logger.info(mesg)
 
 
-def fatal(mesg):
-    print(colored(' [!] ', 'red') + mesg)
+def fatal(mesg, log=True, display=True):
+    if display:
+        print(colored(' [!] ', 'red') + mesg)
+    if log:
+        logger.fatal(mesg)
+
+
+def die(mesg=None, pause=False):
+    if mesg:
+        fatal(mesg, log=True)
+    if pause:
+        input(_("\nPress enter to exit..."))
+    sys.exit(0)
