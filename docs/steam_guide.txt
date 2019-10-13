@@ -169,7 +169,7 @@ Commands that can be ran by server administrators, and users authorized with the
 
 [*] '[b]!start_jc <command>[/b]' - Start a command that runs every time a player joins
 	- Example: '[b]!start_jc say Welcome %PLR[/b]' - Greets a player on join
-	- Available tokens: '[b]%PLR[/b]' - username, '[b]%KLL[/b]' - total kills, '[b]%DSH[/b]' - total dosh
+	- Available tokens: '[b]%PLR[/b]' - username, '[b]%KLL[/b]' - total kills, '[b]%DSH[/b]' - total dosh, '[b]%BCK[/b]' - "back" if sessions > 1, '[b]%DRK[/b]' - dosh rank, '[b]%KRK[/b]' - kill rank, '[b]%TME[/b]' - play time, '[b]%TRK[/b]' - play time rank, '[b]%SES[/b]' - sessions
 
 [*] '[b]!stop_jc[/b]' - Stops all join commands
 
