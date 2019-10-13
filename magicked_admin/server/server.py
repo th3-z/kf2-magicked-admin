@@ -3,7 +3,7 @@ import gettext
 from termcolor import colored
 
 from server.player import Player
-from utils import debug, warning
+from utils import debug, warning, info
 from web_admin.constants import *
 
 _ = gettext.gettext
@@ -173,6 +173,10 @@ class Server:
         message = _("Player {} joined {} from {}") \
             .format(new_player.username, self.name, new_player.country)
         print(colored(message, 'cyan'))
+        info(
+            "{} (SteamID: {})".format(message, new_player.steam_id),
+            display=False
+        )
         self.web_admin.chat.handle_message(
             "internal_command",
             "!player_join " + new_player.username,
@@ -186,6 +190,10 @@ class Server:
         message = _("Player {} left {}") \
             .format(player.username, self.name)
         print(colored(message, 'cyan'))
+        info(
+            "{} (SteamID: {})".format(message, player.steam_id),
+            display=False
+        )
         self.web_admin.chat.handle_message("internal_command",
                                            "!player_quit " + player.username,
                                            USER_TYPE_INTERNAL)
