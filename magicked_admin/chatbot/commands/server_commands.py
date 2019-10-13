@@ -2,7 +2,7 @@ from os import path
 import gettext
 
 import server.game as game
-from chatbot.commands.command import Command
+from .command import Command
 from utils import find_data_file
 from web_admin.constants import *
 

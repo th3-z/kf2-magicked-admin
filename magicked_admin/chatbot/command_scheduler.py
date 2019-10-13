@@ -3,13 +3,13 @@ import threading
 import time
 
 from chatbot.commands.command import Command
+from chatbot.commands import ALL_WAVES
 from utils import warning
 from utils.time import seconds_to_hhmmss
 from web_admin.chat import ChatListener
 from web_admin.constants import *
 
 _ = gettext.gettext
-ALL_WAVES = 999
 
 
 class CommandSchedulerPollThread(threading.Thread):
@@ -91,7 +91,8 @@ class CommandScheduler(ChatListener):
             "internal", command_resolved.split(" "), USER_TYPE_INTERNAL
         )
 
-        if command.run_once:
+        # TODO: Bug, shouldn't have to check command in commands
+        if command.run_once and command in self.scheduled_commands:
             self.scheduled_commands.remove(command)
         else:
             command.reset()

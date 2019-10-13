@@ -12,8 +12,11 @@ import sys
 
 from colorama import init
 
-from chatbot.chatbot import Chatbot, CommandScheduler, MotdUpdater
-from chatbot.commands import get_commands
+# TODO: Improve package layouts
+from chatbot.chatbot import Chatbot
+from chatbot.command_scheduler import CommandScheduler
+from chatbot.motd_updater import MotdUpdater
+from chatbot.commands.command_map import CommandMap
 from server.server import Server
 from settings import Settings
 from utils import banner, die, find_data_file, info, warning
@@ -71,7 +74,7 @@ class MagickedAdmin:
         url_extras = settings.setting(name, "url_extras")
 
         web_interface = WebInterface(address, username, password, name)
-        chat = Chat(WebInterface)
+        chat = Chat(web_interface)
         chat.start()
 
         web_admin = WebAdmin(web_interface, chat)
@@ -99,7 +102,7 @@ class MagickedAdmin:
         scheduler = CommandScheduler(server, chatbot)
         self.stop_list.append(scheduler)
 
-        commands = get_commands(
+        commands = CommandMap().get_commands(
             server, chatbot, scheduler, MotdUpdater(server)
         )
         for name, command in commands.items():
@@ -114,8 +117,8 @@ class MagickedAdmin:
         servers = []
 
         for server_name in settings.sections():
-            server = self.makeServer(server_name, settings)
-            self.makeBot(settings.setting(server_name, "username"), server)
+            server = self.make_server(server_name)
+            self.make_chatbot(settings.setting(server_name, "username"), server)
             servers.append(server)
 
         info(_("Initialisation complete!\n"))
@@ -141,7 +144,7 @@ class MagickedAdmin:
         info(_("Program interrupted, saving data..."))
 
         for item in self.stop_list:
-            item.close()
+            item.stop()
         die()
 
 

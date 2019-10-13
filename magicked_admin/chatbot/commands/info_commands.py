@@ -2,7 +2,7 @@ import os
 import time
 import gettext
 
-from chatbot.commands.command import Command
+from .command import Command
 from server.player import Player
 from utils import find_data_file
 from utils.text import millify

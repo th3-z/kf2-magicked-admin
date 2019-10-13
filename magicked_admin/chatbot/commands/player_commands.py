@@ -1,6 +1,6 @@
 import gettext
 
-from chatbot.commands.command import Command
+from .command import Command
 from utils.text import millify, trim_string
 from utils.time import seconds_to_hhmmss
 
