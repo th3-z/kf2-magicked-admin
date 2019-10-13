@@ -2,9 +2,7 @@ import gettext
 from os import path
 
 from chatbot import INIT_TEMPLATE
-from chatbot.motd_updater import MotdUpdater
-from chatbot.command_scheduler import CommandScheduler
-from utils import debug, find_data_file, warning
+from utils import debug, find_data_file
 from web_admin.chat import ChatListener
 from web_admin.constants import *
 

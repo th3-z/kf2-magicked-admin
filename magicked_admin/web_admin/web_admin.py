@@ -209,16 +209,17 @@ class WebAdmin(object):
         else:
             return players
 
-        # xpath to <td>s and retrieve text manually to catch empty text()
+        # xpath to <td>s and retrieve text manually to catch empty cells
         trows_path = "//table[@id=\"players\"]/tbody//td"
         trows_result = info_tree.xpath(trows_path)
         trows_result = [
+            # Some cells can be empty while the player is joining
             trow.text if trow.text else ""
             for trow in trows_result
         ]
 
-        # If players in game, a lone message is left in the table
-        if trows_result == 1:
+        # When no players are in game a single cell with a message is left
+        if len(trows_result) == 1:
             return players
 
         # Group rows in the table by the non-breaking space in first cell

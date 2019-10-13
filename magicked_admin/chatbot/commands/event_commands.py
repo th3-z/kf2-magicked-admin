@@ -1,8 +1,9 @@
 import gettext
 
-from chatbot.command_scheduler import (ALL_WAVES, CommandOnJoin, CommandOnTime,
+from chatbot.command_scheduler import (CommandOnJoin, CommandOnTime,
                                        CommandOnTrader, CommandOnWave)
-from chatbot.commands.command import Command
+from . import ALL_WAVES
+from .command import Command
 
 _ = gettext.gettext
 
