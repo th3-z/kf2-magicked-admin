@@ -334,7 +334,7 @@ class CommandRun(Command):
                            "Desc: Runs a script")
         self.parser.add_argument("file", nargs="*")
 
-        self.scripts_folder = "scripts"
+        self.scripts_folder = "conf/scripts"
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
