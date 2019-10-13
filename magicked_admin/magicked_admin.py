@@ -118,7 +118,9 @@ class MagickedAdmin:
 
         for server_name in settings.sections():
             server = self.make_server(server_name)
-            self.make_chatbot(settings.setting(server_name, "username"), server)
+            self.make_chatbot(
+                settings.setting(server_name, "username"), server
+            )
             servers.append(server)
 
         info(_("Initialisation complete!\n"))
