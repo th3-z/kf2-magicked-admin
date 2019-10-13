@@ -10,6 +10,7 @@ lock = Lock()
 
 
 class ServerDatabase:
+
     def __init__(self, name):
         self.sqlite_db_file = find_data_file("conf/" + name + ".sqlite")
 
@@ -52,20 +53,20 @@ class ServerDatabase:
                     FROM
                         players as player2
                     WHERE
-                        player2.? >= player1.?
+                        player2.{} >= player1.{}
                 ), 0) AS col_rank
             FROM
                 players AS player1
             WHERE
                 player1.steam_id = ?
-        """
+        """.format(col, col)
 
         lock.acquire(True)
-        self.cur.execute(query, (col, col, steam_id,))
+        self.cur.execute(query, (steam_id,))
         result = self.cur.fetchall()
         lock.release()
 
-        if result:
+        if len(result):
             return result[0]["col_rank"]
         else:
             return None
@@ -103,7 +104,7 @@ class ServerDatabase:
         result = self.cur.fetchall()
         lock.release()
 
-        if result:
+        if len(result):
             return result[0]["kd_rank"]
         else:
             return None
@@ -111,17 +112,17 @@ class ServerDatabase:
     def __server_sum_col(self, col):
         query = """
             SELECT
-                COALESCE(SUM(?), 0) as total
+                COALESCE(SUM({}), 0) as total
             FROM
                 players
-        """
+        """.format(col)
 
         lock.acquire(True)
-        self.cur.execute(query, (col,))
+        self.cur.execute(query)
         result = self.cur.fetchall()
         lock.release()
 
-        if result:
+        if len(result):
             return result[0]["total"]
         else:
             return 0
@@ -139,19 +140,22 @@ class ServerDatabase:
         query = """
             SELECT
                 username,
-                ? AS score
+                {} as score
             FROM
                 players
             ORDER BY
-                ? DESC
-        """
+                {} DESC
+        """.format(col, col)
 
         lock.acquire(True)
-        self.cur.execute(query, (col, col,))
+        self.cur.execute(query)
         result = self.cur.fetchall()
         lock.release()
 
-        return result or []
+        if len(result):
+            return result
+        else:
+            return []
 
     def top_kills(self):
         return self.__server_top_by_col("kills")
@@ -257,7 +261,7 @@ class ServerDatabase:
         highest_wave_result = self.cur.fetchall()
         lock.release()
 
-        if not highest_wave_result:
+        if not len(highest_wave_result):
             return 0
 
         return highest_wave_result[0]['game_wave']
