@@ -212,7 +212,9 @@ class CommandOnJoin(ScheduledCommand):
             command = command.replace("%KLL", str(player.total_kills))
             command = command.replace("%KRK", str(pos_kills))
 
-            command = command.replace("%TME", seconds_to_hhmmss(player.total_time))
+            command = command.replace(
+                "%TME", seconds_to_hhmmss(player.total_time)
+            )
             command = command.replace("%TRK", str(pos_time))
             command = command.replace("%SES", str(player.sessions))
 
