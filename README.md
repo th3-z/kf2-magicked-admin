@@ -139,7 +139,9 @@ the `!op` command.
 * `!start_jc <command>` - Start a command that runs every time a player joins
 	- Example: `!start_jc say Welcome %PLR` - Greets a player on join
 	- Available tokens: `%PLR` - username, `%KLL` - total kills, `%DSH` - 
-      total dosh
+      total dosh; `%PLR` - username, `%BCK` - "back" if sessions > 1, `%DRK` - 
+      dosh rank, `%KRK` - kill rank, `%TME` - play time, `%TRK` - play time 
+      rank, `%SES` - sessions
 * `!stop_jc` - Stops all join commands
 * `!start_wc [-w <wave>] <command>` - Start a command that runs on wave `<wave>`
     - `-w` Wave to run the command on, can be omitted to have the command
