@@ -1,0 +1,10 @@
+; %PLR - Username
+; %BCK - "Back" if sessions > 1
+; %DSH - Dosh
+; %DRK - Dosh rank
+; %KLL - Kills
+; %KRK - Kill rank
+; %TME - Play time
+; %TRK - Play time rank
+; %SES - Sessions
+start_jc -q say "Welcome %BCK %PLR\nYou've killed %KLL ZEDs (#%KRK)\nand earned £%DSH (#%DRK)\nover %SES sessions.
