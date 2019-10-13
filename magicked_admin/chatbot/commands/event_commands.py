@@ -19,7 +19,7 @@ class CommandStartJoinCommand(Command):
                            "match")
         self.parser.add_argument("command", nargs="*")
 
-        self.run_delay = 8
+        self.run_delay = 5
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
