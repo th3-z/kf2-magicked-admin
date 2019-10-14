@@ -10,21 +10,13 @@ _ = gettext.gettext
 
 
 class Chatbot(ChatListener):
-    def __init__(self, server, name):
-        self.server_name = server.name
-        self.name = name or "Unnamed"
+    def __init__(self, chat, server_name="Unnamed",  name="Unnamed"):
+        self.server_name = server_name
+        self.name = name
 
-        self.chat = server.web_admin.chat
+        self.chat = chat
         self.commands = {}
         self.silent = False
-
-        init_path = find_data_file("conf/scripts/" + server.name + ".init")
-
-        if path.exists(init_path):
-            self.execute_script(init_path)
-        else:
-            with open(init_path, 'w+') as script_file:
-                script_file.write(INIT_TEMPLATE)
 
     def add_command(self, name, command):
         self.commands[name] = command
@@ -41,7 +33,6 @@ class Chatbot(ChatListener):
 
         if args[0].lower() in self.commands:
             command = self.commands[args[0].lower()]
-
             response = command.execute(username, args, user_flags)
             if not self.silent and response:
                 self.chat.submit_message(response)
@@ -57,3 +48,14 @@ class Chatbot(ChatListener):
                     args = command.split()
                     self.command_handler("internal_command", args,
                                          USER_TYPE_INTERNAL)
+
+    def run_init(self):
+        init_path = find_data_file(
+            "conf/scripts/" + self.server_name + ".init"
+        )
+
+        if path.exists(init_path):
+            self.execute_script(init_path)
+        else:
+            with open(init_path, 'w+') as script_file:
+                script_file.write(INIT_TEMPLATE)
