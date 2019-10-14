@@ -57,8 +57,8 @@ class CommandScheduler(ChatListener):
         if stopped:
             message = _("Stopped {} command(s)").format(stopped)
             return message
-        else:
-            return _("None running")
+
+        return _("None running")
 
     def receive_message(self, username, message, user_flags):
         """
@@ -124,7 +124,6 @@ class ScheduledCommand(Command):
         """
         Implement to define some action after the command has been executed
         """
-        pass
 
     def resolve_command(self, internal_message):
         """
@@ -186,7 +185,6 @@ class CommandOnJoin(ScheduledCommand):
         args = message.split()
         if args[0] == "player_join":
             return True
-
         return False
 
     def resolve_command(self, internal_message):
@@ -238,10 +236,8 @@ class CommandOnTrader(ScheduledCommand):
         wave = (length + 1) + (self.wave + 1) if self.wave < 0 else self.wave
 
         if args[0] == "t_open":
-
             new_wave = int(args[1])
             if self.wave != ALL_WAVES and new_wave != wave:
                 return False
             return True
-        else:
-            return False
+        return False

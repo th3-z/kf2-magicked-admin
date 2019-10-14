@@ -66,10 +66,9 @@ class ServerDatabase:
         result = self.cur.fetchall()
         lock.release()
 
-        if len(result):
+        if result:
             return result[0]["col_rank"]
-        else:
-            return None
+        return None
 
     def rank_dosh(self, steam_id):
         return self.__rank_by_col(steam_id, "dosh")
@@ -104,10 +103,9 @@ class ServerDatabase:
         result = self.cur.fetchall()
         lock.release()
 
-        if len(result):
+        if result:
             return result[0]["kd_rank"]
-        else:
-            return None
+        return None
 
     def __server_sum_col(self, col):
         query = """
@@ -122,10 +120,9 @@ class ServerDatabase:
         result = self.cur.fetchall()
         lock.release()
 
-        if len(result):
+        if result:
             return result[0]["total"]
-        else:
-            return 0
+        return 0
 
     def server_kills(self):
         return self.__server_sum_col("kills")
@@ -152,10 +149,9 @@ class ServerDatabase:
         result = self.cur.fetchall()
         lock.release()
 
-        if len(result):
+        if result:
             return result
-        else:
-            return []
+        return []
 
     def top_kills(self):
         return self.__server_top_by_col("kills")
@@ -261,9 +257,8 @@ class ServerDatabase:
         highest_wave_result = self.cur.fetchall()
         lock.release()
 
-        if not len(highest_wave_result):
+        if not highest_wave_result:
             return 0
-
         return highest_wave_result[0]['game_wave']
 
     def load_game_map(self, game_map, r_flag=False):

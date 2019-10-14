@@ -10,7 +10,7 @@ _ = gettext.gettext
 
 
 class Chatbot(ChatListener):
-    def __init__(self, chat, server_name="Unnamed",  name="Unnamed"):
+    def __init__(self, chat, server_name="Unnamed", name="Unnamed"):
         self.server_name = server_name
         self.name = name
 
