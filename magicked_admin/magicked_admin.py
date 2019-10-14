@@ -98,18 +98,24 @@ class MagickedAdmin:
         return server
 
     def make_chatbot(self, name, server):
-        chatbot = Chatbot(server, name)
-        scheduler = CommandScheduler(server, chatbot)
-        self.stop_list.append(scheduler)
+        chatbot = Chatbot(
+            server.web_admin.chat,
+            server_name=server.name, name=name
+        )
 
+        scheduler = CommandScheduler(server, chatbot)
         commands = CommandMap().get_commands(
             server, chatbot, scheduler, MotdUpdater(server)
         )
+
         for name, command in commands.items():
             chatbot.add_command(name, command)
 
         server.web_admin.chat.add_listener(chatbot)
         server.web_admin.chat.add_listener(scheduler)
+
+        self.stop_list.append(scheduler)
+        chatbot.run_init()
 
         return chatbot
 
