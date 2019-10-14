@@ -24,12 +24,13 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. Windows]
+ - OS: [e.g. Windows 10]
  - KF2-MA version: [e.g. 0.1.3]
 
 **Server (please complete the following information):**
  - Mods: [e.g. ControlledDifficulty]
  - Web admin resource modifications: [e.g. Perk levels on info page]
+ - Applied web-admin patches: [e.g. Yes]
 
 **Log**
 ```
