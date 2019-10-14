@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-13 22:59+0100\n"
-"PO-Revision-Date: 2019-10-13 22:59+0100\n"
+"POT-Creation-Date: 2019-10-14 22:12+0100\n"
+"PO-Revision-Date: 2019-10-14 22:12+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_GB\n"
 "Language-Team: en_GB <LL@li.org>\n"
@@ -26,15 +26,15 @@ msgstr ""
 msgid "Skips the guided setup process"
 msgstr ""
 
-#: magicked_admin/magicked_admin.py:126
+#: magicked_admin/magicked_admin.py:132
 msgid "Initialisation complete!\n"
 msgstr ""
 
-#: magicked_admin/magicked_admin.py:137
+#: magicked_admin/magicked_admin.py:143
 msgid "Closing immediately!"
 msgstr ""
 
-#: magicked_admin/magicked_admin.py:146
+#: magicked_admin/magicked_admin.py:152
 msgid "Program interrupted, saving data..."
 msgstr ""
 
@@ -108,12 +108,26 @@ msgid ""
 "; is no need to prefix commands with ! in this file.\n"
 ";\n"
 "; Example:\n"
-"; silent\n"
-"; start_wc -w 1 Welcome to wave 1\n"
-"; silent\n"
+"\n"
+"; Globally suppress chat output\n"
+"silent --quiet\n"
+"\n"
+"; start_wc --wave -1 say If I wasn't commented you'd see this on the boss"
+" wave\n"
+"start_trc top_wave_dosh\n"
+"\n"
+"; Start the default greeter script `conf/scripts/greeter`\n"
+"run greeter\n"
+"\n"
+"; Update the motd scoreboard every 5 minutes\n"
+"start_tc --repeat --time 300 update_motd -q dosh\n"
+"\n"
+"; Re-enable chat output\n"
+"silent --quiet\n"
+"\n"
 msgstr ""
 
-#: magicked_admin/chatbot/chatbot.py:50
+#: magicked_admin/chatbot/chatbot.py:41
 msgid "Executing script: "
 msgstr ""
 
