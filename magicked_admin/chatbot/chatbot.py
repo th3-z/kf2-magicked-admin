@@ -42,7 +42,12 @@ class Chatbot(ChatListener):
 
         with open(filename) as script:
             for line in script:
-                command = line[:line.find(";")].strip()
+                comment_idx = line.find(";")
+                if comment_idx != -1:
+                    command = line[:comment_idx].strip()
+                else:
+                    command = line.strip()
+
                 if command:
                     debug("!" + command)
                     args = command.split()
