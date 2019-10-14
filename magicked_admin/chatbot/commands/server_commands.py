@@ -294,7 +294,7 @@ class CommandUpdateMotd(Command):
                 _("Unrecognised score type: {}").format(args.score_type), args
             )
 
-        self.motd_updater.update()
+        self.motd_updater.update(args.score_type)
 
         return self.format_response(
             _("Updated the MOTD"), args
