@@ -19,7 +19,7 @@ start_trc top_wave_dosh
 run greeter
 
 ; Update the motd scoreboard every 5 minutes
-start_tc --repeat --time 300 update_motd
+start_tc --repeat --time 300 update_motd -q dosh
 
 ; Re-enable chat output
 silent --quiet

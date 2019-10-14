@@ -37,8 +37,8 @@ class CommandMap:
             _('ban'): CommandBan(server),
             _('op'): CommandOp(server),
             _('deop'): CommandDeop(server),
-            _('update_motd'): CommandMarquee(server, motd_updater),
-            _('reload_motd'): CommandMarquee(server, motd_updater),
+            _('update_motd'): CommandUpdateMotd(server, motd_updater),
+            _('reload_motd'): CommandReloadMotd(server, motd_updater),
 
             # Player commands
             _('commands'): CommandCommands(server),
