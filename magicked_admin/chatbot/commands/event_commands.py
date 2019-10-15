@@ -65,7 +65,7 @@ class CommandStopJoinCommands(Command):
 
 class CommandStartWaveCommand(Command):
     def __init__(self, server, scheduler):
-        Command.__init__(self, server, admin_only=True, requires_patch=False)
+        Command.__init__(self, server, admin_only=True, requires_patch=True)
         self.scheduler = scheduler
 
         self.help_text = _("Usage: !start_wc [--wave] COMMAND\n"
@@ -108,7 +108,7 @@ class CommandStartWaveCommand(Command):
 
 class CommandStopWaveCommands(Command):
     def __init__(self, server, scheduler):
-        Command.__init__(self, server, admin_only=True, requires_patch=False)
+        Command.__init__(self, server, admin_only=True, requires_patch=True)
         self.scheduler = scheduler
 
         self.help_text = _("Usage: !stop_wc\n"
