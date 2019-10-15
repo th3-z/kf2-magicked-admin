@@ -16,15 +16,16 @@ once.
 Downloads
 ---------
 
-The most recent stable version is `0.1.4`. Binaries are provided on the releases 
+The most recent stable version is `0.1.5`. Binaries are provided on the releases 
 page for Windows users. Linux and Mac OS users should clone the repo and run
 from source.
 
-[Release 0.1.4](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.4)
+[Release 0.1.5](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.5)
 
 <details>
 <summary>Old releases</summary>
 
+* [Release 0.1.4](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.4)
 * [Release 0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3)
 * [Release 0.1.2](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.2)
 * [Release 0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7)
