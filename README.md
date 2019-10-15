@@ -136,7 +136,7 @@ the `!op` command.
     - Example: `!password on` Enables the game password defined in the config
     - Example: `!password off` Disables the game password
     - Example: `!password --set somePass` Sets a specific password
-* `!start_jc <command>` - Start a command that runs every time a player joins
+* `!start_jc -- <command>` - Start a command that runs every time a player joins
 	- Example: `!start_jc say Welcome %PLR` - Greets a player on join
 	- Available tokens: `%PLR` - username, `%KLL` - total kills, `%DSH` - 
       total dosh; `%PLR` - username, `%BCK` - "back" if sessions > 1, `%DRK` - 
@@ -149,14 +149,14 @@ the `!op` command.
     - `-w` Can be negative to count backwards from the boss wave
     - Example: `!start_wc -1 say Welcome to the boss wave`
 * `!stop_wc` - Stops all wave commands
-* `!start_tc [-r, -t <seconds>] <command>` - Start a command that runs after
+* `!start_tc [-r, -t <seconds>] -- <command>` - Start a command that runs after
     `<seconds>` seconds
     - Option `-r`: Add to have the command run repeatedly
     - Option `-t`: Required, the number of seconds before the command runs
     - Example: `!start_tc -rt 600 say Join our Steam group!\n
 	http://steam.group/`
 * `!stop_tc` - Stops all timed commands
-* `!start_trc [-w <wave>] <command>` - Start a commands that runs when the trader opens
+* `!start_trc [-w <wave>] -- <command>` - Start a commands that runs when the trader opens
     - `-w` Wave to run the command on, can be omitted to have the command
         run every wave
     - `-w` Can be negative to count backwards from the boss wave

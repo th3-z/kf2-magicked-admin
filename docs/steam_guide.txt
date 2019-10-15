@@ -167,32 +167,32 @@ Commands that can be ran by server administrators, and users authorized with the
     - Example: '[b]!password off[/b]' Disables the game password
     - Example: '[b]!password --set superSekritPass[/b]' Sets a specific password
 
-[*] '[b]!start_jc <command>[/b]' - Start a command that runs every time a player joins
-	- Example: '[b]!start_jc say Welcome %PLR[/b]' - Greets a player on join
+[*] '[b]!start_jc -- <command>[/b]' - Start a command that runs every time a player joins
+	- Example: '[b]!start_jc -- say Welcome %PLR[/b]' - Greets a player on join
 	- Available tokens: '[b]%PLR[/b]' - username, '[b]%KLL[/b]' - total kills, '[b]%DSH[/b]' - total dosh, '[b]%BCK[/b]' - "back" if sessions > 1, '[b]%DRK[/b]' - dosh rank, '[b]%KRK[/b]' - kill rank, '[b]%TME[/b]' - play time, '[b]%TRK[/b]' - play time rank, '[b]%SES[/b]' - sessions
 
 [*] '[b]!stop_jc[/b]' - Stops all join commands
 
-[*] '[b]!start_wc [-w <wave>] <command>[/b]' - Start a command that runs on wave '<wave>'
+[*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start a command that runs on wave '<wave>'
     - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command
     run every wave
     - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
-    - Example: '[b]!start_wc -1 say Welcome to the boss wave[/b]'
+    - Example: '[b]!start_wc -1 -- say Welcome to the boss wave[/b]'
 
 [*] '[b]!stop_wc[/b]' - Stops all wave commands
 
-[*] '[b]!start_tc [-r, -t <seconds>] <command>[/b]' - Start a command that runs after
+[*] '[b]!start_tc [-r, -t <seconds>] -- <command>[/b]' - Start a command that runs after
     '<seconds>' seconds
     - Option '[b]-r[/b]': Add to have the command run repeatedly
     - Option '[b]-t[/b]': Required, the number of seconds before the command runs
-    - Example: '[b]!start_tc -rt 600 say Join our Steam group!\n http://steam.group/[/b]'
+    - Example: '[b]!start_tc -rt 600 -- say Join our Steam group!\n http://steam.group/[/b]'
 
 [*] '[b]!stop_tc[/b]' - Stops all timed commands
 
-[*] '[b]!start_trc [-w <wave>] <command>[/b]' - Start a commands that runs when the trader opens
+[*] '[b]!start_trc [-w <wave>] -- <command>[/b]' - Start a commands that runs when the trader opens
     - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command run every wave
     - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
-    - Example: '[b]!start_trc top_wave_dosh[/b]' - Shows who earned the most dosh every wave when the trader opens
+    - Example: '[b]!start_trc -- top_wave_dosh[/b]' - Shows who earned the most dosh every wave when the trader opens
 
 [*] '[b]!stop_trc[/b]' - Stop all commands that run on trader open
 
@@ -205,10 +205,10 @@ Commands that can be ran by server administrators, and users authorized with the
     - Example: '[b]!marquee example[/b]'
 
 [*] '[b]!enforce_dosh <amount>[/b]' - Kicks all players that have more dosh than the specified amount.
-    - Example: '[b]!start_tc 600 enforce_dosh 60000[/b]'
+    - Example: '[b]!start_tc 600 -- enforce_dosh 60000[/b]'
 
 [*] '[b]!update_motd <type>[/b]' - Refreshes the welcome screen leaderboard, type is one of: kills, dosh, or time
-    - Example: '[b]!start_tc 300 update_motd kills[/b]'
+    - Example: '[b]!start_tc 300 -- update_motd kills[/b]'
 
 [*] '[b]!reload_motd[/b]' - Reloads the server's '[b]*.motd[/b]' file from '[b]conf[/b]'
 [/list]
@@ -232,7 +232,7 @@ Have fun and good luck!
 KF2 Magicked Admin will replace '[b]%PLR[/b]' with the player's username, '[b]%SCR[/b]' with the player's total kills or total dosh, '[b]%SRV_K[/b]' with the global server kills, and '[b]%SRV_D[/b]' with the global server dosh.
 
 Once the file is written, use the '[b]!update_motd <type>[/b]' command to refresh the leaderboard. This should be used in combination with '[b]!start_tc <refresh_interval>[/b]' so that it is refreshed automatically.
-    - Example: '[b]!start_tc 300 update_motd dosh[/b]'
+    - Example: '[b]!start_tc 300 -- update_motd dosh[/b]'
 
 The metric for '[b]%SCR[/b]' can be either 'kills', 'time', or 'dosh'. This is can be set by changing the '[b]<type>[/b]' parameter when using '[b]!update_motd <type>[/b]'
 
@@ -273,14 +273,14 @@ These scripts are formatted much the same as the init script, the commands will 
 Some commands are particularly useful when used in scripts, these are: '[b]!start_tc[/b]', '[b]!start_trc[/b]', '[b]!start_wc[/b]', '[b]!start_jc[/b]', '[b]!top_wave_kills[/b]', '[b]!top_wave_dosh[/b]', '[b]!enforce_dosh[/b]', '[b]!say[/b]'.
 
 '[b]conf/scripts/server_one.init[/b]' - [i]Show who earned the most dosh each wave when the trader opens, and update the welcome screen leaderboard every 5 minutes[/i]
-[code] start_trc top_wave_dosh
- start_tc 300 update_motd dosh[/code]
+[code] start_trc -- top_wave_dosh
+ start_tc 300 -- update_motd dosh[/code]
 
 '[b]conf/scripts/server_one.init[/b]' - [i]Advertise your Steam group when the boss wave is reached[/i]
-[code] start_wc -w -1 say Join our steam group: http://our.steam/group[/code]
+[code] start_wc -w -1 -- say Join our steam group: http://our.steam/group[/code]
 
 '[b]conf/scripts/server_one.init[/b]' - [i]Provide basic bot usage guidance to players[/i]
-[code] start_tc -rt 800 say I'm a bot, type !commands to see available commands[/code]
+[code] start_tc -rt 800 -- say I'm a bot, type !commands to see available commands[/code]
 
 '[b]conf/scripts/priv_game[/b]' - [i]Setup a private lobby with a single command[/i]
 [code]silent -q
