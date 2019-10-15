@@ -4,6 +4,7 @@ from chatbot.command_scheduler import (CommandOnJoin, CommandOnTime,
                                        CommandOnTrader, CommandOnWave)
 from . import ALL_WAVES
 from .command import Command
+from utils import warning
 
 _ = gettext.gettext
 
@@ -22,6 +23,9 @@ class CommandStartJoinCommand(Command):
         self.run_delay = 5
 
     def execute(self, username, args, user_flags):
+        if "--" not in args:
+            warning(_("Ambiguous event command, please use ' -- ' to separate "
+                      "commands"))
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
@@ -34,7 +38,7 @@ class CommandStartJoinCommand(Command):
             )
 
         delayed_command = [
-            "start_tc", "-qt", str(self.run_delay), *args.command
+            "start_tc", "-qt", str(self.run_delay), "--", *args.command
         ]
 
         command = CommandOnJoin(self.server, " ".join(delayed_command))
@@ -77,6 +81,9 @@ class CommandStartWaveCommand(Command):
         self.parser.add_argument("command", nargs="*")
 
     def execute(self, username, args, user_flags):
+        if "--" not in args:
+            warning(_("Ambiguous event command, please use ' -- ' to separate "
+                      "commands"))
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
@@ -142,6 +149,9 @@ class CommandStartTimeCommand(Command):
         self.parser.add_argument("command", nargs="*")
 
     def execute(self, username, args, user_flags):
+        if "--" not in args:
+            warning(_("Ambiguous event command, please use ' -- ' to separate "
+                      "commands"))
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
@@ -212,6 +222,9 @@ class CommandStartTraderCommand(Command):
         self.parser.add_argument("command", nargs="*")
 
     def execute(self, username, args, user_flags):
+        if "--" not in args:
+            warning(_("Ambiguous event command, please use ' -- ' to separate "
+                      "commands"))
         args, err = self.parse_args(username, args, user_flags)
         if err:
             return err
