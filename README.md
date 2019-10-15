@@ -86,10 +86,10 @@ Commands that can be executed by any player.
 * `!top_time` - Shows the global play time leaderboard
 * `!top_wave_kills` - Shows information about who killed the most ZEDs 
                       in the current wave. Generally for use with `start_trc`
-    - Example: `!start_trc top_wave_kills`
+    - Example: `!start_trc -- top_wave_kills`
 * `!top_wave_dosh` - Shwows information about who earned the most dosh in 
                      the current wave. Generally for use with `!start_trc`
-    - Example: `!start_trc top_wave_dosh`
+    - Example: `!start_trc -- top_wave_dosh`
 * `!server_kills` - Shows total kills on the server
 * `!server_dosh` - Shows total dosh earned on the server
 * `!scoreboard` - Shows the complete player scoreboard, useful on servers with >6 max players
@@ -114,7 +114,7 @@ the `!op` command.
     - Example: `!deop the_z`
 * `!say <message>` - Echoes a message into chat
     - Example: `!say The quick brown fox jumps over the lazy dog`
-    - Example: `!start_trc say The trader is open`
+    - Example: `!start_trc -- say The trader is open`
 * `!players` - Shows detailed information about players on the server
 * `!kick <user>` - Kicks `<user>` from the match
     - Example: `!kick the_z`
@@ -137,30 +137,30 @@ the `!op` command.
     - Example: `!password off` Disables the game password
     - Example: `!password --set somePass` Sets a specific password
 * `!start_jc -- <command>` - Start a command that runs every time a player joins
-	- Example: `!start_jc say Welcome %PLR` - Greets a player on join
+	- Example: `!start_jc -- say Welcome %PLR` - Greets a player on join
 	- Available tokens: `%PLR` - username, `%KLL` - total kills, `%DSH` - 
       total dosh; `%PLR` - username, `%BCK` - "back" if sessions > 1, `%DRK` - 
       dosh rank, `%KRK` - kill rank, `%TME` - play time, `%TRK` - play time 
       rank, `%SES` - sessions
 * `!stop_jc` - Stops all join commands
-* `!start_wc [-w <wave>] <command>` - Start a command that runs on wave `<wave>`
+* `!start_wc [-w <wave>] -- <command>` - Start a command that runs on wave `<wave>`
     - `-w` Wave to run the command on, can be omitted to have the command
     run every wave
     - `-w` Can be negative to count backwards from the boss wave
-    - Example: `!start_wc -1 say Welcome to the boss wave`
+    - Example: `!start_wc -1 -- say Welcome to the boss wave`
 * `!stop_wc` - Stops all wave commands
 * `!start_tc [-r, -t <seconds>] -- <command>` - Start a command that runs after
     `<seconds>` seconds
     - Option `-r`: Add to have the command run repeatedly
     - Option `-t`: Required, the number of seconds before the command runs
-    - Example: `!start_tc -rt 600 say Join our Steam group!\n
+    - Example: `!start_tc -rt 600 -- say Join our Steam group!\n
 	http://steam.group/`
 * `!stop_tc` - Stops all timed commands
 * `!start_trc [-w <wave>] -- <command>` - Start a commands that runs when the trader opens
     - `-w` Wave to run the command on, can be omitted to have the command
         run every wave
     - `-w` Can be negative to count backwards from the boss wave
-    - Example: `!start_trc top_wave_dosh` - Shows who earned the most dosh 
+    - Example: `!start_trc -- top_wave_dosh` - Shows who earned the most dosh 
 	every wave when the trader opens
 * `!stop_trc` - Stop all commands that run on trader open
 * `!silent` - Toggles suppression of all chat output, commands still have 
@@ -173,10 +173,10 @@ the `!op` command.
     - Example: `!marquee example`
 * `!update_motd <type>` - Refreshes the welcome screen leaderboard, type is 
                           one of: kills, dosh, or time
-    - Example: `!start_tc 300 update_motd kills`
+    - Example: `!start_tc 300 -- update_motd kills`
 * `!reload_motd` - Reloads the server's `*.motd` file from `conf`
 * `!enforce_dosh <amount>` - Kicks all players that have more dosh than the specified `amount`
-    - Example: `!start_tc 600 enforce_dosh 60000`
+    - Example: `!start_tc 600 -- enforce_dosh 60000`
 </details>
 
 ### MOTD leaderboard
