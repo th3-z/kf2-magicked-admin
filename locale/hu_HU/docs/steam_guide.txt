@@ -167,32 +167,32 @@ Commands that can be ran by server administrators, and users authorized with the
     - Example: '[b]!password off[/b]' Disables the game password
     - Example: '[b]!password --set superSekritPass[/b]' Sets a specific password
 
-[*] '[b]!start_jc <command>[/b]' - Start a command that runs every time a player joins
-	- Example: '[b]!start_jc say Welcome %PLR[/b]' - Greets a player on join
-	- Available tokens: '[b]%PLR[/b]' - username, '[b]%KLL[/b]' - total kills, '[b]%DSH[/b]' - total dosh
+[*] '[b]!start_jc -- <command>[/b]' - Start a command that runs every time a player joins
+	- Example: '[b]!start_jc -- say Welcome %PLR[/b]' - Greets a player on join
+	- Available tokens: '[b]%PLR[/b]' - username, '[b]%KLL[/b]' - total kills, '[b]%DSH[/b]' - total dosh, '[b]%BCK[/b]' - "back" if sessions > 1, '[b]%DRK[/b]' - dosh rank, '[b]%KRK[/b]' - kill rank, '[b]%TME[/b]' - play time, '[b]%TRK[/b]' - play time rank, '[b]%SES[/b]' - sessions
 
 [*] '[b]!stop_jc[/b]' - Stops all join commands
 
-[*] '[b]!start_wc [-w <wave>] <command>[/b]' - Start a command that runs on wave '<wave>'
+[*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start a command that runs on wave '<wave>'
     - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command
     run every wave
     - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
-    - Example: '[b]!start_wc -1 say Welcome to the boss wave[/b]'
+    - Example: '[b]!start_wc -1 -- say Welcome to the boss wave[/b]'
 
 [*] '[b]!stop_wc[/b]' - Stops all wave commands
 
-[*] '[b]!start_tc [-r, -t <seconds>] <command>[/b]' - Start a command that runs after
+[*] '[b]!start_tc [-r, -t <seconds>] -- <command>[/b]' - Start a command that runs after
     '<seconds>' seconds
     - Option '[b]-r[/b]': Add to have the command run repeatedly
     - Option '[b]-t[/b]': Required, the number of seconds before the command runs
-    - Example: '[b]!start_tc -rt 600 say Join our Steam group!\n http://steam.group/[/b]'
+    - Example: '[b]!start_tc -rt 600 -- say Join our Steam group!\n http://steam.group/[/b]'
 
 [*] '[b]!stop_tc[/b]' - Stops all timed commands
 
-[*] '[b]!start_trc [-w <wave>] <command>[/b]' - Start a commands that runs when the trader opens
+[*] '[b]!start_trc [-w <wave>] -- <command>[/b]' - Start a commands that runs when the trader opens
     - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command run every wave
     - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
-    - Example: '[b]!start_trc top_wave_dosh[/b]' - Shows who earned the most dosh every wave when the trader opens
+    - Example: '[b]!start_trc -- top_wave_dosh[/b]' - Shows who earned the most dosh every wave when the trader opens
 
 [*] '[b]!stop_trc[/b]' - Stop all commands that run on trader open
 
@@ -204,12 +204,17 @@ Commands that can be ran by server administrators, and users authorized with the
 [*] '[b]!marquee <marquee_name>[/b]' - Runs a marquee in the chat from the '[b]conf/marquee[/b]' folder, [i]experimental[/i]
     - Example: '[b]!marquee example[/b]'
 
-[*] '[b]!enforce_dosh[/b]' - Kicks all players that have more dosh than the 'dosh_threshold' configuration option
-    - Example: '[b]!start_tc 600 enforce_dosh[/b]'
+[*] '[b]!enforce_dosh <amount>[/b]' - Kicks all players that have more dosh than the specified amount.
+    - Example: '[b]!start_tc 600 -- enforce_dosh 60000[/b]'
+
+[*] '[b]!update_motd <type>[/b]' - Refreshes the welcome screen leaderboard, type is one of: kills, dosh, or time
+    - Example: '[b]!start_tc 300 -- update_motd kills[/b]'
+
+[*] '[b]!reload_motd[/b]' - Reloads the server's '[b]*.motd[/b]' file from '[b]conf[/b]'
 [/list]
 
 ## Welcome screen leaderboards
-Writing a '[b]conf/server_name.motd[/b]' file containing pairs of '[b]%PLR[/b]' and '[b]%SCR[/b]', and enabling the '[b]motd_scoreboard[/b]' option in the config file ('[b]conf/magicked_admin.conf[/b]') will allow you to render live leaderboard on the welcome screen.
+Writing a '[b]conf/server_name.motd[/b]' file containing pairs of '[b]%PLR[/b]' and '[b]%SCR[/b]' will allow you to render live leaderboard on the welcome screen.
 
 A simple example could be as follows.
 [code]Welcome to our server.
@@ -224,9 +229,12 @@ Top Players (total kills):
 Have fun and good luck!
 [/code]
 
-KF2 Magicked Admin will replace '[b]%PLR[/b]' with the player's username, '[b]%SCR[/b]' with the player's total kills or total dosh, '[b]%SRV_K[/b]' with the global server kills, and '[b]%SRV_D[/b]' with the global server dosh. 
+KF2 Magicked Admin will replace '[b]%PLR[/b]' with the player's username, '[b]%SCR[/b]' with the player's total kills or total dosh, '[b]%SRV_K[/b]' with the global server kills, and '[b]%SRV_D[/b]' with the global server dosh.
 
-The metric for '[b]%SCR[/b]' can be either 'kills', or 'dosh'. This is configured with the '[b]scoreboard_type[/b]' option in '[b]conf/magicked_admin.conf[/b]'.
+Once the file is written, use the '[b]!update_motd <type>[/b]' command to refresh the leaderboard. This should be used in combination with '[b]!start_tc <refresh_interval>[/b]' so that it is refreshed automatically.
+    - Example: '[b]!start_tc 300 -- update_motd dosh[/b]'
+
+The metric for '[b]%SCR[/b]' can be either 'kills', 'time', or 'dosh'. This is can be set by changing the '[b]<type>[/b]' parameter when using '[b]!update_motd <type>[/b]'
 
 Here is my survival suicidal welcome screen as an example of what can be achieved. 
 
@@ -235,8 +243,8 @@ Here is my survival suicidal welcome screen as an example of what can be achieve
 
 [h1]Notes[/h1]
 [list]
-[*] The leaderboard updates every 5 minutes.
 [*] This will overwrite your existing motd.
+[*] '[b]!reload_motd[/b]' Can be used to reload the template file while KF2 Magicked Admin is still running.
 [/list]
 
 ## Scripts
@@ -250,7 +258,7 @@ There are two categories of scripts, they differ in when and how they are execut
 
 [h1]Init scripts[/h1]
 
-Writing a '[b]server_name.init[/b]' in the '[b]conf[/b]' folder with a series of commands will run the commands in sequence when the bot starts on '[b]server_name[/b]'. The server names are defined in '[b]conf/magicked_admin.conf[/b]', if you haven't changed the name it will default to '[b]server_one[/b]'. 
+Writing a '[b]server_name.init[/b]' in the '[b]conf/scripts[/b]' folder with a series of commands will run the commands in sequence when the bot starts on '[b]server_name[/b]'. The server names are defined in '[b]conf/magicked_admin.conf[/b]', if you haven't changed the name it will default to '[b]server_one[/b]'.
 
 An example init file will have been generated on first launch, this can be used as a template for writing your own init scripts.
 
@@ -264,14 +272,15 @@ These scripts are formatted much the same as the init script, the commands will 
 
 Some commands are particularly useful when used in scripts, these are: '[b]!start_tc[/b]', '[b]!start_trc[/b]', '[b]!start_wc[/b]', '[b]!start_jc[/b]', '[b]!top_wave_kills[/b]', '[b]!top_wave_dosh[/b]', '[b]!enforce_dosh[/b]', '[b]!say[/b]'.
 
-'[b]conf/server_one.init[/b]' - [i]Show who earned the most dosh each wave when the trader opens[/i]
-[code] start_trc top_wave_dosh[/code]
+'[b]conf/scripts/server_one.init[/b]' - [i]Show who earned the most dosh each wave when the trader opens, and update the welcome screen leaderboard every 5 minutes[/i]
+[code] start_trc -- top_wave_dosh
+ start_tc 300 -- update_motd dosh[/code]
 
-'[b]conf/server_one.init[/b]' - [i]Advertise your Steam group when the boss wave is reached[/i]
-[code] start_wc -w -1 say Join our steam group: http://our.steam/group[/code]
+'[b]conf/scripts/server_one.init[/b]' - [i]Advertise your Steam group when the boss wave is reached[/i]
+[code] start_wc -w -1 -- say Join our steam group: http://our.steam/group[/code]
 
-'[b]conf/server_one.init[/b]' - [i]Provide basic bot usage guidance to players[/i]
-[code] start_tc -rt 800 say I'm a bot, type !commands to see available commands[/code]
+'[b]conf/scripts/server_one.init[/b]' - [i]Provide basic bot usage guidance to players[/i]
+[code] start_tc -rt 800 -- say I'm a bot, type !commands to see available commands[/code]
 
 '[b]conf/scripts/priv_game[/b]' - [i]Setup a private lobby with a single command[/i]
 [code]silent -q
@@ -302,14 +311,6 @@ The following options can be configured in the config file '[b]conf/magicked_adm
 [*] '[b]game_password[/b]' - Default game password to set when the password is toggled using '[b]!password <on|off>[/b]'.
     - Example: '[b]game_password=Hunter69[/b]'
 
-[*] '[b]motd_scoreboard[/b]' - Boolean value, enable or disable the motd leaderboard feature. Defaults to disabled.
-    - Example: '[b]motd_scoreboard=True[/b]'
-
-[*] '[b]scoreboard_type[/b]' - Possible values: '[b]kills[/b]', or '[b]dosh[/b]'. Change the type of scores that are displayed in the motd leaderboard.
-    - Example: '[b]scoreboard_type=dosh[/b]'
-
-[*] '[b]dosh_threshold[/b]' - Integer value, configures the '[b]!enforce_dosh[/b]' command. The dosh threshold is the amount of dosh a player can carry before they are kicked by the next call to '[b]!enforce_dosh[/b]'. This can be useful on endless servers where it is possible to crash the server by dropping a huge amount of dosh.
-    - Example: '[b]dosh_threshold=40000[/b]'
 [/list]
 
 ## Renaming the chatbot (multi-admin)
@@ -373,22 +374,12 @@ Below is an example.
 [code]
 [server_one]
 game_password = 123
-motd_scoreboard = False
-scoreboard_type = Kills
-max_players = 6
-enable_greeter = True
-dosh_threshold = 40000
 address = http://127.0.0.1:8080
 username = Admin
 password = root
 
 [server_two]
 game_password = Hunter69
-motd_scoreboard = True
-scoreboard_type = Dosh
-max_players = 6
-enable_greeter = True
-dosh_threshold = 40000
 address = http://127.0.0.1:8081
 username = Admin
 password = 123
@@ -404,7 +395,7 @@ You first need to open '[b]conf/magicked_admin.conf[/b]' and here you can change
 You then need to go back and change '[b]server_one.motd[/b]' and '[b]server_one.init[/b]' to the name you just set it to in '[b]conf/magicked_admin.conf[/b]'.
 
 ## Resetting stats
-To [b]reset[/b] the scoreboard all you have to do is [b]delete[/b] the '[b]conf/*.sqlite[/b]' file associated with the server name, a new one will be created the next time you start KF2 Magicked Admin.
+To reset the scoreboard all you have to do is delete the '[b]conf/*.sqlite[/b]' file associated with the server name, a new one will be created the next time you start KF2 Magicked Admin.
 
 If I wanted to reset the stats on '[b]server_four[/b]', I would delete the '[b]conf/server_four.sqlite[/b]' file and restart KF2 Magicked Admin.
 

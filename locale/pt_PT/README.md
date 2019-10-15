@@ -73,9 +73,9 @@ Commands that can be executed by any player.
 * `!top_dosh` - Shows the global dosh leaderboard
 * `!top_time` - Shows the global play time leaderboard
 * `!top_wave_kills` - Shows information about who killed the most ZEDs in the current wave. Generally for use with `start_trc`
-    - Example: `!start_trc top_wave_kills`
+    - Example: `!start_trc -- top_wave_kills`
 * `!top_wave_dosh` - Shwows information about who earned the most dosh in the current wave. Generally for use with `!start_trc`
-    - Example: `!start_trc top_wave_dosh`
+    - Example: `!start_trc -- top_wave_dosh`
 * `!server_kills` - Shows total kills on the server
 * `!server_dosh` - Shows total dosh earned on the server
 * `!scoreboard` - Shows the complete player scoreboard, useful on servers with >6 max players
@@ -98,7 +98,7 @@ Commands that can be ran by server administrators or users authorized with the `
     - Example: `!deop the_z`
 * `!say <message>` - Echoes a message into chat
     - Example: `!say The quick brown fox jumps over the lazy dog`
-    - Example: `!start_trc say The trader is open`
+    - Example: `!start_trc -- say The trader is open`
 * `!players` - Shows detailed information about players on the server
 * `!kick <user>` - Kicks `<user>` from the match
     - Example: `!kick the_z`
@@ -118,45 +118,46 @@ Commands that can be ran by server administrators or users authorized with the `
     - Example: `!password on` Enables the game password defined in the config
     - Example: `!password off` Disables the game password
     - Example: `!password --set somePass` Sets a specific password
-* `!start_jc <command>` - Start a command that runs every time a player joins
-    - Example: `!start_jc say Welcome %PLR` - Greets a player on join
-    - Available tokens: `%PLR` - username, `%KLL` - total kills, `%DSH` - total dosh
+* `!start_jc -- <command>` - Start a command that runs every time a player joins
+    - Example: `!start_jc -- say Welcome %PLR` - Greets a player on join
+    - Available tokens: `%PLR` - username, `%KLL` - total kills, `%DSH` - total dosh; `%PLR` - username, `%BCK` - "back" if sessions > 1, `%DRK` - dosh rank, `%KRK` - kill rank, `%TME` - play time, `%TRK` - play time rank, `%SES` - sessions
 * `!stop_jc` - Stops all join commands
-* `!start_wc [-w <wave>] <command>` - Start a command that runs on wave `<wave>`
+* `!start_wc [-w <wave>] -- <command>` - Start a command that runs on wave `<wave>`
     - `-w` Wave to run the command on, can be omitted to have the command run every wave
     - `-w` Can be negative to count backwards from the boss wave
-    - Example: `!start_wc -1 say Welcome to the boss wave`
+    - Example: `!start_wc -1 -- say Welcome to the boss wave`
 * `!stop_wc` - Stops all wave commands
-* `!start_tc [-r, -t <seconds>] <command>` - Start a command that runs after `<seconds>` seconds
+* `!start_tc [-r, -t <seconds>] -- <command>` - Start a command that runs after `<seconds>` seconds
     - Option `-r`: Add to have the command run repeatedly
     - Option `-t`: Required, the number of seconds before the command runs
-    - Example: `!start_tc -rt 600 say Join our Steam group!\n
+    - Example: `!start_tc -rt 600 -- say Join our Steam group!\n
 http://steam.group/`
 * `!stop_tc` - Stops all timed commands
-* `!start_trc [-w <wave>] <command>` - Start a commands that runs when the trader opens
+* `!start_trc [-w <wave>] -- <command>` - Start a commands that runs when the trader opens
     - `-w` Wave to run the command on, can be omitted to have the command run every wave
     - `-w` Can be negative to count backwards from the boss wave
-    - Example: `!start_trc top_wave_dosh` - Shows who earned the most dosh every wave when the trader opens
+    - Example: `!start_trc -- top_wave_dosh` - Shows who earned the most dosh every wave when the trader opens
 * `!stop_trc` - Stop all commands that run on trader open
 * `!silent` - Toggles suppression of all chat output, commands still have effect, but the response will not be visible to players
 * `!run <script_name>` - Executes a script from the `conf/scripts` folder, more information in the scripts section
     - Example: `!run example`
 * `!marquee <marquee_name>` - Runs a marquee in the chat from the `conf/marquee` folder, _experimental_
     - Example: `!marquee example`
-* `!enforce_dosh` - Kicks all players that have more dosh than the `dosh_threshold` configuration option
-    - Example: `!start_tc 600 enforce_dosh` </details>
+* `!update_motd <type>` - Refreshes the welcome screen leaderboard, type is one of: kills, dosh, or time
+    - Example: `!start_tc 300 -- update_motd kills`
+* `!reload_motd` - Reloads the server's `*.motd` file from `conf`
+* `!enforce_dosh <amount>` - Kicks all players that have more dosh than the specified `amount`
+    - Example: `!start_tc 600 -- enforce_dosh 60000` </details>
 
 ### MOTD leaderboard
 
-Writing a `conf/server_name.motd` file containing pairs of `%PLR` and `%SCR` and enabling the `motd_scoreboard` option will put a live leaderboard in the motd and update it every 5 minutes.
+Create a `conf/server_name.motd` file containing pairs of `%PLR` and `%SCR`. `%PLR` will be replaced with player names and `%SCR` will be replaced with their current score. You can now use `!update_motd <type>` to draw the leaderboard into your welcome screen, `<type>` should be kills, dosh, or time depending on the desired score metric.
 
 `%SRV_D` and `%SRV_K` will be replaced by the total dosh and kills on the server respectively.
 
-The `scoreboard_type` configuration option allows you to change the score metric on the leaderboard. The options for this are: `dosh` or `kills`.
-
 ### Scripts
 
-Writing a `server_name.init` in the `conf` folder with a series of commands will run the commands in sequence when the bot starts on `server_name`.
+Writing a `server_name.init` in the `conf/scripts` folder with a series of commands will run the commands in sequence when the bot starts on `server_name`.
 
 Additional scripts can be written in the `conf/scripts` folder and ran with the `!run` command. There is an example already in there that can be ran with `!run example`.
 
@@ -192,8 +193,6 @@ Options can be configured in the config file `conf/magicked_admin.conf`.
     - Boolean value, enable or disable the MOTD scoreboard feature. Defaults to disabled.
 * `scoreboard_type`
     - Possible values: `kills`, or `dosh`. Change the type of scores that are displayed in the MOTD scoreboard.
-* `dosh_threshold`
-    - Integer value, configures the `!enforce_dosh` command. The dosh threshold is the amount of dosh a player can carry before they are kicked by the next call to `!enforce_dosh`.
 
 Running with Docker
 ---------------------------
