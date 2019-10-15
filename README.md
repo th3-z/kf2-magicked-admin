@@ -65,7 +65,7 @@ Escape sequences as follows are available to format messages.
 Commands that can be executed by any player.
 
 <details>
-<summary>Click to see the 18 player commands!</summary>
+<summary>Click to see the player commands!</summary>
 	
 * `!commands` - Shows a list of all commands available to players
 * `!stats <user>` - Shows general statistics about a user
@@ -107,7 +107,7 @@ Commands that can be ran by server administrators or users authorized with
 the `!op` command.
 
 <details>
-<summary>Click to see the 24 admin commands!</summary>
+<summary>Click to see the admin commands!</summary>
 	
 * `!op <user>` - Gives a user administrative rights
     - Example: `!op the_z`
