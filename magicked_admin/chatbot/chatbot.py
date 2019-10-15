@@ -59,8 +59,8 @@ class Chatbot(ChatListener):
             "conf/scripts/" + self.server_name + ".init"
         )
 
-        if path.exists(init_path):
-            self.execute_script(init_path)
-        else:
+        if not path.exists(init_path):
             with open(init_path, 'w+') as script_file:
                 script_file.write(INIT_TEMPLATE)
+
+        self.execute_script(init_path)
