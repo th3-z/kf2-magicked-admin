@@ -11,13 +11,14 @@ Scripted management, statistics, and bot for ranked Killing Floor 2 servers. Pro
 Downloads
 ---------
 
-The most recent stable version is `0.1.4`. Binaries are provided on the releases page for Windows users. Linux and Mac OS users should clone the repo and run from source.
+The most recent stable version is `0.1.5`. Binaries are provided on the releases page for Windows users. Linux and Mac OS users should clone the repo and run from source.
 
-[Release 0.1.4](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.4)
+[Release 0.1.5](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.5)
 
 <details>
 <summary>Old releases</summary>
 
+* [Release 0.1.4](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.4)
 * [Release 0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3)
 * [Release 0.1.2](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.2)
 * [Release 0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7) </details>
@@ -52,7 +53,7 @@ Escape sequences as follows are available to format messages.
 Commands that can be executed by any player.
 
 <details>
-<summary>Click to see the 18 player commands!</summary>
+<summary>Click to see the player commands!</summary>
 
 * `!commands` - Shows a list of all commands available to players
 * `!stats <user>` - Shows general statistics about a user
@@ -90,7 +91,7 @@ Commands that can be executed by any player.
 Commands that can be ran by server administrators or users authorized with the `!op` command.
 
 <details>
-<summary>Click to see the 24 admin commands!</summary>
+<summary>Click to see the admin commands!</summary>
 
 * `!op <user>` - Gives a user administrative rights
     - Example: `!op the_z`
