@@ -17,6 +17,7 @@ clean:
 	-@rm -rf bin
 	-@rm -rf magicked_admin/conf/*.sqlite
 	-@rm -rf magicked_admin/conf/magicked_admin.conf
+	-@rm -rf magicked_admin/conf/magicked_admin.log
 	-@find . -name '*.pyc' -exec rm -f {} +
 	-@find . -name '*.pyo' -exec rm -f {} +
 
