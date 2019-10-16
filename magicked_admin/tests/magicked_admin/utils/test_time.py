@@ -1,6 +1,6 @@
 import pytest
 
-from magicked_admin.utils.time import seconds_to_hhmmss
+from utils.time import seconds_to_hhmmss
 
 
 def test_seconds_to_hhmmss():
