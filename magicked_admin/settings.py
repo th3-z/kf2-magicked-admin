@@ -22,12 +22,12 @@ SETTINGS_DEFAULT = {
 SETTINGS_REQUIRED = ['address', 'username', 'password']
 
 CONFIG_DIE_MESG = _("Please correct this manually  or delete '{}' to create "
-                    "a clean config next run.").format(CONFIG_PATH)
+                    "a clean config next run.").format(CONFIG_PATH_DISPLAY)
 
 
 class Settings:
-    def __init__(self, skip_setup=False):
-        if not os.path.exists(CONFIG_PATH):
+    def __init__(self, config_file, skip_setup=False):
+        if not os.path.exists(config_file):
             info(_("No configuration was found, first time setup is "
                    "required!"))
 
@@ -36,7 +36,7 @@ class Settings:
             else:
                 config = self.construct_config_template()
 
-            with open(CONFIG_PATH, 'w') as config_file:
+            with open(config_file, 'w') as config_file:
                 config.write(config_file)
 
             if skip_setup:
@@ -47,7 +47,7 @@ class Settings:
 
         try:
             self.config = configparser.ConfigParser()
-            self.config.read(CONFIG_PATH)
+            self.config.read(config_file)
 
         except configparser.DuplicateOptionError as e:
             fatal(_("Configuration error(s) found!\nSection '{}' has a "
