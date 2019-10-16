@@ -18,7 +18,7 @@ from chatbot.command_scheduler import CommandScheduler
 from chatbot.motd_updater import MotdUpdater
 from chatbot.commands.command_map import CommandMap
 from server.server import Server
-from settings import Settings
+from settings import Settings, CONFIG_PATH
 from utils import banner, die, find_data_file, info, warning
 from utils.net import phone_home
 from server.game_tracker import GameTracker
@@ -41,7 +41,7 @@ parser.add_argument('-s', '--skip_setup', action='store_true',
 args = parser.parse_args()
 
 banner()
-settings = Settings(skip_setup=args.skip_setup)
+settings = Settings(CONFIG_PATH, skip_setup=args.skip_setup)
 
 REQUESTS_CA_BUNDLE_PATH = find_data_file("./certifi/cacert.pem")
 

@@ -1,6 +1,6 @@
 import pytest
 
-from magicked_admin.utils.net import (
+from utils.net import (
     get_country, phone_home, resolve_address
 )
 
