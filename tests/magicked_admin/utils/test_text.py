@@ -20,6 +20,9 @@ def test_str_to_bool():
         result = str_to_bool(test["str"])
         assert result == test["expected"]
 
+    with pytest.raises(ValueError):
+        str_to_bool("junk")
+
 
 def test_trim_string():
     tests = [
@@ -75,7 +78,11 @@ def test_pad_output():
         {"str": "test",
          "expected": "\n\n\n\n\n\n\ntest"},
         {"str": "a\ntest",
-         "expected": "\n\n\n\n\n\na\ntest"}
+         "expected": "\n\n\n\n\n\na\ntest"},
+        {"str": None,
+         "expected": None},
+        {"str": "\n1\n2\n3\n4\n5\n6\n7",
+         "expected": "\n1\n2\n3\n4\n5\n6\n7"},
     ]
 
     for test in tests:
