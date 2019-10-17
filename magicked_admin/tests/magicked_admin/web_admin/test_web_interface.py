@@ -1,6 +1,6 @@
 import pytest
 from unittest import mock
-import requests
+from requests import Session
 
 from web_admin.web_interface import WebInterface
 
@@ -42,32 +42,32 @@ class MockResponse:
         return self.content
 
 
-class MockSession:
-    def post(*args, **kwargs):
-        if args[0] == '{}/ServerAdmin/'.format(ADDRESS):
-            return MockResponse("Exceeded login attempts", 200)
+def mock_session_post(*args, **kwargs):
+    if args[0] == '{}/ServerAdmin/'.format(ADDRESS):
+        return MockResponse("<!-- KF2-MA-INSTALLED-FLAG -->", 200)
 
-        return MockResponse(None, 404)
+    return MockResponse(None, 404)
 
-    def get(*args, **kwargs):
-        if args[0] == '{}/ServerAdmin/'.format(ADDRESS):
-            return MockResponse(LOGIN_TOKEN_RESP, 200)
 
-        return MockResponse(None, 404)
+def mock_session_get(*args, **kwargs):
+    if args[0] == '{}/ServerAdmin/'.format(ADDRESS):
+        return MockResponse(LOGIN_TOKEN_RESP, 200)
+
+    return MockResponse(None, 404)
 
 
 @pytest.fixture
-def web_iface():
-    with mock.patch("web_admin.web_interface.session") as session_mock:
-        session = MockSession()
-        web_iface = WebInterface(
-            ADDRESS,
-            settings.setting("server_one", "username"),
-            settings.setting("server_one", "password"),
-            server_name="server_one"
-        )
+@mock.patch.object(Session, 'get', side_effect=mock_session_get)
+@mock.patch.object(Session, 'post', side_effect=mock_session_post)
+def web_iface(mock_get, mock_post):
+    web_iface = WebInterface(
+        ADDRESS,
+        settings.setting("server_one", "username"),
+        settings.setting("server_one", "password"),
+        server_name="server_one"
+    )
 
-        return web_iface
+    return web_iface
 
 
 def test_get_server_info(web_iface):
