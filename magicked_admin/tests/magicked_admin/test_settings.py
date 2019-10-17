@@ -5,11 +5,11 @@ from utils import find_data_file
 from os.path import exists
 from os import remove
 
-TEST_CONFIG_PATH = "magicked_admin/tests/test_data/conf/magicked_admin.conf"
-BROKEN_CONFIG_PATH = ("magicked_admin/tests/test_data/conf"
+TEST_CONFIG_PATH = "tests/test_data/conf/magicked_admin.conf"
+BROKEN_CONFIG_PATH = ("tests/test_data/conf"
                       "/magicked_admin_broken.conf")
 BAD_CONFIG_PATH = "junk"
-SKIP_CONFIG_PATH = "magicked_admin/tests/test_data/conf/skip.conf"
+SKIP_CONFIG_PATH = "tests/test_data/conf/skip.conf"
 
 
 def test_settings_test_config():

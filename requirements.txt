@@ -10,3 +10,4 @@ flake8
 pytest
 pytest-cov
 patch==1.*
+nose2
