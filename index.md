@@ -1,35 +1,11 @@
-<p align="center">
-    <img width=103 height=102 src="https://files.th3-z.xyz/standing/kf2ma.png"/>
-</p>
+About
+-----
 
-<h1 align="center">Killing Floor 2 Magicked Admin</h1>
-
-[![Downloads](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg)](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg) [![Build Status](https://travis-ci.com/th3-z/kf2-magicked-admin.svg?branch=master)](https://travis-ci.com/th3-z/kf2-magicked-admin) [![Coverage Status](https://coveralls.io/repos/github/th3-z/kf2-magicked-admin/badge.svg?branch=master)](https://coveralls.io/github/th3-z/kf2-magicked-admin?branch=master) [![CodeFactor](https://www.codefactor.io/repository/github/th3-z/kf2-magicked-admin/badge/master)](https://www.codefactor.io/repository/github/th3-z/kf2-magicked-admin/overview/master)
-
-Scripted management, statistics, and bot for ranked Killing Floor 2 servers. 
 Provides in-game commands, player stat tracking and ranking, live MOTD 
-scoreboard and stats, greeter, and admin functions. Running entirely through 
-the web admin, it does not affect a server's ranked/custom status. It can be 
-ran either directly on the server or remotely, and manage multiple servers at 
-once.
-
-Downloads
----------
-
-The most recent stable version is `0.1.5`. Binaries are provided on the releases 
-page for Windows users. Linux and Mac OS users should clone the repo and run
-from source.
-
-[Release 0.1.5](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.5)
-
-<details>
-<summary>Old releases</summary>
-
-* [Release 0.1.4](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.4)
-* [Release 0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3)
-* [Release 0.1.2](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.2)
-* [Release 0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7)
-</details>
+scoreboard and stats, greeter, and admin functions for Killing Floor 2 servers. 
+Running entirely through the web admin, it does not affect a server's 
+ranked/custom status. It can be ran either directly on the server or remotely, 
+and manage multiple servers at once.
 
 Features
 --------
@@ -64,9 +40,6 @@ Escape sequences as follows are available to format messages.
 
 Commands that can be executed by any player.
 
-<details>
-<summary>Click to see the player commands!</summary>
-	
 * `!commands` - Shows a list of all commands available to players
 * `!stats <user>` - Shows general statistics about a user
     - Example: `!stats` Shows stats about yourself
@@ -99,16 +72,12 @@ Commands that can be executed by any player.
 * `!maps [--all]` - Shows the current map cycle
     - Option `-a`: Show all available maps
 * `!player_count` - Shows the player count and max players
-</details>
 
 #### Admin commands
 
 Commands that can be ran by server administrators or users authorized with 
 the `!op` command.
 
-<details>
-<summary>Click to see the admin commands!</summary>
-	
 * `!op <user>` - Gives a user administrative rights
     - Example: `!op the_z`
 * `!deop <user>` - Revokes a user's administrative rights
@@ -178,7 +147,6 @@ the `!op` command.
 * `!reload_motd` - Reloads the server's `*.motd` file from `conf`
 * `!enforce_dosh <amount>` - Kicks all players that have more dosh than the specified `amount`
     - Example: `!start_tc 600 -- enforce_dosh 60000`
-</details>
 
 ### MOTD leaderboard
 
