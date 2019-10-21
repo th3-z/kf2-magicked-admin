@@ -2,6 +2,8 @@
 
 Public website for Killing Floor 2 Magicked Admin. Running on Jekyll, served by Github Pages.
 
+The theme is a modified version of Cayman (MIT).
+
 ### Live instance
 https://kf2-ma.th3-z.xyz/
 
