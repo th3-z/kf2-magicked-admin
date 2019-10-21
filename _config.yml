@@ -3,3 +3,5 @@ description: Scripted management, commands, and statistics for Killing Floor 2 s
 show_downloads: true
 markdown: GFM
 
+sass:
+  sass_dir: _sass
