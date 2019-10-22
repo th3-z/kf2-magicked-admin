@@ -28,6 +28,7 @@ from web_admin import WebAdmin
 from web_admin.web_interface import WebInterface
 from web_admin.chat import Chat
 from web_admin.constants import *
+from lua_bridge.lua_bridge import LuaBridge
 
 _ = gettext.gettext
 
@@ -124,10 +125,11 @@ class MagickedAdmin:
 
         for server_name in settings.sections():
             server = self.make_server(server_name)
-            self.make_chatbot(
+            servers.append(server)
+            chatbot = self.make_chatbot(
                 settings.setting(server_name, "username"), server
             )
-            servers.append(server)
+            chatbot.add_lua_bridge(LuaBridge(server, chatbot))
 
         info(_("Initialisation complete!\n"))
 

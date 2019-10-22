@@ -16,10 +16,14 @@ class Chatbot(ChatListener):
 
         self.chat = chat
         self.commands = {}
+        self.lua_bridge = None
         self.silent = False
 
     def add_command(self, name, command):
         self.commands[name] = command
+
+    def add_lua_bridge(self, lua_bridge):
+        self.lua_bridge = lua_bridge
 
     def receive_message(self, username, message, user_flags):
         if message[0] == '!':
@@ -39,6 +43,11 @@ class Chatbot(ChatListener):
 
     def execute_script(self, filename):
         debug(_("Executing script: ") + path.basename(filename))
+
+        fn, ext = path.splitext(filename)
+        if ext == ".lua":
+            self.lua_bridge.execute_script(filename)
+            return
 
         with open(filename) as script:
             for line in script:
