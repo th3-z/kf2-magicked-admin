@@ -9,6 +9,35 @@ from web_admin.constants import *
 _ = gettext.gettext
 
 
+class CommandLua(Command):
+    def __init__(self, server, chatbot):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+
+        self.parser.add_argument("lua", nargs="*")
+        self.help_text = _("Usage: !lua LUA\n"
+                           "\tLUA - Lua statements \n"
+                           "Desc: Runs some Lua code")
+
+        self.chatbot = chatbot
+
+    def execute(self, username, args, user_flags):
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        if args.help:
+            return self.format_response(self.help_text, args)
+
+        if args.lua:
+            lua = " ".join(args.lua)
+        else:
+            return self.format_response(
+                _("Missing argument, Lua"), args
+            )
+
+        result = self.chatbot.lua_bridge.eval(lua)
+        return str(result)
+
+
 class CommandBan(Command):
     def __init__(self, server):
         Command.__init__(self, server, admin_only=True, requires_patch=False)

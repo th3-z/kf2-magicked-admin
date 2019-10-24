@@ -3,7 +3,19 @@ from lupa import LuaRuntime
 
 from web_admin.chat import ChatListener
 from utils.lua import load_script
-from utils import find_data_file
+from utils import find_data_file, warning
+
+"""
+API Specification:
+    server.write_players
+    server.write_game
+    chat.say
+    motd.
+    commands.
+    
+
+
+"""
 
 
 class LuaBridge(ChatListener):
@@ -45,16 +57,25 @@ class LuaBridge(ChatListener):
             "server", "get_player", self.server.get_player_by_sid
         )
         self.new_bind(
-            "server", "get_players", lambda: self.server.players
+            "server", "get_players", self.get_players
         )
 
         self.new_namespace("motd")
 
-    def execute_script(self, filename):
-        self.lua.execute(load_script(filename))
+    def get_players(self):
+        return self.server.players
 
-    def execute(self, string):
-        self.lua.execute(string)
+    def execute_script(self, filename):
+        try:
+            self.lua.execute(load_script(filename))
+        except Exception as err:
+            warning(str(err))
+
+    def eval(self, string):
+        try:
+            return self.lua.eval(string)
+        except Exception as err:
+            warning(str(err))
 
     def receive_message(self, username, message, user_flags):
         # TODO: Call lua event handler
