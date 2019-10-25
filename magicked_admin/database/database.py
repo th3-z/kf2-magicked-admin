@@ -43,6 +43,14 @@ class ServerDatabase:
         self.conn.commit()
         self.conn.close()
 
+    # TODO: All queries should use this
+    def execute(self, query, params):
+        lock.acquire(True)
+        self.cur.execute(query, params)
+        result = self.cur.fetchall()
+        lock.release()
+        return result
+
     def __rank_by_col(self, steam_id, col):
         query = """
             SELECT
