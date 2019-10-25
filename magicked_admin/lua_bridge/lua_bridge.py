@@ -1,4 +1,5 @@
 import lupa
+import requests
 from lupa import LuaRuntime
 
 from web_admin.chat import ChatListener
@@ -11,10 +12,7 @@ API Specification:
     server.write_game
     chat.say
     motd.
-    commands.
-    
-
-
+    db.execute
 """
 
 
@@ -24,12 +22,12 @@ class LuaBridge(ChatListener):
         self.lua = LuaRuntime(unpack_returned_tuples=True)
         self.lua.execute(load_script("lua_bridge/init.lua"))
 
-        # Params: namespace, func
-        self.new_bind = self.lua.eval("bind_py_func")
+        # Params: str:namespace, str:name, pyfunc:func
+        self.new_bind = self.lua.eval("bridge.new_bind")
 
-        # Params: namespace
-        self.new_namespace = self.lua.eval("new_namespace")
-        self.lua.eval("log(\"Initialisation complete\")")
+        # Params: str:namespace
+        self.new_namespace = self.lua.eval("bridge.new_namespace")
+        self.lua.eval("log.info(\"Initialisation complete\")")
 
         self.server = server
         self.chatbot = chatbot
@@ -59,8 +57,32 @@ class LuaBridge(ChatListener):
         self.new_bind(
             "server", "get_players", self.get_players
         )
+        self.new_bind(
+            "server", "set_game_password", self.server.set_game_password
+        )
+        self.new_bind(
+            "server", "set_difficulty", self.server.set_difficulty
+        )
+        self.new_bind(
+            "server", "set_length", self.server.set_length
+        )
 
         self.new_namespace("motd")
+        # ...
+
+        self.new_namespace("db")
+        db = self.server.database
+        self.new_bind("db", "execute", db.execute)
+        self.new_bind("db", "rank_kills", db.execute)
+        self.new_bind("db", "top_kills", db.execute)
+        self.new_bind("db", "get_player", db.load_player)
+
+        self.new_namespace("requests")
+        self.new_bind("requests", "get", requests.get)
+        self.new_bind("requests", "post", requests.post)
+
+        
+
 
     def get_players(self):
         return self.server.players
@@ -80,5 +102,4 @@ class LuaBridge(ChatListener):
     def receive_message(self, username, message, user_flags):
         # TODO: Call lua event handler
         pass
-
 

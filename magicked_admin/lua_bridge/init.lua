@@ -1,10 +1,20 @@
-function log(mesg)
-    print(" [Lua] " .. mesg)
+log = {}
+bridge = {}
+
+iter = python.iter
+enumerate = python.enumerate
+
+log.info = function (mesg)
+    print(" [*] [Lua] " .. mesg)
+end
+
+log.warning = function (mesg)
+    print(" [!] [Lua] " .. mesg)
 end
 
 -- Called by python to add binds to namespaces
-function bind_py_func(namespace, func_name, py_func)
-    log(
+bridge.new_bind = function (namespace, func_name, py_func)
+    log.info(
         "Creating Python bind - "
             .. namespace .. "."
             .. func_name .. " -> "
@@ -15,7 +25,9 @@ function bind_py_func(namespace, func_name, py_func)
 end
 
 -- Called by python to create Lua namespaces
-function new_namespace(namespace)
-    log("Creating namespace - " .. namespace)
+bridge.new_namespace = function (namespace)
+    log.info("Creating namespace - " .. namespace)
     _G[namespace] = {}
 end
+
+
