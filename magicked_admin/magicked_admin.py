@@ -129,7 +129,9 @@ class MagickedAdmin:
             chatbot = self.make_chatbot(
                 settings.setting(server_name, "username"), server
             )
-            chatbot.add_lua_bridge(LuaBridge(server, chatbot))
+            lua_bridge = LuaBridge(server, chatbot)
+            chatbot.add_lua_bridge(lua_bridge))
+            server.web_admin.chat.add_listener(lua_bridge)
 
         info(_("Initialisation complete!\n"))
 
