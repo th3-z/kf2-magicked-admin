@@ -34,7 +34,7 @@ class LuaBridge(ChatListener):
         self.create_binds()
 
     def create_binds(self):
-        commands = self.chatbot.commands
+        # commands = self.chatbot.commands
 
         self.new_namespace("chat")
         self.new_bind(
@@ -81,9 +81,6 @@ class LuaBridge(ChatListener):
         self.new_bind("requests", "get", requests.get)
         self.new_bind("requests", "post", requests.post)
 
-        
-
-
     def get_players(self):
         return self.server.players
 
@@ -102,4 +99,3 @@ class LuaBridge(ChatListener):
     def receive_message(self, username, message, user_flags):
         # TODO: Call lua event handler
         pass
-
