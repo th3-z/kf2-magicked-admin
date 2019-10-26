@@ -130,7 +130,7 @@ class MagickedAdmin:
                 settings.setting(server_name, "username"), server
             )
             lua_bridge = LuaBridge(server, chatbot)
-            chatbot.add_lua_bridge(lua_bridge))
+            chatbot.add_lua_bridge(lua_bridge)
             server.web_admin.chat.add_listener(lua_bridge)
 
         info(_("Initialisation complete!\n"))
