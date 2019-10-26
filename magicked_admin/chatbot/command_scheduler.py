@@ -188,10 +188,8 @@ class CommandOnJoin(ScheduledCommand):
         return False
 
     def resolve_command(self, internal_message):
-        message = internal_message.split()
         command = self.command
-
-        username = " ".join(message[1:])
+        username = internal_message.split(" ", 1)[1]
 
         if "%PLR" in self.command:
             player = self.server.get_player_by_username(username)
