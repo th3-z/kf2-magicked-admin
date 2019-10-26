@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-14 22:12+0100\n"
+"POT-Creation-Date: 2019-10-26 23:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,23 +17,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
 
-#: magicked_admin/magicked_admin.py:37
+#: magicked_admin/magicked_admin.py:38
 msgid "Killing Floor 2 Magicked Administrator"
 msgstr ""
 
-#: magicked_admin/magicked_admin.py:40
+#: magicked_admin/magicked_admin.py:41
 msgid "Skips the guided setup process"
 msgstr ""
 
-#: magicked_admin/magicked_admin.py:132
+#: magicked_admin/magicked_admin.py:136
 msgid "Initialisation complete!\n"
 msgstr ""
 
-#: magicked_admin/magicked_admin.py:143
+#: magicked_admin/magicked_admin.py:147
 msgid "Closing immediately!"
 msgstr ""
 
-#: magicked_admin/magicked_admin.py:152
+#: magicked_admin/magicked_admin.py:156
 msgid "Program interrupted, saving data..."
 msgstr ""
 
@@ -113,20 +113,20 @@ msgid ""
 "\n"
 "; start_wc --wave -1 say If I wasn't commented you'd see this on the boss"
 " wave\n"
-"start_trc top_wave_dosh\n"
+"start_trc -- top_wave_dosh\n"
 "\n"
 "; Start the default greeter script `conf/scripts/greeter`\n"
 "run greeter\n"
 "\n"
 "; Update the motd scoreboard every 5 minutes\n"
-"start_tc --repeat --time 300 update_motd -q dosh\n"
+"start_tc --repeat --time 300 -- update_motd -q dosh\n"
 "\n"
 "; Re-enable chat output\n"
 "silent --quiet\n"
 "\n"
 msgstr ""
 
-#: magicked_admin/chatbot/chatbot.py:41
+#: magicked_admin/chatbot/chatbot.py:45
 msgid "Executing script: "
 msgstr ""
 
@@ -178,210 +178,221 @@ msgid "Auth failure, username: {}, user flags: {:b}"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:16
-msgid "start_jc"
+msgid "lua"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:17
-msgid "stop_jc"
+msgid "start_jc"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:18
-msgid "start_wc"
+msgid "stop_jc"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:19
-msgid "stop_wc"
+msgid "start_wc"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:20
-msgid "start_tc"
+msgid "stop_wc"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:21
-msgid "stop_tc"
+msgid "start_tc"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:22
-msgid "start_trc"
+msgid "stop_tc"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:23
-msgid "stop_trc"
+msgid "start_trc"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:24
-msgid "enforce_dosh"
+msgid "stop_trc"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:25
-msgid "say"
+msgid "enforce_dosh"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:26
-msgid "restart"
+msgid "say"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:27
-msgid "load_map"
+msgid "restart"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:28
-msgid "password"
+msgid "load_map"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:29
-msgid "silent"
+msgid "password"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:30
-msgid "run"
+msgid "silent"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:31
-msgid "marquee"
+msgid "run"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:32
-msgid "length"
+msgid "marquee"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:33
-msgid "difficulty"
+msgid "length"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:34
-msgid "game_mode"
+msgid "difficulty"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:35
-msgid "players"
+msgid "game_mode"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:36
-msgid "kick"
+msgid "players"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:37
-msgid "ban"
+msgid "kick"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:38
-msgid "op"
+msgid "ban"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:39
-msgid "deop"
+msgid "op"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:40
-msgid "update_motd"
+msgid "deop"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:41
+msgid "update_motd"
+msgstr ""
+
+#: magicked_admin/chatbot/commands/command_map.py:42
 msgid "reload_motd"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:44
+#: magicked_admin/chatbot/commands/command_map.py:45
 msgid "commands"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:45
+#: magicked_admin/chatbot/commands/command_map.py:46
 msgid "record_wave"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:46
+#: magicked_admin/chatbot/commands/command_map.py:47
 msgid "game"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:47
+#: magicked_admin/chatbot/commands/command_map.py:48
 msgid "kills"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:48
+#: magicked_admin/chatbot/commands/command_map.py:49
 msgid "dosh"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:49
+#: magicked_admin/chatbot/commands/command_map.py:50
 msgid "top_kills"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:50
+#: magicked_admin/chatbot/commands/command_map.py:51
 msgid "top_dosh"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:51
+#: magicked_admin/chatbot/commands/command_map.py:52
 msgid "top_time"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:52
+#: magicked_admin/chatbot/commands/command_map.py:53
 msgid "top_wave_kills"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:53
+#: magicked_admin/chatbot/commands/command_map.py:54
 msgid "top_wave_dosh"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:54
+#: magicked_admin/chatbot/commands/command_map.py:55
 msgid "stats"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:55
+#: magicked_admin/chatbot/commands/command_map.py:56
 msgid "game_time"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:56
+#: magicked_admin/chatbot/commands/command_map.py:57
 msgid "server_kills"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:57
+#: magicked_admin/chatbot/commands/command_map.py:58
 msgid "server_dosh"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:58
+#: magicked_admin/chatbot/commands/command_map.py:59
 msgid "map"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:59
+#: magicked_admin/chatbot/commands/command_map.py:60
 msgid "maps"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:60
+#: magicked_admin/chatbot/commands/command_map.py:61
 msgid "player_count"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:61
+#: magicked_admin/chatbot/commands/command_map.py:62
 msgid "scoreboard"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/command_map.py:62
+#: magicked_admin/chatbot/commands/command_map.py:63
 msgid "sb"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:16
+#: magicked_admin/chatbot/commands/event_commands.py:17
 msgid ""
 "Usage: !start_jc COMMAND\n"
 "\tCOMMAND - Command to run\n"
 "Desc: Runs a command when a player joins the match"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:33
-#: magicked_admin/chatbot/commands/event_commands.py:99
-#: magicked_admin/chatbot/commands/event_commands.py:167
-#: magicked_admin/chatbot/commands/event_commands.py:223
+#: magicked_admin/chatbot/commands/event_commands.py:27
+#: magicked_admin/chatbot/commands/event_commands.py:85
+#: magicked_admin/chatbot/commands/event_commands.py:153
+#: magicked_admin/chatbot/commands/event_commands.py:226
+msgid "Ambiguous event command, please use ' -- ' to separate commands"
+msgstr ""
+
+#: magicked_admin/chatbot/commands/event_commands.py:37
+#: magicked_admin/chatbot/commands/event_commands.py:106
+#: magicked_admin/chatbot/commands/event_commands.py:177
+#: magicked_admin/chatbot/commands/event_commands.py:236
 msgid "Please specify a command to run"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:42
+#: magicked_admin/chatbot/commands/event_commands.py:46
 msgid "Player join command started"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:50
+#: magicked_admin/chatbot/commands/event_commands.py:54
 msgid ""
 "Usage: !stop_jc\n"
 "Desc: Stops all join commands"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:71
+#: magicked_admin/chatbot/commands/event_commands.py:75
 msgid ""
 "Usage: !start_wc [--wave] COMMAND\n"
 "\t-w --wave - Optional, wave to run on\n"
@@ -390,22 +401,22 @@ msgid ""
 "on every wave"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:91
-#: magicked_admin/chatbot/commands/event_commands.py:231
+#: magicked_admin/chatbot/commands/event_commands.py:98
+#: magicked_admin/chatbot/commands/event_commands.py:244
 msgid "'{}' is not a valid wave number"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:106
+#: magicked_admin/chatbot/commands/event_commands.py:113
 msgid "Wave start command started"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:114
+#: magicked_admin/chatbot/commands/event_commands.py:121
 msgid ""
 "Usage: !stop_wc\n"
 "Desc: Stops all wave commands"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:135
+#: magicked_admin/chatbot/commands/event_commands.py:142
 msgid ""
 "Usage: !start_tc [-r -t] COMMAND\n"
 "\tCOMMAND - Command to run\n"
@@ -414,25 +425,25 @@ msgid ""
 "Desc: Runs a command after some time delay"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:153
+#: magicked_admin/chatbot/commands/event_commands.py:163
 msgid "Please specify a time interval, '!start_tc -h' for help"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:161
+#: magicked_admin/chatbot/commands/event_commands.py:171
 msgid "'{}' is not a valid time interval"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:176
+#: magicked_admin/chatbot/commands/event_commands.py:186
 msgid "Time interval command started"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:184
+#: magicked_admin/chatbot/commands/event_commands.py:194
 msgid ""
 "Usage: !stop_tc\n"
 "Desc: Stops all timed commands"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:205
+#: magicked_admin/chatbot/commands/event_commands.py:215
 msgid ""
 "Usage: !start_trc [--wave] COMMAND\n"
 "\tCOMMAND - Command to run\n"
@@ -441,11 +452,11 @@ msgid ""
 "every time the trader opens"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:239
+#: magicked_admin/chatbot/commands/event_commands.py:252
 msgid "Trader open command started"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:247
+#: magicked_admin/chatbot/commands/event_commands.py:260
 msgid ""
 "Usage: !stop_trc\n"
 "Desc: Stops all trader commands"
@@ -494,7 +505,7 @@ msgid ""
 msgstr ""
 
 #: magicked_admin/chatbot/commands/info_commands.py:144
-#: magicked_admin/chatbot/commands/server_commands.py:168
+#: magicked_admin/chatbot/commands/server_commands.py:197
 msgid ""
 "Usage: !map\n"
 "Desc: Shows statistics about the current map"
@@ -680,180 +691,191 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:17
 msgid ""
+"Usage: !lua LUA\n"
+"\tLUA - Lua statements \n"
+"Desc: Runs some Lua code"
+msgstr ""
+
+#: magicked_admin/chatbot/commands/server_commands.py:34
+msgid "Missing argument, Lua"
+msgstr ""
+
+#: magicked_admin/chatbot/commands/server_commands.py:46
+msgid ""
 "Usage: !ban USERNAME\n"
 "\tUSERNAME - Player to ban\n"
 "Desc: Bans a player from the server"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:32
-#: magicked_admin/chatbot/commands/server_commands.py:89
-#: magicked_admin/chatbot/commands/server_commands.py:125
-#: magicked_admin/chatbot/commands/server_commands.py:259
+#: magicked_admin/chatbot/commands/server_commands.py:61
+#: magicked_admin/chatbot/commands/server_commands.py:118
+#: magicked_admin/chatbot/commands/server_commands.py:154
+#: magicked_admin/chatbot/commands/server_commands.py:288
 msgid "Missing argument, username or Steam ID"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:37
-#: magicked_admin/chatbot/commands/server_commands.py:264
+#: magicked_admin/chatbot/commands/server_commands.py:66
+#: magicked_admin/chatbot/commands/server_commands.py:293
 msgid "Player not found"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:40
+#: magicked_admin/chatbot/commands/server_commands.py:69
 msgid "Player, {}, was banned"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:48
+#: magicked_admin/chatbot/commands/server_commands.py:77
 msgid ""
 "Usage: !say MESSAGE\n"
 "\tMESSAGE - Message to echo\n"
 "Desc: Echos a message in chat"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:73
+#: magicked_admin/chatbot/commands/server_commands.py:102
 msgid ""
 "Usage: !op USERNAME\n"
 "\tUSERNAME - Player to give operator status\n"
 "Desc: Allows a player to use admin commands"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:94
-#: magicked_admin/chatbot/commands/server_commands.py:130
+#: magicked_admin/chatbot/commands/server_commands.py:123
+#: magicked_admin/chatbot/commands/server_commands.py:159
 msgid "Couldn't find player '{}'"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:97
+#: magicked_admin/chatbot/commands/server_commands.py:126
 msgid "Oped {}"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:108
+#: magicked_admin/chatbot/commands/server_commands.py:137
 msgid ""
 "Usage: !deop USERNAME\n"
 "\tUSERNAME - Player to revoke op status for\n"
 "Desc: Revokes a players ability to use admin commands"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:133
+#: magicked_admin/chatbot/commands/server_commands.py:162
 msgid "Deoped {}"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:144
+#: magicked_admin/chatbot/commands/server_commands.py:173
 msgid ""
 "Usage: !maps [--all]\n"
 "\t-a --all - Show all available maps\n"
 "Desc: Shows maps that are in the map cycle"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:196
+#: magicked_admin/chatbot/commands/server_commands.py:225
 msgid "Stats for {}:\n"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:197
+#: magicked_admin/chatbot/commands/server_commands.py:226
 msgid "Total plays: {} \n"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:198
+#: magicked_admin/chatbot/commands/server_commands.py:227
 msgid "Record wave: {} \n"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:199
+#: magicked_admin/chatbot/commands/server_commands.py:228
 msgid "Survival wins: {} \n"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:208
+#: magicked_admin/chatbot/commands/server_commands.py:237
 msgid ""
 "Usage: !enforce_dosh AMOUNT\n"
 "\tAMOUNT - Kicks players over this amount\n"
 "Desc: Kicks players with more dosh than the amount specified"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:223
+#: magicked_admin/chatbot/commands/server_commands.py:252
 msgid "Please specify a maximum amount of dosh"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:230
+#: magicked_admin/chatbot/commands/server_commands.py:259
 msgid "'{}' is not a valid number"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:244
+#: magicked_admin/chatbot/commands/server_commands.py:273
 msgid ""
 "Usage: !kick USERNAME\n"
 "\tUSERNAME - Player to kick\n"
 "Desc: Kicks a player from the match"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:267
+#: magicked_admin/chatbot/commands/server_commands.py:296
 msgid "Player, {}, was kicked"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:278
+#: magicked_admin/chatbot/commands/server_commands.py:307
 msgid ""
 "Usage: !update_motd TYPE\n"
 "\tTYPE - Score type, one of: kills, dosh, time\n"
 "Desc: Updates the MOTD scoreboard"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:290
+#: magicked_admin/chatbot/commands/server_commands.py:319
 msgid "Missing argument: type"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:294
+#: magicked_admin/chatbot/commands/server_commands.py:323
 msgid "Unrecognised score type: {}"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:300
+#: magicked_admin/chatbot/commands/server_commands.py:329
 msgid "Updated the MOTD"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:310
+#: magicked_admin/chatbot/commands/server_commands.py:339
 msgid ""
 "Usage: !reload_motd\n"
 "Desc: Reload the server's *.motd file"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:323
+#: magicked_admin/chatbot/commands/server_commands.py:352
 msgid "Reloaded the MOTD"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:332
+#: magicked_admin/chatbot/commands/server_commands.py:361
 msgid ""
 "Usage: !run FILE\n"
 "\tFILE - Some file in 'conf/scripts'\n"
 "Desc: Runs a script"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:347
+#: magicked_admin/chatbot/commands/server_commands.py:376
 msgid "No script was specified"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:352
+#: magicked_admin/chatbot/commands/server_commands.py:381
 msgid "Script not found"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:361
+#: magicked_admin/chatbot/commands/server_commands.py:390
 msgid ""
 "Usage: !restart\n"
 "Desc: Restarts the match"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:372
+#: magicked_admin/chatbot/commands/server_commands.py:401
 msgid "Restarting map..."
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:379
+#: magicked_admin/chatbot/commands/server_commands.py:408
 msgid ""
 "Usage: !load_map MAP_NAME\n"
 "\tMAP_NAME - Map to load\n"
 "Desc: Immediately changes the map."
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:392
+#: magicked_admin/chatbot/commands/server_commands.py:421
 msgid "Missing argument (map name)"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:395
+#: magicked_admin/chatbot/commands/server_commands.py:424
 msgid "Changing map"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:402
+#: magicked_admin/chatbot/commands/server_commands.py:431
 msgid ""
 "Usage: !password [--set] STATE\n"
 "\tSTATE - On, off, or new password\n"
@@ -862,93 +884,93 @@ msgid ""
 "'conf/magicked_admin.conf', state can be on, off, or a new password."
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:421
+#: magicked_admin/chatbot/commands/server_commands.py:450
 msgid "Game password is currently {}"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:422
+#: magicked_admin/chatbot/commands/server_commands.py:451
 msgid "enabled"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:422
+#: magicked_admin/chatbot/commands/server_commands.py:451
 msgid "disabled"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:433
+#: magicked_admin/chatbot/commands/server_commands.py:462
 msgid "Game password enabled"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:437
+#: magicked_admin/chatbot/commands/server_commands.py:466
 msgid "Game password disabled"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:440
+#: magicked_admin/chatbot/commands/server_commands.py:469
 msgid "Unrecognised option {}"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:450
+#: magicked_admin/chatbot/commands/server_commands.py:479
 msgid ""
 "Usage: !silent [--quiet]\n"
 "\t-q --quiet - Suppresses output'\n"
 "Desc: Toggles command output globally"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:463
+#: magicked_admin/chatbot/commands/server_commands.py:492
 msgid "Silent mode disabled"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:465
+#: magicked_admin/chatbot/commands/server_commands.py:494
 msgid "Silent mode enabled"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:479
+#: magicked_admin/chatbot/commands/server_commands.py:508
 msgid ""
 "Usage: !length LENGTH\n"
 "\tLENGTH - Length to change to\n"
 "Desc: Changes the game length next match"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:492
-#: magicked_admin/chatbot/commands/server_commands.py:504
+#: magicked_admin/chatbot/commands/server_commands.py:521
+#: magicked_admin/chatbot/commands/server_commands.py:533
 msgid "Length not recognised, options are: short, medium, or long"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:511
+#: magicked_admin/chatbot/commands/server_commands.py:540
 msgid "Length change will take effect next game"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:520
+#: magicked_admin/chatbot/commands/server_commands.py:549
 msgid ""
 "Usage: !difficulty DIFFICULTY\n"
 "\tDIFFICULTY - Difficulty to change to\n"
 "Desc: Changes the difficulty next match"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:533
-#: magicked_admin/chatbot/commands/server_commands.py:547
+#: magicked_admin/chatbot/commands/server_commands.py:562
+#: magicked_admin/chatbot/commands/server_commands.py:576
 msgid "Difficulty not recognised, options are: normal, hard, suicidal, or hell"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:554
+#: magicked_admin/chatbot/commands/server_commands.py:583
 msgid "Difficulty change will take effect next game"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:563
+#: magicked_admin/chatbot/commands/server_commands.py:592
 msgid ""
 "Usage: !game_mode MODE\n"
 "\tMODE - Mode to change to\n"
 "Desc: Immediately changes the game mode"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:577
+#: magicked_admin/chatbot/commands/server_commands.py:606
 msgid "Mode not recognised, options are: endless, survival, weekly or versus"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:592
+#: magicked_admin/chatbot/commands/server_commands.py:621
 msgid "GameMode not recognised, options are: endless, survival, weekly or versus"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:599
+#: magicked_admin/chatbot/commands/server_commands.py:628
 msgid "Game mode will be changed to {}"
 msgstr ""
 
