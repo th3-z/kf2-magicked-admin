@@ -264,6 +264,11 @@ After this command runs the container will exit out and the logs will tell you
 to setup the config file. Go to your `conf` folder and set things up then run 
 the container again and you are good to go!
 
+If you want to use the admin_patches so that kf-magicked-admin gets installed into your server directory when the container starts (some gamemodes wont track stats without it) just mount your game directory into the container and set the `PATCHES_TARGET_DIR` env variable to the directory. You can mount multiple directories and just separate them with a comma "," in the env variable if you have many servers. Here is an example:
+```
+    docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' -v '<host kf folder>':/kf2-server -v '<host kf folder>':/kf2-server-two -e 'PATCHES_TARGET_DIR'='/kf2-server,/kf2-server-two' th3z/kf2-magicked-admin
+```
+
 Running from Python sources
 ---------------------------
 
