@@ -29,7 +29,7 @@ isort:
 
 pytest:
 	@echo "\n$(YELLOW_COLOR)Running tests...$(NO_COLOR)\n"
-	@pytest magicked_admin/tests --cov-fail-under=10 --cov=magicked_admin
+	@pytest magicked_admin/tests --cov=magicked_admin
 
 
 lint:
