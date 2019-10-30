@@ -1,3 +1,10 @@
+`0.1.6` WIPs/TODO, delete me
+----------------------------
+
+* Refactor internal commands to event messaging system
+* add event hooks to lua binds and chatbot, ex. https://wiki.garrysmod.com/page/hook/Call
+* Lua bind docs
+
 <p align="center">
     <img width=125 height=125 src="https://files.th3-z.xyz/standing/kf2-ma-logo.png"/>
 </p>
@@ -6,11 +13,7 @@
 
 [![Downloads](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg)](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg) [![Build Status](https://travis-ci.com/th3-z/kf2-magicked-admin.svg?branch=master)](https://travis-ci.com/th3-z/kf2-magicked-admin) [![Coverage Status](https://coveralls.io/repos/github/th3-z/kf2-magicked-admin/badge.svg?branch=master)](https://coveralls.io/github/th3-z/kf2-magicked-admin?branch=master) [![CodeFactor](https://www.codefactor.io/repository/github/th3-z/kf2-magicked-admin/badge/master)](https://www.codefactor.io/repository/github/th3-z/kf2-magicked-admin/overview/master) [![GitHub license](https://img.shields.io/github/license/th3-z/kf2-magicked-admin)](https://github.com/th3-z/kf2-magicked-admin/blob/master/LICENSE)
 
-WIPs/TODO, delete me
---------------------
 
-* Refactor internal commands to event messaging system, ex. https://wiki.garrysmod.com/page/hook/Call
-* add event hooks to lua binds and chatbot
 
 About
 -----
