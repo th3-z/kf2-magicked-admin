@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-10-15 21:39\n"
+"PO-Revision-Date: 2019-10-31 20:17\n"
 "Last-Translator: the_z (th3-z)\n"
 "Language: es_ES\n"
 "Language-Team: Spanish\n"
@@ -19,44 +19,45 @@ msgstr ""
 
 #: magicked_admin/magicked_admin.py:37
 msgid "Killing Floor 2 Magicked Administrator"
-msgstr ""
+msgstr "Killing Floor 2 Administrador Magicked"
 
 #: magicked_admin/magicked_admin.py:40
 msgid "Skips the guided setup process"
-msgstr ""
+msgstr "Saltar el proceso de configuración guiado"
 
 #: magicked_admin/magicked_admin.py:132
 msgid "Initialisation complete!\n"
-msgstr ""
+msgstr "Inicialización completa!\n"
 
 #: magicked_admin/magicked_admin.py:143
 msgid "Closing immediately!"
-msgstr ""
+msgstr "Cerrando inmediatamente!"
 
 #: magicked_admin/magicked_admin.py:152
 msgid "Program interrupted, saving data..."
-msgstr ""
+msgstr "Programa interrumpido, guardando datos..."
 
 #: magicked_admin/settings.py:24
 msgid "Please correct this manually  or delete '{}' to create a clean config next run."
-msgstr ""
+msgstr "Por favor corrija esto manualmente o elimine '{}' para crear una configuración limpia a continuación."
 
 #: magicked_admin/settings.py:31
 msgid "No configuration was found, first time setup is required!"
-msgstr ""
+msgstr "Ninguna configuración fue encontrada, se requiere configuración por primera vez!"
 
 #: magicked_admin/settings.py:43
 msgid "Guided setup was skipped, a template has been generated."
-msgstr ""
+msgstr "Configuración guiada fue omitida, una plantilla ha sido generada."
 
 #: magicked_admin/settings.py:45
 msgid "Setup is not complete yet, please amend '{}' with your server details."
-msgstr ""
+msgstr "La configuración aún no esta completa, por favor, modifique '{}' con los detalles de su servidor."
 
 #: magicked_admin/settings.py:53
 msgid "Configuration error(s) found!\n"
 "Section '{}' has a duplicate setting: '{}'."
-msgstr ""
+msgstr "¡Error de configuración(es) encontrada!\n"
+"La sección '{}' tiene una configuración duplicada: '{}'."
 
 #: magicked_admin/settings.py:60
 msgid "Configuration error(s) found!"
