@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-10-31 20:25\n"
+"PO-Revision-Date: 2019-10-31 20:33\n"
 "Last-Translator: the_z (th3-z)\n"
 "Language: es_ES\n"
 "Language-Team: Spanish\n"
@@ -112,35 +112,50 @@ msgid "\n"
 "start_tc --repeat --time 300 update_motd -q dosh\n\n"
 "; Re-enable chat output\n"
 "silent --quiet\n\n"
-msgstr ""
+msgstr "\n"
+"; El contenido de este archivo se ejecutará en secuencia en el servidor al que es llamado\n"
+"; después del inicio del programa. Líneas que empiezan con ; serán ignoradas. Allí\n"
+"; no es necesario prefijar comandos con ! en este archivo.\n"
+";\n"
+"; Ejemplo:\n\n"
+"; Suprimir globalmente la salida del chat\n"
+"silent --quiet\n\n"
+"; start_wc --wave -1 say Si no estaba comentado, verías esto en la ola del jefe\n"
+"start_trc top_wave_dosh\n\n"
+"; Inicia el script de saludos por defecto `conf/scripts/greeter`\n"
+"run greeter\n\n"
+"; Actualizar el marcador motd cada 5 minutos\n"
+"start_tc --repeat --time 300 update_motd -q dosh\n\n"
+"; Reactivar la salida del chat\n"
+"silent --quiet\n\n"
 
 #: magicked_admin/chatbot/chatbot.py:41
 msgid "Executing script: "
-msgstr ""
+msgstr "Ejecutando el script: "
 
 #: magicked_admin/chatbot/command_scheduler.py:58
 msgid "Stopped {} command(s)"
-msgstr ""
+msgstr "Se detuvo {} el(o los) comando(s)"
 
 #: magicked_admin/chatbot/command_scheduler.py:61
 msgid "None running"
-msgstr ""
+msgstr "Ninguno en ejecución"
 
 #: magicked_admin/chatbot/command_scheduler.py:110
 msgid "Scheduled command ({}) ran directly by {}, please use CommandScheduler"
-msgstr ""
+msgstr "Comando programado ({}) ejecutado directamente por {}, por favor use el comando CommandScheduler"
 
 #: magicked_admin/chatbot/motd_updater.py:21
 msgid "No MOTD file for {} found, pulling from web admin!"
-msgstr ""
+msgstr "No se encontró ningún archivo MOTD para {}, sacando del administrador web!"
 
 #: magicked_admin/chatbot/motd_updater.py:40
 msgid "Updated the MOTD!"
-msgstr ""
+msgstr "¡Actualizado el MOTD!"
 
 #: magicked_admin/chatbot/motd_updater.py:53
 msgid "Scoreboard_type not recognised '{}'. Options are: dosh, kills"
-msgstr ""
+msgstr "Scoreboard_type no reconocido '{}'. Las opciones son: dosh, kills"
 
 #: magicked_admin/chatbot/commands/command.py:18
 msgid "You're not authorised to use that command"
