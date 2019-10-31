@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-10-31 20:33\n"
+"PO-Revision-Date: 2019-10-31 20:48\n"
 "Last-Translator: the_z (th3-z)\n"
 "Language: es_ES\n"
 "Language-Team: Spanish\n"
@@ -159,99 +159,99 @@ msgstr "Scoreboard_type no reconocido '{}'. Las opciones son: dosh, kills"
 
 #: magicked_admin/chatbot/commands/command.py:18
 msgid "You're not authorised to use that command"
-msgstr ""
+msgstr "¡Usted no está autorizado para usar tal comando"
 
 #: magicked_admin/chatbot/commands/command.py:21
 msgid "This action isn't supported without Killing Floor 2 Magicked Administrator's server side patch! Please review the documentation at '{}' for guidance."
-msgstr ""
+msgstr "Esta acción no es compatible sin el Killing Floor 2 Administrador Magicked! Por favor revise la documentación en '{}' para obtener orientación."
 
 #: magicked_admin/chatbot/commands/command.py:28
 msgid "The help text for this command hasn't been written!"
-msgstr ""
+msgstr "¡El texto de ayuda para este comando no ha sido escrito!"
 
 #: magicked_admin/chatbot/commands/command.py:30
 msgid "$"
-msgstr ""
+msgstr "$"
 
 #: magicked_admin/chatbot/commands/command.py:56
 msgid "Auth failure, username: {}, user flags: {:b}"
-msgstr ""
+msgstr "Fallo de autenticación, nombre de usuario: {}, etiquetas de usuario: {:b}"
 
 #: magicked_admin/chatbot/commands/command_map.py:16
 msgid "start_jc"
-msgstr ""
+msgstr "start_jc"
 
 #: magicked_admin/chatbot/commands/command_map.py:17
 msgid "stop_jc"
-msgstr ""
+msgstr "stop_jc"
 
 #: magicked_admin/chatbot/commands/command_map.py:18
 msgid "start_wc"
-msgstr ""
+msgstr "start_wc"
 
 #: magicked_admin/chatbot/commands/command_map.py:19
 msgid "stop_wc"
-msgstr ""
+msgstr "stop_wc"
 
 #: magicked_admin/chatbot/commands/command_map.py:20
 msgid "start_tc"
-msgstr ""
+msgstr "start_tc"
 
 #: magicked_admin/chatbot/commands/command_map.py:21
 msgid "stop_tc"
-msgstr ""
+msgstr "stop_tc"
 
 #: magicked_admin/chatbot/commands/command_map.py:22
 msgid "start_trc"
-msgstr ""
+msgstr "start_trc"
 
 #: magicked_admin/chatbot/commands/command_map.py:23
 msgid "stop_trc"
-msgstr ""
+msgstr "stop_trc"
 
 #: magicked_admin/chatbot/commands/command_map.py:24
 msgid "enforce_dosh"
-msgstr ""
+msgstr "enforce_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:25
 msgid "say"
-msgstr ""
+msgstr "say"
 
 #: magicked_admin/chatbot/commands/command_map.py:26
 msgid "restart"
-msgstr ""
+msgstr "restart"
 
 #: magicked_admin/chatbot/commands/command_map.py:27
 msgid "load_map"
-msgstr ""
+msgstr "load_map"
 
 #: magicked_admin/chatbot/commands/command_map.py:28
 msgid "password"
-msgstr ""
+msgstr "password"
 
 #: magicked_admin/chatbot/commands/command_map.py:29
 msgid "silent"
-msgstr ""
+msgstr "silent"
 
 #: magicked_admin/chatbot/commands/command_map.py:30
 msgid "run"
-msgstr ""
+msgstr "run"
 
 #: magicked_admin/chatbot/commands/command_map.py:31
 msgid "marquee"
-msgstr ""
+msgstr "marquee"
 
 #: magicked_admin/chatbot/commands/command_map.py:32
 msgid "length"
-msgstr ""
+msgstr "length"
 
 #: magicked_admin/chatbot/commands/command_map.py:33
 msgid "difficulty"
-msgstr ""
+msgstr "difficulty"
 
 #: magicked_admin/chatbot/commands/command_map.py:34
 msgid "game_mode"
-msgstr ""
+msgstr "game_mode"
 
 #: magicked_admin/chatbot/commands/command_map.py:35
 msgid "players"
@@ -483,26 +483,30 @@ msgstr ""
 #: magicked_admin/chatbot/commands/server_commands.py:168
 msgid "Usage: !map\n"
 "Desc: Shows statistics about the current map"
-msgstr ""
+msgstr "Uso: !map\n"
+"Descripción: Muestra estadísticas sobre el mapa actual"
 
 #: magicked_admin/chatbot/commands/info_commands.py:161
 msgid "Usage: !game_time\n"
 "Desc: Shows the number of seconds since the match started. Excludes trader time and the boss wave."
-msgstr ""
+msgstr "Uso: !game_time\n"
+"Descripción: Muestra el número de segundos desde el inicio de la partida. Excluye el tiempo del trader y la oleada del jefe."
 
 #: magicked_admin/chatbot/commands/info_commands.py:180
 msgid "Usage: !record_wave\n"
 "Desc: Shows the highest wave reached on this map"
-msgstr ""
+msgstr "Uso: !record_wave\n"
+"Descripcion: Muestra la ola más alta alcanzada en este mapa"
 
 #: magicked_admin/chatbot/commands/info_commands.py:191
 msgid "{} is the highest wave reached on this map"
-msgstr ""
+msgstr "{} es la ola más alta alcanzada en este mapa"
 
 #: magicked_admin/chatbot/commands/info_commands.py:201
 msgid "Usage: !commands\n"
 "Desc: Lists all player commands"
-msgstr ""
+msgstr "Uso: !commands\n"
+"Desc: Lista todos los comandos del jugador"
 
 #: magicked_admin/chatbot/commands/info_commands.py:211
 msgid "\n"
@@ -522,13 +526,31 @@ msgid "\n"
 "\t!maps,\n"
 "\t!player_count\n"
 "Commands have help, e.g. '!stats -h'"
-msgstr ""
+msgstr "\n"
+"Comandos disponibles:\n"
+"\t!record_wave,\n"
+"\t!game,\n"
+"\t!kills,\n"
+"\t!dosh,\n"
+"\t!top_kills,\n"
+"\t!top_dosh,\n"
+"\t!top_time,\n"
+"\t!stats,\n"
+"\t!game_time,\n"
+"\t!server_kills,\n"
+"\t!server_dosh,\n"
+"\t!map,\n"
+"\t!maps,\n"
+"\t!player_count\n"
+"Comandos tienen ayuda, e. . '!stats -h'"
 
 #: magicked_admin/chatbot/commands/info_commands.py:235
 msgid "Usage: !stats USERNAME\n"
 "\tUSERNAME - Person to get stats for\n"
 "Desc: Shows statistics about a player, username can be omitted to get personal stats"
-msgstr ""
+msgstr "Uso: ! stats USUARIO\n"
+"\tUSUARIO - Persona para obtener estadísticas de\n"
+"Descripcion: Muestra estadísticas sobre un jugador, el nombre de usuario se puede omitir para obtener estadísticas personales"
 
 #: magicked_admin/chatbot/commands/info_commands.py:273
 msgid "Stats for {}:\n"
@@ -537,80 +559,94 @@ msgid "Stats for {}:\n"
 "Total kills: {} (rank #{}) \n"
 "Total dosh earned: £{} (rank #{})\n"
 "Dosh this game: {}"
-msgstr ""
+msgstr "Estadísticas para {}:\n"
+"Tiempo total de juego: {} ({} sesiones)\n"
+"Muertes totales: {}\n"
+"Bajas totales: {} (rango #{}) \n"
+"Dosh total obtenido: £{} (rango #{})\n"
+"Dosh en este juego: {}"
 
 #: magicked_admin/chatbot/commands/player_commands.py:14
 msgid "Usage: !server_dosh\n"
 "Desc: Shows total dosh earned on this server"
-msgstr ""
+msgstr "Uso: !server_dosh\n"
+"Descripcion: Muestra el dosh total obtenida en este servidor"
 
 #: magicked_admin/chatbot/commands/player_commands.py:27
 msgid "£{} has been earned on this server"
-msgstr ""
+msgstr "£{} ha sido obtenido en este servidor"
 
 #: magicked_admin/chatbot/commands/player_commands.py:36
 msgid "Usage: !server_kills\n"
 "Desc: Shows total ZEDs killed on this server"
-msgstr ""
+msgstr "Uso: !server_dosh\n"
+"Descripcion: Muestra el total de ZEDs eliminados en este servidor"
 
 #: magicked_admin/chatbot/commands/player_commands.py:49
 msgid "{} ZEDs have been killed on this server"
-msgstr ""
+msgstr "{} ZEDs han sido asesinados en este servidor"
 
 #: magicked_admin/chatbot/commands/player_commands.py:59
 msgid "Usage: !kills USERNAME\n"
 "\tUSERNAME - User to get kill stats for\n"
 "Desc: Shows kill statistics for a player, username can be omitted to get personal stats"
-msgstr ""
+msgstr "Uso: !kills USUARIO\n"
+"\tUSUARIO - Persona para obtener estadísticas de\n"
+"Descripcion: Muestra las estadísticas de muertes hechas sobre un jugador, el nombre de usuario se puede omitir para obtener estadísticas personales"
 
 #: magicked_admin/chatbot/commands/player_commands.py:78
 msgid "Player {} not in game"
-msgstr ""
+msgstr "El jugador {} no está en la partida"
 
 #: magicked_admin/chatbot/commands/player_commands.py:83
 msgid "You've killed a total of {} ZEDs (#{}), and {} this game"
-msgstr ""
+msgstr "Has matado un total de {} ZEDs (#{}), y {} este juego"
 
 #: magicked_admin/chatbot/commands/player_commands.py:97
 msgid "Usage: !dosh USERNAME\n"
 "\tUSERNAME - User to get dosh stats for\n"
 "Desc: Shows dosh statistics for a player, username can be omitted to get personal stats"
-msgstr ""
+msgstr "Uso: !dosh USUARIO\n"
+"\tUSUARIO - Persona para obtener estadísticas de\n"
+"Descripcion: Muestra las estadísticas de Dosh obtenidas sobre un jugador, el nombre de usuario se puede omitir para obtener estadísticas personales"
 
 #: magicked_admin/chatbot/commands/player_commands.py:115
 msgid "Player not in game"
-msgstr ""
+msgstr "Jugador no en la partida"
 
 #: magicked_admin/chatbot/commands/player_commands.py:119
 msgid "You've earned a total of £{} dosh (#{}), and £{} this game"
-msgstr ""
+msgstr "Has obtenido un total de £{} dosh (#{}), y £{} este juego"
 
 #: magicked_admin/chatbot/commands/player_commands.py:134
 msgid "Usage: !top_kills\n"
 "Desc: Show the global kills leaderboard"
-msgstr ""
+msgstr "Uso: !top_kills\n"
+"Descripcion: Muestra la tabla de clasificación global de bajas"
 
 #: magicked_admin/chatbot/commands/player_commands.py:147
 msgid "Top 5 players by total kills:\n"
-msgstr ""
+msgstr "Top 5 jugadores por matanzas totales:\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:163
 msgid "Usage: !top_dosh\n"
 "Desc: Shows the global dosh leaderboard"
-msgstr ""
+msgstr "Uso: !top_dosh\n"
+"Descripcion: Muestra la tabla de clasificación global por Dosh"
 
 #: magicked_admin/chatbot/commands/player_commands.py:176
 msgid "Top 5 players by Dosh earned:\n"
-msgstr ""
+msgstr "Top 5 jugadores por Dosh obtenidos:\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:192
 msgid "Usage: !top_time\n"
 "Desc: Shows the global play time leaderboard"
-msgstr ""
+msgstr "Uso: !top_time\n"
+"Descripcion: Muestra la tabla de clasificación global por tiempo de juego"
 
 #: magicked_admin/chatbot/commands/player_commands.py:205
 msgid "Top 5 players by play time:\n"
-msgstr ""
+msgstr "Top 5 jugadores por tiempo de juego:\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:221
 msgid "Usage: !scoreboard\n"
