@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-10-31 20:17\n"
+"PO-Revision-Date: 2019-10-31 20:25\n"
 "Last-Translator: the_z (th3-z)\n"
 "Language: es_ES\n"
 "Language-Team: Spanish\n"
@@ -61,37 +61,39 @@ msgstr "¡Error de configuración(es) encontrada!\n"
 
 #: magicked_admin/settings.py:60
 msgid "Configuration error(s) found!"
-msgstr ""
+msgstr "Error(es) de configuracion(es) encontradas!"
 
 #: magicked_admin/settings.py:76
 msgid "    Please input your web admin details below."
-msgstr ""
+msgstr "    Por favor, introduzca sus datos de administración web a continuación."
 
 #: magicked_admin/settings.py:88
 msgid "\n"
 "Address [default - localhost:8080]: "
-msgstr ""
+msgstr "\n"
+"Dirección [predeterminada - localhost:8080]: "
 
 #: magicked_admin/settings.py:94
 msgid "Address not responding!\n"
 "Accepted formats are: 'ip:port', 'domain', or 'domain:port'"
-msgstr ""
+msgstr "¡La dirección no esta respondiendo!\n"
+"Los formatos aceptados son: 'ip:puerto', 'dominio', o 'dominio:puerto'"
 
 #: magicked_admin/settings.py:97
 msgid "Username [default - Admin]: "
-msgstr ""
+msgstr "Nombre de usuario [por defecto - Admin]: "
 
 #: magicked_admin/settings.py:99
 msgid "Password (will not echo) [default - 123]: "
-msgstr ""
+msgstr "Contraseña (no hará eco) [por defecto - 123]: "
 
 #: magicked_admin/settings.py:135
 msgid "Config file has no sections."
-msgstr ""
+msgstr "El archivo de configuración no tiene secciones."
 
 #: magicked_admin/settings.py:144
 msgid "Section '{}' is missing a required setting: '{}'."
-msgstr ""
+msgstr "La sección '{}' esta faltando una configuración requerida: '{}'."
 
 #: magicked_admin/chatbot/__init__.py:5
 msgid "\n"
