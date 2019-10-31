@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-10-31 21:06\n"
+"PO-Revision-Date: 2019-10-31 21:16\n"
 "Last-Translator: the_z (th3-z)\n"
 "Language: es_ES\n"
 "Language-Team: Spanish\n"
@@ -429,66 +429,76 @@ msgstr "'{}' no es un intervalo de tiempo válido"
 
 #: magicked_admin/chatbot/commands/event_commands.py:176
 msgid "Time interval command started"
-msgstr ""
+msgstr "Comando de intervalo de tiempo iniciado"
 
 #: magicked_admin/chatbot/commands/event_commands.py:184
 msgid "Usage: !stop_tc\n"
 "Desc: Stops all timed commands"
-msgstr ""
+msgstr "Uso: !stop_tc\n"
+"Descripcion: Detiene todos los comandos temporizados"
 
 #: magicked_admin/chatbot/commands/event_commands.py:205
 msgid "Usage: !start_trc [--wave] COMMAND\n"
 "\tCOMMAND - Command to run\n"
 "\t-w --wave - Optional, wave to run on\n"
 "Desc: Runs a command when the trader opens, wave can be omitted to run every time the trader opens"
-msgstr ""
+msgstr "Uso: !start_trc [--wave] COMANDO\n"
+"\tCOMANDO- Comando para ejecutar\n"
+"\t-w --wave - Opcional, onda para ejecutar en\n"
+"Descripcion: Ejecuta un comando cuando el trader se abre, la oleada puede ser omitida para ejecutarse cada vez que el trader abre"
 
 #: magicked_admin/chatbot/commands/event_commands.py:239
 msgid "Trader open command started"
-msgstr ""
+msgstr "Comando de Trader abierto iniciado"
 
 #: magicked_admin/chatbot/commands/event_commands.py:247
 msgid "Usage: !stop_trc\n"
 "Desc: Stops all trader commands"
-msgstr ""
+msgstr "Uso: !stop_trc\n"
+"Descripcion: Detiene todos los comandos de trader"
 
 #: magicked_admin/chatbot/commands/info_commands.py:19
 msgid "Usage: !marquee FILE\n"
 "\tFILE - Some file in 'conf/marquee'\n"
 "Desc: Runs a marquee in chat"
-msgstr ""
+msgstr "Uso: !marquee ARCHIVO\n"
+"\tARCHIVO - Algún archivo en 'conf/marquee'\n"
+"Descripcion: Ejecuta un marquee en el chat"
 
 #: magicked_admin/chatbot/commands/info_commands.py:49
 msgid "Missing argument: filename"
-msgstr ""
+msgstr "Argumento faltante: nombre del archivo"
 
 #: magicked_admin/chatbot/commands/info_commands.py:53
 msgid "Couldn't find file"
-msgstr ""
+msgstr "No se pudo encontrar el archivo"
 
 #: magicked_admin/chatbot/commands/info_commands.py:78
 msgid "Usage: !players\n"
 "Desc: Shows the number of players currently online"
-msgstr ""
+msgstr "Uso: !players\n"
+"Descripcion: Muestra el número de jugadores actualmente en línea"
 
 #: magicked_admin/chatbot/commands/info_commands.py:90
 msgid "{}/{} Players are online"
-msgstr ""
+msgstr "{}/{} Jugadores están conectados"
 
 #: magicked_admin/chatbot/commands/info_commands.py:101
 msgid "Usage: !players\n"
 "Desc: Shows detailed information about online players"
-msgstr ""
+msgstr "Uso: !players\n"
+"Desc: Muestra información detallada sobre los jugadores en línea"
 
 #: magicked_admin/chatbot/commands/info_commands.py:114
 #: magicked_admin/chatbot/commands/player_commands.py:265
 msgid "No players in game"
-msgstr ""
+msgstr "No hay jugadores en la partida"
 
 #: magicked_admin/chatbot/commands/info_commands.py:127
 msgid "Usage: !game\n"
 "Desc: Shows current game info and rules"
-msgstr ""
+msgstr "Uso: !game\n"
+"Desc: Muestra la información y reglas del juego actuales"
 
 #: magicked_admin/chatbot/commands/info_commands.py:144
 #: magicked_admin/chatbot/commands/server_commands.py:168
@@ -804,108 +814,121 @@ msgstr "Uso: !kick USUARIO\n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:267
 msgid "Player, {}, was kicked"
-msgstr ""
+msgstr "Jugador, {}, fue expulsado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:278
 msgid "Usage: !update_motd TYPE\n"
 "\tTYPE - Score type, one of: kills, dosh, time\n"
 "Desc: Updates the MOTD scoreboard"
-msgstr ""
+msgstr "Uso: !update_motd TIPO\n"
+"\tTIPO - Tipo de puntuación, uno de: matanzas, Dosh, tiempo\n"
+"Descripcion: Actualiza el marcador de MOTD"
 
 #: magicked_admin/chatbot/commands/server_commands.py:290
 msgid "Missing argument: type"
-msgstr ""
+msgstr "Argumento faltante: tipo"
 
 #: magicked_admin/chatbot/commands/server_commands.py:294
 msgid "Unrecognised score type: {}"
-msgstr ""
+msgstr "Tipo de puntaje no reconocido: {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:300
 msgid "Updated the MOTD"
-msgstr ""
+msgstr "Actualizado el MOTD"
 
 #: magicked_admin/chatbot/commands/server_commands.py:310
 msgid "Usage: !reload_motd\n"
 "Desc: Reload the server's *.motd file"
-msgstr ""
+msgstr "Uso: !reload_motd\n"
+"Descripcion: Recargar el archivo *.motd del servidor"
 
 #: magicked_admin/chatbot/commands/server_commands.py:323
 msgid "Reloaded the MOTD"
-msgstr ""
+msgstr "Recargado el MOTD"
 
 #: magicked_admin/chatbot/commands/server_commands.py:332
 msgid "Usage: !run FILE\n"
 "\tFILE - Some file in 'conf/scripts'\n"
 "Desc: Runs a script"
-msgstr ""
+msgstr "Uso: !run ARCHIVO\n"
+"\tARCHIVO - Algunos archivos en 'conf/scripts'\n"
+"Descripcion: Ejecuta un script"
 
 #: magicked_admin/chatbot/commands/server_commands.py:347
 msgid "No script was specified"
-msgstr ""
+msgstr "No se especificó ningún script"
 
 #: magicked_admin/chatbot/commands/server_commands.py:352
 msgid "Script not found"
-msgstr ""
+msgstr "Script no encontrado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:361
 msgid "Usage: !restart\n"
 "Desc: Restarts the match"
-msgstr ""
+msgstr "Uso: !restart\n"
+"Descripcion: Reinicia la partida"
 
 #: magicked_admin/chatbot/commands/server_commands.py:372
 msgid "Restarting map..."
-msgstr ""
+msgstr "Reiniciando mapa..."
 
 #: magicked_admin/chatbot/commands/server_commands.py:379
 msgid "Usage: !load_map MAP_NAME\n"
 "\tMAP_NAME - Map to load\n"
 "Desc: Immediately changes the map."
-msgstr ""
+msgstr "Uso: !load_map NOMBRE_DEL_MAPA\n"
+"\tNOMBRE_DEL_MAPA - Mapa a cargar\n"
+"Descripcion: Cambia inmediatamente el mapa."
 
 #: magicked_admin/chatbot/commands/server_commands.py:392
 msgid "Missing argument (map name)"
-msgstr ""
+msgstr "Falta argumento (nombre del mapa)"
 
 #: magicked_admin/chatbot/commands/server_commands.py:395
 msgid "Changing map"
-msgstr ""
+msgstr "Cambiando mapa"
 
 #: magicked_admin/chatbot/commands/server_commands.py:402
 msgid "Usage: !password [--set] STATE\n"
 "\tSTATE - On, off, or new password\n"
 "\t-s --set - Set a new password\n"
 "Desc: Enables or disables the game password configured in 'conf/magicked_admin.conf', state can be on, off, or a new password."
-msgstr ""
+msgstr "Uso: !password [--set] ESTADO\n"
+"\tESTADO - Activado, apagado o nueva contraseña\n"
+"\t-s --set - Establece una nueva contraseña\n"
+"Descripcion: Activa o desactiva la contraseña del juego configurada en 'conf/magicked_admin.conf', state puede estar encendido, apagado o una nueva contraseña."
 
 #: magicked_admin/chatbot/commands/server_commands.py:421
 msgid "Game password is currently {}"
-msgstr ""
+msgstr "La contraseña del juego es {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:422
 msgid "enabled"
-msgstr ""
+msgstr "habilitado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:422
 msgid "disabled"
-msgstr ""
+msgstr "deshabilitado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:433
 msgid "Game password enabled"
-msgstr ""
+msgstr "Contraseña de juego habilitada"
 
 #: magicked_admin/chatbot/commands/server_commands.py:437
 msgid "Game password disabled"
-msgstr ""
+msgstr "Contraseña de juego desactivada"
 
 #: magicked_admin/chatbot/commands/server_commands.py:440
 msgid "Unrecognised option {}"
-msgstr ""
+msgstr "Opción no reconocida {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:450
 msgid "Usage: !silent [--quiet]\n"
 "\t-q --quiet - Suppresses output'\n"
 "Desc: Toggles command output globally"
-msgstr ""
+msgstr "Uso: !silent [--quiet]\n"
+"\t-q --quiet - Suprime la salida '\n"
+"Descripcion: Alterna la salida de comandos globalmente"
 
 #: magicked_admin/chatbot/commands/server_commands.py:463
 msgid "Silent mode disabled"
