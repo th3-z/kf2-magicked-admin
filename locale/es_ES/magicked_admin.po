@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-10-31 21:27\n"
+"PO-Revision-Date: 2019-10-31 21:38\n"
 "Last-Translator: the_z (th3-z)\n"
 "Language: es_ES\n"
 "Language-Team: Spanish\n"
@@ -1050,28 +1050,29 @@ msgstr "Jugador {} se unió a {} de {}"
 
 #: magicked_admin/server/server.py:190
 msgid "Player {} left {}"
-msgstr ""
+msgstr "Jugador {} dejó {}"
 
 #: magicked_admin/server/server.py:203
 msgid "Player {} died on {}"
-msgstr ""
+msgstr "Jugador {} murió en {}"
 
 #: magicked_admin/server/server.py:207
 msgid "New game on {}, map: {}, mode: {}"
-msgstr ""
+msgstr "Nuevo juego en {}, mapa: {}, modo: {}"
 
 #: magicked_admin/server/server.py:224
 msgid "Unknown game_type {}"
-msgstr ""
+msgstr "Tipo de juego desconocido {}"
 
 #: magicked_admin/server/server.py:231
 msgid "End game on {}, map: {}, mode: {}, victory: {}"
-msgstr ""
+msgstr "Fin del juego en {}, mapa: {}, modo: {}, victoria: {}"
 
 #: magicked_admin/utils/__init__.py:102
 msgid "\n"
 "Press enter to exit..."
-msgstr ""
+msgstr "\n"
+"Presione Entrar para salir..."
 
 #: magicked_admin/web_admin/web_admin.py:86
 msgid "Tried to toggle game password before setting value"
