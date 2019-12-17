@@ -169,29 +169,29 @@ Comandos que pueden ser ejecutados por los administradores del servidor, y usuar
 
 [*] '[b]!start_jc -- <comando>[/b]' - Comienza un comando que se ejecuta cada vez que un jugador se une
 	- Ejemplo: '[b]!start_jc -- dar la bienvenida %PLR[/b]' - Saludar a un jugador al unirse
-	- Available tokens: '[b]%PLR[/b]' - username, '[b]%KLL[/b]' - total kills, '[b]%DSH[/b]' - total dosh, '[b]%BCK[/b]' - "back" if sessions > 1, '[b]%DRK[/b]' - dosh rank, '[b]%KRK[/b]' - kill rank, '[b]%TME[/b]' - play time, '[b]%TRK[/b]' - play time rank, '[b]%SES[/b]' - sessions
+	- Tokens disponibles: '[b]%PLR[/b]' - nombre de usuario, '[b]%KLL[/b]' - bajas totales, '[b]%DSH[/b]' - dosh total, '[b]%BCK[/b]' - "atrás" si las sesiones > 1, '[b]%DRK[/b]' - rango dosh, '[b]%KRK[/b]' - rango de bajas, '[b]%TME[/b]' - Tiempo de juego, '[b]%TRK[/b]' - rango de tiempo de juego, '[b]%SES[/b]' - sesiones
 
-[*] '[b]!stop_jc[/b]' - Stops all join commands
+[*] '[b]!stop_jc[/b]' - Detiene todos los comandos de unirse
 
-[*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start a command that runs on wave '<wave>'
-    - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command
-    run every wave
-    - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
-    - Example: '[b]!start_wc -1 -- say Welcome to the boss wave[/b]'
+[*] '[b]!start_wc [-w <oleada>] -- <comando>[/b]' - Comienza un comando que se ejecuta en la oleada '<oleada>'
+    - Opción '[b]-w[/b]': Oleada para ejecutar el comando encendido, puede omitirse para tener el comando
+    ejecutar cada oleada
+    - Opción '[b]-w[/b]': Puede ser negativo contar hacia atrás desde la onda del jefe
+    - Ejemplo: '[b]!start_wc -1 -- decir Bienvenido a la oleada del jefe[/b]'
 
-[*] '[b]!stop_wc[/b]' - Stops all wave commands
+[*] '[b]!stop_wc[/b]' - Detiene todos los comandos de onda
 
-[*] '[b]!start_tc [-r, -t <seconds>] -- <command>[/b]' - Start a command that runs after
-    '<seconds>' seconds
-    - Option '[b]-r[/b]': Add to have the command run repeatedly
-    - Option '[b]-t[/b]': Required, the number of seconds before the command runs
-    - Example: '[b]!start_tc -rt 600 -- say Join our Steam group!\n http://steam.group/[/b]'
+[*] '[b]!start_tc [-r, -t <segunds>] -- <comandos>[/b]' - Iniciar un comando que se ejecuta después de
+    '<segundos>' segundos
+    - Opción '[b]-r[/b]': Añadir para ejecutar el comando repetidamente
+    - Opción '[b]-t[/b]': Requerido, el número de segundos antes de que el comando se ejecute
+    - Ejemplo: '[b]!start_tc -rt 600 -- ¡únete a nuestro grupo de Steam!\n http://steam.group/[/b]'
 
-[*] '[b]!stop_tc[/b]' - Stops all timed commands
+[*] '[b]!stop_tc[/b]' - Detiene todos los comandos temporizados
 
-[*] '[b]!start_trc [-w <wave>] -- <command>[/b]' - Start a commands that runs when the trader opens
-    - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command run every wave
-    - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
+[*] '[b]!start_trc [-w <oleada>] -- <comandO>[/b]' - Comienza un comando que se ejecuta cuando el trader abre
+    - Opción '[b]-w[/b]': Oleada para ejecutar el comando, puede omitirse para que el comando ejecute cada oleada
+    - Opción '[b]-w[/b]': Puede ser negativo contar hacia atrás desde la oleada del jefe
     - Example: '[b]!start_trc -- top_wave_dosh[/b]' - Shows who earned the most dosh every wave when the trader opens
 
 [*] '[b]!stop_trc[/b]' - Stop all commands that run on trader open
@@ -328,47 +328,47 @@ The following covers the same setup as the official Tripwire documentation on th
 [*]Now open your web admin panel and there should be a new '[b]Administrators[/b]' section in the sidebar.
 [previewicon=11679370;sizeThumb,inline;chrome_2018-03-08_23-53-58.png][/previewicon]
 
-[*]Click '[b]Administrators[/b]' and select '[b]Create Administrator[/b]'. Enter a name for the Chatbot (This is the name you will use to sign in with). Click OK.
+[*]Haga clic en '[b]Administradores[/b]' y seleccione '[b]Crear Administrador[/b]'. Introduzca un nombre para el Chatbot (Este es el nombre que usarás para iniciar sesión). Haga clic en "OK".
 
-[*]Give it a '[b]Display Name[/b]', '[b]Password[/b]', and enable the account (the display name is what players will see in chat).
+[*]Dale un '[b]Nombre de pantalla[/b]', '[b]Contraseña[/b]', y habilite la cuenta (el nombre para mostrar es lo que los jugadores verán en el chat).
 [previewicon=11679547;sizeThumb,inline;chrome_2018-03-09_00-16-09.png][/previewicon]
 
-[*]Leave '[b]Access Order[/b]' set to '[b]Deny/Allow[/b]', and don't add any '[b]Deny Patterns[/b]' or '[b]Allow Patterns[/b]'. If you have issues using your new account, this is a common culprit so please leave it as is.
+[*]Dejar '[b]Orden de acceso[/b]' establecida a '[b]Denegar/Permitir[/b]', y no añadir ningún '[b]Patrones de Denegación[/b]' o '[b]Permitir Patrones[/b]'. Si tiene problemas al usar su nueva cuenta, este es un problema común, así que por favor déjelo como está.
 
-[*]Click '[b]Save[/b]' and the account is ready for use.
+[*]Haz clic en '[b]Save[/b]' y la cuenta está lista para usarse.
 
-[*]Update the account credentials in '[b]conf/magicked_admin.conf[/b]'
+[*]Actualizar las credenciales de la cuenta en '[b]conf/magicked_admin.conf[/b]'
 [/olist]
 
-## Endless and weekly game mode support
-In game modes other than survival KF2 Magicked Admin will have a limited feature set due to differences in the web admin panel when in other modes. However the web admin panel can be altered to enable the full feature set.
+## Soporte en modo de juego sin fin y semanal
+En modos de juego distintos de la supervivencia KF2 Magicked Admin tendrá una función limitada debido a las diferencias en el panel de administración web en otros modos. Sin embargo, el panel de administración web puede ser modificado para habilitar el conjunto completo de características.
 
-For this reason a web admin patcher is available [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-admin-patches-0.0.1.zip]here[/url]. 
+Por esta razón, hay disponible un patcher de administración web [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-admin-patches-0.0.1.zip]aquí[/url]. 
 
-[h1]Notes[/h1]
-To use this utility your server files in '[b]KF2Server/KFGame/Web/ServerAdmin[/b]' will have to be stock/clean. If you have edited these files I suggest the following alternatives.
+[h1]Notas[/h1]
+Para utilizar esta utilidad los archivos de su servidor en '[b]KF2Server/KFGame/Web/ServerAdmin[/b]' tendrán que estar disponibles/limpios. Si has editado estos archivos, sugiero las siguientes alternativas.
 [list]
-[*]Validate the server files with steamcmd with the command '[b]app_update 232130 validate[/b]' and use the patcher as normal.
-[*]Manually apply the diffs in '[b]admin-patcher/patches[/b]' to your server files.
+[*]Validar los archivos del servidor con steamcmd con el comando '[b]app_update 232130 validate[/b]' y usar el patcher de forma normal.
+[*]Aplica manualmente las diferencias en '[b]admin-patcher/patches[/b]' a los archivos de tu servidor.
 [/list]
 
-[h1]Usage (GUI/Desktop)[/h1]
+[h1]Uso (GUI/Escritorio)[/h1]
 [olist]
-[*] Run the executable
-[*] Open the location where your server is installed in the destination selection window
-[*] Click '[b]open[/b]'
+[*] Ejecutar la aplicación
+[*] Abre la ubicación donde tu servidor está instalado en la ventana de selección de destino
+[*] Haga clic en '[b]abrir[/b]'
 [/olist]
 
-[h1]Usage (Headless/Server)[/h1]
-[*] Run the executable with a target flag, e.g. '[b]./magicked_admin.exe --target /path/to/kf2/server[/b]'
-[*] Check the console window for any issues
+[h1]Uso (Headless/Server)[/h1]
+[*] Ejecute el ejecutable con un destino, p.ej. '[b]./magicked_admin.exe --target /path/to/kf2/server[/b]'
+[*] Revisa la ventana de la consola para cualquier problema
 
-## Configuring multiple servers
-KF2 Magicked Admin can work with any amount of servers you run.
+## Configurar múltiples servidores
+KF2 Magicked Admin puede trabajar con cualquier cantidad de servidores que ejecute.
 
-To configure more servers, find '[b]conf/magicked_admin.conf[/b]', and open it in your favourite editor.
+Para configurar más servidores, encuentra '[b]conf/magicked_admin.conf[/b]' y ábrelo en tu editor favorito.
 
-Copy the whole '[b][server_one][/b]' section, and paste it at the end of the file. Update the '[b]address[/b]', '[b]username[/b]', and '[b]password[/b]' options.
+Copia la sección completa '[b][server_one][/b]' y pégala al final del archivo. Actualizar las opciones '[b]dirección[/b]', '[b]nombre de usuario[/b]' y '[b]contraseña[/b]'.
 
 A continuación se muestra un ejemplo.
 [code]
