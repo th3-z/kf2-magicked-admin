@@ -258,13 +258,13 @@ Hay dos categorías de scripts, que difieren en cuándo y cómo se ejecutan.
 
 [h1]Scripts de inicio[/h1]
 
-Escribiendo un nombre de servidor '[b]. nit[/b]' en la carpeta '[b]conf/scripts[/b]' con una serie de comandos ejecutará los comandos en secuencia cuando el bot comience en '[b]server_name[/b]'. The server names are defined in '[b]conf/magicked_admin.conf[/b]', if you haven't changed the name it will default to '[b]server_one[/b]'.
+Escribiendo un nombre de servidor '[b]. nit[/b]' en la carpeta '[b]conf/scripts[/b]' con una serie de comandos ejecutará los comandos en secuencia cuando el bot comience en '[b]server_name[/b]'. Los nombres de los servidores están definidos en '[b]conf/magicked_admin.conf[/b]', si no ha cambiado el nombre por defecto a '[b]server_one[/b]'.
 
 Un archivo de inicio de ejemplo se ha generado en el primer lanzamiento, esto puede utilizarse como una plantilla para escribir sus propios scripts de inicio.
 
 [h1]Ejecutar scripts[/h1]
 
-El comando '[b]!run[/b]' existe para facilitar la ejecución de scripts en cualquier momento. These scripts should be placed in the '[b]conf/scripts[/b]' folder. Un script de ejemplo ya está en la carpeta de scripts, puede ejecutarse con '[b]!run ejemplo[/b]'. 
+El comando '[b]!run[/b]' existe para facilitar la ejecución de scripts en cualquier momento. Estos scripts deben colocarse en la carpeta '[b]conf/scripts[/b]. Un script de ejemplo ya está en la carpeta de scripts, puede ejecutarse con '[b]!run ejemplo[/b]'. 
 
 Estos scripts están formateados de la misma manera que el guión de inicio, los comandos se ejecutarán en secuencia de arriba a abajo.
 
