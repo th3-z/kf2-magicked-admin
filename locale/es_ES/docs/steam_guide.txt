@@ -129,46 +129,46 @@ Estos comandos pueden ser ejecutados por cualquier jugador. A la hora de escribi
 ## Comandos de administrador
 Comandos que pueden ser ejecutados por los administradores del servidor, y usuarios autorizados con el comando '[b]!op[/b]'. A la hora de escribir hay 24 comandos de administrador disponibles.
 [list]
-[*] '[b]!op <user>[/b]' - Da a un usuario derechos administrativos, persiste hasta que '[b]!deop <user>[/b]' es usado.
+[*] '[b]!op <usuario>[/b]' - Da a un usuario derechos administrativos, persiste hasta que '[b]!deop <usuario>[/b]' es usado.
     - Ejemplo: '[b]!op the_z[/b]'
 
-[*] '[b]!deop <user>[/b]' - Revokes a user's administrative rights
-    - Example: '[b]!deop the_z[/b]'
+[*] '[b]!deop <usuario>[/b]' - Revoca los derechos administrativos de un usuario
+    - Ejemplo: '[b]!deop the_z[/b]'
 
-[*] '[b]!say <message>[/b]' - Echoes a message into chat
-    - Example: '[b]!say The quick brown fox jumps over the lazy dog[/b]'
-    - Example: '[b]!start_trc say The trader is open[/b]'
+[*] '[b]!say <mensaje>[/b]' - Emite un mensaje en el chat
+    - Ejemplo: '[b]!say El zorro marrón salta sobre el perro perezoso[/b]'
+    - Ejemplo: '[b]!start_trc decir que el trader está abierto[/b]'
 
-[*] '[b]!players[/b]' - Shows detailed information about players on the server
+[*] '[b]!players[/b]' - Muestra información detallada sobre jugadores en el servidor
 
-[*] '[b]!kick <user>[/b]' - Kicks '<user>' from the match
-    [b]-[/b] Example: '[b]!kick the_z[/b]'
+[*] '[b]!kick <usuario>[/b]' - Expulsa a '<usuario>' de la partida
+    [b]-[/b] Ejemplo: '[b]!kick the_z[/b]'
 
-[*] '[b]!ban <user>[/b]' - Bans '<user>' from the server
-    - Example: '[b]!ban the_z[/b]'
-    - Warnng: The web admin currently has a bug that causes bans to persist after they are deleted, thus there is no unban command
+[*] '[b]!ban <usuario>[/b]' - Banea a '<usuario>' del servidor
+    - Ejemplo: '[b]!ban the_z[/b]'
+    - Advertencia: el administrador web tiene actualmente un error que causa que los bloqueos persistan después de eliminarse, por lo tanto no hay ningún comando de desbaneo
 
-[*] '[b]!length <length>[/b]' - Change the length to '<length>' next game
-    - Example: '[b]!length short[/b]'
+[*] '[b]!length <longitud>[/b]' - Cambia la longitud a '<longitud>' siguiente juego
+    - Ejemplo: '[b]!length short[/b]' (oleadas)
 
-[*] '[b]!difficulty <difficulty>[/b]' - Change the difficulty to '<difficulty>' next game
-    - Example: '[b]!difficulty hell[/b]'
+[*] '[b]!difficulty <dificultad>[/b]' - Cambia la dificultad a '<dificultad>' siguiente juego
+    - Ejemplo: '[b]!difficulty hell[/b]'
 
-[*] '[b]!game_mode <game_mode>[/b]' - Immediately change the game mode to '<game_mode>'
-    - Example: '[b]!game_mode endless[/b]' Changes the game mode to Endless
+[*] '[b]!game_mode <Modo de juego>[/b]' - Cambia inmediatamente el modo de juego a '<Modo de juego>'
+    - Ejemplo: '[b]!game_mode endless[/b]' Cambia el modo de juego a SinFin
 
-[*] '[b]!load_map <map>[/b]' - Immediately change the map to '<map>'
-    - Example: '[b]!load_map biotics[/b]' Changes the map to Biotics Lab
+[*] '[b]!load_map <mapa>[/b]' - Cambia inmediatamente el mapa a '<mapa>'
+    - Ejemplo: '[b]!load_map biotics[/b]' Cambia el mapa a Biotics Lab
 
-[*] '[b]!restart[/b]' - Immediately restart the current game
+[*] '[b]!restart[/b]' - Reinicia inmediatamente el juego actual
 
 [*] '[b]!password [--set] <on|off>[/b]'
-    - Example: '[b]!password on[/b]' Enables the game password defined in the config
-    - Example: '[b]!password off[/b]' Disables the game password
-    - Example: '[b]!password --set superSekritPass[/b]' Sets a specific password
+    - Ejemplo: '[b]!password on[/b]' Habilita la contraseña del juego definida en la configuración
+    - Ejemplo: '[b]!password off[/b]' Desactiva la contraseña del juego
+    - Ejemplo: '[b]!password --set superSekritPass[/b]' Establece una contraseña específica
 
-[*] '[b]!start_jc -- <command>[/b]' - Start a command that runs every time a player joins
-	- Example: '[b]!start_jc -- say Welcome %PLR[/b]' - Greets a player on join
+[*] '[b]!start_jc -- <comando>[/b]' - Comienza un comando que se ejecuta cada vez que un jugador se une
+	- Ejemplo: '[b]!start_jc -- dar la bienvenida %PLR[/b]' - Saludar a un jugador al unirse
 	- Available tokens: '[b]%PLR[/b]' - username, '[b]%KLL[/b]' - total kills, '[b]%DSH[/b]' - total dosh, '[b]%BCK[/b]' - "back" if sessions > 1, '[b]%DRK[/b]' - dosh rank, '[b]%KRK[/b]' - kill rank, '[b]%TME[/b]' - play time, '[b]%TRK[/b]' - play time rank, '[b]%SES[/b]' - sessions
 
 [*] '[b]!stop_jc[/b]' - Stops all join commands
