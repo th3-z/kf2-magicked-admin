@@ -67,67 +67,67 @@ Todos los comandos tienen texto de ayuda en el juego que se puede acceder con la
 Todos los comandos también tienen los siguientes parámetros.
 [list]
 [*] Opción '[b]-q[/b]': Supresiones de salida
-[*] Option '[b]-p[/b]': Pads output to hide the username line
+[*] Opcion '[b]-p[/b]': Oculta la salida de linea de nombre de usuario
 [/list]
-Escape sequences as follows are available to format messages.
+Las secuencias de escape como sigue, están disponibles para formatear mensajes.
 [list]
-[*] '[b]\n[/b]' - Newline
-    - Example: '[b]!say line 0 \n line 1[/b]'
-[*] '[b]\t[/b]' - Tab
-    - Example: '[b]!say line 0 \n\t line 1 is indented 1 tabstop[/b]'
+[*] '[b]\n[/b]' - Nueva linea
+    - Ejemplo: '[b]!say linea 0 \n linea 1[/b]'
+[*] '[b]\t[/b]' - Tabula
+    - Example: '[b]!say linea 0 \n\t linea 1 es identada 1 espacio de tabulación[/b]'
 [/list]
 
-## Player commands
-These commands can be executed by any player. As of writing there are 18 player commands available.
+## Comandos de jugador
+Estos comandos pueden ser ejecutados por cualquier jugador. A la hora de escribir hay 18 comandos de jugador disponibles.
 [list]
-[*] '[b]!commands[/b]' - Shows a list of all commands available to players
+[*] '[b]!commands[/b]' - Muestra una lista de todos los comandos disponibles para los jugadores
 
-[*] '[b]!stats <user>[/b]' - Shows general statistics about a user
-    - Example: '[b]!stats[/b]' Shows stats about yourself
-    - Example: '[b]!stats the_z[/b]' Shows stats about the_z
+[*] '[b]!stats <user>[/b]' - Muestra estadísticas generales sobre un usuario
+    - Ejemplo: '[b]!stats[/b]' Muestra estadísticas sobre ti mismo
+    - Ejemplo: '[b]!stats the_z[/b]' Muestra estadísticas sobre the_z
 
-[*] '[b]!kills <user>[/b]' - Shows kill statistics about a user
-    - Example: '[b]!kills[/b]' Shows kill stats about yourself
-    - Example: '[b]!kills the_z[/b]' Shows kill stats about the_z
+[*] '[b]!kills <user>[/b]' - Muestra estadísticas de bajas sobre un usuario
+    - Ejemplo: '[b]!kills[/b]' Muestra estadísticas de bajas sobre ti
+    - Ejemplo: '[b]!kills the_z[/b]' Muestra estadísticas de baja sobre the_z
 
-[*] '[b]!dosh <user>[/b]' - Shows dosh statistics about a user
-    - Example: '[b]!dosh[/b]' Shows dosh stats about yourself
-    - Example: '[b]!dosh the_z[/b]' Shows dosh stats about the_z
+[*] '[b]!dosh <user>[/b]' - Muestra estadísticas de dosh sobre un usuario
+    - Ejemplo: '[b]!dosh[/b]' Muestra las estadísticas de dosh sobre ti
+    - Ejemplo: '[b]!dosh the_z[/b]' Muestra las estadísticas de dosh sobre the_z
 
-[*] '[b]!map[/b]' - Shows statistics about the current map
+[*] '[b]!map[/b]' - Muestra estadísticas sobre el mapa actual
 
-[*] '[b]!record_wave[/b]' - Shows the highest wave achieved on the current map
+[*] '[b]!record_wave[/b]' - Muestra la ola más alta conseguida en el mapa actual
 
-[*] '[b]!top_kills[/b]' - Shows the global kills leaderboard
+[*] '[b]!top_kills[/b]' - Muestra la tabla de clasificación global de bajas
 
-[*] '[b]!top_dosh[/b]' - Shows the global dosh leaderboard
+[*] '[b]!top_dosh[/b]' - Muestra la tabla de clasificación global de Dosh
 
-[*] '[b]!top_time[/b]' - Shows the global play time leaderboard
+[*] '[b]!top_time[/b]' - Muestra la clasificación global del tiempo de juego
 
-[*] '[b]!top_wave_kills[/b]' - Shows information about who killed the most ZEDs in the current wave. Generally for use with '[b]!start_trc[/b]'
-    - Example: '[b]!start_trc top_wave_kills[/b]'
+[*] '[b]!top_wave_kills[/b]' - Muestra información sobre quién mató más ZEDs en la oleada actual. Generalmente para uso con '[b]!start_trc[/b]'
+    - Ejemplo: '[b]!start_trc top_wave_kills[/b]'
 
-[*] '[b]!top_wave_dosh[/b]' - Shows information about who earned the most dosh in the current wave. Generally for use with '[b]!start_trc[/b]'
-    - Example: '[b]!start_trc top_wave_dosh[/b]'
+[*] '[b]!top_wave_dosh[/b]' - Muestra información sobre quién ganó más dosh en la oleada actual. Generalmente para uso con '[b]!start_trc[/b]'
+    - Ejemplo: '[b]!start_trc top_wave_dosh[/b]'
 
-[*] '[b]!server_kills[/b]' - Shows total kills on the server
+[*] '[b]!server_kills[/b]' - Muestra el total de bajas en el servidor
 
-[*] '[b]!server_dosh[/b]' - Shows total dosh earned on the server
+[*] '[b]!server_dosh[/b]' - Muestra el Dosh total obtenido en el servidor
 
-[*] '[b]!scoreboard[/b]' - Shows the complete player scoreboard, useful on servers with >6 max players
-    - Alias '[b]!sb[/b]': Does the same
+[*] '[b]!scoreboard[/b]' - Muestra el marcador completo del jugador, útil en servidores con más de 6 jugadores máximos
+    - Alias '[b]!sb[/b]': Hace lo mismo
 
-[*] '[b]!game[/b]' - Shows information about the current game
+[*] '[b]!game[/b]' - Muestra información sobre el juego actual
 
-[*] '[b]!maps[/b]' - Shows the current map cycle
-    - Option '[b]-a[/b]': Shows all available maps
-    - Example: '[b]!maps -a[/b]'
+[*] '[b]!maps[/b]' - Muestra el ciclo actual del mapa
+    - Opción '[b]-a[/b]': Muestra todos los mapas disponibles
+    - Ejemplo: '[b]!maps -a[/b]'
 
-[*] '[b]!player_count[/b]' - Shows the player count and max players
+[*] '[b]!player_count[/b]' - Muestra el número de jugadores y el máximo de jugadores
 [/list]
 
-## Administrator commands
-Commands that can be ran by server administrators, and users authorized with the '[b]!op[/b]' command. As of writing there are 24 administrator commands available.
+## Comandos de administrador
+Comandos que pueden ser ejecutados por los administradores del servidor, y usuarios autorizados con el comando '[b]!op[/b]'. A la hora de escribir hay 24 comandos de administrador disponibles.
 [list]
 [*] '[b]!op <user>[/b]' - Gives a user administrative rights, persists until '[b]!deop <user>[/b]' is used.
     - Example: '[b]!op the_z[/b]'
