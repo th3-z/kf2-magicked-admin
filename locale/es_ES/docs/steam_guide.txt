@@ -129,8 +129,8 @@ Estos comandos pueden ser ejecutados por cualquier jugador. A la hora de escribi
 ## Comandos de administrador
 Comandos que pueden ser ejecutados por los administradores del servidor, y usuarios autorizados con el comando '[b]!op[/b]'. A la hora de escribir hay 24 comandos de administrador disponibles.
 [list]
-[*] '[b]!op <user>[/b]' - Gives a user administrative rights, persists until '[b]!deop <user>[/b]' is used.
-    - Example: '[b]!op the_z[/b]'
+[*] '[b]!op <user>[/b]' - Da a un usuario derechos administrativos, persiste hasta que '[b]!deop <user>[/b]' es usado.
+    - Ejemplo: '[b]!op the_z[/b]'
 
 [*] '[b]!deop <user>[/b]' - Revokes a user's administrative rights
     - Example: '[b]!deop the_z[/b]'
@@ -370,7 +370,7 @@ To configure more servers, find '[b]conf/magicked_admin.conf[/b]', and open it i
 
 Copy the whole '[b][server_one][/b]' section, and paste it at the end of the file. Update the '[b]address[/b]', '[b]username[/b]', and '[b]password[/b]' options.
 
-Below is an example.
+A continuación se muestra un ejemplo.
 [code]
 [server_one]
 game_password = 123
@@ -385,17 +385,17 @@ username = Admin
 password = 123
 [/code]
 
-You can do this for as many servers as you want.
+Puede hacer esto para tantos servidores como desee.
 
-## Renaming servers
-If you have a few servers, you might want to name them so you can easily identify them.
+## Renombrar servidores
+Si tiene algunos servidores, tal vez quiera nombrarlos para que pueda identificarlos fácilmente.
 
-You first need to open '[b]conf/magicked_admin.conf[/b]' and here you can change '[b]server_one[/b]' to anything you want.
+Primero tienes que abrir '[b]conf/magicked_admin.conf[/b]' y aquí puedes cambiar '[b]server_one[/b]' a cualquier cosa que quieras.
 
-You then need to go back and change '[b]server_one.motd[/b]' and '[b]server_one.init[/b]' to the name you just set it to in '[b]conf/magicked_admin.conf[/b]'.
+Entonces tienes que volver y cambiar '[b]server_one.motd[/b]' y '[b]server_one. nit[/b]' al nombre que acabas de establecer en '[b]conf/magicked_admin.conf[/b]'.
 
 ## Restableciendo estadísticas
-To reset the scoreboard all you have to do is delete the '[b]conf/*.sqlite[/b]' file associated with the server name, a new one will be created the next time you start KF2 Magicked Admin.
+Para restablecer el marcador basta con eliminar el '[b]conf/*. qlite[/b]' archivo asociado con el nombre del servidor, se creará uno nuevo la próxima vez que inicie KF2 Magicked Admin.
 
 Si quería restablecer las estadísticas en '[b]server_four[/b]', eliminaría el  archivo '[b]conf/server_four.sqlite[/b]' y reiniciar KF2 Magicked Admin.
 
