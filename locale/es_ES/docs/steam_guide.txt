@@ -277,55 +277,55 @@ Algunos comandos son particularmente útiles cuando se usan en scripts, estos so
  start_tc 300 -- update_motd dosh[/code]
 
 '[b]conf/scripts/server_one.init[/b]' - [i]Anuncia tu grupo de Steam cuando se alcanza la onda del jefe[/i]
-[code] start_wc -w -1 -- say Join our steam group: http://our.steam/group[/code]
+[code] start_wc -w -1 -- say Únete a nuestro grupo de Steam: http://our.steam/group[/code]
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Provide basic bot usage guidance to players[/i]
-[code] start_tc -rt 800 -- say I'm a bot, type !commands to see available commands[/code]
+'[b]conf/scripts/server_one.init[/b]' - [i]Proporcionar orientación básica del bot a los jugadores[/i]
+[code] start_tc -rt 800 --say Soy bot, escribe !commands para ver los comandos disponibles[/code]
 
-'[b]conf/scripts/priv_game[/b]' - [i]Setup a private lobby with a single command[/i]
+'[b]conf/scripts/priv_game[/b]' - [i]Configurar un lobby privado con un solo comando[/i]
 [code]silent -q
-password --set superSecretPassword
+password --set contraseña
 difficulty hell
 length long
 load_map biotics
 silent -q[/code]
 
-## Configuration options
-Basic setup is done on the first run. However this is only to get you started, it does not cover all of the options KF2 Magicked Admin can offer. Please see the configuration file, '[b]conf/magicked_admin.conf[/b]', for more configuration options as some features are disabled by default.
+## Opciones de configuración
+La configuración básica se realiza en la primera ejecución. Sin embargo, esto es sólo para empezar, no cubre todas las opciones que puede ofrecer el Administrador Magicked KF2. Por favor, vea el archivo de configuración, '[b]conf/magicked_admin.conf[/b]', para más opciones de configuración ya que algunas características están deshabilitadas por defecto.
 
-Each server managed by KF2 Magicked Admin has a config section that looks something like '[b][server_one][/b]', followed by several options ('[b]x = y[/b]'). Copy the default server section and change the name if you want to manage multiple servers. '[b][server_one][/b]' is the name of the server, this can be changed to whatever you want, but each section should have a unique name.
+Cada servidor administrado por KF2 Magicked Admin tiene una sección de configuración que se parece a '[b][server_one][/b]', seguido de varias opciones ('[b]x = y[/b]'). Copie la sección del servidor por defecto y cambie el nombre si desea administrar múltiples servidores. '[b][server_one][/b]' es el nombre del servidor, esto puede cambiarse a lo que quieras, pero cada sección debe tener un nombre único.
 
-[h1]Options[/h1]
+[h1]Opciones[/h1]
 
-The following options can be configured in the config file '[b]conf/magicked_admin.conf[/b]'.
+Las siguientes opciones se pueden configurar en el archivo de configuración '[b]conf/magicked_admin.conf[/b]'.
 [list]
-[*] '[b]address[/b]'  - Web address of the server's web admin panel. Requires scheme and protocol
-    - Example: '[b]address=https://0.0.0.0:8080[/b]'
+[*] '[b]address[/b]'  - Dirección web del panel de administración web del servidor. Requiere esquema y protocolo
+    - Ejemplo: '[b]address=https://0.0.0.0:8080[/b]'
 
-[*] '[b]username[/b]' - Web admin username to login with, this will appear in the chat when the bot has something to output. It's recommended to create a separate account for the bot.
-    - Example: '[b]username=Admin[/b]'
+[*] '[b]username[/b]' - Nombre de usuario de administrador web con el que iniciar sesión. esto aparecerá en el chat cuando el bot tenga algo que decir afuera. Se recomienda crear una cuenta separada para el bot.
+    - Ejemplo: '[b]username=Admin[/b]'
 
-[*] '[b]password[/b]'  - Web admin password that matches the username above.
-    - Example: '[b]password=123[/b]'
+[*] '[b]password[/b]' - Contraseña de administrador web que coincide con el nombre de usuario anterior.
+    - Ejemplo: '[b]password=123[/b]'
 
-[*] '[b]game_password[/b]' - Default game password to set when the password is toggled using '[b]!password <on|off>[/b]'.
-    - Example: '[b]game_password=Hunter69[/b]'
+[*] '[b]game_password[/b]' - Contraseña de juego predeterminada para establecer cuando la contraseña se cambia usando '[b]!password <on|off>[/b]'.
+    - Ejemplo: '[b]game_password=Hunter69[/b]'
 
 [/list]
 
-## Renaming the chatbot (multi-admin)
-To rename your chatbot to something other than 'Admin' your server must be configured for multi-admin. 
+## Renombrar el chatbot (multi-admin)
+Para renombrar tu chatbot a algo que no sea 'Admin' tu servidor debe estar configurado para multi-admin. 
 
-If your server already has multi-admin support all you need to do is create an account with the desired name and change the account credentials in '[b]conf/magicked_admin.conf[/b]'
+Si tu servidor ya tiene soporte multi-admin todo lo que necesitas hacer es crear una cuenta con el nombre deseado y cambiar las credenciales de la cuenta en '[b]conf/magicked_admin.conf[/b]'
 
-The following covers the same setup as the official Tripwire documentation on this topic, which is available [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)#Setting_up_multiple_web_admins]here[/url].
+Lo siguiente cubre la misma configuración que la documentación oficial de Tripwire sobre este tema, que está disponible [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)#Setting_up_multiple_web_admins]aquí[/url].
 [olist]
-[*]Go to your server's config folder. '[b]KF2-Server\KFGame\Config\Config[/b]'.
+[*]Ve a la carpeta de configuración de tu servidor. '[b]KF2-Server\KFGame\Config\Config[/b]'.
 
-[*]Open '[b]KFWebAdmin.ini[/b]' in your favourite editor, add the following under the '[b][WebAdmin.WebAdmin][/b]' section, and save the file.
+[*]Abre '[b]KFWebAdmin.ini[/b]' en tu editor favorito, añade lo siguiente bajo la sección '[b][WebAdmin.WebAdmin][/b]' y guarda el archivo.
 [code]AuthenticationClass=WebAdmin.MultiWebAdminAuth[/code]
 
-[*]Now open your web admin panel and there should be a new '[b]Administrators[/b]' section in the sidebar.
+[*]Ahora abre tu panel de administración web y debería haber una nueva sección '[b]Administradors[/b]' en la barra lateral.
 [previewicon=11679370;sizeThumb,inline;chrome_2018-03-08_23-53-58.png][/previewicon]
 
 [*]Haga clic en '[b]Administradores[/b]' y seleccione '[b]Crear Administrador[/b]'. Introduzca un nombre para el Chatbot (Este es el nombre que usarás para iniciar sesión). Haga clic en "OK".
@@ -428,7 +428,7 @@ Para código fuente completo (Python+SQLite) y orientación de desarrolladores v
 
 [b]Contribuidores[/b]
 
-Developers:
+Desarrolladores:
 [list]
 [*] [url=https://github.com/th3-z]th3-z[/url]
 [*] [url=https://github.com/n0x-io]n0x-io[/url]
