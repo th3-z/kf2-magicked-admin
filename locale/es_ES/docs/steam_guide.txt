@@ -192,91 +192,91 @@ Comandos que pueden ser ejecutados por los administradores del servidor, y usuar
 [*] '[b]!start_trc [-w <oleada>] -- <comandO>[/b]' - Comienza un comando que se ejecuta cuando el trader abre
     - Opción '[b]-w[/b]': Oleada para ejecutar el comando, puede omitirse para que el comando ejecute cada oleada
     - Opción '[b]-w[/b]': Puede ser negativo contar hacia atrás desde la oleada del jefe
-    - Example: '[b]!start_trc -- top_wave_dosh[/b]' - Shows who earned the most dosh every wave when the trader opens
+    - Ejemplo: '[b]!start_trc -- top_wave_dosh[/b]' - Muestra quién ganó más dosh cada oleada cuando el comerciante abre
 
-[*] '[b]!stop_trc[/b]' - Stop all commands that run on trader open
+[*] '[b]!stop_trc[/b]' - Detener todos los comandos que se ejecutan al abrir el trader
 
-[*] '[b]!silent[/b]' - Toggles suppression of all chat output, commands still have effect, but the response will not be visible to players
+[*] '[b]! ilent[/b]' - Activa la supresión de todas las salidas de chat, los comandos todavía tienen efecto, pero la respuesta no será visible para los jugadores
 
-[*] '[b]!run <script_name>[/b]' - Executes a script from the 'conf/scripts' folder, more information in the scripts section
-    - Example: '[b]!run example[/b]'
+[*] '[b]!run <nombre de script>[/b]' - Ejecuta un script de la carpeta 'conf/scripts', más información en la sección de scripts
+    - Ejemplo: '[b]!run ejemplo[/b]'
 
-[*] '[b]!marquee <marquee_name>[/b]' - Runs a marquee in the chat from the '[b]conf/marquee[/b]' folder, [i]experimental[/i]
-    - Example: '[b]!marquee example[/b]'
+[*] '[b]!marquee <nombre marquee>[/b]' - Ejecuta un marquee en el chat de '[b]conf/marquee[/b]' carpeta, [i]experimental[/i]
+    - Example: '[b]!marquee ejemplo[/b]'
 
-[*] '[b]!enforce_dosh <amount>[/b]' - Kicks all players that have more dosh than the specified amount.
-    - Example: '[b]!start_tc 600 -- enforce_dosh 60000[/b]'
+[*] '[b]!enforce_dosh <monto>[/b]' - Expulsa a todos los jugadores que tienen más dosh que la cantidad especificada.
+    - Ejemplo: '[b]!start_tc 600 -- enforce_dosh 60000[/b]'
 
-[*] '[b]!update_motd <type>[/b]' - Refreshes the welcome screen leaderboard, type is one of: kills, dosh, or time
-    - Example: '[b]!start_tc 300 -- update_motd kills[/b]'
+[*] '[b]!update_motd <tipo>[/b]' - Actualiza la tabla de clasificación de la pantalla de bienvenida, el tipo es uno de: matanzas, dosh, o tiempo
+    - Ejemplo: '[b]!start_tc 300 -- update_motd bajas[/b]'
 
-[*] '[b]!reload_motd[/b]' - Reloads the server's '[b]*.motd[/b]' file from '[b]conf[/b]'
+[*] '[b]!reload_motd[/b]' - Recarga el archivo del servidor '[b]*.motd[/b]' de '[b]conf[/b]'
 [/list]
 
-## Welcome screen leaderboards
-Writing a '[b]conf/server_name.motd[/b]' file containing pairs of '[b]%PLR[/b]' and '[b]%SCR[/b]' will allow you to render live leaderboard on the welcome screen.
+##Tabla de posiciones en la pantalla de bienvenida
+Escribiendo un '[b]conf/server_name.motd[/b]' archivo que contiene pares de '[b]%PLR[/b]' y '[b]%SCR[/b]' te permitirá renderizar la tabla de clasificación en vivo en la pantalla de bienvenida.
 
-A simple example could be as follows.
-[code]Welcome to our server.
+Un ejemplo sencillo podría ser el siguiente.
+[code]Bienvenido a nuestro servidor.
 
-%SRV_K Zeds killed on this server.
+%SZeds RV_K asesinados en este servidor.
 
-Top Players (total kills):
+Top Jugadores (bajas totales):
 1. %PLR [%SCR]		2. %PLR [%SCR]		3. %PLR [%SCR] 
 4. %PLR [%SCR]		5. %PLR [%SCR]		6. %PLR [%SCR] 
 7. %PLR [%SCR]		8. %PLR [%SCR]		9. %PLR [%SCR]
 
-Have fun and good luck!
+¡Diviértete y buena suerte!
 [/code]
 
-KF2 Magicked Admin will replace '[b]%PLR[/b]' with the player's username, '[b]%SCR[/b]' with the player's total kills or total dosh, '[b]%SRV_K[/b]' with the global server kills, and '[b]%SRV_D[/b]' with the global server dosh.
+KF2 Magicked Admin reemplazará '[b]%PLR[/b]' con el nombre de usuario del jugador, '[b]%SCR[/b]' con el total de muertes o dosh del jugador, '[b]%SRV_K[/b]' con las bajas globales del servidor, y '[b]%SRV_D[/b]' con el dosh servidor global.
 
-Once the file is written, use the '[b]!update_motd <type>[/b]' command to refresh the leaderboard. This should be used in combination with '[b]!start_tc <refresh_interval>[/b]' so that it is refreshed automatically.
-    - Example: '[b]!start_tc 300 -- update_motd dosh[/b]'
+Una vez escrito el archivo, usa el comando '[b]!update_motd <tipo>[/b]' para actualizar la tabla de clasificación. Esto debería utilizarse en combinación con '[b]!start_tc <intervalo de actualizaciónl>[/b]' para que se actualice automáticamente.
+    - Ejemplo: '[b]!start_tc 300 -- update_motd dosh[/b]'
 
-The metric for '[b]%SCR[/b]' can be either 'kills', 'time', or 'dosh'. This is can be set by changing the '[b]<type>[/b]' parameter when using '[b]!update_motd <type>[/b]'
+La métrica para '[b]%SCR[/b]' puede ser 'kills', 'time', o 'dosh'. Esto se puede establecer cambiando el parámetro '[b]<tipo>[/b]' al usar '[b]!update_motd <tipo>[/b]'
 
-Here is my survival suicidal welcome screen as an example of what can be achieved. 
+He aquí mi pantalla de bienvenida suicida de supervivencia como ejemplo de lo que se puede conseguir. 
 
 [previewicon=12055995;sizeOriginal,inline;KFGame_2018-04-14_03-27-00.png][/previewicon]
 
 
-[h1]Notes[/h1]
+[h1]Notas[/h1]
 [list]
-[*] This will overwrite your existing motd.
-[*] '[b]!reload_motd[/b]' Can be used to reload the template file while KF2 Magicked Admin is still running.
+[*] Esto sobrescribirá su motd existente.
+[*] '[b]!reload_motd[/b]' Puede ser usado para recargar el archivo de plantilla mientras KF2 Magicked Admin todavía se está ejecutando.
 [/list]
 
 ## Scripts
-KF2 Magicked Admin has some rudimentary scripting support which can be used to chain commands into a single action.
+KF2 Magicked Admin tiene algún soporte rudimentario de scripting que puede ser usado para encadenar comandos en una sola acción.
 
-There are two categories of scripts, they differ in when and how they are executed.
+Hay dos categorías de scripts, que difieren en cuándo y cómo se ejecutan.
 
 [list]
-[*] Comments can be added to scripts by prefixing a line with '[b];[/b]'
+[*] Los comentarios se pueden añadir a los scripts prefijando una línea con '[b];[/b]'
 [/list]
 
-[h1]Init scripts[/h1]
+[h1]Scripts de inicio[/h1]
 
-Writing a '[b]server_name.init[/b]' in the '[b]conf/scripts[/b]' folder with a series of commands will run the commands in sequence when the bot starts on '[b]server_name[/b]'. The server names are defined in '[b]conf/magicked_admin.conf[/b]', if you haven't changed the name it will default to '[b]server_one[/b]'.
+Escribiendo un nombre de servidor '[b]. nit[/b]' en la carpeta '[b]conf/scripts[/b]' con una serie de comandos ejecutará los comandos en secuencia cuando el bot comience en '[b]server_name[/b]'. The server names are defined in '[b]conf/magicked_admin.conf[/b]', if you haven't changed the name it will default to '[b]server_one[/b]'.
 
-An example init file will have been generated on first launch, this can be used as a template for writing your own init scripts.
+Un archivo de inicio de ejemplo se ha generado en el primer lanzamiento, esto puede utilizarse como una plantilla para escribir sus propios scripts de inicio.
 
-[h1]Run scripts[/h1]
+[h1]Ejecutar scripts[/h1]
 
-The '[b]!run[/b]' command exists to facilitate the running of scripts at any time. These scripts should be placed in the '[b]conf/scripts[/b]' folder. An example script is already in the scripts folder, it can be ran with '[b]!run example[/b]'. 
+El comando '[b]!run[/b]' existe para facilitar la ejecución de scripts en cualquier momento. These scripts should be placed in the '[b]conf/scripts[/b]' folder. Un script de ejemplo ya está en la carpeta de scripts, puede ejecutarse con '[b]!run ejemplo[/b]'. 
 
-These scripts are formatted much the same as the init script, the commands will be ran in sequence from top to bottom.
+Estos scripts están formateados de la misma manera que el guión de inicio, los comandos se ejecutarán en secuencia de arriba a abajo.
 
-[h1]Notable examples[/h1]
+[h1]Ejemplos destacables[/h1]
 
-Some commands are particularly useful when used in scripts, these are: '[b]!start_tc[/b]', '[b]!start_trc[/b]', '[b]!start_wc[/b]', '[b]!start_jc[/b]', '[b]!top_wave_kills[/b]', '[b]!top_wave_dosh[/b]', '[b]!enforce_dosh[/b]', '[b]!say[/b]'.
+Algunos comandos son particularmente útiles cuando se usan en scripts, estos son: '[b]!start_tc[/b]', '[b]!start_trc[/b]', '[b]!start_wc[/b]', '[b]! tart_jc[/b]', '[b]!top_wave_kills[/b]', '[b]!top_wave_dosh[/b]', '[b]!enforce_dosh[/b]', '[b]!say[/b]'.
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Show who earned the most dosh each wave when the trader opens, and update the welcome screen leaderboard every 5 minutes[/i]
+'[b]conf/scripts/server_one. nit[/b]' - [i]Muestra quién ganó más dosh cada onda cuando se abre el trader, y actualizar la tabla de clasificación de la pantalla de bienvenida cada 5 minutos[/i]
 [code] start_trc -- top_wave_dosh
  start_tc 300 -- update_motd dosh[/code]
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Advertise your Steam group when the boss wave is reached[/i]
+'[b]conf/scripts/server_one.init[/b]' - [i]Anuncia tu grupo de Steam cuando se alcanza la onda del jefe[/i]
 [code] start_wc -w -1 -- say Join our steam group: http://our.steam/group[/code]
 
 '[b]conf/scripts/server_one.init[/b]' - [i]Provide basic bot usage guidance to players[/i]
