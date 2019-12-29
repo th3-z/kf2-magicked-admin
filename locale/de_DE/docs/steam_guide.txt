@@ -174,15 +174,15 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!stop_jc[/b]' - Stoppt alle Join-Befehle
 
 [*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start eines Befehls, der auf Welle '<wave>' läuft
-    - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command
-    jede Welle ausführen
+    - Option "[b]-w[/b]": Wave zum Ausführen des Befehls, kann weggelassen werden, um den Befehl
+    bei jeder Welle ausführen zu lassen
     - Option "[b]-w[/b]": Kann negativ sein, um von der Boss-Welle rückwärts zu zählen
-    - Example: '[b]!start_wc -1 -- say Welcome to the boss wave[/b]'
+    - Beispiel: '[b]!start_wc -1 -- say Sie Willkommen bei der Boss-Wave[/b]'
 
-[*] '[b]!stop_wc[/b]' - Stops all wave commands
+[*] '[b]!stop_wc[/b]' - Stoppt alle Wave-Befehle
 
-[*] '[b]!start_tc [-r, -t <seconds>] -- <command>[/b]' - Start a command that runs after
-    '<seconds>' seconds
+[*] '[b]!start_tc [-r, -t <Sekunden>] -- <Befehl>[/b]' - Startet einen Befehl, der nach
+    '<Sekunden>' Sekunden
     - Option '[b]-r[/b]': Add to have the command run repeatedly
     - Option '[b]-t[/b]': Required, the number of seconds before the command runs
     - Example: '[b]!start_tc -rt 600 -- say Join our Steam group!\n http://steam.group/[/b]'
