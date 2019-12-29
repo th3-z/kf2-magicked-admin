@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-29 18:46\n"
+"PO-Revision-Date: 2019-12-29 19:06\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #: magicked_admin/magicked_admin.py:132
 msgid "Initialisation complete!\n"
-msgstr ""
+msgstr "Initialisierung abgeschlossen!\n"
 
 #: magicked_admin/magicked_admin.py:143
 msgid "Closing immediately!"
@@ -85,7 +85,7 @@ msgstr ""
 
 #: magicked_admin/settings.py:135
 msgid "Config file has no sections."
-msgstr ""
+msgstr "Konfigurationsdatei hat keine Abschnitte."
 
 #: magicked_admin/settings.py:144
 msgid "Section '{}' is missing a required setting: '{}'."
