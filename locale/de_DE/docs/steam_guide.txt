@@ -160,10 +160,10 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!load_map <map>[/b]' - Sofortige Änderung der Karte auf '<map>'
     - Beispiel: '[b]!load_map biotics[/b]' Wechselt die Maps auf Biotics Lab
 
-[*] '[b]!restart[/b]' - Immediately restart the current game
+[*] '[b]!restart[/b]' - Sofortiger Neustart des aktuellen Spiels
 
 [*] '[b]!password [--set] <on|off>[/b]'
-    - Example: '[b]!password on[/b]' Enables the game password defined in the config
+    - Beispiel: '[b]!password on[/b]' Aktiviert das in der Konfiguration definierte Spielpasswort
     - Example: '[b]!password off[/b]' Disables the game password
     - Example: '[b]!password --set superSekritPass[/b]' Sets a specific password
 
