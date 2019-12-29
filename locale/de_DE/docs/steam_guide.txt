@@ -112,12 +112,12 @@ Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Sc
 
 [*] '[b]!server_kills[/b]' - Zeigt gesamt Kills auf dem Server an
 
-[*] '[b]!server_dosh[/b]' - Shows total dosh earned on the server
+[*] '[b]!server_dosh[/b]' - Zeigt die Summe des auf dem Server verdienten Dosh
 
 [*] '[b]!scoreboard[/b]' - Zeigt das komplette Spieler-Scoreboard, nützlich auf Servern mit mehr als maximal 6 Spielern
     - Alias '[b]!sb[/b]': Macht das gleiche
 
-[*] '[b]!game[/b]' - Shows information about the current game
+[*] '[b]!game[/b]' - Zeigt Informationen über das aktuelle Spiel
 
 [*] '[b]!maps[/b]' - Zeigt den aktuellen Kartenzyklus an
     - Option '[b]-a[/b]': Zeigt alle verfügbaren Karten an
@@ -127,13 +127,13 @@ Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Sc
 [/list]
 
 ## Administrator-Befehle
-Commands that can be ran by server administrators, and users authorized with the '[b]!op[/b]' command. As of writing there are 24 administrator commands available.
+Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können, die mit dem Befehl '[b]!op[/b]' autorisiert wurden. Zum Zeitpunkt des Schreibens stehen 24 Administratorbefehle zur Verfügung.
 [list]
-[*] '[b]!op <user>[/b]' - Gives a user administrative rights, persists until '[b]!deop <user>[/b]' is used.
-    - Example: '[b]!op the_z[/b]'
+[*] '[b]!op <user>[/b]' - Verleiht einem Benutzer administrative Rechte, bleibt bestehen bis '[b]!deop <user>[/b]' verwendet wird.
+    - Beispiel: '[b]!op the_z[/b]'
 
-[*] '[b]!deop <user>[/b]' - Revokes a user's administrative rights
-    - Example: '[b]!deop the_z[/b]'
+[*] '[b]!deop <user>[/b]' - Widerruft die administrativen Rechte eines Benutzers
+    - Beispiel: '[b]!deop the_z[/b]'
 
 [*] '[b]!say <message>[/b]' - Echoes a message into chat
     - Example: '[b]!say The quick brown fox jumps over the lazy dog[/b]'
