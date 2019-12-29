@@ -77,10 +77,10 @@ Escape sequences as follows are available to format messages.
     - Beispiel: '[b]!say line 0 \n\t Zeile 1 ist eingerückt 1 Tabstop[/b]'
 [/list]
 
-## Player commands
-These commands can be executed by any player. As of writing there are 18 player commands available.
+## Spieler Befehle
+Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Schreibens stehen 18 Spielerbefehle zur Verfügung.
 [list]
-[*] '[b]!commands[/b]' - Shows a list of all commands available to players
+[*] '[b]!commands[/b]' - Zeigt eine Liste aller für Spieler verfügbaren Befehle an
 
 [*] '[b]!stats <user>[/b]' - Shows general statistics about a user
     - Example: '[b]!stats[/b]' Shows stats about yourself
@@ -107,15 +107,15 @@ These commands can be executed by any player. As of writing there are 18 player 
 [*] '[b]!top_wave_kills[/b]' - Shows information about who killed the most ZEDs in the current wave. Generally for use with '[b]!start_trc[/b]'
     - Example: '[b]!start_trc top_wave_kills[/b]'
 
-[*] '[b]!top_wave_dosh[/b]' - Shows information about who earned the most dosh in the current wave. Generally for use with '[b]!start_trc[/b]'
+[*] '[b]!top_wave_dosh[/b]' - Shows information about who earned the most dosh in the current wave. Generell für die Benutzung mit '[b]!start_trc[/b]'
     - Example: '[b]!start_trc top_wave_dosh[/b]'
 
 [*] '[b]!server_kills[/b]' - Zeigt gesamt Kills auf dem Server an
 
 [*] '[b]!server_dosh[/b]' - Shows total dosh earned on the server
 
-[*] '[b]!scoreboard[/b]' - Shows the complete player scoreboard, useful on servers with >6 max players
-    - Alias '[b]!sb[/b]': Does the same
+[*] '[b]!scoreboard[/b]' - Zeigt das komplette Spieler-Scoreboard, nützlich auf Servern mit mehr als maximal 6 Spielern
+    - Alias '[b]!sb[/b]': Macht das gleiche
 
 [*] '[b]!game[/b]' - Shows information about the current game
 
@@ -435,10 +435,10 @@ Developers:
 [*] [url=https://github.com/skylord123]skylord123[/url]
 [*] [url=https://github.com/WilliamBrown42]WilliamBrown42[/url]
 [/list]
-Testers:
+Tester:
 [list]
 [*] [url=https://steamcommunity.com/id/Stephen720/]Stephen720[/url]
 [*] [url=https://steamcommunity.com/profiles/76561198299290553/]WabbitToonz[/url]
 [/list]
 
-Contributions are welcome.
+Beiträge sind willkommen.
