@@ -1,145 +1,145 @@
 # KF2 Magicked Admin - Dedicated Server Tool [0.1.4]
 
-Scripted management, statistics, and bot for ranked Killing Floor 2 servers. Provides in-game commands, player stat tracking and ranking, live welcome screen scoreboard and stats, greeter, and admin functions. Running entirely through the web admin, it does not affect a server's ranked/custom status. It can be ran either directly on the server or remotely, and manage multiple servers at once.
+Gescriptete Verwaltung, Statistiken und ein Bot für gerankte Killing Floor 2 Server. Bietet In-Game-Befehle, Tracking von Spieler-Statistiken und -Ranking, Live-Begrüßungsbildschirm und -Statistiken, Begrüßungs- und Admin-Funktionen. Es läuft komplett über den Web-Admin und hat keinen Einfluss auf den Ranking/Custom-Status eines Servers. Es kann entweder direkt auf dem Server oder per Fernzugriff ausgeführt werden und mehrere Server gleichzeitig verwalten.
 [list]
-[*]Present real-time leaderboards in your welcome screen and in-game chat
-[*]Record player statistics including: kills, dosh, deaths and play time
-[*]A variety of in-game administrative commands
-[*]A variety of in-game commands for players
-[*]Automatically issue commands based on: time, wave, joins, or trader state
-[*]Read player messages from your desktop
+[*] Präsentiert Echtzeit-Ranglisten auf deinem Willkommensbildschirm und im Spiel-Chat
+[*]Zeichnet Spielerstatistiken auf, einschließlich: Kills, Dosh, Todesfällen und Spielzeit
+[*] Eine Vielzahl von In-Game-Verwaltungsbefehlen
+[*] Eine Vielzahl von In-Game-Befehlen für Spieler
+[*] Automatisch ausgelöste Befehle basierend auf: Zeit, Welle, Beitritt oder Händlerstatus
+[*] Lies Spieler-Meldungen von deinem Desktop
 [/list]
 
-[b]Notes[/b]
+[b]Hinweise[/b]
 [list]
-[*]KF2 Magicked Admin will [b]not[/b] alter the servers ranked or custom status.
-[*]KF2 Magicked Admin works with weekly, survival, and endless game modes.
-[*]KF2 Magicked Admin can manage multiple servers in a single instance
+[*]KF2 Magicked Admin wird [b]nicht [/b] das Server-Ranking oder den Custom-Status ändern.
+[*]KF2 Magicked Admin arbeitet mit dem Wochen-, Survival- und Endlosspielmodus.
+[*]KF2 Magicked Admin kann mehrere Server in einer einzigen Instanz verwalten
 [/list]
 
-If you have any feedback for KF2 Magicked Administrator, or this guide, let me know.
-Please rate and favourite the guide if you found it useful.
+Wenn du ein Feedback für KF2 Magicked Administrator, oder diese Anleitung hast, lass es mich wissen.
+Bitte bewerte und favorisiere diesen Guide, wenn du ihn nützlich findest.
 
-If you need some help anywhere, add me on steam, and I will do my best to help you.
+Wenn du irgendwo etwas Hilfe brauchst, adde mich in Steam und ich werde mein Bestes tun, um dir zu helfen.
 
-Thanks.
+Danke.
 
 ## Downloads
-The latest version as of writing is '[b]0.1.4[/b]', released on the 29th of September 2019. A Windows executable is provided for this release [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-magicked-admin-0.1.4.zip]here[/url].
+Die neueste Version zum Zeitpunkt des Schreibens ist '[b]0.1.4[/b]', veröffentlicht am 29. September 2019. Eine ausführbare Windows-Datei wird für diese Version bereitgestellt [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-magicked-admin-0.1.4.zip]hier[/url].
 
-For Linux and Mac OS it is recommended to run the program from Python sources since you likely already have it installed. The source for '[b]0.1.4[/b]' is available [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.4.zip]here[/url]. You just need to install the requirements with '[b]pip3 install -r requirements.txt[/b]' and run it with '[b]python3 -O magicked_admin/magicked_admin.py[/b]'.
+Für Linux und Mac OS wird empfohlen, das Programm aus den Python-Quellen zu starten, da du es wahrscheinlich bereits installiert hast. Die Quelle für '[b]0.1.4[/b]' ist [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.4.zip]hier[/url] verfügbar. Du musst nur die Voraussetzungen mit '[b]pip3 install -r requirements.txt[/b]' installieren und mit '[b]python3 -O magicked_admin/magicked_admin.py[/b]' ausführen.
 
-Development versions and build instructions are available on GitHub [url=https://github.com/th3-z/kf2-magicked-admin]here[/url].
+Entwicklungsversionen und build Instruktionen sind auf GitHub [url=https://github.com/th3-z/kf2-magicked-admin]hier[/url] verfügbar.
 
-[b]Note[/b]: If you want to use Magicked Admin on an endless or weekly mode server there is an extra step that you have to do which I talk about in the "Endless and weekly game mode support" section.
+[b]Hinweis[/b]: Wenn du Magicked Admin auf einem Server mit endlosem oder wöchentlichem Spielmodus verwenden willst, gibt es einen zusätzlichen Schritt, über den ich im Abschnitt "Unterstützung des endlosen und wöchentlichen Spielmodus" spreche.
 
-[h1]Running[/h1]
+[h1]Laufend[/h1]
 [olist]
-[*]Extract '[b]kf2-magicked-admin-0.1.4.zip[/b]' anywhere you like.
+Extrahiere '[b]kf2-magicked-admin-0.1.4.zip[/b]' wohin immer du möchtest.
 
-[*]Double click the executable file
+[*]Doppelklicke die ausführbare Datei
 
-[*]You will be guided through the first time setup
+[*] Du wirst durch die erste Einrichtung geführt
 
-[b]Note[/b]: If you want to re-run the first time setup, just delete the file '[b]conf/magicked_admin.conf[/b]'
+[b]Hinweis[/b]: Wenn du das erste Setup erneut ausführen möchtest, lösche einfach die Datei '[b]conf/magicked_admin.conf[/b]'
 [/olist]
 
-[h1]Running with Docker[/h1]
+[h1]Betrieb mit Docker[/h1]
 
-A Docker image is also available. Running with docker is easy, just issue the following command.
+Ein Docker-Image ist ebenfalls verfügbar. Der Betrieb mit Docker ist easy, gib einfach den folgenden Befehl ein.
 [code]docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3z/kf2-magicked-admin[/code]
 
-You will need to change '[b]<host config folder location>[/b]' to wherever you want to store your config folder. '[b]/mnt/user/appdata/kf2-magicked-admin[/b]' is a popular choice for systems running Unraid.
+Du musst '[b]<host config folder location>[/b]' darauf ändern, wo immer du deinen Konfigurationsordner speichern willst. "[b]/mnt/user/appdata/kf2-magicked-admin[/b]" ist eine beliebte Wahl für Systeme mit Unraid.
 
-After this command runs the container will exit out and the logs will tell you to setup the config file. Go to your '[b]conf[/b]' folder and set things up, then run the container again and you are good to go!
+Nachdem dieser Befehl ausgeführt wurde, wird der Container verlassen und die Protokolle werden dir mitteilen, dass du die Konfigurationsdatei einrichten musst. Gehe zu deinem '[b]conf[/b]'-Ordner und richte alles ein, dann starte den Container erneut und du bist startklar!
 
-## Commands
-In the following sections I will describe all the commands. However there are some general things to note that apply to them all.
+## Befehle
+In den folgenden Abschnitten werde ich alle Befehle beschreiben. Allerdings gibt es einige allgemeine Dinge zu beachten, die für sie alle gelten.
 
-When inputting commands into the chat they need to be prefixed with '[b]![/b]'. When writing commands into a script, or chaining them the '[b]![/b]' should be omitted.
+Bei der Eingabe von Befehlen im Chat müssen diese mit dem Präfix '[b]![/b]' versehen werden. Beim Schreiben von Befehlen in ein Skript oder beim Verketten von Befehlen sollte das '[b]![/b]' weggelassen werden.
 
-Many commands will look for closest matches to their parameters. For example '[i]biotics[/i]' will match '[i]kf-biotics-lab[/i]' and 'userO' will match '[i]userOne™/@:®[/i]'.
+Viele Befehle suchen nach der nahesten Übereinstimmung mit ihren Parametern. Zum Beispiel '[i]biotics[/i]' wird sich decken mit '[i]kf-biotics-lab[/i]' und 'userO' mit '[i]userOne™/@:®[/i]'.
 
-All commands have in-game help text that can be accessed with the '[b]-h'[/b] flag.
+Alle Befehle haben einen Hilfetext im Spiel, auf den man mit dem '[b]-h'[/b] Flag zugreifen kann.
 [list]
-[*] Example: '[b]!commands -h'[/b]
+[*] Beispiel: '[b]!commands -h'[/b]
 [/list]
-All commands also have the following flags.
+Alle Befehle haben auch die folgenden Flags.
 [list]
-[*] Option '[b]-q[/b]': Suppresses output
+[*] Option "[b]-q[/b]": Unterdrückt die Ausgabe
 [*] Option '[b]-p[/b]': Pads output to hide the username line
 [/list]
-Escape sequences as follows are available to format messages.
+Zur Formatierung von Nachrichten stehen folgende Escape-Sequenzen zur Verfügung.
 [list]
-[*] '[b]\n[/b]' - Newline
-    - Example: '[b]!say line 0 \n line 1[/b]'
-[*] '[b]\t[/b]' - Tab
-    - Example: '[b]!say line 0 \n\t line 1 is indented 1 tabstop[/b]'
+[*] '[b]\n[/b]' - Neue Zeile
+    - Beispiel: '[b]!say line 0 \n line 1[/b]'
+[*] '[b]\t[/b]' - Tabulator
+    - Beispiel: '[b]!say line 0 \n\t Zeile 1 ist eingerückt 1 Tabstop[/b]'
 [/list]
 
-## Player commands
-These commands can be executed by any player. As of writing there are 18 player commands available.
+## Spieler Befehle
+Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Schreibens stehen 18 Spielerbefehle zur Verfügung.
 [list]
-[*] '[b]!commands[/b]' - Shows a list of all commands available to players
+[*] '[b]!commands[/b]' - Zeigt eine Liste aller für Spieler verfügbaren Befehle an
 
-[*] '[b]!stats <user>[/b]' - Shows general statistics about a user
-    - Example: '[b]!stats[/b]' Shows stats about yourself
-    - Example: '[b]!stats the_z[/b]' Shows stats about the_z
+[*] '[b]!stats <user>[/b]' - Zeigt allgemeine Statistiken über einen Benutzer
+    - Beispiel: '[b]!stats[/b]' Zeigt Statistiken über sich selbst
+    - Beispiel: '[b]!stats the_z[/b]' Zeigt eine Statistik über the_z
 
-[*] '[b]!kills <user>[/b]' - Shows kill statistics about a user
-    - Example: '[b]!kills[/b]' Shows kill stats about yourself
-    - Example: '[b]!kills the_z[/b]' Shows kill stats about the_z
+[*] '[b]!kills <user>[/b]' - Zeigt die Kill-Statistik über einen Benutzer
+    - Beispiel: '[b]!kills[/b]' Zeigt Kill-Statistiken über sich selbst
+    - Beispiel: '[b]!kills the_z[/b]' Zeigt die Kill-Statistik über the_z
 
-[*] '[b]!dosh <user>[/b]' - Shows dosh statistics about a user
-    - Example: '[b]!dosh[/b]' Shows dosh stats about yourself
-    - Example: '[b]!dosh the_z[/b]' Shows dosh stats about the_z
+[*] '[b]!dosh <user>[/b]' - Zeigt die Dosh-Statistik über einen Benutzer
+    - Beispiel: '[b]!dosh[/b]' Zeigt die Dosh-Statistiken über sich selbst
+    - Beispiel: '[b]!dosh the_z[/b]' Zeigt die Dosh-Statistik über the_z
 
-[*] '[b]!map[/b]' - Shows statistics about the current map
+[*] '[b]!map[/b]' - Zeigt Statistiken über die aktuelle Karte an
 
-[*] '[b]!record_wave[/b]' - Shows the highest wave achieved on the current map
+[*] '[b]!record_wave[/b]' - Zeigt die höchste auf aktuellen Karte erreichte Welle an
 
-[*] '[b]!top_kills[/b]' - Shows the global kills leaderboard
+[*] '[b]!top_kills[/b]' - Zeigt die globale Kills-Rangliste
 
-[*] '[b]!top_dosh[/b]' - Shows the global dosh leaderboard
+[*] '[b]!top_dosh[/b]' - Zeigt die globale Dosh-Rangliste
 
-[*] '[b]!top_time[/b]' - Shows the global play time leaderboard
+[*] '[b]!top_time[/b]' - Zeigt die globale Spielzeit-Rangliste
 
-[*] '[b]!top_wave_kills[/b]' - Shows information about who killed the most ZEDs in the current wave. Generally for use with '[b]!start_trc[/b]'
-    - Example: '[b]!start_trc top_wave_kills[/b]'
+[*] '[b]!top_wave_kills[/b]' - Zeigt Informationen darüber, wer die meisten ZEDs in der aktuellen Welle getötet hat. Generell zur Verwendung mit '[b]!start_trc[/b]'
+    - Beispiel: '[b]!start_trc top_wave_kills[/b]'
 
-[*] '[b]!top_wave_dosh[/b]' - Shows information about who earned the most dosh in the current wave. Generally for use with '[b]!start_trc[/b]'
-    - Example: '[b]!start_trc top_wave_dosh[/b]'
+[*] '[b]!top_wave_dosh[/b]' - Zeigt Informationen darüber, wer in der aktuellen Welle am meisten Dosh verdient hat. Generell für die Benutzung mit '[b]!start_trc[/b]'
+    - Beispiel: '[b]!start_trc top_wave_dosh[/b]'
 
-[*] '[b]!server_kills[/b]' - Shows total kills on the server
+[*] '[b]!server_kills[/b]' - Zeigt gesamt Kills auf dem Server an
 
-[*] '[b]!server_dosh[/b]' - Shows total dosh earned on the server
+[*] '[b]!server_dosh[/b]' - Zeigt die Summe des auf dem Server verdienten Dosh
 
-[*] '[b]!scoreboard[/b]' - Shows the complete player scoreboard, useful on servers with >6 max players
-    - Alias '[b]!sb[/b]': Does the same
+[*] '[b]!scoreboard[/b]' - Zeigt das komplette Spieler-Scoreboard, nützlich auf Servern mit mehr als maximal 6 Spielern
+    - Alias '[b]!sb[/b]': Macht das gleiche
 
-[*] '[b]!game[/b]' - Shows information about the current game
+[*] '[b]!game[/b]' - Zeigt Informationen über das aktuelle Spiel
 
-[*] '[b]!maps[/b]' - Shows the current map cycle
-    - Option '[b]-a[/b]': Shows all available maps
-    - Example: '[b]!maps -a[/b]'
+[*] '[b]!maps[/b]' - Zeigt den aktuellen Kartenzyklus an
+    - Option '[b]-a[/b]': Zeigt alle verfügbaren Karten an
+    - Beispiel: '[b]!maps -a[/b]'
 
-[*] '[b]!player_count[/b]' - Shows the player count and max players
+[*] '[b]!player_count[/b]' - Zeigt die Spieleranzahl und die Anzahl der maximalen Spieler an
 [/list]
 
-## Administrator commands
-Commands that can be ran by server administrators, and users authorized with the '[b]!op[/b]' command. As of writing there are 24 administrator commands available.
+## Administrator-Befehle
+Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können, die mit dem Befehl '[b]!op[/b]' autorisiert wurden. Zum Zeitpunkt des Schreibens stehen 24 Administratorbefehle zur Verfügung.
 [list]
-[*] '[b]!op <user>[/b]' - Gives a user administrative rights, persists until '[b]!deop <user>[/b]' is used.
-    - Example: '[b]!op the_z[/b]'
+[*] '[b]!op <user>[/b]' - Verleiht einem Benutzer administrative Rechte, bleibt bestehen bis '[b]!deop <user>[/b]' verwendet wird.
+    - Beispiel: '[b]!op the_z[/b]'
 
-[*] '[b]!deop <user>[/b]' - Revokes a user's administrative rights
-    - Example: '[b]!deop the_z[/b]'
+[*] '[b]!deop <user>[/b]' - Widerruft die administrativen Rechte eines Benutzers
+    - Beispiel: '[b]!deop the_z[/b]'
 
-[*] '[b]!say <message>[/b]' - Echoes a message into chat
-    - Example: '[b]!say The quick brown fox jumps over the lazy dog[/b]'
-    - Example: '[b]!start_trc say The trader is open[/b]'
+[*] '[b]!say <message>[/b]' - Gibt eine Nachricht in den Chat aus
+    - Beispiel: '[b]!say Der schnelle braune Fuchs springt über den faulen Hund[/b]'
+    - Beispiel: '[b]!start_trc say Der Trader ist geöffnet[/b]'
 
-[*] '[b]!players[/b]' - Shows detailed information about players on the server
+[*] '[b]!players[/b]' - Zeigt detaillierte Informationen über Spieler auf dem Server
 
 [*] '[b]!kick <user>[/b]' - Kicks '<user>' from the match
     [b]-[/b] Example: '[b]!kick the_z[/b]'
@@ -157,8 +157,8 @@ Commands that can be ran by server administrators, and users authorized with the
 [*] '[b]!game_mode <game_mode>[/b]' - Immediately change the game mode to '<game_mode>'
     - Example: '[b]!game_mode endless[/b]' Changes the game mode to Endless
 
-[*] '[b]!load_map <map>[/b]' - Immediately change the map to '<map>'
-    - Example: '[b]!load_map biotics[/b]' Changes the map to Biotics Lab
+[*] '[b]!load_map <map>[/b]' - Sofortige Änderung der Karte auf '<map>'
+    - Beispiel: '[b]!load_map biotics[/b]' Wechselt die Maps auf Biotics Lab
 
 [*] '[b]!restart[/b]' - Immediately restart the current game
 
@@ -175,7 +175,7 @@ Commands that can be ran by server administrators, and users authorized with the
 
 [*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start a command that runs on wave '<wave>'
     - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command
-    run every wave
+    jede Welle ausführen
     - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
     - Example: '[b]!start_wc -1 -- say Welcome to the boss wave[/b]'
 
@@ -410,7 +410,7 @@ The following features are currently slated for the next release.
 
 [h1]Future[/h1]
 [list]
-[*] Support for community translations via crowdin
+[*] Unterstützung von Community-Übersetzungen via Crowdin
 [/list]
 
 We are accepting feature requests on the [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url].
@@ -435,10 +435,10 @@ Developers:
 [*] [url=https://github.com/skylord123]skylord123[/url]
 [*] [url=https://github.com/WilliamBrown42]WilliamBrown42[/url]
 [/list]
-Testers:
+Tester:
 [list]
 [*] [url=https://steamcommunity.com/id/Stephen720/]Stephen720[/url]
 [*] [url=https://steamcommunity.com/profiles/76561198299290553/]WabbitToonz[/url]
 [/list]
 
-Contributions are welcome.
+Beiträge sind willkommen.

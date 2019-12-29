@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-10-15 21:39\n"
-"Last-Translator: the_z (th3-z)\n"
+"PO-Revision-Date: 2019-12-29 19:16\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -12,7 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
-"X-Generator: crowdin.com\n"
 "X-Crowdin-Project: kf2-magicked-admin\n"
 "X-Crowdin-Language: de\n"
 "X-Crowdin-File: /master/locale/en_GB/magicked_admin.po\n"
@@ -27,31 +26,31 @@ msgstr ""
 
 #: magicked_admin/magicked_admin.py:132
 msgid "Initialisation complete!\n"
-msgstr ""
+msgstr "Initialisierung abgeschlossen!\n"
 
 #: magicked_admin/magicked_admin.py:143
 msgid "Closing immediately!"
-msgstr ""
+msgstr "Sofort schließen!"
 
 #: magicked_admin/magicked_admin.py:152
 msgid "Program interrupted, saving data..."
-msgstr ""
+msgstr "Programm unterbrochen, speichere Daten..."
 
 #: magicked_admin/settings.py:24
 msgid "Please correct this manually  or delete '{}' to create a clean config next run."
-msgstr ""
+msgstr "Bitte korrigiere dies manuell oder lösche '{}', um beim nächsten Lauf eine saubere Konfiguration zu erstellen."
 
 #: magicked_admin/settings.py:31
 msgid "No configuration was found, first time setup is required!"
-msgstr ""
+msgstr "Es wurde keine Konfiguration gefunden, eine erstmalige Einrichtung ist erforderlich!"
 
 #: magicked_admin/settings.py:43
 msgid "Guided setup was skipped, a template has been generated."
-msgstr ""
+msgstr "Das geführte Setup wurde übersprungen, eine Vorlage wurde generiert."
 
 #: magicked_admin/settings.py:45
 msgid "Setup is not complete yet, please amend '{}' with your server details."
-msgstr ""
+msgstr "Das Setup ist noch nicht abgeschlossen, bitte ergänze '{}' mit deinen Serverangaben."
 
 #: magicked_admin/settings.py:53
 msgid "Configuration error(s) found!\n"
@@ -60,11 +59,11 @@ msgstr ""
 
 #: magicked_admin/settings.py:60
 msgid "Configuration error(s) found!"
-msgstr ""
+msgstr "Konfigurationsfehler gefunden!"
 
 #: magicked_admin/settings.py:76
 msgid "    Please input your web admin details below."
-msgstr ""
+msgstr "    Bitte gib unten deine Web-Admin Details ein."
 
 #: magicked_admin/settings.py:88
 msgid "\n"
@@ -86,11 +85,11 @@ msgstr ""
 
 #: magicked_admin/settings.py:135
 msgid "Config file has no sections."
-msgstr ""
+msgstr "Konfigurationsdatei hat keine Abschnitte."
 
 #: magicked_admin/settings.py:144
 msgid "Section '{}' is missing a required setting: '{}'."
-msgstr ""
+msgstr "Im Abschnitt '{}' fehlt eine erforderliche Einstellung: '{}'."
 
 #: magicked_admin/chatbot/__init__.py:5
 msgid "\n"
@@ -113,7 +112,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/chatbot.py:41
 msgid "Executing script: "
-msgstr ""
+msgstr "Skript ausführen: "
 
 #: magicked_admin/chatbot/command_scheduler.py:58
 msgid "Stopped {} command(s)"
@@ -121,7 +120,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/command_scheduler.py:61
 msgid "None running"
-msgstr ""
+msgstr "Keiner läuft"
 
 #: magicked_admin/chatbot/command_scheduler.py:110
 msgid "Scheduled command ({}) ran directly by {}, please use CommandScheduler"
@@ -129,23 +128,23 @@ msgstr ""
 
 #: magicked_admin/chatbot/motd_updater.py:21
 msgid "No MOTD file for {} found, pulling from web admin!"
-msgstr ""
+msgstr "Keine MOTD-Datei für {} gefunden, ziehe vom Webadmin!"
 
 #: magicked_admin/chatbot/motd_updater.py:40
 msgid "Updated the MOTD!"
-msgstr ""
+msgstr "Das MOTD wurde aktualisiert!"
 
 #: magicked_admin/chatbot/motd_updater.py:53
 msgid "Scoreboard_type not recognised '{}'. Options are: dosh, kills"
-msgstr ""
+msgstr "Scoreboard_type nicht erkannt \"{}\". Optionen sind: dosh, kills"
 
 #: magicked_admin/chatbot/commands/command.py:18
 msgid "You're not authorised to use that command"
-msgstr ""
+msgstr "Du bist nicht autorisiert, diesen Befehl zu benutzen"
 
 #: magicked_admin/chatbot/commands/command.py:21
 msgid "This action isn't supported without Killing Floor 2 Magicked Administrator's server side patch! Please review the documentation at '{}' for guidance."
-msgstr ""
+msgstr "Diese Aktion wird ohne den Server Side Patch von Killing Floor 2 Magicked Administrator nicht unterstützt! Bitte lies die Dokumentation unter '{}' für weitere Informationen."
 
 #: magicked_admin/chatbot/commands/command.py:28
 msgid "The help text for this command hasn't been written!"
@@ -153,7 +152,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/command.py:30
 msgid "$"
-msgstr ""
+msgstr "$"
 
 #: magicked_admin/chatbot/commands/command.py:56
 msgid "Auth failure, username: {}, user flags: {:b}"
@@ -161,119 +160,119 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:16
 msgid "start_jc"
-msgstr ""
+msgstr "start_jc"
 
 #: magicked_admin/chatbot/commands/command_map.py:17
 msgid "stop_jc"
-msgstr ""
+msgstr "stop_jc"
 
 #: magicked_admin/chatbot/commands/command_map.py:18
 msgid "start_wc"
-msgstr ""
+msgstr "start_wc"
 
 #: magicked_admin/chatbot/commands/command_map.py:19
 msgid "stop_wc"
-msgstr ""
+msgstr "stop_wc"
 
 #: magicked_admin/chatbot/commands/command_map.py:20
 msgid "start_tc"
-msgstr ""
+msgstr "start_tc"
 
 #: magicked_admin/chatbot/commands/command_map.py:21
 msgid "stop_tc"
-msgstr ""
+msgstr "stop_tc"
 
 #: magicked_admin/chatbot/commands/command_map.py:22
 msgid "start_trc"
-msgstr ""
+msgstr "start_trc"
 
 #: magicked_admin/chatbot/commands/command_map.py:23
 msgid "stop_trc"
-msgstr ""
+msgstr "stop_trc"
 
 #: magicked_admin/chatbot/commands/command_map.py:24
 msgid "enforce_dosh"
-msgstr ""
+msgstr "enforce_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:25
 msgid "say"
-msgstr ""
+msgstr "say"
 
 #: magicked_admin/chatbot/commands/command_map.py:26
 msgid "restart"
-msgstr ""
+msgstr "restart"
 
 #: magicked_admin/chatbot/commands/command_map.py:27
 msgid "load_map"
-msgstr ""
+msgstr "load_map"
 
 #: magicked_admin/chatbot/commands/command_map.py:28
 msgid "password"
-msgstr ""
+msgstr "password"
 
 #: magicked_admin/chatbot/commands/command_map.py:29
 msgid "silent"
-msgstr ""
+msgstr "silent"
 
 #: magicked_admin/chatbot/commands/command_map.py:30
 msgid "run"
-msgstr ""
+msgstr "run"
 
 #: magicked_admin/chatbot/commands/command_map.py:31
 msgid "marquee"
-msgstr ""
+msgstr "marquee"
 
 #: magicked_admin/chatbot/commands/command_map.py:32
 msgid "length"
-msgstr ""
+msgstr "length"
 
 #: magicked_admin/chatbot/commands/command_map.py:33
 msgid "difficulty"
-msgstr ""
+msgstr "difficulty"
 
 #: magicked_admin/chatbot/commands/command_map.py:34
 msgid "game_mode"
-msgstr ""
+msgstr "game_mode"
 
 #: magicked_admin/chatbot/commands/command_map.py:35
 msgid "players"
-msgstr ""
+msgstr "players"
 
 #: magicked_admin/chatbot/commands/command_map.py:36
 msgid "kick"
-msgstr ""
+msgstr "kick"
 
 #: magicked_admin/chatbot/commands/command_map.py:37
 msgid "ban"
-msgstr ""
+msgstr "ban"
 
 #: magicked_admin/chatbot/commands/command_map.py:38
 msgid "op"
-msgstr ""
+msgstr "op"
 
 #: magicked_admin/chatbot/commands/command_map.py:39
 msgid "deop"
-msgstr ""
+msgstr "deop"
 
 #: magicked_admin/chatbot/commands/command_map.py:40
 msgid "update_motd"
-msgstr ""
+msgstr "update_motd"
 
 #: magicked_admin/chatbot/commands/command_map.py:41
 msgid "reload_motd"
-msgstr ""
+msgstr "reload_motd"
 
 #: magicked_admin/chatbot/commands/command_map.py:44
 msgid "commands"
-msgstr ""
+msgstr "commands"
 
 #: magicked_admin/chatbot/commands/command_map.py:45
 msgid "record_wave"
-msgstr ""
+msgstr "record_wave"
 
 #: magicked_admin/chatbot/commands/command_map.py:46
 msgid "game"
-msgstr ""
+msgstr "game"
 
 #: magicked_admin/chatbot/commands/command_map.py:47
 msgid "kills"
@@ -574,7 +573,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/player_commands.py:147
 msgid "Top 5 players by total kills:\n"
-msgstr ""
+msgstr "Top 5 Spieler nach insgesamt Kills:\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:163
 msgid "Usage: !top_dosh\n"
