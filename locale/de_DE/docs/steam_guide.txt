@@ -51,10 +51,10 @@ Ein Docker-Image ist ebenfalls verfügbar. Der Betrieb mit Docker ist easy, gib 
 
 Du musst '[b]<host config folder location>[/b]' darauf ändern, wo immer du deinen Konfigurationsordner speichern willst. "[b]/mnt/user/appdata/kf2-magicked-admin[/b]" ist eine beliebte Wahl für Systeme mit Unraid.
 
-Nachdem dieser Befehl ausgeführt wurde, wird der Container verlassen und die Protokolle werden dir mitteilen, dass du die Konfigurationsdatei einrichten musst. Go to your '[b]conf[/b]' folder and set things up, then run the container again and you are good to go!
+Nachdem dieser Befehl ausgeführt wurde, wird der Container verlassen und die Protokolle werden dir mitteilen, dass du die Konfigurationsdatei einrichten musst. Gehe zu deinem '[b]conf[/b]'-Ordner und richte alles ein, dann starte den Container erneut und du bist startklar!
 
 ## Befehle
-In the following sections I will describe all the commands. Allerdings gibt es einige allgemeine Dinge zu beachten, die für sie alle gelten.
+In den folgenden Abschnitten werde ich alle Befehle beschreiben. Allerdings gibt es einige allgemeine Dinge zu beachten, die für sie alle gelten.
 
 Bei der Eingabe von Befehlen im Chat müssen diese mit dem Präfix '[b]![/b]' versehen werden. Beim Schreiben von Befehlen in ein Skript oder beim Verketten von Befehlen sollte das '[b]![/b]' weggelassen werden.
 
@@ -66,13 +66,13 @@ Alle Befehle haben einen Hilfetext im Spiel, auf den man mit dem '[b]-h'[/b] Fla
 [/list]
 Alle Befehle haben auch die folgenden Flags.
 [list]
-[*] Option '[b]-q[/b]': Suppresses output
+[*] Option "[b]-q[/b]": Unterdrückt die Ausgabe
 [*] Option '[b]-p[/b]': Pads output to hide the username line
 [/list]
-Escape sequences as follows are available to format messages.
+Zur Formatierung von Nachrichten stehen folgende Escape-Sequenzen zur Verfügung.
 [list]
 [*] '[b]\n[/b]' - Neue Zeile
-    - Example: '[b]!say line 0 \n line 1[/b]'
+    - Beispiel: '[b]!say line 0 \n line 1[/b]'
 [*] '[b]\t[/b]' - Tabulator
     - Beispiel: '[b]!say line 0 \n\t Zeile 1 ist eingerückt 1 Tabstop[/b]'
 [/list]
@@ -82,33 +82,33 @@ Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Sc
 [list]
 [*] '[b]!commands[/b]' - Zeigt eine Liste aller für Spieler verfügbaren Befehle an
 
-[*] '[b]!stats <user>[/b]' - Shows general statistics about a user
-    - Example: '[b]!stats[/b]' Shows stats about yourself
-    - Example: '[b]!stats the_z[/b]' Shows stats about the_z
+[*] '[b]!stats <user>[/b]' - Zeigt allgemeine Statistiken über einen Benutzer
+    - Beispiel: '[b]!stats[/b]' Zeigt Statistiken über sich selbst
+    - Beispiel: '[b]!stats the_z[/b]' Zeigt eine Statistik über the_z
 
-[*] '[b]!kills <user>[/b]' - Shows kill statistics about a user
-    - Example: '[b]!kills[/b]' Shows kill stats about yourself
-    - Example: '[b]!kills the_z[/b]' Shows kill stats about the_z
+[*] '[b]!kills <user>[/b]' - Zeigt die Kill-Statistik über einen Benutzer
+    - Beispiel: '[b]!kills[/b]' Zeigt Kill-Statistiken über sich selbst
+    - Beispiel: '[b]!kills the_z[/b]' Zeigt die Kill-Statistik über the_z
 
-[*] '[b]!dosh <user>[/b]' - Shows dosh statistics about a user
-    - Example: '[b]!dosh[/b]' Shows dosh stats about yourself
-    - Example: '[b]!dosh the_z[/b]' Shows dosh stats about the_z
+[*] '[b]!dosh <user>[/b]' - Zeigt die Dosh-Statistik über einen Benutzer
+    - Beispiel: '[b]!dosh[/b]' Zeigt die Dosh-Statistiken über sich selbst
+    - Beispiel: '[b]!dosh the_z[/b]' Zeigt die Dosh-Statistik über the_z
 
 [*] '[b]!map[/b]' - Zeigt Statistiken über die aktuelle Karte an
 
 [*] '[b]!record_wave[/b]' - Zeigt die höchste auf aktuellen Karte erreichte Welle an
 
-[*] '[b]!top_kills[/b]' - Shows the global kills leaderboard
+[*] '[b]!top_kills[/b]' - Zeigt die globale Kills-Rangliste
 
-[*] '[b]!top_dosh[/b]' - Shows the global dosh leaderboard
+[*] '[b]!top_dosh[/b]' - Zeigt die globale Dosh-Rangliste
 
-[*] '[b]!top_time[/b]' - Shows the global play time leaderboard
+[*] '[b]!top_time[/b]' - Zeigt die globale Spielzeit-Rangliste
 
-[*] '[b]!top_wave_kills[/b]' - Shows information about who killed the most ZEDs in the current wave. Generally for use with '[b]!start_trc[/b]'
-    - Example: '[b]!start_trc top_wave_kills[/b]'
+[*] '[b]!top_wave_kills[/b]' - Zeigt Informationen darüber, wer die meisten ZEDs in der aktuellen Welle getötet hat. Generell zur Verwendung mit '[b]!start_trc[/b]'
+    - Beispiel: '[b]!start_trc top_wave_kills[/b]'
 
-[*] '[b]!top_wave_dosh[/b]' - Shows information about who earned the most dosh in the current wave. Generell für die Benutzung mit '[b]!start_trc[/b]'
-    - Example: '[b]!start_trc top_wave_dosh[/b]'
+[*] '[b]!top_wave_dosh[/b]' - Zeigt Informationen darüber, wer in der aktuellen Welle am meisten Dosh verdient hat. Generell für die Benutzung mit '[b]!start_trc[/b]'
+    - Beispiel: '[b]!start_trc top_wave_dosh[/b]'
 
 [*] '[b]!server_kills[/b]' - Zeigt gesamt Kills auf dem Server an
 
