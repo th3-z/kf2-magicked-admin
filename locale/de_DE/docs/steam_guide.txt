@@ -141,21 +141,21 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 
 [*] '[b]!players[/b]' - Zeigt detaillierte Informationen über Spieler auf dem Server
 
-[*] '[b]!kick <user>[/b]' - Kicks '<user>' from the match
-    [b]-[/b] Example: '[b]!kick the_z[/b]'
+[*] '[b]!kick <user>[/b]' - kickt '<user>' aus dem Spiel
+    [b]-[/b] Beispiel: '[b]!kick the_z[/b]'
 
-[*] '[b]!ban <user>[/b]' - Bans '<user>' from the server
-    - Example: '[b]!ban the_z[/b]'
-    - Warnng: The web admin currently has a bug that causes bans to persist after they are deleted, thus there is no unban command
+[*] '[b]!ban <user>[/b]' - Bannt '<user>' vom Server
+    - Beispiel: '[b]!ban the_z[/b]'
+    - Warnung: Der Web-Admin hat derzeit einen Bug, der bewirkt, dass Bans nach dem Löschen bestehen bleiben, daher gibt es keinen UnBan-Befehl
 
-[*] '[b]!length <length>[/b]' - Change the length to '<length>' next game
-    - Example: '[b]!length short[/b]'
+[*] '[b]!length <length>[/b]' - Ändere die Länge auf '<length>' nächstes Spiel
+    - Beispiel: '[b]!length short[/b]'
 
-[*] '[b]!difficulty <difficulty>[/b]' - Change the difficulty to '<difficulty>' next game
-    - Example: '[b]!difficulty hell[/b]'
+[*] '[b]!difficulty <difficulty>[/b]' - Ändere die Schwierigkeit auf '<difficulty>' nächstes Spiel
+    - Beispiel: '[b]!difficulty hell[/b]'
 
-[*] '[b]!game_mode <game_mode>[/b]' - Immediately change the game mode to '<game_mode>'
-    - Example: '[b]!game_mode endless[/b]' Changes the game mode to Endless
+[*] '[b]!game_mode <game_mode>[/b]' - Sofortige Änderung des Spielmodus auf '<game_mode>'
+    - Beispiel: '[b]!game_mode endless[/b]' ändert den Spielmodus auf Endlos
 
 [*] '[b]!load_map <map>[/b]' - Sofortige Änderung der Karte auf '<map>'
     - Beispiel: '[b]!load_map biotics[/b]' Wechselt die Maps auf Biotics Lab
