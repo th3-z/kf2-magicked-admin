@@ -35,13 +35,13 @@ Entwicklungsversionen und build Instruktionen sind auf GitHub [url=https://githu
 
 [h1]Laufend[/h1]
 [olist]
-[*]Extract '[b]kf2-magicked-admin-0.1.4.zip[/b]' anywhere you like.
+Extrahiere '[b]kf2-magicked-admin-0.1.4.zip[/b]' wohin immer du möchtest.
 
-[*]Double click the executable file
+[*]Doppelklicke die ausführbare Datei
 
 [*] Du wirst durch die erste Einrichtung geführt
 
-[b]Note[/b]: If you want to re-run the first time setup, just delete the file '[b]conf/magicked_admin.conf[/b]'
+[b]Hinweis[/b]: Wenn du das erste Setup erneut ausführen möchtest, lösche einfach die Datei '[b]conf/magicked_admin.conf[/b]'
 [/olist]
 
 [h1]Betrieb mit Docker[/h1]
@@ -49,9 +49,9 @@ Entwicklungsversionen und build Instruktionen sind auf GitHub [url=https://githu
 Ein Docker-Image ist ebenfalls verfügbar. Der Betrieb mit Docker ist easy, gib einfach den folgenden Befehl ein.
 [code]docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3z/kf2-magicked-admin[/code]
 
-Du musst '[b]<host config folder location>[/b]' darauf ändern, wo immer du deinen Konfigurationsordner speichern willst. '[b]/mnt/user/appdata/kf2-magicked-admin[/b]' is a popular choice for systems running Unraid.
+Du musst '[b]<host config folder location>[/b]' darauf ändern, wo immer du deinen Konfigurationsordner speichern willst. "[b]/mnt/user/appdata/kf2-magicked-admin[/b]" ist eine beliebte Wahl für Systeme mit Unraid.
 
-After this command runs the container will exit out and the logs will tell you to setup the config file. Go to your '[b]conf[/b]' folder and set things up, then run the container again and you are good to go!
+Nachdem dieser Befehl ausgeführt wurde, wird der Container verlassen und die Protokolle werden dir mitteilen, dass du die Konfigurationsdatei einrichten musst. Go to your '[b]conf[/b]' folder and set things up, then run the container again and you are good to go!
 
 ## Befehle
 In the following sections I will describe all the commands. Allerdings gibt es einige allgemeine Dinge zu beachten, die für sie alle gelten.
@@ -410,7 +410,7 @@ The following features are currently slated for the next release.
 
 [h1]Future[/h1]
 [list]
-[*] Support for community translations via crowdin
+[*] Unterstützung von Community-Übersetzungen via Crowdin
 [/list]
 
 We are accepting feature requests on the [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url].
