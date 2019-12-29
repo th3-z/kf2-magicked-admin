@@ -234,14 +234,14 @@ KF2 Magicked Admin ersetzt '[b]%PLR[/b]' mit dem Benutzernamen des Spielers, '[b
 Sobald die Datei geschrieben ist, verwende den Befehl '[b]!update_motd <type>[/b]', um die Rangliste zu aktualisieren. Dies sollte in Kombination mit '[b]!start_tc <refresh_interval>[/b]' verwendet werden, damit es automatisch aktualisiert wird.
     - Beispiel: '[b]!start_tc 300 -- update_motd dosh[/b]'
 
-Die Metrik für "[b]%SCR[/b]" kann entweder "kills", "time" oder "dosh" sein. This is can be set by changing the '[b]<type>[/b]' parameter when using '[b]!update_motd <type>[/b]'
+Die Metrik für "[b]%SCR[/b]" kann entweder "kills", "time" oder "dosh" sein. Dies kann durch Änderung des Parameters '[b]<type>[/b]' bei Verwendung von '[b]!update_motd <type>[/b]' eingestellt werden
 
-Here is my survival suicidal welcome screen as an example of what can be achieved. 
+Hier ist mein Überlebens-Selbstmord-Begrüßungsbildschirm als ein Beispiel dafür, was erreicht werden kann. 
 
 [previewicon=12055995;sizeOriginal,inline;KFGame_2018-04-14_03-27-00.png][/previewicon]
 
 
-[h1]Notes[/h1]
+[h1]Hinweise[/h1]
 [list]
 [*] This will overwrite your existing motd.
 [*] '[b]!reload_motd[/b]' Can be used to reload the template file while KF2 Magicked Admin is still running.
@@ -280,7 +280,7 @@ Some commands are particularly useful when used in scripts, these are: '[b]!star
 [code] start_wc -w -1 -- say Join our steam group: http://our.steam/group[/code]
 
 '[b]conf/scripts/server_one.init[/b]' - [i]Provide basic bot usage guidance to players[/i]
-[code] start_tc -rt 800 -- say I'm a bot, type !commands to see available commands[/code]
+[code] start_tc -rt 800 -- say Ich bin ein Bot, tippe !commands ein, um die verfügbaren Befehle zu sehen[/code]
 
 '[b]conf/scripts/priv_game[/b]' - [i]Setup a private lobby with a single command[/i]
 [code]silent -q
