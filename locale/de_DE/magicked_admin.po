@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-29 19:16\n"
+"PO-Revision-Date: 2019-12-29 22:41\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -18,11 +18,11 @@ msgstr ""
 
 #: magicked_admin/magicked_admin.py:37
 msgid "Killing Floor 2 Magicked Administrator"
-msgstr ""
+msgstr "Killing Floor 2 Magicked Administrator"
 
 #: magicked_admin/magicked_admin.py:40
 msgid "Skips the guided setup process"
-msgstr ""
+msgstr "Überspringt den geführten Setup-Prozess"
 
 #: magicked_admin/magicked_admin.py:132
 msgid "Initialisation complete!\n"
@@ -55,7 +55,8 @@ msgstr "Das Setup ist noch nicht abgeschlossen, bitte ergänze '{}' mit deinen S
 #: magicked_admin/settings.py:53
 msgid "Configuration error(s) found!\n"
 "Section '{}' has a duplicate setting: '{}'."
-msgstr ""
+msgstr "Konfigurationsfehler gefunden!\n"
+"Abschnitt '{}' hat eine doppelte Einstellung: '{}'."
 
 #: magicked_admin/settings.py:60
 msgid "Configuration error(s) found!"
@@ -68,20 +69,22 @@ msgstr "    Bitte gib unten deine Web-Admin Details ein."
 #: magicked_admin/settings.py:88
 msgid "\n"
 "Address [default - localhost:8080]: "
-msgstr ""
+msgstr "\n"
+"Adresse [Standard - localhost:8080]: "
 
 #: magicked_admin/settings.py:94
 msgid "Address not responding!\n"
 "Accepted formats are: 'ip:port', 'domain', or 'domain:port'"
-msgstr ""
+msgstr "Adresse antwortet nicht!\n"
+"Akzeptierte Formate sind: ip:port', 'Domäne' oder 'Domäne:Port'"
 
 #: magicked_admin/settings.py:97
 msgid "Username [default - Admin]: "
-msgstr ""
+msgstr "Benutzername [Standard - Admin]: "
 
 #: magicked_admin/settings.py:99
 msgid "Password (will not echo) [default - 123]: "
-msgstr ""
+msgstr "Passwort (wird nicht ausgegeben) [Standard - 123]: "
 
 #: magicked_admin/settings.py:135
 msgid "Config file has no sections."
@@ -148,7 +151,7 @@ msgstr "Diese Aktion wird ohne den Server Side Patch von Killing Floor 2 Magicke
 
 #: magicked_admin/chatbot/commands/command.py:28
 msgid "The help text for this command hasn't been written!"
-msgstr ""
+msgstr "Der Hilfetext zu diesem Befehl ist noch nicht geschrieben worden!"
 
 #: magicked_admin/chatbot/commands/command.py:30
 msgid "$"
@@ -156,7 +159,7 @@ msgstr "$"
 
 #: magicked_admin/chatbot/commands/command.py:56
 msgid "Auth failure, username: {}, user flags: {:b}"
-msgstr ""
+msgstr "Auth-Fehler, Benutzername: {}, Benutzer-Flags: {:b}"
 
 #: magicked_admin/chatbot/commands/command_map.py:16
 msgid "start_jc"
@@ -276,67 +279,67 @@ msgstr "game"
 
 #: magicked_admin/chatbot/commands/command_map.py:47
 msgid "kills"
-msgstr ""
+msgstr "kills"
 
 #: magicked_admin/chatbot/commands/command_map.py:48
 msgid "dosh"
-msgstr ""
+msgstr "dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:49
 msgid "top_kills"
-msgstr ""
+msgstr "top_kills"
 
 #: magicked_admin/chatbot/commands/command_map.py:50
 msgid "top_dosh"
-msgstr ""
+msgstr "top_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:51
 msgid "top_time"
-msgstr ""
+msgstr "top_time"
 
 #: magicked_admin/chatbot/commands/command_map.py:52
 msgid "top_wave_kills"
-msgstr ""
+msgstr "top_wave_kills"
 
 #: magicked_admin/chatbot/commands/command_map.py:53
 msgid "top_wave_dosh"
-msgstr ""
+msgstr "top_wave_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:54
 msgid "stats"
-msgstr ""
+msgstr "stats"
 
 #: magicked_admin/chatbot/commands/command_map.py:55
 msgid "game_time"
-msgstr ""
+msgstr "game_time"
 
 #: magicked_admin/chatbot/commands/command_map.py:56
 msgid "server_kills"
-msgstr ""
+msgstr "server_kills"
 
 #: magicked_admin/chatbot/commands/command_map.py:57
 msgid "server_dosh"
-msgstr ""
+msgstr "server_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:58
 msgid "map"
-msgstr ""
+msgstr "map"
 
 #: magicked_admin/chatbot/commands/command_map.py:59
 msgid "maps"
-msgstr ""
+msgstr "maps"
 
 #: magicked_admin/chatbot/commands/command_map.py:60
 msgid "player_count"
-msgstr ""
+msgstr "player_count"
 
 #: magicked_admin/chatbot/commands/command_map.py:61
 msgid "scoreboard"
-msgstr ""
+msgstr "scoreboard"
 
 #: magicked_admin/chatbot/commands/command_map.py:62
 msgid "sb"
-msgstr ""
+msgstr "sb"
 
 #: magicked_admin/chatbot/commands/event_commands.py:16
 msgid "Usage: !start_jc COMMAND\n"
@@ -353,7 +356,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/event_commands.py:42
 msgid "Player join command started"
-msgstr ""
+msgstr "Spieler-Beitrittsbefehl gestartet"
 
 #: magicked_admin/chatbot/commands/event_commands.py:50
 msgid "Usage: !stop_jc\n"
