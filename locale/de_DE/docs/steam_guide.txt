@@ -3,7 +3,7 @@
 Gescriptete Verwaltung, Statistiken und ein Bot für gerankte Killing Floor 2 Server. Bietet In-Game-Befehle, Tracking von Spieler-Statistiken und -Ranking, Live-Begrüßungsbildschirm und -Statistiken, Begrüßungs- und Admin-Funktionen. Es läuft komplett über den Web-Admin und hat keinen Einfluss auf den Ranking/Custom-Status eines Servers. Es kann entweder direkt auf dem Server oder per Fernzugriff ausgeführt werden und mehrere Server gleichzeitig verwalten.
 [list]
 [*] Präsentiert Echtzeit-Ranglisten auf deinem Willkommensbildschirm und im Spiel-Chat
-[*]Record player statistics including: kills, dosh, deaths and play time
+[*]Zeichnet Spielerstatistiken auf, einschließlich: Kills, Dosh, Todesfällen und Spielzeit
 [*]A variety of in-game administrative commands
 [*]A variety of in-game commands for players
 [*]Automatically issue commands based on: time, wave, joins, or trader state
@@ -18,9 +18,9 @@ Gescriptete Verwaltung, Statistiken und ein Bot für gerankte Killing Floor 2 Se
 [/list]
 
 Wenn du ein Feedback für KF2 Magicked Administrator, oder diese Anleitung hast, lass es mich wissen.
-Please rate and favourite the guide if you found it useful.
+Bitte bewerte und favorisiere diesen Guide, wenn du ihn nützlich findest.
 
-If you need some help anywhere, add me on steam, and I will do my best to help you.
+Wenn du irgendwo etwas Hilfe brauchst, adde mich in Steam und ich werde mein Bestes tun, um dir zu helfen.
 
 Danke.
 
@@ -58,7 +58,7 @@ In the following sections I will describe all the commands. However there are so
 
 When inputting commands into the chat they need to be prefixed with '[b]![/b]'. When writing commands into a script, or chaining them the '[b]![/b]' should be omitted.
 
-Many commands will look for closest matches to their parameters. For example '[i]biotics[/i]' will match '[i]kf-biotics-lab[/i]' and 'userO' will match '[i]userOne™/@:®[/i]'.
+Viele Befehle suchen nach der nahesten Übereinstimmung mit ihren Parametern. Zum Beispiel '[i]biotics[/i]' wird sich decken mit '[i]kf-biotics-lab[/i]' und 'userO' mit '[i]userOne™/@:®[/i]'.
 
 All commands have in-game help text that can be accessed with the '[b]-h'[/b] flag.
 [list]
