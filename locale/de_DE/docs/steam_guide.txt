@@ -176,7 +176,7 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start eines Befehls, der auf Welle '<wave>' läuft
     - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command
     jede Welle ausführen
-    - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
+    - Option "[b]-w[/b]": Kann negativ sein, um von der Boss-Welle rückwärts zu zählen
     - Example: '[b]!start_wc -1 -- say Welcome to the boss wave[/b]'
 
 [*] '[b]!stop_wc[/b]' - Stops all wave commands
