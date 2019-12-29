@@ -44,37 +44,37 @@ Entwicklungsversionen und build Instruktionen sind auf GitHub [url=https://githu
 [b]Note[/b]: If you want to re-run the first time setup, just delete the file '[b]conf/magicked_admin.conf[/b]'
 [/olist]
 
-[h1]Running with Docker[/h1]
+[h1]Betrieb mit Docker[/h1]
 
 Ein Docker-Image ist ebenfalls verfügbar. Der Betrieb mit Docker ist easy, gib einfach den folgenden Befehl ein.
 [code]docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3z/kf2-magicked-admin[/code]
 
-You will need to change '[b]<host config folder location>[/b]' to wherever you want to store your config folder. '[b]/mnt/user/appdata/kf2-magicked-admin[/b]' is a popular choice for systems running Unraid.
+Du musst '[b]<host config folder location>[/b]' darauf ändern, wo immer du deinen Konfigurationsordner speichern willst. '[b]/mnt/user/appdata/kf2-magicked-admin[/b]' is a popular choice for systems running Unraid.
 
 After this command runs the container will exit out and the logs will tell you to setup the config file. Go to your '[b]conf[/b]' folder and set things up, then run the container again and you are good to go!
 
-## Commands
-In the following sections I will describe all the commands. However there are some general things to note that apply to them all.
+## Befehle
+In the following sections I will describe all the commands. Allerdings gibt es einige allgemeine Dinge zu beachten, die für sie alle gelten.
 
-When inputting commands into the chat they need to be prefixed with '[b]![/b]'. When writing commands into a script, or chaining them the '[b]![/b]' should be omitted.
+Bei der Eingabe von Befehlen im Chat müssen diese mit dem Präfix '[b]![/b]' versehen werden. Beim Schreiben von Befehlen in ein Skript oder beim Verketten von Befehlen sollte das '[b]![/b]' weggelassen werden.
 
 Viele Befehle suchen nach der nahesten Übereinstimmung mit ihren Parametern. Zum Beispiel '[i]biotics[/i]' wird sich decken mit '[i]kf-biotics-lab[/i]' und 'userO' mit '[i]userOne™/@:®[/i]'.
 
-All commands have in-game help text that can be accessed with the '[b]-h'[/b] flag.
+Alle Befehle haben einen Hilfetext im Spiel, auf den man mit dem '[b]-h'[/b] Flag zugreifen kann.
 [list]
-[*] Example: '[b]!commands -h'[/b]
+[*] Beispiel: '[b]!commands -h'[/b]
 [/list]
-All commands also have the following flags.
+Alle Befehle haben auch die folgenden Flags.
 [list]
 [*] Option '[b]-q[/b]': Suppresses output
 [*] Option '[b]-p[/b]': Pads output to hide the username line
 [/list]
 Escape sequences as follows are available to format messages.
 [list]
-[*] '[b]\n[/b]' - Newline
+[*] '[b]\n[/b]' - Neue Zeile
     - Example: '[b]!say line 0 \n line 1[/b]'
-[*] '[b]\t[/b]' - Tab
-    - Example: '[b]!say line 0 \n\t line 1 is indented 1 tabstop[/b]'
+[*] '[b]\t[/b]' - Tabulator
+    - Beispiel: '[b]!say line 0 \n\t Zeile 1 ist eingerückt 1 Tabstop[/b]'
 [/list]
 
 ## Player commands
