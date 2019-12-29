@@ -164,7 +164,7 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 
 [*] '[b]!password [--set] <on|off>[/b]'
     - Beispiel: '[b]!password on[/b]' Aktiviert das in der Konfiguration definierte Spielpasswort
-    - Example: '[b]!password off[/b]' Disables the game password
+    - Beispiel: '[b]!password off[/b]' Deaktiviert das Spielpasswort
     - Example: '[b]!password --set superSekritPass[/b]' Sets a specific password
 
 [*] '[b]!start_jc -- <command>[/b]' - Start a command that runs every time a player joins
