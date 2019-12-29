@@ -31,9 +31,9 @@ Für Linux und Mac OS wird empfohlen, das Programm aus den Python-Quellen zu sta
 
 Entwicklungsversionen und build Instruktionen sind auf GitHub [url=https://github.com/th3-z/kf2-magicked-admin]hier[/url] verfügbar.
 
-[b]Note[/b]: If you want to use Magicked Admin on an endless or weekly mode server there is an extra step that you have to do which I talk about in the "Endless and weekly game mode support" section.
+[b]Hinweis[/b]: Wenn du Magicked Admin auf einem Server mit endlosem oder wöchentlichem Spielmodus verwenden willst, gibt es einen zusätzlichen Schritt, über den ich im Abschnitt "Unterstützung des endlosen und wöchentlichen Spielmodus" spreche.
 
-[h1]Running[/h1]
+[h1]Laufend[/h1]
 [olist]
 [*]Extract '[b]kf2-magicked-admin-0.1.4.zip[/b]' anywhere you like.
 
@@ -46,7 +46,7 @@ Entwicklungsversionen und build Instruktionen sind auf GitHub [url=https://githu
 
 [h1]Running with Docker[/h1]
 
-A Docker image is also available. Running with docker is easy, just issue the following command.
+Ein Docker-Image ist ebenfalls verfügbar. Der Betrieb mit Docker ist easy, gib einfach den folgenden Befehl ein.
 [code]docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3z/kf2-magicked-admin[/code]
 
 You will need to change '[b]<host config folder location>[/b]' to wherever you want to store your config folder. '[b]/mnt/user/appdata/kf2-magicked-admin[/b]' is a popular choice for systems running Unraid.
