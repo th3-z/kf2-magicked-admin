@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-10-15 21:39\n"
-"Last-Translator: the_z (th3-z)\n"
+"PO-Revision-Date: 2019-12-29 18:36\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -12,7 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
-"X-Generator: crowdin.com\n"
 "X-Crowdin-Project: kf2-magicked-admin\n"
 "X-Crowdin-Language: de\n"
 "X-Crowdin-File: /master/locale/en_GB/magicked_admin.po\n"
@@ -43,15 +42,15 @@ msgstr ""
 
 #: magicked_admin/settings.py:31
 msgid "No configuration was found, first time setup is required!"
-msgstr ""
+msgstr "Es wurde keine Konfiguration gefunden, eine erstmalige Einrichtung ist erforderlich!"
 
 #: magicked_admin/settings.py:43
 msgid "Guided setup was skipped, a template has been generated."
-msgstr ""
+msgstr "Das geführte Setup wurde übersprungen, eine Vorlage wurde generiert."
 
 #: magicked_admin/settings.py:45
 msgid "Setup is not complete yet, please amend '{}' with your server details."
-msgstr ""
+msgstr "Das Setup ist noch nicht abgeschlossen, bitte ergänze '{}' mit deinen Serverangaben."
 
 #: magicked_admin/settings.py:53
 msgid "Configuration error(s) found!\n"
@@ -60,11 +59,11 @@ msgstr ""
 
 #: magicked_admin/settings.py:60
 msgid "Configuration error(s) found!"
-msgstr ""
+msgstr "Konfigurationsfehler gefunden!"
 
 #: magicked_admin/settings.py:76
 msgid "    Please input your web admin details below."
-msgstr ""
+msgstr "    Bitte gib unten deine Web-Admin Details ein."
 
 #: magicked_admin/settings.py:88
 msgid "\n"
@@ -133,7 +132,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/motd_updater.py:40
 msgid "Updated the MOTD!"
-msgstr ""
+msgstr "Das MOTD wurde aktualisiert!"
 
 #: magicked_admin/chatbot/motd_updater.py:53
 msgid "Scoreboard_type not recognised '{}'. Options are: dosh, kills"
@@ -141,7 +140,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/command.py:18
 msgid "You're not authorised to use that command"
-msgstr ""
+msgstr "Du bist nicht autorisiert, diesen Befehl zu benutzen"
 
 #: magicked_admin/chatbot/commands/command.py:21
 msgid "This action isn't supported without Killing Floor 2 Magicked Administrator's server side patch! Please review the documentation at '{}' for guidance."
