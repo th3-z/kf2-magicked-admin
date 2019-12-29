@@ -12,7 +12,7 @@ Gescriptete Verwaltung, Statistiken und ein Bot für gerankte Killing Floor 2 Se
 
 [b]Notes[/b]
 [list]
-[*]KF2 Magicked Admin will [b]not[/b] alter the servers ranked or custom status.
+[*]KF2 Magicked Admin wird [b]nicht [/b] das Server-Ranking oder den Custom-Status ändern.
 [*]KF2 Magicked Admin works with weekly, survival, and endless game modes.
 [*]KF2 Magicked Admin can manage multiple servers in a single instance
 [/list]
