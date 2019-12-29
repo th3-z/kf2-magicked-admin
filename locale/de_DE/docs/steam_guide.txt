@@ -94,9 +94,9 @@ These commands can be executed by any player. As of writing there are 18 player 
     - Example: '[b]!dosh[/b]' Shows dosh stats about yourself
     - Example: '[b]!dosh the_z[/b]' Shows dosh stats about the_z
 
-[*] '[b]!map[/b]' - Shows statistics about the current map
+[*] '[b]!map[/b]' - Zeigt Statistiken über die aktuelle Karte an
 
-[*] '[b]!record_wave[/b]' - Shows the highest wave achieved on the current map
+[*] '[b]!record_wave[/b]' - Zeigt die höchste auf aktuellen Karte erreichte Welle an
 
 [*] '[b]!top_kills[/b]' - Shows the global kills leaderboard
 
@@ -110,7 +110,7 @@ These commands can be executed by any player. As of writing there are 18 player 
 [*] '[b]!top_wave_dosh[/b]' - Shows information about who earned the most dosh in the current wave. Generally for use with '[b]!start_trc[/b]'
     - Example: '[b]!start_trc top_wave_dosh[/b]'
 
-[*] '[b]!server_kills[/b]' - Shows total kills on the server
+[*] '[b]!server_kills[/b]' - Zeigt gesamt Kills auf dem Server an
 
 [*] '[b]!server_dosh[/b]' - Shows total dosh earned on the server
 
@@ -119,14 +119,14 @@ These commands can be executed by any player. As of writing there are 18 player 
 
 [*] '[b]!game[/b]' - Shows information about the current game
 
-[*] '[b]!maps[/b]' - Shows the current map cycle
-    - Option '[b]-a[/b]': Shows all available maps
-    - Example: '[b]!maps -a[/b]'
+[*] '[b]!maps[/b]' - Zeigt den aktuellen Kartenzyklus an
+    - Option '[b]-a[/b]': Zeigt alle verfügbaren Karten an
+    - Beispiel: '[b]!maps -a[/b]'
 
-[*] '[b]!player_count[/b]' - Shows the player count and max players
+[*] '[b]!player_count[/b]' - Zeigt die Spieleranzahl und die Anzahl der maximalen Spieler an
 [/list]
 
-## Administrator commands
+## Administrator-Befehle
 Commands that can be ran by server administrators, and users authorized with the '[b]!op[/b]' command. As of writing there are 24 administrator commands available.
 [list]
 [*] '[b]!op <user>[/b]' - Gives a user administrative rights, persists until '[b]!deop <user>[/b]' is used.
@@ -157,8 +157,8 @@ Commands that can be ran by server administrators, and users authorized with the
 [*] '[b]!game_mode <game_mode>[/b]' - Immediately change the game mode to '<game_mode>'
     - Example: '[b]!game_mode endless[/b]' Changes the game mode to Endless
 
-[*] '[b]!load_map <map>[/b]' - Immediately change the map to '<map>'
-    - Example: '[b]!load_map biotics[/b]' Changes the map to Biotics Lab
+[*] '[b]!load_map <map>[/b]' - Sofortige Änderung der Karte auf '<map>'
+    - Beispiel: '[b]!load_map biotics[/b]' Wechselt die Maps auf Biotics Lab
 
 [*] '[b]!restart[/b]' - Immediately restart the current game
 
@@ -175,7 +175,7 @@ Commands that can be ran by server administrators, and users authorized with the
 
 [*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start a command that runs on wave '<wave>'
     - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command
-    run every wave
+    jede Welle ausführen
     - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
     - Example: '[b]!start_wc -1 -- say Welcome to the boss wave[/b]'
 
