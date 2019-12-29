@@ -146,7 +146,7 @@ Commands that can be ran by server administrators, and users authorized with the
 
 [*] '[b]!ban <user>[/b]' - Bans '<user>' from the server
     - Example: '[b]!ban the_z[/b]'
-    - Warnng: The web admin currently has a bug that causes bans to persist after they are deleted, thus there is no unban command
+    - Warning: The web admin currently has a bug that causes bans to persist after they are deleted, thus there is no unban command
 
 [*] '[b]!length <length>[/b]' - Change the length to '<length>' next game
     - Example: '[b]!length short[/b]'
