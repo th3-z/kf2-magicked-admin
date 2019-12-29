@@ -165,15 +165,15 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!password [--set] <on|off>[/b]'
     - Beispiel: '[b]!password on[/b]' Aktiviert das in der Konfiguration definierte Spielpasswort
     - Beispiel: '[b]!password off[/b]' Deaktiviert das Spielpasswort
-    - Example: '[b]!password --set superSekritPass[/b]' Sets a specific password
+    - Beispiel: '[b]!password --set superSekritPass[/b]' Setzt ein bestimmtes Passwort
 
-[*] '[b]!start_jc -- <command>[/b]' - Start a command that runs every time a player joins
-	- Example: '[b]!start_jc -- say Welcome %PLR[/b]' - Greets a player on join
+[*] '[b]!start_jc -- <command>[/b]' - Starte einen Befehl, der jedes Mal ausgeführt wird, wenn ein Spieler beitritt
+	- Beispiel: '[b]!start_jc -- say Willkommen %PLR[/b]' - Begrüßt einen Spieler beim Beitritt
 	- Available tokens: '[b]%PLR[/b]' - username, '[b]%KLL[/b]' - total kills, '[b]%DSH[/b]' - total dosh, '[b]%BCK[/b]' - "back" if sessions > 1, '[b]%DRK[/b]' - dosh rank, '[b]%KRK[/b]' - kill rank, '[b]%TME[/b]' - play time, '[b]%TRK[/b]' - play time rank, '[b]%SES[/b]' - sessions
 
-[*] '[b]!stop_jc[/b]' - Stops all join commands
+[*] '[b]!stop_jc[/b]' - Stoppt alle Join-Befehle
 
-[*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start a command that runs on wave '<wave>'
+[*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start eines Befehls, der auf Welle '<wave>' läuft
     - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command
     jede Welle ausführen
     - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
