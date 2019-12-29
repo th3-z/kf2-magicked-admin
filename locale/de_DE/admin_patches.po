@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-05 19:33+0100\n"
-"PO-Revision-Date: 2019-12-29 18:36\n"
+"PO-Revision-Date: 2019-12-29 18:46\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -54,7 +54,10 @@ msgid "Server file validation failed, possible reasons:\n"
 "\t - Game update\n"
 "\t - User mods\n"
 "\t - Patches already applied"
-msgstr ""
+msgstr "Die Validierung der Serverdatei ist fehlgeschlagen, mögliche Gründe:\n"
+"\t - Spiel-Update\n"
+"\t - Mods\n"
+"\t - Bereits angewendete Patches"
 
 #: admin_patches/admin_patches.py:65
 msgid "Patching files..."
@@ -71,7 +74,8 @@ msgstr ""
 #: admin_patches/utils/__init__.py:18
 msgid "\n"
 "Press enter to exit..."
-msgstr ""
+msgstr "\n"
+"Drücke Enter zum beenden..."
 
 #: admin_patches/utils/patcher.py:40
 msgid "Applying {}"
@@ -79,5 +83,5 @@ msgstr ""
 
 #: admin_patches/utils/patcher.py:45
 msgid "Patch failed to apply successfully"
-msgstr ""
+msgstr "Patch konnte nicht erfolgreich angewendet werden"
 
