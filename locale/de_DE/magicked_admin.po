@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-29 18:36\n"
+"PO-Revision-Date: 2019-12-29 18:46\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -30,15 +30,15 @@ msgstr ""
 
 #: magicked_admin/magicked_admin.py:143
 msgid "Closing immediately!"
-msgstr ""
+msgstr "Sofort schließen!"
 
 #: magicked_admin/magicked_admin.py:152
 msgid "Program interrupted, saving data..."
-msgstr ""
+msgstr "Programm unterbrochen, speichere Daten..."
 
 #: magicked_admin/settings.py:24
 msgid "Please correct this manually  or delete '{}' to create a clean config next run."
-msgstr ""
+msgstr "Bitte korrigiere dies manuell oder lösche '{}', um beim nächsten Lauf eine saubere Konfiguration zu erstellen."
 
 #: magicked_admin/settings.py:31
 msgid "No configuration was found, first time setup is required!"
