@@ -146,7 +146,7 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 
 [*] '[b]!ban <user>[/b]' - Bannt '<user>' vom Server
     - Beispiel: '[b]!ban the_z[/b]'
-    - Warning: The web admin currently has a bug that causes bans to persist after they are deleted, thus there is no unban command
+    - Warnung: Der Webadministrator hat derzeit einen Fehler, der dazu führt, dass Bans nach dem Löschen weiter bestehen bleiben, daher gibt es keinen UnBan-Befehl
 
 [*] '[b]!length <length>[/b]' - Ändere die Länge auf '<length>' nächstes Spiel
     - Beispiel: '[b]!length short[/b]'
@@ -221,7 +221,7 @@ A simple example could be as follows.
 
 %SRV_K Zeds killed on this server.
 
-Top Players (total kills):
+Top-Spieler (Total Kills):
 1. %PLR [%SCR]		2. %PLR [%SCR]		3. %PLR [%SCR] 
 4. %PLR [%SCR]		5. %PLR [%SCR]		6. %PLR [%SCR] 
 7. %PLR [%SCR]		8. %PLR [%SCR]		9. %PLR [%SCR]
@@ -243,17 +243,17 @@ Hier ist mein Überlebens-Selbstmord-Begrüßungsbildschirm als ein Beispiel daf
 
 [h1]Hinweise[/h1]
 [list]
-[*] This will overwrite your existing motd.
-[*] '[b]!reload_motd[/b]' Can be used to reload the template file while KF2 Magicked Admin is still running.
+[*] Dies überschreibt dein bestehendes motd.
+[*] '[b]!reload_motd[/b]' Kann verwendet werden, um die Vorlagendatei neu zu laden, während KF2 Magicked Admin noch läuft.
 [/list]
 
-## Scripts
-KF2 Magicked Admin has some rudimentary scripting support which can be used to chain commands into a single action.
+## Skripte
+KF2 Magicked Admin hat eine rudimentäre Skript-Unterstützung, die benutzt werden kann, um Befehle in einer einzigen Aktion zu verketten.
 
 There are two categories of scripts, they differ in when and how they are executed.
 
 [list]
-[*] Comments can be added to scripts by prefixing a line with '[b];[/b]'
+[*] Kommentare können in Skripte eingefügt werden, indem der Zeile '[b];[/b]' vorangestellt wird
 [/list]
 
 [h1]Init scripts[/h1]
@@ -293,11 +293,11 @@ silent -q[/code]
 ## Konfigurations-Optionen
 Das Basis-Setup wird beim ersten Durchlauf vorgenommen. Dies ist jedoch nur als Einstieg gedacht, es deckt nicht alle Optionen ab, die KF2 Magicked Admin bieten kann. Bitte lies die Konfigurationsdatei, '[b]conf/magicked_admin.conf[/b]', für weitere Konfigurationsoptionen, da einige Funktionen standardmäßig deaktiviert sind.
 
-Jeder von KF2 Magicked Admin verwaltete Server hat einen Config-Abschnitt, der etwa so aussieht wie '[b][server_one][/b]', gefolgt von mehreren Optionen ('[b]x = y[/b]'). Copy the default server section and change the name if you want to manage multiple servers. '[b][server_one][/b]' is the name of the server, this can be changed to whatever you want, but each section should have a unique name.
+Jeder von KF2 Magicked Admin verwaltete Server hat einen Config-Abschnitt, der etwa so aussieht wie '[b][server_one][/b]', gefolgt von mehreren Optionen ('[b]x = y[/b]'). Kopiere den Standard-Serverbereich und ändere den Namen, wenn du mehrere Server verwalten möchtest. "[b][server_one][/b]" ist der Name des Servers, dieser kann nach Belieben geändert werden, aber jede Sektion sollte einen eindeutigen Namen haben.
 
-[h1]Options[/h1]
+[h1]Optionen[/h1]
 
-The following options can be configured in the config file '[b]conf/magicked_admin.conf[/b]'.
+Die folgenden Optionen können in der Konfigurationsdatei '[b]conf/magicked_admin.conf[/b]' konfiguriert werden.
 [list]
 [*] '[b]address[/b]'  - Web address of the server's web admin panel. Requires scheme and protocol
     - Example: '[b]address=https://0.0.0.0:8080[/b]'
@@ -426,7 +426,7 @@ If you don't have a GitHub account you can write it in the comments or message [
 KF2 Magicked Admin is open source software (MIT), authored by the_z (th3-z).
 For full source code (Python+SQLite) and developer guidance visit the [url=github.com/th3-z/kf2-magicked-admin]GitHub repository.[/url]
 
-[b]Contributors[/b]
+[b] Mitwirkende[/b]
 
 Developers:
 [list]
