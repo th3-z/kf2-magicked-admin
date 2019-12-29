@@ -10,7 +10,7 @@ Gescriptete Verwaltung, Statistiken und ein Bot für gerankte Killing Floor 2 Se
 [*]Read player messages from your desktop
 [/list]
 
-[b]Notes[/b]
+[b]Hinweise[/b]
 [list]
 [*]KF2 Magicked Admin wird [b]nicht [/b] das Server-Ranking oder den Custom-Status ändern.
 [*]KF2 Magicked Admin works with weekly, survival, and endless game modes.
@@ -27,9 +27,9 @@ Danke.
 ## Downloads
 The latest version as of writing is '[b]0.1.4[/b]', released on the 29th of September 2019. A Windows executable is provided for this release [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-magicked-admin-0.1.4.zip]here[/url].
 
-For Linux and Mac OS it is recommended to run the program from Python sources since you likely already have it installed. The source for '[b]0.1.4[/b]' is available [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.4.zip]here[/url]. You just need to install the requirements with '[b]pip3 install -r requirements.txt[/b]' and run it with '[b]python3 -O magicked_admin/magicked_admin.py[/b]'.
+Für Linux und Mac OS wird empfohlen, das Programm aus den Python-Quellen zu starten, da du es wahrscheinlich bereits installiert hast. The source for '[b]0.1.4[/b]' is available [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.4.zip]here[/url]. Du musst nur die Voraussetzungen mit '[b]pip3 install -r requirements.txt[/b]' installieren und mit '[b]python3 -O magicked_admin/magicked_admin.py[/b]' ausführen.
 
-Development versions and build instructions are available on GitHub [url=https://github.com/th3-z/kf2-magicked-admin]here[/url].
+Entwicklungsversionen und build Instruktionen sind auf GitHub [url=https://github.com/th3-z/kf2-magicked-admin]hier[/url] verfügbar.
 
 [b]Note[/b]: If you want to use Magicked Admin on an endless or weekly mode server there is an extra step that you have to do which I talk about in the "Endless and weekly game mode support" section.
 
@@ -39,7 +39,7 @@ Development versions and build instructions are available on GitHub [url=https:/
 
 [*]Double click the executable file
 
-[*]You will be guided through the first time setup
+[*] Du wirst durch die erste Einrichtung geführt
 
 [b]Note[/b]: If you want to re-run the first time setup, just delete the file '[b]conf/magicked_admin.conf[/b]'
 [/olist]
