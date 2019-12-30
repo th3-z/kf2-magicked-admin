@@ -202,7 +202,7 @@ Comandos que pueden ser ejecutados por los administradores del servidor, y usuar
     - Ejemplo: '[b]!run ejemplo[/b]'
 
 [*] '[b]!marquee <nombre marquee>[/b]' - Ejecuta un marquee en el chat de '[b]conf/marquee[/b]' carpeta, [i]experimental[/i]
-    - Example: '[b]!marquee ejemplo[/b]'
+    - Ejemplo: '[b]!marquee ejemplo[/b]'
 
 [*] '[b]!enforce_dosh <monto>[/b]' - Expulsa a todos los jugadores que tienen más dosh que la cantidad especificada.
     - Ejemplo: '[b]!start_tc 600 -- enforce_dosh 60000[/b]'
