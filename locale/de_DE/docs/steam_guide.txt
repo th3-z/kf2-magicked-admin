@@ -300,13 +300,13 @@ Jeder von KF2 Magicked Admin verwaltete Server hat einen Config-Abschnitt, der e
 Die folgenden Optionen können in der Konfigurationsdatei '[b]conf/magicked_admin.conf[/b]' konfiguriert werden.
 [list]
 [*] '[b]Adresse[/b]' - Webadresse des Webadministrationspanels des Servers. Erfordert Schema und Protokoll
-    - Example: '[b]address=https://0.0.0.0:8080[/b]'
+    - Beispiel: '[b]address=https://0.0.0.0:8080[/b]'
 
-[*] '[b]username[/b]' - Web admin username to login with, this will appear in the chat when the bot has something to output. It's recommended to create a separate account for the bot.
-    - Example: '[b]username=Admin[/b]'
+[*] '[b]username[/b]' - Webadmin-Benutzername zum Anmelden, dieser erscheint im Chat, wenn der Bot etwas auszugeben hat. Es wird empfohlen, ein separates Konto für den Bot zu erstellen.
+    - Beispiel: '[b]userername=Admin[/b]'
 
-[*] '[b]password[/b]'  - Web admin password that matches the username above.
-    - Example: '[b]password=123[/b]'
+[*] '[b]password[/b]' - Webadmin-Passwort, das zu dem obigen Benutzernamen passt.
+    - Beispiel: '[b]password=123[/b]'
 
 [*] '[b]game_password[/b]' - Default game password to set when the password is toggled using '[b]!password <on|off>[/b]'.
     - Example: '[b]game_password=Hunter69[/b]'
