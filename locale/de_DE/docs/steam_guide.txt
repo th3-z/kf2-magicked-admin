@@ -264,9 +264,9 @@ Beim ersten Start wird eine Beispiel-Init-Datei erzeugt, die als Vorlage zum Sch
 
 [h1]Skripte ausführen[/h1]
 
-Der Befehl '[b]!run[/b]' existiert, um das Ausführen von Skripten zu jeder Zeit zu erleichtern. Diese Skripte sollten im Ordner '[b]conf/scripts[/b]' abgelegt werden. An example script is already in the scripts folder, it can be ran with '[b]!run example[/b]'. 
+Der Befehl '[b]!run[/b]' existiert, um das Ausführen von Skripten zu jeder Zeit zu erleichtern. Diese Skripte sollten im Ordner '[b]conf/scripts[/b]' abgelegt werden. Ein Beispielskript befindet sich bereits im Ordner scripts, es kann mit '[b]!run example[/b]' ausgeführt werden. 
 
-These scripts are formatted much the same as the init script, the commands will be ran in sequence from top to bottom.
+Diese Skripte sind ähnlich wie das Init-Skript formatiert, die Befehle werden der Reihe nach von oben nach unten ausgeführt.
 
 [h1]Notable examples[/h1]
 
