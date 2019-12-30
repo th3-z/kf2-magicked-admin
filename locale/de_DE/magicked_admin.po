@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 09:56\n"
+"PO-Revision-Date: 2019-12-30 13:57\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -419,12 +419,13 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/event_commands.py:239
 msgid "Trader open command started"
-msgstr ""
+msgstr "Trader Open-Befehl gestartet"
 
 #: magicked_admin/chatbot/commands/event_commands.py:247
 msgid "Usage: !stop_trc\n"
 "Desc: Stops all trader commands"
-msgstr ""
+msgstr "Verwendung: !stop_trc\n"
+"Beschreibung: Stoppt alle Händlerbefehle"
 
 #: magicked_admin/chatbot/commands/info_commands.py:19
 msgid "Usage: !marquee FILE\n"
@@ -434,7 +435,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/info_commands.py:49
 msgid "Missing argument: filename"
-msgstr ""
+msgstr "Fehlendes Argument: Dateiname"
 
 #: magicked_admin/chatbot/commands/info_commands.py:53
 msgid "Couldn't find file"
@@ -443,37 +444,42 @@ msgstr "Konnte die Datei nicht finden"
 #: magicked_admin/chatbot/commands/info_commands.py:78
 msgid "Usage: !players\n"
 "Desc: Shows the number of players currently online"
-msgstr ""
+msgstr "Verwendung: !players\n"
+"Beschreibung: Zeigt die Anzahl der Spieler an, die derzeit online sind"
 
 #: magicked_admin/chatbot/commands/info_commands.py:90
 msgid "{}/{} Players are online"
-msgstr ""
+msgstr "{}/{} Spieler sind online"
 
 #: magicked_admin/chatbot/commands/info_commands.py:101
 msgid "Usage: !players\n"
 "Desc: Shows detailed information about online players"
-msgstr ""
+msgstr "Verwendung: !players\n"
+"Beschreibung: Zeigt detaillierte Informationen über Spieler die online sind an"
 
 #: magicked_admin/chatbot/commands/info_commands.py:114
 #: magicked_admin/chatbot/commands/player_commands.py:265
 msgid "No players in game"
-msgstr ""
+msgstr "Keine Spieler im Spiel"
 
 #: magicked_admin/chatbot/commands/info_commands.py:127
 msgid "Usage: !game\n"
 "Desc: Shows current game info and rules"
-msgstr ""
+msgstr "Verwendung: !game\n"
+"Beschreibung: Zeigt aktuelle Spielinformationen und Regeln"
 
 #: magicked_admin/chatbot/commands/info_commands.py:144
 #: magicked_admin/chatbot/commands/server_commands.py:168
 msgid "Usage: !map\n"
 "Desc: Shows statistics about the current map"
-msgstr ""
+msgstr "Verwendung: !maps\n"
+"Beschreibung: Zeigt Statistiken über die aktuelle Karte"
 
 #: magicked_admin/chatbot/commands/info_commands.py:161
 msgid "Usage: !game_time\n"
 "Desc: Shows the number of seconds since the match started. Excludes trader time and the boss wave."
-msgstr ""
+msgstr "Verwendung: !game_time\n"
+"Beschreibung: Zeigt die Anzahl der Sekunden seit Beginn des Spiels an. Schließt die Zeit des Traders und die Boss-Welle aus."
 
 #: magicked_admin/chatbot/commands/info_commands.py:180
 msgid "Usage: !record_wave\n"
