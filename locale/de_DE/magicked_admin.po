@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-29 22:41\n"
+"PO-Revision-Date: 2019-12-30 03:05\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -119,7 +119,7 @@ msgstr "Skript ausführen: "
 
 #: magicked_admin/chatbot/command_scheduler.py:58
 msgid "Stopped {} command(s)"
-msgstr ""
+msgstr "{} Befehl(e) gestoppt"
 
 #: magicked_admin/chatbot/command_scheduler.py:61
 msgid "None running"
@@ -437,7 +437,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/info_commands.py:53
 msgid "Couldn't find file"
-msgstr ""
+msgstr "Konnte die Datei nicht finden"
 
 #: magicked_admin/chatbot/commands/info_commands.py:78
 msgid "Usage: !players\n"
@@ -594,7 +594,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/player_commands.py:205
 msgid "Top 5 players by play time:\n"
-msgstr ""
+msgstr "Top 5 Spieler nach Spielzeit:\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:221
 msgid "Usage: !scoreboard\n"
@@ -643,17 +643,19 @@ msgstr ""
 #: magicked_admin/chatbot/commands/server_commands.py:37
 #: magicked_admin/chatbot/commands/server_commands.py:264
 msgid "Player not found"
-msgstr ""
+msgstr "Spieler nicht gefunden"
 
 #: magicked_admin/chatbot/commands/server_commands.py:40
 msgid "Player, {}, was banned"
-msgstr ""
+msgstr "Spieler, {}, wurde gebannt"
 
 #: magicked_admin/chatbot/commands/server_commands.py:48
 msgid "Usage: !say MESSAGE\n"
 "\tMESSAGE - Message to echo\n"
 "Desc: Echos a message in chat"
-msgstr ""
+msgstr "Benutzung: !say NACHRICHT\n"
+"\tNACHRICHT - Nachricht die ausgegeben werden soll\n"
+"Beschreibung: Gibt eine Nachricht im Chat aus"
 
 #: magicked_admin/chatbot/commands/server_commands.py:73
 msgid "Usage: !op USERNAME\n"
