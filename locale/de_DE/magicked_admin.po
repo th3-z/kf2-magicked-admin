@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 03:05\n"
+"PO-Revision-Date: 2019-12-30 03:26\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -666,21 +666,23 @@ msgstr ""
 #: magicked_admin/chatbot/commands/server_commands.py:94
 #: magicked_admin/chatbot/commands/server_commands.py:130
 msgid "Couldn't find player '{}'"
-msgstr ""
+msgstr "Konnte den Spieler '{}' nicht finden"
 
 #: magicked_admin/chatbot/commands/server_commands.py:97
 msgid "Oped {}"
-msgstr ""
+msgstr "Oped {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:108
 msgid "Usage: !deop USERNAME\n"
 "\tUSERNAME - Player to revoke op status for\n"
 "Desc: Revokes a players ability to use admin commands"
-msgstr ""
+msgstr "Verwendung: !deop BENUTZERNAME\n"
+"\tBENUTZERNAME - Spieler, dem der Op-Status entzogen werden soll\n"
+"Beschreibung: Entzieht einem Spieler die Möglichkeit, Admin-Kommandos zu verwenden"
 
 #: magicked_admin/chatbot/commands/server_commands.py:133
 msgid "Deoped {}"
-msgstr ""
+msgstr "Deoped {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:144
 msgid "Usage: !maps [--all]\n"
