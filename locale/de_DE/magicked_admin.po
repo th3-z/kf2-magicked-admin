@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 13:57\n"
+"PO-Revision-Date: 2019-12-30 14:16\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -415,7 +415,10 @@ msgid "Usage: !start_trc [--wave] COMMAND\n"
 "\tCOMMAND - Command to run\n"
 "\t-w --wave - Optional, wave to run on\n"
 "Desc: Runs a command when the trader opens, wave can be omitted to run every time the trader opens"
-msgstr ""
+msgstr "Verwendung: !start_trc [--wave] BEFEHL\n"
+"\tBEFEHL - Befehl zum Ausführen\n"
+"\t-w --wave - Optional, für welche Welle\n"
+"Beschreibung: Führt einen Befehl aus, wenn der Trader öffnet, Welle kann ausgelassen werden, um jedes Mal zu laufen, wenn der Trader öffnet"
 
 #: magicked_admin/chatbot/commands/event_commands.py:239
 msgid "Trader open command started"
@@ -431,7 +434,9 @@ msgstr "Verwendung: !stop_trc\n"
 msgid "Usage: !marquee FILE\n"
 "\tFILE - Some file in 'conf/marquee'\n"
 "Desc: Runs a marquee in chat"
-msgstr ""
+msgstr "Verwendung: !marquee DATEI\n"
+"\tDATEI - Einige Dateien in 'conf/marquee'\n"
+"Beschreibung: Eine Laufschrift im Chat"
 
 #: magicked_admin/chatbot/commands/info_commands.py:49
 msgid "Missing argument: filename"
@@ -513,7 +518,23 @@ msgid "\n"
 "\t!maps,\n"
 "\t!player_count\n"
 "Commands have help, e.g. '!stats -h'"
-msgstr ""
+msgstr "\n"
+"Verfügbare Befehle:\n"
+"\t!record_wave,\n"
+"\t!game,\n"
+"\t!kills,\n"
+"\t!dosh,\n"
+"\t!top_kills,\n"
+"\t!top_dosh,\n"
+"\t!top_time,\n"
+"\t!stats,\n"
+"\t!game_time,\n"
+"\t!server_kills,\n"
+"\t!server_dosh,\n"
+"\t!map,\n"
+"\t!maps,\n"
+"\t!player_count\n"
+"Befehle haben Hilfe, z.B. '!stats -h'"
 
 #: magicked_admin/chatbot/commands/info_commands.py:235
 msgid "Usage: !stats USERNAME\n"
@@ -762,7 +783,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:323
 msgid "Reloaded the MOTD"
-msgstr ""
+msgstr "MOTD neu geladen"
 
 #: magicked_admin/chatbot/commands/server_commands.py:332
 msgid "Usage: !run FILE\n"
@@ -776,7 +797,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:352
 msgid "Script not found"
-msgstr ""
+msgstr "Skript nicht gefunden"
 
 #: magicked_admin/chatbot/commands/server_commands.py:361
 msgid "Usage: !restart\n"
@@ -785,7 +806,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:372
 msgid "Restarting map..."
-msgstr ""
+msgstr "Map Neustart..."
 
 #: magicked_admin/chatbot/commands/server_commands.py:379
 msgid "Usage: !load_map MAP_NAME\n"
@@ -814,11 +835,11 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:422
 msgid "enabled"
-msgstr ""
+msgstr "aktiviert"
 
 #: magicked_admin/chatbot/commands/server_commands.py:422
 msgid "disabled"
-msgstr ""
+msgstr "deaktiviert"
 
 #: magicked_admin/chatbot/commands/server_commands.py:433
 msgid "Game password enabled"
@@ -855,26 +876,28 @@ msgstr ""
 #: magicked_admin/chatbot/commands/server_commands.py:492
 #: magicked_admin/chatbot/commands/server_commands.py:504
 msgid "Length not recognised, options are: short, medium, or long"
-msgstr ""
+msgstr "Länge nicht erkannt, Optionen sind: short, medium, oder long"
 
 #: magicked_admin/chatbot/commands/server_commands.py:511
 msgid "Length change will take effect next game"
-msgstr ""
+msgstr "Längenänderung wird im nächsten Spiel wirksam"
 
 #: magicked_admin/chatbot/commands/server_commands.py:520
 msgid "Usage: !difficulty DIFFICULTY\n"
 "\tDIFFICULTY - Difficulty to change to\n"
 "Desc: Changes the difficulty next match"
-msgstr ""
+msgstr "Verwendung: !difficulty SCHWIERIGKEIT\n"
+"\tSCHWIERIGKEIT - Schwierigkeit zu der gewechselt werden soll\n"
+"Beschreibung: Ändert den Schwierigkeitsgrad des nächsten Spiels"
 
 #: magicked_admin/chatbot/commands/server_commands.py:533
 #: magicked_admin/chatbot/commands/server_commands.py:547
 msgid "Difficulty not recognised, options are: normal, hard, suicidal, or hell"
-msgstr ""
+msgstr "Schwierigkeit nicht erkannt, Optionen sind: normal, hard, suicidal, oder hell"
 
 #: magicked_admin/chatbot/commands/server_commands.py:554
 msgid "Difficulty change will take effect next game"
-msgstr ""
+msgstr "Schwierigkeitsänderung wird im nächsten Spiel wirksam"
 
 #: magicked_admin/chatbot/commands/server_commands.py:563
 msgid "Usage: !game_mode MODE\n"
