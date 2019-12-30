@@ -279,7 +279,7 @@ Einige Befehle sind besonders nützlich, wenn sie in Skripten verwendet werden, 
 '[b]conf/scripts/server_one.init[/b]' - [i]Wirb für deine Steam-Gruppe, wenn die Boss-Welle erreicht ist[/i]
 [code] start_wc -w -1 -- say Join our steam group: http://our.steam/group[/code]
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Provide basic bot usage guidance to players[/i]
+'[b]conf/scripts/server_one.init[/b]' - [i]Bietet Spielern grundlegende Hinweise zur Nutzung von Bot-Systemen[/i][b]
 [code] start_tc -rt 800 -- say Ich bin ein Bot, tippe !commands ein, um die verfügbaren Befehle zu sehen[/code]
 
 '[b]conf/scripts/priv_game[/b]' - [i]Setup a private lobby with a single command[/i]
@@ -299,7 +299,7 @@ Jeder von KF2 Magicked Admin verwaltete Server hat einen Config-Abschnitt, der e
 
 Die folgenden Optionen können in der Konfigurationsdatei '[b]conf/magicked_admin.conf[/b]' konfiguriert werden.
 [list]
-[*] '[b]address[/b]'  - Web address of the server's web admin panel. Requires scheme and protocol
+[*] '[b]Adresse[/b]' - Webadresse des Webadministrationspanels des Servers. Erfordert Schema und Protokoll
     - Example: '[b]address=https://0.0.0.0:8080[/b]'
 
 [*] '[b]username[/b]' - Web admin username to login with, this will appear in the chat when the bot has something to output. It's recommended to create a separate account for the bot.
