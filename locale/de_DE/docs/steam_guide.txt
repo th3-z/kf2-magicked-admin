@@ -282,9 +282,9 @@ Einige Befehle sind besonders nützlich, wenn sie in Skripten verwendet werden, 
 '[b]conf/scripts/server_one.init[/b]' - [i]Bietet Spielern grundlegende Hinweise zur Nutzung von Bot-Systemen[/i][b]
 [code] start_tc -rt 800 -- say Ich bin ein Bot, tippe !commands ein, um die verfügbaren Befehle zu sehen[/code]
 
-'[b]conf/scripts/priv_game[/b]' - [i]Setup a private lobby with a single command[/i]
+'[b]conf/scripts/priv_game[/b]' - [i]Einrichten einer privaten Lobby mit einem einzigen Befehl[/i]
 [code]silent -q
-password --set superSecretPassword
+password --set SuperGeheimesPasswort
 difficulty hell
 length long
 load_map biotics
@@ -328,16 +328,16 @@ Im Folgenden wird das gleiche Setup behandelt wie in der offiziellen Tripwire-Do
 Öffne nun dein Web-Admin-Panel und es sollte ein neuer '[b]Administrators[/b]'-Abschnitt in der Sidebar vorhanden sein.
 [previewicon=11679370;sizeThumb,inline;chrome_2018-03-08_23-53-58.png][/previewicon]
 
-[*]Klicke auf '[b]Administrators[/b]' und wähle '[b]Create Administrator[/b]'. Enter a name for the Chatbot (This is the name you will use to sign in with). Click OK.
+[*]Klicke auf '[b]Administrators[/b]' und wähle '[b]Create Administrator[/b]'. Gib einen Namen für den Chatbot ein (Dies ist der Name, mit dem du dich anmelden wirst). Klicke OK.
 
-[*]Give it a '[b]Display Name[/b]', '[b]Password[/b]', and enable the account (the display name is what players will see in chat).
+Gib ihm einen '[b]Anzeigenamen[/b]', '[b]Passwort[/b]' und aktiviere das Konto (der Anzeigename ist das, was die Spieler im Chat sehen werden).
 [previewicon=11679547;sizeThumb,inline;chrome_2018-03-09_00-16-09.png][/previewicon]
 
-[*]Leave '[b]Access Order[/b]' set to '[b]Deny/Allow[/b]', and don't add any '[b]Deny Patterns[/b]' or '[b]Allow Patterns[/b]'. If you have issues using your new account, this is a common culprit so please leave it as is.
+Lass "[b]Access Order[/b]" auf "[b]Deny/Allow[/b]" stehen und füge keine "[b]Deny Patterns[/b]" oder "[b]Allow Patterns[/b]" hinzu. Wenn du Probleme bei der Verwendung des neuen Kontos hast, ist dies ein häufiger Fehler, also lass es bitte so, wie es ist.
 
-[*]Click '[b]Save[/b]' and the account is ready for use.
+[*]Klicke auf '[b]Save[/b]' und das Konto ist einsatzbereit.
 
-[*]Update the account credentials in '[b]conf/magicked_admin.conf[/b]'
+[*]Aktualisiere die Konto-Anmeldeinformationen in '[b]conf/magicked_admin.conf[/b]'
 [/olist]
 
 ## Endless and weekly game mode support
@@ -395,7 +395,7 @@ You first need to open '[b]conf/magicked_admin.conf[/b]' and here you can change
 You then need to go back and change '[b]server_one.motd[/b]' and '[b]server_one.init[/b]' to the name you just set it to in '[b]conf/magicked_admin.conf[/b]'.
 
 ## Resetting stats
-To reset the scoreboard all you have to do is delete the '[b]conf/*.sqlite[/b]' file associated with the server name, a new one will be created the next time you start KF2 Magicked Admin.
+Um die Anzeigetafel zurückzusetzen, musst du nur die mit dem Servernamen verbundene Datei '[b]conf/*.sqlite[/b]' löschen, beim nächsten Start von KF2 Magicked Admin wird dann eine neue Datei erstellt.
 
 If I wanted to reset the stats on '[b]server_four[/b]', I would delete the '[b]conf/server_four.sqlite[/b]' file and restart KF2 Magicked Admin.
 
