@@ -340,19 +340,19 @@ Lass "[b]Access Order[/b]" auf "[b]Deny/Allow[/b]" stehen und füge keine "[b]De
 [*]Aktualisiere die Konto-Anmeldeinformationen in '[b]conf/magicked_admin.conf[/b]'
 [/olist]
 
-## Endless and weekly game mode support
-In game modes other than survival KF2 Magicked Admin will have a limited feature set due to differences in the web admin panel when in other modes. However the web admin panel can be altered to enable the full feature set.
+## Unterstützung des Endlos- und Wochenspielmodus
+In anderen Spielmodi als Überleben hat KF2 Magicked Admin aufgrund von Unterschieden im Webadmin-Panel einen eingeschränkten Funktionsumfang. Das Web-Administrations-Panel kann jedoch geändert werden, um den vollen Funktionsumfang zu aktivieren.
 
-For this reason a web admin patcher is available [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-admin-patches-0.0.1.zip]here[/url]. 
+Aus diesem Grund steht ein Webadmin-Patcher zur Verfügung [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-admin-patches-0.0.1.zip]hier[/url]. 
 
-[h1]Notes[/h1]
-To use this utility your server files in '[b]KF2Server/KFGame/Web/ServerAdmin[/b]' will have to be stock/clean. If you have edited these files I suggest the following alternatives.
+[h1]Hinweise[/h1]
+Um dieses Programm zu verwenden, müssen deine Serverdateien in '[b]KF2Server/KFGame/Web/ServerAdmin[/b]' vorhanden und fehlerfrei sein. Wenn du diese Dateien bearbeitet hast, schlage ich dir die folgenden Alternativen vor.
 [list]
-[*]Validate the server files with steamcmd with the command '[b]app_update 232130 validate[/b]' and use the patcher as normal.
-[*]Manually apply the diffs in '[b]admin-patcher/patches[/b]' to your server files.
+[*] Validiere die Serverdateien mit steamcmd mit dem Befehl '[b]app_update 232130 validate[/b]' und verwenden Sie den Patcher wie gewohnt.
+[*]Wende die Unterschiede in '[b]admin-patcher/patches[/b]' manuell auf deine Serverdateien an.
 [/list]
 
-[h1]Usage (GUI/Desktop)[/h1]
+[h1]Benutzung (GUI/Desktop)[/h1]
 [olist]
 [*] Run the executable
 [*] Open the location where your server is installed in the destination selection window
