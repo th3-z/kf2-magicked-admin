@@ -184,22 +184,22 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!start_tc [-r, -t <Sekunden>] -- <Befehl>[/b]' - Startet einen Befehl, der nach
     '<Sekunden>' Sekunden
     - Option "[b]-r[/b]": Hinzufügen, um den Befehl wiederholt ausführen zu lassen
-    - Option '[b]-t[/b]': Required, the number of seconds before the command runs
-    - Example: '[b]!start_tc -rt 600 -- say Join our Steam group!\n http://steam.group/[/b]'
+    - Option "[b]-t[/b]": Erforderlich, die Anzahl der Sekunden, bevor der Befehl ausgeführt wird
+    - Beispiel: '[b]!start_tc -rt 600 -- say Tritt unserer Steamgruppe bei!\n http://steam.group/[/b]'
 
-[*] '[b]!stop_tc[/b]' - Stops all timed commands
+[*] '[b]!stop_tc[/b]' - Stoppt alle zeitgesteuerten Befehle
 
-[*] '[b]!start_trc [-w <wave>] -- <command>[/b]' - Start a commands that runs when the trader opens
-    - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command run every wave
-    - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
-    - Example: '[b]!start_trc -- top_wave_dosh[/b]' - Shows who earned the most dosh every wave when the trader opens
+[*] '[b]!start_trc [-w <wave>] -- <command>[/b]' - Startet einen Befehl, der beim Öffnen des Händlers ausgeführt wird
+    - Option "[b]-w[/b]": Wave zum Ausführen des Befehls, kann weggelassen werden, um den Befehl bei jeder Welle ausführen zu lassen
+    - Option "[b]-w[/b]": Kann negativ sein, um von der Boss-Welle rückwärts zu zählen
+    - Beispiel: '[b]!start_trc -- top_wave_dosh[/b]' - Zeigt bei jeder Welle, wer am meisten Dosh verdient hat, wenn der Trader öffnet
 
-[*] '[b]!stop_trc[/b]' - Stop all commands that run on trader open
+[*] '[b]!stop_trc[/b]' - Stoppt alle Befehle, die bei offenem Trader laufen
 
-[*] '[b]!silent[/b]' - Toggles suppression of all chat output, commands still have effect, but the response will not be visible to players
+[*] '[b]!silent[/b]' - Schaltet die Unterdrückung aller Chatausgaben ein, Befehle haben immer noch Wirkung, aber die Antwort ist für die Spieler nicht sichtbar
 
-[*] '[b]!run <script_name>[/b]' - Executes a script from the 'conf/scripts' folder, more information in the scripts section
-    - Example: '[b]!run example[/b]'
+[*] '[b]!run <script_name>[/b]' - Führt ein Skript aus dem Ordner 'conf/scripts' aus, weitere Informationen im Abschnitt Skripte
+    - Beispiel: '[b]!run Beispiel[/b]'
 
 [*] '[b]!marquee <marquee_name>[/b]' - Runs a marquee in the chat from the '[b]conf/marquee[/b]' folder, [i]experimental[/i]
     - Example: '[b]!marquee example[/b]'
@@ -423,12 +423,12 @@ If you find a bug, please add it to the [url=https://github.com/th3-z/kf2-magick
 If you don't have a GitHub account you can write it in the comments or message [url=https://steamcommunity.com/id/th3-z]me[/url] on Steam.
 
 ## Credits
-KF2 Magicked Admin is open source software (MIT), authored by the_z (th3-z).
-For full source code (Python+SQLite) and developer guidance visit the [url=github.com/th3-z/kf2-magicked-admin]GitHub repository.[/url]
+KF2 Magicked Admin ist eine Open Source Software (MIT), die von the_z (th3-z) entwickelt wurde.
+Den vollständigen Quellcode (Python+SQLite) und eine Anleitung für Entwickler findest du im [url=github.com/th3-z/kf2-magicked-admin]GitHub-Repository.[/url]
 
 [b] Mitwirkende[/b]
 
-Developers:
+Entwickler:
 [list]
 [*] [url=https://github.com/th3-z]th3-z[/url]
 [*] [url=https://github.com/n0x-io]n0x-io[/url]
