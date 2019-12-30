@@ -256,15 +256,15 @@ Es gibt zwei Kategorien von Skripten, sie unterscheiden sich darin, wann und wie
 [*] Kommentare können in Skripte eingefügt werden, indem der Zeile '[b];[/b]' vorangestellt wird
 [/list]
 
-[h1]Init scripts[/h1]
+[h1]Init-Skripte[/h1]
 
-Writing a '[b]server_name.init[/b]' in the '[b]conf/scripts[/b]' folder with a series of commands will run the commands in sequence when the bot starts on '[b]server_name[/b]'. The server names are defined in '[b]conf/magicked_admin.conf[/b]', if you haven't changed the name it will default to '[b]server_one[/b]'.
+Das Schreiben einer '[b]server_name.init[/b]' in den Ordner '[b]conf/scripts[/b]' mit einer Reihe von Befehlen führt die Befehle nacheinander aus, wenn der Bot auf '[b]server_name[/b]' startet. Die Servernamen sind in '[b]conf/magicked_admin.conf[/b]' definiert, wenn du den Namen nicht geändert hast, wird er standardmäßig auf '[b]server_one[/b]' gesetzt.
 
-An example init file will have been generated on first launch, this can be used as a template for writing your own init scripts.
+Beim ersten Start wird eine Beispiel-Init-Datei erzeugt, die als Vorlage zum Schreiben eigener Init-Skripte verwendet werden kann.
 
-[h1]Run scripts[/h1]
+[h1]Skripte ausführen[/h1]
 
-The '[b]!run[/b]' command exists to facilitate the running of scripts at any time. These scripts should be placed in the '[b]conf/scripts[/b]' folder. An example script is already in the scripts folder, it can be ran with '[b]!run example[/b]'. 
+Der Befehl '[b]!run[/b]' existiert, um das Ausführen von Skripten zu jeder Zeit zu erleichtern. Diese Skripte sollten im Ordner '[b]conf/scripts[/b]' abgelegt werden. An example script is already in the scripts folder, it can be ran with '[b]!run example[/b]'. 
 
 These scripts are formatted much the same as the init script, the commands will be ran in sequence from top to bottom.
 
