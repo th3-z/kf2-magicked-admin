@@ -67,7 +67,7 @@ Alle Befehle haben einen Hilfetext im Spiel, auf den man mit dem '[b]-h'[/b] Fla
 Alle Befehle haben auch die folgenden Flags.
 [list]
 [*] Option "[b]-q[/b]": Unterdrückt die Ausgabe
-[*] Option '[b]-p[/b]': Pads output to hide the username line
+[*] Option "[b]-p[/b]": Ausgabe zum Ausblenden der Benutzerzeile
 [/list]
 Zur Formatierung von Nachrichten stehen folgende Escape-Sequenzen zur Verfügung.
 [list]
@@ -277,7 +277,7 @@ Einige Befehle sind besonders nützlich, wenn sie in Skripten verwendet werden, 
  start_tc 300 -- update_motd dosh[/code]
 
 '[b]conf/scripts/server_one.init[/b]' - [i]Wirb für deine Steam-Gruppe, wenn die Boss-Welle erreicht ist[/i]
-[code] start_wc -w -1 -- say Join our steam group: http://our.steam/group[/code]
+[code] start_wc -w -1 -- say Trete unserer Steamgruppe bei: http://our.steam/group[/code]
 
 '[b]conf/scripts/server_one.init[/b]' - [i]Bietet Spielern grundlegende Hinweise zur Nutzung von Bot-Systemen[/i][b]
 [code] start_tc -rt 800 -- say Ich bin ein Bot, tippe !commands ein, um die verfügbaren Befehle zu sehen[/code]
@@ -413,14 +413,14 @@ Die folgenden Funktionen sind derzeit für die nächste Version geplant.
 [*] Unterstützung von Community-Übersetzungen via Crowdin
 [/list]
 
-We are accepting feature requests on the [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url].
+Wir akzeptieren Feature-Anfragen auf dem [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url].
 
 ## Bugs?
-None known as of writing.
+Zu diesem Zeitpunkt keine bekannt.
 
-If you find a bug, please add it to the [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url]if you have a GitHub account.
+Wenn du einen Fehler findest, fügen ihn bitte zum [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url]hinzu, wenn du einen GitHub-Account hast.
 
-If you don't have a GitHub account you can write it in the comments or message [url=https://steamcommunity.com/id/th3-z]me[/url] on Steam.
+Wenn du keinen GitHub-Account hast, kannst du ihn in die Kommentare oder die Nachricht [url=https://steamcommunity.com/id/th3-z]mir[/url] auf Steam schreiben.
 
 ## Credits
 KF2 Magicked Admin ist eine Open Source Software (MIT), die von the_z (th3-z) entwickelt wurde.
