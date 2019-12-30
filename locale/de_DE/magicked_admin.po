@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 09:46\n"
+"PO-Revision-Date: 2019-12-30 09:56\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -382,7 +382,8 @@ msgstr "Wellenstartbefehl gestartet"
 #: magicked_admin/chatbot/commands/event_commands.py:114
 msgid "Usage: !stop_wc\n"
 "Desc: Stops all wave commands"
-msgstr ""
+msgstr "Verwendung: !stop_wc\n"
+"Beschreibung: Stoppt alle Wave-Befehle"
 
 #: magicked_admin/chatbot/commands/event_commands.py:135
 msgid "Usage: !start_tc [-r -t] COMMAND\n"
@@ -394,7 +395,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/event_commands.py:153
 msgid "Please specify a time interval, '!start_tc -h' for help"
-msgstr ""
+msgstr "Bitte gib ein Zeitintervall an, '!start_tc -h' für Hilfe"
 
 #: magicked_admin/chatbot/commands/event_commands.py:161
 msgid "'{}' is not a valid time interval"
