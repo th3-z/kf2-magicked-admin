@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 19:16\n"
+"PO-Revision-Date: 2019-12-30 19:31\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -910,21 +910,25 @@ msgstr "Nicht erkannte Option {}"
 msgid "Usage: !silent [--quiet]\n"
 "\t-q --quiet - Suppresses output'\n"
 "Desc: Toggles command output globally"
-msgstr ""
+msgstr "Verwendung: !silent [--quiet]\n"
+"\t-q --quiet - unterdrückt die Ausgabe\n"
+"Info: Schaltet die Befehlsausgabe global um"
 
 #: magicked_admin/chatbot/commands/server_commands.py:463
 msgid "Silent mode disabled"
-msgstr ""
+msgstr "Stiller Modus deaktiviert"
 
 #: magicked_admin/chatbot/commands/server_commands.py:465
 msgid "Silent mode enabled"
-msgstr ""
+msgstr "Stiller Modus aktiviert"
 
 #: magicked_admin/chatbot/commands/server_commands.py:479
 msgid "Usage: !length LENGTH\n"
 "\tLENGTH - Length to change to\n"
 "Desc: Changes the game length next match"
-msgstr ""
+msgstr "Verwendung: !length LÄNGE\n"
+"\tLÄNGE - Länge zu ändern auf\n"
+"Info: Ändert die Spieldauer beim nächsten Spiel"
 
 #: magicked_admin/chatbot/commands/server_commands.py:492
 #: magicked_admin/chatbot/commands/server_commands.py:504
@@ -956,30 +960,35 @@ msgstr "Schwierigkeitsänderung wird im nächsten Spiel wirksam"
 msgid "Usage: !game_mode MODE\n"
 "\tMODE - Mode to change to\n"
 "Desc: Immediately changes the game mode"
-msgstr ""
+msgstr "Usage: !game_mode MODUS\n"
+"\tMODUS - Modus zu dem gewechselt werden soll\n"
+"Info: Ändert sofort den Spielmodus"
 
 #: magicked_admin/chatbot/commands/server_commands.py:577
 msgid "Mode not recognised, options are: endless, survival, weekly or versus"
-msgstr ""
+msgstr "Modus nicht erkannt, Optionen sind: endless, survival, weekly oder versus"
 
 #: magicked_admin/chatbot/commands/server_commands.py:592
 msgid "GameMode not recognised, options are: endless, survival, weekly or versus"
-msgstr ""
+msgstr "Spielmodus nicht erkannt, Optionen sind: endless, survival, weekly oder versus"
 
 #: magicked_admin/chatbot/commands/server_commands.py:599
 msgid "Game mode will be changed to {}"
-msgstr ""
+msgstr "Der Spielmodus wird auf {} geändert"
 
 #: magicked_admin/database/database.py:29
 msgid "Building new database..."
-msgstr ""
+msgstr "Aufbau einer neuen Datenbank..."
 
 #: magicked_admin/server/game.py:30
 msgid "Mode: {}\n"
 "Map: {}\n"
 "Difficulty: {}\n"
 "Wave {}/{}"
-msgstr ""
+msgstr "Modus: {}\n"
+"Map: {}\n"
+"Schwierigkeit: {}\n"
+"Welle {}/{}"
 
 #: magicked_admin/server/game.py:70
 msgid "Title: {}\n"
@@ -987,34 +996,41 @@ msgid "Title: {}\n"
 "Plays survival_vs: {}\n"
 "Plays endless: {}\n"
 "Plays weekly: {}"
-msgstr ""
+msgstr "Titel: {}\n"
+"Spielt Überleben: {}\n"
+"Spielt Survival_vs: {}\n"
+"Spielt endlos: {}\n"
+"Spielt wöchentlich: {}"
 
 #: magicked_admin/server/game_tracker.py:55
 msgid "Game type ({}) support not installed, please patch your webadmin to correct this! Guidance is available at: {}"
-msgstr ""
+msgstr "Spieltyp ({}) Unterstützung nicht installiert, bitte patche deinen Webadmin, um dies zu korrigieren! Eine Anleitung ist verfügbar unter: {}"
 
 #: magicked_admin/server/player.py:38 magicked_admin/utils/net.py:59
 msgid "Unknown"
-msgstr ""
+msgstr "Unbekannt"
 
 #: magicked_admin/server/player.py:56
 msgid "Username: {}\n"
 "Country: {} ({})\n"
 "OP: {}\n"
 "Steam ID:{}"
-msgstr ""
+msgstr "Benutzername: {}\n"
+"Land: {} ({})\n"
+"OP: {}\n"
+"Steam-ID:{}"
 
 #: magicked_admin/server/server.py:77
 msgid "Flushing players on {}"
-msgstr ""
+msgstr "Leere Spieler auf {}"
 
 #: magicked_admin/server/server.py:82
 msgid "Writing game to database ({})"
-msgstr ""
+msgstr "Spiel in die Datenbank schreiben ({})"
 
 #: magicked_admin/server/server.py:173
 msgid "Player {} joined {} from {}"
-msgstr ""
+msgstr "Spieler {} trat bei {} aus {}"
 
 #: magicked_admin/server/server.py:190
 msgid "Player {} left {}"
