@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 14:36\n"
+"PO-Revision-Date: 2019-12-30 15:01\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -504,7 +504,8 @@ msgstr "{} ist die höchste Welle, die auf dieser Karte erreicht wurde"
 #: magicked_admin/chatbot/commands/info_commands.py:201
 msgid "Usage: !commands\n"
 "Desc: Lists all player commands"
-msgstr ""
+msgstr "Verwendung: !commands\n"
+"Beschreibung: Listet alle Spielerbefehle auf"
 
 #: magicked_admin/chatbot/commands/info_commands.py:211
 msgid "\n"
