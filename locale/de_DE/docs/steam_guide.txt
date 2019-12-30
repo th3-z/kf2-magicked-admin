@@ -268,15 +268,15 @@ Der Befehl '[b]!run[/b]' existiert, um das Ausführen von Skripten zu jeder Zeit
 
 Diese Skripte sind ähnlich wie das Init-Skript formatiert, die Befehle werden der Reihe nach von oben nach unten ausgeführt.
 
-[h1]Notable examples[/h1]
+[h1]Relevante Beispiele[/h1]
 
-Some commands are particularly useful when used in scripts, these are: '[b]!start_tc[/b]', '[b]!start_trc[/b]', '[b]!start_wc[/b]', '[b]!start_jc[/b]', '[b]!top_wave_kills[/b]', '[b]!top_wave_dosh[/b]', '[b]!enforce_dosh[/b]', '[b]!say[/b]'.
+Einige Befehle sind besonders nützlich, wenn sie in Skripten verwendet werden, diese sind: '[b]!start_tc[/b]', '[b]!start_trc[/b]', '[b]!start_wc[/b]', '[b]!start_jc[/b]', '[b]!top_wave_kills[/b]', '[b]!top_wave_dosh[/b]', '[b]!enforce_dosh[/b]', '[b]!say[/b]'.
 
 '[b]conf/scripts/server_one.init[/b]' - [i]Show who earned the most dosh each wave when the trader opens, and update the welcome screen leaderboard every 5 minutes[/i]
 [code] start_trc -- top_wave_dosh
  start_tc 300 -- update_motd dosh[/code]
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Advertise your Steam group when the boss wave is reached[/i]
+'[b]conf/scripts/server_one.init[/b]' - [i]Wirb für deine Steam-Gruppe, wenn die Boss-Welle erreicht ist[/i]
 [code] start_wc -w -1 -- say Join our steam group: http://our.steam/group[/code]
 
 '[b]conf/scripts/server_one.init[/b]' - [i]Provide basic bot usage guidance to players[/i]
