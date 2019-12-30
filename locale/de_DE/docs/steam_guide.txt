@@ -385,30 +385,30 @@ username = Admin
 password = 123
 [/code]
 
-You can do this for as many servers as you want.
+Du kannst dies für beliebig viele Server tun.
 
-## Renaming servers
-If you have a few servers, you might want to name them so you can easily identify them.
+## Server umbenennen
+Wenn du mehrere Server hast, solltest du diese vielleicht so benennen, dass du sie leichter identifizieren kannst.
 
-You first need to open '[b]conf/magicked_admin.conf[/b]' and here you can change '[b]server_one[/b]' to anything you want.
+Zuerst musst du '[b]conf/magicked_admin.conf[/b]' öffnen und hier kannst du '[b]server_one[/b]' nach Belieben ändern.
 
-You then need to go back and change '[b]server_one.motd[/b]' and '[b]server_one.init[/b]' to the name you just set it to in '[b]conf/magicked_admin.conf[/b]'.
+Du musst dann zurückgehen und '[b]server_one.motd[/b]' und '[b]server_one.init[/b]' auf den Namen ändern, den du gerade in '[b]conf/magicked_admin.conf[/b]' gesetzt hast.
 
-## Resetting stats
+## Statistiken zurücksetzen
 Um die Anzeigetafel zurückzusetzen, musst du nur die mit dem Servernamen verbundene Datei '[b]conf/*.sqlite[/b]' löschen, beim nächsten Start von KF2 Magicked Admin wird dann eine neue Datei erstellt.
 
-If I wanted to reset the stats on '[b]server_four[/b]', I would delete the '[b]conf/server_four.sqlite[/b]' file and restart KF2 Magicked Admin.
+Wenn ich die Statistiken auf '[b]server_four[/b]' zurücksetzen wollte, würde ich die Datei '[b]conf/server_four.sqlite[/b]' löschen und KF2 Magicked Admin neu starten.
 
-## Planned features
-[h1]Next release - 0.1.5[/h1]
-The following features are currently slated for the next release.
+## Geplante Funktionen
+[h1]Nächste Version - 0.1.5[/h1]
+Die folgenden Funktionen sind derzeit für die nächste Version geplant.
 [list]
-[*] Date/time commands, i.e. run a command at a specific time of day or date
-[*] Player session logging, logs SteamIDs and timestamps for player sessions to a file
-[*] `!restart` delay, a countdown before restarting the match
+[*] Datum/Uhrzeit-Befehle, z.B. einen Befehl zu einer bestimmten Tageszeit oder an einem bestimmten Datum ausführen
+[*] Player-Sitzungsprotokollierung, protokolliert SteamIDs und Zeitstempel für Playersitzungen in einer Datei
+[*] `!restart` Verzögerung, ein Countdown bevor das Match neu gestartet wird
 [/list]
 
-[h1]Future[/h1]
+[h1]Zukunft[/h1]
 [list]
 [*] Unterstützung von Community-Übersetzungen via Crowdin
 [/list]
