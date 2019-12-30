@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 18:57\n"
+"PO-Revision-Date: 2019-12-30 19:16\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -127,7 +127,7 @@ msgstr "Keiner läuft"
 
 #: magicked_admin/chatbot/command_scheduler.py:110
 msgid "Scheduled command ({}) ran directly by {}, please use CommandScheduler"
-msgstr ""
+msgstr "Geplanter Befehl ({}) wird direkt von {} ausgeführt, bitte verwende den CommandScheduler"
 
 #: magicked_admin/chatbot/motd_updater.py:21
 msgid "No MOTD file for {} found, pulling from web admin!"
@@ -345,7 +345,9 @@ msgstr "sb"
 msgid "Usage: !start_jc COMMAND\n"
 "\tCOMMAND - Command to run\n"
 "Desc: Runs a command when a player joins the match"
-msgstr ""
+msgstr "Verwendung: !start_jc BEFEHL\n"
+"\tBEFEHL - Befehl zum Ausführen\n"
+"Info: Führt einen Befehl aus, wenn ein Spieler dem Spiel beitritt"
 
 #: magicked_admin/chatbot/commands/event_commands.py:33
 #: magicked_admin/chatbot/commands/event_commands.py:99
@@ -395,7 +397,11 @@ msgid "Usage: !start_tc [-r -t] COMMAND\n"
 "\t-r --repeat - Optional, run repeatedly\n"
 "\t-t --time - Seconds before running\n"
 "Desc: Runs a command after some time delay"
-msgstr ""
+msgstr "Verwendung: !start_tc [-r -t] BEFEHL\n"
+"\tCOMMAND - Befehl zum Ausführen\n"
+"\t-r --repeat - Optional, wiederholt ausführen\n"
+"\t-t --time - Sekunden vor der Ausführung\n"
+"Info: Führt einen Befehl nach einer Zeitverzögerung aus"
 
 #: magicked_admin/chatbot/commands/event_commands.py:153
 msgid "Please specify a time interval, '!start_tc -h' for help"
@@ -664,7 +670,8 @@ msgstr "{}\t- {} Kills, £{}\n"
 #: magicked_admin/chatbot/commands/player_commands.py:253
 msgid "Usage: !top_wave_kills\n"
 "Desc: Shows who killed the most ZEDs in this wave"
-msgstr ""
+msgstr "Verwendung: !top_wave_kills\n"
+"Info: Zeigt, wer die meisten ZEDs in dieser Welle getötet hat"
 
 #: magicked_admin/chatbot/commands/player_commands.py:274
 msgid "Player {} killed the most ZEDs this wave: {}"
@@ -769,25 +776,29 @@ msgstr "Überleben Gewinne: {} \n"
 msgid "Usage: !enforce_dosh AMOUNT\n"
 "\tAMOUNT - Kicks players over this amount\n"
 "Desc: Kicks players with more dosh than the amount specified"
-msgstr ""
+msgstr "Verwendung: !enforce_dosh MENGE\n"
+"\tMENGE - Kickt Spieler über diesen Betrag\n"
+"Info: Kickt Spieler mit mehr als der angegebenen Menge an Dosh"
 
 #: magicked_admin/chatbot/commands/server_commands.py:223
 msgid "Please specify a maximum amount of dosh"
-msgstr ""
+msgstr "Bitte gib eine maximale Menge an Dosh an"
 
 #: magicked_admin/chatbot/commands/server_commands.py:230
 msgid "'{}' is not a valid number"
-msgstr ""
+msgstr "'{}' ist keine gültige Zahl"
 
 #: magicked_admin/chatbot/commands/server_commands.py:244
 msgid "Usage: !kick USERNAME\n"
 "\tUSERNAME - Player to kick\n"
 "Desc: Kicks a player from the match"
-msgstr ""
+msgstr "Verwendung: !kick BENUTZERNAME\n"
+"\tBENUTZERNAME - Spieler der gekickt werden soll\n"
+"Info: Kickt einen Spieler aus dem Spiel"
 
 #: magicked_admin/chatbot/commands/server_commands.py:267
 msgid "Player, {}, was kicked"
-msgstr ""
+msgstr "Spieler, {}, wurde gekicked"
 
 #: magicked_admin/chatbot/commands/server_commands.py:278
 msgid "Usage: !update_motd TYPE\n"
@@ -799,20 +810,21 @@ msgstr "Verwendung: !update_motd TYP\n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:290
 msgid "Missing argument: type"
-msgstr ""
+msgstr "Fehlendes Argument: Typ"
 
 #: magicked_admin/chatbot/commands/server_commands.py:294
 msgid "Unrecognised score type: {}"
-msgstr ""
+msgstr "Unbekannter Punkte-Typ: {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:300
 msgid "Updated the MOTD"
-msgstr ""
+msgstr "MOTD aktualisiert"
 
 #: magicked_admin/chatbot/commands/server_commands.py:310
 msgid "Usage: !reload_motd\n"
 "Desc: Reload the server's *.motd file"
-msgstr ""
+msgstr "Verwendung: !reload_motd\n"
+"Info: Lädt die *.motd-Datei des Servers neu"
 
 #: magicked_admin/chatbot/commands/server_commands.py:323
 msgid "Reloaded the MOTD"
@@ -822,11 +834,13 @@ msgstr "MOTD neu geladen"
 msgid "Usage: !run FILE\n"
 "\tFILE - Some file in 'conf/scripts'\n"
 "Desc: Runs a script"
-msgstr ""
+msgstr "Verwendung: !run DATEI\n"
+"\tDATEI - Eine Datei in 'conf/scripts'\n"
+"Info: Führt ein Skript aus"
 
 #: magicked_admin/chatbot/commands/server_commands.py:347
 msgid "No script was specified"
-msgstr ""
+msgstr "Es wurde kein Skript angegeben"
 
 #: magicked_admin/chatbot/commands/server_commands.py:352
 msgid "Script not found"
@@ -835,7 +849,8 @@ msgstr "Skript nicht gefunden"
 #: magicked_admin/chatbot/commands/server_commands.py:361
 msgid "Usage: !restart\n"
 "Desc: Restarts the match"
-msgstr ""
+msgstr "Verwendung: !restart\n"
+"Info: Startet das Spiel neu"
 
 #: magicked_admin/chatbot/commands/server_commands.py:372
 msgid "Restarting map..."
@@ -845,26 +860,31 @@ msgstr "Map Neustart..."
 msgid "Usage: !load_map MAP_NAME\n"
 "\tMAP_NAME - Map to load\n"
 "Desc: Immediately changes the map."
-msgstr ""
+msgstr "Verwendung: !load_map MAP_NAME\n"
+"\tMAP_NAME - Zu ladende Map\n"
+"Info: Wechselt sofort die Map."
 
 #: magicked_admin/chatbot/commands/server_commands.py:392
 msgid "Missing argument (map name)"
-msgstr ""
+msgstr "Fehlendes Argument (Mapname)"
 
 #: magicked_admin/chatbot/commands/server_commands.py:395
 msgid "Changing map"
-msgstr ""
+msgstr "Wechsle Map"
 
 #: magicked_admin/chatbot/commands/server_commands.py:402
 msgid "Usage: !password [--set] STATE\n"
 "\tSTATE - On, off, or new password\n"
 "\t-s --set - Set a new password\n"
 "Desc: Enables or disables the game password configured in 'conf/magicked_admin.conf', state can be on, off, or a new password."
-msgstr ""
+msgstr "Verwendung: !password [--set] ZUSTAND\n"
+"\tZUSTAND - Ein, Aus oder neues Passwort\n"
+"\t-s --set - Setzt ein neues Passwort\n"
+"Info: Aktiviert oder deaktiviert das in 'conf/magicked_admin.conf' konfigurierte Spielpasswort, der Status kann an, aus oder ein neues Passwort sein."
 
 #: magicked_admin/chatbot/commands/server_commands.py:421
 msgid "Game password is currently {}"
-msgstr ""
+msgstr "Das Spiel-Passwort lautet derzeit {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:422
 msgid "enabled"
@@ -876,15 +896,15 @@ msgstr "deaktiviert"
 
 #: magicked_admin/chatbot/commands/server_commands.py:433
 msgid "Game password enabled"
-msgstr ""
+msgstr "Spiel-Passwort aktiviert"
 
 #: magicked_admin/chatbot/commands/server_commands.py:437
 msgid "Game password disabled"
-msgstr ""
+msgstr "Spiel-Passwort deaktiviert"
 
 #: magicked_admin/chatbot/commands/server_commands.py:440
 msgid "Unrecognised option {}"
-msgstr ""
+msgstr "Nicht erkannte Option {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:450
 msgid "Usage: !silent [--quiet]\n"
