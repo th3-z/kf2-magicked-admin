@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 18:26\n"
+"PO-Revision-Date: 2019-12-30 18:43\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -547,7 +547,9 @@ msgstr "\n"
 msgid "Usage: !stats USERNAME\n"
 "\tUSERNAME - Person to get stats for\n"
 "Desc: Shows statistics about a player, username can be omitted to get personal stats"
-msgstr ""
+msgstr "Verwendung: !stats BENUTZERNAME\n"
+"\tBENUTZERNAME - Person, für die man Statistiken erhalten möchte\n"
+"Beschreibung: Zeigt Statistiken über einen Spieler, der Benutzername kann weggelassen werden, um persönliche Statistiken zu erhalten"
 
 #: magicked_admin/chatbot/commands/info_commands.py:273
 msgid "Stats for {}:\n"
@@ -556,12 +558,18 @@ msgid "Stats for {}:\n"
 "Total kills: {} (rank #{}) \n"
 "Total dosh earned: £{} (rank #{})\n"
 "Dosh this game: {}"
-msgstr ""
+msgstr "Statistik für {}:\n"
+"Gesamte Spielzeit: {} ({} Sitzungen)\n"
+"Tode total: {}\n"
+"Kills total: {} (Rang #{}) \n"
+"Verdientes Dosh gesamt: £{} (Rang #{})\n"
+"Dosh in diesem Spiel: {}"
 
 #: magicked_admin/chatbot/commands/player_commands.py:14
 msgid "Usage: !server_dosh\n"
 "Desc: Shows total dosh earned on this server"
-msgstr ""
+msgstr "Verwendung: !server_dosh\n"
+"Beschreibung: Zeigt das gesamte auf diesem Server verdiente Dosh an"
 
 #: magicked_admin/chatbot/commands/player_commands.py:27
 msgid "£{} has been earned on this server"
@@ -582,7 +590,7 @@ msgid "Usage: !kills USERNAME\n"
 "\tUSERNAME - User to get kill stats for\n"
 "Desc: Shows kill statistics for a player, username can be omitted to get personal stats"
 msgstr "Verwendung: !kills BENUTZERNAME\n"
-"\tBENUTZERNAME - Kill-Statistiken des Benutzers\n"
+"\tBENUTZERNAME - Kill-Statistiken dieses Benutzers\n"
 "Beschreibung: Zeigt die Kill-Statistik für einen Spieler an, der Benutzername kann weggelassen werden, um persönliche Statistiken zu erhalten"
 
 #: magicked_admin/chatbot/commands/player_commands.py:78
@@ -598,21 +606,22 @@ msgid "Usage: !dosh USERNAME\n"
 "\tUSERNAME - User to get dosh stats for\n"
 "Desc: Shows dosh statistics for a player, username can be omitted to get personal stats"
 msgstr "Verwendung: !dosh BENUTZERNAME\n"
-"\tBENUTZERNAME - Dosh-Statistiken für diesen Benutzer \n"
+"\tBENUTZERNAME - Dosh-Statistiken für dieses Benutzers\n"
 "Beschreibung: Zeigt die Dosh-Statistik für einen Spieler, der Benutzername kann weggelassen werden, um persönliche Statistiken zu erhalten"
 
 #: magicked_admin/chatbot/commands/player_commands.py:115
 msgid "Player not in game"
-msgstr ""
+msgstr "Spieler nicht im Spiel"
 
 #: magicked_admin/chatbot/commands/player_commands.py:119
 msgid "You've earned a total of £{} dosh (#{}), and £{} this game"
-msgstr ""
+msgstr "Du hast insgesamt £{} Dosh (#{}) verdient, und £{} in diesem Spiel"
 
 #: magicked_admin/chatbot/commands/player_commands.py:134
 msgid "Usage: !top_kills\n"
 "Desc: Show the global kills leaderboard"
-msgstr ""
+msgstr "Verwendung: !top_kills\n"
+"Beschreibung: Zeigt die globale Kill-Rangliste"
 
 #: magicked_admin/chatbot/commands/player_commands.py:147
 msgid "Top 5 players by total kills:\n"
@@ -621,16 +630,18 @@ msgstr "Top 5 Spieler nach insgesamt Kills:\n"
 #: magicked_admin/chatbot/commands/player_commands.py:163
 msgid "Usage: !top_dosh\n"
 "Desc: Shows the global dosh leaderboard"
-msgstr ""
+msgstr "Verwendung: !top_dosh\n"
+"Beschreibung: Zeigt die globale Dosh-Rangliste"
 
 #: magicked_admin/chatbot/commands/player_commands.py:176
 msgid "Top 5 players by Dosh earned:\n"
-msgstr ""
+msgstr "Top 5 Spieler nach verdientem Dosh:\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:192
 msgid "Usage: !top_time\n"
 "Desc: Shows the global play time leaderboard"
-msgstr ""
+msgstr "Verwendung: !top_time\n"
+"Beschreibung: Zeigt die globale Spielzeit-Rangliste"
 
 #: magicked_admin/chatbot/commands/player_commands.py:205
 msgid "Top 5 players by play time:\n"
@@ -639,7 +650,8 @@ msgstr "Top 5 Spieler nach Spielzeit:\n"
 #: magicked_admin/chatbot/commands/player_commands.py:221
 msgid "Usage: !scoreboard\n"
 "Desc: Shows full player scoreboard"
-msgstr ""
+msgstr "Verwendung: !scoreboard\n"
+"Beschreibung: Zeigt das komplette Spieler-Scoreboard"
 
 #: magicked_admin/chatbot/commands/player_commands.py:231
 msgid "Scoreboard (name, kills, dosh):\n"
