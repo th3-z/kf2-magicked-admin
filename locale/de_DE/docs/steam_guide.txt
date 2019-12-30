@@ -325,10 +325,10 @@ Im Folgenden wird das gleiche Setup behandelt wie in der offiziellen Tripwire-Do
 Öffnen die '[b]KFWebAdmin.ini[/b]' in deinem bevorzugten Editor, füge folgendes unter der Sektion '[b][WebAdmin.WebAdmin][/b]' hinzu und speichere die Datei.
 [code]AuthenticationClass=WebAdmin.MultiWebAdminAuth[/code]
 
-[*]Now open your web admin panel and there should be a new '[b]Administrators[/b]' section in the sidebar.
+Öffne nun dein Web-Admin-Panel und es sollte ein neuer '[b]Administrators[/b]'-Abschnitt in der Sidebar vorhanden sein.
 [previewicon=11679370;sizeThumb,inline;chrome_2018-03-08_23-53-58.png][/previewicon]
 
-[*]Click '[b]Administrators[/b]' and select '[b]Create Administrator[/b]'. Enter a name for the Chatbot (This is the name you will use to sign in with). Click OK.
+[*]Klicke auf '[b]Administrators[/b]' und wähle '[b]Create Administrator[/b]'. Enter a name for the Chatbot (This is the name you will use to sign in with). Click OK.
 
 [*]Give it a '[b]Display Name[/b]', '[b]Password[/b]', and enable the account (the display name is what players will see in chat).
 [previewicon=11679547;sizeThumb,inline;chrome_2018-03-09_00-16-09.png][/previewicon]
