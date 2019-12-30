@@ -201,16 +201,16 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!run <script_name>[/b]' - Führt ein Skript aus dem Ordner 'conf/scripts' aus, weitere Informationen im Abschnitt Skripte
     - Beispiel: '[b]!run Beispiel[/b]'
 
-[*] '[b]!marquee <marquee_name>[/b]' - Runs a marquee in the chat from the '[b]conf/marquee[/b]' folder, [i]experimental[/i]
-    - Example: '[b]!marquee example[/b]'
+[*] '[b]!marquee <marquee_name>[/b]' - Führt eine Laufschrift im Chat aus dem Ordner '[b]conf/marquee[/b]' aus, [i]experimentell[/i]
+    - Beispiel: '[b]!marquee Beispiel[/b]'
 
-[*] '[b]!enforce_dosh <amount>[/b]' - Kicks all players that have more dosh than the specified amount.
-    - Example: '[b]!start_tc 600 -- enforce_dosh 60000[/b]'
+[*] '[b]!enforce_dosh <Menge>[/b]' - Kickt alle Spieler, die mehr Dosh als die angegebene Menge haben.
+    - Beispiel: '[b]!start_tc 600 -- enforce_dosh 60000[/b]''
 
-[*] '[b]!update_motd <type>[/b]' - Refreshes the welcome screen leaderboard, type is one of: kills, dosh, or time
-    - Example: '[b]!start_tc 300 -- update_motd kills[/b]'
+[*] '[b]!update_motd <type>[/b]' - Aktualisiert die Rangliste des Begrüßungsbildschirms, Typ ist einer von: kills, dosh oder time
+    - Beispiel: '[b]!start_tc 300 -- update_motd kills[/b]'
 
-[*] '[b]!reload_motd[/b]' - Reloads the server's '[b]*.motd[/b]' file from '[b]conf[/b]'
+[*] '[b]!reload_motd[/b]' - Lädt erneut die '[b]*.motd[/b]'-Datei des Servers aus der '[b]conf[/b]'
 [/list]
 
 ## Welcome screen leaderboards
