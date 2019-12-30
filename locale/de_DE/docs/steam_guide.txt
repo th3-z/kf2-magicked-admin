@@ -213,13 +213,13 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!reload_motd[/b]' - Lädt erneut die '[b]*.motd[/b]'-Datei des Servers aus der '[b]conf[/b]'
 [/list]
 
-## Welcome screen leaderboards
-Writing a '[b]conf/server_name.motd[/b]' file containing pairs of '[b]%PLR[/b]' and '[b]%SCR[/b]' will allow you to render live leaderboard on the welcome screen.
+## Begrüßungsbildschirm-Ranglisten
+Das Schreiben einer '[b]conf/server_name.motd[/b]'-Datei, die Paare von '[b]%PLR[/b]' und '[b]%SCR[/b]' enthält, ermöglicht es dir, die Live-Rangliste auf dem Willkommensbildschirm zu rendern.
 
-A simple example could be as follows.
-[code]Welcome to our server.
+Ein einfaches Beispiel könnte wie folgt aussehen.
+[code]Willkommen auf unserem Server.
 
-%SRV_K Zeds killed on this server.
+%SRV_K Zeds auf diesem Server getötet.
 
 Top-Spieler (Total Kills):
 1. %PLR [%SCR]		2. %PLR [%SCR]		3. %PLR [%SCR] 
@@ -250,7 +250,7 @@ Hier ist mein Überlebens-Selbstmord-Begrüßungsbildschirm als ein Beispiel daf
 ## Skripte
 KF2 Magicked Admin hat eine rudimentäre Skript-Unterstützung, die benutzt werden kann, um Befehle in einer einzigen Aktion zu verketten.
 
-There are two categories of scripts, they differ in when and how they are executed.
+Es gibt zwei Kategorien von Skripten, sie unterscheiden sich darin, wann und wie sie ausgeführt werden.
 
 [list]
 [*] Kommentare können in Skripte eingefügt werden, indem der Zeile '[b];[/b]' vorangestellt wird
