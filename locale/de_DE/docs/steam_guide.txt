@@ -308,21 +308,21 @@ Die folgenden Optionen können in der Konfigurationsdatei '[b]conf/magicked_admi
 [*] '[b]password[/b]' - Webadmin-Passwort, das zu dem obigen Benutzernamen passt.
     - Beispiel: '[b]password=123[/b]'
 
-[*] '[b]game_password[/b]' - Default game password to set when the password is toggled using '[b]!password <on|off>[/b]'.
-    - Example: '[b]game_password=Hunter69[/b]'
+[*] '[b]game_password[/b]' - Standardpasswort für das Spiel, wenn das Passwort mit '[b]!password <on|off>[/b]' umgeschaltet wird.
+    - Beispiel: '[b]game_password=Hunter69[/b]'
 
 [/list]
 
-## Renaming the chatbot (multi-admin)
-To rename your chatbot to something other than 'Admin' your server must be configured for multi-admin. 
+## Umbenennen des Chatbots (Multi-Admin)
+Um deinen Chatbot in etwas anderes als 'Admin' umzubenennen, muss dein Server für Multi-Admin konfiguriert sein. 
 
-If your server already has multi-admin support all you need to do is create an account with the desired name and change the account credentials in '[b]conf/magicked_admin.conf[/b]'
+Wenn deinServer bereits Multi-Admin-Unterstützung bietet, musst du lediglich ein Konto mit dem gewünschten Namen erstellen und die Zugangsdaten in '[b]conf/magicked_admin.conf[/b]' ändern
 
-The following covers the same setup as the official Tripwire documentation on this topic, which is available [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)#Setting_up_multiple_web_admins]here[/url].
+Im Folgenden wird das gleiche Setup behandelt wie in der offiziellen Tripwire-Dokumentation zu diesem Thema, die hier [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)#Setting_up_multiple_web_admins]here[/url] verfügbar ist.
 [olist]
-[*]Go to your server's config folder. '[b]KF2-Server\KFGame\Config\Config[/b]'.
+[*] Gehe zum Konfigurationsordner deines Servers. '[b]KF2-Server\KFGame\Config\Config[/b]'.
 
-[*]Open '[b]KFWebAdmin.ini[/b]' in your favourite editor, add the following under the '[b][WebAdmin.WebAdmin][/b]' section, and save the file.
+Öffnen die '[b]KFWebAdmin.ini[/b]' in deinem bevorzugten Editor, füge folgendes unter der Sektion '[b][WebAdmin.WebAdmin][/b]' hinzu und speichere die Datei.
 [code]AuthenticationClass=WebAdmin.MultiWebAdminAuth[/code]
 
 [*]Now open your web admin panel and there should be a new '[b]Administrators[/b]' section in the sidebar.
