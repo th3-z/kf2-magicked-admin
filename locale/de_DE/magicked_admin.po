@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 19:31\n"
+"PO-Revision-Date: 2019-12-30 19:41\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -1034,49 +1034,50 @@ msgstr "Spieler {} trat bei {} aus {}"
 
 #: magicked_admin/server/server.py:190
 msgid "Player {} left {}"
-msgstr ""
+msgstr "Spieler {} verlässt {}"
 
 #: magicked_admin/server/server.py:203
 msgid "Player {} died on {}"
-msgstr ""
+msgstr "Spieler {} starb auf {}"
 
 #: magicked_admin/server/server.py:207
 msgid "New game on {}, map: {}, mode: {}"
-msgstr ""
+msgstr "Neues Spiel auf {}, Map: {}, Modus: {}"
 
 #: magicked_admin/server/server.py:224
 msgid "Unknown game_type {}"
-msgstr ""
+msgstr "Unbekannter Spieltyp {}"
 
 #: magicked_admin/server/server.py:231
 msgid "End game on {}, map: {}, mode: {}, victory: {}"
-msgstr ""
+msgstr "Endspiel auf {}, Map: {}, Modus: {}, Sieg: {}"
 
 #: magicked_admin/utils/__init__.py:102
 msgid "\n"
 "Press enter to exit..."
-msgstr ""
+msgstr "\n"
+"Drücke die Eingabetaste zum Verlassen..."
 
 #: magicked_admin/web_admin/web_admin.py:86
 msgid "Tried to toggle game password before setting value"
-msgstr ""
+msgstr "Versuch, das Spielpasswort vor dem Setzen des Wertes zu ändern"
 
 #: magicked_admin/web_admin/web_admin.py:362
 msgid "Couldn't find identify player: {}"
-msgstr ""
+msgstr "Konnte den Spieler nicht identifizieren: {}"
 
 #: magicked_admin/web_admin/web_interface.py:15
 msgid "Connecting to {} ({})..."
-msgstr ""
+msgstr "Verbinde mit {} ({})..."
 
 #: magicked_admin/web_admin/web_interface.py:47
 msgid "Connected to {} ({})"
-msgstr ""
+msgstr "Verbunden mit {} ({})"
 
 #: magicked_admin/web_admin/web_interface.py:62
 #: magicked_admin/web_admin/web_interface.py:101
 msgid "Session killed, renewing!"
-msgstr ""
+msgstr "Sitzung beendet, erneuert sich!"
 
 #: magicked_admin/web_admin/web_interface.py:124
 msgid "Web admin not responding, sleeping"
