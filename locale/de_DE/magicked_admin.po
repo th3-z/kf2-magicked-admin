@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 18:43\n"
+"PO-Revision-Date: 2019-12-30 18:57\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -335,7 +335,7 @@ msgstr "player_count"
 
 #: magicked_admin/chatbot/commands/command_map.py:61
 msgid "scoreboard"
-msgstr "scoreboard"
+msgstr "Punktetafel"
 
 #: magicked_admin/chatbot/commands/command_map.py:62
 msgid "sb"
@@ -651,15 +651,15 @@ msgstr "Top 5 Spieler nach Spielzeit:\n"
 msgid "Usage: !scoreboard\n"
 "Desc: Shows full player scoreboard"
 msgstr "Verwendung: !scoreboard\n"
-"Beschreibung: Zeigt das komplette Spieler-Scoreboard"
+"Beschreibung: Zeigt die komplette Spieler-Punktetafel"
 
 #: magicked_admin/chatbot/commands/player_commands.py:231
 msgid "Scoreboard (name, kills, dosh):\n"
-msgstr ""
+msgstr "Punktetafel (Name, Kills, Dosh):\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:242
 msgid "{}\t- {} Kills, £{}\n"
-msgstr ""
+msgstr "{}\t- {} Kills, £{}\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:253
 msgid "Usage: !top_wave_kills\n"
@@ -668,29 +668,32 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/player_commands.py:274
 msgid "Player {} killed the most ZEDs this wave: {}"
-msgstr ""
+msgstr "Spieler {} hat die meisten ZEDs in dieser Welle getötet: {}"
 
 #: magicked_admin/chatbot/commands/player_commands.py:285
 msgid "Usage: !top_wave_dosh\n"
 "Desc: Shows who earned the most dosh this wave"
-msgstr ""
+msgstr "Verwendung: !top_wave_dosh\n"
+"Beschreibung: Zeigt, wer bei dieser Welle am meisten Kohle verdient hat"
 
 #: magicked_admin/chatbot/commands/player_commands.py:305
 msgid "Player {} earned the most Dosh this wave: £{}"
-msgstr ""
+msgstr "Der Spieler {} hat das meiste Dosh in dieser Welle verdient: £{}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:17
 msgid "Usage: !ban USERNAME\n"
 "\tUSERNAME - Player to ban\n"
 "Desc: Bans a player from the server"
-msgstr ""
+msgstr "Verwendung: !ban BENUTZERNAME\n"
+"\tBENUTZERNAME - Spieler der gebannt werden soll\n"
+"Info: Bannt einen Spieler vom Server"
 
 #: magicked_admin/chatbot/commands/server_commands.py:32
 #: magicked_admin/chatbot/commands/server_commands.py:89
 #: magicked_admin/chatbot/commands/server_commands.py:125
 #: magicked_admin/chatbot/commands/server_commands.py:259
 msgid "Missing argument, username or Steam ID"
-msgstr ""
+msgstr "Fehlendes Argument, Benutzername oder Steam-ID"
 
 #: magicked_admin/chatbot/commands/server_commands.py:37
 #: magicked_admin/chatbot/commands/server_commands.py:264
@@ -713,7 +716,9 @@ msgstr "Benutzung: !say NACHRICHT\n"
 msgid "Usage: !op USERNAME\n"
 "\tUSERNAME - Player to give operator status\n"
 "Desc: Allows a player to use admin commands"
-msgstr ""
+msgstr "Verwendung: !op BENUTZERNAME\n"
+"\tBENUTZERNAME - Spieler, der den Operatorstatus verliehen bekommen soll\n"
+"Info: Erlaubt einem Spieler die Verwendung von Admin-Kommandos"
 
 #: magicked_admin/chatbot/commands/server_commands.py:94
 #: magicked_admin/chatbot/commands/server_commands.py:130
@@ -740,23 +745,25 @@ msgstr "Deoped {}"
 msgid "Usage: !maps [--all]\n"
 "\t-a --all - Show all available maps\n"
 "Desc: Shows maps that are in the map cycle"
-msgstr ""
+msgstr "Verwendung: !maps [--all]\n"
+"\t-a --all - Zeigt alle verfügbaren Karten\n"
+"Info: Zeigt Maps, die sich im Mapzyklus befinden"
 
 #: magicked_admin/chatbot/commands/server_commands.py:196
 msgid "Stats for {}:\n"
-msgstr ""
+msgstr "Statistiken für {}:\n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:197
 msgid "Total plays: {} \n"
-msgstr ""
+msgstr "Spiele gesamt: {} \n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:198
 msgid "Record wave: {} \n"
-msgstr ""
+msgstr "Rekordwelle: {} \n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:199
 msgid "Survival wins: {} \n"
-msgstr ""
+msgstr "Überleben Gewinne: {} \n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:208
 msgid "Usage: !enforce_dosh AMOUNT\n"
@@ -786,7 +793,9 @@ msgstr ""
 msgid "Usage: !update_motd TYPE\n"
 "\tTYPE - Score type, one of: kills, dosh, time\n"
 "Desc: Updates the MOTD scoreboard"
-msgstr ""
+msgstr "Verwendung: !update_motd TYP\n"
+"\tTYP - Anzeigetafel-Typ: Kills, Dosh oder Time\n"
+"Beschreibung: Aktualisiert die MOTD-Punktetafel"
 
 #: magicked_admin/chatbot/commands/server_commands.py:290
 msgid "Missing argument: type"
