@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 19:41\n"
+"PO-Revision-Date: 2019-12-30 19:51\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -1081,21 +1081,21 @@ msgstr "Sitzung beendet, erneuert sich!"
 
 #: magicked_admin/web_admin/web_interface.py:124
 msgid "Web admin not responding, sleeping"
-msgstr ""
+msgstr "Webadministrator reagiert nicht, schlafend"
 
 #: magicked_admin/web_admin/web_interface.py:129
 msgid "Web admin is back, resuming"
-msgstr ""
+msgstr "Web-Admin ist zurück und wird fortgeführt"
 
 #: magicked_admin/web_admin/web_interface.py:165
 msgid "Login failure, bad credentials or login attempts exceeded."
-msgstr ""
+msgstr "Anmeldung fehlgeschlagen, falsche Anmeldedaten oder Anmeldeversuche überschritten."
 
 #: magicked_admin/web_admin/web_interface.py:170
 msgid "Detected KF2-MA install on server."
-msgstr ""
+msgstr "Erkannte KF2-MA Installation auf dem Server."
 
 #: magicked_admin/web_admin/web_interface.py:172
 msgid "KF2-MA install not detected on server side! Consequently, only Survival mode will function fully."
-msgstr ""
+msgstr "KF2-MA Installation auf der Serverseite nicht erkannt! Folglich wird nur der Survival-Modus vollständig funktionieren."
 
