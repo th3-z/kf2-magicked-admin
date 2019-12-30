@@ -354,23 +354,23 @@ Um dieses Programm zu verwenden, müssen deine Serverdateien in '[b]KF2Server/KF
 
 [h1]Benutzung (GUI/Desktop)[/h1]
 [olist]
-[*] Run the executable
-[*] Open the location where your server is installed in the destination selection window
-[*] Click '[b]open[/b]'
+[*] Starte die ausführbare Datei
+[*] Öffne im Zielauswahlfenster den Ort, an dem dein Server installiert ist
+[*] Klicke '[b]open[/b]'
 [/olist]
 
-[h1]Usage (Headless/Server)[/h1]
-[*] Run the executable with a target flag, e.g. '[b]./magicked_admin.exe --target /path/to/kf2/server[/b]'
-[*] Check the console window for any issues
+[h1]Nutzung (Headless/Server)[/h1]
+[*] Führe die ausführbare Datei mit einem Zielflag aus, z.B. '[b]./magicked_admin.exe --target /pfad/zu/kf2/server[/b]'
+[*] Überprüfe das Konsolenfenster auf Probleme
 
-## Configuring multiple servers
-KF2 Magicked Admin can work with any amount of servers you run.
+## Konfigurieren mehrerer Server
+KF2 Magicked Admin kann mit einer beliebigen Anzahl von Servern arbeiten, die du betreibst.
 
-To configure more servers, find '[b]conf/magicked_admin.conf[/b]', and open it in your favourite editor.
+Um weitere Server zu konfigurieren, suche die '[b]conf/magicked_admin.conf[/b]' und öffne sie in deinem bevorzugten Editor.
 
-Copy the whole '[b][server_one][/b]' section, and paste it at the end of the file. Update the '[b]address[/b]', '[b]username[/b]', and '[b]password[/b]' options.
+Kopiere den gesamten Abschnitt '[b][server_one][/b]' und fügen ihn am Ende der Datei ein. Aktualisiere die Optionen '[b]address[/b]', '[b]username[/b]' und '[b]password[/b]'.
 
-Below is an example.
+Nachfolgend ein Beispiel.
 [code]
 [server_one]
 game_password = 123
