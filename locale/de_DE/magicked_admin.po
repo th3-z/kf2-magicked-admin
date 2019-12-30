@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 16:42\n"
+"PO-Revision-Date: 2019-12-30 18:26\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -581,21 +581,25 @@ msgstr "{} ZEDs wurden auf diesem Server getötet"
 msgid "Usage: !kills USERNAME\n"
 "\tUSERNAME - User to get kill stats for\n"
 "Desc: Shows kill statistics for a player, username can be omitted to get personal stats"
-msgstr ""
+msgstr "Verwendung: !kills BENUTZERNAME\n"
+"\tBENUTZERNAME - Kill-Statistiken des Benutzers\n"
+"Beschreibung: Zeigt die Kill-Statistik für einen Spieler an, der Benutzername kann weggelassen werden, um persönliche Statistiken zu erhalten"
 
 #: magicked_admin/chatbot/commands/player_commands.py:78
 msgid "Player {} not in game"
-msgstr ""
+msgstr "Spieler {} nicht im Spiel"
 
 #: magicked_admin/chatbot/commands/player_commands.py:83
 msgid "You've killed a total of {} ZEDs (#{}), and {} this game"
-msgstr ""
+msgstr "Du hast insgesamt {} ZEDs (#{}) getötet, und {} in diesem Spiel"
 
 #: magicked_admin/chatbot/commands/player_commands.py:97
 msgid "Usage: !dosh USERNAME\n"
 "\tUSERNAME - User to get dosh stats for\n"
 "Desc: Shows dosh statistics for a player, username can be omitted to get personal stats"
-msgstr ""
+msgstr "Verwendung: !dosh BENUTZERNAME\n"
+"\tBENUTZERNAME - Dosh-Statistiken für diesen Benutzer \n"
+"Beschreibung: Zeigt die Dosh-Statistik für einen Spieler, der Benutzername kann weggelassen werden, um persönliche Statistiken zu erhalten"
 
 #: magicked_admin/chatbot/commands/player_commands.py:115
 msgid "Player not in game"
