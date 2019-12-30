@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-12-30 14:16\n"
+"PO-Revision-Date: 2019-12-30 14:36\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -352,7 +352,7 @@ msgstr ""
 #: magicked_admin/chatbot/commands/event_commands.py:167
 #: magicked_admin/chatbot/commands/event_commands.py:223
 msgid "Please specify a command to run"
-msgstr ""
+msgstr "Bitte gib einen Befehl zum Ausführen an"
 
 #: magicked_admin/chatbot/commands/event_commands.py:42
 msgid "Player join command started"
@@ -361,14 +361,18 @@ msgstr "Spieler-Beitrittsbefehl gestartet"
 #: magicked_admin/chatbot/commands/event_commands.py:50
 msgid "Usage: !stop_jc\n"
 "Desc: Stops all join commands"
-msgstr ""
+msgstr "Verwendung: !stop_jc\n"
+"Beschreibung: Stoppt alle Join-Befehle"
 
 #: magicked_admin/chatbot/commands/event_commands.py:71
 msgid "Usage: !start_wc [--wave] COMMAND\n"
 "\t-w --wave - Optional, wave to run on\n"
 "\tCOMMAND - Command to run\n"
 "Desc: Run a command at the start of a wave, wave can be omitted top run on every wave"
-msgstr ""
+msgstr "Verwendung: !start_wc [--wave] BEFEHL\n"
+"\t-w --wave - Optional, für welche Welle\n"
+"\tBEFEHL - Befehl zum Ausführen\n"
+"Beschreibung: Befehl am Anfang einer Welle ausführen, Welle kann bei jeder Welle oben weggelassen werden"
 
 #: magicked_admin/chatbot/commands/event_commands.py:91
 #: magicked_admin/chatbot/commands/event_commands.py:231
@@ -399,16 +403,17 @@ msgstr "Bitte gib ein Zeitintervall an, '!start_tc -h' für Hilfe"
 
 #: magicked_admin/chatbot/commands/event_commands.py:161
 msgid "'{}' is not a valid time interval"
-msgstr ""
+msgstr "'{}' ist kein gültiges Zeitintervall"
 
 #: magicked_admin/chatbot/commands/event_commands.py:176
 msgid "Time interval command started"
-msgstr ""
+msgstr "Zeitintervall-Befehl gestartet"
 
 #: magicked_admin/chatbot/commands/event_commands.py:184
 msgid "Usage: !stop_tc\n"
 "Desc: Stops all timed commands"
-msgstr ""
+msgstr "Verwendung: !stop_tc\n"
+"Beschreibung: Stoppt alle zeitgesteuerten Befehle"
 
 #: magicked_admin/chatbot/commands/event_commands.py:205
 msgid "Usage: !start_trc [--wave] COMMAND\n"
@@ -489,11 +494,12 @@ msgstr "Verwendung: !game_time\n"
 #: magicked_admin/chatbot/commands/info_commands.py:180
 msgid "Usage: !record_wave\n"
 "Desc: Shows the highest wave reached on this map"
-msgstr ""
+msgstr "Verwendung: !record_wave\n"
+"Beschreibung: Zeigt die höchste erreichte Welle auf dieser Karte"
 
 #: magicked_admin/chatbot/commands/info_commands.py:191
 msgid "{} is the highest wave reached on this map"
-msgstr ""
+msgstr "{} ist die höchste Welle, die auf dieser Karte erreicht wurde"
 
 #: magicked_admin/chatbot/commands/info_commands.py:201
 msgid "Usage: !commands\n"
@@ -558,12 +564,13 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/player_commands.py:27
 msgid "£{} has been earned on this server"
-msgstr ""
+msgstr "£{} wurde auf diesem Server verdient"
 
 #: magicked_admin/chatbot/commands/player_commands.py:36
 msgid "Usage: !server_kills\n"
 "Desc: Shows total ZEDs killed on this server"
-msgstr ""
+msgstr "Verwendung: !server_kills\n"
+"Beschreibung: Zeigt die Gesamtzahl der getöteten ZEDs auf diesem Server an"
 
 #: magicked_admin/chatbot/commands/player_commands.py:49
 msgid "{} ZEDs have been killed on this server"
