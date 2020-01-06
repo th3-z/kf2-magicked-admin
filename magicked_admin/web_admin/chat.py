@@ -1,5 +1,6 @@
 import threading
 import time
+import sys
 
 from colorama import init
 from lxml import html
@@ -74,13 +75,13 @@ class Chat(threading.Thread):
                 + ": " + message.strip()
             if command:
                 print_line = colored(
-                    print_line, 'red' if internal else 'green'
+                    print_line.encode("utf-8").decode(sys.stdout.encoding), 'red' if internal else 'green'
                 )
             else:
                 print_line = colored(
-                    print_line, 'red' if internal else 'yellow'
+                    print_line.encode("utf-8").decode(sys.stdout.encoding), 'red' if internal else 'yellow'
                 )
-            print(print_line)
+            print(print_line.encode("utf-8").decode(sys.stdout.encoding))
 
         for listener in self.__listeners:
             listener.receive_message(username, message, user_flags)
