@@ -146,7 +146,7 @@ Comandos que pueden ser ejecutados por los administradores del servidor, y usuar
 
 [*] '[b]!ban <usuario>[/b]' - Banea a '<usuario>' del servidor
     - Ejemplo: '[b]!ban the_z[/b]'
-    - Advertencia: el administrador web tiene actualmente un error que causa que los bloqueos persistan después de eliminarse, por lo tanto no hay ningún comando de desbaneo
+    - Warning: The web admin currently has a bug that causes bans to persist after they are deleted, thus there is no unban command
 
 [*] '[b]!length <longitud>[/b]' - Cambia la longitud a '<longitud>' siguiente juego
     - Ejemplo: '[b]!length short[/b]' (oleadas)
@@ -202,7 +202,7 @@ Comandos que pueden ser ejecutados por los administradores del servidor, y usuar
     - Ejemplo: '[b]!run ejemplo[/b]'
 
 [*] '[b]!marquee <nombre marquee>[/b]' - Ejecuta un marquee en el chat de '[b]conf/marquee[/b]' carpeta, [i]experimental[/i]
-    - Example: '[b]!marquee ejemplo[/b]'
+    - Ejemplo: '[b]!marquee ejemplo[/b]'
 
 [*] '[b]!enforce_dosh <monto>[/b]' - Expulsa a todos los jugadores que tienen más dosh que la cantidad especificada.
     - Ejemplo: '[b]!start_tc 600 -- enforce_dosh 60000[/b]'
@@ -328,7 +328,7 @@ Lo siguiente cubre la misma configuración que la documentación oficial de Trip
 [*]Ahora abre tu panel de administración web y debería haber una nueva sección '[b]Administradors[/b]' en la barra lateral.
 [previewicon=11679370;sizeThumb,inline;chrome_2018-03-08_23-53-58.png][/previewicon]
 
-[*]Haga clic en '[b]Administradores[/b]' y seleccione '[b]Crear Administrador[/b]'. Introduzca un nombre para el Chatbot (Este es el nombre que usarás para iniciar sesión). Haga clic en "OK".
+[*]Haga clic en '[b]Administrators[/b]' y seleccione '[b]Create Administrators[/b]'. Introduzca un nombre para el Chatbot (Este es el nombre que usarás para iniciar sesión). Haga clic en "OK".
 
 [*]Dale un '[b]Nombre de pantalla[/b]', '[b]Contraseña[/b]', y habilite la cuenta (el nombre para mostrar es lo que los jugadores verán en el chat).
 [previewicon=11679547;sizeThumb,inline;chrome_2018-03-09_00-16-09.png][/previewicon]

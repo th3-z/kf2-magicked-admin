@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-05 19:33+0100\n"
-"PO-Revision-Date: 2019-12-29 18:46\n"
+"PO-Revision-Date: 2019-12-30 03:05\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: admin_patches/admin_patches.py:13
 msgid "Killing Floor 2 Admin Patches"
-msgstr ""
+msgstr "Killing Floor 2 Admin Patches"
 
 #: admin_patches/admin_patches.py:16
 msgid "Specify server location"
@@ -26,24 +26,25 @@ msgstr "Server-Standort angeben"
 
 #: admin_patches/admin_patches.py:29
 msgid "KFGame/Web/ServerAdmin/current_rules.inc"
-msgstr ""
+msgstr "KFGame/Web/ServerAdmin/current_rules.inc"
 
 #: admin_patches/admin_patches.py:39
 msgid "Select Killing Floor 2 server location"
-msgstr ""
+msgstr "Wähle den Killing Floor 2 Server Standort aus"
 
 #: admin_patches/admin_patches.py:47
 msgid "Please open your server's install folder in the file dialogue"
-msgstr ""
+msgstr "Bitte öffne den Installationsordner deines Servers im Dateidialog"
 
 #: admin_patches/admin_patches.py:52
 msgid "User cancelled installation"
-msgstr ""
+msgstr "Abbruch der Installation durch den User"
 
 #: admin_patches/admin_patches.py:54
 msgid "Killing Floor 2 server not found in path:\n"
 "\t{}"
-msgstr ""
+msgstr "Killing Floor 2 Server nicht gefunden im Pfad:\n"
+"\t{}"
 
 #: admin_patches/admin_patches.py:57
 msgid "Validating files..."
@@ -61,15 +62,15 @@ msgstr "Die Validierung der Serverdatei ist fehlgeschlagen, mögliche Gründe:\n
 
 #: admin_patches/admin_patches.py:65
 msgid "Patching files..."
-msgstr ""
+msgstr "Patche Dateien..."
 
 #: admin_patches/admin_patches.py:69
 msgid "Patching failed"
-msgstr ""
+msgstr "Patchen fehlgeschlagen"
 
 #: admin_patches/admin_patches.py:72
 msgid "Patches installed successfully!\n"
-msgstr ""
+msgstr "Patches erfolgreich installiert!\n"
 
 #: admin_patches/utils/__init__.py:18
 msgid "\n"
@@ -79,7 +80,7 @@ msgstr "\n"
 
 #: admin_patches/utils/patcher.py:40
 msgid "Applying {}"
-msgstr ""
+msgstr "Anwenden {}"
 
 #: admin_patches/utils/patcher.py:45
 msgid "Patch failed to apply successfully"

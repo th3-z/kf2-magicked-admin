@@ -1,6 +1,6 @@
 # KF2 Magicked Admin - Dedicated Server Tool [0.1.4]
 
-Gescriptete Verwaltung, Statistiken und ein Bot für gerankte Killing Floor 2 Server. Bietet In-Game-Befehle, Tracking von Spieler-Statistiken und -Ranking, Live-Begrüßungsbildschirm und -Statistiken, Begrüßungs- und Admin-Funktionen. Es läuft komplett über den Web-Admin und hat keinen Einfluss auf den Ranking/Custom-Status eines Servers. Es kann entweder direkt auf dem Server oder per Fernzugriff ausgeführt werden und mehrere Server gleichzeitig verwalten.
+Geskriptete Verwaltung, Statistiken und ein Bot für gerankte Killing Floor 2 Server. Bietet In-Game-Befehle, Tracking von Spieler-Statistiken und -Ranking, Live-Begrüßungsbildschirm und -Statistiken, Begrüßungs- und Admin-Funktionen. Läuft komplett über den Web-Admin und hat keinen Einfluss auf den Ranking/Custom-Status eines Servers. Es kann entweder direkt auf dem Server oder per Fernzugriff ausgeführt werden und mehrere Server gleichzeitig verwalten.
 [list]
 [*] Präsentiert Echtzeit-Ranglisten auf deinem Willkommensbildschirm und im Spiel-Chat
 [*]Zeichnet Spielerstatistiken auf, einschließlich: Kills, Dosh, Todesfällen und Spielzeit
@@ -67,7 +67,7 @@ Alle Befehle haben einen Hilfetext im Spiel, auf den man mit dem '[b]-h'[/b] Fla
 Alle Befehle haben auch die folgenden Flags.
 [list]
 [*] Option "[b]-q[/b]": Unterdrückt die Ausgabe
-[*] Option '[b]-p[/b]': Pads output to hide the username line
+[*] Option "[b]-p[/b]": Ausgabe zum Ausblenden der Benutzerzeile
 [/list]
 Zur Formatierung von Nachrichten stehen folgende Escape-Sequenzen zur Verfügung.
 [list]
@@ -141,236 +141,236 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 
 [*] '[b]!players[/b]' - Zeigt detaillierte Informationen über Spieler auf dem Server
 
-[*] '[b]!kick <user>[/b]' - Kicks '<user>' from the match
-    [b]-[/b] Example: '[b]!kick the_z[/b]'
+[*] '[b]!kick <user>[/b]' - kickt '<user>' aus dem Spiel
+    [b]-[/b] Beispiel: '[b]!kick the_z[/b]'
 
-[*] '[b]!ban <user>[/b]' - Bans '<user>' from the server
-    - Example: '[b]!ban the_z[/b]'
-    - Warnng: The web admin currently has a bug that causes bans to persist after they are deleted, thus there is no unban command
+[*] '[b]!ban <user>[/b]' - Bannt '<user>' vom Server
+    - Beispiel: '[b]!ban the_z[/b]'
+    - Warnung: Der Webadministrator hat derzeit einen Fehler, der dazu führt, dass Bans nach dem Löschen weiter bestehen bleiben, daher gibt es keinen UnBan-Befehl
 
-[*] '[b]!length <length>[/b]' - Change the length to '<length>' next game
-    - Example: '[b]!length short[/b]'
+[*] '[b]!length <length>[/b]' - Ändere die Länge auf '<length>' nächstes Spiel
+    - Beispiel: '[b]!length short[/b]'
 
-[*] '[b]!difficulty <difficulty>[/b]' - Change the difficulty to '<difficulty>' next game
-    - Example: '[b]!difficulty hell[/b]'
+[*] '[b]!difficulty <difficulty>[/b]' - Ändere die Schwierigkeit auf '<difficulty>' nächstes Spiel
+    - Beispiel: '[b]!difficulty hell[/b]'
 
-[*] '[b]!game_mode <game_mode>[/b]' - Immediately change the game mode to '<game_mode>'
-    - Example: '[b]!game_mode endless[/b]' Changes the game mode to Endless
+[*] '[b]!game_mode <game_mode>[/b]' - Sofortige Änderung des Spielmodus auf '<game_mode>'
+    - Beispiel: '[b]!game_mode endless[/b]' ändert den Spielmodus auf Endlos
 
 [*] '[b]!load_map <map>[/b]' - Sofortige Änderung der Karte auf '<map>'
     - Beispiel: '[b]!load_map biotics[/b]' Wechselt die Maps auf Biotics Lab
 
-[*] '[b]!restart[/b]' - Immediately restart the current game
+[*] '[b]!restart[/b]' - Sofortiger Neustart des aktuellen Spiels
 
 [*] '[b]!password [--set] <on|off>[/b]'
-    - Example: '[b]!password on[/b]' Enables the game password defined in the config
-    - Example: '[b]!password off[/b]' Disables the game password
-    - Example: '[b]!password --set superSekritPass[/b]' Sets a specific password
+    - Beispiel: '[b]!password on[/b]' Aktiviert das in der Konfiguration definierte Spielpasswort
+    - Beispiel: '[b]!password off[/b]' Deaktiviert das Spielpasswort
+    - Beispiel: '[b]!password --set superSekritPass[/b]' Setzt ein bestimmtes Passwort
 
-[*] '[b]!start_jc -- <command>[/b]' - Start a command that runs every time a player joins
-	- Example: '[b]!start_jc -- say Welcome %PLR[/b]' - Greets a player on join
-	- Available tokens: '[b]%PLR[/b]' - username, '[b]%KLL[/b]' - total kills, '[b]%DSH[/b]' - total dosh, '[b]%BCK[/b]' - "back" if sessions > 1, '[b]%DRK[/b]' - dosh rank, '[b]%KRK[/b]' - kill rank, '[b]%TME[/b]' - play time, '[b]%TRK[/b]' - play time rank, '[b]%SES[/b]' - sessions
+[*] '[b]!start_jc -- <command>[/b]' - Starte einen Befehl, der jedes Mal ausgeführt wird, wenn ein Spieler beitritt
+	- Beispiel: '[b]!start_jc -- say Willkommen %PLR[/b]' - Begrüßt einen Spieler beim Beitritt
+	- Verfügbare Token: '[b]%PLR[/b]' - Benutzername, '[b]%KLL[/b]' - Gesamtzahl der Kills, '[b]%DSH[/b]' - Gesamtzahl Dosh, '[b]%BCK[/b]' - "zurück", wenn Sitzungen > 1, '[b]%DRK[/b]' - Dosh-Rang, '[b]%KRK[/b]' - Kill-Rang, '[b]%TME[/b]' - Spielzeit, '[b]%TRK[/b]' - Spielzeit-Rang, '[b]%SES[/b]' - Sitzungen
 
-[*] '[b]!stop_jc[/b]' - Stops all join commands
+[*] '[b]!stop_jc[/b]' - Stoppt alle Join-Befehle
 
-[*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start a command that runs on wave '<wave>'
-    - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command
-    jede Welle ausführen
-    - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
-    - Example: '[b]!start_wc -1 -- say Welcome to the boss wave[/b]'
+[*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start eines Befehls, der auf Welle '<wave>' läuft
+    - Option "[b]-w[/b]": Wave zum Ausführen des Befehls, kann weggelassen werden, um den Befehl
+    bei jeder Welle ausführen zu lassen
+    - Option "[b]-w[/b]": Kann negativ sein, um von der Boss-Welle rückwärts zu zählen
+    - Beispiel: '[b]!start_wc -1 -- say Sie Willkommen bei der Boss-Wave[/b]'
 
-[*] '[b]!stop_wc[/b]' - Stops all wave commands
+[*] '[b]!stop_wc[/b]' - Stoppt alle Wave-Befehle
 
-[*] '[b]!start_tc [-r, -t <seconds>] -- <command>[/b]' - Start a command that runs after
-    '<seconds>' seconds
-    - Option '[b]-r[/b]': Add to have the command run repeatedly
-    - Option '[b]-t[/b]': Required, the number of seconds before the command runs
-    - Example: '[b]!start_tc -rt 600 -- say Join our Steam group!\n http://steam.group/[/b]'
+[*] '[b]!start_tc [-r, -t <Sekunden>] -- <Befehl>[/b]' - Startet einen Befehl, der nach
+    '<Sekunden>' Sekunden
+    - Option "[b]-r[/b]": Hinzufügen, um den Befehl wiederholt ausführen zu lassen
+    - Option "[b]-t[/b]": Erforderlich, die Anzahl der Sekunden, bevor der Befehl ausgeführt wird
+    - Beispiel: '[b]!start_tc -rt 600 -- say Tritt unserer Steamgruppe bei!\n http://steam.group/[/b]'
 
-[*] '[b]!stop_tc[/b]' - Stops all timed commands
+[*] '[b]!stop_tc[/b]' - Stoppt alle zeitgesteuerten Befehle
 
-[*] '[b]!start_trc [-w <wave>] -- <command>[/b]' - Start a commands that runs when the trader opens
-    - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command run every wave
-    - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
-    - Example: '[b]!start_trc -- top_wave_dosh[/b]' - Shows who earned the most dosh every wave when the trader opens
+[*] '[b]!start_trc [-w <wave>] -- <command>[/b]' - Startet einen Befehl, der beim Öffnen des Händlers ausgeführt wird
+    - Option "[b]-w[/b]": Wave zum Ausführen des Befehls, kann weggelassen werden, um den Befehl bei jeder Welle ausführen zu lassen
+    - Option "[b]-w[/b]": Kann negativ sein, um von der Boss-Welle rückwärts zu zählen
+    - Beispiel: '[b]!start_trc -- top_wave_dosh[/b]' - Zeigt bei jeder Welle, wer am meisten Dosh verdient hat, wenn der Trader öffnet
 
-[*] '[b]!stop_trc[/b]' - Stop all commands that run on trader open
+[*] '[b]!stop_trc[/b]' - Stoppt alle Befehle, die bei offenem Trader laufen
 
-[*] '[b]!silent[/b]' - Toggles suppression of all chat output, commands still have effect, but the response will not be visible to players
+[*] '[b]!silent[/b]' - Schaltet die Unterdrückung aller Chatausgaben ein, Befehle haben immer noch Wirkung, aber die Antwort ist für die Spieler nicht sichtbar
 
-[*] '[b]!run <script_name>[/b]' - Executes a script from the 'conf/scripts' folder, more information in the scripts section
-    - Example: '[b]!run example[/b]'
+[*] '[b]!run <script_name>[/b]' - Führt ein Skript aus dem Ordner 'conf/scripts' aus, weitere Informationen im Abschnitt Skripte
+    - Beispiel: '[b]!run Beispiel[/b]'
 
-[*] '[b]!marquee <marquee_name>[/b]' - Runs a marquee in the chat from the '[b]conf/marquee[/b]' folder, [i]experimental[/i]
-    - Example: '[b]!marquee example[/b]'
+[*] '[b]!marquee <marquee_name>[/b]' - Führt eine Laufschrift im Chat aus dem Ordner '[b]conf/marquee[/b]' aus, [i]experimentell[/i]
+    - Beispiel: '[b]!marquee Beispiel[/b]'
 
-[*] '[b]!enforce_dosh <amount>[/b]' - Kicks all players that have more dosh than the specified amount.
-    - Example: '[b]!start_tc 600 -- enforce_dosh 60000[/b]'
+[*] '[b]!enforce_dosh <Menge>[/b]' - Kickt alle Spieler, die mehr Dosh als die angegebene Menge haben.
+    - Beispiel: '[b]!start_tc 600 -- enforce_dosh 60000[/b]''
 
-[*] '[b]!update_motd <type>[/b]' - Refreshes the welcome screen leaderboard, type is one of: kills, dosh, or time
-    - Example: '[b]!start_tc 300 -- update_motd kills[/b]'
+[*] '[b]!update_motd <type>[/b]' - Aktualisiert die Rangliste des Begrüßungsbildschirms, Typ ist einer von: kills, dosh oder time
+    - Beispiel: '[b]!start_tc 300 -- update_motd kills[/b]'
 
-[*] '[b]!reload_motd[/b]' - Reloads the server's '[b]*.motd[/b]' file from '[b]conf[/b]'
+[*] '[b]!reload_motd[/b]' - Lädt erneut die '[b]*.motd[/b]'-Datei des Servers aus der '[b]conf[/b]'
 [/list]
 
-## Welcome screen leaderboards
-Writing a '[b]conf/server_name.motd[/b]' file containing pairs of '[b]%PLR[/b]' and '[b]%SCR[/b]' will allow you to render live leaderboard on the welcome screen.
+## Begrüßungsbildschirm-Ranglisten
+Das Schreiben einer '[b]conf/server_name.motd[/b]'-Datei, die Paare von '[b]%PLR[/b]' und '[b]%SCR[/b]' enthält, ermöglicht es dir, die Live-Rangliste auf dem Willkommensbildschirm zu rendern.
 
-A simple example could be as follows.
-[code]Welcome to our server.
+Ein einfaches Beispiel könnte wie folgt aussehen.
+[code]Willkommen auf unserem Server.
 
-%SRV_K Zeds killed on this server.
+%SRV_K Zeds auf diesem Server getötet.
 
-Top Players (total kills):
+Top-Spieler (Total Kills):
 1. %PLR [%SCR]		2. %PLR [%SCR]		3. %PLR [%SCR] 
 4. %PLR [%SCR]		5. %PLR [%SCR]		6. %PLR [%SCR] 
 7. %PLR [%SCR]		8. %PLR [%SCR]		9. %PLR [%SCR]
 
-Have fun and good luck!
+Viel Spaß und viel Glück!
 [/code]
 
-KF2 Magicked Admin will replace '[b]%PLR[/b]' with the player's username, '[b]%SCR[/b]' with the player's total kills or total dosh, '[b]%SRV_K[/b]' with the global server kills, and '[b]%SRV_D[/b]' with the global server dosh.
+KF2 Magicked Admin ersetzt '[b]%PLR[/b]' mit dem Benutzernamen des Spielers, '[b]%SCR[/b]' mit den gesamten Kills oder der gesamten Dosh des Spielers, '[b]%SRV_K[/b]' mit den globalen Server-Kills und '[b]%SRV_D[/b]' mit der globalen Server-Dosh.
 
-Once the file is written, use the '[b]!update_motd <type>[/b]' command to refresh the leaderboard. This should be used in combination with '[b]!start_tc <refresh_interval>[/b]' so that it is refreshed automatically.
-    - Example: '[b]!start_tc 300 -- update_motd dosh[/b]'
+Sobald die Datei geschrieben ist, verwende den Befehl '[b]!update_motd <type>[/b]', um die Rangliste zu aktualisieren. Dies sollte in Kombination mit '[b]!start_tc <refresh_interval>[/b]' verwendet werden, damit es automatisch aktualisiert wird.
+    - Beispiel: '[b]!start_tc 300 -- update_motd dosh[/b]'
 
-The metric for '[b]%SCR[/b]' can be either 'kills', 'time', or 'dosh'. This is can be set by changing the '[b]<type>[/b]' parameter when using '[b]!update_motd <type>[/b]'
+Die Metrik für "[b]%SCR[/b]" kann entweder "kills", "time" oder "dosh" sein. Dies kann durch Änderung des Parameters '[b]<type>[/b]' bei Verwendung von '[b]!update_motd <type>[/b]' eingestellt werden
 
-Here is my survival suicidal welcome screen as an example of what can be achieved. 
+Hier ist mein Überlebens-Selbstmord-Begrüßungsbildschirm als ein Beispiel dafür, was erreicht werden kann. 
 
 [previewicon=12055995;sizeOriginal,inline;KFGame_2018-04-14_03-27-00.png][/previewicon]
 
 
-[h1]Notes[/h1]
+[h1]Hinweise[/h1]
 [list]
-[*] This will overwrite your existing motd.
-[*] '[b]!reload_motd[/b]' Can be used to reload the template file while KF2 Magicked Admin is still running.
+[*] Dies überschreibt dein bestehendes motd.
+[*] '[b]!reload_motd[/b]' Kann verwendet werden, um die Vorlagendatei neu zu laden, während KF2 Magicked Admin noch läuft.
 [/list]
 
-## Scripts
-KF2 Magicked Admin has some rudimentary scripting support which can be used to chain commands into a single action.
+## Skripte
+KF2 Magicked Admin hat eine rudimentäre Skript-Unterstützung, die benutzt werden kann, um Befehle in einer einzigen Aktion zu verketten.
 
-There are two categories of scripts, they differ in when and how they are executed.
+Es gibt zwei Kategorien von Skripten, sie unterscheiden sich darin, wann und wie sie ausgeführt werden.
 
 [list]
-[*] Comments can be added to scripts by prefixing a line with '[b];[/b]'
+[*] Kommentare können in Skripte eingefügt werden, indem der Zeile '[b];[/b]' vorangestellt wird
 [/list]
 
-[h1]Init scripts[/h1]
+[h1]Init-Skripte[/h1]
 
-Writing a '[b]server_name.init[/b]' in the '[b]conf/scripts[/b]' folder with a series of commands will run the commands in sequence when the bot starts on '[b]server_name[/b]'. The server names are defined in '[b]conf/magicked_admin.conf[/b]', if you haven't changed the name it will default to '[b]server_one[/b]'.
+Das Schreiben einer '[b]server_name.init[/b]' in den Ordner '[b]conf/scripts[/b]' mit einer Reihe von Befehlen führt die Befehle nacheinander aus, wenn der Bot auf '[b]server_name[/b]' startet. Die Servernamen sind in '[b]conf/magicked_admin.conf[/b]' definiert, wenn du den Namen nicht geändert hast, wird er standardmäßig auf '[b]server_one[/b]' gesetzt.
 
-An example init file will have been generated on first launch, this can be used as a template for writing your own init scripts.
+Beim ersten Start wird eine Beispiel-Init-Datei erzeugt, die als Vorlage zum Schreiben eigener Init-Skripte verwendet werden kann.
 
-[h1]Run scripts[/h1]
+[h1]Skripte ausführen[/h1]
 
-The '[b]!run[/b]' command exists to facilitate the running of scripts at any time. These scripts should be placed in the '[b]conf/scripts[/b]' folder. An example script is already in the scripts folder, it can be ran with '[b]!run example[/b]'. 
+Der Befehl '[b]!run[/b]' existiert, um das Ausführen von Skripten zu jeder Zeit zu erleichtern. Diese Skripte sollten im Ordner '[b]conf/scripts[/b]' abgelegt werden. Ein Beispielskript befindet sich bereits im Ordner scripts, es kann mit '[b]!run example[/b]' ausgeführt werden. 
 
-These scripts are formatted much the same as the init script, the commands will be ran in sequence from top to bottom.
+Diese Skripte sind ähnlich wie das Init-Skript formatiert, die Befehle werden der Reihe nach von oben nach unten ausgeführt.
 
-[h1]Notable examples[/h1]
+[h1]Relevante Beispiele[/h1]
 
-Some commands are particularly useful when used in scripts, these are: '[b]!start_tc[/b]', '[b]!start_trc[/b]', '[b]!start_wc[/b]', '[b]!start_jc[/b]', '[b]!top_wave_kills[/b]', '[b]!top_wave_dosh[/b]', '[b]!enforce_dosh[/b]', '[b]!say[/b]'.
+Einige Befehle sind besonders nützlich, wenn sie in Skripten verwendet werden, diese sind: '[b]!start_tc[/b]', '[b]!start_trc[/b]', '[b]!start_wc[/b]', '[b]!start_jc[/b]', '[b]!top_wave_kills[/b]', '[b]!top_wave_dosh[/b]', '[b]!enforce_dosh[/b]', '[b]!say[/b]'.
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Show who earned the most dosh each wave when the trader opens, and update the welcome screen leaderboard every 5 minutes[/i]
+'[b]conf/scripts/server_one.init[/b]' - [i]Zeigt bei jeder Welle, wer das meiste Dosh verdient hat, wenn der Trader öffnet, und aktualisiert das Leaderboard des Begrüßungsbildschirms alle 5 Minuten[/i]
 [code] start_trc -- top_wave_dosh
  start_tc 300 -- update_motd dosh[/code]
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Advertise your Steam group when the boss wave is reached[/i]
-[code] start_wc -w -1 -- say Join our steam group: http://our.steam/group[/code]
+'[b]conf/scripts/server_one.init[/b]' - [i]Wirb für deine Steam-Gruppe, wenn die Boss-Welle erreicht ist[/i]
+[code] start_wc -w -1 -- say Trete unserer Steamgruppe bei: http://our.steam/group[/code]
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Provide basic bot usage guidance to players[/i]
-[code] start_tc -rt 800 -- say I'm a bot, type !commands to see available commands[/code]
+'[b]conf/scripts/server_one.init[/b]' - [i]Bietet Spielern grundlegende Hinweise zur Nutzung von Bot-Systemen[/i][b]
+[code] start_tc -rt 800 -- say Ich bin ein Bot, tippe !commands ein, um die verfügbaren Befehle zu sehen[/code]
 
-'[b]conf/scripts/priv_game[/b]' - [i]Setup a private lobby with a single command[/i]
+'[b]conf/scripts/priv_game[/b]' - [i]Einrichten einer privaten Lobby mit einem einzigen Befehl[/i]
 [code]silent -q
-password --set superSecretPassword
+password --set SuperGeheimesPasswort
 difficulty hell
 length long
 load_map biotics
 silent -q[/code]
 
-## Configuration options
-Basic setup is done on the first run. However this is only to get you started, it does not cover all of the options KF2 Magicked Admin can offer. Please see the configuration file, '[b]conf/magicked_admin.conf[/b]', for more configuration options as some features are disabled by default.
+## Konfigurations-Optionen
+Das Basis-Setup wird beim ersten Durchlauf vorgenommen. Dies ist jedoch nur als Einstieg gedacht, es deckt nicht alle Optionen ab, die KF2 Magicked Admin bieten kann. Bitte lies die Konfigurationsdatei, '[b]conf/magicked_admin.conf[/b]', für weitere Konfigurationsoptionen, da einige Funktionen standardmäßig deaktiviert sind.
 
-Each server managed by KF2 Magicked Admin has a config section that looks something like '[b][server_one][/b]', followed by several options ('[b]x = y[/b]'). Copy the default server section and change the name if you want to manage multiple servers. '[b][server_one][/b]' is the name of the server, this can be changed to whatever you want, but each section should have a unique name.
+Jeder von KF2 Magicked Admin verwaltete Server hat einen Config-Abschnitt, der etwa so aussieht wie '[b][server_one][/b]', gefolgt von mehreren Optionen ('[b]x = y[/b]'). Kopiere den Standard-Serverbereich und ändere den Namen, wenn du mehrere Server verwalten möchtest. "[b][server_one][/b]" ist der Name des Servers, dieser kann nach Belieben geändert werden, aber jede Sektion sollte einen eindeutigen Namen haben.
 
-[h1]Options[/h1]
+[h1]Optionen[/h1]
 
-The following options can be configured in the config file '[b]conf/magicked_admin.conf[/b]'.
+Die folgenden Optionen können in der Konfigurationsdatei '[b]conf/magicked_admin.conf[/b]' konfiguriert werden.
 [list]
-[*] '[b]address[/b]'  - Web address of the server's web admin panel. Requires scheme and protocol
-    - Example: '[b]address=https://0.0.0.0:8080[/b]'
+[*] '[b]Adresse[/b]' - Webadresse des Webadministrationspanels des Servers. Erfordert Schema und Protokoll
+    - Beispiel: '[b]address=https://0.0.0.0:8080[/b]'
 
-[*] '[b]username[/b]' - Web admin username to login with, this will appear in the chat when the bot has something to output. It's recommended to create a separate account for the bot.
-    - Example: '[b]username=Admin[/b]'
+[*] '[b]username[/b]' - Webadmin-Benutzername zum Anmelden, dieser erscheint im Chat, wenn der Bot etwas auszugeben hat. Es wird empfohlen, ein separates Konto für den Bot zu erstellen.
+    - Beispiel: '[b]userername=Admin[/b]'
 
-[*] '[b]password[/b]'  - Web admin password that matches the username above.
-    - Example: '[b]password=123[/b]'
+[*] '[b]password[/b]' - Webadmin-Passwort, das zu dem obigen Benutzernamen passt.
+    - Beispiel: '[b]password=123[/b]'
 
-[*] '[b]game_password[/b]' - Default game password to set when the password is toggled using '[b]!password <on|off>[/b]'.
-    - Example: '[b]game_password=Hunter69[/b]'
+[*] '[b]game_password[/b]' - Standardpasswort für das Spiel, wenn das Passwort mit '[b]!password <on|off>[/b]' umgeschaltet wird.
+    - Beispiel: '[b]game_password=Hunter69[/b]'
 
 [/list]
 
-## Renaming the chatbot (multi-admin)
-To rename your chatbot to something other than 'Admin' your server must be configured for multi-admin. 
+## Umbenennen des Chatbots (Multi-Admin)
+Um deinen Chatbot in etwas anderes als 'Admin' umzubenennen, muss dein Server für Multi-Admin konfiguriert sein. 
 
-If your server already has multi-admin support all you need to do is create an account with the desired name and change the account credentials in '[b]conf/magicked_admin.conf[/b]'
+Wenn deinServer bereits Multi-Admin-Unterstützung bietet, musst du lediglich ein Konto mit dem gewünschten Namen erstellen und die Zugangsdaten in '[b]conf/magicked_admin.conf[/b]' ändern
 
-The following covers the same setup as the official Tripwire documentation on this topic, which is available [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)#Setting_up_multiple_web_admins]here[/url].
+Im Folgenden wird das gleiche Setup behandelt wie in der offiziellen Tripwire-Dokumentation zu diesem Thema, die hier [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)#Setting_up_multiple_web_admins]here[/url] verfügbar ist.
 [olist]
-[*]Go to your server's config folder. '[b]KF2-Server\KFGame\Config\Config[/b]'.
+[*] Gehe zum Konfigurationsordner deines Servers. '[b]KF2-Server\KFGame\Config\Config[/b]'.
 
-[*]Open '[b]KFWebAdmin.ini[/b]' in your favourite editor, add the following under the '[b][WebAdmin.WebAdmin][/b]' section, and save the file.
+Öffnen die '[b]KFWebAdmin.ini[/b]' in deinem bevorzugten Editor, füge folgendes unter der Sektion '[b][WebAdmin.WebAdmin][/b]' hinzu und speichere die Datei.
 [code]AuthenticationClass=WebAdmin.MultiWebAdminAuth[/code]
 
-[*]Now open your web admin panel and there should be a new '[b]Administrators[/b]' section in the sidebar.
+Öffne nun dein Web-Admin-Panel und es sollte ein neuer '[b]Administrators[/b]'-Abschnitt in der Sidebar vorhanden sein.
 [previewicon=11679370;sizeThumb,inline;chrome_2018-03-08_23-53-58.png][/previewicon]
 
-[*]Click '[b]Administrators[/b]' and select '[b]Create Administrator[/b]'. Enter a name for the Chatbot (This is the name you will use to sign in with). Click OK.
+[*]Klicke auf '[b]Administrators[/b]' und wähle '[b]Create Administrator[/b]'. Gib einen Namen für den Chatbot ein (Dies ist der Name, mit dem du dich anmelden wirst). Klicke OK.
 
-[*]Give it a '[b]Display Name[/b]', '[b]Password[/b]', and enable the account (the display name is what players will see in chat).
+Gib ihm einen '[b]Anzeigenamen[/b]', '[b]Passwort[/b]' und aktiviere das Konto (der Anzeigename ist das, was die Spieler im Chat sehen werden).
 [previewicon=11679547;sizeThumb,inline;chrome_2018-03-09_00-16-09.png][/previewicon]
 
-[*]Leave '[b]Access Order[/b]' set to '[b]Deny/Allow[/b]', and don't add any '[b]Deny Patterns[/b]' or '[b]Allow Patterns[/b]'. If you have issues using your new account, this is a common culprit so please leave it as is.
+Lass "[b]Access Order[/b]" auf "[b]Deny/Allow[/b]" stehen und füge keine "[b]Deny Patterns[/b]" oder "[b]Allow Patterns[/b]" hinzu. Wenn du Probleme bei der Verwendung des neuen Kontos hast, ist dies ein häufiger Fehler, also lass es bitte so, wie es ist.
 
-[*]Click '[b]Save[/b]' and the account is ready for use.
+[*]Klicke auf '[b]Save[/b]' und das Konto ist einsatzbereit.
 
-[*]Update the account credentials in '[b]conf/magicked_admin.conf[/b]'
+[*]Aktualisiere die Konto-Anmeldeinformationen in '[b]conf/magicked_admin.conf[/b]'
 [/olist]
 
-## Endless and weekly game mode support
-In game modes other than survival KF2 Magicked Admin will have a limited feature set due to differences in the web admin panel when in other modes. However the web admin panel can be altered to enable the full feature set.
+## Unterstützung des Endlos- und Wochenspielmodus
+In anderen Spielmodi als Überleben hat KF2 Magicked Admin aufgrund von Unterschieden im Webadmin-Panel einen eingeschränkten Funktionsumfang. Das Web-Administrations-Panel kann jedoch geändert werden, um den vollen Funktionsumfang zu aktivieren.
 
-For this reason a web admin patcher is available [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-admin-patches-0.0.1.zip]here[/url]. 
+Aus diesem Grund steht ein Webadmin-Patcher zur Verfügung [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-admin-patches-0.0.1.zip]hier[/url]. 
 
-[h1]Notes[/h1]
-To use this utility your server files in '[b]KF2Server/KFGame/Web/ServerAdmin[/b]' will have to be stock/clean. If you have edited these files I suggest the following alternatives.
+[h1]Hinweise[/h1]
+Um dieses Programm zu verwenden, müssen deine Serverdateien in '[b]KF2Server/KFGame/Web/ServerAdmin[/b]' vorhanden und fehlerfrei sein. Wenn du diese Dateien bearbeitet hast, schlage ich dir die folgenden Alternativen vor.
 [list]
-[*]Validate the server files with steamcmd with the command '[b]app_update 232130 validate[/b]' and use the patcher as normal.
-[*]Manually apply the diffs in '[b]admin-patcher/patches[/b]' to your server files.
+[*] Validiere die Serverdateien mit steamcmd mit dem Befehl '[b]app_update 232130 validate[/b]' und verwenden Sie den Patcher wie gewohnt.
+[*]Wende die Unterschiede in '[b]admin-patcher/patches[/b]' manuell auf deine Serverdateien an.
 [/list]
 
-[h1]Usage (GUI/Desktop)[/h1]
+[h1]Benutzung (GUI/Desktop)[/h1]
 [olist]
-[*] Run the executable
-[*] Open the location where your server is installed in the destination selection window
-[*] Click '[b]open[/b]'
+[*] Starte die ausführbare Datei
+[*] Öffne im Zielauswahlfenster den Ort, an dem dein Server installiert ist
+[*] Klicke '[b]open[/b]'
 [/olist]
 
-[h1]Usage (Headless/Server)[/h1]
-[*] Run the executable with a target flag, e.g. '[b]./magicked_admin.exe --target /path/to/kf2/server[/b]'
-[*] Check the console window for any issues
+[h1]Nutzung (Headless/Server)[/h1]
+[*] Führe die ausführbare Datei mit einem Zielflag aus, z.B. '[b]./magicked_admin.exe --target /pfad/zu/kf2/server[/b]'
+[*] Überprüfe das Konsolenfenster auf Probleme
 
-## Configuring multiple servers
-KF2 Magicked Admin can work with any amount of servers you run.
+## Konfigurieren mehrerer Server
+KF2 Magicked Admin kann mit einer beliebigen Anzahl von Servern arbeiten, die du betreibst.
 
-To configure more servers, find '[b]conf/magicked_admin.conf[/b]', and open it in your favourite editor.
+Um weitere Server zu konfigurieren, suche die '[b]conf/magicked_admin.conf[/b]' und öffne sie in deinem bevorzugten Editor.
 
-Copy the whole '[b][server_one][/b]' section, and paste it at the end of the file. Update the '[b]address[/b]', '[b]username[/b]', and '[b]password[/b]' options.
+Kopiere den gesamten Abschnitt '[b][server_one][/b]' und fügen ihn am Ende der Datei ein. Aktualisiere die Optionen '[b]address[/b]', '[b]username[/b]' und '[b]password[/b]'.
 
-Below is an example.
+Nachfolgend ein Beispiel.
 [code]
 [server_one]
 game_password = 123
@@ -385,50 +385,50 @@ username = Admin
 password = 123
 [/code]
 
-You can do this for as many servers as you want.
+Du kannst dies für beliebig viele Server tun.
 
-## Renaming servers
-If you have a few servers, you might want to name them so you can easily identify them.
+## Server umbenennen
+Wenn du mehrere Server hast, solltest du diese vielleicht so benennen, dass du sie leichter identifizieren kannst.
 
-You first need to open '[b]conf/magicked_admin.conf[/b]' and here you can change '[b]server_one[/b]' to anything you want.
+Zuerst musst du '[b]conf/magicked_admin.conf[/b]' öffnen und hier kannst du '[b]server_one[/b]' nach Belieben ändern.
 
-You then need to go back and change '[b]server_one.motd[/b]' and '[b]server_one.init[/b]' to the name you just set it to in '[b]conf/magicked_admin.conf[/b]'.
+Du musst dann zurückgehen und '[b]server_one.motd[/b]' und '[b]server_one.init[/b]' auf den Namen ändern, den du gerade in '[b]conf/magicked_admin.conf[/b]' gesetzt hast.
 
-## Resetting stats
-To reset the scoreboard all you have to do is delete the '[b]conf/*.sqlite[/b]' file associated with the server name, a new one will be created the next time you start KF2 Magicked Admin.
+## Statistiken zurücksetzen
+Um die Anzeigetafel zurückzusetzen, musst du nur die mit dem Servernamen verbundene Datei '[b]conf/*.sqlite[/b]' löschen, beim nächsten Start von KF2 Magicked Admin wird dann eine neue Datei erstellt.
 
-If I wanted to reset the stats on '[b]server_four[/b]', I would delete the '[b]conf/server_four.sqlite[/b]' file and restart KF2 Magicked Admin.
+Wenn ich die Statistiken auf '[b]server_four[/b]' zurücksetzen wollte, würde ich die Datei '[b]conf/server_four.sqlite[/b]' löschen und KF2 Magicked Admin neu starten.
 
-## Planned features
-[h1]Next release - 0.1.5[/h1]
-The following features are currently slated for the next release.
+## Geplante Funktionen
+[h1]Nächste Version - 0.1.5[/h1]
+Die folgenden Funktionen sind derzeit für die nächste Version geplant.
 [list]
-[*] Date/time commands, i.e. run a command at a specific time of day or date
-[*] Player session logging, logs SteamIDs and timestamps for player sessions to a file
-[*] `!restart` delay, a countdown before restarting the match
+[*] Datum/Uhrzeit-Befehle, z.B. einen Befehl zu einer bestimmten Tageszeit oder an einem bestimmten Datum ausführen
+[*] Player-Sitzungsprotokollierung, protokolliert SteamIDs und Zeitstempel für Playersitzungen in einer Datei
+[*] `!restart` Verzögerung, ein Countdown bevor das Match neu gestartet wird
 [/list]
 
-[h1]Future[/h1]
+[h1]Zukunft[/h1]
 [list]
 [*] Unterstützung von Community-Übersetzungen via Crowdin
 [/list]
 
-We are accepting feature requests on the [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url].
+Wir akzeptieren Feature-Anfragen auf dem [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url].
 
 ## Bugs?
-None known as of writing.
+Zu diesem Zeitpunkt keine bekannt.
 
-If you find a bug, please add it to the [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url]if you have a GitHub account.
+Wenn du einen Fehler findest, fügen ihn bitte zum [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url]hinzu, wenn du einen GitHub-Account hast.
 
-If you don't have a GitHub account you can write it in the comments or message [url=https://steamcommunity.com/id/th3-z]me[/url] on Steam.
+Wenn du keinen GitHub-Account hast, kannst du ihn in die Kommentare oder die Nachricht [url=https://steamcommunity.com/id/th3-z]mir[/url] auf Steam schreiben.
 
 ## Credits
-KF2 Magicked Admin is open source software (MIT), authored by the_z (th3-z).
-For full source code (Python+SQLite) and developer guidance visit the [url=github.com/th3-z/kf2-magicked-admin]GitHub repository.[/url]
+KF2 Magicked Admin ist eine Open Source Software (MIT), die von the_z (th3-z) entwickelt wurde.
+Den vollständigen Quellcode (Python+SQLite) und eine Anleitung für Entwickler findest du im [url=github.com/th3-z/kf2-magicked-admin]GitHub-Repository.[/url]
 
-[b]Contributors[/b]
+[b] Mitwirkende[/b]
 
-Developers:
+Entwickler:
 [list]
 [*] [url=https://github.com/th3-z]th3-z[/url]
 [*] [url=https://github.com/n0x-io]n0x-io[/url]
