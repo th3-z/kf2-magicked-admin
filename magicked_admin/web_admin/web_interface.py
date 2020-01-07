@@ -10,6 +10,10 @@ from utils import debug, die, info, warning
 _ = gettext.gettext
 
 
+class AuthorizationException(Exception):
+    pass
+
+
 class WebInterface(object):
     def __init__(self, address, username, password, server_name="unnamed"):
         info(_("Connecting to {} ({})...").format(server_name, address))
@@ -60,7 +64,14 @@ class WebInterface(object):
                 if not login:
                     if "hashAlg" in response.text:
                         info(_("Session killed, renewing!"))
-                        self.__session = self.__new_session()
+                        try:
+                            self.__session = self.__new_session()
+                        except AuthorizationException:
+                            die(
+                                _("Authorization error, credentials changed?"),
+                                pause=True
+                            )
+
                     else:
                         return response
                 else:
@@ -99,7 +110,13 @@ class WebInterface(object):
                 if not login:
                     if "hashAlg" in response.text:
                         info(_("Session killed, renewing!"))
-                        self.__session = self.__new_session()
+                        try:
+                            self.__session = self.__new_session()
+                        except AuthorizationException:
+                            die(
+                                _("Authorization error, credentials changed?"),
+                                pause=True
+                            )
                 else:
                     return response
                 return response
@@ -161,9 +178,7 @@ class WebInterface(object):
 
         if "hashAlg" in response.text \
                 or "Exceeded login attempts" in response.text:
-            # TODO Expand on handling here, should gracefully terminate
-            die(_("Login failure, bad credentials or login attempts "
-                  "exceeded."), pause=True)
+            raise AuthorizationException
 
         if "<!-- KF2-MA-INSTALLED-FLAG -->" in response.text:
             self.ma_installed = True
