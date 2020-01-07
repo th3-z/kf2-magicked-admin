@@ -1,10 +1,28 @@
 import configparser
 import gettext
 import os
-from getpass import getpass
 
 from utils import die, fatal, find_data_file, info
 from utils.net import resolve_address
+
+# if getch is available, implement getpass() with asterisks
+try:
+    import getch
+
+    def getpass(prompt):
+        print(prompt, end='', flush=True)
+        buf = ''
+        while True:
+            ch = getch.getch()
+            if ch == '\n':
+                print('')
+                break
+            else:
+                buf += ch
+                print('*', end='', flush=True)
+        return buf
+except ImportError:
+    from getpass import getpass
 
 _ = gettext.gettext
 
@@ -26,8 +44,8 @@ CONFIG_DIE_MESG = _("Please correct this manually  or delete '{}' to create "
 
 
 class Settings:
-    def __init__(self, config_file, skip_setup=False):
-        if not os.path.exists(config_file):
+    def __init__(self, config_filename, skip_setup=False):
+        if not os.path.exists(config_filename):
             info(_("No configuration was found, first time setup is "
                    "required!"))
 
@@ -36,7 +54,7 @@ class Settings:
             else:
                 config = self.construct_config_template()
 
-            with open(config_file, 'w') as config_file:
+            with open(config_filename, 'w') as config_file:
                 config.write(config_file)
 
             if skip_setup:
@@ -47,7 +65,7 @@ class Settings:
 
         try:
             self.config = configparser.ConfigParser()
-            self.config.read(config_file)
+            self.config.read(config_filename)
 
         except configparser.DuplicateOptionError as e:
             fatal(_("Configuration error(s) found!\nSection '{}' has a "
