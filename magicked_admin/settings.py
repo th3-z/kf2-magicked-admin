@@ -44,10 +44,11 @@ CONFIG_DIE_MESG = _("Please correct this manually  or delete '{}' to create "
 
 
 class Settings:
-    def __init__(self, config_filename, skip_setup=False):
-        if not os.path.exists(config_filename):
-            info(_("No configuration was found, first time setup is "
-                   "required!"))
+    def __init__(self, config_filename, skip_setup=False, reconfigure=False):
+        if not os.path.exists(config_filename) or reconfigure:
+            if not reconfigure:
+                info(_("No configuration was found, first time setup is "
+                       "required!"))
 
             if not skip_setup:
                 config = self.construct_config_interactive()

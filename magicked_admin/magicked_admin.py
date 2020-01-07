@@ -25,7 +25,7 @@ from server.game_tracker import GameTracker
 from database.database import ServerDatabase
 from server.game import Game, GameMap
 from web_admin import WebAdmin
-from web_admin.web_interface import WebInterface
+from web_admin.web_interface import WebInterface, AuthorizationException
 from web_admin.chat import Chat
 from web_admin.constants import *
 from lua_bridge.lua_bridge import LuaBridge
@@ -42,7 +42,6 @@ parser.add_argument('-s', '--skip_setup', action='store_true',
 args = parser.parse_args()
 
 banner()
-settings = Settings(CONFIG_PATH, skip_setup=args.skip_setup)
 
 REQUESTS_CA_BUNDLE_PATH = find_data_file("./certifi/cacert.pem")
 
@@ -66,13 +65,24 @@ class MagickedAdmin:
         signal.signal(signal.SIGINT, self.terminate)
         self.stop_list = []
         self.sigint_count = 0
+        self.settings = Settings(
+            CONFIG_PATH,
+            skip_setup=args.skip_setup
+        )
+
+    def reconfigure(self):
+        self.settings = Settings(
+            CONFIG_PATH,
+            skip_setup=args.skip_setup,
+            reconfigure=True
+        )
 
     def make_server(self, name):
-        address = settings.setting(name, "address")
-        username = settings.setting(name, "username")
-        password = settings.setting(name, "password")
-        game_password = settings.setting(name, "game_password")
-        url_extras = settings.setting(name, "url_extras")
+        address = self.settings.setting(name, "address")
+        username = self.settings.setting(name, "username")
+        password = self.settings.setting(name, "password")
+        game_password = self.settings.setting(name, "game_password")
+        url_extras = self.settings.setting(name, "url_extras")
 
         web_interface = WebInterface(address, username, password, name)
         chat = Chat(web_interface)
@@ -123,11 +133,33 @@ class MagickedAdmin:
     def run(self):
         servers = []
 
-        for server_name in settings.sections():
-            server = self.make_server(server_name)
+        for server_name in self.settings.sections():
+            # TODO: Gross
+            try:
+                server = self.make_server(server_name)
+            except AuthorizationException:
+                if len(self.settings.sections()) > 1:
+                    warning(
+                        _("Couldn't connect to server: {}").format(server_name)
+                    )
+                    continue
+                else:
+                    answer = input(
+                        _("Authorization error connecting to '{}', reconfigure"
+                          "? [Y/n]: ").format(
+                            self.settings.setting(server_name, "address")
+                        )
+                    )
+                    if answer.lower() in [_("yes"), _("y")]:
+                        self.reconfigure()
+                        self.run()
+                    else:
+                        die("Couldn't connect to server", pause=True)
+                    return
+
             servers.append(server)
             chatbot = self.make_chatbot(
-                settings.setting(server_name, "username"), server
+                self.settings.setting(server_name, "username"), server
             )
             lua_bridge = LuaBridge(server, chatbot)
             chatbot.add_lua_bridge(lua_bridge)
