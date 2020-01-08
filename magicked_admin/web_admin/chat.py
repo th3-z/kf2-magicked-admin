@@ -75,11 +75,13 @@ class Chat(threading.Thread):
                 + ": " + message.strip()
             if command:
                 print_line = colored(
-                    print_line.encode("utf-8").decode(sys.stdout.encoding), 'red' if internal else 'green'
+                    print_line.encode("utf-8").decode(sys.stdout.encoding),
+                    'red' if internal else 'green'
                 )
             else:
                 print_line = colored(
-                    print_line.encode("utf-8").decode(sys.stdout.encoding), 'red' if internal else 'yellow'
+                    print_line.encode("utf-8").decode(sys.stdout.encoding),
+                    'red' if internal else 'yellow'
                 )
             print(print_line.encode("utf-8").decode(sys.stdout.encoding))
 

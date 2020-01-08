@@ -173,7 +173,9 @@ class Server:
         self.players.append(new_player)
         message = _("Player {} joined {} from {}") \
             .format(new_player.username, self.name, new_player.country)
-        print(colored(message.encode("utf-8").decode(sys.stdout.encoding), 'cyan'))
+        print(colored(
+            message.encode("utf-8").decode(sys.stdout.encoding), 'cyan'
+        ))
         info(
             "{} (SteamID: {})".format(message, new_player.steam_id),
             display=False
@@ -190,7 +192,9 @@ class Server:
 
         message = _("Player {} left {}") \
             .format(player.username, self.name)
-        print(colored(message.encode("utf-8").decode(sys.stdout.encoding), 'cyan'))
+        print(colored(
+            message.encode("utf-8").decode(sys.stdout.encoding), 'cyan'
+        ))
         info(
             "{} (SteamID: {})".format(message, player.steam_id),
             display=False
@@ -202,13 +206,17 @@ class Server:
     def event_player_death(self, player):
         player.total_deaths += 1
         message = _("Player {} died on {}").format(player.username, self.name)
-        print(colored(message.encode("utf-8").decode(sys.stdout.encoding), 'red'))
+        print(colored(
+            message.encode("utf-8").decode(sys.stdout.encoding), 'red'
+        ))
 
     def event_new_game(self):
         message = _("New game on {}, map: {}, mode: {}") \
             .format(self.name, self.game.game_map.name,
                     GAME_TYPE_DISPLAY[self.game.game_type])
-        print(colored(message.encode("utf-8").decode(sys.stdout.encoding), 'magenta'))
+        print(colored(
+            message.encode("utf-8").decode(sys.stdout.encoding), 'magenta'
+        ))
 
         self.database.load_game_map(self.game.game_map)
         self.game.new_game()
