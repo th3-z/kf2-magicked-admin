@@ -69,28 +69,38 @@ def banner():
 
 def warning(mesg, log=True, display=True):
     if display:
-        print(colored(' [!] ', 'yellow') + mesg.encode("utf-8").decode(sys.stdout.encoding))
+        print(
+            colored(' [!] ', 'yellow')
+            + mesg.encode("utf-8").decode(sys.stdout.encoding)
+        )
     if log:
         logger.warning(mesg.encode("utf-8").decode(sys.stdout.encoding))
 
 
 def debug(mesg, log=True, display=True):
     if DEBUG and display:
-        print(colored(' [#] ' + mesg.encode("utf-8").decode(sys.stdout.encoding), 'red'))
+        print(colored(
+            ' [#] ' + mesg.encode("utf-8").decode(sys.stdout.encoding), 'red'
+        ))
     if log:
         logger.debug(mesg.encode("utf-8").decode(sys.stdout.encoding))
 
 
 def info(mesg, log=True, display=True):
     if display:
-        print(colored(' [*] ', 'green') + mesg.encode("utf-8").decode(sys.stdout.encoding))
+        print(
+            colored(' [*] ', 'green')
+            + mesg.encode("utf-8").decode(sys.stdout.encoding)
+        )
     if log:
         logger.info(mesg.encode("utf-8").decode(sys.stdout.encoding))
 
 
 def fatal(mesg, log=True, display=True):
     if display:
-        print(colored(' [!] ', 'red') + mesg.encode("utf-8").decode(sys.stdout.encoding))
+        print(
+            colored(' [!] ', 'red')
+            + mesg.encode("utf-8").decode(sys.stdout.encoding))
     if log:
         logger.fatal(mesg.encode("utf-8").decode(sys.stdout.encoding))
 
