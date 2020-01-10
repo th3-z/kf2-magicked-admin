@@ -3,9 +3,24 @@ GREEN_COLOR=\033[32m
 RED_COLOR=\033[31m
 YELLOW_COLOR=\033[33;01m
 
+PYTHON3_OK = $(shell python3 --version 2> /dev/null | wc -l)
+ifneq ('$(PYTHON3_OK)', '')
+	PYTHON = "python3"
+endif
+PYTHON_OK = $(shell python --version 2> /dev/null | wc -l)
+ifneq ('$(PYTHON_OK)', '')
+	PYTHON = "python"
+endif
+
+ifndef PYTHON
+	$(error "Couldn't find Python")
+endif
+
+all: clean build
+
 build:
-	@python3 magicked_admin/setup.py build -b bin/magicked_admin
-	@python3 admin_patches/setup.py build -b bin/admin_patches
+	@$(PYTHON) magicked_admin/setup.py build -b bin/magicked_admin
+	@$(PYTHON) admin_patches/setup.py build -b bin/admin_patches
 
 i18n-init:
 	@pybabel extract admin_patches -o locale/admin_patches.pot
@@ -41,5 +56,5 @@ lint:
 test: lint pytest
 
 
-.PHONY: build
+.PHONY: build clean
 

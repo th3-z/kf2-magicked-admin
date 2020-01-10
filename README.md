@@ -293,7 +293,7 @@ systems. Install the following packages.
 * Python 3.7 - `apt install python3`
 * Pip - `apt install python3-pip`
 * Python 3 dependencies - `pip3 install -r requirements.txt`
-    - This might complain about cx_freeze not installing if you haven't got 
+    - This might complain about cx\_freeze not installing if you haven't got 
     zlib-dev, but cx_freeze is only needed for building.
 
 ### Running 
@@ -322,10 +322,7 @@ systems.
 * Pip - `apt install python3-pip`
 * Pip dependencies - `pip3 install -r requirements.txt`
 * Make - `apt install make`
-* zlib-dev - `apt install zlib1g-dev`
 
-### Windows users
-You can build the program without make by running `setup.py`.
-
-* `python3 setup.py build`
+On Windows it's recommend to build with Cygwin. However you can also build it
+by running `python3 setup.py build`.
 
