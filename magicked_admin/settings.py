@@ -1,28 +1,40 @@
 import configparser
 import gettext
 import os
+import sys
 
-from utils import die, fatal, find_data_file, info
+from utils import die, fatal, find_data_file, info, warning
 from utils.net import resolve_address
 
-# if getch is available, implement getpass() with asterisks
 try:
-    import getch
+    from getch import getch
+    getch_av = True
+except ImportError:
+    try:
+        from msvcrt import getch
+        getch_av = True
+    except ImportError:
+        from getpass import getpass
+        getch_av = False
 
+# if getch is available, implement getpass() with asterisks
+if getch_av:
     def getpass(prompt):
         print(prompt, end='', flush=True)
         buf = ''
         while True:
-            ch = getch.getch()
-            if ch == '\n':
+            ch = getch()
+            if ch in ['\n', '\r', '\r\n', '\n\r']:
                 print('')
                 break
             else:
-                buf += ch
+                buf += str(ch)
                 print('*', end='', flush=True)
         return buf
-except ImportError:
-    from getpass import getpass
+else:
+    warning("getch unavailable")
+if not sys.stdin.isatty():
+    warning("Bad terminal")
 
 _ = gettext.gettext
 
@@ -114,8 +126,16 @@ class Settings:
                       "'ip:port', 'domain', or 'domain:port'"))
 
         username = input(_("Username [default - Admin]: ")) or "Admin"
-        password = getpass(
-            _("Password (will not echo) [default - 123]: ")) or "123"
+
+        if not sys.stdin.isatty():
+            os.system("stty -echo")
+            password = input("Password (will not echo) [default - 123]: ")
+            os.system("stty echo")
+        else:
+            password_prompt = _("Password") + (
+                "" if getch_av else _(" (will not echo)")
+            ) + _(" [default - 123]: ")
+            password = getpass(password_prompt) or "123"
         print()  # \n
 
         new_config.set(SETTINGS_DEFAULT['server_name'], 'address',
