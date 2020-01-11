@@ -20,6 +20,7 @@ class WebInterface(object):
         self.__address = address
         self.__username = username
         self.__password = password
+        self.__http_auth = False
 
         self.server_name = server_name
         self.ma_installed = False
@@ -53,13 +54,29 @@ class WebInterface(object):
     def __get(self, session, url, retry_interval=6, login=False):
         while True:
             try:
-                response = session.get(url, timeout=self.__timeout)
-                if response.status_code > 400:
+                if not self.__http_auth:
+                    response = session.get(url, timeout=self.__timeout)
+                else:
+                    response = session.get(
+                        url,
+                        timeout=self.__timeout,
+                        auth=(self.__username, self.__password)
+                    )
+
+                if response.status_code > 401:
                     self.__sleep()
                     time.sleep(retry_interval)
                     continue
                 else:
                     self.__wake()
+
+                if response.status_code == 401 and not self.__http_auth:
+                    self.__http_auth = True
+                    return self.__get(
+                        session, url, retry_interval, login
+                    )
+                elif response.status_code == 401 and self.__http_auth:
+                    raise AuthorizationException
 
                 if not login:
                     if "hashAlg" in response.text:
@@ -96,16 +113,32 @@ class WebInterface(object):
     def __post(self, session, url, payload, retry_interval=6, login=False):
         while True:
             try:
-                response = session.post(
-                    url, payload,
-                    timeout=self.__timeout
-                )
-                if response.status_code > 400:
+                if not self.__http_auth:
+                    response = session.post(
+                        url, payload,
+                        timeout=self.__timeout
+                    )
+                else:
+                    response = session.post(
+                        url, payload,
+                        timeout=self.__timeout,
+                        auth=(self.__username, self.__password)
+                    )
+
+                if response.status_code > 401:
                     self.__sleep()
                     time.sleep(retry_interval)
                     continue
                 else:
                     self.__wake()
+
+                if response.status_code == 401 and not self.__http_auth:
+                    self.__http_auth = True
+                    return self.__post(
+                        session, url, payload, retry_interval, login
+                    )
+                elif response.status_code == 401 and self.__http_auth:
+                    raise AuthorizationException
 
                 if not login:
                     if "hashAlg" in response.text:
@@ -157,6 +190,8 @@ class WebInterface(object):
         session = requests.Session()
         login_page_response = self.__get(session, self.__urls['login'],
                                          login=True)
+        if self.__http_auth:
+            return session
 
         if "hashAlg = \"sha1\"" in login_page_response.text:
             hex_dig = "$sha1$" + sha1(
