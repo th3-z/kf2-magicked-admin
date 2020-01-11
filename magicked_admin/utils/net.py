@@ -1,6 +1,7 @@
 import gettext
 from urllib.parse import urlparse
 from urllib.request import urlopen
+from urllib.error import URLError, HTTPError
 
 import requests
 
@@ -18,7 +19,9 @@ def __add_address_scheme(address):
 def __is_valid_address(address):
     try:
         code = urlopen(address).getcode()
-    except Exception:
+    except HTTPError as err:
+        return err.code == 401
+    except URLError:
         return False
     return code == 200
 
