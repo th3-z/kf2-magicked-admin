@@ -49,7 +49,7 @@ pytest:
 
 lint:
 	@echo "$(YELLOW_COLOR)Checking lints...$(NO_COLOR)\n"
-	@flake8 --ignore F405,F403,W503,F401 --exclude=admin_patches/utils/patch.py && \
+	@flake8 --ignore F405,F403,W503,F401,F811 --exclude=admin_patches/utils/patch.py && \
 		echo "$(GREEN_COLOR)success!$(NO_COLOR)" \
 		|| { echo "$(RED_COLOR)failure!$(NO_COLOR)\n"; exit 1; }
 
