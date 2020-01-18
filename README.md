@@ -256,7 +256,7 @@ Running with docker is easy. Just issue this command:
 ```
     docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3z/kf2-magicked-admin
 ```
-You will need to change `<host config folder location>` to wheverever you want
+You will need to change `<host config folder location>` to wherever you want
 to store your config folder. `/mnt/user/appdata/kf2-magicked-admin` is a popular
 choice for systems running Unraid.
 
