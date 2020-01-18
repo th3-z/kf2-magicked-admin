@@ -11,7 +11,7 @@ Administración con Scripts, estadísticas, y bot para servidor de Killing Floor
 Descargas
 ---------
 
-La versión estable más reciente es la `0.1.5`. Para los usuarios de Windows, los binarios están provistos en la página de lazamientos (releases). Usuarios de Linux y Max OS deben clonar este repositorio y ejecutar desde la fuente.
+La versión estable más reciente es la `0.1.5`. Para los usuarios de Windows, los binarios están provistos en la página de lanzamientos (releases). Usuarios de Linux y Max OS deben clonar este repositorio y ejecutar desde la fuente.
 
 [Release 0.1.5](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.5)
 
@@ -51,10 +51,10 @@ Secuencias de escape como las siguientes están disponibles para el formato de m
 
 #### Comandos para jugadores
 
-Comandos que pueden ser ejecutador por cualquier jugador.
+Comandos que pueden ser ejecutados por cualquier jugador.
 
 <details>
-<summary>Click para ver los comandos para jugadores!</summary>
+<summary>¡Cliquea para ver los comandos para jugadores!</summary>
 
 * `!commands` - Muestra una lista de todos los comandos disponibles para los jugadores
 * `!stats <user>` - Muestra estadísticas generales de un usuario
@@ -83,7 +83,7 @@ Comandos que pueden ser ejecutador por cualquier jugador.
 * `!scoreboard` - Muestra la tabla de posición completa, Útil en servidores con un máximo de jugadores mayor que 6
     - Alias: `!sb` Hace lo mismo
 * `!game` - Información de la partida actual
-* `!maps [--all]` - Muestra el ciclo de mapas de actual
+* `!maps [--all]` - Muestra el ciclo de mapas actual
     - Option `-a`: Muestra todos los mapas disponibles
 * `!player_count` - Muestra la cantidad actual y máxima de jugadores </details>
 
@@ -165,14 +165,15 @@ Scripts adicionales pueden ser escritos en la carpeta `conf/scripts` y ejecutado
 
 * Se pueden añadir comentarios en el script con el prefijo `;` antes de escribir en una linea.
 
-### Webadmin patches
+### Parches del Administrador Web (Webadmin Patches)
 
-For gamemodes other than survival to function in full patches have to be applied to the `KFGame/Web/ServerAdmin` folder on the server. For this reason a script is provided in the `admin-patches` folder that will automatically patch your server.
+Para que modos de juego distintos a supervivencia funcionen completamente, los parches deben ser aplicados a la carpeta `KFGame/Web/ServerAdmin` del servidor.
+Por esta razón, se provee un script en la carpeta `admin-patches` que parcheará automáticamente tu servidor.
 
-There is currently no CLI or Windows build for this component. You can run it with `python3 admin-patches/admin-patches.py`. A dialogue box will appear asking you to locate your server.
+Actualmente no existe un CLI (Interfáz de linea de comandos) o Windows build para éste componente. Puedes ejecutarlo con `python3 admin-patches/admin-patches.py`. Un cuadro de diálogo aparecerá pidiéndote que búsques tu servidor. 
 
 
-Configuration options
+Opciones de Configuración
 ---------------------
 
 La configuración básica se hace en la primera ejecución. Sin embargo, esto no cubre todas las opciones que KF2-MA puede ofrecer. Por favor revisa el archivo `conf/magicked_admin.conf`, para más opciones de configuración ya que algunas características están desactivadas por defecto.
@@ -196,31 +197,32 @@ Las opciones pueden configurarse en el archivo `conf/magicked_admin.conf`.
 * `scoreboard_type`
     - Valores posibles: `kills`, o `dosh`. Cambia el tipo de puntuacíon que se muestra en el MOTD.
 
-Running with Docker
+Ejecución con Docker
 ---------------------------
 
-Running with docker is easy. Just issue this command:
+Ejecutar con Docket es fácil. Solo escribe éste comando:
 ```
     docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3z/kf2-magicked-admin
 ```
-You will need to change `<host config folder location>` to wheverever you want to store your config folder. `/mnt/user/appdata/kf2-magicked-admin` is a popular choice for systems running Unraid.
+Tendrás que cambiar `<host config folder location>` a donde sea que quieras guardar la carpeta de configuración. `/mnt/user/appdata/kf2-magicked-admin` es la elección más popular en sistemas que ejecutan Unraid.
 
-After this command runs the container will exit out and the logs will tell you to setup the config file. Go to your `conf` folder and set things up then run the container again and you are good to go!
+Luego de que finalice este comando, el contenedor se cerrará y los logs te pedirán que hagas tu archivo de configuración. Ve a la carpeta `conf` y configura lo necesario, luego ejecuta el contenedor nuevamente y estarás ¡listo para partir!
 
-Running from Python sources
+
+Ejecutando desde fuentes Python
 ---------------------------
 
-Before contributing code you will need to install the Python requirements.
+Antes de contribuir con código necesitarás instalar los requerimientos de Python.
 
-### Requirements
-Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating systems. Install the following packages.
+### Requerimientos
+Éstos ejemplos funcionan en Debian 10 y Ubuntu Xenial, podrían ser distintos para otros sistemas operativos. Instala los siguientes paquetes.
 
 * Python 3.7 - `apt install python3`
 * Pip - `apt install python3-pip`
 * Python 3 dependencies - `pip3 install -r requirements.txt`
-    - This might complain about cx_freeze not installing if you haven't got zlib-dev, but cx_freeze is only needed for building.
+    - Podrias tener problemas con que cx_freeze  no se instale si no tienes zlib-dev, pero cx_freeze solo se necesita para la compilación del projecto.
 
-### Running
+### Ejecución
 `git clone git@github.com:th3-z/kf2-magicked-admin.git`
 
 `cd kf2-magicked-admin`
@@ -229,15 +231,15 @@ Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating sys
 
 `python3 -O magicked_admin/magicked_admin.py`
 
-The `-O` flag runs the program in release mode, remove it to run KF2-MA in debug mode. Debug mode will enable more detailed output.
+La bandera `-O` ejecuta el programa en modo "release", quítala para ejecutar el programa en modo "debug". El modo "Debug" habilitará salidas mas detallas por consola.
 
 Building
 --------
 
-You can build a binary release for distribution with `make` after installing both the run and build requirements.
+Puedes construir (build) un release binario para distribución con `make` luego de instalar ambos requerimientos "run" y "build".
 
-### Requirements
-Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating systems.
+### Requerimientos
+Éstos ejemplos funcionan en Debian 10 y Ubuntu Xenial, podrían ser distintos para otros sistemas operativos. Instala los siguientes paquetes.
 
 * Python 3.7 - `apt install python3`
 * Pip - `apt install python3-pip`
@@ -245,8 +247,8 @@ Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating sys
 * Make - `apt install make`
 * zlib-dev - `apt install zlib1g-dev`
 
-### Windows users
-You can build the program without make by running `setup.py`.
+### Usuario de Windows
+Puedes construir el programa sin `make` ejecutando `setup.py`
 
 * `python3 setup.py build`
 
