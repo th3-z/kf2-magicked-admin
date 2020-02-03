@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-03 03:25\n"
+"PO-Revision-Date: 2020-02-03 11:37\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -30,27 +30,27 @@ msgstr "Installation terminée !\n"
 
 #: magicked_admin/magicked_admin.py:143
 msgid "Closing immediately!"
-msgstr ""
+msgstr "Fermeture immédiate !"
 
 #: magicked_admin/magicked_admin.py:152
 msgid "Program interrupted, saving data..."
-msgstr ""
+msgstr "Programme interrompu, sauvegarde des données..."
 
 #: magicked_admin/settings.py:24
 msgid "Please correct this manually  or delete '{}' to create a clean config next run."
-msgstr ""
+msgstr "Veuillez corriger cela manuellement ou supprimer '{}' pour créer une configuration propre à la prochaine exécution."
 
 #: magicked_admin/settings.py:31
 msgid "No configuration was found, first time setup is required!"
-msgstr ""
+msgstr "Aucune configuration n'a été trouvée, la première configuration est requise !"
 
 #: magicked_admin/settings.py:43
 msgid "Guided setup was skipped, a template has been generated."
-msgstr ""
+msgstr "La configuration guidée a été ignorée, un modèle a été généré."
 
 #: magicked_admin/settings.py:45
 msgid "Setup is not complete yet, please amend '{}' with your server details."
-msgstr ""
+msgstr "L'installation n'est pas encore terminée, veuillez modifier '{}' avec les détails de votre serveur."
 
 #: magicked_admin/settings.py:53
 msgid "Configuration error(s) found!\n"
