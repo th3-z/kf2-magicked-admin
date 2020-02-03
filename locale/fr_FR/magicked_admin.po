@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-03 11:37\n"
+"PO-Revision-Date: 2020-02-03 13:33\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -55,41 +55,44 @@ msgstr "L'installation n'est pas encore terminée, veuillez modifier '{}' avec l
 #: magicked_admin/settings.py:53
 msgid "Configuration error(s) found!\n"
 "Section '{}' has a duplicate setting: '{}'."
-msgstr ""
+msgstr "Erreur(s) de configuration trouvée(s) !\n"
+"La section '{}' a un paramètre en double : '{}'."
 
 #: magicked_admin/settings.py:60
 msgid "Configuration error(s) found!"
-msgstr ""
+msgstr "Erreur(s) de configuration trouvée(s) !"
 
 #: magicked_admin/settings.py:76
 msgid "    Please input your web admin details below."
-msgstr ""
+msgstr "    Veuillez entrer les détails de votre web admin ci-dessous."
 
 #: magicked_admin/settings.py:88
 msgid "\n"
 "Address [default - localhost:8080]: "
-msgstr ""
+msgstr "\n"
+"Adresse [default - localhost:8080] : "
 
 #: magicked_admin/settings.py:94
 msgid "Address not responding!\n"
 "Accepted formats are: 'ip:port', 'domain', or 'domain:port'"
-msgstr ""
+msgstr "L'adresse ne répond pas!\n"
+"Les formats acceptés sont : 'ip:port', 'domaine', ou 'domaine:port'"
 
 #: magicked_admin/settings.py:97
 msgid "Username [default - Admin]: "
-msgstr ""
+msgstr "Nom d'utilisateur [par défaut - Admin]: "
 
 #: magicked_admin/settings.py:99
 msgid "Password (will not echo) [default - 123]: "
-msgstr ""
+msgstr "Mot de passe (ne sera pas echo) [par défaut - 123] : "
 
 #: magicked_admin/settings.py:135
 msgid "Config file has no sections."
-msgstr ""
+msgstr "Le fichier de configuration n'as pas de sections."
 
 #: magicked_admin/settings.py:144
 msgid "Section '{}' is missing a required setting: '{}'."
-msgstr ""
+msgstr "La section '{}' a un paramètre requis manquant : '{}'."
 
 #: magicked_admin/chatbot/__init__.py:5
 msgid "\n"
