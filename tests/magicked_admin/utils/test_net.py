@@ -2,11 +2,6 @@ import pytest
 
 from magicked_admin.utils.net import get_country, phone_home, resolve_address
 
-
-def test_phone_home():
-    assert phone_home()
-
-
 def test_get_country():
     expected = ("United States", "US")
     unknown = ("Unknown", "??")
