@@ -6,220 +6,223 @@
 
 [![Downloads](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg)](https://img.shields.io/github/downloads/th3-z/kf2-magicked-admin/total.svg) [![Build Status](https://travis-ci.com/th3-z/kf2-magicked-admin.svg?branch=master)](https://travis-ci.com/th3-z/kf2-magicked-admin) [![Coverage Status](https://coveralls.io/repos/github/th3-z/kf2-magicked-admin/badge.svg?branch=master)](https://coveralls.io/github/th3-z/kf2-magicked-admin?branch=master) [![CodeFactor](https://www.codefactor.io/repository/github/th3-z/kf2-magicked-admin/badge/master)](https://www.codefactor.io/repository/github/th3-z/kf2-magicked-admin/overview/master) [![GitHub license](https://img.shields.io/github/license/th3-z/kf2-magicked-admin)](https://github.com/th3-z/kf2-magicked-admin/blob/master/LICENSE)
 
-Scripted management, statistics, and bot for ranked Killing Floor 2 servers. Provides in-game commands, player stat tracking and ranking, live MOTD scoreboard and stats, greeter, and admin functions. Running entirely through the web admin, it does not affect a server's ranked/custom status. It can be ran either directly on the server or remotely, and manage multiple servers at once.
+Administración con Scripts, estadísticas, y bot para servidor de Killing Floor 2 Ranked. Provee comandos en la partida, Seguimiento de estadísticas por jugador y rankings, tabla de puntuación y estadísticas en vivo, saludador (bienvenida a los jugadores cuando entran a la partida), y funciones de administrador. Ejecución completa a través del Administrador Web, No afecta el estado "Ranked/Custom" del servidor. Se puede ejecutar directamente sobre el servidor o remotamente, y administrar multiples servidores simultáneamente.
 
-Downloads
+Descargas
 ---------
 
-The most recent stable version is `0.1.5`. Binaries are provided on the releases page for Windows users. Linux and Mac OS users should clone the repo and run from source.
+La versión estable más reciente es la `0.1.5`. Para los usuarios de Windows, los binarios están provistos en la página de lanzamientos (releases). Usuarios de Linux y Max OS deben clonar este repositorio y ejecutar desde la fuente.
 
 [Release 0.1.5](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.5)
 
 <details>
-<summary>Old releases</summary>
+<summary>Versiones anteriores</summary>
 
 * [Release 0.1.4](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.4)
 * [Release 0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3)
 * [Release 0.1.2](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.2)
 * [Release 0.0.7](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.0.7) </details>
 
-Features
+Características
 --------
 
-### Commands
+### Comandos
 
-When inputting commands into the chat they need to be prefixed with `!`. When writting commands into a script, or chaining them this should be omitted.
+Cuando escribes comandos através del chat deben ir con el prefijo '!'. Cuando escribes comandos en un script, o los encadenas, el prefijo debe omitirse.
 
-Many commands will look for closest matches to their parameters. For example '_biotics_' will match '_kf-biotics-lab_' and '_userO_' will match '_userOne™/@:®_'.
+Varios comandos buscarán la coincidencia más cercana en relación a sus parámetros. Por ejemplo '_biotics_' coincidirá con '_kf-biotics-lab_' y '_userO_' coincidirá con '_userOne™/@:®_'.
 
-All commands have in-game help text that can be accessed with the `-h` flag.
+Todos los comandos tienen ayuda dentro de la partida a la cual puedes acceder con la bandera -h
 
-* Example: `!commands -h`
+* Ejemplo: `!commands -h`
 
-All commands also have the following flags.
+Así mismo, todos los comandos tienen además las siguientes banderas.
 
-* `-q` - Suppresses output
-* `-p` - Pads output to hide the username line
+* `-q` - Suprime la salida.
+* `-p` - Esconde la linea con el nombre de usuario.
 
-Escape sequences as follows are available to format messages.
 
-* `\n` - Newline
-    - Example: `!say line 0\nline 1`
+Secuencias de escape como las siguientes están disponibles para el formato de mensajes.
+
+* `\n` - Salto de linea
+    - Ejemplo: `!say linea 0\nlinea 1`
 * `\t` - Tab
-    - Example: `!say line 0\n\tline 1 is indented`
+    - Ejemplo: `!say linea 0\n\tlinea 1 está indentada`
 
-#### Player commands
+#### Comandos para jugadores
 
-Commands that can be executed by any player.
-
-<details>
-<summary>Click to see the player commands!</summary>
-
-* `!commands` - Shows a list of all commands available to players
-* `!stats <user>` - Shows general statistics about a user
-    - Example: `!stats` Shows stats about yourself
-    - Example: `!stats the_z` Shows stats about the_z
-* `!kills <user>` - Shows kill statistics about a user
-    - Example: `!kills` Shows kill stats about yourself
-    - Example: `!kills the_z` Shows kill stats about the_z
-* `!dosh <user>` - Shows dosh statistics about a user
-    - Example: `!dosh` Shows dosh stats about yourself
-    - Example: `!dosh the_z` Shows dosh stats about the_z
-* `!time <user>` - Shows time statistics about a user
-    - Example: `!dosh` Shows time stats about yourself
-    - Example: `!dosh the_z` Shows time stats about the_z
-* `!map` - Shows statistics about the current map
-* `!record_wave` - Shows the highest wave achieved on the current map
-* `!top_kills` - Shows the global kills leaderboard
-* `!top_dosh` - Shows the global dosh leaderboard
-* `!top_time` - Shows the global play time leaderboard
-* `!top_wave_kills` - Shows information about who killed the most ZEDs in the current wave. Generally for use with `start_trc`
-    - Example: `!start_trc -- top_wave_kills`
-* `!top_wave_dosh` - Shwows information about who earned the most dosh in the current wave. Generally for use with `!start_trc`
-    - Example: `!start_trc -- top_wave_dosh`
-* `!server_kills` - Shows total kills on the server
-* `!server_dosh` - Shows total dosh earned on the server
-* `!scoreboard` - Shows the complete player scoreboard, useful on servers with >6 max players
-    - Alias: `!sb` Does the same
-* `!game` - Shows information about the current game
-* `!maps [--all]` - Shows the current map cycle
-    - Option `-a`: Show all available maps
-* `!player_count` - Shows the player count and max players </details>
-
-#### Admin commands
-
-Commands that can be ran by server administrators or users authorized with the `!op` command.
+Comandos que pueden ser ejecutados por cualquier jugador.
 
 <details>
-<summary>Click to see the admin commands!</summary>
+<summary>¡Cliquea para ver los comandos para jugadores!</summary>
 
-* `!op <user>` - Gives a user administrative rights
-    - Example: `!op the_z`
-* `!deop <user>` - Revokes a user's administrative rights
-    - Example: `!deop the_z`
-* `!say <message>` - Echoes a message into chat
-    - Example: `!say The quick brown fox jumps over the lazy dog`
-    - Example: `!start_trc -- say The trader is open`
-* `!players` - Shows detailed information about players on the server
-* `!kick <user>` - Kicks `<user>` from the match
-    - Example: `!kick the_z`
-* `!ban <user>` - Bans `<user>` from the server
-    - Example: `!ban the_z`
-    - Warnng: The web admin currently has a bug that causes bans to persist after they are deleted, thus there is no unban command
-* `!length <length>` - Change the length to `<length>` next game
-    - Example: `!length short`
-* `!difficulty <difficulty>` - Change the difficulty to `<difficulty>` next game
-    - Example: `!difficulty hell`
-* `!game_mode <game_mode>` - Immediately change the game mode to `<game_mode>`
-    - Example: `!game_mode endless` Changes the game mode to Endless
-* `!load_map <map>` - Immediately change the map to `<map>`
-    - Example: `!load_map biotics` Changes the map to Biotics Lab
-* `!restart` - Immediately restart the current game
+* `!commands` - Muestra una lista de todos los comandos disponibles para los jugadores
+* `!stats <user>` - Muestra estadísticas generales de un usuario
+    - Ejemplo: `!stats` Muestra tus estadísticas
+    - Ejemplo: `!stats the_z` Muestra las estadísticas de the_z
+* `!kills <user>` - Muestra las estadísticas de Kills de un usuario
+    - Ejemplo: `!kills` Muestra tus estadísticas de Kills
+    - Ejemplo: `!kills the_z` Muestra las estadísticas de the_z
+* `!dosh <user>` - Muestra las estadísticas de Dosh de un usuario
+    - Ejemplo: `!dosh` Muestra tus estadísticas de Dosh
+    - Ejemplo: `!dosh the_z` Muestra las estadísticas de the_z
+* `!time <user>` - Muestra las estadísticas de tiempo de un usuario
+    - Ejemplo: `!dosh` Muestra tus estadísticas de tiempo
+    - Ejemplo: `!dosh the_z` Muestra las estadísticas de the_z
+* `!map` - Muestra las estadísticas del mapa actual
+* `!record_wave` - Muestra la oleada mas álta alcanza en el mapa actual
+* `!top_kills` - Muestra la tabla de posición global de Kills
+* `!top_dosh` - Muestra la tabla de posición global de Dosh
+* `!top_time` - Muestra la tabla de posición global de Tiempo jugado
+* `!top_wave_kills` - Muestra información acerca del jugador que ha matado más ZEDs en la oleada actual. Generalmente se usa con `start_trc`
+    - Ejemplo: `!start_trc -- top_wave_kills`
+* `!top_wave_dosh` - Muestra información acerca del jugador que obtuvo más dosh en la oleada actual. Generalmente se usa con `!start_trc`
+    - Ejemplo: `!start_trc -- top_wave_dosh`
+* `!server_kills` - Cantidad total de Kills en el servidor
+* `!server_dosh` - Cantidad de Dosh obtenido en el servidor
+* `!scoreboard` - Muestra la tabla de posición completa, Útil en servidores con un máximo de jugadores mayor que 6
+    - Alias: `!sb` Hace lo mismo
+* `!game` - Información de la partida actual
+* `!maps [--all]` - Muestra el ciclo de mapas actual
+    - Option `-a`: Muestra todos los mapas disponibles
+* `!player_count` - Muestra la cantidad actual y máxima de jugadores </details>
+
+#### Comandos de Administrador
+
+
+Comandos que pueden ser ejecutados por los administradores del servidor o usuarios autorizados con el comando `!op`.
+<details>
+<summary>¡Cliquea para ver los comandos de administrador!</summary>
+
+* `!op <usuario>` - Le da a un usuario permisos de administrador
+    - Ejemplo: `!op the_z`
+* `!deop <usuario>` - Quita los permisos de administrador a un usuario
+    - Ejemplo: `!deop the_z`
+* `!say <mensaje>` - Envia un mensaje por el chat
+    - Ejemplo: `!say The quick brown fox jumps over the lazy dog`
+    - Ejemplo: `!start_trc -- say El mercader está abierto`
+* `!players` - Muestra información detallada de los jugadores que están en el servidor
+* `!kick <usuario>` - Expulsa `<user>` de la partida
+    - Ejemplo: `!kick the_z`
+* `!ban <user>` - Banea a `<user>` del servidor
+    - Ejemplo: `!ban the_z`
+    - Advertencia: El administrador web tiene un bug que causa que los baneos permanezcan luego de que son borrados, por esa razón no hay comando para desbanear.
+* `!length <largo>` - Cambia el largo `<length>` en la siguiente partida
+    - Ejemplo: `!length short` (También puede ser medium o long)
+* `!difficulty <difficulty>` - Cambia la dificultad a `<difficulty>` en la siguiente partida
+    - Ejemplo: `!difficulty hell`
+* `!game_mode <game_mode>` - Cambia inmediatamente el modo de juego a `<game_mode>`
+    - Ejemplo: `!game_mode endless` Cambia el modo de juego a Sin Fin
+* `!load_map <map>` - Cambia inmediatamente el mapa a `<map>`
+    - Ejemplo: `!load_map biotics` Cambia el mapa a Biotics Lab
+* `!restart` - Reinicia inmediatamente la partida
 * `!password [--set] <on|off>`
-    - Example: `!password on` Enables the game password defined in the config
-    - Example: `!password off` Disables the game password
-    - Example: `!password --set somePass` Sets a specific password
-* `!start_jc -- <command>` - Start a command that runs every time a player joins
-    - Example: `!start_jc -- say Welcome %PLR` - Greets a player on join
-    - Available tokens: `%PLR` - username, `%KLL` - total kills, `%DSH` - total dosh; `%PLR` - username, `%BCK` - "back" if sessions > 1, `%DRK` - dosh rank, `%KRK` - kill rank, `%TME` - play time, `%TRK` - play time rank, `%SES` - sessions
-* `!stop_jc` - Stops all join commands
-* `!start_wc [-w <wave>] -- <command>` - Start a command that runs on wave `<wave>`
-    - `-w` Wave to run the command on, can be omitted to have the command run every wave
-    - `-w` Can be negative to count backwards from the boss wave
-    - Example: `!start_wc -1 -- say Welcome to the boss wave`
-* `!stop_wc` - Stops all wave commands
-* `!start_tc [-r, -t <seconds>] -- <command>` - Start a command that runs after `<seconds>` seconds
-    - Option `-r`: Add to have the command run repeatedly
-    - Option `-t`: Required, the number of seconds before the command runs
-    - Example: `!start_tc -rt 600 -- say Join our Steam group!\n
+    - Ejemplo: `!password on` Activa la contraseña del archivo config en el servidor
+    - Ejemplo: `!password off` Desactiva la contraseña para el servidor
+    - Ejemplo: `!password --set algunaContraseña` Configura una contraseña especifica
+* `!start_jc -- <command>` - Comienza un comando que se ejecutará cada vez que alguien entre en la partida
+    - Ejemplo: `!start_jc -- say Bienvenido %PLR` - Saluda a un jugador al entrar
+    - Claves Disponibles: `%PLR` - Nombre de Usuario, `%KLL` - total de kills, `%DSH` - total de dosh, `%BCK` - "atrás" si el número de sesiones es > (mayor que) 1, `%DRK` - dosh rank, `%KRK` - kill rank, `%TME` - tiempo jugado, `%TRK` - rank de tiempo, `%SES` - sesiones
+* `!stop_jc` - Detiene todos los comandos que se ejecutan cuando un jugador entra a la partida
+* `!start_wc [-w <wave>] -- <command>` - Comienza un comando que se ejecuta en la oleada `<wave>`
+    - `-w` Oleada en la cual ejecutar el comando, puede ser omitido para ejecutar el comando en todas las oleadas
+    - `-w` Puede ser un valor negativo para contar desde la oleada del jefe hacia atras
+    - Ejemplo: `!start_wc -1 -- say Bienvenidos a la oleada del Jefe`
+* `!stop_wc` - Detiene todos los comandos que se ejecutan en oleadas
+* `!start_tc [-r, -t <seconds>] -- <command>` - Comienza un comando que se ejecuta cada `<seconds>` segundos
+    - Opción `-r`: Añádela para que el comando se ejecute repetidas veces
+    - Opción `-t`: Requerida, el número de segundos a esperar para ejecutar el comando
+    - Ejemplo: `!start_tc -rt 600 -- say Únete a nuestro grupo de Steam!\n
 http://steam.group/`
-* `!stop_tc` - Stops all timed commands
-* `!start_trc [-w <wave>] -- <command>` - Start a commands that runs when the trader opens
-    - `-w` Wave to run the command on, can be omitted to have the command run every wave
-    - `-w` Can be negative to count backwards from the boss wave
-    - Example: `!start_trc -- top_wave_dosh` - Shows who earned the most dosh every wave when the trader opens
-* `!stop_trc` - Stop all commands that run on trader open
-* `!silent` - Toggles suppression of all chat output, commands still have effect, but the response will not be visible to players
-* `!run <script_name>` - Executes a script from the `conf/scripts` folder, more information in the scripts section
-    - Example: `!run example`
-* `!marquee <marquee_name>` - Runs a marquee in the chat from the `conf/marquee` folder, _experimental_
-    - Example: `!marquee example`
-* `!update_motd <type>` - Refreshes the welcome screen leaderboard, type is one of: kills, dosh, or time
-    - Example: `!start_tc 300 -- update_motd kills`
-* `!reload_motd` - Reloads the server's `*.motd` file from `conf`
-* `!enforce_dosh <amount>` - Kicks all players that have more dosh than the specified `amount`
-    - Example: `!start_tc 600 -- enforce_dosh 60000` </details>
+* `!stop_tc` - Detiene todos los comandos que se ejecutan con tiempo
+* `!start_trc [-w <wave>] -- <command>` - Gatilla comandos que se ejecutan cuando abre el mercader
+    - `-w` Olada en la cual ejecutar el comando, puede omitirse para que se ejecute en todas las oleadas
+    - `-w` Puede ser un valor negativo para contar desde la oleada del jefe hacia atras
+    - Ejemplo: `!start_trc -- top_wave_dosh` - Muestra quien obtuvo la mayor cantidad de Dosh cuando abre el mercader
+* `!stop_trc` - Detiene todos los comandos que se ejecutan cuando abre el mercader
+* `!silent` - Activa / Desactiva la supresión del chat, los comandos seguirán teniendo efecto, pero la respuesta no será visible para los jugadores
+* `!run <script_name>` - Ejecuta un script de la carpeta `conf/scripts`, más información en la sección de scripts
+    - Ejemplo: `!run example`
+* `!marquee <marquee_name>` - Ejecuta un marquee de la carpeta `conf/marquee`, _experimental_
+    - Ejemplo: `!marquee example`
+* `!update_motd <type>` - Actualiza la tabla de posición de la pantalla de bienvenida, El tipo puede ser uno de estos: kills, dosh, o time
+    - Ejemplo: `!start_tc 300 -- update_motd kills`
+* `!reload_motd` - Recarga el archivo `*.motd` desde `conf`
+* `!enforce_dosh <amount>` - Expulsa a todos los jugadores que tengan más dosh que el especificado en `amount`
+    - Ejemplo: `!start_tc 600 -- enforce_dosh 60000` </details>
 
 ### MOTD leaderboard
 
-Create a `conf/server_name.motd` file containing pairs of `%PLR` and `%SCR`. `%PLR` will be replaced with player names and `%SCR` will be replaced with their current score. You can now use `!update_motd <type>` to draw the leaderboard into your welcome screen, `<type>` should be kills, dosh, or time depending on the desired score metric.
+Crea un archivo `conf/server_name.motd` que contenga pares de `%PLR` y `%SCR`. `%PLR` será reemplazado con el nombre del jugador y `%SCR` será reemplazado con su puntuación actual. Ahora puedes usar `!update_motd <type>` para mostrar la tabla en un pantalla de bienvenida, `<type>` debe ser kills, dosh, o time dependiendo de cual sistema de medida quieras usar.
 
-`%SRV_D` and `%SRV_K` will be replaced by the total dosh and kills on the server respectively.
+`%SRV_D` y `%SRV_K` será reemplazado por el total de dosh y kills respectivamente, en el servidor.
 
 ### Scripts
 
-Writing a `server_name.init` in the `conf/scripts` folder with a series of commands will run the commands in sequence when the bot starts on `server_name`.
+Escribir un archivo `server_name.init` en la carpeta `conf/scripts` con una serie de comandos, se ejecutarán en secuencia cuando el bot se inicie en `server_name`.
 
-Additional scripts can be written in the `conf/scripts` folder and ran with the `!run` command. There is an example already in there that can be ran with `!run example`.
+Scripts adicionales pueden ser escritos en la carpeta `conf/scripts` y ejecutados con el comando `!run`. Ya hay un ejemplo dentro de la carpeta el cual puede ser ejecutado con `!run example`.
 
-* Comments can be added to scripts by prefixing a line with `;`.
+* Se pueden añadir comentarios en el script con el prefijo `;` antes de escribir en una linea.
 
-### Webadmin patches
+### Parches del Administrador Web (Webadmin Patches)
 
-For gamemodes other than survival to function in full patches have to be applied to the `KFGame/Web/ServerAdmin` folder on the server. For this reason a script is provided in the `admin-patches` folder that will automatically patch your server.
+Para que modos de juego distintos a supervivencia funcionen completamente, los parches deben ser aplicados a la carpeta `KFGame/Web/ServerAdmin` del servidor.
+Por esta razón, se provee un script en la carpeta `admin-patches` que parcheará automáticamente tu servidor.
 
-There is currently no CLI or Windows build for this component. You can run it with `python3 admin-patches/admin-patches.py`. A dialogue box will appear asking you to locate your server.
+Actualmente no existe un CLI (Interfáz de linea de comandos) o Windows build para éste componente. Puedes ejecutarlo con `python3 admin-patches/admin-patches.py`. Un cuadro de diálogo aparecerá pidiéndote que búsques tu servidor. 
 
 
-Configuration options
+Opciones de Configuración
 ---------------------
 
-Basic setup is done on the first run. However this does not cover all of the options KF2-MA can offer. Please see the config file, `conf/magicked_admin.conf`, for more configuration options as some features are disabled by default.
+La configuración básica se hace en la primera ejecución. Sin embargo, esto no cubre todas las opciones que KF2-MA puede ofrecer. Por favor revisa el archivo `conf/magicked_admin.conf`, para más opciones de configuración ya que algunas características están desactivadas por defecto.
 
-Each server managed by KF2-MA has a section that looks something like `[server_one]`, followed by several options (`x = y`). Copy and edit the default server section if you want to manage multiple servers. `[server_one]` is the name of the server, this can be changed to whatever you want.
+Cada servidor administrado por KF2-MA tiene una sección que luce algo como `[server_one]`, seguido de varias opciones (`x = y`). Copia y edita la "default server section" si quieres administrar múltiples servidores. `[server_one]` es el nombre del servidor, esto puede cambiarse a lo que tu quieras.
 
-### Options
+### Opciones
 
-Options can be configured in the config file `conf/magicked_admin.conf`.
+Las opciones pueden configurarse en el archivo `conf/magicked_admin.conf`.
 
 * `address`
-    - Web address of the server's webadmin panel. Requires scheme and protocol, e.g. `https://0.0.0.0:8080`
+    - Dirección web del Servidor (Panel Web). Requiere esquema y protocolo, ej: `https://0.0.0.0:8080`
 * `username`
-    - Webadmin username to login with, this will appear in the chat when the bot has something to output. It's recommended to create a separate account for the bot.
+    - Nombre de usuario para logearse en el Administrador Web, éste nombre aparecera en el chat cuando el bot tenga algo que decir. Se recomienda crear una cuenta aparte para el bot.
 * `password`
-    - Webadmin password that matches the username above.
+    - Contraseña del Administrador Web que le pertenece al nombre de usuario anterior.
 * `game_password`
-    - Default game password to set when the password is toggled using `!password <on|off>`.
+    - Contraseña del servidor por defecto para activar / desactivar con el comando `!password <on|off>`.
 * `motd_scoreboard`
-    - Boolean value, enable or disable the MOTD scoreboard feature. Defaults to disabled.
+    - Valor Booleano, Activa o desactiva la característica del MOTD. Desactivado por defecto.
 * `scoreboard_type`
-    - Possible values: `kills`, or `dosh`. Change the type of scores that are displayed in the MOTD scoreboard.
+    - Valores posibles: `kills`, o `dosh`. Cambia el tipo de puntuacíon que se muestra en el MOTD.
 
-Running with Docker
+Ejecución con Docker
 ---------------------------
 
-Running with docker is easy. Just issue this command:
+Ejecutar con Docket es fácil. Solo escribe éste comando:
 ```
     docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3z/kf2-magicked-admin
 ```
-You will need to change `<host config folder location>` to wheverever you want to store your config folder. `/mnt/user/appdata/kf2-magicked-admin` is a popular choice for systems running Unraid.
+Tendrás que cambiar `<host config folder location>` a donde sea que quieras guardar la carpeta de configuración. `/mnt/user/appdata/kf2-magicked-admin` es la elección más popular en sistemas que ejecutan Unraid.
 
-After this command runs the container will exit out and the logs will tell you to setup the config file. Go to your `conf` folder and set things up then run the container again and you are good to go!
+Luego de que finalice este comando, el contenedor se cerrará y los logs te pedirán que hagas tu archivo de configuración. Ve a la carpeta `conf` y configura lo necesario, luego ejecuta el contenedor nuevamente y estarás ¡listo para partir!
 
-Running from Python sources
+
+Ejecutando desde fuentes Python
 ---------------------------
 
-Before contributing code you will need to install the Python requirements.
+Antes de contribuir con código necesitarás instalar los requerimientos de Python.
 
-### Requirements
-Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating systems. Install the following packages.
+### Requerimientos
+Éstos ejemplos funcionan en Debian 10 y Ubuntu Xenial, podrían ser distintos para otros sistemas operativos. Instala los siguientes paquetes.
 
 * Python 3.7 - `apt install python3`
 * Pip - `apt install python3-pip`
 * Python 3 dependencies - `pip3 install -r requirements.txt`
-    - This might complain about cx_freeze not installing if you haven't got zlib-dev, but cx_freeze is only needed for building.
+    - Podrias tener problemas con que cx_freeze  no se instale si no tienes zlib-dev, pero cx_freeze solo se necesita para la compilación del projecto.
 
-### Running
+### Ejecución
 `git clone git@github.com:th3-z/kf2-magicked-admin.git`
 
 `cd kf2-magicked-admin`
@@ -228,15 +231,15 @@ Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating sys
 
 `python3 -O magicked_admin/magicked_admin.py`
 
-The `-O` flag runs the program in release mode, remove it to run KF2-MA in debug mode. Debug mode will enable more detailed output.
+La bandera `-O` ejecuta el programa en modo "release", quítala para ejecutar el programa en modo "debug". El modo "Debug" habilitará salidas mas detallas por consola.
 
 Building
 --------
 
-You can build a binary release for distribution with `make` after installing both the run and build requirements.
+Puedes construir (build) un release binario para distribución con `make` luego de instalar ambos requerimientos "run" y "build".
 
-### Requirements
-Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating systems.
+### Requerimientos
+Éstos ejemplos funcionan en Debian 10 y Ubuntu Xenial, podrían ser distintos para otros sistemas operativos. Instala los siguientes paquetes.
 
 * Python 3.7 - `apt install python3`
 * Pip - `apt install python3-pip`
@@ -244,8 +247,8 @@ Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating sys
 * Make - `apt install make`
 * zlib-dev - `apt install zlib1g-dev`
 
-### Windows users
-You can build the program without make by running `setup.py`.
+### Usuario de Windows
+Puedes construir el programa sin `make` ejecutando `setup.py`
 
 * `python3 setup.py build`
 
