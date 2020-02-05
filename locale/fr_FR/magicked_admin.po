@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-05 10:25\n"
+"PO-Revision-Date: 2020-02-05 10:42\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -277,51 +277,51 @@ msgstr "update_motd"
 
 #: magicked_admin/chatbot/commands/command_map.py:41
 msgid "reload_motd"
-msgstr ""
+msgstr "reload_motd"
 
 #: magicked_admin/chatbot/commands/command_map.py:44
 msgid "commands"
-msgstr ""
+msgstr "commands"
 
 #: magicked_admin/chatbot/commands/command_map.py:45
 msgid "record_wave"
-msgstr ""
+msgstr "record_wave"
 
 #: magicked_admin/chatbot/commands/command_map.py:46
 msgid "game"
-msgstr ""
+msgstr "game"
 
 #: magicked_admin/chatbot/commands/command_map.py:47
 msgid "kills"
-msgstr ""
+msgstr "kills"
 
 #: magicked_admin/chatbot/commands/command_map.py:48
 msgid "dosh"
-msgstr ""
+msgstr "dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:49
 msgid "top_kills"
-msgstr ""
+msgstr "top_kills"
 
 #: magicked_admin/chatbot/commands/command_map.py:50
 msgid "top_dosh"
-msgstr ""
+msgstr "top_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:51
 msgid "top_time"
-msgstr ""
+msgstr "top_time"
 
 #: magicked_admin/chatbot/commands/command_map.py:52
 msgid "top_wave_kills"
-msgstr ""
+msgstr "top_wave_kills"
 
 #: magicked_admin/chatbot/commands/command_map.py:53
 msgid "top_wave_dosh"
-msgstr ""
+msgstr "top_wave_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:54
 msgid "stats"
-msgstr ""
+msgstr "stats"
 
 #: magicked_admin/chatbot/commands/command_map.py:55
 msgid "game_time"
@@ -586,123 +586,139 @@ msgstr ""
 #: magicked_admin/chatbot/commands/player_commands.py:134
 msgid "Usage: !top_kills\n"
 "Desc: Show the global kills leaderboard"
-msgstr ""
+msgstr "Utilisation : !top_kills\n"
+"Description : Affiche le classement global des kills"
 
 #: magicked_admin/chatbot/commands/player_commands.py:147
 msgid "Top 5 players by total kills:\n"
-msgstr ""
+msgstr "Top 5 des joueurs par nombre de kills :\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:163
 msgid "Usage: !top_dosh\n"
 "Desc: Shows the global dosh leaderboard"
-msgstr ""
+msgstr "Utilisation : !top_dosh\n"
+"Description : Montre le classement global des dosh"
 
 #: magicked_admin/chatbot/commands/player_commands.py:176
 msgid "Top 5 players by Dosh earned:\n"
-msgstr ""
+msgstr "Top 5 des joueurs par nombre de dosh gagnés :\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:192
 msgid "Usage: !top_time\n"
 "Desc: Shows the global play time leaderboard"
-msgstr ""
+msgstr "Utilisation : !top_time\n"
+"Description : Affiche le classement global du temps de jeu"
 
 #: magicked_admin/chatbot/commands/player_commands.py:205
 msgid "Top 5 players by play time:\n"
-msgstr ""
+msgstr "Top 5 des joueurs par temps de jeu total :\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:221
 msgid "Usage: !scoreboard\n"
 "Desc: Shows full player scoreboard"
-msgstr ""
+msgstr "Utilisation : !scoreboard\n"
+"Description : Affiche le tableau de score complet du joueur"
 
 #: magicked_admin/chatbot/commands/player_commands.py:231
 msgid "Scoreboard (name, kills, dosh):\n"
-msgstr ""
+msgstr "Tableau des scores (name, kills, dosh) :\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:242
 msgid "{}\t- {} Kills, £{}\n"
-msgstr ""
+msgstr "{}\t- {} Kills, {} dosh\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:253
 msgid "Usage: !top_wave_kills\n"
 "Desc: Shows who killed the most ZEDs in this wave"
-msgstr ""
+msgstr "Utilisation : !top_wave_kills\n"
+"Description : Affiche qui a tué le plus de ZEDs durant cette vague"
 
 #: magicked_admin/chatbot/commands/player_commands.py:274
 msgid "Player {} killed the most ZEDs this wave: {}"
-msgstr ""
+msgstr "Le joueur {} a tué le plus de ZEDs durant cette vague : {}"
 
 #: magicked_admin/chatbot/commands/player_commands.py:285
 msgid "Usage: !top_wave_dosh\n"
 "Desc: Shows who earned the most dosh this wave"
-msgstr ""
+msgstr "Utilisation : !top_wave_dosh\n"
+"Description : Montre qui a gagné le plus de dosh durant cette vague"
 
 #: magicked_admin/chatbot/commands/player_commands.py:305
 msgid "Player {} earned the most Dosh this wave: £{}"
-msgstr ""
+msgstr "Le joueur {} a gagné le plus de Dosh durant cette vague : {} dosh"
 
 #: magicked_admin/chatbot/commands/server_commands.py:17
 msgid "Usage: !ban USERNAME\n"
 "\tUSERNAME - Player to ban\n"
 "Desc: Bans a player from the server"
-msgstr ""
+msgstr "Usage: !ban USERNAME\n"
+"\tUSERNAME - Joueur à bannir\n"
+"Description : Bannis un joueur du serveur"
 
 #: magicked_admin/chatbot/commands/server_commands.py:32
 #: magicked_admin/chatbot/commands/server_commands.py:89
 #: magicked_admin/chatbot/commands/server_commands.py:125
 #: magicked_admin/chatbot/commands/server_commands.py:259
 msgid "Missing argument, username or Steam ID"
-msgstr ""
+msgstr "Argument manquant, nom d'utilisateur ou ID Steam"
 
 #: magicked_admin/chatbot/commands/server_commands.py:37
 #: magicked_admin/chatbot/commands/server_commands.py:264
 msgid "Player not found"
-msgstr ""
+msgstr "Joueur introuvable"
 
 #: magicked_admin/chatbot/commands/server_commands.py:40
 msgid "Player, {}, was banned"
-msgstr ""
+msgstr "Le joueur, {}, a été banni"
 
 #: magicked_admin/chatbot/commands/server_commands.py:48
 msgid "Usage: !say MESSAGE\n"
 "\tMESSAGE - Message to echo\n"
 "Desc: Echos a message in chat"
-msgstr ""
+msgstr "Usage: !say MESSAGE\n"
+"\tMESSAGE - Message à afficher\n"
+"Description : Affiche un message dans le chat"
 
 #: magicked_admin/chatbot/commands/server_commands.py:73
 msgid "Usage: !op USERNAME\n"
 "\tUSERNAME - Player to give operator status\n"
 "Desc: Allows a player to use admin commands"
-msgstr ""
+msgstr "Usage: !op USERNAME\n"
+"\tUSERNAME - Joueur à qui l'on souhaite donner le statut d'admin\n"
+"Description : Alloue les commandes d'administrateur à un joueur"
 
 #: magicked_admin/chatbot/commands/server_commands.py:94
 #: magicked_admin/chatbot/commands/server_commands.py:130
 msgid "Couldn't find player '{}'"
-msgstr ""
+msgstr "Impossible de trouver le joueur '{}'"
 
 #: magicked_admin/chatbot/commands/server_commands.py:97
 msgid "Oped {}"
-msgstr ""
+msgstr "{} a été promu admin"
 
 #: magicked_admin/chatbot/commands/server_commands.py:108
 msgid "Usage: !deop USERNAME\n"
 "\tUSERNAME - Player to revoke op status for\n"
 "Desc: Revokes a players ability to use admin commands"
-msgstr ""
+msgstr "Usage: !deop USERNAME\n"
+"\tUSERNAME - Révoquer le statut d'admin d'un joueur\n"
+"Description : Révoque la capacité d'un joueur à utiliser les commandes admin"
 
 #: magicked_admin/chatbot/commands/server_commands.py:133
 msgid "Deoped {}"
-msgstr ""
+msgstr "{} n'est plus admin"
 
 #: magicked_admin/chatbot/commands/server_commands.py:144
 msgid "Usage: !maps [--all]\n"
 "\t-a --all - Show all available maps\n"
 "Desc: Shows maps that are in the map cycle"
-msgstr ""
+msgstr "Utilisation : !maps [--all]\n"
+"\t-a --all - Affiche toute les cartes disponibles\n"
+"Description : Affiche les cartes présente dans le cycle de cartes"
 
 #: magicked_admin/chatbot/commands/server_commands.py:196
 msgid "Stats for {}:\n"
-msgstr ""
+msgstr "Statistiques pour {} :\n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:197
 msgid "Total plays: {} \n"
