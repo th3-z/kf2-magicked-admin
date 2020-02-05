@@ -388,18 +388,18 @@ password = 123
 Vous pouvez le faire pour autant de serveurs que vous le souhaitez.
 
 ## Renommer les serveurs
-If you have a few servers, you might want to name them so you can easily identify them.
+Si vous avez plusieurs serveurs, vous voudrez peut-être les nommer afin de pouvoir les identifier facilement.
 
-You first need to open '[b]conf/magicked_admin.conf[/b]' and here you can change '[b]server_one[/b]' to anything you want.
+Vous devez d'abord ouvrir '[b]conf/magicked_admin.conf[/b]' et là vous pouvez changer '[b]server_one[/b]' en tout ce que vous voulez.
 
-You then need to go back and change '[b]server_one.motd[/b]' and '[b]server_one.init[/b]' to the name you just set it to in '[b]conf/magicked_admin.conf[/b]'.
+Vous devez ensuite revenir en arrière et changer '[b]server_one.motd[/b]' et '[b]server_one.init[/b]' en le nom que vous venez de définir dans '[b]conf/magicked_admin.conf[/b]'.
 
-## Resetting stats
-To reset the scoreboard all you have to do is delete the '[b]conf/*.sqlite[/b]' file associated with the server name, a new one will be created the next time you start KF2 Magicked Admin.
+## Réinitialisation des statistiques
+Pour réinitialiser le tableau de bord, il vous suffit de supprimer le fichier '[b]conf/*.sqlite[/b]' associé au nom du server, un nouveau sera créer la prochaine fois que vous démarrerez KF2 Magicked Admin.
 
-If I wanted to reset the stats on '[b]server_four[/b]', I would delete the '[b]conf/server_four.sqlite[/b]' file and restart KF2 Magicked Admin.
+Pour réinitialiser les statistiques de '[b]server_four[/b]', supprimez le fichier '[b]conf/server_four.sqlite[/b]' et redémarrez KF2 Magicked Admin.
 
-## Planned features
+## Fonctionnalités prévues
 [h1]Next release - 0.1.5[/h1]
 The following features are currently slated for the next release.
 [list]
