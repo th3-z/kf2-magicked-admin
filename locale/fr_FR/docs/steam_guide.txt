@@ -219,60 +219,60 @@ L'écriture d'un fichier '[b]conf/server_name.motd[/b]' contenant des paires de 
 Un exemple simple pourrait être le suivant :
 [code]Bienvenue sur notre serveur Survie ! Hébergé en France
 
-%SRV_K Zeds killed on this server.
+Nombre de cartes : 439 | IP du serveur : 42.123.32.142:7777
 
-Top Players (total kills):
+Top des joueurs par kills: | Total Kills = %SRV_K | Total Dosh = %SRV_D
 1. %PLR [%SCR]		2. %PLR [%SCR]		3. %PLR [%SCR] 
 4. %PLR [%SCR]		5. %PLR [%SCR]		6. %PLR [%SCR] 
 7. %PLR [%SCR]		8. %PLR [%SCR]		9. %PLR [%SCR]
 
-Have fun and good luck!
+Commandes des joueurs : !help, !info, !commands, !me, !stats, !sb, !game, et plus encore =)
 [/code]
 
-KF2 Magicked Admin will replace '[b]%PLR[/b]' with the player's username, '[b]%SCR[/b]' with the player's total kills or total dosh, '[b]%SRV_K[/b]' with the global server kills, and '[b]%SRV_D[/b]' with the global server dosh.
+KF2 Magicked Admin remplacera '[b]%PLR[/b]' par le nom d'utilisateur du joueur, '[b]%SCR[/b]' par le nombre total de tués ou de dosh total du joueur, '[b]%SRV_K[/b]' par le nombre de ZEDs tués sur le serveur au total, et '[b]%SRV_D[/b]' pour le nombre total de dosh gagnés sur le serveur.
 
-Once the file is written, use the '[b]!update_motd <type>[/b]' command to refresh the leaderboard. This should be used in combination with '[b]!start_tc <refresh_interval>[/b]' so that it is refreshed automatically.
-    - Example: '[b]!start_tc 300 -- update_motd dosh[/b]'
+Une fois le fichier écrit, utilisez la commande '[b]!update_motd <type>[/b]' (remplacer <type> par dosh, kills ou time) pour actualiser le classement. Ceci doit être utilisé en combinaison avec '[b]!start_tc <intervalle_de_rafraichissement>[/b]' afin qu'il soit actualisé automatiquement.
+    - Exemple: '[b]!start_tc 300 -- update_motd dosh[/b]' => Met à jour le classement de l'écran de bienvenue toute les 5 minutes.
 
-The metric for '[b]%SCR[/b]' can be either 'kills', 'time', or 'dosh'. This is can be set by changing the '[b]<type>[/b]' parameter when using '[b]!update_motd <type>[/b]'
+La métrique pour '[b]%SCR[/b]' peut être «kills», «time» ou «dosh». Ceci peut être défini en modifiant le paramètre '[b]<type>[/b]' lors de l'utilisation de '[b]!update_motd <type>[/b]'
 
-Here is my survival suicidal welcome screen as an example of what can be achieved. 
+Voici mon écran d'accueil en suicidaire en mode survie comme exemple de ce qui peut être réalisé. 
 
 [previewicon=12055995;sizeOriginal,inline;KFGame_2018-04-14_03-27-00.png][/previewicon]
 
 
 [h1]Notes[/h1]
 [list]
-[*] This will overwrite your existing motd.
-[*] '[b]!reload_motd[/b]' Can be used to reload the template file while KF2 Magicked Admin is still running.
+[*] Cela écrasera votre motd existant.
+[*] '[b]!reload_motd[/b]' Peut être utilisé pour recharger le fichier de modèle alors que KF2 Magicked Admin est toujours en cours d'exécution.
 [/list]
 
 ## Scripts
-KF2 Magicked Admin has some rudimentary scripting support which can be used to chain commands into a single action.
+KF2 Magicked Admin a un support de script rudimentaire qui peut être utilisé pour enchaîner les commandes en une seule action.
 
-There are two categories of scripts, they differ in when and how they are executed.
+Il existe deux catégories de scripts, ils diffèrent par le moment et la manière dont ils sont exécutés.
 
 [list]
-[*] Comments can be added to scripts by prefixing a line with '[b];[/b]'
+[*] Des commentaires peuvent être ajoutés aux scripts en plaçant '[b];[/b]' en début de ligne
 [/list]
 
-[h1]Init scripts[/h1]
+[h1]Scripts d'initialisation (.init)[/h1]
 
-Writing a '[b]server_name.init[/b]' in the '[b]conf/scripts[/b]' folder with a series of commands will run the commands in sequence when the bot starts on '[b]server_name[/b]'. The server names are defined in '[b]conf/magicked_admin.conf[/b]', if you haven't changed the name it will default to '[b]server_one[/b]'.
+L'écriture d'un '[b]server_name.init[/b]' dans le dossier '[b]conf/scripts[/b]' avec une série de commandes exécutera les commandes dans l'ordre lorsque le bot démarrera sur '[b]server_name[/b]'. Les noms de serveur sont définis dans '[b]conf/magicked_admin.conf[/b]', si vous n'avez pas changé le nom, il sera par défaut '[b]server_one[/b]'.
 
-An example init file will have been generated on first launch, this can be used as a template for writing your own init scripts.
+Un exemple de fichier init aura été généré lors du premier lancement, il peut être utilisé comme modèle pour écrire vos propres scripts init.
 
-[h1]Run scripts[/h1]
+[h1]Exécuter des scripts[/h1]
 
-The '[b]!run[/b]' command exists to facilitate the running of scripts at any time. These scripts should be placed in the '[b]conf/scripts[/b]' folder. An example script is already in the scripts folder, it can be ran with '[b]!run example[/b]'. 
+La commande '[b]!run[/b]' existe pour faciliter l'exécution de scripts à tout moment. Ces scripts doivent êtres placés dans le dossier '[b]conf/scripts[/b]'. Un exemple de script est déjà dans le dossier scripts, il peut être exécuté avec '[b]!run example[/b]'. 
 
-These scripts are formatted much the same as the init script, the commands will be ran in sequence from top to bottom.
+Ces scripts sont formatés de la même manière que le script init, les commandes seront exécutées en séquence de haut en bas.
 
-[h1]Notable examples[/h1]
+[h1]Exemples notables[/h1]
 
-Some commands are particularly useful when used in scripts, these are: '[b]!start_tc[/b]', '[b]!start_trc[/b]', '[b]!start_wc[/b]', '[b]!start_jc[/b]', '[b]!top_wave_kills[/b]', '[b]!top_wave_dosh[/b]', '[b]!enforce_dosh[/b]', '[b]!say[/b]'.
+Certaines commandes sont particulièrement utiles lorsqu'elles sont utilisées dans des scripts, les voici : '[b]!start_tc[/b]', '[b]!start_trc[/b]', '[b]!start_wc[/b]', '[b]!start_jc[/b]', '[b]!top_wave_kills[/b]', '[b]!top_wave_dosh[/b]', '[b]!enforce_dosh[/b]', '[b]!say[/b]'.
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Show who earned the most dosh each wave when the trader opens, and update the welcome screen leaderboard every 5 minutes[/i]
+'[b]conf/scripts/server_one.init[/b]' - [i]Montrez qui a gagné le plus de dosh à chaque vague à l'ouverture du trader et mettez à jour le classement de l'écran de bienvenue toutes les 5 minutes[/i]
 [code] start_trc -- top_wave_dosh
  start_tc 300 -- update_motd dosh[/code]
 
