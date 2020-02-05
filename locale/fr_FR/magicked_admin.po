@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-05 11:48\n"
+"PO-Revision-Date: 2020-02-05 12:00\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -940,60 +940,69 @@ msgstr "Mode silencieux activé"
 msgid "Usage: !length LENGTH\n"
 "\tLENGTH - Length to change to\n"
 "Desc: Changes the game length next match"
-msgstr ""
+msgstr "Utilisation : !length LENGTH\n"
+"\tLENGTH - Valeur de la longueur à définir : short, medium ou long\n"
+"Description : Change la longueur de la prochaine partie (4, 7 ou 10), définis le nombre de manches"
 
 #: magicked_admin/chatbot/commands/server_commands.py:492
 #: magicked_admin/chatbot/commands/server_commands.py:504
 msgid "Length not recognised, options are: short, medium, or long"
-msgstr ""
+msgstr "Longueur non reconnue, les options sont : short, medium, ou long"
 
 #: magicked_admin/chatbot/commands/server_commands.py:511
 msgid "Length change will take effect next game"
-msgstr ""
+msgstr "Le changement du nombre de vagues entrera en vigueur à la prochaine partie"
 
 #: magicked_admin/chatbot/commands/server_commands.py:520
 msgid "Usage: !difficulty DIFFICULTY\n"
 "\tDIFFICULTY - Difficulty to change to\n"
 "Desc: Changes the difficulty next match"
-msgstr ""
+msgstr "Utilisation : !difficulty DIFFICULTY\n"
+"\tDIFFICULTY - Valeur de la difficulté\n"
+"Description : Change la difficulté de la partie suivante, options disponibles : normal, hard, suicidal, hell"
 
 #: magicked_admin/chatbot/commands/server_commands.py:533
 #: magicked_admin/chatbot/commands/server_commands.py:547
 msgid "Difficulty not recognised, options are: normal, hard, suicidal, or hell"
-msgstr ""
+msgstr "Difficulté non reconnue, les options sont : normal, hard, suicidal, ou hell"
 
 #: magicked_admin/chatbot/commands/server_commands.py:554
 msgid "Difficulty change will take effect next game"
-msgstr ""
+msgstr "Le changement de difficulté prendra effet lors de la prochaine partie"
 
 #: magicked_admin/chatbot/commands/server_commands.py:563
 msgid "Usage: !game_mode MODE\n"
 "\tMODE - Mode to change to\n"
 "Desc: Immediately changes the game mode"
-msgstr ""
+msgstr "Utilisation : !game_mode MODE\n"
+"\tMODE - Remplacer par le mode de jeu voulu\n"
+"Description : Modifie immédiatement le mode de jeu"
 
 #: magicked_admin/chatbot/commands/server_commands.py:577
 msgid "Mode not recognised, options are: endless, survival, weekly or versus"
-msgstr ""
+msgstr "Mode de jeu non reconnu, les options sont: endless, survival, weekly ou versus"
 
 #: magicked_admin/chatbot/commands/server_commands.py:592
 msgid "GameMode not recognised, options are: endless, survival, weekly or versus"
-msgstr ""
+msgstr "Mode de jeu non reconnu, les options sont: endless, survival, weekly ou versus"
 
 #: magicked_admin/chatbot/commands/server_commands.py:599
 msgid "Game mode will be changed to {}"
-msgstr ""
+msgstr "Le mode de jeu sera changé en {}"
 
 #: magicked_admin/database/database.py:29
 msgid "Building new database..."
-msgstr ""
+msgstr "Création d'une nouvelle base de données..."
 
 #: magicked_admin/server/game.py:30
 msgid "Mode: {}\n"
 "Map: {}\n"
 "Difficulty: {}\n"
 "Wave {}/{}"
-msgstr ""
+msgstr "Mode : {}\n"
+"Carte : {}\n"
+"Difficulté : {}\n"
+"Vague : {}/{}"
 
 #: magicked_admin/server/game.py:70
 msgid "Title: {}\n"
@@ -1001,26 +1010,33 @@ msgid "Title: {}\n"
 "Plays survival_vs: {}\n"
 "Plays endless: {}\n"
 "Plays weekly: {}"
-msgstr ""
+msgstr "Titre : {}\n"
+"Joue en survie : {}\n"
+"Joue en survie versus : {}\n"
+"Joue en infini : {}\n"
+"Joue en hebdomadaire : {}"
 
 #: magicked_admin/server/game_tracker.py:55
 msgid "Game type ({}) support not installed, please patch your webadmin to correct this! Guidance is available at: {}"
-msgstr ""
+msgstr "La prise en charge du type de jeu ({}) n'est pas installée, veuillez patcher votre administrateur web pour corriger cela ! Le guide est disponible à : {}"
 
 #: magicked_admin/server/player.py:38 magicked_admin/utils/net.py:59
 msgid "Unknown"
-msgstr ""
+msgstr "Inconnu"
 
 #: magicked_admin/server/player.py:56
 msgid "Username: {}\n"
 "Country: {} ({})\n"
 "OP: {}\n"
 "Steam ID:{}"
-msgstr ""
+msgstr "Pseudo : {}\n"
+"Pays : {} ({})\n"
+"Admin : {}\n"
+"ID Steam :{}"
 
 #: magicked_admin/server/server.py:77
 msgid "Flushing players on {}"
-msgstr ""
+msgstr "Flushing des joueurs sur {}"
 
 #: magicked_admin/server/server.py:82
 msgid "Writing game to database ({})"
