@@ -66,27 +66,27 @@ Toutes les commandes ont un texte d'aide en jeu accessible avec le drapeau '[b]-
 [/list]
 Toutes les commandes ont également les drapeaux suivants :
 [list]
-[*] Option '[b]-q[/b]': Suppresses output
-[*] Option '[b]-p[/b]': Pads output to hide the username line
+[*] Option '[b]-q[/b]': Supprime la sortie (ne s'affiche plus/pas dans le chat)
+[*] Option '[b]-p[/b]': Tampon de sortie pour masquer la ligne du nom d'utilisateur
 [/list]
-Escape sequences as follows are available to format messages.
+Les séquences d'échappement comme suit sont disponibles pour formater les messages.
 [list]
-[*] '[b]\n[/b]' - Newline
-    - Example: '[b]!say line 0 \n line 1[/b]'
+[*] '[b]\n[/b]' - Nouvelle ligne
+    - Exemple: '[b]!say ligne 0 \n ligne 1[/b]'
 [*] '[b]\t[/b]' - Tab
-    - Example: '[b]!say line 0 \n\t line 1 is indented 1 tabstop[/b]'
+    - Exemple: '[b]!say ligne 0 \n\t ligne 1 est en retrait 1 tabstop[/b]'
 [/list]
 
-## Player commands
-These commands can be executed by any player. As of writing there are 18 player commands available.
+## Commandes pour les joueurs
+Ces commandes peuvent être exécutées par n'importe quel joueur. Au moment de l'écriture, 18 commandes de joueur sont disponibles.
 [list]
-[*] '[b]!commands[/b]' - Shows a list of all commands available to players
+[*] '[b]!commands[/b]' - Affiche une liste de toutes les commandes disponibles pour les joueurs
 
-[*] '[b]!stats <user>[/b]' - Shows general statistics about a user
-    - Example: '[b]!stats[/b]' Shows stats about yourself
-    - Example: '[b]!stats the_z[/b]' Shows stats about the_z
+[*] '[b]!stats <joueur>[/b]' - Affiche des statistiques générales sur un utilisateur
+    - Exemple: '[b]!stats[/b]' Affiche des statistiques sur vous-même
+    - Exemple: '[b]!stats the_z[/b]' Affiche les statistiques sur the_z
 
-[*] '[b]!kills <user>[/b]' - Shows kill statistics about a user
+[*] '[b]!kills <joueur>[/b]' - Affiche les statistiques du nombre de Zeds tués par un joueur
     - Example: '[b]!kills[/b]' Shows kill stats about yourself
     - Example: '[b]!kills the_z[/b]' Shows kill stats about the_z
 
