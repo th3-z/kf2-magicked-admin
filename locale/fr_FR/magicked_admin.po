@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-05 10:49\n"
+"PO-Revision-Date: 2020-02-05 11:00\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -325,78 +325,85 @@ msgstr "stats"
 
 #: magicked_admin/chatbot/commands/command_map.py:55
 msgid "game_time"
-msgstr ""
+msgstr "game_time"
 
 #: magicked_admin/chatbot/commands/command_map.py:56
 msgid "server_kills"
-msgstr ""
+msgstr "server_kills"
 
 #: magicked_admin/chatbot/commands/command_map.py:57
 msgid "server_dosh"
-msgstr ""
+msgstr "server_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:58
 msgid "map"
-msgstr ""
+msgstr "map"
 
 #: magicked_admin/chatbot/commands/command_map.py:59
 msgid "maps"
-msgstr ""
+msgstr "maps"
 
 #: magicked_admin/chatbot/commands/command_map.py:60
 msgid "player_count"
-msgstr ""
+msgstr "player_count"
 
 #: magicked_admin/chatbot/commands/command_map.py:61
 msgid "scoreboard"
-msgstr ""
+msgstr "scoreboard"
 
 #: magicked_admin/chatbot/commands/command_map.py:62
 msgid "sb"
-msgstr ""
+msgstr "sb"
 
 #: magicked_admin/chatbot/commands/event_commands.py:16
 msgid "Usage: !start_jc COMMAND\n"
 "\tCOMMAND - Command to run\n"
 "Desc: Runs a command when a player joins the match"
-msgstr ""
+msgstr "Utilisation : !start_jc COMMAND\n"
+"\tCOMMAND - Command à exécuter\n"
+"Description : Exécute une commande quand un joueur rejoint la partie"
 
 #: magicked_admin/chatbot/commands/event_commands.py:33
 #: magicked_admin/chatbot/commands/event_commands.py:99
 #: magicked_admin/chatbot/commands/event_commands.py:167
 #: magicked_admin/chatbot/commands/event_commands.py:223
 msgid "Please specify a command to run"
-msgstr ""
+msgstr "Veuillez spécifier une commande à exécuter"
 
 #: magicked_admin/chatbot/commands/event_commands.py:42
 msgid "Player join command started"
-msgstr ""
+msgstr "La commande devant s'activer quand un joueur rejoins la partie a démarrée"
 
 #: magicked_admin/chatbot/commands/event_commands.py:50
 msgid "Usage: !stop_jc\n"
 "Desc: Stops all join commands"
-msgstr ""
+msgstr "Utilisation : !stop_jc\n"
+"Description : Désactive toutes les commandes devant s'activer quand un joueur rejoins la partie"
 
 #: magicked_admin/chatbot/commands/event_commands.py:71
 msgid "Usage: !start_wc [--wave] COMMAND\n"
 "\t-w --wave - Optional, wave to run on\n"
 "\tCOMMAND - Command to run\n"
 "Desc: Run a command at the start of a wave, wave can be omitted top run on every wave"
-msgstr ""
+msgstr "Utilisation : ! tart_wc [--wave] COMMAND\n"
+"\t-w --wave - facultatif, vague à laquelle s'exécute la commande\n"
+"\tCOMMAND - Command to run\n"
+"Description : Exécute une commande au début d'une vague, wave peut être omis pour être exécuté à chaque vague"
 
 #: magicked_admin/chatbot/commands/event_commands.py:91
 #: magicked_admin/chatbot/commands/event_commands.py:231
 msgid "'{}' is not a valid wave number"
-msgstr ""
+msgstr "'{}' n'est pas un numéro de vague valide"
 
 #: magicked_admin/chatbot/commands/event_commands.py:106
 msgid "Wave start command started"
-msgstr ""
+msgstr "La commande devant s'exécuter au début de la vague a démarrée"
 
 #: magicked_admin/chatbot/commands/event_commands.py:114
 msgid "Usage: !stop_wc\n"
 "Desc: Stops all wave commands"
-msgstr ""
+msgstr "Utilisation : !stop_wc\n"
+"Description : Désactive toutes les commandes wave"
 
 #: magicked_admin/chatbot/commands/event_commands.py:135
 msgid "Usage: !start_tc [-r -t] COMMAND\n"
@@ -820,30 +827,35 @@ msgstr "Redémarrage de la carte..."
 msgid "Usage: !load_map MAP_NAME\n"
 "\tMAP_NAME - Map to load\n"
 "Desc: Immediately changes the map."
-msgstr ""
+msgstr "Utilisation : !load_map MAP_NAME\n"
+"\tMAP_NAME - Carte à charger\n"
+"Description : Change de carte immédiatement."
 
 #: magicked_admin/chatbot/commands/server_commands.py:392
 msgid "Missing argument (map name)"
-msgstr ""
+msgstr "Argument manquant (nom de la carte)"
 
 #: magicked_admin/chatbot/commands/server_commands.py:395
 msgid "Changing map"
-msgstr ""
+msgstr "Changement de carte"
 
 #: magicked_admin/chatbot/commands/server_commands.py:402
 msgid "Usage: !password [--set] STATE\n"
 "\tSTATE - On, off, or new password\n"
 "\t-s --set - Set a new password\n"
 "Desc: Enables or disables the game password configured in 'conf/magicked_admin.conf', state can be on, off, or a new password."
-msgstr ""
+msgstr "Utilisation : !password [--set] STATE\n"
+"\tSTATE - On, off ou nouveau mot de passe\n"
+"\t-s --set - Définissez un nouveau mot de passe\n"
+"Description : Active ou désactive le mot de passe du jeu configuré dans 'conf/magicked_admin.conf', son état peut être activé, désactivé ou définit sur un nouveau mot de passe."
 
 #: magicked_admin/chatbot/commands/server_commands.py:421
 msgid "Game password is currently {}"
-msgstr ""
+msgstr "Le mot de passe du jeu est actuellement {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:422
 msgid "enabled"
-msgstr ""
+msgstr "activé"
 
 #: magicked_admin/chatbot/commands/server_commands.py:422
 msgid "disabled"
