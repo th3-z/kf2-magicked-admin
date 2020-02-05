@@ -286,80 +286,80 @@ Certaines commandes sont particulièrement utiles lorsqu'elles sont utilisées d
 [code]silent -q // Les lignes de commande qui vont suivre seront invisibles dans le chat
 password --set MotDePasseSuperSecret // Définis le mot de passe comme étant "MotDePasseSuperSecret"
 difficulty hell // définit la difficulté sur Enfer sur Terre
-length long
-load_map biotics
-silent -q[/code]
+length long // Définit la longueur de la partie sur 10 manches
+load_map biotics // Charge la carte KF-BioticsLab
+silent -q // Les lignes de commande qui suivront seront de nouveau visibles[/code]
 
-## Configuration options
-Basic setup is done on the first run. However this is only to get you started, it does not cover all of the options KF2 Magicked Admin can offer. Please see the configuration file, '[b]conf/magicked_admin.conf[/b]', for more configuration options as some features are disabled by default.
+## Options de configuration
+La configuration de base est effectuée lors de la première exécution. Cependant, ce n'est que pour vous aider à démarrer, cela ne couvre pas toutes les options que KF2 Magicked Admin peut offrir. Veuillez consulter le fichier de configuration, '[b]conf/magicked_admin.conf[/b]', pour plus d'options de configuration car certaines fonctionnalités sont désactivées par défaut.
 
-Each server managed by KF2 Magicked Admin has a config section that looks something like '[b][server_one][/b]', followed by several options ('[b]x = y[/b]'). Copy the default server section and change the name if you want to manage multiple servers. '[b][server_one][/b]' is the name of the server, this can be changed to whatever you want, but each section should have a unique name.
+Chaque serveur géré par KF2 Magicked Admin possède une section de configuration qui ressemble à '[b][server_one][/b]', suivie de plusieurs options ('[b]x = y[/b]'). Copiez la section serveur par défaut et modifiez le nom si vous souhaitez gérer plusieurs serveurs. '[b][server_one][/b]' est le nom du serveur, cela peut être changé en ce que vous voulez, mais chaque section doit avoir un nom unique.
 
 [h1]Options[/h1]
 
-The following options can be configured in the config file '[b]conf/magicked_admin.conf[/b]'.
+Les options suivantes peuvent être configurées dans le fichier de configuration '[b]conf/magicked_admin.conf[/b]'.
 [list]
-[*] '[b]address[/b]'  - Web address of the server's web admin panel. Requires scheme and protocol
-    - Example: '[b]address=https://0.0.0.0:8080[/b]'
+[*] '[b]address[/b]'  - Adresse Web du panneau d'administration Web du serveur. Nécessite un schéma et un protocole
+    - Exemple: '[b]address=https://127.0.0.1:8080[/b]'
 
-[*] '[b]username[/b]' - Web admin username to login with, this will appear in the chat when the bot has something to output. It's recommended to create a separate account for the bot.
-    - Example: '[b]username=Admin[/b]'
+[*] '[b]username[/b]' - Nom d'utilisateur de l'administrateur Web pour vous connecter, cela apparaîtra dans le chat lorsque le bot aura quelque chose à dire/faire. Il est recommandé de créer un compte distinct pour le bot.
+    - Exemple: '[b]username=Admin[/b]'
 
-[*] '[b]password[/b]'  - Web admin password that matches the username above.
-    - Example: '[b]password=123[/b]'
+[*] '[b]password[/b]'  - Mot de passe d'administrateur Web qui correspond au nom d'utilisateur ci-dessus.
+    - Exemple: '[b]password=123[/b]'
 
-[*] '[b]game_password[/b]' - Default game password to set when the password is toggled using '[b]!password <on|off>[/b]'.
-    - Example: '[b]game_password=Hunter69[/b]'
+[*] '[b]game_password[/b]' - Mot de passe de jeu par défaut à définir lorsque le mot de passe est basculé à l'aide de '[b]!password <on|off>[/b]'.
+    - Exemple: '[b]game_password=Hunter69[/b]'
 
 [/list]
 
-## Renaming the chatbot (multi-admin)
-To rename your chatbot to something other than 'Admin' your server must be configured for multi-admin. 
+## Renommer le chatbot (multi-admin)
+Pour renommer votre chatbot en autre chose que «Admin», votre serveur doit être configuré pour plusieurs administrateurs. 
 
-If your server already has multi-admin support all you need to do is create an account with the desired name and change the account credentials in '[b]conf/magicked_admin.conf[/b]'
+Si votre serveur dispose déjà d'une prise en charge multi-administrateurs, il vous suffit de créer un compte avec le nom souhaité et de modifier les informations d'identification du compte dans '[b]conf/magicked_admin.conf[/b]'
 
-The following covers the same setup as the official Tripwire documentation on this topic, which is available [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)#Setting_up_multiple_web_admins]here[/url].
+Ce qui suit couvre la même configuration que la documentation officielle Tripwire sur ce sujet, qui est disponible [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)#Setting_up_multiple_web_admins]ici[/url].
 [olist]
-[*]Go to your server's config folder. '[b]KF2-Server\KFGame\Config\Config[/b]'.
+[*]Accédez au dossier de configuration de votre serveur : '[b]KF2-Server\KFGame\Config\Config[/b]'.
 
-[*]Open '[b]KFWebAdmin.ini[/b]' in your favourite editor, add the following under the '[b][WebAdmin.WebAdmin][/b]' section, and save the file.
+[*]Ouvrez'[b]KFWebAdmin.ini[/b]' dans votre éditeur de texte préféré, et ajoutez ce qui suit dans la section '[b][WebAdmin.WebAdmin][/b]' , puis sauvegardez le fichier.
 [code]AuthenticationClass=WebAdmin.MultiWebAdminAuth[/code]
 
-[*]Now open your web admin panel and there should be a new '[b]Administrators[/b]' section in the sidebar.
+[*]Ouvrez maintenant webadmin dans votre naviguateur web (127.0.0.1:8080 par exemple) une nouvelle section '[b]Administrators[/b]' devrait être apparue dans la barre latérale gauche, tout en bas.
 [previewicon=11679370;sizeThumb,inline;chrome_2018-03-08_23-53-58.png][/previewicon]
 
-[*]Click '[b]Administrators[/b]' and select '[b]Create Administrator[/b]'. Enter a name for the Chatbot (This is the name you will use to sign in with). Click OK.
+[*]Cliquez sur '[b]Administrators[/b]' et sélectionnez '[b]Create Administrator[/b]'. Entrez un nom pour le chatbot (c'est le nom que vous utiliserez pour vous connecter). Cliquez sur OK.
 
-[*]Give it a '[b]Display Name[/b]', '[b]Password[/b]', and enable the account (the display name is what players will see in chat).
+[*]Donnez lui un '[b]Display Name[/b]' (nom d'affichage), '[b]Password[/b]', et activez le compte (le nom d'affichage est ce que les joueurs verront dans le chat).
 [previewicon=11679547;sizeThumb,inline;chrome_2018-03-09_00-16-09.png][/previewicon]
 
-[*]Leave '[b]Access Order[/b]' set to '[b]Deny/Allow[/b]', and don't add any '[b]Deny Patterns[/b]' or '[b]Allow Patterns[/b]'. If you have issues using your new account, this is a common culprit so please leave it as is.
+[*]Laissez '[b]Access Order[/b]' définis sur  '[b]Deny/Allow[/b]', et n'ajoutez aucun '[b]Deny Patterns[/b]' ou '[b]Allow Patterns[/b]'. Si vous rencontrez des problèmes lors de l'utilisation de votre nouveau compte, il s'agit d'un coupable courant, veuillez donc le laisser tel quel.
 
-[*]Click '[b]Save[/b]' and the account is ready for use.
+[*]Cliquez sur '[b]Save[/b]' et le compte sera prêt à être utilisé.
 
-[*]Update the account credentials in '[b]conf/magicked_admin.conf[/b]'
+[*]Mettre à jour les informations d'identification du compte dans '[b]conf/magicked_admin.conf[/b]'
 [/olist]
 
-## Endless and weekly game mode support
-In game modes other than survival KF2 Magicked Admin will have a limited feature set due to differences in the web admin panel when in other modes. However the web admin panel can be altered to enable the full feature set.
+## Prise en charge du mode de jeu Infini et Hebdomadaire
+Dans les modes de jeu autres que le mode survie, KF2 Magicked Admin aura un ensemble de fonctionnalités limité en raison des différences dans le panneau d'administration Web dans les autres modes. Cependant, le panneau d'administration Web peut être modifié pour activer l'ensemble des fonctionnalités.
 
-For this reason a web admin patcher is available [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-admin-patches-0.0.1.zip]here[/url]. 
+Pour cette raison, le patch pour webadmin est disponible [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-admin-patches-0.0.1.zip]ici[/url]. 
 
 [h1]Notes[/h1]
-To use this utility your server files in '[b]KF2Server/KFGame/Web/ServerAdmin[/b]' will have to be stock/clean. If you have edited these files I suggest the following alternatives.
+Pour utiliser cet utilitaire, vos fichiers de serveur dans '[b]KF2Server/KFGame/Web/ServerAdmin[/b]'  devront être stockés / nettoyés. Si vous avez édité ces fichiers, je suggère les alternatives suivantes :  
 [list]
-[*]Validate the server files with steamcmd with the command '[b]app_update 232130 validate[/b]' and use the patcher as normal.
-[*]Manually apply the diffs in '[b]admin-patcher/patches[/b]' to your server files.
+[*] Validez les fichiers du serveur avec steamcmd avec la commande '[b]app_update 232130 validate[/b]' et utilisez le patcher comme d'habitude.
+[*] Appliquez manuellement les différences dans '[b]admin-patcher/patches[/b]' à vos fichiers de serveur.
 [/list]
 
-[h1]Usage (GUI/Desktop)[/h1]
+[h1]Utilisation (GUI/Bureau)[/h1]
 [olist]
-[*] Run the executable
-[*] Open the location where your server is installed in the destination selection window
-[*] Click '[b]open[/b]'
+[*] Exécutez l'exécutable (.exe)
+[*] Ouvrez l'emplacement où votre serveur est installé dans la fenêtre de sélection de destination
+[*] Cliquez sur '[b]ouvrir[/b]'
 [/olist]
 
-[h1]Usage (Headless/Server)[/h1]
+[h1]Utilisation (Headless/Serveur)[/h1]
 [*] Run the executable with a target flag, e.g. '[b]./magicked_admin.exe --target /path/to/kf2/server[/b]'
 [*] Check the console window for any issues
 
