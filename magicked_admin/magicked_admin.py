@@ -133,12 +133,16 @@ class MagickedAdmin:
     def run(self):
         servers = []
 
-        for server_name in self.settings.sections():
+        language = self.settings.config['magicked_admin']['language']
+        print(language)
+
+        for server_name in self.settings.servers():
             # TODO: Gross
+
             try:
                 server = self.make_server(server_name)
             except AuthorizationException:
-                if len(self.settings.sections()) > 1:
+                if len(self.settings.servers()) > 1:
                     warning(
                         _("Couldn't connect to server: {}").format(server_name)
                     )
