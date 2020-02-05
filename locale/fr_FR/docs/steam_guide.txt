@@ -87,50 +87,50 @@ Ces commandes peuvent être exécutées par n'importe quel joueur. Au moment de 
     - Exemple: '[b]!stats the_z[/b]' Affiche les statistiques sur the_z
 
 [*] '[b]!kills <joueur>[/b]' - Affiche les statistiques du nombre de Zeds tués par un joueur
-    - Example: '[b]!kills[/b]' Shows kill stats about yourself
-    - Example: '[b]!kills the_z[/b]' Shows kill stats about the_z
+    - Exemple: '[b]!kills[/b]' Affiche vos propres statistiques sur le nombre de ZEDs que vous avez tués
+    - Exemple: '[b]!kills the_z[/b]' Affiche les statistiques du nombre de ZEDs tués par the_z
 
-[*] '[b]!dosh <user>[/b]' - Shows dosh statistics about a user
-    - Example: '[b]!dosh[/b]' Shows dosh stats about yourself
-    - Example: '[b]!dosh the_z[/b]' Shows dosh stats about the_z
+[*] '[b]!dosh <joueur>[/b]' - Affiche les statistiques liées aux dosh gagnés par un joueur
+    - Exemple: '[b]!dosh[/b]' Affiche vos statistiques concernant le nombre de dosh que vous avez gagnés
+    - Exemple: '[b]!dosh the_z[/b]' Affiche les statistiques liées au nombre de dosh gagnés par the_z
 
-[*] '[b]!map[/b]' - Shows statistics about the current map
+[*] '[b]!map[/b]' - Affiche des statistiques de la carte actuelle
 
-[*] '[b]!record_wave[/b]' - Shows the highest wave achieved on the current map
+[*] '[b]!record_wave[/b]' - Affiche la plus haute vague atteinte sur la carte actuelle
 
-[*] '[b]!top_kills[/b]' - Shows the global kills leaderboard
+[*] '[b]!top_kills[/b]' - Affiche le classement global du nombre de ZEDs tués au total sur le serveur
 
-[*] '[b]!top_dosh[/b]' - Shows the global dosh leaderboard
+[*] '[b]!top_dosh[/b]' - Affiche le classement global du nombre de dosh gagnés sur le serveur
 
-[*] '[b]!top_time[/b]' - Shows the global play time leaderboard
+[*] '[b]!top_time[/b]' - Affiche le classement global du temps de jeu total joué sur le serveur.
 
-[*] '[b]!top_wave_kills[/b]' - Shows information about who killed the most ZEDs in the current wave. Generally for use with '[b]!start_trc[/b]'
-    - Example: '[b]!start_trc top_wave_kills[/b]'
+[*] '[b]!top_wave_kills[/b]' - Affiche des informations sur qui a tué le plus de ZED dans la vague actuelle. Généralement pour une utilisation avec '[b]!start_trc[/b]'
+    - Exemple: '[b]!start_trc top_wave_kills[/b]'
 
-[*] '[b]!top_wave_dosh[/b]' - Shows information about who earned the most dosh in the current wave. Generally for use with '[b]!start_trc[/b]'
-    - Example: '[b]!start_trc top_wave_dosh[/b]'
+[*] '[b]!top_wave_dosh[/b]' - Affiche les informations sur qui a gagné le plus de dosh lors de la vague actuelle. Généralement pour une utilisation avec '[b]!start_trc[/b]'
+    - Exemple: '[b]!start_trc top_wave_dosh[/b]'
 
-[*] '[b]!server_kills[/b]' - Shows total kills on the server
+[*] '[b]!server_kills[/b]' - Affiche le total des ZEDs tués sur le serveur
 
-[*] '[b]!server_dosh[/b]' - Shows total dosh earned on the server
+[*] '[b]!server_dosh[/b]' - Affiche le total des dosh gagnés sur le serveur
 
-[*] '[b]!scoreboard[/b]' - Shows the complete player scoreboard, useful on servers with >6 max players
-    - Alias '[b]!sb[/b]': Does the same
+[*] '[b]!scoreboard[/b]' - Affiche le tableau de bord complet des joueurs, utile sur les serveurs avec plus de 6 joueurs
+    - Alias '[b]!sb[/b]': Fais la même chose / A la même fonction (c'est un raccourci)
 
-[*] '[b]!game[/b]' - Shows information about the current game
+[*] '[b]!game[/b]' - Affiche des informations sur la partie en cours
 
-[*] '[b]!maps[/b]' - Shows the current map cycle
-    - Option '[b]-a[/b]': Shows all available maps
-    - Example: '[b]!maps -a[/b]'
+[*] '[b]!maps[/b]' - Affiche le cycle de carte actuel
+    - Option '[b]-a[/b]': Affiche toutes les cartes disponibles
+    - Exemple: '[b]!maps -a[/b]'
 
-[*] '[b]!player_count[/b]' - Shows the player count and max players
+[*] '[b]!player_count[/b]' - Affiche le nombre de joueurs et le nombre maximum de joueurs
 [/list]
 
-## Administrator commands
-Commands that can be ran by server administrators, and users authorized with the '[b]!op[/b]' command. As of writing there are 24 administrator commands available.
+## Commandes administrateur
+Commandes pouvant être exécutées par les administrateurs de serveur et les utilisateurs autorisés avec la commande '[b]!op[/b]'. Au moment de l'écriture, 24 commandes d'administrateur sont disponibles.
 [list]
-[*] '[b]!op <user>[/b]' - Gives a user administrative rights, persists until '[b]!deop <user>[/b]' is used.
-    - Example: '[b]!op the_z[/b]'
+[*] '[b]!op <joueur>[/b]' - Donne à un utilisateur des droits administratifs, persiste jusqu'à ce que '[b]!deop <joueur>[/b]' soit utilisé.
+    - Exemple: '[b]!op the_z[/b]'
 
 [*] '[b]!deop <user>[/b]' - Revokes a user's administrative rights
     - Example: '[b]!deop the_z[/b]'
