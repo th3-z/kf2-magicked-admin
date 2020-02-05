@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-05 11:00\n"
+"PO-Revision-Date: 2020-02-05 11:09\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -411,103 +411,121 @@ msgid "Usage: !start_tc [-r -t] COMMAND\n"
 "\t-r --repeat - Optional, run repeatedly\n"
 "\t-t --time - Seconds before running\n"
 "Desc: Runs a command after some time delay"
-msgstr ""
+msgstr "Utilisation : ! Tart_tc [-r -t] COMMAND\n"
+"\tCOMMAND - Commande à exécuter\n"
+"\t-r --repeat - Facultatif, permet à la commande de s'exécuter à chaque vague\n"
+"\t-t --time - secondes avant avant que la commande ne s'exécute\n"
+"Description : Exécute une commande après un certain délai"
 
 #: magicked_admin/chatbot/commands/event_commands.py:153
 msgid "Please specify a time interval, '!start_tc -h' for help"
-msgstr ""
+msgstr "Veuillez spécifier un intervalle de temps, '!start_tc -h' pour obtenir de l'aide"
 
 #: magicked_admin/chatbot/commands/event_commands.py:161
 msgid "'{}' is not a valid time interval"
-msgstr ""
+msgstr "'{}' n'est pas un intervalle de temps valide"
 
 #: magicked_admin/chatbot/commands/event_commands.py:176
 msgid "Time interval command started"
-msgstr ""
+msgstr "Commande d'intervalle de temps démarrée"
 
 #: magicked_admin/chatbot/commands/event_commands.py:184
 msgid "Usage: !stop_tc\n"
 "Desc: Stops all timed commands"
-msgstr ""
+msgstr "Utilisation : !stop_tc\n"
+"Description : Désactive toutes les commandes chronométrées"
 
 #: magicked_admin/chatbot/commands/event_commands.py:205
 msgid "Usage: !start_trc [--wave] COMMAND\n"
 "\tCOMMAND - Command to run\n"
 "\t-w --wave - Optional, wave to run on\n"
 "Desc: Runs a command when the trader opens, wave can be omitted to run every time the trader opens"
-msgstr ""
+msgstr "Utilisation : ! tart_trc [--wave] COMMAND\n"
+"\tCOMMAND - Commande à exécuter\n"
+"\t-w --wave - Facultatif, définis la vague à laquelle la commande doit s'exécuter\n"
+"Description : Exécute une commande quand le trader s'ouvre, wave peut être omis afin de s'exécuter à chaque ouverture du trader"
 
 #: magicked_admin/chatbot/commands/event_commands.py:239
 msgid "Trader open command started"
-msgstr ""
+msgstr "La commande devant s'exécuter lorsque le trader est ouvert a démarrée"
 
 #: magicked_admin/chatbot/commands/event_commands.py:247
 msgid "Usage: !stop_trc\n"
 "Desc: Stops all trader commands"
-msgstr ""
+msgstr "Utilisation : !stop_trc\n"
+"Description : Désactive toutes les commandes liées au trader"
 
 #: magicked_admin/chatbot/commands/info_commands.py:19
 msgid "Usage: !marquee FILE\n"
 "\tFILE - Some file in 'conf/marquee'\n"
 "Desc: Runs a marquee in chat"
-msgstr ""
+msgstr "Utilisation : !marquee FILE\n"
+"\tFILE - Un fichier dans 'conf/marquee'\n"
+"Description : Exécute une marquee dans le chat"
 
 #: magicked_admin/chatbot/commands/info_commands.py:49
 msgid "Missing argument: filename"
-msgstr ""
+msgstr "Argument manquant : nom de fichier"
 
 #: magicked_admin/chatbot/commands/info_commands.py:53
 msgid "Couldn't find file"
-msgstr ""
+msgstr "Impossible de trouver le fichier"
 
 #: magicked_admin/chatbot/commands/info_commands.py:78
 msgid "Usage: !players\n"
 "Desc: Shows the number of players currently online"
-msgstr ""
+msgstr "Utilisation : !players\n"
+"Description : Affiche le nombre de joueurs actuellement en ligne"
 
 #: magicked_admin/chatbot/commands/info_commands.py:90
 msgid "{}/{} Players are online"
-msgstr ""
+msgstr "{}/{} Joueurs sont en ligne"
 
 #: magicked_admin/chatbot/commands/info_commands.py:101
 msgid "Usage: !players\n"
 "Desc: Shows detailed information about online players"
-msgstr ""
+msgstr "Utilisation : !players\n"
+"Description : Affiche des informations détaillées sur les joueurs en ligne"
 
 #: magicked_admin/chatbot/commands/info_commands.py:114
 #: magicked_admin/chatbot/commands/player_commands.py:265
 msgid "No players in game"
-msgstr ""
+msgstr "Aucun joueur en jeu"
 
 #: magicked_admin/chatbot/commands/info_commands.py:127
 msgid "Usage: !game\n"
 "Desc: Shows current game info and rules"
-msgstr ""
+msgstr "Utilisation : !game\n"
+"Description : Affiche les informations et les règles du jeu actuel"
 
 #: magicked_admin/chatbot/commands/info_commands.py:144
 #: magicked_admin/chatbot/commands/server_commands.py:168
 msgid "Usage: !map\n"
 "Desc: Shows statistics about the current map"
-msgstr ""
+msgstr "Utilisation : !map\n"
+"Description : Affiche les statistiques de la carte actuelle"
 
 #: magicked_admin/chatbot/commands/info_commands.py:161
 msgid "Usage: !game_time\n"
 "Desc: Shows the number of seconds since the match started. Excludes trader time and the boss wave."
-msgstr ""
+msgstr "Utilisation : !game_time\n"
+"Description : Affiche le nombre de secondes qui se sont écoulées depuis le début du match. Exclut le temps écoulé durant l'ouverture du trader ainsi que la/les vague(s) de boss."
 
 #: magicked_admin/chatbot/commands/info_commands.py:180
 msgid "Usage: !record_wave\n"
 "Desc: Shows the highest wave reached on this map"
-msgstr ""
+msgstr "Utilisation : !record_wave\n"
+"Description : Affiche la plus haute vague atteinte sur cette carte"
 
 #: magicked_admin/chatbot/commands/info_commands.py:191
 msgid "{} is the highest wave reached on this map"
-msgstr ""
+msgstr "{} est la vague la plus élevée atteinte sur cette carte"
 
 #: magicked_admin/chatbot/commands/info_commands.py:201
 msgid "Usage: !commands\n"
 "Desc: Lists all player commands"
-msgstr ""
+msgstr "Utilisation : !commands\n"
+"Desc : Liste toutes les commandes des joueurs"
 
 #: magicked_admin/chatbot/commands/info_commands.py:211
 msgid "\n"
