@@ -1,45 +1,45 @@
 # KF2 Magicked Admin - Dedicated Server Tool [0.1.5]
 
-Gestion scriptée, statistiques et bot pour les serveurs classés Killing Floor 2. Fournit des commandes en jeu, le suivi et le classement des statistiques des joueurs, le tableau de bord et les statistiques d'écran d'accueil en direct, les fonctions d'accueil et d'administration. Running entirely through the web admin, it does not affect a server's ranked/custom status. It can be ran either directly on the server or remotely, and manage multiple servers at once.
+Gestion scriptée, statistiques et bot pour les serveurs classés Killing Floor 2. Fournit des commandes en jeu, le suivi et le classement des statistiques des joueurs, le tableau de bord et les statistiques d'écran d'accueil en direct, les fonctions d'accueil et d'administration. Fonctionnant entièrement via l'administrateur Web, il n'affecte pas le statut classé / personnalisé d'un serveur. Il peut être exécuté directement sur le serveur ou à distance et gérer plusieurs serveurs à la fois.
 [list]
-[*]Present real-time leaderboards in your welcome screen and in-game chat
-[*]Record player statistics including: kills, dosh, deaths and play time
-[*]A variety of in-game administrative commands
-[*]A variety of in-game commands for players
-[*]Automatically issue commands based on: time, wave, joins, or trader state
-[*]Read player messages from your desktop
+[*]Présente les classements en temps réel dans votre écran d'accueil et votre chat en jeu
+[*]Enregistrez les statistiques des joueurs, y compris: les zeds tués, les dosh accumulés, les morts et le temps de jeu
+[*]Une variété de commandes administratives dans le jeu
+[*]Une variété de commandes en jeu pour les joueurs
+[*]Émettez automatiquement des commandes basées sur: l'heure, la vague, les joueurs rejoignant la partie ou l'état du trader
+[*]Lire les messages des joueurs depuis votre bureau
 [/list]
 
 [b]Notes[/b]
 [list]
-[*]KF2 Magicked Admin will [b]not[/b] alter the servers ranked or custom status.
-[*]KF2 Magicked Admin works with weekly, survival, and endless game modes.
-[*]KF2 Magicked Admin can manage multiple servers in a single instance
+[*]KF2 Magicked Admin ne modifiera [b]pas[/b] le classement ou l'état personnalisé des serveurs.
+[*]KF2 Magicked Admin fonctionne avec les modes de jeu hebdomadaire, survie et infini.
+[*]KF2 Magicked Admin peut gérer plusieurs serveurs simultanément
 [/list]
 
-If you have any feedback for KF2 Magicked Administrator, or this guide, let me know.
-Please rate and favourite the guide if you found it useful.
+Si vous avez des commentaires sur KF2 Magicked Administrator ou sur ce guide, faites-le moi savoir.
+Veuillez évaluer et mettre en favoris le guide si vous l'avez trouvé utile.
 
-If you need some help anywhere, add me on steam, and I will do my best to help you.
+Si vous avez besoin d'aide quelque part, ajoutez-moi sur Steam et je ferai de mon mieux pour vous aider (en anglais).
 
-Thanks.
+Merci.
 
-## Downloads
-The latest version as of writing is '[b]0.1.4[/b]', released on the 29th of September 2019. A Windows executable is provided for this release [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-magicked-admin-0.1.4.zip]here[/url].
+## Téléchargements
+La dernière version au moment de l'écriture est la version '[b]0.1.5[/b]', sortie le 16 octobre 2019. Un exécutable Windows est fourni pour cette version [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.5/kf2-magicked-admin-0.1.5.zip]ici[/url].
 
-For Linux and Mac OS it is recommended to run the program from Python sources since you likely already have it installed. The source for '[b]0.1.4[/b]' is available [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.4.zip]here[/url]. You just need to install the requirements with '[b]pip3 install -r requirements.txt[/b]' and run it with '[b]python3 -O magicked_admin/magicked_admin.py[/b]'.
+Pour Linux et Mac OS, il est recommandé d'exécuter le programme à partir de sources Python car vous l'avez probablement déjà installé. La source pour la version '[b]0.1.5[/b]' est disponible [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.5.zip]ici[/url]. Il vous suffit d'installer la configuration requise avec '[b]pip3 install -r requirements.txt[/b]' et l'exécuter avec '[b]python3 -O magicked_admin/magicked_admin.py[/b]'.
 
-Development versions and build instructions are available on GitHub [url=https://github.com/th3-z/kf2-magicked-admin]here[/url].
+Les versions de développement et les instructions de construction sont disponibles sur GitHub [url=https://github.com/th3-z/kf2-magicked-admin]à cette adresse[/url].
 
-[b]Note[/b]: If you want to use Magicked Admin on an endless or weekly mode server there is an extra step that you have to do which I talk about in the "Endless and weekly game mode support" section.
+[b]Note[/b]: Si vous souhaitez utiliser Magicked Admin sur un serveur en mode infini ou hebdomadaire, vous devez effectuer une étape supplémentaire dont je parle dans la section "Prise en charge des modes de jeu infini et hebdomadaire".
 
-[h1]Running[/h1]
+[h1]Fonctionnement[/h1]
 [olist]
-[*]Extract '[b]kf2-magicked-admin-0.1.4.zip[/b]' anywhere you like.
+[*]Extraire '[b]kf2-magicked-admin-0.1.5.zip[/b]' là ou vous le souhaitez.
 
-[*]Double click the executable file
+[*]Double-cliquez sur le fichier exécutable (.exe)
 
-[*]You will be guided through the first time setup
+[*]Vous serez guidé pour la première configuration
 
 [b]Note[/b]: If you want to re-run the first time setup, just delete the file '[b]conf/magicked_admin.conf[/b]'
 [/olist]
