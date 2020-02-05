@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-03 13:33\n"
+"PO-Revision-Date: 2020-02-05 10:25\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -111,155 +111,169 @@ msgid "\n"
 "start_tc --repeat --time 300 update_motd -q dosh\n\n"
 "; Re-enable chat output\n"
 "silent --quiet\n\n"
-msgstr ""
+msgstr "\n"
+"; Le contenu de ce fichier sera exécuté en séquence sur le serveur nommé après le démarrage du programme.\n"
+"; Les lignes commençant par \";\" seront ignorée (considérées comme un commentaire).\n"
+"; Il n'est pas nécéssaire de faire précéder les commandes par un \"!\" dans ce fichier.\n\n"
+"; Exemple :\n\n"
+"; Supprime l'apparition des lignes suivantes dans le chat (invisible pour les joueurs)\n"
+"silent --quiet\n\n"
+"; start_wc --wave -1 say Si cette ligne n'étais pas commentée par un \";\" alors vous verriez cette phrase dans le chat\n"
+"start_trc top_wave_dosh\n\n"
+"; Démarre le script \"greeter\" présent dans le dossier 'conf/scripts/greeter\n"
+"run greeter\n\n"
+"; Met à jour le tableau des scores motd toute les 5 minutes en affichant les classement des dosh gagnés\n"
+"start_tc --repeat --time 300 update_motd -q dosh\n\n"
+"; Désactive la suppression de l'apparition des lignes dans le chat\n"
+"silent --quiet\n\n"
 
 #: magicked_admin/chatbot/chatbot.py:41
 msgid "Executing script: "
-msgstr ""
+msgstr "Exécution du script: "
 
 #: magicked_admin/chatbot/command_scheduler.py:58
 msgid "Stopped {} command(s)"
-msgstr ""
+msgstr "{} commande(s) stoppée(s)"
 
 #: magicked_admin/chatbot/command_scheduler.py:61
 msgid "None running"
-msgstr ""
+msgstr "Aucune exécution"
 
 #: magicked_admin/chatbot/command_scheduler.py:110
 msgid "Scheduled command ({}) ran directly by {}, please use CommandScheduler"
-msgstr ""
+msgstr "Commande planifiée ({}) exécutée directement par {}, veuillez utiliser CommandScheduler"
 
 #: magicked_admin/chatbot/motd_updater.py:21
 msgid "No MOTD file for {} found, pulling from web admin!"
-msgstr ""
+msgstr "Aucun fichier MOTD pour {} trouvé, extraction depuis webadmin !"
 
 #: magicked_admin/chatbot/motd_updater.py:40
 msgid "Updated the MOTD!"
-msgstr ""
+msgstr "Le MOTD a été mis à jour !"
 
 #: magicked_admin/chatbot/motd_updater.py:53
 msgid "Scoreboard_type not recognised '{}'. Options are: dosh, kills"
-msgstr ""
+msgstr "Scoreboard_type non reconnu '{}'. Les options sont : dosh, kills"
 
 #: magicked_admin/chatbot/commands/command.py:18
 msgid "You're not authorised to use that command"
-msgstr ""
+msgstr "Vous n'êtes pas autorisé à utiliser cette commande"
 
 #: magicked_admin/chatbot/commands/command.py:21
 msgid "This action isn't supported without Killing Floor 2 Magicked Administrator's server side patch! Please review the documentation at '{}' for guidance."
-msgstr ""
+msgstr "Cette action n'est pas prise en charge sans le patch pour le serveur fournis par Killing Floor Magicked Admin ! Veuillez consulter la documentation à '{}' pour plus de conseils."
 
 #: magicked_admin/chatbot/commands/command.py:28
 msgid "The help text for this command hasn't been written!"
-msgstr ""
+msgstr "Le texte d'aide pour cette commande n'a pas été écrit !"
 
 #: magicked_admin/chatbot/commands/command.py:30
 msgid "$"
-msgstr ""
+msgstr "$"
 
 #: magicked_admin/chatbot/commands/command.py:56
 msgid "Auth failure, username: {}, user flags: {:b}"
-msgstr ""
+msgstr "Échec d'authentification, nom d'utilisateur : {}, drapeaux utilisateur : {:b}"
 
 #: magicked_admin/chatbot/commands/command_map.py:16
 msgid "start_jc"
-msgstr ""
+msgstr "start_jc"
 
 #: magicked_admin/chatbot/commands/command_map.py:17
 msgid "stop_jc"
-msgstr ""
+msgstr "stop_jc"
 
 #: magicked_admin/chatbot/commands/command_map.py:18
 msgid "start_wc"
-msgstr ""
+msgstr "start_wc"
 
 #: magicked_admin/chatbot/commands/command_map.py:19
 msgid "stop_wc"
-msgstr ""
+msgstr "stop_wc"
 
 #: magicked_admin/chatbot/commands/command_map.py:20
 msgid "start_tc"
-msgstr ""
+msgstr "start_tc"
 
 #: magicked_admin/chatbot/commands/command_map.py:21
 msgid "stop_tc"
-msgstr ""
+msgstr "stop_tc"
 
 #: magicked_admin/chatbot/commands/command_map.py:22
 msgid "start_trc"
-msgstr ""
+msgstr "start_trc"
 
 #: magicked_admin/chatbot/commands/command_map.py:23
 msgid "stop_trc"
-msgstr ""
+msgstr "stop_trc"
 
 #: magicked_admin/chatbot/commands/command_map.py:24
 msgid "enforce_dosh"
-msgstr ""
+msgstr "enforce_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:25
 msgid "say"
-msgstr ""
+msgstr "say"
 
 #: magicked_admin/chatbot/commands/command_map.py:26
 msgid "restart"
-msgstr ""
+msgstr "restart"
 
 #: magicked_admin/chatbot/commands/command_map.py:27
 msgid "load_map"
-msgstr ""
+msgstr "load_map"
 
 #: magicked_admin/chatbot/commands/command_map.py:28
 msgid "password"
-msgstr ""
+msgstr "password"
 
 #: magicked_admin/chatbot/commands/command_map.py:29
 msgid "silent"
-msgstr ""
+msgstr "silent"
 
 #: magicked_admin/chatbot/commands/command_map.py:30
 msgid "run"
-msgstr ""
+msgstr "run"
 
 #: magicked_admin/chatbot/commands/command_map.py:31
 msgid "marquee"
-msgstr ""
+msgstr "marquee"
 
 #: magicked_admin/chatbot/commands/command_map.py:32
 msgid "length"
-msgstr ""
+msgstr "length"
 
 #: magicked_admin/chatbot/commands/command_map.py:33
 msgid "difficulty"
-msgstr ""
+msgstr "difficulty"
 
 #: magicked_admin/chatbot/commands/command_map.py:34
 msgid "game_mode"
-msgstr ""
+msgstr "game_mode"
 
 #: magicked_admin/chatbot/commands/command_map.py:35
 msgid "players"
-msgstr ""
+msgstr "players"
 
 #: magicked_admin/chatbot/commands/command_map.py:36
 msgid "kick"
-msgstr ""
+msgstr "kick"
 
 #: magicked_admin/chatbot/commands/command_map.py:37
 msgid "ban"
-msgstr ""
+msgstr "ban"
 
 #: magicked_admin/chatbot/commands/command_map.py:38
 msgid "op"
-msgstr ""
+msgstr "op"
 
 #: magicked_admin/chatbot/commands/command_map.py:39
 msgid "deop"
-msgstr ""
+msgstr "deop"
 
 #: magicked_admin/chatbot/commands/command_map.py:40
 msgid "update_motd"
-msgstr ""
+msgstr "update_motd"
 
 #: magicked_admin/chatbot/commands/command_map.py:41
 msgid "reload_motd"
