@@ -41,30 +41,30 @@ Les versions de développement et les instructions de construction sont disponib
 
 [*]Vous serez guidé pour la première configuration
 
-[b]Note[/b]: If you want to re-run the first time setup, just delete the file '[b]conf/magicked_admin.conf[/b]'
+[b]Note[/b]: Si vous souhaitez relancer la première configuration, supprimez simplement le fichier '[b]conf/magicked_admin.conf[/b]'
 [/olist]
 
-[h1]Running with Docker[/h1]
+[h1]Exécuter avec Docker[/h1]
 
-A Docker image is also available. Running with docker is easy, just issue the following command.
-[code]docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3z/kf2-magicked-admin[/code]
+Une image Docker est également disponible. L'exécution avec Docker est facile, il suffit de lancer la commande suivante :
+[code]docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<emplacement du dossier de configuration de l'hôte>':'/magicked_admin/conf' th3z/kf2-magicked-admin[/code]
 
-You will need to change '[b]<host config folder location>[/b]' to wherever you want to store your config folder. '[b]/mnt/user/appdata/kf2-magicked-admin[/b]' is a popular choice for systems running Unraid.
+Vous devrez remplacer '[b]<emplacement du dossier de configuration de l'hôte>[/b]' à l'endroit où vous souhaitez stocker votre dossier de configuration. '[b]/mnt/user/appdata/kf2-magicked-admin[/b]' est un choix populaire pour les systèmes exécutant Unraid. (Même si personnelement je préfère utiliser l'emplacement du dossier de mon serveur Killing Floor 2).
 
-After this command runs the container will exit out and the logs will tell you to setup the config file. Go to your '[b]conf[/b]' folder and set things up, then run the container again and you are good to go!
+Après l'exécution de cette commande, le conteneur se fermera et les journaux vous diront de configurer le fichier de configuration. Accédez à votre dossier '[b]conf[/b]' et configurez les choses, puis exécutez à nouveau le conteneur et vous êtes prêt à partir !
 
-## Commands
-In the following sections I will describe all the commands. However there are some general things to note that apply to them all.
+## Commandes
+Dans les sections suivantes, je décrirai toutes les commandes. Cependant, il y a certaines choses générales à noter qui s'appliquent à tous.
 
-When inputting commands into the chat they need to be prefixed with '[b]![/b]'. When writing commands into a script, or chaining them the '[b]![/b]' should be omitted.
+Lors de la saisie de commandes dans le chat, elles doivent être précédées du préfixe '[b]![/b]'. Lorsque vous écrivez des commandes dans un script ou les enchaînez, '[b]![/b]' doit être omis.
 
-Many commands will look for closest matches to their parameters. For example '[i]biotics[/i]' will match '[i]kf-biotics-lab[/i]' and 'userO' will match '[i]userOne™/@:®[/i]'.
+De nombreuses commandes recherchent les correspondances les plus proches de leurs paramètres. Par exemple, '[i]biotics[/i]' correspondra à '[i]kf-biotics-lab[/i]' et 'userO' correspondra à '[i]userOne™/@:®[/i]'.
 
-All commands have in-game help text that can be accessed with the '[b]-h'[/b] flag.
+Toutes les commandes ont un texte d'aide en jeu accessible avec le drapeau '[b]-h'[/b].
 [list]
-[*] Example: '[b]!commands -h'[/b]
+[*] Exemple: '[b]!commands -h'[/b]
 [/list]
-All commands also have the following flags.
+Toutes les commandes ont également les drapeaux suivants :
 [list]
 [*] Option '[b]-q[/b]': Suppresses output
 [*] Option '[b]-p[/b]': Pads output to hide the username line
