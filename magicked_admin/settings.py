@@ -99,13 +99,21 @@ class Settings:
         except configparser.NoOptionError:
             return None
 
-    def sections(self):
-        return self.config.sections()
+    def servers(self):
+        servers = []
+        sections = self.config.sections()
+        for section in sections:
+            if section != "magicked_admin":
+                servers.append(section)
+
+        return servers
 
     @staticmethod
     def construct_config_interactive():
         print(_("    Please input your web admin details below."))
         new_config = configparser.ConfigParser()
+        new_config.add_section('magicked_admin')
+        new_config.set('magicked_admin', 'language', 'en_GB')
         new_config.add_section(SETTINGS_DEFAULT['server_name'])
 
         for setting in SETTINGS_DEFAULT:
@@ -148,6 +156,8 @@ class Settings:
     @staticmethod
     def construct_config_template():
         new_config = configparser.ConfigParser()
+        new_config.add_section('magicked_admin')
+        new_config.set('magicked_admin', 'language', 'en_GB')
         new_config.add_section(SETTINGS_DEFAULT['server_name'])
 
         for setting in SETTINGS_DEFAULT:
@@ -165,10 +175,18 @@ class Settings:
         new_config.set(SETTINGS_DEFAULT['server_name'], 'password', "123")
         return new_config
 
-    @staticmethod
-    def validate_config(config):
-        sections = config.sections()
+    def validate_config(self, config):
+        sections = self.servers()
         errors = []
+
+        try:
+            config.get('magicked_admin', 'language')
+        except configparser.NoSectionError:
+            errors.append(
+                _("Config file is missing 'magicked_admin' section.")
+            )
+        except configparser.NoOptionError:
+            errors.append(_("Config file is missing language."))
 
         if len(sections) < 1:
             errors.append(_("Config file has no sections."))
