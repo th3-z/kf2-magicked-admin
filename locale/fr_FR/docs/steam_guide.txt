@@ -1,6 +1,6 @@
-# KF2 Magicked Admin - Dedicated Server Tool [0.1.4]
+# KF2 Magicked Admin - Dedicated Server Tool [0.1.5]
 
-Scripted management, statistics, and bot for ranked Killing Floor 2 servers. Provides in-game commands, player stat tracking and ranking, live welcome screen scoreboard and stats, greeter, and admin functions. Running entirely through the web admin, it does not affect a server's ranked/custom status. It can be ran either directly on the server or remotely, and manage multiple servers at once.
+Gestion scriptée, statistiques et bot pour les serveurs classés Killing Floor 2. Fournit des commandes en jeu, le suivi et le classement des statistiques des joueurs, le tableau de bord et les statistiques d'écran d'accueil en direct, les fonctions d'accueil et d'administration. Running entirely through the web admin, it does not affect a server's ranked/custom status. It can be ran either directly on the server or remotely, and manage multiple servers at once.
 [list]
 [*]Present real-time leaderboards in your welcome screen and in-game chat
 [*]Record player statistics including: kills, dosh, deaths and play time
