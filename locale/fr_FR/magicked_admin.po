@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-05 11:22\n"
+"PO-Revision-Date: 2020-02-05 11:48\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -598,39 +598,44 @@ msgstr "{} dosh ont été gagné sur ce serveur"
 #: magicked_admin/chatbot/commands/player_commands.py:36
 msgid "Usage: !server_kills\n"
 "Desc: Shows total ZEDs killed on this server"
-msgstr ""
+msgstr "Utilisation : !server_kills\n"
+"Description : Montre le total des ZEDs tués sur ce serveur"
 
 #: magicked_admin/chatbot/commands/player_commands.py:49
 msgid "{} ZEDs have been killed on this server"
-msgstr ""
+msgstr "{} ZEDs ont été tués sur ce serveur"
 
 #: magicked_admin/chatbot/commands/player_commands.py:59
 msgid "Usage: !kills USERNAME\n"
 "\tUSERNAME - User to get kill stats for\n"
 "Desc: Shows kill statistics for a player, username can be omitted to get personal stats"
-msgstr ""
+msgstr "Utilisation : !kills USERNAME\n"
+"\tUSERNAME - Affiche les statistiques liées au kills du joueur en question\n"
+"Description : Montre les statistiques de kills pour un joueur, le nom d'utilisateur peut être omis pour obtenir les statistiques personnelles"
 
 #: magicked_admin/chatbot/commands/player_commands.py:78
 msgid "Player {} not in game"
-msgstr ""
+msgstr "Joueur {} absent de la partie"
 
 #: magicked_admin/chatbot/commands/player_commands.py:83
 msgid "You've killed a total of {} ZEDs (#{}), and {} this game"
-msgstr ""
+msgstr "Vous avez tué un total de {} ZEDs (#{}), et {} cette partie"
 
 #: magicked_admin/chatbot/commands/player_commands.py:97
 msgid "Usage: !dosh USERNAME\n"
 "\tUSERNAME - User to get dosh stats for\n"
 "Desc: Shows dosh statistics for a player, username can be omitted to get personal stats"
-msgstr ""
+msgstr "Utilisation : !dosh USERNAME\n"
+"\tUSERNAME - Affiche les statistiques liées au nombre de dosh gagnés par un joueur\n"
+"Description : Affiche les statistiques liées au nombre de dosh gagnés par un joueur, le nom d'utilisateur peut être omis pour obtenir les statistiques personnelles"
 
 #: magicked_admin/chatbot/commands/player_commands.py:115
 msgid "Player not in game"
-msgstr ""
+msgstr "Joueur absent de la partie"
 
 #: magicked_admin/chatbot/commands/player_commands.py:119
 msgid "You've earned a total of £{} dosh (#{}), and £{} this game"
-msgstr ""
+msgstr "Vous avez gagné un total de {} dosh (#{}) et {} dosh durant cette partie"
 
 #: magicked_admin/chatbot/commands/player_commands.py:134
 msgid "Usage: !top_kills\n"
@@ -901,33 +906,35 @@ msgstr "activé"
 
 #: magicked_admin/chatbot/commands/server_commands.py:422
 msgid "disabled"
-msgstr ""
+msgstr "désactivé"
 
 #: magicked_admin/chatbot/commands/server_commands.py:433
 msgid "Game password enabled"
-msgstr ""
+msgstr "Mot de passe de la partie activé"
 
 #: magicked_admin/chatbot/commands/server_commands.py:437
 msgid "Game password disabled"
-msgstr ""
+msgstr "Mot de passe de la partie désactivé"
 
 #: magicked_admin/chatbot/commands/server_commands.py:440
 msgid "Unrecognised option {}"
-msgstr ""
+msgstr "Option non reconnue {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:450
 msgid "Usage: !silent [--quiet]\n"
 "\t-q --quiet - Suppresses output'\n"
 "Desc: Toggles command output globally"
-msgstr ""
+msgstr "Utilisation : !silent [--quiet]\n"
+"\t-q --quiet - Supprime la visibilité des commandes du chat\n"
+"Description : Rend les commandes invisibles au chat de manière générale"
 
 #: magicked_admin/chatbot/commands/server_commands.py:463
 msgid "Silent mode disabled"
-msgstr ""
+msgstr "Mode silencieux désactivé"
 
 #: magicked_admin/chatbot/commands/server_commands.py:465
 msgid "Silent mode enabled"
-msgstr ""
+msgstr "Mode silencieux activé"
 
 #: magicked_admin/chatbot/commands/server_commands.py:479
 msgid "Usage: !length LENGTH\n"
