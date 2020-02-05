@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-05 12:00\n"
+"PO-Revision-Date: 2020-02-05 12:15\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -1040,75 +1040,76 @@ msgstr "Flushing des joueurs sur {}"
 
 #: magicked_admin/server/server.py:82
 msgid "Writing game to database ({})"
-msgstr ""
+msgstr "Écriture du jeu dans la base de données ({})"
 
 #: magicked_admin/server/server.py:173
 msgid "Player {} joined {} from {}"
-msgstr ""
+msgstr "Le joueur {} a rejoint {} depuis {}"
 
 #: magicked_admin/server/server.py:190
 msgid "Player {} left {}"
-msgstr ""
+msgstr "Le joueur {} a quitté {}"
 
 #: magicked_admin/server/server.py:203
 msgid "Player {} died on {}"
-msgstr ""
+msgstr "Le joueur {} est mort le {}"
 
 #: magicked_admin/server/server.py:207
 msgid "New game on {}, map: {}, mode: {}"
-msgstr ""
+msgstr "Nouvelle partie sur {}, carte : {}, mode : {}"
 
 #: magicked_admin/server/server.py:224
 msgid "Unknown game_type {}"
-msgstr ""
+msgstr "game_type inconnu {}"
 
 #: magicked_admin/server/server.py:231
 msgid "End game on {}, map: {}, mode: {}, victory: {}"
-msgstr ""
+msgstr "Fin de la partie sur {}, carte : {}, mode : {}, victoire : {}"
 
 #: magicked_admin/utils/__init__.py:102
 msgid "\n"
 "Press enter to exit..."
-msgstr ""
+msgstr "\n"
+"Appuyez sur Entrée pour quitter..."
 
 #: magicked_admin/web_admin/web_admin.py:86
 msgid "Tried to toggle game password before setting value"
-msgstr ""
+msgstr "Tentative de basculer le mot de passe de jeu avant de définir la valeur"
 
 #: magicked_admin/web_admin/web_admin.py:362
 msgid "Couldn't find identify player: {}"
-msgstr ""
+msgstr "Impossible d'identifier le joueur : {}"
 
 #: magicked_admin/web_admin/web_interface.py:15
 msgid "Connecting to {} ({})..."
-msgstr ""
+msgstr "Connexion à {} ({})..."
 
 #: magicked_admin/web_admin/web_interface.py:47
 msgid "Connected to {} ({})"
-msgstr ""
+msgstr "Connecté à {} ({})"
 
 #: magicked_admin/web_admin/web_interface.py:62
 #: magicked_admin/web_admin/web_interface.py:101
 msgid "Session killed, renewing!"
-msgstr ""
+msgstr "Session morte, renouvellement !"
 
 #: magicked_admin/web_admin/web_interface.py:124
 msgid "Web admin not responding, sleeping"
-msgstr ""
+msgstr "L'administrateur web ne répond pas"
 
 #: magicked_admin/web_admin/web_interface.py:129
 msgid "Web admin is back, resuming"
-msgstr ""
+msgstr "L'administrateur Web est de retour, reprise"
 
 #: magicked_admin/web_admin/web_interface.py:165
 msgid "Login failure, bad credentials or login attempts exceeded."
-msgstr ""
+msgstr "Échec de connexion, mauvais identifiants ou tentatives de connexion dépassées."
 
 #: magicked_admin/web_admin/web_interface.py:170
 msgid "Detected KF2-MA install on server."
-msgstr ""
+msgstr "Installation de KF2-MA détectée sur le serveur."
 
 #: magicked_admin/web_admin/web_interface.py:172
 msgid "KF2-MA install not detected on server side! Consequently, only Survival mode will function fully."
-msgstr ""
+msgstr "L'installation de KF2-MA n'est pas détectée du côté du serveur ! Par conséquent, seul le mode Survie fonctionnera pleinement."
 
