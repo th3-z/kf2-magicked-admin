@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-05 10:42\n"
+"PO-Revision-Date: 2020-02-05 10:49\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -722,89 +722,99 @@ msgstr "Statistiques pour {} :\n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:197
 msgid "Total plays: {} \n"
-msgstr ""
+msgstr "Nombre total de parties jouées : {} \n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:198
 msgid "Record wave: {} \n"
-msgstr ""
+msgstr "Vague la plus haute jamais atteinte sur cette carte : {} \n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:199
 msgid "Survival wins: {} \n"
-msgstr ""
+msgstr "Victoires en Survie: {} \n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:208
 msgid "Usage: !enforce_dosh AMOUNT\n"
 "\tAMOUNT - Kicks players over this amount\n"
 "Desc: Kicks players with more dosh than the amount specified"
-msgstr ""
+msgstr "Utilisation : !enforce_dosh AMOUNT\n"
+"\tAMOUNT - Expulse les joueurs possédant ce montant ou plus\n"
+"Description : Expulse les joueurs possédant plus de dosh que le nombre spécifié"
 
 #: magicked_admin/chatbot/commands/server_commands.py:223
 msgid "Please specify a maximum amount of dosh"
-msgstr ""
+msgstr "Veuillez spécifier un montant maximum de dosh"
 
 #: magicked_admin/chatbot/commands/server_commands.py:230
 msgid "'{}' is not a valid number"
-msgstr ""
+msgstr "'{}' n'est pas un nombre valide"
 
 #: magicked_admin/chatbot/commands/server_commands.py:244
 msgid "Usage: !kick USERNAME\n"
 "\tUSERNAME - Player to kick\n"
 "Desc: Kicks a player from the match"
-msgstr ""
+msgstr "Utilisation : !kick USERNAME\n"
+"\tUSERNAME - Joueur à expulser\n"
+"Description : Expulse un joueur de la partie"
 
 #: magicked_admin/chatbot/commands/server_commands.py:267
 msgid "Player, {}, was kicked"
-msgstr ""
+msgstr "Le joueur {} a été expulsé de la partie"
 
 #: magicked_admin/chatbot/commands/server_commands.py:278
 msgid "Usage: !update_motd TYPE\n"
 "\tTYPE - Score type, one of: kills, dosh, time\n"
 "Desc: Updates the MOTD scoreboard"
-msgstr ""
+msgstr "Utilisation : !update_motd TYPE\n"
+"\tTYPE - Type de score : kills, dosh, time\n"
+"Description : Met à jour le tableau de scores MOTD"
 
 #: magicked_admin/chatbot/commands/server_commands.py:290
 msgid "Missing argument: type"
-msgstr ""
+msgstr "Argument manquant : type"
 
 #: magicked_admin/chatbot/commands/server_commands.py:294
 msgid "Unrecognised score type: {}"
-msgstr ""
+msgstr "Type de score non reconnu : {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:300
 msgid "Updated the MOTD"
-msgstr ""
+msgstr "Le MOTD a été mis à jour"
 
 #: magicked_admin/chatbot/commands/server_commands.py:310
 msgid "Usage: !reload_motd\n"
 "Desc: Reload the server's *.motd file"
-msgstr ""
+msgstr "Utilisation : !reload_motd\n"
+"Description : Recharger le fichier *.motd du serveur"
 
 #: magicked_admin/chatbot/commands/server_commands.py:323
 msgid "Reloaded the MOTD"
-msgstr ""
+msgstr "Le MOTD a tété rechargé"
 
 #: magicked_admin/chatbot/commands/server_commands.py:332
 msgid "Usage: !run FILE\n"
 "\tFILE - Some file in 'conf/scripts'\n"
 "Desc: Runs a script"
-msgstr ""
+msgstr "Utilisation : !run FILE\n"
+"\tFILE - Un fichier dans 'conf/scripts'\n"
+"Description : Exécute un script"
 
 #: magicked_admin/chatbot/commands/server_commands.py:347
 msgid "No script was specified"
-msgstr ""
+msgstr "Aucun script n'a été spécifié"
 
 #: magicked_admin/chatbot/commands/server_commands.py:352
 msgid "Script not found"
-msgstr ""
+msgstr "Script introuvable"
 
 #: magicked_admin/chatbot/commands/server_commands.py:361
 msgid "Usage: !restart\n"
 "Desc: Restarts the match"
-msgstr ""
+msgstr "Utilisation : !restart\n"
+"Description : Redémarre la partie"
 
 #: magicked_admin/chatbot/commands/server_commands.py:372
 msgid "Restarting map..."
-msgstr ""
+msgstr "Redémarrage de la carte..."
 
 #: magicked_admin/chatbot/commands/server_commands.py:379
 msgid "Usage: !load_map MAP_NAME\n"
