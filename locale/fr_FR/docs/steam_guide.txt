@@ -360,17 +360,17 @@ Pour utiliser cet utilitaire, vos fichiers de serveur dans '[b]KF2Server/KFGame/
 [/olist]
 
 [h1]Utilisation (Headless/Serveur)[/h1]
-[*] Run the executable with a target flag, e.g. '[b]./magicked_admin.exe --target /path/to/kf2/server[/b]'
-[*] Check the console window for any issues
+[*] Exécutez l'exécutable avec un indicateur cible, par exemple :  '[b]./magicked_admin.exe --target /path/to/kf2/server[/b]'
+[*] Vérifiez la fenêtre de la console pour tout problème
 
-## Configuring multiple servers
-KF2 Magicked Admin can work with any amount of servers you run.
+## Configuration de plusieurs serveurs
+KF2 Magicked Admin peut fonctionner avec n'importe quelle quantité de serveurs que vous exécutez.
 
-To configure more servers, find '[b]conf/magicked_admin.conf[/b]', and open it in your favourite editor.
+Pour configurer plus de serveurs, recherchez '[b]conf/magicked_admin.conf[/b]', et ouvrez-le dans votre éditeur de texte préféré. (Je recommande Notepad++)
 
-Copy the whole '[b][server_one][/b]' section, and paste it at the end of the file. Update the '[b]address[/b]', '[b]username[/b]', and '[b]password[/b]' options.
+Copiez toute la section '[b][server_one][/b]' , et collez-la à la fin du fichier. Mettez à jour les options suivantes : '[b]address[/b]', '[b]username[/b]', et '[b]password[/b]'.
 
-Below is an example.
+Exemple ci-dessous :
 [code]
 [server_one]
 game_password = 123
@@ -385,9 +385,9 @@ username = Admin
 password = 123
 [/code]
 
-You can do this for as many servers as you want.
+Vous pouvez le faire pour autant de serveurs que vous le souhaitez.
 
-## Renaming servers
+## Renommer les serveurs
 If you have a few servers, you might want to name them so you can easily identify them.
 
 You first need to open '[b]conf/magicked_admin.conf[/b]' and here you can change '[b]server_one[/b]' to anything you want.
