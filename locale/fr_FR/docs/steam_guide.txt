@@ -276,16 +276,16 @@ Certaines commandes sont particulièrement utiles lorsqu'elles sont utilisées d
 [code] start_trc -- top_wave_dosh
  start_tc 300 -- update_motd dosh[/code]
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Advertise your Steam group when the boss wave is reached[/i]
-[code] start_wc -w -1 -- say Join our steam group: http://our.steam/group[/code]
+'[b]conf/scripts/server_one.init[/b]' - [i]Fournir des conseils de base sur l'utilisation des bots aux joueurs[/i]
+[code] start_wc -w -1 -- say Rejoignez notre groupe Steam : http://our.steam/group[/code]
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Provide basic bot usage guidance to players[/i]
-[code] start_tc -rt 800 -- say I'm a bot, type !commands to see available commands[/code]
+'[b]conf/scripts/server_one.init[/b]' - [i]Fournir des conseils basiques sur l'utilisation du bot aux joueurs[/i]
+[code] start_tc -rt 800 -- say Je suis un bot, tapez !commands pour voir les commandes disponibles[/code]
 
-'[b]conf/scripts/priv_game[/b]' - [i]Setup a private lobby with a single command[/i]
-[code]silent -q
-password --set superSecretPassword
-difficulty hell
+'[b]conf/scripts/priv_game[/b]' - [i]Configurer une partie privée avec une seule commande[/i]
+[code]silent -q // Les lignes de commande qui vont suivre seront invisibles dans le chat
+password --set MotDePasseSuperSecret // Définis le mot de passe comme étant "MotDePasseSuperSecret"
+difficulty hell // définit la difficulté sur Enfer sur Terre
 length long
 load_map biotics
 silent -q[/code]
