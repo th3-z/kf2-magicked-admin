@@ -174,50 +174,50 @@ Commandes pouvant être exécutées par les administrateurs de serveur et les ut
 [*] '[b]!stop_jc[/b]' - Arrête toutes les commandes qui s'exécutent à chaque fois qu'un joueur rejoins la partie
 
 [*] '[b]!start_wc [-w <vague>] -- <commande>[/b]' - Lancer une commande qui s'exécute sur la vague '<vague>'
-    - Option '[b]-w[/b]': Vague à laquelle s'exécutera la commande, peut être omis pour que la commande soit exécutée à chaque vague
-    run every wave
-    - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
-    - Example: '[b]!start_wc -1 -- say Welcome to the boss wave[/b]'
+    - Option '[b]-w[/b]': Vague à laquelle s'exécutera la commande, peut être omis pour que la commande
+    soit exécutée à chaque vague
+    - Option '[b]-w[/b]': Peut être négatif pour compter à rebours à partir de la vague de boss
+    - Exemple: '[b]!start_wc -1 -- say Bienvenue à la vague du boss[/b]'
 
-[*] '[b]!stop_wc[/b]' - Stops all wave commands
+[*] '[b]!stop_wc[/b]' - Arrête toutes les commandes liées aux vagues
 
-[*] '[b]!start_tc [-r, -t <seconds>] -- <command>[/b]' - Start a command that runs after
-    '<seconds>' seconds
-    - Option '[b]-r[/b]': Add to have the command run repeatedly
-    - Option '[b]-t[/b]': Required, the number of seconds before the command runs
-    - Example: '[b]!start_tc -rt 600 -- say Join our Steam group!\n http://steam.group/[/b]'
+[*] '[b]!start_tc [-r, -t <secondes>] -- <commande>[/b]' - Lancer une commande qui s'exécute après
+    '<secondes>' secondes
+    - Option '[b]-r[/b]': Ajouter pour que la commande soit exécutée de manière répétée
+    - Option '[b]-t[/b]': Obligatoire, le nombre de secondes avant l'exécution de la commande
+    - Exemple: '[b]!start_tc -rt 600 -- say Rejoignez notre groupe Steam !\n http://steam.group/[/b]' => S'exécute toute les 10 minutes
 
-[*] '[b]!stop_tc[/b]' - Stops all timed commands
+[*] '[b]!stop_tc[/b]' - Arrête toutes les commandes chronométrées
 
-[*] '[b]!start_trc [-w <wave>] -- <command>[/b]' - Start a commands that runs when the trader opens
-    - Option '[b]-w[/b]': Wave to run the command on, can be omitted to have the command run every wave
-    - Option '[b]-w[/b]': Can be negative to count backwards from the boss wave
-    - Example: '[b]!start_trc -- top_wave_dosh[/b]' - Shows who earned the most dosh every wave when the trader opens
+[*] '[b]!start_trc [-w <vague>] -- <commande>[/b]' - Lancer une commande qui s'exécute à l'ouverture du trader
+    - Option '[b]-w[/b]': Vague à laquelle s'exécutera la commande, peut-être omis pour que la commande soit exécutée à chaque vague
+    - Option '[b]-w[/b]': Peut être négatif pour compter à rebours à partir de la vague de boss
+    - Exemple: '[b]!start_trc -- top_wave_dosh[/b]' - Montre qui a gagné le plus de dosh à chaque vague à l'ouverture du trader
 
-[*] '[b]!stop_trc[/b]' - Stop all commands that run on trader open
+[*] '[b]!stop_trc[/b]' - Arrêter toutes les commandes qui s'exécutent lorsque le trader est ouvert
 
-[*] '[b]!silent[/b]' - Toggles suppression of all chat output, commands still have effect, but the response will not be visible to players
+[*] '[b]!silent[/b]' - Active / désactive la suppression de toutes les sorties de chat, les commandes ont toujours effet, mais la réponse ne sera pas visible pour les joueurs
 
-[*] '[b]!run <script_name>[/b]' - Executes a script from the 'conf/scripts' folder, more information in the scripts section
-    - Example: '[b]!run example[/b]'
+[*] '[b]!run <nom_du_script>[/b]' - Exécute un script à partir du dossier 'conf/scripts', plus d'informations dans la section scripts
+    - Exemple: '[b]!run example[/b]'
 
-[*] '[b]!marquee <marquee_name>[/b]' - Runs a marquee in the chat from the '[b]conf/marquee[/b]' folder, [i]experimental[/i]
-    - Example: '[b]!marquee example[/b]'
+[*] '[b]!marquee <nom_du_marquee>[/b]' - Exécute un marquee dans le chat à partir du dossier '[b]conf/marquee[/b]' [i]expérimental[/i]
+    - Exemple: '[b]!marquee example[/b]'
 
-[*] '[b]!enforce_dosh <amount>[/b]' - Kicks all players that have more dosh than the specified amount.
-    - Example: '[b]!start_tc 600 -- enforce_dosh 60000[/b]'
+[*] '[b]!enforce_dosh <montant>[/b]' - Exclu tout les joueurs qui ont plus de dosh que le montant spécifié.
+    - Exemple: '[b]!start_tc 600 -- enforce_dosh 60000[/b]' => Exclu tout joueur qui possède plus de 60 000 dosh
 
-[*] '[b]!update_motd <type>[/b]' - Refreshes the welcome screen leaderboard, type is one of: kills, dosh, or time
-    - Example: '[b]!start_tc 300 -- update_motd kills[/b]'
+[*] '[b]!update_motd <type>[/b]' - Actualise le classement de l'écran de bienvenue, le type est l'un des suivants : kills, dosh, ou time (pour le temps de jeu total)
+    - Exemple: '[b]!start_tc 300 -- update_motd kills[/b]'
 
-[*] '[b]!reload_motd[/b]' - Reloads the server's '[b]*.motd[/b]' file from '[b]conf[/b]'
+[*] '[b]!reload_motd[/b]' - Recharge le fichier '[b]*.motd[/b]' du serveur à partir de '[b]conf[/b]'
 [/list]
 
-## Welcome screen leaderboards
-Writing a '[b]conf/server_name.motd[/b]' file containing pairs of '[b]%PLR[/b]' and '[b]%SCR[/b]' will allow you to render live leaderboard on the welcome screen.
+## Classements de l'écran de bienvenue
+L'écriture d'un fichier '[b]conf/server_name.motd[/b]' contenant des paires de '[b]%PLR[/b]' et '[b]%SCR[/b]' vous permettra de rendre le classement en direct sur l'écran d'accueil.
 
-A simple example could be as follows.
-[code]Welcome to our server.
+Un exemple simple pourrait être le suivant :
+[code]Bienvenue sur notre serveur Survie ! Hébergé en France
 
 %SRV_K Zeds killed on this server.
 
