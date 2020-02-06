@@ -624,6 +624,7 @@ class CommandGameMode(Command):
             )
 
         self.server.change_game_type(mode)
+
         return self.format_response(
             _("Game mode will be changed to {}").format(
                 str(GAME_TYPE_DISPLAY[mode])
