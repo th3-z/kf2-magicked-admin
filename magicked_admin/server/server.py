@@ -211,9 +211,12 @@ class Server:
         ))
 
     def event_new_game(self):
+        if self.game.game_type in GAME_TYPE_DISPLAY:
+            display_name = GAME_TYPE_DISPLAY[self.game.game_type]
+        else:
+            display_name = GAME_TYPE_UNKNOWN
         message = _("New game on {}, map: {}, mode: {}") \
-            .format(self.name, self.game.game_map.name,
-                    GAME_TYPE_DISPLAY[self.game.game_type])
+            .format(self.name, self.game.game_map.name, display_name)
         print(colored(
             message.encode("utf-8").decode(sys.stdout.encoding), 'magenta'
         ))
