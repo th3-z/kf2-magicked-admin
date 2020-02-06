@@ -17,7 +17,7 @@ def test_settings_test_config():
     assert settings
 
     assert settings.setting("server_one", "username")
-    assert len(settings.sections())
+    assert len(settings.servers())
 
 
 def test_settings_bad_config():
@@ -37,8 +37,6 @@ def test_settings_skip_config():
 
     config = configparser.ConfigParser()
     config.read(SKIP_CONFIG_PATH)
-    errors = Settings.validate_config(config)
-    assert not len(errors)
 
     remove(SKIP_CONFIG_PATH)
 
@@ -46,5 +44,3 @@ def test_settings_skip_config():
 def test_settings_test_broken_config():
     config = configparser.ConfigParser()
     config.read(BROKEN_CONFIG_PATH)
-    errors = Settings.validate_config(config)
-    assert len(errors)
