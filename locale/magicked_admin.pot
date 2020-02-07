@@ -1,99 +1,131 @@
 # Translations template for PROJECT.
-# Copyright (C) 2019 ORGANIZATION
+# Copyright (C) 2020 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-26 23:03+0100\n"
+"POT-Creation-Date: 2020-02-07 10:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.7.0\n"
+"Generated-By: Babel 2.4.0\n"
 
-#: magicked_admin/magicked_admin.py:38
+#: magicked_admin/magicked_admin.py:47
 msgid "Killing Floor 2 Magicked Administrator"
 msgstr ""
 
-#: magicked_admin/magicked_admin.py:41
+#: magicked_admin/magicked_admin.py:50
 msgid "Skips the guided setup process"
 msgstr ""
 
-#: magicked_admin/magicked_admin.py:136
+#: magicked_admin/magicked_admin.py:156
+msgid "Couldn't connect to server: {}"
+msgstr ""
+
+#: magicked_admin/magicked_admin.py:161
+msgid "Authorization error connecting to '{}', reconfigure? [Y/n]: "
+msgstr ""
+
+#: magicked_admin/magicked_admin.py:166
+msgid "yes"
+msgstr ""
+
+#: magicked_admin/magicked_admin.py:166
+msgid "y"
+msgstr ""
+
+#: magicked_admin/magicked_admin.py:181
 msgid "Initialisation complete!\n"
 msgstr ""
 
-#: magicked_admin/magicked_admin.py:147
+#: magicked_admin/magicked_admin.py:192
 msgid "Closing immediately!"
 msgstr ""
 
-#: magicked_admin/magicked_admin.py:156
+#: magicked_admin/magicked_admin.py:201
 msgid "Program interrupted, saving data..."
 msgstr ""
 
-#: magicked_admin/settings.py:24
+#: magicked_admin/settings.py:54
 msgid ""
 "Please correct this manually  or delete '{}' to create a clean config "
 "next run."
 msgstr ""
 
-#: magicked_admin/settings.py:31
+#: magicked_admin/settings.py:62
 msgid "No configuration was found, first time setup is required!"
 msgstr ""
 
-#: magicked_admin/settings.py:43
+#: magicked_admin/settings.py:74
 msgid "Guided setup was skipped, a template has been generated."
 msgstr ""
 
-#: magicked_admin/settings.py:45
+#: magicked_admin/settings.py:76
 msgid "Setup is not complete yet, please amend '{}' with your server details."
 msgstr ""
 
-#: magicked_admin/settings.py:53
+#: magicked_admin/settings.py:84
 msgid ""
 "Configuration error(s) found!\n"
 "Section '{}' has a duplicate setting: '{}'."
 msgstr ""
 
-#: magicked_admin/settings.py:60
+#: magicked_admin/settings.py:91
 msgid "Configuration error(s) found!"
 msgstr ""
 
-#: magicked_admin/settings.py:76
+#: magicked_admin/settings.py:113
 msgid "    Please input your web admin details below."
 msgstr ""
 
-#: magicked_admin/settings.py:88
+#: magicked_admin/settings.py:127
 msgid ""
 "\n"
 "Address [default - localhost:8080]: "
 msgstr ""
 
-#: magicked_admin/settings.py:94
+#: magicked_admin/settings.py:133
 msgid ""
 "Address not responding!\n"
 "Accepted formats are: 'ip:port', 'domain', or 'domain:port'"
 msgstr ""
 
-#: magicked_admin/settings.py:97
+#: magicked_admin/settings.py:136
 msgid "Username [default - Admin]: "
 msgstr ""
 
-#: magicked_admin/settings.py:99
-msgid "Password (will not echo) [default - 123]: "
-msgstr ""
-
-#: magicked_admin/settings.py:135
-msgid "Config file has no sections."
+#: magicked_admin/settings.py:143
+msgid "Password"
 msgstr ""
 
 #: magicked_admin/settings.py:144
+msgid " (will not echo)"
+msgstr ""
+
+#: magicked_admin/settings.py:145
+msgid " [default - 123]: "
+msgstr ""
+
+#: magicked_admin/settings.py:186
+msgid "Config file is missing 'magicked_admin' section."
+msgstr ""
+
+#: magicked_admin/settings.py:189
+msgid "Config file is missing language."
+msgstr ""
+
+#: magicked_admin/settings.py:192
+msgid "Config file has no sections."
+msgstr ""
+
+#: magicked_admin/settings.py:201
 msgid "Section '{}' is missing a required setting: '{}'."
 msgstr ""
 
@@ -970,7 +1002,7 @@ msgstr ""
 msgid "GameMode not recognised, options are: endless, survival, weekly or versus"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/server_commands.py:628
+#: magicked_admin/chatbot/commands/server_commands.py:629
 msgid "Game mode will be changed to {}"
 msgstr ""
 
@@ -978,7 +1010,7 @@ msgstr ""
 msgid "Building new database..."
 msgstr ""
 
-#: magicked_admin/server/game.py:30
+#: magicked_admin/server/game.py:35
 msgid ""
 "Mode: {}\n"
 "Map: {}\n"
@@ -986,7 +1018,7 @@ msgid ""
 "Wave {}/{}"
 msgstr ""
 
-#: magicked_admin/server/game.py:70
+#: magicked_admin/server/game.py:75
 msgid ""
 "Title: {}\n"
 "Plays survival: {}\n"
@@ -1001,7 +1033,7 @@ msgid ""
 "correct this! Guidance is available at: {}"
 msgstr ""
 
-#: magicked_admin/server/player.py:38 magicked_admin/utils/net.py:59
+#: magicked_admin/server/player.py:38 magicked_admin/utils/net.py:62
 msgid "Unknown"
 msgstr ""
 
@@ -1013,39 +1045,39 @@ msgid ""
 "Steam ID:{}"
 msgstr ""
 
-#: magicked_admin/server/server.py:77
+#: magicked_admin/server/server.py:78
 msgid "Flushing players on {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:82
+#: magicked_admin/server/server.py:83
 msgid "Writing game to database ({})"
 msgstr ""
 
-#: magicked_admin/server/server.py:173
+#: magicked_admin/server/server.py:174
 msgid "Player {} joined {} from {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:190
+#: magicked_admin/server/server.py:193
 msgid "Player {} left {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:203
+#: magicked_admin/server/server.py:208
 msgid "Player {} died on {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:207
+#: magicked_admin/server/server.py:218
 msgid "New game on {}, map: {}, mode: {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:224
+#: magicked_admin/server/server.py:236
 msgid "Unknown game_type {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:231
+#: magicked_admin/server/server.py:243
 msgid "End game on {}, map: {}, mode: {}, victory: {}"
 msgstr ""
 
-#: magicked_admin/utils/__init__.py:102
+#: magicked_admin/utils/__init__.py:112
 msgid ""
 "\n"
 "Press enter to exit..."
@@ -1059,36 +1091,37 @@ msgstr ""
 msgid "Couldn't find identify player: {}"
 msgstr ""
 
-#: magicked_admin/web_admin/web_interface.py:15
+#: magicked_admin/web_admin/web_interface.py:19
 msgid "Connecting to {} ({})..."
 msgstr ""
 
-#: magicked_admin/web_admin/web_interface.py:47
+#: magicked_admin/web_admin/web_interface.py:52
 msgid "Connected to {} ({})"
 msgstr ""
 
-#: magicked_admin/web_admin/web_interface.py:62
-#: magicked_admin/web_admin/web_interface.py:101
+#: magicked_admin/web_admin/web_interface.py:83
+#: magicked_admin/web_admin/web_interface.py:145
 msgid "Session killed, renewing!"
 msgstr ""
 
-#: magicked_admin/web_admin/web_interface.py:124
+#: magicked_admin/web_admin/web_interface.py:88
+#: magicked_admin/web_admin/web_interface.py:150
+msgid "Authorization error, credentials changed?"
+msgstr ""
+
+#: magicked_admin/web_admin/web_interface.py:174
 msgid "Web admin not responding, sleeping"
 msgstr ""
 
-#: magicked_admin/web_admin/web_interface.py:129
+#: magicked_admin/web_admin/web_interface.py:179
 msgid "Web admin is back, resuming"
 msgstr ""
 
-#: magicked_admin/web_admin/web_interface.py:165
-msgid "Login failure, bad credentials or login attempts exceeded."
-msgstr ""
-
-#: magicked_admin/web_admin/web_interface.py:170
+#: magicked_admin/web_admin/web_interface.py:220
 msgid "Detected KF2-MA install on server."
 msgstr ""
 
-#: magicked_admin/web_admin/web_interface.py:172
+#: magicked_admin/web_admin/web_interface.py:222
 msgid ""
 "KF2-MA install not detected on server side! Consequently, only Survival "
 "mode will function fully."
