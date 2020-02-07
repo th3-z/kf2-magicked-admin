@@ -28,7 +28,7 @@ class Game:
 
     def __str__(self):
         if self.game_type in GAME_TYPE_DISPLAY:
-            display_name = GAME_TYPE_DISPLAY[self.game.game_type]
+            display_name = GAME_TYPE_DISPLAY[self.game_type]
         else:
             display_name = GAME_TYPE_UNKNOWN
 

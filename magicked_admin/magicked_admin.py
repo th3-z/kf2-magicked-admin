@@ -9,6 +9,7 @@ import gettext
 import os
 import signal
 import sys
+import locale
 
 from colorama import init
 
@@ -30,16 +31,9 @@ from web_admin.chat import Chat
 from web_admin.constants import *
 from lua_bridge.lua_bridge import LuaBridge
 
-os.environ['LANGUAGE'] = 'fr'
-
 gettext.bindtextdomain('magicked_admin', 'locale')
 gettext.textdomain('magicked_admin')
 gettext.install('magicked_admin', 'locale')
-
-lang = gettext.translation(
-    'magicked_admin', 'locale', ['fr_FR']
-)
-lang.install()
 
 init()
 
@@ -143,7 +137,11 @@ class MagickedAdmin:
         servers = []
 
         language = self.settings.config['magicked_admin']['language']
-        print(language)
+        lang = gettext.translation(
+            'magicked_admin', 'locale', [language]
+        )
+        lang.install()
+        os.environ['LANGUAGE'] = language[:2]
 
         for server_name in self.settings.servers():
             # TODO: Gross
