@@ -30,7 +30,16 @@ from web_admin.chat import Chat
 from web_admin.constants import *
 from lua_bridge.lua_bridge import LuaBridge
 
-_ = gettext.gettext
+os.environ['LANGUAGE'] = 'fr'
+
+gettext.bindtextdomain('magicked_admin', 'locale')
+gettext.textdomain('magicked_admin')
+gettext.install('magicked_admin', 'locale')
+
+lang = gettext.translation(
+    'magicked_admin', 'locale', ['fr_FR']
+)
+lang.install()
 
 init()
 
