@@ -16,17 +16,23 @@ ifndef PYTHON
 	$(error "Couldn't find Python")
 endif
 
+LOCALE_DIR = ./locale
+
 all: clean build
 
 build:
 	@$(PYTHON) magicked_admin/setup.py build -b bin/magicked_admin
 	@$(PYTHON) admin_patches/setup.py build -b bin/admin_patches
 
-i18n-init:
+i18n-update:
 	@pybabel extract admin_patches -o locale/admin_patches.pot
-	@pybabel init -l en_GB -i locale/admin_patches.pot -d locale -o ./locale/en_GB/admin_patches.po
+	@pybabel init -l en_GB -i locale/admin_patches.pot -d locale -o ./locale/en_GB/LC_MESSAGES/admin_patches.po
 	@pybabel extract magicked_admin -o locale/magicked_admin.pot
-	@pybabel init -l en_GB -i locale/magicked_admin.pot -d locale -o ./locale/en_GB/magicked_admin.po
+	@pybabel init -l en_GB -i locale/magicked_admin.pot -d locale -o ./locale/en_GB/LC_MESSAGES/magicked_admin.po
+
+i18n-compile:
+	@pybabel compile -d locale -D "magicked_admin"
+	@pybabel compile -d locale -D "admin_patches"
 
 clean:
 	-@rm -rf bin
