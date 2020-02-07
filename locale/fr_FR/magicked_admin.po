@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-05 12:15\n"
+"PO-Revision-Date: 2020-02-07 16:46\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -1036,7 +1036,7 @@ msgstr "Pseudo : {}\n"
 
 #: magicked_admin/server/server.py:77
 msgid "Flushing players on {}"
-msgstr "Flushing des joueurs sur {}"
+msgstr "Mise à jour des joueurs du serveur : {}"
 
 #: magicked_admin/server/server.py:82
 msgid "Writing game to database ({})"
