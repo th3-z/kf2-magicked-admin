@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-09 01:54\n"
+"PO-Revision-Date: 2020-02-09 15:46\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -397,7 +397,7 @@ msgstr "'{}' n'est pas un numéro de vague valide"
 
 #: magicked_admin/chatbot/commands/event_commands.py:106
 msgid "Wave start command started"
-msgstr "La commande devant s'exécuter au debut de la vague a demarree"
+msgstr "La commande devant s'executer au debut de la vague a demarree"
 
 #: magicked_admin/chatbot/commands/event_commands.py:114
 msgid "Usage: !stop_wc\n"
