@@ -1,0 +1,189 @@
+diff --git a/current_players.html b/current_players.html
+old mode 100755
+new mode 100644
+index a178bc3..5ba5295
+--- a/current_players.html
++++ b/current_players.html
+@@ -1,90 +1,92 @@
+-<!-- #include file="header.inc" -->
+-
+-<div id="content">
+-
+-<h2><%page.title%></h2>
+-
+-<div class="section narrow">
+-<table id="players" class="grid">
+-<thead>
+-<tr>
+-    <th>&#160;</th>
+-    <th><a href="<%page.fulluri%>?sortby=name&amp;reverse=<%reverse.name%>" class="sortable <%sorted.name%>">Player name</a></th>
+-    <th><a href="<%page.fulluri%>?sortby=ping&amp;reverse=<%reverse.ping%>" class="sortable <%sorted.ping%>">Ping</a></th>
+-    <th>IP</th>
+-    <th title="The unique ID for this game account.">Unique Net ID</th>
+-    <th>Steam ID</th>
+-    <th title="The Steam community ID.">Community ID</th>
+-    <th>Admin</th>
+-    <th title="Spectator">Spec.</th>
+-    <th>Controls</th>
+-</tr>
+-</thead>
+-<tbody>
+-<%players%>
+-</tbody>
+-</table>
+-</div>
+-
+-<script type="text/javascript">
+-//<![CDATA[
+-$(document).ready(function(){
+-    if ($("#players td").size() <= 1) return;
+-    $("#players th a").each(function(){
+-        jthis = $(this);
+-        jthis.before(jthis.html());
+-        jthis.remove();
+-    });
+-    $("#players th").wrapInner("<span></span>");
+-    $("#players").tablesorter({sortList:[[1,0]], widgets: ['zebra'], headers: { 9: {sorter: false} }});
+-    
+-    $("#players form").each(function(i){
+-        var frm = $(this);
+-        frm.submit(function() {
+-            $.ajax({
+-                type: "POST",
+-                url: '<%page.fulluri%>+data',
+-                data: {ajax: 1, action: $('[name="action"]', frm).val(), playerkey: $('[name="playerkey"]', frm).val()},
+-                success: actionSuccess,
+-                error: ajaxError,
+-                dataType: 'xml'
+-            });
+-            return false;
+-        });
+-    });
+-});
+-
+-function actionSuccess(data, textStatus) {
+-    var jdata = $(data);
+-    var old = $('#messages *');
+-    var newmsg = $(jdata.find('request messages').text());
+-    newmsg.hide();
+-    $('#messages').prepend(newmsg);
+-    newmsg.fadeIn();
+-    old.remove();
+-    var result = jdata.find('request kicked');
+-    if (result.length > 0)
+-    {
+-        var playerkey = result.attr('playerkey');
+-        $('[name="playerkey"][value="'+playerkey+'"]').parents('tr').fadeOut('normal', function(){$(this).remove()});
+-    }
+-    result = jdata.find('request text');
+-    if (result.length > 0)
+-    {
+-        var playerkey = result.attr('playerkey');
+-        $('option[value="toggletext"]', $('[name="playerkey"][value="'+playerkey+'"]').parent()).html(result.attr('label'));
+-    }
+-}
+-
+-function ajaxError(XMLHttpRequest, textStatus, errorThrown) {
+-    if (XMLHttpRequest.status == 403) {
+-        document.location = '<%page.fulluri%>';
+-    }
+-}
+-//]]>
+-</script>
+-
+-</div>
+-
+-<!-- #include file="navigation.inc" -->
+-<!-- #include file="footer.inc" -->
++<!-- #include file="header.inc" -->
++
++<div id="content">
++
++<h2><%page.title%></h2>
++
++<div class="section narrow">
++<table id="players" class="grid">
++<thead>
++<tr>
++    <th>&#160;</th>
++    <th><a href="<%page.fulluri%>?sortby=name&amp;reverse=<%reverse.name%>" class="sortable <%sorted.name%>">Player name</a></th>
++	<th>Perk</th>
++	<th>Level</th>
++    <th><a href="<%page.fulluri%>?sortby=ping&amp;reverse=<%reverse.ping%>" class="sortable <%sorted.ping%>">Ping</a></th>
++    <th>IP</th>
++    <th title="The unique ID for this game account.">Unique network ID</th>
++    <th>Steam ID</th>
++    <th title="The Steam community ID.">Community ID</th>
++    <th>Admin</th>
++    <th title="Spectator">Spec.</th>
++    <th>Controls</th>
++</tr>
++</thead>
++<tbody>
++<%players%>
++</tbody>
++</table>
++</div>
++
++<script type="text/javascript">
++//<![CDATA[
++$(document).ready(function(){
++    if ($("#players td").size() <= 1) return;
++    $("#players th a").each(function(){
++        jthis = $(this);
++        jthis.before(jthis.html());
++        jthis.remove();
++    });
++    $("#players th").wrapInner("<span></span>");
++    $("#players").tablesorter({sortList:[[1,0]], widgets: ['zebra'], headers: { 9: {sorter: false} }});
++    
++    $("#players form").each(function(i){
++        var frm = $(this);
++        frm.submit(function() {
++            $.ajax({
++                type: "POST",
++                url: '<%page.fulluri%>+data',
++                data: {ajax: 1, action: $('[name="action"]', frm).val(), playerkey: $('[name="playerkey"]', frm).val()},
++                success: actionSuccess,
++                error: ajaxError,
++                dataType: 'xml'
++            });
++            return false;
++        });
++    });
++});
++
++function actionSuccess(data, textStatus) {
++    var jdata = $(data);
++    var old = $('#messages *');
++    var newmsg = $(jdata.find('request messages').text());
++    newmsg.hide();
++    $('#messages').prepend(newmsg);
++    newmsg.fadeIn();
++    old.remove();
++    var result = jdata.find('request kicked');
++    if (result.length > 0)
++    {
++        var playerkey = result.attr('playerkey');
++        $('[name="playerkey"][value="'+playerkey+'"]').parents('tr').fadeOut('normal', function(){$(this).remove()});
++    }
++    result = jdata.find('request text');
++    if (result.length > 0)
++    {
++        var playerkey = result.attr('playerkey');
++        $('option[value="toggletext"]', $('[name="playerkey"][value="'+playerkey+'"]').parent()).html(result.attr('label'));
++    }
++}
++
++function ajaxError(XMLHttpRequest, textStatus, errorThrown) {
++    if (XMLHttpRequest.status == 403) {
++        document.location = '<%page.fulluri%>';
++    }
++}
++//]]>
++</script>
++
++</div>
++
++<!-- #include file="navigation.inc" -->
++<!-- #include file="footer.inc" -->

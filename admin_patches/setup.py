@@ -18,6 +18,14 @@ includefiles = [
      'patches/gamesummary.inc.patch'),
     (os.path.join(SRC_PATH, 'patches/header_base.inc.patch'),
      'patches/header_base.inc.patch'),
+    (os.path.join(SRC_PATH, 'patches/current_players_row.inc.patch'),
+     'patches/current_players_row.inc.patch'),
+    (os.path.join(SRC_PATH, 'patches/current_players.html.patch'),
+     'patches/current_players.html.patch'),
+    (os.path.join(SRC_PATH, 'patches/current_player_row.inc.patch'),
+     'patches/current_player_row.inc.patch'),
+    (os.path.join(SRC_PATH, 'patches/current.html.patch'),
+     'patches/current.html.patch'),
 ]
 
 target_name = "admin_patches"

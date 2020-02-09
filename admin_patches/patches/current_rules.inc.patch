@@ -1,19 +1,29 @@
 diff --git a/current_rules.inc b/current_rules.inc
-index d3ef5db..04aa22b 100755
+old mode 100755
+new mode 100644
+index d3ef5db..da14fb2
 --- a/current_rules.inc
 +++ b/current_rules.inc
-@@ -1,3 +1,7 @@
-+<dt>Wave</dt>
-+<dd><%wave.num%>/<%wave.max%></dd>
-+<dt>Difficulty</dt>
-+<dd><%rules.difficulty.text%></dd>
- <dt>Players</dt>
- <dd><%rules.numplayers%>/<%rules.maxplayers%></dd>
- <dt>Minimum to Start</dt>
-@@ -7,4 +11,4 @@
- <dt>Player Map Voting</dt>
- <dd><%rules.mapvote%></dd>
- <dt>Player Kick voting</dt>
+@@ -1,10 +1,12 @@
+-<dt>Players</dt>
+-<dd><%rules.numplayers%>/<%rules.maxplayers%></dd>
+-<dt>Minimum to Start</dt>
+-<dd><%rules.minnetplayers%></dd>
+-<dt>Spectators</dt>
+-<dd><%rules.numspectators%>/<%rules.maxspectators%></dd>
+-<dt>Player Map Voting</dt>
+-<dd><%rules.mapvote%></dd>
+-<dt>Player Kick voting</dt>
 -<dd><%rules.kickvote%></dd>
++<dt>Wave</dt>
++<dd><%wave.num%></dd>
++<dt>Players</dt>
++<dd><%rules.numplayers%>/<%rules.maxplayers%></dd>
++<dt>Minimum to start</dt>
++<dd><%rules.minnetplayers%></dd>
++<dt>Spectators</dt>
++<dd><%rules.numspectators%>/<%rules.maxspectators%></dd>
++<dt>Map vote</dt>
++<dd><%rules.mapvote%></dd>
++<dt>Kick player</dt>
 +<dd><%rules.kickvote%></dd>
-\ No newline at end of file
