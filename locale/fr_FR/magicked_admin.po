@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2020-02-07 16:46\n"
+"PO-Revision-Date: 2020-02-09 01:54\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -372,7 +372,7 @@ msgstr "Veuillez spécifier une commande à exécuter"
 
 #: magicked_admin/chatbot/commands/event_commands.py:42
 msgid "Player join command started"
-msgstr "La commande devant s'activer quand un joueur rejoins la partie a démarrée"
+msgstr "La commande devant s'activer quand un joueur rejoins la partie a démarree"
 
 #: magicked_admin/chatbot/commands/event_commands.py:50
 msgid "Usage: !stop_jc\n"
@@ -397,7 +397,7 @@ msgstr "'{}' n'est pas un numéro de vague valide"
 
 #: magicked_admin/chatbot/commands/event_commands.py:106
 msgid "Wave start command started"
-msgstr "La commande devant s'exécuter au début de la vague a démarrée"
+msgstr "La commande devant s'exécuter au debut de la vague a demarree"
 
 #: magicked_admin/chatbot/commands/event_commands.py:114
 msgid "Usage: !stop_wc\n"
@@ -447,7 +447,7 @@ msgstr "Utilisation : ! tart_trc [--wave] COMMAND\n"
 
 #: magicked_admin/chatbot/commands/event_commands.py:239
 msgid "Trader open command started"
-msgstr "La commande devant s'exécuter lorsque le trader est ouvert a démarrée"
+msgstr "La commande devant s'executer lorsque le trader est ouvert a demarree"
 
 #: magicked_admin/chatbot/commands/event_commands.py:247
 msgid "Usage: !stop_trc\n"
