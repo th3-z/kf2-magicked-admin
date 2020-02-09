@@ -1,7 +1,7 @@
 diff --git a/current.html b/current.html
 old mode 100755
 new mode 100644
-index 3d2c609..59a267e
+index 3d2c609..9c75d01
 --- a/current.html
 +++ b/current.html
 @@ -1,91 +1,94 @@
@@ -102,14 +102,14 @@ index 3d2c609..59a267e
 +
 +<%news%>
 +
-+<fieldset id="notesField" title="Here you can leave some notes. They will be stored on the server so that other administrators can view and modify them.uelques notes. Ils seront stockés sur le serveur afin que d'autres administrateurs puissent voir et modifier.">
++<fieldset id="notesField" title="Here you can leave some notes. They will be stored on the server so other administrators can see and edit them.">
 +<legend>Notes</legend>
 +<form action="<%page.fulluri%>" method="post" id="notesForm">
 +<div>
-+<textarea id="notes" name="Notes" rows="5" cols="80" style="width:100%;"><%notes%></textarea>
++<textarea id="notes" name="notes" rows="5" cols="80" style="width:100%;"><%notes%></textarea>
 +</div>
 +<div id="notectrl">
-+<button type="submit" name="Action" value="save">Save</button>
++<button type="submit" name="action" value="Save">Save</button>
 +</div>
 +</form>
 +</fieldset>
@@ -123,15 +123,15 @@ index 3d2c609..59a267e
 +<tr>
 +<td>
 +
-+<h3>Current game</h3>
++<h3>Current Game</h3>
 +
 +<div class="section">
 +<dl id="currentGame">
-+    <dt>Server name</dt>
++    <dt>Server Name</dt>
 +    <dd><%server.name%></dd>
-+    <dt>Protection anti-triche</dt>
++    <dt>Cheat Protection</dt>
 +    <dd><%server.anticheat%></dd>
-+    <dt>Gamemode</dt>
++    <dt>Game type</dt>
 +    <dd title="<%game.type%>"><%game.name%></dd>
 +    <dt>Map</dt>
 +    <dd title="<%map.name%>"><%map.title.safe%></dd>
@@ -159,7 +159,7 @@ index 3d2c609..59a267e
 +    <th>&#160;</th>
 +    <th><a href="<%page.fulluri%>?sortby=name&amp;reverse=<%reverse.name%>" class="sortable <%sorted.name%>">Name</a></th>
 +    <th><a href="<%page.fulluri%>?sortby=perk&amp;reverse=<%reverse.perk%>" class="sortable <%sorted.perk%>">Perk</th>
-+	<th>Level</th>
++  	<th>Level</th>
 +    <th><a href="<%page.fulluri%>?sortby=score&amp;reverse=<%reverse.score%>" class="sortable <%sorted.score%>">Dosh</a></th>
 +    <th>Health</th>
 +    <th><a href="<%page.fulluri%>?sortby=kills&amp;reverse=<%reverse.kills%>" class="sortable <%sorted.kills%>">Kills</a></th>

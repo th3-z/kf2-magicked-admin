@@ -1,7 +1,7 @@
 diff --git a/gamesummary.inc b/gamesummary.inc
 old mode 100755
 new mode 100644
-index cd4e1f7..64b5839
+index cd4e1f7..29543b6
 --- a/gamesummary.inc
 +++ b/gamesummary.inc
 @@ -1,9 +1,9 @@
@@ -13,13 +13,14 @@ index cd4e1f7..64b5839
 -  <dd class="gs_players"><%rules.numplayers%>/<%rules.maxplayers%></dd>
 -  <dt class="gs_time">Time</dt>
 -  <dd class="gs_time"><%time.elapsed%>/<%time.timelimit%></dd>
+-</dl>
+\ No newline at end of file
 +<div class="gs_mapimage"><img src="<%map.image%>" alt="<%map.name%>"/></div>
 +<dl class="gs_details">
 +  <dt class="gs_map">Map</dt>
 +  <dd class="gs_map"><%map.title.safe%></dd>
 +  <dt class="gs_players">Players</dt>
 +  <dd class="gs_players"><%rules.numplayers%>/<%rules.maxplayers%></dd>
-+  <dt class="gs_wave">Wave <%wave.num%></dt>
++  <dt class="gs_wave">Wave <%wave.num%>/<%wave.max%></dt>
 +  <dd class="gs_wave"><%wave.monsters.dead%>/<%wave.monsters.total%></dd>
- </dl>
-\ No newline at end of file
++</dl>

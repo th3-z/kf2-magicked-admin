@@ -43,7 +43,7 @@ msgstr "L'utilisateur a annule l'installation"
 #: admin_patches/admin_patches.py:54
 msgid "Killing Floor 2 server not found in path:\n"
 "\t{}"
-msgstr "Le serveur Killing Floor 2 n'as pas ete trouve :dans le dossier :\n"
+msgstr "Le serveur Killing Floor 2 n'as pas ete trouve dans le dossier :\n"
 "\t{}"
 
 #: admin_patches/admin_patches.py:57

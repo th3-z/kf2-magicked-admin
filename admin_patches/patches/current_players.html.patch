@@ -1,7 +1,7 @@
 diff --git a/current_players.html b/current_players.html
 old mode 100755
 new mode 100644
-index a178bc3..5ba5295
+index a178bc3..299b8a9
 --- a/current_players.html
 +++ b/current_players.html
 @@ -1,90 +1,92 @@
@@ -107,11 +107,11 @@ index a178bc3..5ba5295
 +<tr>
 +    <th>&#160;</th>
 +    <th><a href="<%page.fulluri%>?sortby=name&amp;reverse=<%reverse.name%>" class="sortable <%sorted.name%>">Player name</a></th>
-+	<th>Perk</th>
-+	<th>Level</th>
++	  <th>Perk</th>
++	  <th>Level</th>
 +    <th><a href="<%page.fulluri%>?sortby=ping&amp;reverse=<%reverse.ping%>" class="sortable <%sorted.ping%>">Ping</a></th>
 +    <th>IP</th>
-+    <th title="The unique ID for this game account.">Unique network ID</th>
++    <th title="The unique ID for this game account.">Unique Net ID</th>
 +    <th>Steam ID</th>
 +    <th title="The Steam community ID.">Community ID</th>
 +    <th>Admin</th>

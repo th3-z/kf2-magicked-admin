@@ -1,10 +1,10 @@
 diff --git a/current_rules.inc b/current_rules.inc
 old mode 100755
 new mode 100644
-index d3ef5db..da14fb2
+index d3ef5db..06adf27
 --- a/current_rules.inc
 +++ b/current_rules.inc
-@@ -1,10 +1,12 @@
+@@ -1,10 +1,14 @@
 -<dt>Players</dt>
 -<dd><%rules.numplayers%>/<%rules.maxplayers%></dd>
 -<dt>Minimum to Start</dt>
@@ -16,14 +16,16 @@ index d3ef5db..da14fb2
 -<dt>Player Kick voting</dt>
 -<dd><%rules.kickvote%></dd>
 +<dt>Wave</dt>
-+<dd><%wave.num%></dd>
++<dd><%wave.num%>/<%wave.max%></dd>
++<dt>Difficulty</dt>
++<dd><%rules.difficulty.text%></dd>
 +<dt>Players</dt>
 +<dd><%rules.numplayers%>/<%rules.maxplayers%></dd>
-+<dt>Minimum to start</dt>
++<dt>Minimum to Start</dt>
 +<dd><%rules.minnetplayers%></dd>
 +<dt>Spectators</dt>
 +<dd><%rules.numspectators%>/<%rules.maxspectators%></dd>
-+<dt>Map vote</dt>
++<dt>Player Map Voting</dt>
 +<dd><%rules.mapvote%></dd>
-+<dt>Kick player</dt>
++<dt>Player Kick voting</dt>
 +<dd><%rules.kickvote%></dd>

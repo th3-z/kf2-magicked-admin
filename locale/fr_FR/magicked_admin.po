@@ -625,8 +625,8 @@ msgstr "Vous avez tue un total de {} ZEDs (#{}), et {} cette partie"
 msgid "Usage: !dosh USERNAME\n"
 "\tUSERNAME - User to get dosh stats for\n"
 "Desc: Shows dosh statistics for a player, username can be omitted to get personal stats"
-msgstr "Utilisation : !dosh USERNAME\n"
-"\tUSERNAME - Affiche les statistiques liees au nombre de dosh gagnes par un joueur\n"
+msgstr "Utilisation : !dosh NOM D'UTILISATEUR\n"
+"\tNOM D'UTILISATEUR - Affiche les statistiques liees au nombre de dosh gagnes par un joueur\n"
 "Description : Affiche les statistiques liees au nombre de dosh gagnes par un joueur, le nom d'utilisateur peut être omis pour obtenir les statistiques personnelles"
 
 #: magicked_admin/chatbot/commands/player_commands.py:115
@@ -705,8 +705,8 @@ msgstr "Le joueur {} a gagne le plus de Dosh durant cette vague : {} dosh"
 msgid "Usage: !ban USERNAME\n"
 "\tUSERNAME - Player to ban\n"
 "Desc: Bans a player from the server"
-msgstr "Usage: !ban USERNAME\n"
-"\tUSERNAME - Joueur a bannir\n"
+msgstr "Usage: !ban NOM D'UTILISATEUR\n"
+"\tNOM D'UTILISATEUR - Joueur a bannir\n"
 "Description : Bannis un joueur du serveur"
 
 #: magicked_admin/chatbot/commands/server_commands.py:32
@@ -737,8 +737,8 @@ msgstr "Usage: !say MESSAGE\n"
 msgid "Usage: !op USERNAME\n"
 "\tUSERNAME - Player to give operator status\n"
 "Desc: Allows a player to use admin commands"
-msgstr "Usage: !op USERNAME\n"
-"\tUSERNAME - Joueur a qui l'on souhaite donner le statut d'admin\n"
+msgstr "Usage: !op NOM D'UTILISATEUR\n"
+"\tNOM D'UTILISATEUR - Joueur a qui l'on souhaite donner le statut d'admin\n"
 "Description : Alloue les commandes d'administrateur a un joueur"
 
 #: magicked_admin/chatbot/commands/server_commands.py:94
@@ -754,8 +754,8 @@ msgstr "{} a ete promu admin"
 msgid "Usage: !deop USERNAME\n"
 "\tUSERNAME - Player to revoke op status for\n"
 "Desc: Revokes a players ability to use admin commands"
-msgstr "Usage: !deop USERNAME\n"
-"\tUSERNAME - Revoquer le statut d'admin d'un joueur\n"
+msgstr "Usage: !deop NOM D'UTILISATEUR\n"
+"\tNOM D'UTILISATEUR - Revoquer le statut d'admin d'un joueur\n"
 "Description : Revoque la capacite d'un joueur a utiliser les commandes admin"
 
 #: magicked_admin/chatbot/commands/server_commands.py:133
@@ -790,8 +790,8 @@ msgstr "Victoires en Survie: {} \n"
 msgid "Usage: !enforce_dosh AMOUNT\n"
 "\tAMOUNT - Kicks players over this amount\n"
 "Desc: Kicks players with more dosh than the amount specified"
-msgstr "Utilisation : !enforce_dosh AMOUNT\n"
-"\tAMOUNT - Expulse les joueurs possedant ce montant ou plus\n"
+msgstr "Utilisation : !enforce_dosh MONTANT\n"
+"\tMONTANT - Expulse les joueurs possedant ce montant ou plus\n"
 "Description : Expulse les joueurs possedant plus de dosh que le nombre specifie"
 
 #: magicked_admin/chatbot/commands/server_commands.py:223
@@ -806,8 +806,8 @@ msgstr "'{}' n'est pas un nombre valide"
 msgid "Usage: !kick USERNAME\n"
 "\tUSERNAME - Player to kick\n"
 "Desc: Kicks a player from the match"
-msgstr "Utilisation : !kick USERNAME\n"
-"\tUSERNAME - Joueur a expulser\n"
+msgstr "Utilisation : !kick NOM D'UTILISATEUR\n"
+"\tNOM D'UTILISATEUR - Joueur a expulser\n"
 "Description : Expulse un joueur de la partie"
 
 #: magicked_admin/chatbot/commands/server_commands.py:267
@@ -940,9 +940,9 @@ msgstr "Mode silencieux active"
 msgid "Usage: !length LENGTH\n"
 "\tLENGTH - Length to change to\n"
 "Desc: Changes the game length next match"
-msgstr "Utilisation : !length LENGTH\n"
-"\tLENGTH - Valeur de la longueur a definir : short, medium ou long\n"
-"Description : Change la longueur de la prochaine partie (4, 7 ou 10), definis le nombre de manches"
+msgstr "Utilisation : !length LONGUEUR\n"
+"\tLONGUEUR - Valeur de la longueur a definir : short, medium ou long\n"
+"Description : Change la longueur de la prochaine partie"
 
 #: magicked_admin/chatbot/commands/server_commands.py:492
 #: magicked_admin/chatbot/commands/server_commands.py:504
@@ -957,9 +957,9 @@ msgstr "Le changement du nombre de vagues entrera en vigueur a la prochaine part
 msgid "Usage: !difficulty DIFFICULTY\n"
 "\tDIFFICULTY - Difficulty to change to\n"
 "Desc: Changes the difficulty next match"
-msgstr "Utilisation : !difficulty DIFFICULTY\n"
-"\tDIFFICULTY - Valeur de la difficulte\n"
-"Description : Change la difficulte de la partie suivante, options disponibles : normal, hard, suicidal, hell"
+msgstr "Utilisation : !difficulty DIFFICULTE\n"
+"\tDIFFICULTE - Valeur de la difficulte\n"
+"Description : Change la difficulte de la partie suivante"
 
 #: magicked_admin/chatbot/commands/server_commands.py:533
 #: magicked_admin/chatbot/commands/server_commands.py:547
