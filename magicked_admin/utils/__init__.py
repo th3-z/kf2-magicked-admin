@@ -29,6 +29,15 @@ def find_data_file(filename):
 
 
 # TODO: logging module
+if not os.path.exists(find_data_file("conf/")):
+    os.mkdir(find_data_file("conf/"))
+if not os.path.exists(find_data_file("conf/scripts/")):
+    os.mkdir(find_data_file("conf/scripts/"))
+if not os.path.exists(find_data_file("conf/marquee")):
+    os.mkdir(find_data_file("conf/marquee"))
+if not os.path.isfile(find_data_file("conf/magicked_admin.log")):
+    os.mknod(find_data_file("conf/magicked_admin.log"))
+
 logger = logging.getLogger("kf2-magicked-admin")
 handler = logging.handlers.WatchedFileHandler(
     os.environ.get("LOGFILE", find_data_file("conf/magicked_admin.log"))
