@@ -4,7 +4,7 @@ import sys
 from termcolor import colored
 
 from server.player import Player
-from utils import debug, warning, info
+from utils import debug, warning, info, DEBUG
 from web_admin.constants import *
 
 _ = gettext.gettext
@@ -171,8 +171,18 @@ class Server:
         new_player.sessions += 1
 
         self.players.append(new_player)
-        message = _("Player {} joined {} from {}") \
-            .format(new_player.username, self.name, new_player.country)
+
+        if DEBUG:
+            message = _("Player {} ({}) joined {} from {}") \
+                .format(
+                    new_player.username, new_player.steam_id, self.name,
+                    new_player.country
+                )
+        else:
+            message = _("Player {} joined {} from {}") \
+                .format(new_player.username, self.name, new_player.country)
+
+
         print(colored(
             message.encode("utf-8").decode(sys.stdout.encoding), 'cyan'
         ))
