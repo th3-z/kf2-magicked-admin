@@ -40,7 +40,8 @@ if not os.path.isfile(find_data_file("conf/magicked_admin.log")):
 
 logger = logging.getLogger("kf2-magicked-admin")
 handler = logging.handlers.WatchedFileHandler(
-    os.environ.get("LOGFILE", find_data_file("conf/magicked_admin.log"))
+    os.environ.get("LOGFILE", find_data_file("conf/magicked_admin.log")),
+    encoding="utf-8"
 )
 formatter = logging.Formatter(
     "[%(asctime)s %(levelname)s] %(message)s",
