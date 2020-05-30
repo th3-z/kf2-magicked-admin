@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-10-14 22:12+0100\n"
-"PO-Revision-Date: 2019-10-31 21:38\n"
-"Last-Translator: the_z (th3-z)\n"
+"PO-Revision-Date: 2020-05-30 15:37\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es_ES\n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -12,7 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
-"X-Generator: crowdin.com\n"
 "X-Crowdin-Project: kf2-magicked-admin\n"
 "X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /master/locale/en_GB/magicked_admin.po\n"
@@ -39,7 +38,7 @@ msgstr "Programa interrumpido, guardando datos..."
 
 #: magicked_admin/settings.py:24
 msgid "Please correct this manually  or delete '{}' to create a clean config next run."
-msgstr "Por favor corrija esto manualmente o elimine '{}' para crear una configuración nueva en la siguiente ejecución."
+msgstr "Por favor corrija esto manualmente o elimine '{}' para crear una configuración limpia a continuación."
 
 #: magicked_admin/settings.py:31
 msgid "No configuration was found, first time setup is required!"
@@ -51,17 +50,17 @@ msgstr "Configuración guiada fue omitida, una plantilla ha sido generada."
 
 #: magicked_admin/settings.py:45
 msgid "Setup is not complete yet, please amend '{}' with your server details."
-msgstr "La configuración aún no está completa, por favor, modifique '{}' con los detalles de su servidor."
+msgstr "La configuración aún no esta completa, por favor, modifique '{}' con los detalles de su servidor."
 
 #: magicked_admin/settings.py:53
 msgid "Configuration error(s) found!\n"
 "Section '{}' has a duplicate setting: '{}'."
-msgstr "¡Error(es) de configuración encontrados!\n"
+msgstr "¡Error de configuración(es) encontrada!\n"
 "La sección '{}' tiene una configuración duplicada: '{}'."
 
 #: magicked_admin/settings.py:60
 msgid "Configuration error(s) found!"
-msgstr "Error(es) de configuracion encontrado!"
+msgstr "Error(es) de configuracion(es) encontradas!"
 
 #: magicked_admin/settings.py:76
 msgid "    Please input your web admin details below."
@@ -93,7 +92,7 @@ msgstr "El archivo de configuración no tiene secciones."
 
 #: magicked_admin/settings.py:144
 msgid "Section '{}' is missing a required setting: '{}'."
-msgstr "A la sección '{}' le falta un atributo requerido: '{}'."
+msgstr "La sección '{}' esta faltando una configuración requerida: '{}'."
 
 #: magicked_admin/chatbot/__init__.py:5
 msgid "\n"
@@ -114,13 +113,13 @@ msgid "\n"
 "silent --quiet\n\n"
 msgstr "\n"
 "; El contenido de este archivo se ejecutará en secuencia en el servidor al que es llamado\n"
-"; después del inicio del programa. Las líneas que comienzan con ; serán ignoradas.\n"
-"; No hay necesidad de prefijar comandos con ! en este archivo.\n"
+"; después del inicio del programa. Líneas que empiezan con ; serán ignoradas. Allí\n"
+"; no es necesario prefijar comandos con ! en este archivo.\n"
 ";\n"
 "; Ejemplo:\n\n"
 "; Suprimir globalmente la salida del chat\n"
 "silent --quiet\n\n"
-"; start_wc --wave -1 say Si no estaba comentado, verías esto en la oleada del jefe\n"
+"; start_wc --wave -1 say Si no estaba comentado, verías esto en la ola del jefe\n"
 "start_trc top_wave_dosh\n\n"
 "; Inicia el script de saludos por defecto `conf/scripts/greeter`\n"
 "run greeter\n\n"
@@ -147,11 +146,11 @@ msgstr "Comando programado ({}) ejecutado directamente por {}, por favor use el 
 
 #: magicked_admin/chatbot/motd_updater.py:21
 msgid "No MOTD file for {} found, pulling from web admin!"
-msgstr "No se encontró ningún archivo MOTD para {}, obteniendo desde el administrador web!"
+msgstr "No se encontró ningún archivo MOTD para {}, sacando del administrador web!"
 
 #: magicked_admin/chatbot/motd_updater.py:40
 msgid "Updated the MOTD!"
-msgstr "¡MOTD actualizado!"
+msgstr "¡Actualizado el MOTD!"
 
 #: magicked_admin/chatbot/motd_updater.py:53
 msgid "Scoreboard_type not recognised '{}'. Options are: dosh, kills"
@@ -159,11 +158,11 @@ msgstr "Scoreboard_type no reconocido '{}'. Las opciones son: dosh, kills"
 
 #: magicked_admin/chatbot/commands/command.py:18
 msgid "You're not authorised to use that command"
-msgstr "¡No estas autorizado para usar ese comando"
+msgstr "¡Usted no está autorizado para usar tal comando"
 
 #: magicked_admin/chatbot/commands/command.py:21
-msgid "This action isn't supported without Killing Floor 2 Magicked Administrator's Server Side Patch! Please review the documentation at '{}' for guidance."
-msgstr "Esta acción no es compatible sin el Killing Floor 2 Magicked Administrator's Server Side Patch! Por favor revise la documentación en '{}' para obtener orientación."
+msgid "This action isn't supported without Killing Floor 2 Magicked Administrator's server side patch! Please review the documentation at '{}' for guidance."
+msgstr "Esta acción no es compatible sin el Killing Floor 2 Administrador Magicked! Por favor revise la documentación en '{}' para obtener orientación."
 
 #: magicked_admin/chatbot/commands/command.py:28
 msgid "The help text for this command hasn't been written!"
@@ -363,7 +362,7 @@ msgid "Usage: !start_jc COMMAND\n"
 "Desc: Runs a command when a player joins the match"
 msgstr "Uso: !start_jc COMANDO\n"
 "\tCOMANDO - Comando para ejecutar\n"
-"Desc: Ejecuta un comando cuando un jugador se une a la partida"
+"Descripcion: Ejecuta un comando cuando un jugador se une a la partida"
 
 #: magicked_admin/chatbot/commands/event_commands.py:33
 #: magicked_admin/chatbot/commands/event_commands.py:99
@@ -374,28 +373,28 @@ msgstr "Por favor especifique un comando a ejecutar"
 
 #: magicked_admin/chatbot/commands/event_commands.py:42
 msgid "Player join command started"
-msgstr "Comando de entrada a la partida iniciado"
+msgstr "Comando de unión del jugador iniciado"
 
 #: magicked_admin/chatbot/commands/event_commands.py:50
 msgid "Usage: !stop_jc\n"
 "Desc: Stops all join commands"
 msgstr "Uso: !stop_jc\n"
-"Descripcion: Detiene todos los comandos de entrada a la partida"
+"Descripcion: Detiene todos los comandos de union"
 
 #: magicked_admin/chatbot/commands/event_commands.py:71
 msgid "Usage: !start_wc [--wave] COMMAND\n"
 "\t-w --wave - Optional, wave to run on\n"
 "\tCOMMAND - Command to run\n"
-"Desc: Run a command at the start of a wave, wave can be omitted to run on every wave"
+"Desc: Run a command at the start of a wave, wave can be omitted top run on every wave"
 msgstr "Uso: !start_wc [--wave] COMANDO\n"
-"\t-w --wave - Opcional, oleada para ejecutar el comando\n"
+"\t-w --wave - Opcional, oleada para ejecutar en\n"
 "\tCOMANDO - Comando para ejecutar\n"
-"Descripcion: Ejecutar un comando al inicio de una oleada, si se omite la oleada, se ejecutará en cada una"
+"Descripcion: Ejecutar un comando al inicio de una oleada, la oleada se puede omitir superior en cada oleada"
 
 #: magicked_admin/chatbot/commands/event_commands.py:91
 #: magicked_admin/chatbot/commands/event_commands.py:231
 msgid "'{}' is not a valid wave number"
-msgstr "'{}' no es un número de oleada valido"
+msgstr "'{}' no es un número de ola valido"
 
 #: magicked_admin/chatbot/commands/event_commands.py:106
 msgid "Wave start command started"
@@ -629,15 +628,15 @@ msgid "Usage: !dosh USERNAME\n"
 "Desc: Shows dosh statistics for a player, username can be omitted to get personal stats"
 msgstr "Uso: !dosh USUARIO\n"
 "\tUSUARIO - Persona para obtener estadísticas de\n"
-"Descripcion: Estadísticas de Dosh de un jugador, el nombre de usuario se puede omitir para obtener estadísticas personales"
+"Descripcion: Muestra las estadísticas de Dosh obtenidas sobre un jugador, el nombre de usuario se puede omitir para obtener estadísticas personales"
 
 #: magicked_admin/chatbot/commands/player_commands.py:115
 msgid "Player not in game"
-msgstr "El jugador no está en la partida"
+msgstr "Jugador no en la partida"
 
 #: magicked_admin/chatbot/commands/player_commands.py:119
 msgid "You've earned a total of £{} dosh (#{}), and £{} this game"
-msgstr "Has obtenido un total de £{} dosh (#{}), y £{} en esta partida"
+msgstr "Has obtenido un total de £{} dosh (#{}), y £{} este juego"
 
 #: magicked_admin/chatbot/commands/player_commands.py:134
 msgid "Usage: !top_kills\n"
@@ -1020,7 +1019,7 @@ msgstr "Título: {}\n"
 
 #: magicked_admin/server/game_tracker.py:55
 msgid "Game type ({}) support not installed, please patch your webadmin to correct this! Guidance is available at: {}"
-msgstr "¡Soporte para({}) no instalado, por favor revisa tu administrador web para corregir esto! La guía está disponible en: {}"
+msgstr "¡Soporte de tipo de juego ({}) no instalado, por favor revisa tu administrador web para corregir esto! La guía está disponible en: {}"
 
 #: magicked_admin/server/player.py:38 magicked_admin/utils/net.py:59
 msgid "Unknown"
@@ -1038,7 +1037,7 @@ msgstr "Nombre de usuario: {}\n"
 
 #: magicked_admin/server/server.py:77
 msgid "Flushing players on {}"
-msgstr "Expulsando jugadores en {}"
+msgstr "Vaciando jugadores en {}"
 
 #: magicked_admin/server/server.py:82
 msgid "Writing game to database ({})"
@@ -1097,7 +1096,7 @@ msgstr "Sesión eliminada, renovando!"
 
 #: magicked_admin/web_admin/web_interface.py:124
 msgid "Web admin not responding, sleeping"
-msgstr "El administrador web no responde, suspendiendo"
+msgstr "El administrador web no responde, durmiendo"
 
 #: magicked_admin/web_admin/web_interface.py:129
 msgid "Web admin is back, resuming"
