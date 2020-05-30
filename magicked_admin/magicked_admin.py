@@ -85,6 +85,7 @@ class MagickedAdmin:
         password = self.settings.setting(name, "password")
         game_password = self.settings.setting(name, "game_password")
         url_extras = self.settings.setting(name, "url_extras")
+        refresh_rate = float(self.settings.setting(name, "refresh_rate"))
 
         web_interface = WebInterface(address, username, password, name)
         chat = Chat(web_interface)
@@ -101,7 +102,7 @@ class MagickedAdmin:
         if url_extras:
             server.url_extras = url_extras
 
-        tracker = GameTracker(server)
+        tracker = GameTracker(server, refresh_rate)
         tracker.start()
 
         self.stop_list.append(server)

@@ -35,7 +35,6 @@ class MotdUpdater:
         if not self.motd:
             return
 
-        self.server.write_all_players()
         self.server.web_admin.set_motd(self.render_motd(score_type))
         debug(_("Updated the MOTD!"))
 
