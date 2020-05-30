@@ -144,7 +144,7 @@ class GameTracker(threading.Thread):
                     [p.username for p in self.server.players]:
 
                 # Filter pawns in KF-SantasWorkshop
-                if "KFAIController_ScriptedPawn_" not in player.username:
+                if "KFAIController" not in player.username:
                     self.server.event_player_join(player)
 
         for player in self.server.players:
