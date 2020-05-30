@@ -58,7 +58,7 @@ def phone_home():
 
 # Get geographical information for an ip address
 def get_country(ip):
-    url = "http://ip-api.com/" + "/json/" + ip
+    url = "https://freegeoip.app" + "/json/" + ip
     unknown = (_("Unknown"), "??")
 
     try:
@@ -66,9 +66,9 @@ def get_country(ip):
     except Exception:
         return unknown
 
-    if 'country' not in geo_data:
+    if 'country_name' not in geo_data:
         return unknown
 
-    country = geo_data['country']
-    country_code = geo_data['countryCode']
+    country = geo_data['country_name']
+    country_code = geo_data['country_code']
     return country, country_code

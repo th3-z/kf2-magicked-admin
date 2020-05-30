@@ -21,6 +21,7 @@ class Server:
         self.game = game
         self.trader_time = False
         self.players = []
+        self.rejects = []
 
         # Initial game's record data is discarded because some may be missed
         self.record_games = True
@@ -155,7 +156,16 @@ class Server:
         self.web_admin.set_game_type(mode)
 
     def event_player_join(self, player):
-        identity = self.web_admin.get_player_identity(player.username)
+        if player.username not in self.rejects:
+            identity = self.web_admin.get_player_identity(player.username)
+        else:
+            return
+
+        # Reject unidentifiable players
+        if not identity['steam_id']:
+            debug("Rejected player: {}".format(player.username))
+            self.rejects.append(player.username)
+            return
 
         new_player = Player(player.username, player.perk)
         new_player.kills = player.kills
@@ -245,6 +255,8 @@ class Server:
         else:
             warning(_("Unknown game_type {}").format(self.game.game_type))
             self.game.game_map.plays_other += 1
+
+        self.rejects = []
 
         self.web_admin.chat.handle_message("internal_command", "!new_game",
                                            USER_TYPE_INTERNAL)

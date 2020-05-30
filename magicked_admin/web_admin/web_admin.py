@@ -3,7 +3,7 @@ from itertools import groupby
 
 from lxml import html
 
-from utils import warning
+from utils import warning, debug, fatal
 from utils.net import get_country
 from utils.text import str_to_bool
 from web_admin.constants import *
@@ -27,6 +27,7 @@ class WebAdmin(object):
 
     def supported_mode(self, mode):
         # The other modes have various bits of data omitted!
+        print("Mode is {}".format(mode))
         return self.__web_interface.ma_installed or mode == GAME_TYPE_SURVIVAL
 
     def __save_general_settings(self):
@@ -195,50 +196,66 @@ class WebAdmin(object):
     @staticmethod
     def __get_players(info_tree):
         players = []
-        theads_path = "//table[@id=\"players\"]/thead//th[position()>1]" \
-                      "//text()"
-        theads_result = info_tree.xpath(theads_path)
+
+        # Empty servers only have a single <td> with an empty server message
+        is_empty_path = "//table[@id=\"players\"]/tbody//td"
+        is_empty_result = info_tree.xpath(is_empty_path)
+        if len(is_empty_result) == 1:
+            return players
+
+        theads_path = "//table[@id=\"players\"]/thead//th//text()"
+        theads_result = [head.lower() for head in info_tree.xpath(theads_path)]
 
         if theads_result:
-            name_col = theads_result.index("Name")
-            perk_col = theads_result.index("Perk")
-            dosh_col = theads_result.index("Dosh")
-            health_col = theads_result.index("Health")
-            kills_col = theads_result.index("Kills")
-            ping_col = theads_result.index("Ping")
+            name_col = theads_result.index("name") \
+                if "name" in theads_result else None
+            perk_col = theads_result.index("perk") \
+                if "perk" in theads_result else None
+            dosh_col = theads_result.index("dosh") \
+                if "dosh" in theads_result else None
+            health_col = theads_result.index("health") \
+                if "health" in theads_result else None
+            kills_col = theads_result.index("kills") \
+                if "kills" in theads_result else None
+            ping_col = theads_result.index("ping") \
+                if "ping" in theads_result else None
+            admin_col = theads_result.index("admin") \
+                if "admin" in theads_result else None
         else:
+            fatal("Couldn't find server info headings")
             return players
 
         # xpath to <td>s and retrieve text manually to catch empty cells
-        trows_path = "//table[@id=\"players\"]/tbody//td"
+        trows_path = "//table[@id=\"players\"]/tbody/tr"
         trows_result = info_tree.xpath(trows_path)
-        trows_result = [
-            # Some cells can be empty while the player is joining
-            trow.text if trow.text else ""
-            for trow in trows_result
-        ]
-
-        # When no players are in game a single cell with a message is left
-        if len(trows_result) == 1:
-            return players
-
-        # Group rows in the table by the non-breaking space in first cell
-        trows_result = [
-            list(group)
-            for k, group in groupby(
-                trows_result, lambda x: x == "\xa0"
-            )
-            if not k
-        ]
 
         for player_row in trows_result:
+            player_columns = player_row.xpath("td")
             player = ConstPlayer(
-                player_row[name_col],
-                player_row[perk_col],
-                int(player_row[kills_col] or 0),
-                int(player_row[health_col] or 0),
-                int(player_row[dosh_col] or 0),
-                int(player_row[ping_col] or 0)
+                str(
+                    (player_columns[name_col].text if name_col else "Unnamed")
+                    or "Unnamed"
+                ),
+                str(
+                    (player_columns[perk_col].text if perk_col else "Unknown")
+                    or "Unknown"
+                ),
+                int(
+                    (player_columns[kills_col].text if perk_col else 0)
+                    or 0
+                ),
+                int(
+                    (player_columns[health_col].text if perk_col else 0)
+                    or 0
+                ),
+                int(
+                    (player_columns[dosh_col].text if perk_col else 0)
+                    or 0
+                ),
+                int(
+                    (player_columns[ping_col].text if ping_col else 0)
+                    or 0
+                )
             )
             players.append(player)
 

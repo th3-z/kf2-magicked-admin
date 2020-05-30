@@ -48,7 +48,6 @@ banner()
 
 REQUESTS_CA_BUNDLE_PATH = find_data_file("./certifi/cacert.pem")
 
-
 if hasattr(sys, "frozen"):
     import certifi.core
 
