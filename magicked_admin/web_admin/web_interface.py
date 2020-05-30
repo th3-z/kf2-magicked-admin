@@ -5,7 +5,7 @@ from hashlib import sha1
 import requests
 from lxml import html
 
-from utils import debug, die, info, warning
+from utils import debug, die, info, warning, fatal
 
 _ = gettext.gettext
 
@@ -434,7 +434,15 @@ class WebInterface(object):
         mutator_count_pattern = "//input[@name=\"mutatorGroupCount\"]/@value"
 
         game_type = map_tree.xpath(game_type_pattern)[0]
-        map_name = map_tree.xpath(map_pattern)[0]
+        map_results = map_tree.xpath(map_pattern)[0]
+        if len(map_results):
+            map_name = map_results[0]
+        else:
+            warning(
+                "Couldn't retrieve map information, please check that your "
+                "KFMapSummary section is correctly configured for this map"
+            )
+            map_name = "KF-BioticsLab"
         url_extra = map_tree.xpath(url_extra_pattern)[0]
         mutator_count = map_tree.xpath(mutator_count_pattern)[0]
 
