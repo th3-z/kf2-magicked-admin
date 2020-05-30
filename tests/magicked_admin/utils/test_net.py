@@ -18,10 +18,10 @@ def test_resolve_address():
          "expected": "https://kf2.th3-z.xyz"},
         {"address": "http://kf2.th3-z.xyz",
          "expected": "https://kf2.th3-z.xyz"},
-        {"address": "kf2.th3-z.xyz:8080",
-         "expected": "http://kf2.th3-z.xyz:8080"},
-        {"address": "136.244.96.98:8080",
-         "expected": "http://136.244.96.98:8080"}
+        {"address": "kf2.th3-z.xyz:8090",
+         "expected": "http://kf2.th3-z.xyz:8090"},
+        {"address": "136.244.96.98:8090",
+         "expected": "http://136.244.96.98:8090"}
     ]
 
     for test in tests:
