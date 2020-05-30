@@ -41,8 +41,10 @@ class GameTracker(threading.Thread):
         self.__update_players(players_now)
         self.__update_game(game_now)
 
+        self.server.database.cur.execute("BEGIN TRANSACTION")
         self.server.write_all_players()
         self.server.write_game_map()
+        self.server.database.cur.execute("COMMIT")
 
     @staticmethod
     def __is_new_game(game_now, game_before):
