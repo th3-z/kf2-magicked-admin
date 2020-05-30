@@ -125,8 +125,6 @@ class CommandOp(Command):
             player.op = 1
             message = _("Oped {}").format(player.username)
 
-        self.server.write_all_players()
-
         return self.format_response(message, args)
 
 
@@ -160,8 +158,6 @@ class CommandDeop(Command):
         else:
             player.op = 0
             message = _("Deoped {}").format(player.username)
-
-        self.server.write_all_players()
 
         return self.format_response(message, args)
 
@@ -210,10 +206,7 @@ class CommandGameMap(Command):
         else:
             map_title = self.server.game.game_map.title
 
-        self.server.write_game_map()
-
         game_map = game.GameMap(map_title)
-        self.server.write_game_map()
         self.server.database.load_game_map(game_map)
 
         total_plays = (game_map.plays_survival

@@ -13,14 +13,14 @@ init()
 
 
 class GameTracker(threading.Thread):
-    def __init__(self, server):
+    def __init__(self, server, refresh_rate=1):
         threading.Thread.__init__(self)
 
         self.server = server
         self.web_admin = server.web_admin
 
         self.__exit = False
-        self.__refresh_rate = 1
+        self.__refresh_rate = refresh_rate
         self.__boss_reached = False
 
         self.previous_wave = 0
@@ -40,6 +40,9 @@ class GameTracker(threading.Thread):
 
         self.__update_players(players_now)
         self.__update_game(game_now)
+
+        self.server.write_all_players()
+        self.server.write_game_map()
 
     @staticmethod
     def __is_new_game(game_now, game_before):

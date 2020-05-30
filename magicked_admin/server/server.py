@@ -30,8 +30,7 @@ class Server:
         return self.web_admin.supported_mode(self.game.game_type)
 
     def stop(self):
-        self.write_game_map()
-        self.write_all_players()
+        pass
 
     def get_player_by_username(self, username):
         matched_players = 0
@@ -76,14 +75,10 @@ class Server:
         self.web_admin.toggle_game_password()
 
     def write_all_players(self):
-        debug(_("Flushing players on {}").format(self.name))
         for player in self.players:
             self.database.save_player(player)
 
     def write_game_map(self):
-        debug(_("Writing game to database ({})").format(
-            self.game.game_map.name
-        ))
         self.database.save_game_map(self.game.game_map)
 
     def set_difficulty(self, difficulty):

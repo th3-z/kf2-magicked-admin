@@ -21,7 +21,6 @@ class CommandServerDosh(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        self.server.write_all_players()
         dosh = self.server.database.server_dosh()
         return self.format_response(
             _("£{} has been earned on this server").format(millify(dosh)),
@@ -43,7 +42,6 @@ class CommandServerKills(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        self.server.write_all_players()
         kills = self.server.database.server_kills()
         return self.format_response(
             _("{} ZEDs have been killed on this server")
@@ -141,7 +139,6 @@ class CommandTopKills(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        self.server.write_all_players()
         records = self.server.database.top_kills()
 
         message = _("Top 5 players by total kills:\n")
@@ -170,7 +167,6 @@ class CommandTopDosh(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        self.server.write_all_players()
         records = self.server.database.top_dosh()
 
         message = _("Top 5 players by Dosh earned:\n")
@@ -199,7 +195,6 @@ class CommandTopTime(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        self.server.write_all_players()
         records = self.server.database.top_time()
 
         message = _("Top 5 players by play time:\n")

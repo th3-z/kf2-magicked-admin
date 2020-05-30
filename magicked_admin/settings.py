@@ -47,9 +47,10 @@ SETTINGS_DEFAULT = {
     # username = Admin
     # password = 123
     'game_password': '123',
+    'refresh_rate': '1'
 }
 
-SETTINGS_REQUIRED = ['address', 'username', 'password']
+SETTINGS_REQUIRED = ['address', 'username', 'password', 'refresh_rate']
 
 CONFIG_DIE_MESG = _("Please correct this manually  or delete '{}' to create "
                     "a clean config next run.").format(CONFIG_PATH_DISPLAY)
