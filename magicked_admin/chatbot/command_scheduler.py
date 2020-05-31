@@ -175,8 +175,9 @@ class CommandOnWave(ScheduledCommand):
 
 
 class CommandOnJoin(ScheduledCommand):
-    def __init__(self, server, command):
+    def __init__(self, server, command, returning=False):
         ScheduledCommand.__init__(self, server, command)
+        self.returning = returning
 
     def event_check(self, server, message):
         if not message:
@@ -184,6 +185,11 @@ class CommandOnJoin(ScheduledCommand):
 
         args = message.split()
         if args[0] == "player_join":
+
+            if self.returning:
+                username = message.split(" ", 1)[1]
+                player = self.server.get_player_by_username(username)
+                return player.sessions > 1
             return True
         return False
 
