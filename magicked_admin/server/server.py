@@ -178,15 +178,13 @@ class Server:
         self.players.append(new_player)
 
         if DEBUG:
-            message = _("Player {} ({}) joined {} from {}") \
-                .format(
-                    new_player.username, new_player.steam_id, self.name,
-                    new_player.country
-                )
+            message = _("Player {} ({}) joined {} from {}").format(
+                new_player.username, new_player.steam_id, self.name,
+                new_player.country
+            )
         else:
             message = _("Player {} joined {} from {}") \
                 .format(new_player.username, self.name, new_player.country)
-
 
         print(colored(
             message.encode("utf-8").decode(sys.stdout.encoding), 'cyan'

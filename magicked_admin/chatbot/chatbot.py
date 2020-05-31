@@ -56,7 +56,9 @@ class Chatbot(ChatListener):
             print(command)
             if not command['admin_only']:
                 user_flags = user_flags | USER_TYPE_ADMIN
-            self.command_handler(username, command['command'].split(" "), user_flags)
+            self.command_handler(
+                username, command['command'].split(" "), user_flags
+            )
 
     def execute_script(self, filename):
         debug(_("Executing script: ") + path.basename(filename))

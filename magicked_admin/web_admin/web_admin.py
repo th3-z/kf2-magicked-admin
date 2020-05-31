@@ -218,8 +218,8 @@ class WebAdmin(object):
                 if "kills" in theads_result else None
             ping_col = theads_result.index("ping") \
                 if "ping" in theads_result else None
-            admin_col = theads_result.index("admin") \
-                if "admin" in theads_result else None
+            # admin_col = theads_result.index("admin") \
+            #     if "admin" in theads_result else None
         else:
             fatal("Couldn't find server info headings")
             return players
