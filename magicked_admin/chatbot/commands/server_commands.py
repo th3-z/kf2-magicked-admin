@@ -296,10 +296,8 @@ class CommandUpdateMotd(Command):
 
         self.motd_updater = motd_updater
 
-        self.parser.add_argument("score_type", nargs="?", type=str)
-        self.help_text = _("Usage: !update_motd TYPE\n"
-                           "\tTYPE - Score type, one of: kills, dosh, time\n"
-                           "Desc: Updates the MOTD scoreboard")
+        self.help_text = _("Usage: !update_motd\n"
+                           "Desc: Updates the MOTD from the template file")
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -308,15 +306,7 @@ class CommandUpdateMotd(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        if not args.score_type:
-            return self.format_response(_("Missing argument: type"), args)
-
-        if args.score_type.lower() not in ['kill', 'kills', 'dosh', 'time']:
-            return self.format_response(
-                _("Unrecognised score type: {}").format(args.score_type), args
-            )
-
-        self.motd_updater.update(args.score_type)
+        self.motd_updater.update()
 
         return self.format_response(
             _("Updated the MOTD"), args

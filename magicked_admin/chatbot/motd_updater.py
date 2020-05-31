@@ -1,8 +1,11 @@
 import gettext
+import string
 from os import path
 
 from utils import debug, find_data_file, warning
 from utils.text import millify, trim_string
+
+from jinja2 import Template
 
 _ = gettext.gettext
 
@@ -31,45 +34,32 @@ class MotdUpdater:
         motd_f.close()
         self.motd = motd
 
-    def update(self, score_type):
+    def update(self):
         if not self.motd:
             return
 
-        self.server.web_admin.set_motd(self.render_motd(score_type))
+        self.server.web_admin.set_motd(self.render_motd())
         debug(_("Updated the MOTD!"))
 
-    def render_motd(self, score_type):
-        motd = self.motd
+    def render_motd(self):
+        motd = Template(self.motd)
 
-        if score_type in ['kills', 'Kills', 'kill', 'Kill']:
-            scores = self.server.database.top_kills()
-        elif score_type in ['Dosh', 'dosh']:
-            scores = self.server.database.top_dosh()
-        elif score_type in ['Time', 'time']:
-            scores = self.server.database.top_time()
-        else:
-            warning(
-                _("Scoreboard_type not recognised '{}'. Options are: "
-                  "dosh, kills").format(score_type)
-            )
-            return motd
+        # Template functions
+        motd.globals['millify'] = millify
+        motd.globals['trimstr'] = trim_string
 
-        for player in scores:
-            if not player['username']:
-                continue
-            name = player['username'].replace("<", "&lt;")
-            name = trim_string(name, 12)
-            score = player['score']
+        # Template parameters
+        top_kills = self.server.database.top_kills()
+        top_dosh = self.server.database.top_dosh()
+        top_time = self.server.database.top_time()
+        server_dosh = self.server.database.server_dosh()
+        server_kills = self.server.database.server_kills()
 
-            motd = motd.replace("%PLR", name, 1)
-            motd = motd.replace("%SCR", millify(score), 1)
+        return motd.render(
+            top_kills=top_kills,
+            top_dosh=top_dosh,
+            top_time=top_time,
+            server_kills=server_kills,
+            server_dosh=server_dosh
+        )
 
-        if "%SRV_K" in motd:
-            server_kills = self.server.database.server_kills()
-            motd = motd.replace("%SRV_K", millify(server_kills), 1)
-
-        if "%SRV_D" in motd:
-            server_dosh = self.server.database.server_dosh()
-            motd = motd.replace("%SRV_D", millify(server_dosh), 1)
-
-        return motd

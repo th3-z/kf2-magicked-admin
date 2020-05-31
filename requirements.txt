@@ -12,3 +12,4 @@ pytest-cov
 patch==1.*
 lupa
 getch
+jinja2
