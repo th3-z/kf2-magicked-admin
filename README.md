@@ -21,15 +21,13 @@ once.
 Downloads
 ---------
 
-The most recent stable version is `0.1.5`. Binaries are provided on the releases 
-page for Windows users. Linux and Mac OS users should clone the repo and run
-from source.
+The most recent stable version is `0.1.6`. A binary is provided on the releases page for Linux users. There is a `0.1.5` binary for Windows.
 
-[Release 0.1.5](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.5)
+[Release 0.1.6](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.6)
 
 <details>
 <summary>Old releases</summary>
-
+* [Release 0.1.5](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.5)
 * [Release 0.1.4](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.4)
 * [Release 0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3)
 * [Release 0.1.2](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.2)
@@ -142,7 +140,8 @@ the `!op` command.
     - Example: `!password on` Enables the game password defined in the config
     - Example: `!password off` Disables the game password
     - Example: `!password --set somePass` Sets a specific password
-* `!start_jc -- <command>` - Start a command that runs every time a player joins
+* `!start_jc [-r] -- <command>` - Start a command that runs every time a player joins
+        - `-r` Only run for returning players
 	- Example: `!start_jc -- say Welcome %PLR` - Greets a player on join
 	- Available tokens: `%PLR` - username, `%KLL` - total kills, `%DSH` - 
       total dosh; `%PLR` - username, `%BCK` - "back" if sessions > 1, `%DRK` - 
@@ -181,20 +180,27 @@ the `!op` command.
                           one of: kills, dosh, or time
     - Example: `!start_tc 300 -- update_motd kills`
 * `!reload_motd` - Reloads the server's `*.motd` file from `conf`
+* `!alias` - Check the help text `!alias -h`
 * `!enforce_dosh <amount>` - Kicks all players that have more dosh than the specified `amount`
     - Example: `!start_tc 600 -- enforce_dosh 60000`
 </details>
 
 ### MOTD leaderboard
 
-Create a `conf/server_name.motd` file containing pairs of `%PLR` and `%SCR`.
-`%PLR` will be replaced with player names and `%SCR` will be replaced with
-their current score. You can now use `!update_motd <type>` to draw the
-leaderboard into your welcome screen, `<type>` should be kills, dosh, or time
-depending on the desired score metric.
+Create a `conf/server_name.motd` file. The template format is Jinja2. An example follows
+```
+Welcome to our server.
 
-`%SRV_D` and `%SRV_K` will be replaced by the total dosh and kills on the 
-server respectively.
+{{ millify(server_kills) }} Zeds killed on this server.
+
+Top Players (total dosh):
+{% for player in top_dosh[1:10] -%}
+    {{loop.index}}. {{trimstr(player.username, 12)}} [{{millify(player.score)}}]		{% if loop.index is divisibleby 3 %}
+{% endif %}
+{%- endfor %}
+
+Have fun and good luck!
+```
 
 ### Scripts
 
@@ -247,12 +253,8 @@ Options can be configured in the config file `conf/magicked_admin.conf`.
 * `game_password`
     - Default game password to set when the password is toggled using 
     `!password <on|off>`.
-* `motd_scoreboard`
-    - Boolean value, enable or disable the MOTD scoreboard feature. Defaults to
-    disabled.
-* `scoreboard_type`
-    - Possible values: `kills`, or `dosh`. Change the type of scores that are
-    displayed in the MOTD scoreboard.
+* `refresh_rate`
+    - Integer value, webadmin polling rate
     
 Running with Docker
 ---------------------------
@@ -285,6 +287,7 @@ systems. Install the following packages.
 
 * Python 3.7 - `apt install python3`
 * Pip - `apt install python3-pip`
+* Pybabel - `apt install python3-babel`
 * Python 3 dependencies - `pip3 install -r requirements.txt`
     - This might complain about cx\_freeze not installing if you haven't got 
     zlib-dev, but cx_freeze is only needed for building.
@@ -295,6 +298,8 @@ systems. Install the following packages.
 `cd kf2-magicked-admin`  
 
 `pip3 install -r requirements.txt`
+
+`make i18n-compile`
 
 `python3 -O magicked_admin/magicked_admin.py`  
 
@@ -312,10 +317,11 @@ Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating
 systems.
 
 * Python 3.7 - `apt install python3`
+* Pybabel - `apt install python3-babel`
 * Pip - `apt install python3-pip`
 * Pip dependencies - `pip3 install -r requirements.txt`
 * Make - `apt install make`
 
 On Windows it's recommend to build with Cygwin. However you can also build it
-by running `python3 setup.py build`.
+by running `python3 setup.py build`. Check the makefile for help building the locale files.
 
