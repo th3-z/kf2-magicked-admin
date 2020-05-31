@@ -27,7 +27,6 @@ class WebAdmin(object):
 
     def supported_mode(self, mode):
         # The other modes have various bits of data omitted!
-        print("Mode is {}".format(mode))
         return self.__web_interface.ma_installed or mode == GAME_TYPE_SURVIVAL
 
     def __save_general_settings(self):

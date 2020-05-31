@@ -7,6 +7,7 @@ from termcolor import colored
 
 from utils import BANNER_URL, warning
 from web_admin.constants import *
+from database.database import lock
 
 _ = gettext.gettext
 init()
@@ -41,10 +42,14 @@ class GameTracker(threading.Thread):
         self.__update_players(players_now)
         self.__update_game(game_now)
 
+        lock.acquire(True)
         self.server.database.cur.execute("BEGIN TRANSACTION")
+        lock.release()
         self.server.write_all_players()
         self.server.write_game_map()
+        lock.acquire(True)
         self.server.database.cur.execute("COMMIT")
+        lock.release()
 
     @staticmethod
     def __is_new_game(game_now, game_before):
