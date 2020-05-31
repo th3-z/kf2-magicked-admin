@@ -19,9 +19,10 @@ def web_iface(mock_get, mock_post):
         settings.setting("server_one", "address"),
         settings.setting("server_one", "username"),
         settings.setting("server_one", "password"),
+        settings.setting("server_one", "refresh_rate"),
         server_name="server_one"
     )
 
-
+@pytest.mark.skip(reason="incomplete")
 def test_get_server_info(web_iface):
     assert web_iface

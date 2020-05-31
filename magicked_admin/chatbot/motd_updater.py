@@ -63,4 +63,3 @@ class MotdUpdater:
             server_kills=server_kills,
             server_dosh=server_dosh
         )
-
