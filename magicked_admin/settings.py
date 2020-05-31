@@ -123,6 +123,45 @@ class Settings:
             new_config.set(SETTINGS_DEFAULT['server_name'], setting,
                            SETTINGS_DEFAULT[setting])
 
+        langs = [
+            {
+                "name": "English",
+                "code": "en_GB"
+            },
+            {
+                "name": "español",
+                "code": "es_ES"
+            },
+            {
+                "name": "Deutsche",
+                "code": "de_DE"
+            },
+            {
+                "name": "français",
+                "code": "fr_FR"
+            }
+        ]
+        while True:
+            print()  # \n
+            for idx, lang in enumerate(langs):
+                print(
+                    "\t{}: {} ({})".format(idx + 1, lang['name'], lang['code'])
+                )
+            lang = input("\nSelect a language [default - 1]: ") or "1"
+
+            try:
+                lang_idx = int(lang) - 1
+                if len(langs) > lang_idx >= 0:
+                    new_config.set(
+                        'magicked_admin', 'language', langs[lang_idx]['code']
+                    )
+                    break
+                else:
+                    print("Invalid selection, try again\n")
+
+            except ValueError:
+                print("Please input a number, try again\n")
+
         while True:
             address = input(
                 _("\nAddress [default - localhost:8080]: ")
