@@ -26,6 +26,7 @@ If applicable, add screenshots to help explain your problem.
 **Desktop (please complete the following information):**
  - OS: [e.g. Windows 10]
  - KF2-MA version: [e.g. 0.1.3]
+ - Language: [e.g. es_ES]
 
 **Server (please complete the following information):**
  - Mods: [e.g. ControlledDifficulty]
