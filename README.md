@@ -195,7 +195,7 @@ Welcome to our server.
 
 Top Players (total dosh):
 {% for player in top_dosh[1:10] -%}
-    {{loop.index}}. {{trimstr(player.username, 12)}} [{{millify(player.score)}}]		{% if loop.index is divisibleby 3 %}
+    {{loop.index}}. {{player.username|truncate(11)}} [{{millify(player.score)}}]		{% if loop.index is divisibleby 3 %}
 {% endif %}
 {%- endfor %}
 
