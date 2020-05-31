@@ -42,6 +42,7 @@ class MotdUpdater:
         debug(_("Updated the MOTD!"))
 
     def render_motd(self):
+        # https://jinja.palletsprojects.com/en/2.11.x/templates/
         motd = Template(self.motd)
 
         # Template functions
