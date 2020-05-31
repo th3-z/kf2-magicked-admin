@@ -50,7 +50,7 @@ isort:
 
 pytest:
 	@echo "\n$(YELLOW_COLOR)Running tests...$(NO_COLOR)\n"
-	@pytest-3 magicked_admin/tests --cov=magicked_admin
+	@pytest magicked_admin/tests --cov=magicked_admin
 
 
 lint:
