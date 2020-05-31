@@ -40,6 +40,7 @@ class CommandMap:
             _('deop'): CommandDeop(server),
             _('update_motd'): CommandUpdateMotd(server, motd_updater),
             _('reload_motd'): CommandReloadMotd(server, motd_updater),
+            _('alias'): CommandAlias(server, chatbot),
 
             # Player commands
             _('commands'): CommandCommands(server),
