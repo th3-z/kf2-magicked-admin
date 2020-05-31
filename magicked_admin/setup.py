@@ -22,6 +22,8 @@ includefiles = [
     (os.path.join(SRC_PATH, 'conf/scripts/example'), 'conf/scripts/example'),
     (os.path.join(SRC_PATH, 'conf/scripts/greeter'), 'conf/scripts/greeter'),
     (os.path.join(SRC_PATH, 'conf/marquee/example'), 'conf/marquee/example'),
+    (os.path.join(SRC_PATH, '../locale'), 'locale/'),
+    (os.path.join(SRC_PATH, 'lua_bridge/init.lua'), 'lua_bridge/init.lua'),
     (CERT_PATH, 'certifi/cacert.pem'),
 ]
 

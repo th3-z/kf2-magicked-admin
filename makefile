@@ -3,13 +3,13 @@ GREEN_COLOR=\033[32m
 RED_COLOR=\033[31m
 YELLOW_COLOR=\033[33;01m
 
-PYTHON3_OK = $(shell python3 --version 2> /dev/null | wc -l)
-ifneq ('$(PYTHON3_OK)', '')
-	PYTHON = "python3"
-endif
 PYTHON_OK = $(shell python --version 2> /dev/null | wc -l)
 ifneq ('$(PYTHON_OK)', '')
 	PYTHON = "python"
+endif
+PYTHON3_OK = $(shell python3 --version 2> /dev/null | wc -l)
+ifneq ('$(PYTHON3_OK)', '')
+	PYTHON = "python3"
 endif
 
 ifndef PYTHON
@@ -20,7 +20,7 @@ LOCALE_DIR = ./locale
 
 all: clean build
 
-build:
+build: i18n-compile
 	@$(PYTHON) magicked_admin/setup.py build -b bin/magicked_admin
 	@$(PYTHON) admin_patches/setup.py build -b bin/admin_patches
 
