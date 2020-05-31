@@ -1,10 +1,3 @@
-`0.1.6` WIPs/TODO, delete me
-----------------------------
-
-* Refactor internal commands to event messaging system
-* add event hooks to lua binds and chatbot, ex. https://wiki.garrysmod.com/page/hook/Call
-* Lua bind docs
-
 <p align="center">
     <img width=125 height=125 src="https://files.th3-z.xyz/standing/kf2-ma-logo.png"/>
 </p>
