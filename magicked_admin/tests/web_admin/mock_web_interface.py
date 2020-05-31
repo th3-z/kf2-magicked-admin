@@ -11,7 +11,10 @@ _ = gettext.gettext
 
 
 class WebInterface(object):
-    def __init__(self, address, username, password, refresh_rate, server_name="unnamed"):
+    def __init__(
+            self, address, username, password,
+            refresh_rate, server_name="unnamed"
+    ):
         self.__address = address
         self.__username = username
         self.__password = password

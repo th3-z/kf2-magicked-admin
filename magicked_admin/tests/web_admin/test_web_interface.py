@@ -23,6 +23,7 @@ def web_iface(mock_get, mock_post):
         server_name="server_one"
     )
 
+
 @pytest.mark.skip(reason="incomplete")
 def test_get_server_info(web_iface):
     assert web_iface

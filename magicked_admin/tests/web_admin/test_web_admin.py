@@ -29,6 +29,7 @@ def web_admin(mock_get, mock_post):
 
     return WebAdmin(web_iface, chat)
 
+
 @pytest.mark.skip(reason="incomplete")
 def test_web_admin(web_admin):
     assert web_admin
