@@ -18,6 +18,16 @@ class Chatbot(ChatListener):
         self.commands = {}
         self.lua_bridge = None
         self.silent = False
+        self.aliases = {}
+
+    def add_alias(self, name, command, admin_only=True):
+        print(name)
+        print(command)
+        print(admin_only)
+        self.aliases[name] = {
+            "command": command,
+            "admin_only": admin_only
+        }
 
     def add_command(self, name, command):
         self.commands[name] = command
@@ -40,6 +50,13 @@ class Chatbot(ChatListener):
             response = command.execute(username, args, user_flags)
             if not self.silent and response:
                 self.chat.submit_message(response)
+
+        if args[0].lower() in self.aliases.keys():
+            command = self.aliases[args[0].lower()]
+            print(command)
+            if not command['admin_only']:
+                user_flags = user_flags | USER_TYPE_ADMIN
+            self.command_handler(username, command['command'].split(" "), user_flags)
 
     def execute_script(self, filename):
         debug(_("Executing script: ") + path.basename(filename))

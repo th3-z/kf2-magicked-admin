@@ -9,6 +9,50 @@ from web_admin.constants import *
 _ = gettext.gettext
 
 
+class CommandAlias(Command):
+    def __init__(self, server, chatbot):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+
+        self.parser.add_argument(
+            "-op", "--op",
+            action="store_true"
+        )
+        self.parser.add_argument("name", nargs=1)
+        self.parser.add_argument("command", nargs="*")
+
+        self.help_text = _("Usage: !alias [--op] NAME -- COMMAND\n"
+                           "\t-o --op - Set to restrict alias to ops\n"
+                           "\tNAME - Name of alias \n"
+                           "\tCOMMAND - Some command \n"
+                           "Desc: Runs some Lua code")
+
+        self.chatbot = chatbot
+
+    def execute(self, username, args, user_flags):
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        if args.help:
+            return self.format_response(self.help_text, args)
+
+        if args.command:
+            command = " ".join(args.command)
+        else:
+            return self.format_response(
+                _("Missing argument, command"), args
+            )
+
+        if args.name:
+            name = args.name[0]
+        else:
+            return self.format_response(
+                _("Missing argument, name"), args
+            )
+
+        self.chatbot.add_alias(name, command, args.op)
+        return _("Added alias")
+
+
 class CommandLua(Command):
     def __init__(self, server, chatbot):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
