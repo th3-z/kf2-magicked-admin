@@ -129,7 +129,7 @@ class Settings:
                 "code": "en_GB"
             },
             {
-                "name": "español",
+                "name": "Español",
                 "code": "es_ES"
             },
             {
@@ -137,7 +137,7 @@ class Settings:
                 "code": "de_DE"
             },
             {
-                "name": "français",
+                "name": "Français",
                 "code": "fr_FR"
             }
         ]
