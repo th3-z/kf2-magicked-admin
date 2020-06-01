@@ -19,6 +19,8 @@ def millify(n):
 
 
 def trim_string(input_str, length):
+    if not input_str:
+        return ""
     return (input_str[:length - 2] + '..') if len(input_str) > length \
         else input_str
 

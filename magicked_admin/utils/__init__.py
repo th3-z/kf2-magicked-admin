@@ -3,6 +3,7 @@ import sys
 import gettext
 import logging
 import logging.handlers
+from pathlib import Path
 from colorama import init
 from termcolor import colored
 
@@ -36,7 +37,7 @@ if not os.path.exists(find_data_file("conf/scripts/")):
 if not os.path.exists(find_data_file("conf/marquee")):
     os.mkdir(find_data_file("conf/marquee"))
 if not os.path.isfile(find_data_file("conf/magicked_admin.log")):
-    os.mknod(find_data_file("conf/magicked_admin.log"))
+    Path(find_data_file("conf/magicked_admin.log")).touch()
 
 logger = logging.getLogger("kf2-magicked-admin")
 handler = logging.handlers.WatchedFileHandler(
