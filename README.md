@@ -187,7 +187,9 @@ the `!op` command.
 
 ### MOTD leaderboard
 
-Create a `conf/server_name.motd` file. The template format is Jinja2. An example follows
+A sample `.motd` file is provided in `conf/`. The filename should match the server's name as
+specified in `conf/magicked_admin.conf`. The template format is Jinja2. An example follows, 
+please refer to the [Jinja2 designer documentation](https://jinja.palletsprojects.com/en/2.11.x/templates/).
 ```
 Welcome to our server.
 
