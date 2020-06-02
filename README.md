@@ -21,7 +21,7 @@ once.
 Downloads
 ---------
 
-The most recent stable version is `0.1.6`. A binary is provided on the releases page for Linux users. There is a `0.1.5` binary for Windows.
+The most recent stable version is `0.1.6`. A binary is provided on the releases page for Windows and Linux users. 
 
 [Release 0.1.6](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.6)
 
