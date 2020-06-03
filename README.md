@@ -27,6 +27,7 @@ The most recent stable version is `0.1.6`. A binary is provided on the releases 
 
 <details>
 <summary>Old releases</summary>
+	
 * [Release 0.1.5](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.5)
 * [Release 0.1.4](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.4)
 * [Release 0.1.3](https://github.com/th3-z/kf-magicked-admin/releases/tag/0.1.3)
