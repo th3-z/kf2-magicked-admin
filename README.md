@@ -296,7 +296,7 @@ systems. Install the following packages.
     zlib-dev, but cx_freeze is only needed for building.
 
 ### Running 
-`git clone git@github.com:th3-z/kf2-magicked-admin.git`
+`git clone https://github.com/th3-z/kf2-magicked-admin.git`
 
 `cd kf2-magicked-admin`  
 
