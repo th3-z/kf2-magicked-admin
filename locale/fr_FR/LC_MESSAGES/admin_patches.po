@@ -2,19 +2,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-05 19:33+0100\n"
-"PO-Revision-Date: 2020-02-05 12:15\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2020-08-15 22:28+0100\n"
+"PO-Revision-Date: 2020-08-15 21:56\n"
+"Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.7.0\n"
+"Generated-By: Babel 2.6.0\n"
 "X-Crowdin-Project: kf2-magicked-admin\n"
+"X-Crowdin-Project-ID: 374227\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /master/locale/en_GB/admin_patches.po\n"
+"X-Crowdin-File: /master/locale/en_GB/LC_MESSAGES/admin_patches.po\n"
+"X-Crowdin-File-ID: 514\n"
 
 #: admin_patches/admin_patches.py:13
 msgid "Killing Floor 2 Admin Patches"
@@ -30,7 +32,7 @@ msgstr "KFGame/Web/ServerAdmin/current_rules.inc"
 
 #: admin_patches/admin_patches.py:39
 msgid "Select Killing Floor 2 server location"
-msgstr "Sélectionnez l'emplacement de Killing Floor 2"
+msgstr "Sélectionnez l'emplacement de la racine du dossier de votre serveur Killing Floor 2"
 
 #: admin_patches/admin_patches.py:47
 msgid "Please open your server's install folder in the file dialogue"
@@ -43,7 +45,7 @@ msgstr "L'utilisateur a annulé l'installation"
 #: admin_patches/admin_patches.py:54
 msgid "Killing Floor 2 server not found in path:\n"
 "\t{}"
-msgstr "Le serveur Killing Floor 2 n'as pas été trouvé :dans le dossier :\n"
+msgstr "Le serveur Killing Floor 2 n'as pas été trouvé dans le dossier :\n"
 "\t{}"
 
 #: admin_patches/admin_patches.py:57
@@ -62,11 +64,11 @@ msgstr "La validation du fichier du serveur a échoué, raisons possibles :\n"
 
 #: admin_patches/admin_patches.py:65
 msgid "Patching files..."
-msgstr "Mise à jour des fichiers..."
+msgstr "Patch des fichiers..."
 
 #: admin_patches/admin_patches.py:69
 msgid "Patching failed"
-msgstr "La mise à jour a échoué"
+msgstr "L'installation du patch a échouée"
 
 #: admin_patches/admin_patches.py:72
 msgid "Patches installed successfully!\n"
@@ -84,5 +86,5 @@ msgstr "Application de {}"
 
 #: admin_patches/utils/patcher.py:45
 msgid "Patch failed to apply successfully"
-msgstr "Le correctif n'a pas pu être appliqué avec succès"
+msgstr "Le patch n'a pas pu être appliqué avec succès"
 

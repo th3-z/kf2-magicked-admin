@@ -382,7 +382,7 @@ password = root
 game_password = Hunter69
 address = http://127.0.0.1:8081
 username = Admin
-password = 123
+jelszó = 123
 [/code]
 
 You can do this for as many servers as you want.

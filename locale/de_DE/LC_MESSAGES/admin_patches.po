@@ -2,19 +2,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-05 19:33+0100\n"
-"PO-Revision-Date: 2019-12-30 03:05\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2020-08-15 22:28+0100\n"
+"PO-Revision-Date: 2020-08-15 21:38\n"
+"Last-Translator: \n"
 "Language: de_DE\n"
 "Language-Team: German\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.7.0\n"
+"Generated-By: Babel 2.6.0\n"
 "X-Crowdin-Project: kf2-magicked-admin\n"
+"X-Crowdin-Project-ID: 374227\n"
 "X-Crowdin-Language: de\n"
-"X-Crowdin-File: /master/locale/en_GB/admin_patches.po\n"
+"X-Crowdin-File: /master/locale/en_GB/LC_MESSAGES/admin_patches.po\n"
+"X-Crowdin-File-ID: 514\n"
 
 #: admin_patches/admin_patches.py:13
 msgid "Killing Floor 2 Admin Patches"
@@ -30,7 +32,7 @@ msgstr "KFGame/Web/ServerAdmin/current_rules.inc"
 
 #: admin_patches/admin_patches.py:39
 msgid "Select Killing Floor 2 server location"
-msgstr "Wähle den Killing Floor 2 Server Standort aus"
+msgstr "Wähle den Killing Floor 2 Server-Standort aus"
 
 #: admin_patches/admin_patches.py:47
 msgid "Please open your server's install folder in the file dialogue"
@@ -80,7 +82,7 @@ msgstr "\n"
 
 #: admin_patches/utils/patcher.py:40
 msgid "Applying {}"
-msgstr "Anwenden {}"
+msgstr "Wird angewendet {}"
 
 #: admin_patches/utils/patcher.py:45
 msgid "Patch failed to apply successfully"

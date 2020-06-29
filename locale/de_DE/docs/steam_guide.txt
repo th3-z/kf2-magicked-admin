@@ -3,17 +3,17 @@
 Geskriptete Verwaltung, Statistiken und ein Bot für gerankte Killing Floor 2 Server. Bietet In-Game-Befehle, Tracking von Spieler-Statistiken und -Ranking, Live-Begrüßungsbildschirm und -Statistiken, Begrüßungs- und Admin-Funktionen. Läuft komplett über den Web-Admin und hat keinen Einfluss auf den Ranking/Custom-Status eines Servers. Es kann entweder direkt auf dem Server oder per Fernzugriff ausgeführt werden und mehrere Server gleichzeitig verwalten.
 [list]
 [*] Präsentiert Echtzeit-Ranglisten auf deinem Willkommensbildschirm und im Spiel-Chat
-[*]Zeichnet Spielerstatistiken auf, einschließlich: Kills, Dosh, Todesfällen und Spielzeit
-[*] Eine Vielzahl von In-Game-Verwaltungsbefehlen
-[*] Eine Vielzahl von In-Game-Befehlen für Spieler
+[*]Zeichnet Spielerstatistiken auf, einschließlich: Kills, Dosh, Todesfälle und Spielzeit
+[*] Eine Vielzahl von In-Game Verwaltungsbefehlen
+[*] Eine Vielzahl von In-Game Befehlen für Spieler
 [*] Automatisch ausgelöste Befehle basierend auf: Zeit, Welle, Beitritt oder Händlerstatus
-[*] Lies Spieler-Meldungen von deinem Desktop
+[*] Lies Spieler-Mitteilungen auf deinem Desktop
 [/list]
 
 [b]Hinweise[/b]
 [list]
-[*]KF2 Magicked Admin wird [b]nicht [/b] das Server-Ranking oder den Custom-Status ändern.
-[*]KF2 Magicked Admin arbeitet mit dem Wochen-, Survival- und Endlosspielmodus.
+[*]KF2 Magicked Admin wird das Server-Ranking oder den Custom-Status [b]nicht [/b] ändern.
+[*]KF2 Magicked Admin funktioniert mit dem Wochen-, Survival- und Endlosspielmodus.
 [*]KF2 Magicked Admin kann mehrere Server in einer einzigen Instanz verwalten
 [/list]
 
@@ -25,11 +25,11 @@ Wenn du irgendwo etwas Hilfe brauchst, adde mich in Steam und ich werde mein Bes
 Danke.
 
 ## Downloads
-Die neueste Version zum Zeitpunkt des Schreibens ist '[b]0.1.4[/b]', veröffentlicht am 29. September 2019. Eine ausführbare Windows-Datei wird für diese Version bereitgestellt [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-magicked-admin-0.1.4.zip]hier[/url].
+Die neueste Version zum Zeitpunkt des Schreibens ist '[b]0.1.4[/b]', veröffentlicht am 29. September 2019. Eine ausführbare Windows-Datei wird für diese Version [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-magicked-admin-0.1.4.zip]hier[/url] bereitgestellt.
 
-Für Linux und Mac OS wird empfohlen, das Programm aus den Python-Quellen zu starten, da du es wahrscheinlich bereits installiert hast. Die Quelle für '[b]0.1.4[/b]' ist [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.4.zip]hier[/url] verfügbar. Du musst nur die Voraussetzungen mit '[b]pip3 install -r requirements.txt[/b]' installieren und mit '[b]python3 -O magicked_admin/magicked_admin.py[/b]' ausführen.
+Für Linux und Mac OS wird empfohlen, das Programm aus den Python-Quellen zu starten. Der Quellcode für '[b]0.1.4[/b]' ist [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.4.zip]hier[/url] verfügbar. Du musst nur die Requirements mit '[b]pip3 install -r requirements.txt[/b]' installieren und mit '[b]python3 -O magicked_admin/magicked_admin.py[/b]' ausführen.
 
-Entwicklungsversionen und build Instruktionen sind auf GitHub [url=https://github.com/th3-z/kf2-magicked-admin]hier[/url] verfügbar.
+Entwicklungsversionen und build Instruktionen [url=https://github.com/th3-z/kf2-magicked-admin]hier[/url] sind auf GitHub verfügbar.
 
 [b]Hinweis[/b]: Wenn du Magicked Admin auf einem Server mit endlosem oder wöchentlichem Spielmodus verwenden willst, gibt es einen zusätzlichen Schritt, über den ich im Abschnitt "Unterstützung des endlosen und wöchentlichen Spielmodus" spreche.
 
@@ -56,25 +56,25 @@ Nachdem dieser Befehl ausgeführt wurde, wird der Container verlassen und die Pr
 ## Befehle
 In den folgenden Abschnitten werde ich alle Befehle beschreiben. Allerdings gibt es einige allgemeine Dinge zu beachten, die für sie alle gelten.
 
-Bei der Eingabe von Befehlen im Chat müssen diese mit dem Präfix '[b]![/b]' versehen werden. Beim Schreiben von Befehlen in ein Skript oder beim Verketten von Befehlen sollte das '[b]![/b]' weggelassen werden.
+Bei der Eingabe von Befehlen im Chat müssen diese mit dem Präfix '[b]![/b]' versehen werden. Beim Schreiben von Befehlen in ein Skript oder beim Verketten von Befehlen sollte das '[b]![/b]' ausgelassen werden.
 
-Viele Befehle suchen nach der nahesten Übereinstimmung mit ihren Parametern. Zum Beispiel '[i]biotics[/i]' wird sich decken mit '[i]kf-biotics-lab[/i]' und 'userO' mit '[i]userOne™/@:®[/i]'.
+Viele Befehle suchen nach der nahsten Übereinstimmung mit ihren Parametern. Zum Beispiel wird sich '[i]biotics[/i]' mit '[i]kf-biotics-lab[/i]' decken und 'userO' mit '[i]userOne™/@:®[/i]'.
 
 Alle Befehle haben einen Hilfetext im Spiel, auf den man mit dem '[b]-h'[/b] Flag zugreifen kann.
 [list]
 [*] Beispiel: '[b]!commands -h'[/b]
 [/list]
-Alle Befehle haben auch die folgenden Flags.
+Alle Befehle haben die folgenden Flags.
 [list]
 [*] Option "[b]-q[/b]": Unterdrückt die Ausgabe
-[*] Option "[b]-p[/b]": Ausgabe zum Ausblenden der Benutzerzeile
+[*] Option '[b]-p[/b]': Pads output to hide the username line
 [/list]
 Zur Formatierung von Nachrichten stehen folgende Escape-Sequenzen zur Verfügung.
 [list]
 [*] '[b]\n[/b]' - Neue Zeile
     - Beispiel: '[b]!say line 0 \n line 1[/b]'
 [*] '[b]\t[/b]' - Tabulator
-    - Beispiel: '[b]!say line 0 \n\t Zeile 1 ist eingerückt 1 Tabstop[/b]'
+    - Beispiel: '[b]!say Zeile 0 \n\t Zeile 1 ist eingerückt 1 Tabstop[/b]'
 [/list]
 
 ## Spieler Befehle
@@ -83,20 +83,20 @@ Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Sc
 [*] '[b]!commands[/b]' - Zeigt eine Liste aller für Spieler verfügbaren Befehle an
 
 [*] '[b]!stats <user>[/b]' - Zeigt allgemeine Statistiken über einen Benutzer
-    - Beispiel: '[b]!stats[/b]' Zeigt Statistiken über sich selbst
-    - Beispiel: '[b]!stats the_z[/b]' Zeigt eine Statistik über the_z
+    - Beispiel: '[b]!stats[/b]' Zeigt Statistiken über dich selbst
+    - Beispiel: '[b]!stats the_z[/b]' Zeigt eine Statistik von the_z
 
-[*] '[b]!kills <user>[/b]' - Zeigt die Kill-Statistik über einen Benutzer
-    - Beispiel: '[b]!kills[/b]' Zeigt Kill-Statistiken über sich selbst
-    - Beispiel: '[b]!kills the_z[/b]' Zeigt die Kill-Statistik über the_z
+[*] '[b]!kills <user>[/b]' - Zeigt die Kill-Statistik von einen Benutzer
+    - Beispiel: '[b]!kills[/b]' Zeigt Kill-Statistiken über dich selbst
+    - Beispiel: '[b]!kills the_z[/b]' Zeigt die Kill-Statistik von the_z
 
 [*] '[b]!dosh <user>[/b]' - Zeigt die Dosh-Statistik über einen Benutzer
-    - Beispiel: '[b]!dosh[/b]' Zeigt die Dosh-Statistiken über sich selbst
-    - Beispiel: '[b]!dosh the_z[/b]' Zeigt die Dosh-Statistik über the_z
+    - Beispiel: '[b]!dosh[/b]' Zeigt die Dosh-Statistiken über dich selbst
+    - Beispiel: '[b]!dosh the_z[/b]' Zeigt die Dosh-Statistik von the_z
 
-[*] '[b]!map[/b]' - Zeigt Statistiken über die aktuelle Karte an
+[*] '[b]!map[/b]' - Zeigt Statistiken über die aktuelle Map an
 
-[*] '[b]!record_wave[/b]' - Zeigt die höchste auf aktuellen Karte erreichte Welle an
+[*] '[b]!record_wave[/b]' - Zeigt die höchste auf der aktuellen Map erreichte Welle an
 
 [*] '[b]!top_kills[/b]' - Zeigt die globale Kills-Rangliste
 
@@ -110,20 +110,20 @@ Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Sc
 [*] '[b]!top_wave_dosh[/b]' - Zeigt Informationen darüber, wer in der aktuellen Welle am meisten Dosh verdient hat. Generell für die Benutzung mit '[b]!start_trc[/b]'
     - Beispiel: '[b]!start_trc top_wave_dosh[/b]'
 
-[*] '[b]!server_kills[/b]' - Zeigt gesamt Kills auf dem Server an
+[*] '[b]!server_kills[/b]' - Zeigt gesamten Kills auf dem Server an
 
-[*] '[b]!server_dosh[/b]' - Zeigt die Summe des auf dem Server verdienten Dosh
+[*] '[b]!server_dosh[/b]' - Zeigt die Gesamtsumme des auf dem Server verdienten Dosh
 
 [*] '[b]!scoreboard[/b]' - Zeigt das komplette Spieler-Scoreboard, nützlich auf Servern mit mehr als maximal 6 Spielern
-    - Alias '[b]!sb[/b]': Macht das gleiche
+    - Alias '[b]!sb[/b]': Tut dasselbe
 
 [*] '[b]!game[/b]' - Zeigt Informationen über das aktuelle Spiel
 
-[*] '[b]!maps[/b]' - Zeigt den aktuellen Kartenzyklus an
-    - Option '[b]-a[/b]': Zeigt alle verfügbaren Karten an
+[*] '[b]!maps[/b]' - Zeigt den aktuellen Mapzyklus an
+    - Option '[b]-a[/b]': Zeigt alle verfügbaren Maps an
     - Beispiel: '[b]!maps -a[/b]'
 
-[*] '[b]!player_count[/b]' - Zeigt die Spieleranzahl und die Anzahl der maximalen Spieler an
+[*] '[b]!player_count[/b]' - Zeigt die Anzahl der Spieler und die maximale Anzahl der Spieler an
 [/list]
 
 ## Administrator-Befehle
@@ -135,7 +135,7 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!deop <user>[/b]' - Widerruft die administrativen Rechte eines Benutzers
     - Beispiel: '[b]!deop the_z[/b]'
 
-[*] '[b]!say <message>[/b]' - Gibt eine Nachricht in den Chat aus
+[*] '[b]!say <Nachricht>[/b]' - Gibt eine Nachricht in den Chat aus
     - Beispiel: '[b]!say Der schnelle braune Fuchs springt über den faulen Hund[/b]'
     - Beispiel: '[b]!start_trc say Der Trader ist geöffnet[/b]'
 
@@ -148,17 +148,17 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
     - Beispiel: '[b]!ban the_z[/b]'
     - Warnung: Der Webadministrator hat derzeit einen Fehler, der dazu führt, dass Bans nach dem Löschen weiter bestehen bleiben, daher gibt es keinen UnBan-Befehl
 
-[*] '[b]!length <length>[/b]' - Ändere die Länge auf '<length>' nächstes Spiel
+[*] '[b]!length <length>[/b]' - Ändert die Länge auf '<length>' nächstes Spiel
     - Beispiel: '[b]!length short[/b]'
 
-[*] '[b]!difficulty <difficulty>[/b]' - Ändere die Schwierigkeit auf '<difficulty>' nächstes Spiel
+[*] '[b]!difficulty <difficulty>[/b]' - Ändert die Schwierigkeit auf '<difficulty>' nächstes Spiel
     - Beispiel: '[b]!difficulty hell[/b]'
 
 [*] '[b]!game_mode <game_mode>[/b]' - Sofortige Änderung des Spielmodus auf '<game_mode>'
     - Beispiel: '[b]!game_mode endless[/b]' ändert den Spielmodus auf Endlos
 
-[*] '[b]!load_map <map>[/b]' - Sofortige Änderung der Karte auf '<map>'
-    - Beispiel: '[b]!load_map biotics[/b]' Wechselt die Maps auf Biotics Lab
+[*] '[b]!load_map <map>[/b]' - Sofortige Änderung der Map auf '<map>'
+    - Beispiel: '[b]!load_map biotics[/b]' Wechselt die Map auf Biotics Lab
 
 [*] '[b]!restart[/b]' - Sofortiger Neustart des aktuellen Spiels
 
@@ -169,19 +169,19 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 
 [*] '[b]!start_jc -- <command>[/b]' - Starte einen Befehl, der jedes Mal ausgeführt wird, wenn ein Spieler beitritt
 	- Beispiel: '[b]!start_jc -- say Willkommen %PLR[/b]' - Begrüßt einen Spieler beim Beitritt
-	- Verfügbare Token: '[b]%PLR[/b]' - Benutzername, '[b]%KLL[/b]' - Gesamtzahl der Kills, '[b]%DSH[/b]' - Gesamtzahl Dosh, '[b]%BCK[/b]' - "zurück", wenn Sitzungen > 1, '[b]%DRK[/b]' - Dosh-Rang, '[b]%KRK[/b]' - Kill-Rang, '[b]%TME[/b]' - Spielzeit, '[b]%TRK[/b]' - Spielzeit-Rang, '[b]%SES[/b]' - Sitzungen
+	- Verfügbare Token: '[b]%PLR[/b]' - Benutzername, '[b]%KLL[/b]' - Gesamtzahl der Kills, '[b]%DSH[/b]' - Gesamtsumme Dosh, '[b]%BCK[/b]' - "zurück", wenn Sitzungen > 1, '[b]%DRK[/b]' - Dosh-Rang, '[b]%KRK[/b]' - Kill-Rang, '[b]%TME[/b]' - Spielzeit, '[b]%TRK[/b]' - Spielzeit-Rang, '[b]%SES[/b]' - Sitzungen
 
-[*] '[b]!stop_jc[/b]' - Stoppt alle Join-Befehle
+[*] '[b]!stop_jc[/b]' - Stoppt alle Beitritts-Befehle
 
 [*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start eines Befehls, der auf Welle '<wave>' läuft
-    - Option "[b]-w[/b]": Wave zum Ausführen des Befehls, kann weggelassen werden, um den Befehl
-    bei jeder Welle ausführen zu lassen
+    - Option "[b]-w[/b]": Welle zum Ausführen des Befehls, kann weggelassen werden, um den Befehl
+    jede Welle ausführen
     - Option "[b]-w[/b]": Kann negativ sein, um von der Boss-Welle rückwärts zu zählen
-    - Beispiel: '[b]!start_wc -1 -- say Sie Willkommen bei der Boss-Wave[/b]'
+    - Beispiel: '[b]!start_wc -1 -- say Willkommen zur Boss-Welle[/b]'
 
-[*] '[b]!stop_wc[/b]' - Stoppt alle Wave-Befehle
+[*] '[b]!stop_wc[/b]' - Stoppt alle Wellen-Befehle
 
-[*] '[b]!start_tc [-r, -t <Sekunden>] -- <Befehl>[/b]' - Startet einen Befehl, der nach
+[*] '[b]!start_tc [-r, -t <Sekunden>] -- <Befehl>[/b]' - Führt einen Befehl aus, nach
     '<Sekunden>' Sekunden
     - Option "[b]-r[/b]": Hinzufügen, um den Befehl wiederholt ausführen zu lassen
     - Option "[b]-t[/b]": Erforderlich, die Anzahl der Sekunden, bevor der Befehl ausgeführt wird
@@ -190,11 +190,11 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!stop_tc[/b]' - Stoppt alle zeitgesteuerten Befehle
 
 [*] '[b]!start_trc [-w <wave>] -- <command>[/b]' - Startet einen Befehl, der beim Öffnen des Händlers ausgeführt wird
-    - Option "[b]-w[/b]": Wave zum Ausführen des Befehls, kann weggelassen werden, um den Befehl bei jeder Welle ausführen zu lassen
+    - Option "[b]-w[/b]": Welle zum Ausführen des Befehls, kann weggelassen werden, um den Befehl bei jeder Welle ausführen zu lassen
     - Option "[b]-w[/b]": Kann negativ sein, um von der Boss-Welle rückwärts zu zählen
     - Beispiel: '[b]!start_trc -- top_wave_dosh[/b]' - Zeigt bei jeder Welle, wer am meisten Dosh verdient hat, wenn der Trader öffnet
 
-[*] '[b]!stop_trc[/b]' - Stoppt alle Befehle, die bei offenem Trader laufen
+[*] '[b]!stop_trc[/b]' - Stoppt alle Befehle, die bei geöffneten Trader laufen
 
 [*] '[b]!silent[/b]' - Schaltet die Unterdrückung aller Chatausgaben ein, Befehle haben immer noch Wirkung, aber die Antwort ist für die Spieler nicht sichtbar
 
@@ -213,8 +213,8 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!reload_motd[/b]' - Lädt erneut die '[b]*.motd[/b]'-Datei des Servers aus der '[b]conf[/b]'
 [/list]
 
-## Begrüßungsbildschirm-Ranglisten
-Das Schreiben einer '[b]conf/server_name.motd[/b]'-Datei, die Paare von '[b]%PLR[/b]' und '[b]%SCR[/b]' enthält, ermöglicht es dir, die Live-Rangliste auf dem Willkommensbildschirm zu rendern.
+## Begrüßungsbildschirm Ranglisten
+Das Schreiben einer '[b]conf/server_name.motd[/b]'-Datei, die Paare von '[b]%PLR[/b]' und '[b]%SCR[/b]' enthält, ermöglicht es dir die Live-Rangliste auf dem Willkommensbildschirm anzuzeigen.
 
 Ein einfaches Beispiel könnte wie folgt aussehen.
 [code]Willkommen auf unserem Server.
@@ -229,9 +229,9 @@ Top-Spieler (Total Kills):
 Viel Spaß und viel Glück!
 [/code]
 
-KF2 Magicked Admin ersetzt '[b]%PLR[/b]' mit dem Benutzernamen des Spielers, '[b]%SCR[/b]' mit den gesamten Kills oder der gesamten Dosh des Spielers, '[b]%SRV_K[/b]' mit den globalen Server-Kills und '[b]%SRV_D[/b]' mit der globalen Server-Dosh.
+KF2 Magicked Admin ersetzt '[b]%PLR[/b]' mit dem Benutzernamen des Spielers, '[b]%SCR[/b]' mit den gesamten Kills oder dem gesamten Dosh des Spielers, '[b]%SRV_K[/b]' mit den globalen Server-Kills und '[b]%SRV_D[/b]' mit dem globalen Server-Dosh.
 
-Sobald die Datei geschrieben ist, verwende den Befehl '[b]!update_motd <type>[/b]', um die Rangliste zu aktualisieren. Dies sollte in Kombination mit '[b]!start_tc <refresh_interval>[/b]' verwendet werden, damit es automatisch aktualisiert wird.
+Sobald die Datei geschrieben ist, verwende den Befehl '[b]!update_motd <type>[/b]' um die Rangliste zu aktualisieren. Dies sollte in Kombination mit '[b]!start_tc <refresh_interval>[/b]' verwendet werden, damit es automatisch aktualisiert wird.
     - Beispiel: '[b]!start_tc 300 -- update_motd dosh[/b]'
 
 Die Metrik für "[b]%SCR[/b]" kann entweder "kills", "time" oder "dosh" sein. Dies kann durch Änderung des Parameters '[b]<type>[/b]' bei Verwendung von '[b]!update_motd <type>[/b]' eingestellt werden
@@ -258,7 +258,7 @@ Es gibt zwei Kategorien von Skripten, sie unterscheiden sich darin, wann und wie
 
 [h1]Init-Skripte[/h1]
 
-Das Schreiben einer '[b]server_name.init[/b]' in den Ordner '[b]conf/scripts[/b]' mit einer Reihe von Befehlen führt die Befehle nacheinander aus, wenn der Bot auf '[b]server_name[/b]' startet. Die Servernamen sind in '[b]conf/magicked_admin.conf[/b]' definiert, wenn du den Namen nicht geändert hast, wird er standardmäßig auf '[b]server_one[/b]' gesetzt.
+Das Schreiben einer '[b]server_name.init[/b]' in den Ordner '[b]conf/scripts[/b]' mit einer Reihe von Befehlen, führt die Befehle nacheinander aus, wenn der Bot auf '[b]server_name[/b]' startet. Die Servernamen sind in '[b]conf/magicked_admin.conf[/b]' definiert, wenn du den Namen nicht geändert hast, wird er standardmäßig auf '[b]server_one[/b]' gesetzt.
 
 Beim ersten Start wird eine Beispiel-Init-Datei erzeugt, die als Vorlage zum Schreiben eigener Init-Skripte verwendet werden kann.
 
@@ -272,11 +272,11 @@ Diese Skripte sind ähnlich wie das Init-Skript formatiert, die Befehle werden d
 
 Einige Befehle sind besonders nützlich, wenn sie in Skripten verwendet werden, diese sind: '[b]!start_tc[/b]', '[b]!start_trc[/b]', '[b]!start_wc[/b]', '[b]!start_jc[/b]', '[b]!top_wave_kills[/b]', '[b]!top_wave_dosh[/b]', '[b]!enforce_dosh[/b]', '[b]!say[/b]'.
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Zeigt bei jeder Welle, wer das meiste Dosh verdient hat, wenn der Trader öffnet, und aktualisiert das Leaderboard des Begrüßungsbildschirms alle 5 Minuten[/i]
+'[b]conf/scripts/server_one.init[/b]' - [i]Zeigt bei jeder Welle, wer das meiste Dosh verdient hat wenn der Trader öffnet, und aktualisiert das Leaderboard des Begrüßungsbildschirms alle 5 Minuten[/i]
 [code] start_trc -- top_wave_dosh
  start_tc 300 -- update_motd dosh[/code]
 
-'[b]conf/scripts/server_one.init[/b]' - [i]Wirb für deine Steam-Gruppe, wenn die Boss-Welle erreicht ist[/i]
+'[b]conf/scripts/server_one.init[/b]' - [i]Bewerbe deine Steam-Gruppe, wenn die Boss-Welle erreicht ist[/i]
 [code] start_wc -w -1 -- say Trete unserer Steamgruppe bei: http://our.steam/group[/code]
 
 '[b]conf/scripts/server_one.init[/b]' - [i]Bietet Spielern grundlegende Hinweise zur Nutzung von Bot-Systemen[/i][b]
