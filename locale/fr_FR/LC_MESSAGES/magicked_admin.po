@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-06-29 20:08\n"
+"PO-Revision-Date: 2020-06-30 03:31\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: magicked_admin/magicked_admin.py:41
 msgid "Killing Floor 2 Magicked Administrator"
-msgstr ""
+msgstr "Killing Floor 2 Magicked Administrator"
 
 #: magicked_admin/magicked_admin.py:44
 msgid "Skips the guided setup process"
@@ -28,19 +28,19 @@ msgstr "Ignorer le processus d'installation guidé"
 
 #: magicked_admin/magicked_admin.py:154
 msgid "Couldn't connect to server: {}"
-msgstr ""
+msgstr "Impossible de se connecter au serveur: {}"
 
 #: magicked_admin/magicked_admin.py:159
 msgid "Authorization error connecting to '{}', reconfigure? [Y/n]: "
-msgstr ""
+msgstr "Erreur d'autorisation lors de la connexion à '{}', reconfigurer? [Y/n]: "
 
 #: magicked_admin/magicked_admin.py:164
 msgid "yes"
-msgstr ""
+msgstr "oui"
 
 #: magicked_admin/magicked_admin.py:164
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: magicked_admin/magicked_admin.py:179
 msgid "Initialisation complete!\n"
