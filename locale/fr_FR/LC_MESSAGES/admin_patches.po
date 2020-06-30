@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-06-29 20:08\n"
+"PO-Revision-Date: 2020-06-30 03:06\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: admin_patches/admin_patches.py:13
 msgid "Killing Floor 2 Admin Patches"
-msgstr ""
+msgstr "Killing Floor 2 Admin Patches"
 
 #: admin_patches/admin_patches.py:16
 msgid "Specify server location"
@@ -28,11 +28,11 @@ msgstr "Spécifier l'emplacement du serveur"
 
 #: admin_patches/admin_patches.py:29
 msgid "KFGame/Web/ServerAdmin/current_rules.inc"
-msgstr ""
+msgstr "KFGame/Web/ServerAdmin/current_rules.inc"
 
 #: admin_patches/admin_patches.py:39
 msgid "Select Killing Floor 2 server location"
-msgstr "Sélectionnez l'emplacement de Killing Floor 2"
+msgstr "Sélectionnez l'emplacement du serveur Killing Floor 2"
 
 #: admin_patches/admin_patches.py:47
 msgid "Please open your server's install folder in the file dialogue"
@@ -45,7 +45,7 @@ msgstr "L'utilisateur a annulé l'installation"
 #: admin_patches/admin_patches.py:54
 msgid "Killing Floor 2 server not found in path:\n"
 "\t{}"
-msgstr "Le serveur Killing Floor 2 n'as pas été trouvé :dans le dossier :\n"
+msgstr "Le serveur Killing Floor 2 n'as pas été trouvé dans le dossier :\n"
 "\t{}"
 
 #: admin_patches/admin_patches.py:57
