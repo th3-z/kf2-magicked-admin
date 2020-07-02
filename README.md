@@ -1,5 +1,5 @@
 <p align="center">
-    <img width=125 height=125 src="https://files.th3-z.xyz/standing/kf2-ma-logo.png"/>
+    <img width=125 height=125 src="https://git.th3-z.xyz/img/gitea-lg.png"/>
 </p>
 
 <h1 align="center">Killing Floor 2 Magicked Admin</h1>
@@ -197,7 +197,7 @@ Welcome to our server.
 {{ millify(server_kills) }} Zeds killed on this server.
 
 Top Players (total dosh):
-{% for player in top_dosh[1:10] -%}
+{% for player in top_dosh[0:9] -%}
     {{loop.index}}. {{player.username|truncate(11)}} [{{millify(player.score)}}]		{% if loop.index is divisibleby 3 %}
 {% endif %}
 {%- endfor %}
