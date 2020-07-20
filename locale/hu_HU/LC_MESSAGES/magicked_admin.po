@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-06-29 20:09\n"
+"PO-Revision-Date: 2020-07-20 14:30\n"
 "Last-Translator: \n"
 "Language: hu_HU\n"
 "Language-Team: Hungarian\n"
@@ -36,7 +36,7 @@ msgstr ""
 
 #: magicked_admin/magicked_admin.py:164
 msgid "yes"
-msgstr ""
+msgstr "igen"
 
 #: magicked_admin/magicked_admin.py:164
 msgid "y"
@@ -99,7 +99,7 @@ msgstr ""
 
 #: magicked_admin/settings.py:183
 msgid "Password"
-msgstr ""
+msgstr "Jelszó"
 
 #: magicked_admin/settings.py:184
 msgid " (will not echo)"
@@ -242,7 +242,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:29
 msgid "password"
-msgstr ""
+msgstr "jelszó"
 
 #: magicked_admin/chatbot/commands/command_map.py:30
 msgid "silent"
@@ -274,7 +274,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:37
 msgid "kick"
-msgstr ""
+msgstr "Kirúgás"
 
 #: magicked_admin/chatbot/commands/command_map.py:38
 msgid "ban"
@@ -310,7 +310,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:48
 msgid "game"
-msgstr ""
+msgstr "játék"
 
 #: magicked_admin/chatbot/commands/command_map.py:49
 msgid "kills"
@@ -342,7 +342,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:56
 msgid "stats"
-msgstr ""
+msgstr "statisztikák"
 
 #: magicked_admin/chatbot/commands/command_map.py:57
 msgid "game_time"
