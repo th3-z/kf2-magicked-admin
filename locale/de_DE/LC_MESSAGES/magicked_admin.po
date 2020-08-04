@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-06-29 20:08\n"
+"PO-Revision-Date: 2020-08-04 09:56\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: magicked_admin/magicked_admin.py:41
 msgid "Killing Floor 2 Magicked Administrator"
-msgstr ""
+msgstr "Killing Floor 2 Magicked Administrator"
 
 #: magicked_admin/magicked_admin.py:44
 msgid "Skips the guided setup process"
@@ -28,19 +28,19 @@ msgstr "Überspringt den geführten Setup-Prozess"
 
 #: magicked_admin/magicked_admin.py:154
 msgid "Couldn't connect to server: {}"
-msgstr ""
+msgstr "Konnte nicht mit Server verbinden: {}"
 
 #: magicked_admin/magicked_admin.py:159
 msgid "Authorization error connecting to '{}', reconfigure? [Y/n]: "
-msgstr ""
+msgstr "Autorisierungsfehler beim Verbinden mit '{}', Neukonfigurieren? [Y/n]: "
 
 #: magicked_admin/magicked_admin.py:164
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: magicked_admin/magicked_admin.py:164
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: magicked_admin/magicked_admin.py:179
 msgid "Initialisation complete!\n"
@@ -102,23 +102,23 @@ msgstr "Benutzername [Standard - Admin]: "
 
 #: magicked_admin/settings.py:183
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 #: magicked_admin/settings.py:184
 msgid " (will not echo)"
-msgstr ""
+msgstr " (wird nicht ausgegeben)"
 
 #: magicked_admin/settings.py:185
 msgid " [default - 123]: "
-msgstr ""
+msgstr " [default - 123]: "
 
 #: magicked_admin/settings.py:226
 msgid "Config file is missing 'magicked_admin' section."
-msgstr ""
+msgstr "Konfigurationsdatei fehlt 'magicked_admin' Abschnitt."
 
 #: magicked_admin/settings.py:229
 msgid "Config file is missing language."
-msgstr ""
+msgstr "Konfigurationsdatei fehlt die Sprache."
 
 #: magicked_admin/settings.py:232
 msgid "Config file has no sections."
@@ -185,7 +185,7 @@ msgstr "Der Hilfetext zu diesem Befehl ist noch nicht geschrieben worden!"
 
 #: magicked_admin/chatbot/commands/command.py:30
 msgid "$"
-msgstr ""
+msgstr "$"
 
 #: magicked_admin/chatbot/commands/command.py:56
 msgid "Auth failure, username: {}, user flags: {:b}"
