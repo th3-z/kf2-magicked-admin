@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-08-04 11:24\n"
+"PO-Revision-Date: 2020-08-04 11:43\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -406,7 +406,7 @@ msgstr "Verwendung: !start_jc BEFEHL\n"
 #: magicked_admin/chatbot/commands/event_commands.py:153
 #: magicked_admin/chatbot/commands/event_commands.py:226
 msgid "Ambiguous event command, please use ' -- ' to separate commands"
-msgstr ""
+msgstr "Mehrdeutiger Ereignisbefehl, bitte verwende ' -- ', um Befehle zu trennen"
 
 #: magicked_admin/chatbot/commands/event_commands.py:37
 #: magicked_admin/chatbot/commands/event_commands.py:106
@@ -724,7 +724,7 @@ msgstr "Punktetafel (Name, Kills, Dosh):\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:237
 msgid "{}\t- {} Kills, £{}\n"
-msgstr ""
+msgstr "{}\t- {} Kills, £{}\n"
 
 #: magicked_admin/chatbot/commands/player_commands.py:248
 msgid "Usage: !top_wave_kills\n"
@@ -752,7 +752,11 @@ msgid "Usage: !alias [--op] NAME -- COMMAND\n"
 "\tNAME - Name of alias \n"
 "\tCOMMAND - Some command \n"
 "Desc: Runs some Lua code"
-msgstr ""
+msgstr "Verwendung: !alias [--op] NAME -- BEFEHL\n"
+"\t-o --op - Einstellen, um Alias auf Operationen zu beschränken\n"
+"\tNAME - Name des Alias \n"
+"\tCOMMAND - Irgendein Befehle \n"
+"Beschr.: Führt Lua Code aus"
 
 #: magicked_admin/chatbot/commands/server_commands.py:42
 msgid "Missing argument, command"
@@ -772,7 +776,7 @@ msgid "Usage: !lua LUA\n"
 "Desc: Runs some Lua code"
 msgstr "Aufruf: !lua LUA\n"
 "\tLUA - Lua Anweisungen \n"
-"Desc: Führt Lua Code aus"
+"Beschr.: Führt Lua Code aus"
 
 #: magicked_admin/chatbot/commands/server_commands.py:78
 msgid "Missing argument, Lua"
@@ -825,7 +829,7 @@ msgstr "Konnte den Spieler '{}' nicht finden"
 
 #: magicked_admin/chatbot/commands/server_commands.py:170
 msgid "Oped {}"
-msgstr ""
+msgstr "Oped {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:179
 msgid "Usage: !deop USERNAME\n"
@@ -837,7 +841,7 @@ msgstr "Verwendung: !deop BENUTZERNAME\n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:204
 msgid "Deoped {}"
-msgstr ""
+msgstr "Deoped {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:213
 msgid "Usage: !maps [--all]\n"
@@ -894,7 +898,8 @@ msgstr "Spieler, {}, wurde gekicked"
 #: magicked_admin/chatbot/commands/server_commands.py:343
 msgid "Usage: !update_motd\n"
 "Desc: Updates the MOTD from the template file"
-msgstr ""
+msgstr "Verwendung: !update_motd\n"
+"Beschr.: Aktualisiert das MOTD aus der Template-Datei"
 
 #: magicked_admin/chatbot/commands/server_commands.py:356
 msgid "Updated the MOTD"
