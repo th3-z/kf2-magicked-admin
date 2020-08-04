@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-08-04 10:56\n"
+"PO-Revision-Date: 2020-08-04 11:24\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -363,27 +363,27 @@ msgstr "stats"
 
 #: magicked_admin/chatbot/commands/command_map.py:57
 msgid "game_time"
-msgstr ""
+msgstr "game_time"
 
 #: magicked_admin/chatbot/commands/command_map.py:58
 msgid "server_kills"
-msgstr ""
+msgstr "server_kills"
 
 #: magicked_admin/chatbot/commands/command_map.py:59
 msgid "server_dosh"
-msgstr ""
+msgstr "server_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:60
 msgid "map"
-msgstr ""
+msgstr "map"
 
 #: magicked_admin/chatbot/commands/command_map.py:61
 msgid "maps"
-msgstr ""
+msgstr "maps"
 
 #: magicked_admin/chatbot/commands/command_map.py:62
 msgid "player_count"
-msgstr ""
+msgstr "player_count"
 
 #: magicked_admin/chatbot/commands/command_map.py:63
 msgid "scoreboard"
@@ -391,7 +391,7 @@ msgstr "Punktetafel"
 
 #: magicked_admin/chatbot/commands/command_map.py:64
 msgid "sb"
-msgstr ""
+msgstr "sb"
 
 #: magicked_admin/chatbot/commands/event_commands.py:17
 msgid "Usage: !start_jc COMMAND\n"
@@ -756,25 +756,27 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:42
 msgid "Missing argument, command"
-msgstr ""
+msgstr "Fehlendes Argument, Befehl"
 
 #: magicked_admin/chatbot/commands/server_commands.py:49
 msgid "Missing argument, name"
-msgstr ""
+msgstr "Fehlendes Argument, Name"
 
 #: magicked_admin/chatbot/commands/server_commands.py:53
 msgid "Added alias"
-msgstr ""
+msgstr "Alias hinzugefügt"
 
 #: magicked_admin/chatbot/commands/server_commands.py:61
 msgid "Usage: !lua LUA\n"
 "\tLUA - Lua statements \n"
 "Desc: Runs some Lua code"
-msgstr ""
+msgstr "Aufruf: !lua LUA\n"
+"\tLUA - Lua Anweisungen \n"
+"Desc: Führt Lua Code aus"
 
 #: magicked_admin/chatbot/commands/server_commands.py:78
 msgid "Missing argument, Lua"
-msgstr ""
+msgstr "Fehlendes Argument, Lua"
 
 #: magicked_admin/chatbot/commands/server_commands.py:90
 msgid "Usage: !ban USERNAME\n"
@@ -1100,7 +1102,7 @@ msgstr "Benutzername: {}\n"
 
 #: magicked_admin/server/server.py:181
 msgid "Player {} ({}) joined {} from {}"
-msgstr ""
+msgstr "Spieler {} trat bei {} aus {}"
 
 #: magicked_admin/server/server.py:187
 msgid "Player {} joined {} from {}"
@@ -1156,7 +1158,7 @@ msgstr "Sitzung beendet, erneuert sich!"
 #: magicked_admin/web_admin/web_interface.py:88
 #: magicked_admin/web_admin/web_interface.py:150
 msgid "Authorization error, credentials changed?"
-msgstr ""
+msgstr "Autorisierungsfehler, Zugangsdaten geändert?"
 
 #: magicked_admin/web_admin/web_interface.py:174
 msgid "Web admin not responding, sleeping"
