@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-08-11 15:10\n"
+"PO-Revision-Date: 2020-08-11 15:29\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -82,7 +82,7 @@ msgstr "\n"
 
 #: admin_patches/utils/patcher.py:40
 msgid "Applying {}"
-msgstr "Anwenden {}"
+msgstr "Wird angewendet {}"
 
 #: admin_patches/utils/patcher.py:45
 msgid "Patch failed to apply successfully"
