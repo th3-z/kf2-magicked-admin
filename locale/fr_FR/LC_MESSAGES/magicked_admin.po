@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-08-15 15:46\n"
+"PO-Revision-Date: 2020-08-15 16:16\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -145,7 +145,22 @@ msgid "\n"
 "start_tc --repeat --time 300 -- update_motd -q dosh\n\n"
 "; Re-enable chat output\n"
 "silent --quiet\n\n"
-msgstr ""
+msgstr "\n"
+"; Le contenu de ce fichier sera exécuté en séquence sur le serveur nommé\n"
+"; après le démarrage du programme. Les lignes commençant par ; seront ignorées.\n"
+"; Ici, il n'est pas nécessaire de préfixer des commandes avec ! dans ce fichier.\n"
+";\n"
+"; Exemple :\n\n"
+"; Supprime globalement la sortie du chat\n"
+"silencieux --quiet\n\n"
+"; start_wc --wave -1 say Si je n'ai pas été commenté, vous verrez ce message durant la vague du boss\n"
+"start_trc -- top_wave_dosh\n\n"
+"; Démarre le script d'accueil des joueurs par défaut `conf/scripts/greeter`\n"
+"run greeter\n\n"
+"; Mettre à jour le tableau de bord MOTD toutes les 5 minutes\n"
+"start_tc --repeat --time 300 -- update_motd -q dosh\n\n"
+"; Réactiver la sortie du chat\n"
+"silent --quiet\n\n"
 
 #: magicked_admin/chatbot/chatbot.py:62
 msgid "Executing script: "
@@ -185,7 +200,7 @@ msgstr "Le texte d'aide pour cette commande n'a pas été écrit !"
 
 #: magicked_admin/chatbot/commands/command.py:30
 msgid "$"
-msgstr ""
+msgstr "$"
 
 #: magicked_admin/chatbot/commands/command.py:56
 msgid "Auth failure, username: {}, user flags: {:b}"
@@ -193,55 +208,55 @@ msgstr "Échec d'authentification, nom d'utilisateur : {}, drapeaux utilisateur 
 
 #: magicked_admin/chatbot/commands/command_map.py:16
 msgid "lua"
-msgstr ""
+msgstr "lua"
 
 #: magicked_admin/chatbot/commands/command_map.py:17
 msgid "start_jc"
-msgstr ""
+msgstr "start_jc"
 
 #: magicked_admin/chatbot/commands/command_map.py:18
 msgid "stop_jc"
-msgstr ""
+msgstr "stop_jc"
 
 #: magicked_admin/chatbot/commands/command_map.py:19
 msgid "start_wc"
-msgstr ""
+msgstr "start_wc"
 
 #: magicked_admin/chatbot/commands/command_map.py:20
 msgid "stop_wc"
-msgstr ""
+msgstr "stop_wc"
 
 #: magicked_admin/chatbot/commands/command_map.py:21
 msgid "start_tc"
-msgstr ""
+msgstr "start_tc"
 
 #: magicked_admin/chatbot/commands/command_map.py:22
 msgid "stop_tc"
-msgstr ""
+msgstr "stop_tc"
 
 #: magicked_admin/chatbot/commands/command_map.py:23
 msgid "start_trc"
-msgstr ""
+msgstr "start_trc"
 
 #: magicked_admin/chatbot/commands/command_map.py:24
 msgid "stop_trc"
-msgstr ""
+msgstr "stop_trc"
 
 #: magicked_admin/chatbot/commands/command_map.py:25
 msgid "enforce_dosh"
-msgstr ""
+msgstr "enforce_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:26
 msgid "say"
-msgstr ""
+msgstr "say"
 
 #: magicked_admin/chatbot/commands/command_map.py:27
 msgid "restart"
-msgstr ""
+msgstr "restart"
 
 #: magicked_admin/chatbot/commands/command_map.py:28
 msgid "load_map"
-msgstr ""
+msgstr "load_map"
 
 #: magicked_admin/chatbot/commands/command_map.py:29
 msgid "password"
@@ -392,7 +407,7 @@ msgstr "Utilisation : !start_jc COMMAND\n"
 #: magicked_admin/chatbot/commands/event_commands.py:153
 #: magicked_admin/chatbot/commands/event_commands.py:226
 msgid "Ambiguous event command, please use ' -- ' to separate commands"
-msgstr ""
+msgstr "Commande d'événement ambiguë, veuillez utiliser ' -- ' pour séparer les commandes"
 
 #: magicked_admin/chatbot/commands/event_commands.py:37
 #: magicked_admin/chatbot/commands/event_commands.py:106
