@@ -7,5 +7,5 @@
 ; %TME - Play time
 ; %TRK - Play time rank
 ; %SES - Sessions
-start_jc -q -- say \nWelcome %BCK %PLR.\nYou've killed %KLL ZEDs, (#%KRK)\nearned £%DSH (#%DRK) and\nplayed for %TME over %SES sessions.
+start_jc -qr -- say \nWelcome %BCK %PLR.\nYou've killed %KLL ZEDs, (#%KRK)\nearned £%DSH (#%DRK) and\nplayed for %TME over %SES sessions.
 say Greeter started

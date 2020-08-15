@@ -3,6 +3,7 @@ import sys
 import gettext
 import logging
 import logging.handlers
+from pathlib import Path
 from colorama import init
 from termcolor import colored
 
@@ -13,7 +14,7 @@ init()
 # TODO: Switch to Nuitka for compilation
 DEBUG = __debug__ and not hasattr(sys, 'frozen')
 
-VERSION = "0.1.5"
+VERSION = "0.1.6"
 BANNER_URL = "https://th3-z.xyz/kf2-ma"
 
 
@@ -29,9 +30,19 @@ def find_data_file(filename):
 
 
 # TODO: logging module
+if not os.path.exists(find_data_file("conf/")):
+    os.mkdir(find_data_file("conf/"))
+if not os.path.exists(find_data_file("conf/scripts/")):
+    os.mkdir(find_data_file("conf/scripts/"))
+if not os.path.exists(find_data_file("conf/marquee")):
+    os.mkdir(find_data_file("conf/marquee"))
+if not os.path.isfile(find_data_file("conf/magicked_admin.log")):
+    Path(find_data_file("conf/magicked_admin.log")).touch()
+
 logger = logging.getLogger("kf2-magicked-admin")
 handler = logging.handlers.WatchedFileHandler(
-    os.environ.get("LOGFILE", find_data_file("conf/magicked_admin.log"))
+    os.environ.get("LOGFILE", find_data_file("conf/magicked_admin.log")),
+    encoding="utf-8"
 )
 formatter = logging.Formatter(
     "[%(asctime)s %(levelname)s] %(message)s",
@@ -69,30 +80,40 @@ def banner():
 
 def warning(mesg, log=True, display=True):
     if display:
-        print(colored(' [!] ', 'yellow') + mesg)
+        print(
+            colored(' [!] ', 'yellow')
+            + mesg.encode("utf-8").decode(sys.stdout.encoding)
+        )
     if log:
-        logger.warning(mesg)
+        logger.warning(mesg.encode("utf-8").decode(sys.stdout.encoding))
 
 
 def debug(mesg, log=True, display=True):
     if DEBUG and display:
-        print(colored(' [#] ' + mesg, 'red'))
+        print(colored(
+            ' [#] ' + mesg.encode("utf-8").decode(sys.stdout.encoding), 'red'
+        ))
     if log:
-        logger.debug(mesg)
+        logger.debug(mesg.encode("utf-8").decode(sys.stdout.encoding))
 
 
 def info(mesg, log=True, display=True):
     if display:
-        print(colored(' [*] ', 'green') + mesg)
+        print(
+            colored(' [*] ', 'green')
+            + mesg.encode("utf-8").decode(sys.stdout.encoding)
+        )
     if log:
-        logger.info(mesg)
+        logger.info(mesg.encode("utf-8").decode(sys.stdout.encoding))
 
 
 def fatal(mesg, log=True, display=True):
     if display:
-        print(colored(' [!] ', 'red') + mesg)
+        print(
+            colored(' [!] ', 'red')
+            + mesg.encode("utf-8").decode(sys.stdout.encoding))
     if log:
-        logger.fatal(mesg)
+        logger.fatal(mesg.encode("utf-8").decode(sys.stdout.encoding))
 
 
 def die(mesg=None, pause=False):

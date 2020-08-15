@@ -245,8 +245,6 @@ class CommandStats(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        self.server.write_all_players()
-
         if args.username:
             username = " ".join(args.username)
 

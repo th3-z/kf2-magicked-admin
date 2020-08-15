@@ -5,9 +5,13 @@ from hashlib import sha1
 import requests
 from lxml import html
 
-from utils import debug, die, info, warning
+from utils import debug, die, info, warning, fatal
 
 _ = gettext.gettext
+
+
+class AuthorizationException(Exception):
+    pass
 
 
 class WebInterface(object):
@@ -16,6 +20,7 @@ class WebInterface(object):
         self.__address = address
         self.__username = username
         self.__password = password
+        self.__http_auth = False
 
         self.server_name = server_name
         self.ma_installed = False
@@ -49,18 +54,41 @@ class WebInterface(object):
     def __get(self, session, url, retry_interval=6, login=False):
         while True:
             try:
-                response = session.get(url, timeout=self.__timeout)
-                if response.status_code > 400:
+                if not self.__http_auth:
+                    response = session.get(url, timeout=self.__timeout)
+                else:
+                    response = session.get(
+                        url,
+                        timeout=self.__timeout,
+                        auth=(self.__username, self.__password)
+                    )
+
+                if response.status_code > 401:
                     self.__sleep()
                     time.sleep(retry_interval)
                     continue
                 else:
                     self.__wake()
 
+                if response.status_code == 401 and not self.__http_auth:
+                    self.__http_auth = True
+                    return self.__get(
+                        session, url, retry_interval, login
+                    )
+                elif response.status_code == 401 and self.__http_auth:
+                    raise AuthorizationException
+
                 if not login:
                     if "hashAlg" in response.text:
                         info(_("Session killed, renewing!"))
-                        self.__session = self.__new_session()
+                        try:
+                            self.__session = self.__new_session()
+                        except AuthorizationException:
+                            die(
+                                _("Authorization error, credentials changed?"),
+                                pause=True
+                            )
+
                     else:
                         return response
                 else:
@@ -85,21 +113,43 @@ class WebInterface(object):
     def __post(self, session, url, payload, retry_interval=6, login=False):
         while True:
             try:
-                response = session.post(
-                    url, payload,
-                    timeout=self.__timeout
-                )
-                if response.status_code > 400:
+                if not self.__http_auth:
+                    response = session.post(
+                        url, payload,
+                        timeout=self.__timeout
+                    )
+                else:
+                    response = session.post(
+                        url, payload,
+                        timeout=self.__timeout,
+                        auth=(self.__username, self.__password)
+                    )
+
+                if response.status_code > 401:
                     self.__sleep()
                     time.sleep(retry_interval)
                     continue
                 else:
                     self.__wake()
 
+                if response.status_code == 401 and not self.__http_auth:
+                    self.__http_auth = True
+                    return self.__post(
+                        session, url, payload, retry_interval, login
+                    )
+                elif response.status_code == 401 and self.__http_auth:
+                    raise AuthorizationException
+
                 if not login:
                     if "hashAlg" in response.text:
                         info(_("Session killed, renewing!"))
-                        self.__session = self.__new_session()
+                        try:
+                            self.__session = self.__new_session()
+                        except AuthorizationException:
+                            die(
+                                _("Authorization error, credentials changed?"),
+                                pause=True
+                            )
                 else:
                     return response
                 return response
@@ -140,6 +190,8 @@ class WebInterface(object):
         session = requests.Session()
         login_page_response = self.__get(session, self.__urls['login'],
                                          login=True)
+        if self.__http_auth:
+            return session
 
         if "hashAlg = \"sha1\"" in login_page_response.text:
             hex_dig = "$sha1$" + sha1(
@@ -161,9 +213,7 @@ class WebInterface(object):
 
         if "hashAlg" in response.text \
                 or "Exceeded login attempts" in response.text:
-            # TODO Expand on handling here, should gracefully terminate
-            die(_("Login failure, bad credentials or login attempts "
-                  "exceeded."), pause=True)
+            raise AuthorizationException
 
         if "<!-- KF2-MA-INSTALLED-FLAG -->" in response.text:
             self.ma_installed = True
@@ -384,7 +434,15 @@ class WebInterface(object):
         mutator_count_pattern = "//input[@name=\"mutatorGroupCount\"]/@value"
 
         game_type = map_tree.xpath(game_type_pattern)[0]
-        map_name = map_tree.xpath(map_pattern)[0]
+        map_results = map_tree.xpath(map_pattern)[0]
+        if len(map_results):
+            map_name = map_results[0]
+        else:
+            warning(
+                "Couldn't retrieve map information, please check that your "
+                "KFMapSummary section is correctly configured for this map"
+            )
+            map_name = "KF-BioticsLab"
         url_extra = map_tree.xpath(url_extra_pattern)[0]
         mutator_count = map_tree.xpath(mutator_count_pattern)[0]
 

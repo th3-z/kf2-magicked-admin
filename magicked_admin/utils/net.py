@@ -1,6 +1,7 @@
 import gettext
 from urllib.parse import urlparse
 from urllib.request import urlopen
+from urllib.error import URLError, HTTPError
 
 import requests
 
@@ -18,7 +19,9 @@ def __add_address_scheme(address):
 def __is_valid_address(address):
     try:
         code = urlopen(address).getcode()
-    except Exception:
+    except HTTPError as err:
+        return err.code == 401
+    except URLError:
         return False
     return code == 200
 
@@ -55,7 +58,7 @@ def phone_home():
 
 # Get geographical information for an ip address
 def get_country(ip):
-    url = "http://ip-api.com/" + "/json/" + ip
+    url = "https://freegeoip.app" + "/json/" + ip
     unknown = (_("Unknown"), "??")
 
     try:
@@ -63,9 +66,9 @@ def get_country(ip):
     except Exception:
         return unknown
 
-    if 'country' not in geo_data:
+    if 'country_name' not in geo_data:
         return unknown
 
-    country = geo_data['country']
-    country_code = geo_data['countryCode']
+    country = geo_data['country_name']
+    country_code = geo_data['country_code']
     return country, country_code

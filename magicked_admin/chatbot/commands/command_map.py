@@ -13,6 +13,7 @@ class CommandMap:
     def get_commands(server, chatbot, scheduler, motd_updater):
         return {
             # Operator commands
+            _('lua'): CommandLua(server, chatbot),
             _('start_jc'): CommandStartJoinCommand(server, scheduler),
             _('stop_jc'): CommandStopJoinCommands(server, scheduler),
             _('start_wc'): CommandStartWaveCommand(server, scheduler),
@@ -39,6 +40,7 @@ class CommandMap:
             _('deop'): CommandDeop(server),
             _('update_motd'): CommandUpdateMotd(server, motd_updater),
             _('reload_motd'): CommandReloadMotd(server, motd_updater),
+            _('alias'): CommandAlias(server, chatbot),
 
             # Player commands
             _('commands'): CommandCommands(server),

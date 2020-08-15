@@ -27,8 +27,13 @@ class Game:
         self.password_enabled = False
 
     def __str__(self):
+        if self.game_type in GAME_TYPE_DISPLAY:
+            display_name = GAME_TYPE_DISPLAY[self.game_type]
+        else:
+            display_name = GAME_TYPE_UNKNOWN
+
         return _("Mode: {}\nMap: {}\nDifficulty: {}\nWave {}/{}").format(
-            GAME_TYPE_DISPLAY[self.game_type],
+            display_name,
             self.game_map.name,
             DIFF_DISPLAY[self.difficulty],
             self.wave,

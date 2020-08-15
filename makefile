@@ -3,15 +3,36 @@ GREEN_COLOR=\033[32m
 RED_COLOR=\033[31m
 YELLOW_COLOR=\033[33;01m
 
-build:
-	@python3 magicked_admin/setup.py build -b bin/magicked_admin
-	@python3 admin_patches/setup.py build -b bin/admin_patches
+PYTHON_OK = $(shell python --version 2> /dev/null | wc -l)
+ifneq ('$(PYTHON_OK)', '')
+	PYTHON = "python"
+endif
+PYTHON3_OK = $(shell python3 --version 2> /dev/null | wc -l)
+ifneq ('$(PYTHON3_OK)', '')
+	PYTHON = "python3"
+endif
 
-i18n-init:
+ifndef PYTHON
+	$(error "Couldn't find Python")
+endif
+
+LOCALE_DIR = ./locale
+
+all: clean build
+
+build: i18n-compile
+	@$(PYTHON) magicked_admin/setup.py build -b bin/magicked_admin
+	@$(PYTHON) admin_patches/setup.py build -b bin/admin_patches
+
+i18n-update:
 	@pybabel extract admin_patches -o locale/admin_patches.pot
-	@pybabel init -l en_GB -i locale/admin_patches.pot -d locale -o ./locale/en_GB/admin_patches.po
+	@pybabel init -l en_GB -i locale/admin_patches.pot -d locale -o ./locale/en_GB/LC_MESSAGES/admin_patches.po
 	@pybabel extract magicked_admin -o locale/magicked_admin.pot
-	@pybabel init -l en_GB -i locale/magicked_admin.pot -d locale -o ./locale/en_GB/magicked_admin.po
+	@pybabel init -l en_GB -i locale/magicked_admin.pot -d locale -o ./locale/en_GB/LC_MESSAGES/magicked_admin.po
+
+i18n-compile:
+	@pybabel compile -d locale -D "magicked_admin"
+	@pybabel compile -d locale -D "admin_patches"
 
 clean:
 	-@rm -rf bin
@@ -29,17 +50,17 @@ isort:
 
 pytest:
 	@echo "\n$(YELLOW_COLOR)Running tests...$(NO_COLOR)\n"
-	@pytest tests --cov-fail-under=1 --cov=magicked_admin
+	@pytest magicked_admin/tests --cov=magicked_admin
 
 
 lint:
 	@echo "$(YELLOW_COLOR)Checking lints...$(NO_COLOR)\n"
-	@flake8 --ignore F405,F403,W503,F401 --exclude=admin_patches/utils/patch.py && \
+	@flake8 --ignore F405,F403,W503,F401,F811 --exclude=admin_patches/utils/patch.py && \
 		echo "$(GREEN_COLOR)success!$(NO_COLOR)" \
 		|| { echo "$(RED_COLOR)failure!$(NO_COLOR)\n"; exit 1; }
 
 test: lint pytest
 
 
-.PHONY: build
+.PHONY: build clean
 

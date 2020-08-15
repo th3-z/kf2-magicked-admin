@@ -16,10 +16,24 @@ class Chatbot(ChatListener):
 
         self.chat = chat
         self.commands = {}
+        self.lua_bridge = None
         self.silent = False
+        self.aliases = {}
+
+    def add_alias(self, name, command, admin_only=True):
+        print(name)
+        print(command)
+        print(admin_only)
+        self.aliases[name] = {
+            "command": command,
+            "admin_only": admin_only
+        }
 
     def add_command(self, name, command):
         self.commands[name] = command
+
+    def add_lua_bridge(self, lua_bridge):
+        self.lua_bridge = lua_bridge
 
     def receive_message(self, username, message, user_flags):
         if message[0] == '!':
@@ -37,8 +51,22 @@ class Chatbot(ChatListener):
             if not self.silent and response:
                 self.chat.submit_message(response)
 
+        if args[0].lower() in self.aliases.keys():
+            command = self.aliases[args[0].lower()]
+            print(command)
+            if not command['admin_only']:
+                user_flags = user_flags | USER_TYPE_ADMIN
+            self.command_handler(
+                username, command['command'].split(" "), user_flags
+            )
+
     def execute_script(self, filename):
         debug(_("Executing script: ") + path.basename(filename))
+
+        fn, ext = path.splitext(filename)
+        if ext == ".lua":
+            self.lua_bridge.execute_script(filename)
+            return
 
         with open(filename) as script:
             for line in script:

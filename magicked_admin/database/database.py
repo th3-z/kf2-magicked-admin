@@ -16,8 +16,11 @@ class ServerDatabase:
 
         if not path.exists(self.sqlite_db_file):
             self.build_schema()
-        self.conn = sqlite3.connect(self.sqlite_db_file,
-                                    check_same_thread=False)
+        self.conn = sqlite3.connect(
+            self.sqlite_db_file,
+            check_same_thread=False,
+            isolation_level=None
+        )
 
         # Assemble rows into dicts (col->val) rather than tuples
         self.conn.row_factory = lambda c, r: \
@@ -28,7 +31,7 @@ class ServerDatabase:
     def build_schema(self):
         info(_("Building new database..."))
 
-        conn = sqlite3.connect(self.sqlite_db_file)
+        conn = sqlite3.connect(self.sqlite_db_file, isolation_level=None)
         cur = conn.cursor()
 
         with open(find_data_file('database/schema.sql')) as schema_file:
@@ -36,12 +39,18 @@ class ServerDatabase:
             cur.executescript(schema_file.read())
             lock.release()
 
-        conn.commit()
         conn.close()
 
     def close(self):
-        self.conn.commit()
         self.conn.close()
+
+    # TODO: All queries should use this
+    def execute(self, query, params):
+        lock.acquire(True)
+        self.cur.execute(query, params)
+        result = self.cur.fetchall()
+        lock.release()
+        return result
 
     def __rank_by_col(self, steam_id, col):
         query = """
@@ -171,7 +180,6 @@ class ServerDatabase:
 
         lock.acquire(True)
         self.cur.execute(init_sql, (steam_id,))
-        self.conn.commit()
         lock.release()
 
     def load_player(self, player, r_flag=False):
@@ -227,7 +235,6 @@ class ServerDatabase:
                           player.sessions, player.total_time, player.op,
                           player.steam_id))
         lock.release()
-        self.conn.commit()
 
     def __init_game_map(self, title):
         # Other columns have defaults in schema
@@ -239,7 +246,6 @@ class ServerDatabase:
         lock.acquire(True)
         self.cur.execute(init_sql, (title.upper(),))
         lock.release()
-        self.conn.commit()
 
     def highest_wave(self, game_map):
         highest_wave_sql = """
@@ -314,7 +320,6 @@ class ServerDatabase:
                           game_map.plays_endless, game_map.plays_other,
                           game_map.highest_wave, game_map.title.upper()))
         lock.release()
-        self.conn.commit()
 
     def save_map_record(self, game, players, victory):
         save_query = """
@@ -332,4 +337,3 @@ class ServerDatabase:
                           game.difficulty, players, game.wave,
                           int(victory)))
         lock.release()
-        self.conn.commit()

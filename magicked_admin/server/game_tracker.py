@@ -7,20 +7,21 @@ from termcolor import colored
 
 from utils import BANNER_URL, warning
 from web_admin.constants import *
+from database.database import lock
 
 _ = gettext.gettext
 init()
 
 
 class GameTracker(threading.Thread):
-    def __init__(self, server):
+    def __init__(self, server, refresh_rate=1):
         threading.Thread.__init__(self)
 
         self.server = server
         self.web_admin = server.web_admin
 
         self.__exit = False
-        self.__refresh_rate = 1
+        self.__refresh_rate = refresh_rate
         self.__boss_reached = False
 
         self.previous_wave = 0
@@ -40,6 +41,15 @@ class GameTracker(threading.Thread):
 
         self.__update_players(players_now)
         self.__update_game(game_now)
+
+        lock.acquire(True)
+        self.server.database.cur.execute("BEGIN TRANSACTION")
+        lock.release()
+        self.server.write_all_players()
+        self.server.write_game_map()
+        lock.acquire(True)
+        self.server.database.cur.execute("COMMIT")
+        lock.release()
 
     @staticmethod
     def __is_new_game(game_now, game_before):
@@ -144,7 +154,7 @@ class GameTracker(threading.Thread):
                     [p.username for p in self.server.players]:
 
                 # Filter pawns in KF-SantasWorkshop
-                if "KFAIController_ScriptedPawn_" not in player.username:
+                if "KFAIController" not in player.username:
                     self.server.event_player_join(player)
 
         for player in self.server.players:

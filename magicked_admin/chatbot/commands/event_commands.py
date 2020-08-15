@@ -14,10 +14,13 @@ class CommandStartJoinCommand(Command):
         Command.__init__(self, server, admin_only=True, requires_patch=False)
         self.scheduler = scheduler
 
-        self.help_text = _("Usage: !start_jc COMMAND\n"
+        self.help_text = _("Usage: !start_jc [--returning] COMMAND\n"
+                           "\t-r --returning "
+                           "- Set for only returning players\n"
                            "\tCOMMAND - Command to run\n"
                            "Desc: Runs a command when a player joins the "
                            "match")
+        self.parser.add_argument("--returning", "-r", action="store_true")
         self.parser.add_argument("command", nargs="*")
 
         self.run_delay = 5
@@ -41,7 +44,9 @@ class CommandStartJoinCommand(Command):
             "start_tc", "-qt", str(self.run_delay), "--", *args.command
         ]
 
-        command = CommandOnJoin(self.server, " ".join(delayed_command))
+        command = CommandOnJoin(
+            self.server, " ".join(delayed_command), returning=args.returning
+        )
         self.scheduler.schedule_command(command)
         return self.format_response(_("Player join command started"), args)
 

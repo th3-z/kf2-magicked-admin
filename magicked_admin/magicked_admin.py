@@ -9,6 +9,7 @@ import gettext
 import os
 import signal
 import sys
+import locale
 
 from colorama import init
 
@@ -18,18 +19,21 @@ from chatbot.command_scheduler import CommandScheduler
 from chatbot.motd_updater import MotdUpdater
 from chatbot.commands.command_map import CommandMap
 from server.server import Server
-from settings import Settings
+from settings import Settings, CONFIG_PATH
 from utils import banner, die, find_data_file, info, warning
 from utils.net import phone_home
 from server.game_tracker import GameTracker
 from database.database import ServerDatabase
 from server.game import Game, GameMap
 from web_admin import WebAdmin
-from web_admin.web_interface import WebInterface
+from web_admin.web_interface import WebInterface, AuthorizationException
 from web_admin.chat import Chat
 from web_admin.constants import *
+from lua_bridge.lua_bridge import LuaBridge
 
-_ = gettext.gettext
+gettext.bindtextdomain('magicked_admin', 'locale')
+gettext.textdomain('magicked_admin')
+gettext.install('magicked_admin', 'locale')
 
 init()
 
@@ -41,10 +45,8 @@ parser.add_argument('-s', '--skip_setup', action='store_true',
 args = parser.parse_args()
 
 banner()
-settings = Settings(skip_setup=args.skip_setup)
 
 REQUESTS_CA_BUNDLE_PATH = find_data_file("./certifi/cacert.pem")
-
 
 if hasattr(sys, "frozen"):
     import certifi.core
@@ -65,13 +67,25 @@ class MagickedAdmin:
         signal.signal(signal.SIGINT, self.terminate)
         self.stop_list = []
         self.sigint_count = 0
+        self.settings = Settings(
+            CONFIG_PATH,
+            skip_setup=args.skip_setup
+        )
+
+    def reconfigure(self):
+        self.settings = Settings(
+            CONFIG_PATH,
+            skip_setup=args.skip_setup,
+            reconfigure=True
+        )
 
     def make_server(self, name):
-        address = settings.setting(name, "address")
-        username = settings.setting(name, "username")
-        password = settings.setting(name, "password")
-        game_password = settings.setting(name, "game_password")
-        url_extras = settings.setting(name, "url_extras")
+        address = self.settings.setting(name, "address")
+        username = self.settings.setting(name, "username")
+        password = self.settings.setting(name, "password")
+        game_password = self.settings.setting(name, "game_password")
+        url_extras = self.settings.setting(name, "url_extras")
+        refresh_rate = float(self.settings.setting(name, "refresh_rate"))
 
         web_interface = WebInterface(address, username, password, name)
         chat = Chat(web_interface)
@@ -88,7 +102,7 @@ class MagickedAdmin:
         if url_extras:
             server.url_extras = url_extras
 
-        tracker = GameTracker(server)
+        tracker = GameTracker(server, refresh_rate)
         tracker.start()
 
         self.stop_list.append(server)
@@ -122,12 +136,45 @@ class MagickedAdmin:
     def run(self):
         servers = []
 
-        for server_name in settings.sections():
-            server = self.make_server(server_name)
-            self.make_chatbot(
-                settings.setting(server_name, "username"), server
-            )
+        language = self.settings.config['magicked_admin']['language']
+        lang = gettext.translation(
+            'magicked_admin', 'locale', [language]
+        )
+        lang.install()
+        os.environ['LANGUAGE'] = language[:2]
+
+        for server_name in self.settings.servers():
+            # TODO: Gross
+
+            try:
+                server = self.make_server(server_name)
+            except AuthorizationException:
+                if len(self.settings.servers()) > 1:
+                    warning(
+                        _("Couldn't connect to server: {}").format(server_name)
+                    )
+                    continue
+                else:
+                    answer = input(
+                        _("Authorization error connecting to '{}', reconfigure"
+                          "? [Y/n]: ").format(
+                            self.settings.setting(server_name, "address")
+                        )
+                    )
+                    if answer.lower() in [_("yes"), _("y")]:
+                        self.reconfigure()
+                        self.run()
+                    else:
+                        die("Couldn't connect to server", pause=True)
+                    return
+
             servers.append(server)
+            chatbot = self.make_chatbot(
+                self.settings.setting(server_name, "username"), server
+            )
+            lua_bridge = LuaBridge(server, chatbot)
+            chatbot.add_lua_bridge(lua_bridge)
+            server.web_admin.chat.add_listener(lua_bridge)
 
         info(_("Initialisation complete!\n"))
 

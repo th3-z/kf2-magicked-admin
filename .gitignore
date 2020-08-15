@@ -8,10 +8,12 @@ magicked_admin/conf/
 # Coverage reports
 .coverage
 
-# Builds
+# Builds / compiled locale files
 bin/
+*.mo
 
-# Python caches
+# Python
+venv/
 __pycache__/
 *.py[cod]
 *$py.class
