@@ -83,20 +83,20 @@ Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Sc
 [*] '[b]!commands[/b]' - Zeigt eine Liste aller für Spieler verfügbaren Befehle an
 
 [*] '[b]!stats <user>[/b]' - Zeigt allgemeine Statistiken über einen Benutzer
-    - Beispiel: '[b]!stats[/b]' Zeigt Statistiken über sich selbst
-    - Beispiel: '[b]!stats the_z[/b]' Zeigt eine Statistik über the_z
+    - Beispiel: '[b]!stats[/b]' Zeigt Statistiken über dich selbst
+    - Beispiel: '[b]!stats the_z[/b]' Zeigt eine Statistik von the_z
 
-[*] '[b]!kills <user>[/b]' - Zeigt die Kill-Statistik über einen Benutzer
-    - Beispiel: '[b]!kills[/b]' Zeigt Kill-Statistiken über sich selbst
-    - Beispiel: '[b]!kills the_z[/b]' Zeigt die Kill-Statistik über the_z
+[*] '[b]!kills <user>[/b]' - Zeigt die Kill-Statistik von einen Benutzer
+    - Beispiel: '[b]!kills[/b]' Zeigt Kill-Statistiken über dich selbst
+    - Beispiel: '[b]!kills the_z[/b]' Zeigt die Kill-Statistik von the_z
 
 [*] '[b]!dosh <user>[/b]' - Zeigt die Dosh-Statistik über einen Benutzer
-    - Beispiel: '[b]!dosh[/b]' Zeigt die Dosh-Statistiken über sich selbst
-    - Beispiel: '[b]!dosh the_z[/b]' Zeigt die Dosh-Statistik über the_z
+    - Beispiel: '[b]!dosh[/b]' Zeigt die Dosh-Statistiken über dich selbst
+    - Beispiel: '[b]!dosh the_z[/b]' Zeigt die Dosh-Statistik von the_z
 
 [*] '[b]!map[/b]' - Zeigt Statistiken über die aktuelle Karte an
 
-[*] '[b]!record_wave[/b]' - Zeigt die höchste auf aktuellen Karte erreichte Welle an
+[*] '[b]!record_wave[/b]' - Zeigt die höchste auf der aktuellen Karte erreichte Welle an
 
 [*] '[b]!top_kills[/b]' - Zeigt die globale Kills-Rangliste
 
@@ -110,12 +110,12 @@ Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Sc
 [*] '[b]!top_wave_dosh[/b]' - Zeigt Informationen darüber, wer in der aktuellen Welle am meisten Dosh verdient hat. Generell für die Benutzung mit '[b]!start_trc[/b]'
     - Beispiel: '[b]!start_trc top_wave_dosh[/b]'
 
-[*] '[b]!server_kills[/b]' - Zeigt gesamt Kills auf dem Server an
+[*] '[b]!server_kills[/b]' - Zeigt gesamten Kills auf dem Server an
 
-[*] '[b]!server_dosh[/b]' - Zeigt die Summe des auf dem Server verdienten Dosh
+[*] '[b]!server_dosh[/b]' - Zeigt die Gesamtsumme des auf dem Server verdienten Dosh
 
 [*] '[b]!scoreboard[/b]' - Zeigt das komplette Spieler-Scoreboard, nützlich auf Servern mit mehr als maximal 6 Spielern
-    - Alias '[b]!sb[/b]': Macht das gleiche
+    - Alias '[b]!sb[/b]': Tut dasselbe
 
 [*] '[b]!game[/b]' - Zeigt Informationen über das aktuelle Spiel
 
