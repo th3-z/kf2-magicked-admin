@@ -229,9 +229,9 @@ Top-Spieler (Total Kills):
 Viel Spaß und viel Glück!
 [/code]
 
-KF2 Magicked Admin ersetzt '[b]%PLR[/b]' mit dem Benutzernamen des Spielers, '[b]%SCR[/b]' mit den gesamten Kills oder der gesamten Dosh des Spielers, '[b]%SRV_K[/b]' mit den globalen Server-Kills und '[b]%SRV_D[/b]' mit der globalen Server-Dosh.
+KF2 Magicked Admin ersetzt '[b]%PLR[/b]' mit dem Benutzernamen des Spielers, '[b]%SCR[/b]' mit den gesamten Kills oder dem gesamten Dosh des Spielers, '[b]%SRV_K[/b]' mit den globalen Server-Kills und '[b]%SRV_D[/b]' mit dem globalen Server-Dosh.
 
-Sobald die Datei geschrieben ist, verwende den Befehl '[b]!update_motd <type>[/b]', um die Rangliste zu aktualisieren. Dies sollte in Kombination mit '[b]!start_tc <refresh_interval>[/b]' verwendet werden, damit es automatisch aktualisiert wird.
+Sobald die Datei geschrieben ist, verwende den Befehl '[b]!update_motd <type>[/b]' um die Rangliste zu aktualisieren. Dies sollte in Kombination mit '[b]!start_tc <refresh_interval>[/b]' verwendet werden, damit es automatisch aktualisiert wird.
     - Beispiel: '[b]!start_tc 300 -- update_motd dosh[/b]'
 
 Die Metrik für "[b]%SCR[/b]" kann entweder "kills", "time" oder "dosh" sein. Dies kann durch Änderung des Parameters '[b]<type>[/b]' bei Verwendung von '[b]!update_motd <type>[/b]' eingestellt werden
