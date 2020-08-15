@@ -123,7 +123,7 @@ Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Sc
     - Option '[b]-a[/b]': Zeigt alle verfügbaren Karten an
     - Beispiel: '[b]!maps -a[/b]'
 
-[*] '[b]!player_count[/b]' - Zeigt die Spieleranzahl und die Anzahl der maximalen Spieler an
+[*] '[b]!player_count[/b]' - Zeigt die Anzahl der Spieler und die maximale Anzahl der Spieler an
 [/list]
 
 ## Administrator-Befehle
@@ -135,7 +135,7 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!deop <user>[/b]' - Widerruft die administrativen Rechte eines Benutzers
     - Beispiel: '[b]!deop the_z[/b]'
 
-[*] '[b]!say <message>[/b]' - Gibt eine Nachricht in den Chat aus
+[*] '[b]!say <Nachricht>[/b]' - Gibt eine Nachricht in den Chat aus
     - Beispiel: '[b]!say Der schnelle braune Fuchs springt über den faulen Hund[/b]'
     - Beispiel: '[b]!start_trc say Der Trader ist geöffnet[/b]'
 
