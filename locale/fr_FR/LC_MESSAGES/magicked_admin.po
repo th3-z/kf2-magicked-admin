@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-08-15 19:15\n"
+"PO-Revision-Date: 2020-08-15 19:26\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -272,31 +272,31 @@ msgstr "exécuter"
 
 #: magicked_admin/chatbot/commands/command_map.py:32
 msgid "marquee"
-msgstr ""
+msgstr "défilement"
 
 #: magicked_admin/chatbot/commands/command_map.py:33
 msgid "length"
-msgstr ""
+msgstr "longueur"
 
 #: magicked_admin/chatbot/commands/command_map.py:34
 msgid "difficulty"
-msgstr ""
+msgstr "difficulté"
 
 #: magicked_admin/chatbot/commands/command_map.py:35
 msgid "game_mode"
-msgstr ""
+msgstr "mode_de_jeu"
 
 #: magicked_admin/chatbot/commands/command_map.py:36
 msgid "players"
-msgstr ""
+msgstr "joueurs"
 
 #: magicked_admin/chatbot/commands/command_map.py:37
 msgid "kick"
-msgstr ""
+msgstr "expulser"
 
 #: magicked_admin/chatbot/commands/command_map.py:38
 msgid "ban"
-msgstr ""
+msgstr "bannir"
 
 #: magicked_admin/chatbot/commands/command_map.py:39
 msgid "op"
