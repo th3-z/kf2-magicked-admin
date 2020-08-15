@@ -12,7 +12,8 @@ magicked_admin/conf/
 bin/
 *.mo
 
-# Python caches
+# Python
+venv/
 __pycache__/
 *.py[cod]
 *$py.class
