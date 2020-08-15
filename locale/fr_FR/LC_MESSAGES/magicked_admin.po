@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-08-15 15:36\n"
+"PO-Revision-Date: 2020-08-15 15:46\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -106,7 +106,7 @@ msgstr "Mot de passe"
 
 #: magicked_admin/settings.py:184
 msgid " (will not echo)"
-msgstr ""
+msgstr " (ne sera pas affiché)"
 
 #: magicked_admin/settings.py:185
 msgid " [default - 123]: "
@@ -114,11 +114,11 @@ msgstr "[défaut - 123]: "
 
 #: magicked_admin/settings.py:226
 msgid "Config file is missing 'magicked_admin' section."
-msgstr ""
+msgstr "La section 'magicked_admin' est manquante dans le fichier de configuration."
 
 #: magicked_admin/settings.py:229
 msgid "Config file is missing language."
-msgstr ""
+msgstr "La langue du fichier de configuration est manquante."
 
 #: magicked_admin/settings.py:232
 msgid "Config file has no sections."
