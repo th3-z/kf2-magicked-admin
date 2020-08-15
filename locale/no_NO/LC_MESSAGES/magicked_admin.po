@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-06-29 20:07\n"
+"POT-Creation-Date: 2020-08-15 22:28+0100\n"
+"PO-Revision-Date: 2020-08-15 21:38\n"
 "Last-Translator: \n"
 "Language: no_NO\n"
 "Language-Team: Norwegian\n"
@@ -11,7 +11,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.4.0\n"
+"Generated-By: Babel 2.6.0\n"
 "X-Crowdin-Project: kf2-magicked-admin\n"
 "X-Crowdin-Project-ID: 374227\n"
 "X-Crowdin-Language: no\n"
@@ -138,13 +138,13 @@ msgid "\n"
 "start_trc -- top_wave_dosh\n\n"
 "; Start the default greeter script `conf/scripts/greeter`\n"
 "run greeter\n\n"
-"; Update the motd scoreboard every 5 minutes\n"
-"start_tc --repeat --time 300 -- update_motd -q dosh\n\n"
+"; Update the motd scoreboard every 1 minute\n"
+"start_tc --repeat --time 60 -- update_motd -q dosh\n\n"
 "; Re-enable chat output\n"
 "silent --quiet\n\n"
 msgstr ""
 
-#: magicked_admin/chatbot/chatbot.py:62
+#: magicked_admin/chatbot/chatbot.py:64
 msgid "Executing script: "
 msgstr ""
 
@@ -377,56 +377,57 @@ msgid "sb"
 msgstr ""
 
 #: magicked_admin/chatbot/commands/event_commands.py:17
-msgid "Usage: !start_jc COMMAND\n"
+msgid "Usage: !start_jc [--returning] COMMAND\n"
+"\t-r --returning - Set for only returning players\n"
 "\tCOMMAND - Command to run\n"
 "Desc: Runs a command when a player joins the match"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:27
-#: magicked_admin/chatbot/commands/event_commands.py:85
-#: magicked_admin/chatbot/commands/event_commands.py:153
-#: magicked_admin/chatbot/commands/event_commands.py:226
+#: magicked_admin/chatbot/commands/event_commands.py:30
+#: magicked_admin/chatbot/commands/event_commands.py:90
+#: magicked_admin/chatbot/commands/event_commands.py:158
+#: magicked_admin/chatbot/commands/event_commands.py:231
 msgid "Ambiguous event command, please use ' -- ' to separate commands"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:37
-#: magicked_admin/chatbot/commands/event_commands.py:106
-#: magicked_admin/chatbot/commands/event_commands.py:177
-#: magicked_admin/chatbot/commands/event_commands.py:236
+#: magicked_admin/chatbot/commands/event_commands.py:40
+#: magicked_admin/chatbot/commands/event_commands.py:111
+#: magicked_admin/chatbot/commands/event_commands.py:182
+#: magicked_admin/chatbot/commands/event_commands.py:241
 msgid "Please specify a command to run"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:46
+#: magicked_admin/chatbot/commands/event_commands.py:51
 msgid "Player join command started"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:54
+#: magicked_admin/chatbot/commands/event_commands.py:59
 msgid "Usage: !stop_jc\n"
 "Desc: Stops all join commands"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:75
+#: magicked_admin/chatbot/commands/event_commands.py:80
 msgid "Usage: !start_wc [--wave] COMMAND\n"
 "\t-w --wave - Optional, wave to run on\n"
 "\tCOMMAND - Command to run\n"
 "Desc: Run a command at the start of a wave, wave can be omitted top run on every wave"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:98
-#: magicked_admin/chatbot/commands/event_commands.py:244
+#: magicked_admin/chatbot/commands/event_commands.py:103
+#: magicked_admin/chatbot/commands/event_commands.py:249
 msgid "'{}' is not a valid wave number"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:113
+#: magicked_admin/chatbot/commands/event_commands.py:118
 msgid "Wave start command started"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:121
+#: magicked_admin/chatbot/commands/event_commands.py:126
 msgid "Usage: !stop_wc\n"
 "Desc: Stops all wave commands"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:142
+#: magicked_admin/chatbot/commands/event_commands.py:147
 msgid "Usage: !start_tc [-r -t] COMMAND\n"
 "\tCOMMAND - Command to run\n"
 "\t-r --repeat - Optional, run repeatedly\n"
@@ -434,35 +435,35 @@ msgid "Usage: !start_tc [-r -t] COMMAND\n"
 "Desc: Runs a command after some time delay"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:163
+#: magicked_admin/chatbot/commands/event_commands.py:168
 msgid "Please specify a time interval, '!start_tc -h' for help"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:171
+#: magicked_admin/chatbot/commands/event_commands.py:176
 msgid "'{}' is not a valid time interval"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:186
+#: magicked_admin/chatbot/commands/event_commands.py:191
 msgid "Time interval command started"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:194
+#: magicked_admin/chatbot/commands/event_commands.py:199
 msgid "Usage: !stop_tc\n"
 "Desc: Stops all timed commands"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:215
+#: magicked_admin/chatbot/commands/event_commands.py:220
 msgid "Usage: !start_trc [--wave] COMMAND\n"
 "\tCOMMAND - Command to run\n"
 "\t-w --wave - Optional, wave to run on\n"
 "Desc: Runs a command when the trader opens, wave can be omitted to run every time the trader opens"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:252
+#: magicked_admin/chatbot/commands/event_commands.py:257
 msgid "Trader open command started"
 msgstr ""
 
-#: magicked_admin/chatbot/commands/event_commands.py:260
+#: magicked_admin/chatbot/commands/event_commands.py:265
 msgid "Usage: !stop_trc\n"
 "Desc: Stops all trader commands"
 msgstr ""
@@ -984,31 +985,31 @@ msgstr ""
 msgid "Player {} ({}) joined {} from {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:187
+#: magicked_admin/server/server.py:186
 msgid "Player {} joined {} from {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:208
+#: magicked_admin/server/server.py:206
 msgid "Player {} left {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:223
+#: magicked_admin/server/server.py:221
 msgid "Player {} died on {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:233
+#: magicked_admin/server/server.py:231
 msgid "New game on {}, map: {}, mode: {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:251
+#: magicked_admin/server/server.py:249
 msgid "Unknown game_type {}"
 msgstr ""
 
-#: magicked_admin/server/server.py:260
+#: magicked_admin/server/server.py:258
 msgid "End game on {}, map: {}, mode: {}, victory: {}"
 msgstr ""
 
-#: magicked_admin/utils/__init__.py:122
+#: magicked_admin/utils/__init__.py:123
 msgid "\n"
 "Press enter to exit..."
 msgstr ""
