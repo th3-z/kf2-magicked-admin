@@ -25,11 +25,11 @@ Wenn du irgendwo etwas Hilfe brauchst, adde mich in Steam und ich werde mein Bes
 Danke.
 
 ## Downloads
-Die neueste Version zum Zeitpunkt des Schreibens ist '[b]0.1.4[/b]', veröffentlicht am 29. September 2019. Eine ausführbare Windows-Datei wird für diese Version bereitgestellt [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-magicked-admin-0.1.4.zip]hier[/url].
+Die neueste Version zum Zeitpunkt des Schreibens ist '[b]0.1.4[/b]', veröffentlicht am 29. September 2019. Eine ausführbare Windows-Datei wird für diese Version [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-magicked-admin-0.1.4.zip]hier[/url] bereitgestellt.
 
-Für Linux und Mac OS wird empfohlen, das Programm aus den Python-Quellen zu starten, da du es wahrscheinlich bereits installiert hast. Die Quelle für '[b]0.1.4[/b]' ist [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.4.zip]hier[/url] verfügbar. Du musst nur die Voraussetzungen mit '[b]pip3 install -r requirements.txt[/b]' installieren und mit '[b]python3 -O magicked_admin/magicked_admin.py[/b]' ausführen.
+Für Linux und Mac OS wird empfohlen, das Programm aus den Python-Quellen zu starten. Der Quellcode für '[b]0.1.4[/b]' ist [url=https://github.com/th3-z/kf2-magicked-admin/archive/0.1.4.zip]hier[/url] verfügbar. Du musst nur die Requirements mit '[b]pip3 install -r requirements.txt[/b]' installieren und mit '[b]python3 -O magicked_admin/magicked_admin.py[/b]' ausführen.
 
-Entwicklungsversionen und build Instruktionen sind auf GitHub [url=https://github.com/th3-z/kf2-magicked-admin]hier[/url] verfügbar.
+Entwicklungsversionen und build Instruktionen [url=https://github.com/th3-z/kf2-magicked-admin]hier[/url] sind auf GitHub verfügbar.
 
 [b]Hinweis[/b]: Wenn du Magicked Admin auf einem Server mit endlosem oder wöchentlichem Spielmodus verwenden willst, gibt es einen zusätzlichen Schritt, über den ich im Abschnitt "Unterstützung des endlosen und wöchentlichen Spielmodus" spreche.
 
@@ -56,25 +56,25 @@ Nachdem dieser Befehl ausgeführt wurde, wird der Container verlassen und die Pr
 ## Befehle
 In den folgenden Abschnitten werde ich alle Befehle beschreiben. Allerdings gibt es einige allgemeine Dinge zu beachten, die für sie alle gelten.
 
-Bei der Eingabe von Befehlen im Chat müssen diese mit dem Präfix '[b]![/b]' versehen werden. Beim Schreiben von Befehlen in ein Skript oder beim Verketten von Befehlen sollte das '[b]![/b]' weggelassen werden.
+Bei der Eingabe von Befehlen im Chat müssen diese mit dem Präfix '[b]![/b]' versehen werden. Beim Schreiben von Befehlen in ein Skript oder beim Verketten von Befehlen sollte das '[b]![/b]' ausgelassen werden.
 
-Viele Befehle suchen nach der nahesten Übereinstimmung mit ihren Parametern. Zum Beispiel '[i]biotics[/i]' wird sich decken mit '[i]kf-biotics-lab[/i]' und 'userO' mit '[i]userOne™/@:®[/i]'.
+Viele Befehle suchen nach der nahsten Übereinstimmung mit ihren Parametern. Zum Beispiel wird sich '[i]biotics[/i]' mit '[i]kf-biotics-lab[/i]' decken und 'userO' mit '[i]userOne™/@:®[/i]'.
 
 Alle Befehle haben einen Hilfetext im Spiel, auf den man mit dem '[b]-h'[/b] Flag zugreifen kann.
 [list]
 [*] Beispiel: '[b]!commands -h'[/b]
 [/list]
-Alle Befehle haben auch die folgenden Flags.
+Alle Befehle haben die folgenden Flags.
 [list]
 [*] Option "[b]-q[/b]": Unterdrückt die Ausgabe
-[*] Option "[b]-p[/b]": Ausgabe zum Ausblenden der Benutzerzeile
+[*] Option '[b]-p[/b]': Pads output to hide the username line
 [/list]
 Zur Formatierung von Nachrichten stehen folgende Escape-Sequenzen zur Verfügung.
 [list]
 [*] '[b]\n[/b]' - Neue Zeile
     - Beispiel: '[b]!say line 0 \n line 1[/b]'
 [*] '[b]\t[/b]' - Tabulator
-    - Beispiel: '[b]!say line 0 \n\t Zeile 1 ist eingerückt 1 Tabstop[/b]'
+    - Beispiel: '[b]!say Zeile 0 \n\t Zeile 1 ist eingerückt 1 Tabstop[/b]'
 [/list]
 
 ## Spieler Befehle
