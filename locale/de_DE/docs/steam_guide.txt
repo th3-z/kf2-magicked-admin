@@ -3,17 +3,17 @@
 Geskriptete Verwaltung, Statistiken und ein Bot für gerankte Killing Floor 2 Server. Bietet In-Game-Befehle, Tracking von Spieler-Statistiken und -Ranking, Live-Begrüßungsbildschirm und -Statistiken, Begrüßungs- und Admin-Funktionen. Läuft komplett über den Web-Admin und hat keinen Einfluss auf den Ranking/Custom-Status eines Servers. Es kann entweder direkt auf dem Server oder per Fernzugriff ausgeführt werden und mehrere Server gleichzeitig verwalten.
 [list]
 [*] Präsentiert Echtzeit-Ranglisten auf deinem Willkommensbildschirm und im Spiel-Chat
-[*]Zeichnet Spielerstatistiken auf, einschließlich: Kills, Dosh, Todesfällen und Spielzeit
-[*] Eine Vielzahl von In-Game-Verwaltungsbefehlen
-[*] Eine Vielzahl von In-Game-Befehlen für Spieler
+[*]Zeichnet Spielerstatistiken auf, einschließlich: Kills, Dosh, Todesfälle und Spielzeit
+[*] Eine Vielzahl von In-Game Verwaltungsbefehlen
+[*] Eine Vielzahl von In-Game Befehlen für Spieler
 [*] Automatisch ausgelöste Befehle basierend auf: Zeit, Welle, Beitritt oder Händlerstatus
-[*] Lies Spieler-Meldungen von deinem Desktop
+[*] Lies Spieler-Mitteilungen auf deinem Desktop
 [/list]
 
 [b]Hinweise[/b]
 [list]
-[*]KF2 Magicked Admin wird [b]nicht [/b] das Server-Ranking oder den Custom-Status ändern.
-[*]KF2 Magicked Admin arbeitet mit dem Wochen-, Survival- und Endlosspielmodus.
+[*]KF2 Magicked Admin wird das Server-Ranking oder den Custom-Status [b]nicht [/b] ändern.
+[*]KF2 Magicked Admin funktioniert mit dem Wochen-, Survival- und Endlosspielmodus.
 [*]KF2 Magicked Admin kann mehrere Server in einer einzigen Instanz verwalten
 [/list]
 
