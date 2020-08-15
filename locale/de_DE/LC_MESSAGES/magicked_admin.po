@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-08-04 11:43\n"
+"PO-Revision-Date: 2020-08-15 11:56\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -94,7 +94,7 @@ msgstr "\n"
 msgid "Address not responding!\n"
 "Accepted formats are: 'ip:port', 'domain', or 'domain:port'"
 msgstr "Adresse antwortet nicht!\n"
-"Akzeptierte Formate sind: ip:port', 'Domäne' oder 'Domäne:Port'"
+"Akzeptierte Formate sind: IP:Port', 'Domäne' oder 'Domäne:Port'"
 
 #: magicked_admin/settings.py:176
 msgid "Username [default - Admin]: "
@@ -110,7 +110,7 @@ msgstr " (wird nicht ausgegeben)"
 
 #: magicked_admin/settings.py:185
 msgid " [default - 123]: "
-msgstr " [default - 123]: "
+msgstr " [Standard - 123]: "
 
 #: magicked_admin/settings.py:226
 msgid "Config file is missing 'magicked_admin' section."
@@ -163,7 +163,7 @@ msgstr "; Der Inhalt dieser Datei wird nacheinander ausgeführt auf dem Server m
 
 #: magicked_admin/chatbot/chatbot.py:62
 msgid "Executing script: "
-msgstr "Skript ausführen: "
+msgstr "Führe Skript aus: "
 
 #: magicked_admin/chatbot/command_scheduler.py:58
 msgid "Stopped {} command(s)"
@@ -187,7 +187,7 @@ msgstr "Das MOTD wurde aktualisiert!"
 
 #: magicked_admin/chatbot/commands/command.py:18
 msgid "You're not authorised to use that command"
-msgstr "Du bist nicht autorisiert, diesen Befehl zu benutzen"
+msgstr "Du bist nicht autorisiert diesen Befehl zu benutzen"
 
 #: magicked_admin/chatbot/commands/command.py:21
 msgid "This action isn't supported without Killing Floor 2 Magicked Administrator's server side patch! Please review the documentation at '{}' for guidance."
