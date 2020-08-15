@@ -213,8 +213,8 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!reload_motd[/b]' - Lädt erneut die '[b]*.motd[/b]'-Datei des Servers aus der '[b]conf[/b]'
 [/list]
 
-## Begrüßungsbildschirm-Ranglisten
-Das Schreiben einer '[b]conf/server_name.motd[/b]'-Datei, die Paare von '[b]%PLR[/b]' und '[b]%SCR[/b]' enthält, ermöglicht es dir, die Live-Rangliste auf dem Willkommensbildschirm zu rendern.
+## Begrüßungsbildschirm Ranglisten
+Das Schreiben einer '[b]conf/server_name.motd[/b]'-Datei, die Paare von '[b]%PLR[/b]' und '[b]%SCR[/b]' enthält, ermöglicht es dir die Live-Rangliste auf dem Willkommensbildschirm anzuzeigen.
 
 Ein einfaches Beispiel könnte wie folgt aussehen.
 [code]Willkommen auf unserem Server.
