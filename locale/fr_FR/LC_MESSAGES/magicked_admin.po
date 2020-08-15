@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-08-15 16:16\n"
+"PO-Revision-Date: 2020-08-15 19:15\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -248,27 +248,27 @@ msgstr "enforce_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:26
 msgid "say"
-msgstr "say"
+msgstr "dire"
 
 #: magicked_admin/chatbot/commands/command_map.py:27
 msgid "restart"
-msgstr "restart"
+msgstr "redémarrer"
 
 #: magicked_admin/chatbot/commands/command_map.py:28
 msgid "load_map"
-msgstr "load_map"
+msgstr "charger_carte"
 
 #: magicked_admin/chatbot/commands/command_map.py:29
 msgid "password"
-msgstr ""
+msgstr "mot de passe"
 
 #: magicked_admin/chatbot/commands/command_map.py:30
 msgid "silent"
-msgstr ""
+msgstr "muet"
 
 #: magicked_admin/chatbot/commands/command_map.py:31
 msgid "run"
-msgstr ""
+msgstr "exécuter"
 
 #: magicked_admin/chatbot/commands/command_map.py:32
 msgid "marquee"
