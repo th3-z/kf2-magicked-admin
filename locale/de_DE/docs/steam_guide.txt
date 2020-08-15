@@ -94,9 +94,9 @@ Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Sc
     - Beispiel: '[b]!dosh[/b]' Zeigt die Dosh-Statistiken über dich selbst
     - Beispiel: '[b]!dosh the_z[/b]' Zeigt die Dosh-Statistik von the_z
 
-[*] '[b]!map[/b]' - Zeigt Statistiken über die aktuelle Karte an
+[*] '[b]!map[/b]' - Zeigt Statistiken über die aktuelle Map an
 
-[*] '[b]!record_wave[/b]' - Zeigt die höchste auf der aktuellen Karte erreichte Welle an
+[*] '[b]!record_wave[/b]' - Zeigt die höchste auf der aktuellen Map erreichte Welle an
 
 [*] '[b]!top_kills[/b]' - Zeigt die globale Kills-Rangliste
 
@@ -119,8 +119,8 @@ Diese Befehle können von jedem Spieler ausgeführt werden. Zum Zeitpunkt des Sc
 
 [*] '[b]!game[/b]' - Zeigt Informationen über das aktuelle Spiel
 
-[*] '[b]!maps[/b]' - Zeigt den aktuellen Kartenzyklus an
-    - Option '[b]-a[/b]': Zeigt alle verfügbaren Karten an
+[*] '[b]!maps[/b]' - Zeigt den aktuellen Mapzyklus an
+    - Option '[b]-a[/b]': Zeigt alle verfügbaren Maps an
     - Beispiel: '[b]!maps -a[/b]'
 
 [*] '[b]!player_count[/b]' - Zeigt die Anzahl der Spieler und die maximale Anzahl der Spieler an
@@ -148,17 +148,17 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
     - Beispiel: '[b]!ban the_z[/b]'
     - Warnung: Der Webadministrator hat derzeit einen Fehler, der dazu führt, dass Bans nach dem Löschen weiter bestehen bleiben, daher gibt es keinen UnBan-Befehl
 
-[*] '[b]!length <length>[/b]' - Ändere die Länge auf '<length>' nächstes Spiel
+[*] '[b]!length <length>[/b]' - Ändert die Länge auf '<length>' nächstes Spiel
     - Beispiel: '[b]!length short[/b]'
 
-[*] '[b]!difficulty <difficulty>[/b]' - Ändere die Schwierigkeit auf '<difficulty>' nächstes Spiel
+[*] '[b]!difficulty <difficulty>[/b]' - Ändert die Schwierigkeit auf '<difficulty>' nächstes Spiel
     - Beispiel: '[b]!difficulty hell[/b]'
 
 [*] '[b]!game_mode <game_mode>[/b]' - Sofortige Änderung des Spielmodus auf '<game_mode>'
     - Beispiel: '[b]!game_mode endless[/b]' ändert den Spielmodus auf Endlos
 
-[*] '[b]!load_map <map>[/b]' - Sofortige Änderung der Karte auf '<map>'
-    - Beispiel: '[b]!load_map biotics[/b]' Wechselt die Maps auf Biotics Lab
+[*] '[b]!load_map <map>[/b]' - Sofortige Änderung der Map auf '<map>'
+    - Beispiel: '[b]!load_map biotics[/b]' Wechselt die Map auf Biotics Lab
 
 [*] '[b]!restart[/b]' - Sofortiger Neustart des aktuellen Spiels
 
@@ -169,7 +169,7 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 
 [*] '[b]!start_jc -- <command>[/b]' - Starte einen Befehl, der jedes Mal ausgeführt wird, wenn ein Spieler beitritt
 	- Beispiel: '[b]!start_jc -- say Willkommen %PLR[/b]' - Begrüßt einen Spieler beim Beitritt
-	- Verfügbare Token: '[b]%PLR[/b]' - Benutzername, '[b]%KLL[/b]' - Gesamtzahl der Kills, '[b]%DSH[/b]' - Gesamtzahl Dosh, '[b]%BCK[/b]' - "zurück", wenn Sitzungen > 1, '[b]%DRK[/b]' - Dosh-Rang, '[b]%KRK[/b]' - Kill-Rang, '[b]%TME[/b]' - Spielzeit, '[b]%TRK[/b]' - Spielzeit-Rang, '[b]%SES[/b]' - Sitzungen
+	- Verfügbare Token: '[b]%PLR[/b]' - Benutzername, '[b]%KLL[/b]' - Gesamtzahl der Kills, '[b]%DSH[/b]' - Gesamtsumme Dosh, '[b]%BCK[/b]' - "zurück", wenn Sitzungen > 1, '[b]%DRK[/b]' - Dosh-Rang, '[b]%KRK[/b]' - Kill-Rang, '[b]%TME[/b]' - Spielzeit, '[b]%TRK[/b]' - Spielzeit-Rang, '[b]%SES[/b]' - Sitzungen
 
 [*] '[b]!stop_jc[/b]' - Stoppt alle Join-Befehle
 
