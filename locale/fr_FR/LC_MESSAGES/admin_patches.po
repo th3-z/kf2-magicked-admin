@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-08-15 22:28+0100\n"
-"PO-Revision-Date: 2020-08-15 21:39\n"
+"PO-Revision-Date: 2020-08-15 21:56\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -32,7 +32,7 @@ msgstr "KFGame/Web/ServerAdmin/current_rules.inc"
 
 #: admin_patches/admin_patches.py:39
 msgid "Select Killing Floor 2 server location"
-msgstr "Sélectionnez l'emplacement du serveur Killing Floor 2"
+msgstr "Sélectionnez l'emplacement de la racine du dossier de votre serveur Killing Floor 2"
 
 #: admin_patches/admin_patches.py:47
 msgid "Please open your server's install folder in the file dialogue"
