@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-06-30 03:31\n"
+"PO-Revision-Date: 2020-08-15 15:36\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -102,7 +102,7 @@ msgstr "Nom d'utilisateur [par défaut - Admin]: "
 
 #: magicked_admin/settings.py:183
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
 #: magicked_admin/settings.py:184
 msgid " (will not echo)"
@@ -110,7 +110,7 @@ msgstr ""
 
 #: magicked_admin/settings.py:185
 msgid " [default - 123]: "
-msgstr ""
+msgstr "[défaut - 123]: "
 
 #: magicked_admin/settings.py:226
 msgid "Config file is missing 'magicked_admin' section."
@@ -1098,7 +1098,7 @@ msgstr "Le joueur {} a quitté {}"
 
 #: magicked_admin/server/server.py:223
 msgid "Player {} died on {}"
-msgstr "Le joueur {} est mort le {}"
+msgstr "Le joueur {} est mort sur le serveur {}"
 
 #: magicked_admin/server/server.py:233
 msgid "New game on {}, map: {}, mode: {}"
