@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-05-31 15:55+0100\n"
-"PO-Revision-Date: 2020-08-15 11:56\n"
+"PO-Revision-Date: 2020-08-15 12:06\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -387,7 +387,7 @@ msgstr "player_count"
 
 #: magicked_admin/chatbot/commands/command_map.py:63
 msgid "scoreboard"
-msgstr "Punktetafel"
+msgstr "scoreboard"
 
 #: magicked_admin/chatbot/commands/command_map.py:64
 msgid "sb"
@@ -399,7 +399,7 @@ msgid "Usage: !start_jc COMMAND\n"
 "Desc: Runs a command when a player joins the match"
 msgstr "Verwendung: !start_jc BEFEHL\n"
 "\tBEFEHL - Befehl zum Ausführen\n"
-"Info: Führt einen Befehl aus, wenn ein Spieler dem Spiel beitritt"
+"Info: Führt einen Befehl aus, wenn ein Spieler dem Match beitritt"
 
 #: magicked_admin/chatbot/commands/event_commands.py:27
 #: magicked_admin/chatbot/commands/event_commands.py:85
@@ -492,7 +492,7 @@ msgstr "Verwendung: !start_trc [--wave] BEFEHL\n"
 
 #: magicked_admin/chatbot/commands/event_commands.py:252
 msgid "Trader open command started"
-msgstr "Trader Open-Befehl gestartet"
+msgstr "Trader Open Befehl gestartet"
 
 #: magicked_admin/chatbot/commands/event_commands.py:260
 msgid "Usage: !stop_trc\n"
