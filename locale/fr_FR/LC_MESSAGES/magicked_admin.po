@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-08-15 22:28+0100\n"
-"PO-Revision-Date: 2020-08-16 01:47\n"
+"PO-Revision-Date: 2020-08-16 01:57\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -348,58 +348,61 @@ msgstr "top_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:53
 msgid "top_time"
-msgstr ""
+msgstr "top_time"
 
 #: magicked_admin/chatbot/commands/command_map.py:54
 msgid "top_wave_kills"
-msgstr ""
+msgstr "top_wave_kills"
 
 #: magicked_admin/chatbot/commands/command_map.py:55
 msgid "top_wave_dosh"
-msgstr ""
+msgstr "top_wave_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:56
 msgid "stats"
-msgstr ""
+msgstr "stats"
 
 #: magicked_admin/chatbot/commands/command_map.py:57
 msgid "game_time"
-msgstr ""
+msgstr "temps_de_jeu"
 
 #: magicked_admin/chatbot/commands/command_map.py:58
 msgid "server_kills"
-msgstr ""
+msgstr "server_kills"
 
 #: magicked_admin/chatbot/commands/command_map.py:59
 msgid "server_dosh"
-msgstr ""
+msgstr "server_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:60
 msgid "map"
-msgstr ""
+msgstr "carte"
 
 #: magicked_admin/chatbot/commands/command_map.py:61
 msgid "maps"
-msgstr ""
+msgstr "cartes"
 
 #: magicked_admin/chatbot/commands/command_map.py:62
 msgid "player_count"
-msgstr ""
+msgstr "player_count"
 
 #: magicked_admin/chatbot/commands/command_map.py:63
 msgid "scoreboard"
-msgstr ""
+msgstr "scoreboard"
 
 #: magicked_admin/chatbot/commands/command_map.py:64
 msgid "sb"
-msgstr ""
+msgstr "sb"
 
 #: magicked_admin/chatbot/commands/event_commands.py:17
 msgid "Usage: !start_jc [--returning] COMMAND\n"
 "\t-r --returning - Set for only returning players\n"
 "\tCOMMAND - Command to run\n"
 "Desc: Runs a command when a player joins the match"
-msgstr ""
+msgstr "Utilisation : !start_jc [--returning] COMMAND\n"
+"\t-r --return - Définir uniquement pour les joueurs qui reviennent sur le serveur\n"
+"\tCOMMAND - Commande à exécuter\n"
+"Description : Exécute une commande lorsqu'un joueur rejoint la partie"
 
 #: magicked_admin/chatbot/commands/event_commands.py:30
 #: magicked_admin/chatbot/commands/event_commands.py:90
