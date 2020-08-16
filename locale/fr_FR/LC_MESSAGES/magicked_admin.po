@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-08-15 22:28+0100\n"
-"PO-Revision-Date: 2020-08-15 22:06\n"
+"PO-Revision-Date: 2020-08-16 01:38\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -304,23 +304,23 @@ msgstr "op"
 
 #: magicked_admin/chatbot/commands/command_map.py:40
 msgid "deop"
-msgstr "dé-op"
+msgstr "deop"
 
 #: magicked_admin/chatbot/commands/command_map.py:41
 msgid "update_motd"
-msgstr ""
+msgstr "mettre_a_jour_motd"
 
 #: magicked_admin/chatbot/commands/command_map.py:42
 msgid "reload_motd"
-msgstr ""
+msgstr "recharger_motd"
 
 #: magicked_admin/chatbot/commands/command_map.py:43
 msgid "alias"
-msgstr ""
+msgstr "pseudo"
 
 #: magicked_admin/chatbot/commands/command_map.py:46
 msgid "commands"
-msgstr ""
+msgstr "commandes"
 
 #: magicked_admin/chatbot/commands/command_map.py:47
 msgid "record_wave"
