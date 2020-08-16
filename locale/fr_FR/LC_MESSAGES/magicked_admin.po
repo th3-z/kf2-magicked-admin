@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-08-15 22:28+0100\n"
-"PO-Revision-Date: 2020-08-16 01:57\n"
+"PO-Revision-Date: 2020-08-16 02:06\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -248,55 +248,55 @@ msgstr "enforce_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:26
 msgid "say"
-msgstr "dire"
+msgstr "say"
 
 #: magicked_admin/chatbot/commands/command_map.py:27
 msgid "restart"
-msgstr "redémarrer"
+msgstr "restart"
 
 #: magicked_admin/chatbot/commands/command_map.py:28
 msgid "load_map"
-msgstr "charger_carte"
+msgstr "load_map"
 
 #: magicked_admin/chatbot/commands/command_map.py:29
 msgid "password"
-msgstr "mot de passe"
+msgstr "password"
 
 #: magicked_admin/chatbot/commands/command_map.py:30
 msgid "silent"
-msgstr "muet"
+msgstr "silent"
 
 #: magicked_admin/chatbot/commands/command_map.py:31
 msgid "run"
-msgstr "exécuter"
+msgstr "run"
 
 #: magicked_admin/chatbot/commands/command_map.py:32
 msgid "marquee"
-msgstr "défilement"
+msgstr "marquee"
 
 #: magicked_admin/chatbot/commands/command_map.py:33
 msgid "length"
-msgstr "longueur"
+msgstr "length"
 
 #: magicked_admin/chatbot/commands/command_map.py:34
 msgid "difficulty"
-msgstr "difficulté"
+msgstr "difficulty"
 
 #: magicked_admin/chatbot/commands/command_map.py:35
 msgid "game_mode"
-msgstr "mode_de_jeu"
+msgstr "game_mode"
 
 #: magicked_admin/chatbot/commands/command_map.py:36
 msgid "players"
-msgstr "joueurs"
+msgstr "players"
 
 #: magicked_admin/chatbot/commands/command_map.py:37
 msgid "kick"
-msgstr "expulser"
+msgstr "kick"
 
 #: magicked_admin/chatbot/commands/command_map.py:38
 msgid "ban"
-msgstr "bannir"
+msgstr "ban"
 
 #: magicked_admin/chatbot/commands/command_map.py:39
 msgid "op"
@@ -308,27 +308,27 @@ msgstr "deop"
 
 #: magicked_admin/chatbot/commands/command_map.py:41
 msgid "update_motd"
-msgstr "mettre_a_jour_motd"
+msgstr "update_motd"
 
 #: magicked_admin/chatbot/commands/command_map.py:42
 msgid "reload_motd"
-msgstr "recharger_motd"
+msgstr "reload_motd"
 
 #: magicked_admin/chatbot/commands/command_map.py:43
 msgid "alias"
-msgstr "pseudo"
+msgstr "alias"
 
 #: magicked_admin/chatbot/commands/command_map.py:46
 msgid "commands"
-msgstr "commandes"
+msgstr "commands"
 
 #: magicked_admin/chatbot/commands/command_map.py:47
 msgid "record_wave"
-msgstr "record_vague"
+msgstr "record_wave"
 
 #: magicked_admin/chatbot/commands/command_map.py:48
 msgid "game"
-msgstr "partie"
+msgstr "game"
 
 #: magicked_admin/chatbot/commands/command_map.py:49
 msgid "kills"
@@ -364,7 +364,7 @@ msgstr "stats"
 
 #: magicked_admin/chatbot/commands/command_map.py:57
 msgid "game_time"
-msgstr "temps_de_jeu"
+msgstr "game_time"
 
 #: magicked_admin/chatbot/commands/command_map.py:58
 msgid "server_kills"
@@ -376,11 +376,11 @@ msgstr "server_dosh"
 
 #: magicked_admin/chatbot/commands/command_map.py:60
 msgid "map"
-msgstr "carte"
+msgstr "map"
 
 #: magicked_admin/chatbot/commands/command_map.py:61
 msgid "maps"
-msgstr "cartes"
+msgstr "maps"
 
 #: magicked_admin/chatbot/commands/command_map.py:62
 msgid "player_count"
