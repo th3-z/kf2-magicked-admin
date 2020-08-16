@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-08-15 22:28+0100\n"
-"PO-Revision-Date: 2020-08-16 02:15\n"
+"PO-Revision-Date: 2020-08-16 02:25\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -763,11 +763,11 @@ msgstr "Utilisation : !alias [--op] NAME -- COMMAND\n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:42
 msgid "Missing argument, command"
-msgstr ""
+msgstr "Argument manquant : commande"
 
 #: magicked_admin/chatbot/commands/server_commands.py:49
 msgid "Missing argument, name"
-msgstr ""
+msgstr "Argument manquant : nom"
 
 #: magicked_admin/chatbot/commands/server_commands.py:53
 msgid "Added alias"
@@ -783,7 +783,7 @@ msgstr "Utilisation : !lua LUA\n"
 
 #: magicked_admin/chatbot/commands/server_commands.py:78
 msgid "Missing argument, Lua"
-msgstr ""
+msgstr "Argument manquant : Lua"
 
 #: magicked_admin/chatbot/commands/server_commands.py:90
 msgid "Usage: !ban USERNAME\n"
@@ -901,7 +901,8 @@ msgstr "Le joueur {} a été expulsé de la partie"
 #: magicked_admin/chatbot/commands/server_commands.py:343
 msgid "Usage: !update_motd\n"
 "Desc: Updates the MOTD from the template file"
-msgstr ""
+msgstr "Utilisation : !update_motd\n"
+"Description : Met à jour le MOTD à partir du fichier modèle"
 
 #: magicked_admin/chatbot/commands/server_commands.py:356
 msgid "Updated the MOTD"
@@ -1109,7 +1110,7 @@ msgstr "Pseudo : {}\n"
 
 #: magicked_admin/server/server.py:181
 msgid "Player {} ({}) joined {} from {}"
-msgstr ""
+msgstr "Le joueur {} ({}) a rejoint le serveur {} depuis le pays {}"
 
 #: magicked_admin/server/server.py:186
 msgid "Player {} joined {} from {}"
@@ -1165,7 +1166,7 @@ msgstr "Session morte, renouvellement !"
 #: magicked_admin/web_admin/web_interface.py:88
 #: magicked_admin/web_admin/web_interface.py:150
 msgid "Authorization error, credentials changed?"
-msgstr ""
+msgstr "Erreur d'autorisation, les identifiants ont été changés ?"
 
 #: magicked_admin/web_admin/web_interface.py:174
 msgid "Web admin not responding, sleeping"
