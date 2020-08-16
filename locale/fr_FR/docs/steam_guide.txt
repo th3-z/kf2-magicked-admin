@@ -49,7 +49,7 @@ Les versions de développement et les instructions de construction sont disponib
 Une image Docker est également disponible. L'exécution avec Docker est facile, il suffit de lancer la commande suivante :
 [code]docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<emplacement du dossier de configuration de l'hôte>':'/magicked_admin/conf' th3z/kf2-magicked-admin[/code]
 
-Vous devrez remplacer '[b]<emplacement du dossier de configuration de l'hôte>[/b]' à l'endroit où vous souhaitez stocker votre dossier de configuration. '[b]/mnt/user/appdata/kf2-magicked-admin[/b]' est un choix populaire pour les systèmes exécutant Unraid. (Même si personnelement je préfère utiliser l'emplacement du dossier de mon serveur Killing Floor 2).
+Vous devrez remplacer '[b]<emplacement du dossier de configuration de l'hôte>[/b]' à l'endroit où vous souhaitez stocker votre dossier de configuration. '[b]/mnt/user/appdata/kf2-magicked-admin[/b]' est un choix populaire pour les systèmes exécutant Unraid.
 
 Après l'exécution de cette commande, le conteneur se fermera et les journaux vous diront de configurer le fichier de configuration. Accédez à votre dossier '[b]conf[/b]' et configurez les choses, puis exécutez à nouveau le conteneur et vous êtes prêt à partir !
 
@@ -190,7 +190,7 @@ Commandes pouvant être exécutées par les administrateurs de serveur et les ut
 [*] '[b]!stop_tc[/b]' - Arrête toutes les commandes chronométrées
 
 [*] '[b]!start_trc [-w <vague>] -- <commande>[/b]' - Lancer une commande qui s'exécute à l'ouverture du trader
-    - Option '[b]-w[/b]': Vague à laquelle s'exécutera la commande, peut-être omis pour que la commande soit exécutée à chaque vague
+    - Option '[b]-w[/b]': Vague à laquelle s'exécutera la commande, peut être omis pour que la commande soit exécutée à chaque vague
     - Option '[b]-w[/b]': Peut être négatif pour compter à rebours à partir de la vague de boss
     - Exemple: '[b]!start_trc -- top_wave_dosh[/b]' - Montre qui a gagné le plus de dosh à chaque vague à l'ouverture du trader
 
@@ -217,7 +217,7 @@ Commandes pouvant être exécutées par les administrateurs de serveur et les ut
 L'écriture d'un fichier '[b]conf/server_name.motd[/b]' contenant des paires de '[b]%PLR[/b]' et '[b]%SCR[/b]' vous permettra de rendre le classement en direct sur l'écran d'accueil.
 
 Un exemple simple pourrait être le suivant :
-[code]Bienvenue sur notre serveur Survie ! Hébergé en France
+[code]Bienvenue sur notre serveur Survie !
 
 Nombre de cartes : 439 | IP du serveur : 42.123.32.142:7777
 
@@ -241,7 +241,7 @@ Voici mon écran d'accueil en suicidaire en mode survie comme exemple de ce qui 
 [previewicon=12055995;sizeOriginal,inline;KFGame_2018-04-14_03-27-00.png][/previewicon]
 
 
-[h1]Notes[/h1]
+[h1]Exemples notables[/h1]
 [list]
 [*] Cela écrasera votre motd existant.
 [*] '[b]!reload_motd[/b]' Peut être utilisé pour recharger le fichier de modèle alors que KF2 Magicked Admin est toujours en cours d'exécution.
@@ -286,6 +286,7 @@ Certaines commandes sont particulièrement utiles lorsqu'elles sont utilisées d
 [code]silent -q // Les lignes de commande qui vont suivre seront invisibles dans le chat
 password --set MotDePasseSuperSecret // Définis le mot de passe comme étant "MotDePasseSuperSecret"
 difficulty hell // définit la difficulté sur Enfer sur Terre
+difficulty hell // définit la difficulté sur Enfer sur Terre
 length long // Définit la longueur de la partie sur 10 manches
 load_map biotics // Charge la carte KF-BioticsLab
 silent -q // Les lignes de commande qui suivront seront de nouveau visibles[/code]
@@ -320,7 +321,7 @@ Si votre serveur dispose déjà d'une prise en charge multi-administrateurs, il 
 
 Ce qui suit couvre la même configuration que la documentation officielle Tripwire sur ce sujet, qui est disponible [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)#Setting_up_multiple_web_admins]ici[/url].
 [olist]
-[*]Accédez au dossier de configuration de votre serveur : '[b]KF2-Server\KFGame\Config\Config[/b]'.
+[*]Accédez au dossier de configuration de votre serveur : [*]Accédez au dossier de configuration de votre serveur : '[b]KF2-Server\KFGame\Config\Config[/b]'.
 
 [*]Ouvrez'[b]KFWebAdmin.ini[/b]' dans votre éditeur de texte préféré, et ajoutez ce qui suit dans la section '[b][WebAdmin.WebAdmin][/b]' , puis sauvegardez le fichier.
 [code]AuthenticationClass=WebAdmin.MultiWebAdminAuth[/code]
@@ -346,7 +347,7 @@ Dans les modes de jeu autres que le mode survie, KF2 Magicked Admin aura un ense
 Pour cette raison, le patch pour webadmin est disponible [url=https://github.com/th3-z/kf2-magicked-admin/releases/download/0.1.4/kf2-admin-patches-0.0.1.zip]ici[/url]. 
 
 [h1]Notes[/h1]
-Pour utiliser cet utilitaire, vos fichiers de serveur dans '[b]KF2Server/KFGame/Web/ServerAdmin[/b]'  devront être stockés / nettoyés. Si vous avez édité ces fichiers, je suggère les alternatives suivantes :  
+Pour utiliser cet utilitaire, vos fichiers de serveur dans '[b]KF2Server/KFGame/Web/ServerAdmin[/b]'  devront être stockés / nettoyés. Si vous avez édité ces fichiers, je suggère les alternatives suivantes :
 [list]
 [*] Validez les fichiers du serveur avec steamcmd avec la commande '[b]app_update 232130 validate[/b]' et utilisez le patcher comme d'habitude.
 [*] Appliquez manuellement les différences dans '[b]admin-patcher/patches[/b]' à vos fichiers de serveur.
@@ -360,13 +361,13 @@ Pour utiliser cet utilitaire, vos fichiers de serveur dans '[b]KF2Server/KFGame/
 [/olist]
 
 [h1]Utilisation (Headless/Serveur)[/h1]
-[*] Exécutez l'exécutable avec un indicateur cible, par exemple :  '[b]./magicked_admin.exe --target /path/to/kf2/server[/b]'
+[*] Exécutez l'exécutable avec un indicateur cible, par exemple : [*] Exécutez l'exécutable avec un indicateur cible, par exemple :  '[b]./magicked_admin.exe --target /path/to/kf2/server[/b]'
 [*] Vérifiez la fenêtre de la console pour tout problème
 
 ## Configuration de plusieurs serveurs
 KF2 Magicked Admin peut fonctionner avec n'importe quelle quantité de serveurs que vous exécutez.
 
-Pour configurer plus de serveurs, recherchez '[b]conf/magicked_admin.conf[/b]', et ouvrez-le dans votre éditeur de texte préféré. (Je recommande Notepad++)
+Pour configurer plus de serveurs, recherchez '[b]conf/magicked_admin.conf[/b]', et ouvrez-le dans votre éditeur de texte préféré.
 
 Copiez toute la section '[b][server_one][/b]' , et collez-la à la fin du fichier. Mettez à jour les options suivantes : '[b]address[/b]', '[b]username[/b]', et '[b]password[/b]'.
 
@@ -397,13 +398,13 @@ Vous devez ensuite revenir en arrière et changer '[b]server_one.motd[/b]' et '[
 ## Réinitialisation des statistiques
 Pour réinitialiser le tableau de bord, il vous suffit de supprimer le fichier '[b]conf/*.sqlite[/b]' associé au nom du server, un nouveau sera créer la prochaine fois que vous démarrerez KF2 Magicked Admin.
 
-Pour réinitialiser les statistiques de '[b]server_four[/b]', supprimez le fichier '[b]conf/server_four.sqlite[/b]' et redémarrez KF2 Magicked Admin.
+Pour réinitialiser les statistiques de '[b]server_four[/b]', supprimez le fichier '[b]conf/server_four.sqlite[/b]' et redémarrez KF2 Magicked Admin. ## Fonctionnalités prévues
 
 ## Fonctionnalités prévues
 [h1]Prochaine version - 0.1.6[/h1]
 Les fonctionnalités suivantes sont actuellement prévues pour la prochaine version.
 [list]
-[*] Commandes de date / heure, c'est-à-dire exécuter une commande à une heure ou une date spécifique
+[*] Commandes de date / heure, c'est-à-dire [*] Commandes de date / heure, c'est-à-dire exécuter une commande à une heure ou une date spécifique
 [*] Journalisation des sessions du joueur, journaux SteamID et horodatages des sessions du joueur dans un fichier
 [*] `!restart` délai, un compte à rebours avant de reprendre la partie
 [/list]
