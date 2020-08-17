@@ -39,7 +39,6 @@ class MotdUpdater:
             return
 
         self.server.web_admin.set_motd(self.render_motd())
-        debug(_("Updated the MOTD!"))
 
     def render_motd(self):
         # https://jinja.palletsprojects.com/en/2.11.x/templates/

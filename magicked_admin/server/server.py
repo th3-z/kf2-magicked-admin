@@ -175,6 +175,8 @@ class Server:
         self.database.load_player(new_player)
         new_player.sessions += 1
 
+        new_player.session_id = self.database.new_session(new_player)
+
         self.players.append(new_player)
 
         if DEBUG:
@@ -202,6 +204,10 @@ class Server:
     def event_player_quit(self, player):
         self.players.remove(player)
         self.database.save_player(player)
+
+        self.database.end_session(player.session_id)
+
+        print("#### "+str(player.session_id))
 
         message = _("Player {} left {}") \
             .format(player.username, self.name)

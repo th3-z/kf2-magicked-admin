@@ -22,9 +22,14 @@ class Player:
         self.wave_kills = 0
         self.wave_dosh = 0
 
+        self.session_id = None
+
         self.kills = 0
         self.dosh = 0
+        self.dosh_spent = 0
         self.health = 0
+        self.deaths = 0
+        self.damage_taken = 0
 
         self.username = username
         self.perk = perk
