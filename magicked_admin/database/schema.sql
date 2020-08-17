@@ -1,13 +1,15 @@
 CREATE TABLE meta(
     version INTEGER DEFAULT 1
-)
+);
 
 CREATE TABLE players(
-    player_id INTEGER PRIMARY KEY,
-    steam_id VARCHAR(64) UNIQUE,
+    steam_id INTEGER PRIMARY KEY,
+    op INTEGER DEFAULT 0,
+    insert_date INTEGER NOT NULL,
+
+
     username VARCHAR(256),
     kills INTEGER DEFAULT 0,
-    op INTEGER DEFAULT 0,
     dosh INTEGER DEFAULT 0,
     dosh_spent INTEGER DEFAULT 0,
     deaths INTEGER DEFAULT 0,
@@ -48,7 +50,7 @@ CREATE TABLE session (
     session_id INTEGER PRIMARY KEY,
 
     -- Sessions
-    player_id INTEGER NOT NULL,
+    steam_id INTEGER NOT NULL,
 
     -- Play time
     start_date INTEGER NOT NULL,

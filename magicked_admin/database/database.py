@@ -4,10 +4,13 @@ import time
 from os import path
 from threading import Lock
 
-from utils import find_data_file, info
+from utils import find_data_file, info, warning
 
 _ = gettext.gettext
 lock = Lock()
+
+
+
 
 
 class ServerDatabase:
@@ -175,18 +178,18 @@ class ServerDatabase:
     def __init_player(self, steam_id):
         # Other columns have defaults in schema
         init_sql = """
-            INSERT INTO players(steam_id)
-            VALUES(?)
+            INSERT INTO players
+                (steam_id, insert_date)
+            VALUES
+                (?, ?)
         """
 
-        lock.acquire(True)
-        self.cur.execute(init_sql, (steam_id,))
-        lock.release()
+        self.execute(init_sql, (steam_id, time.time()))
 
     def new_session(self, player):
         sql = """
             INSERT INTO session
-                (player_id, start_date)
+                (steam_id, start_date)
             VALUES
                 (?, ?)
         """
@@ -244,13 +247,20 @@ class ServerDatabase:
         self.cur.execute(sql, (time.time(),))
         lock.release()
 
-    def load_player(self, player, r_flag=False):
-        if not player.steam_id:
-            return
+    def op_player(self, steam_id, state):
+        sql = """
+            UPDATE players SET
+                op = ?
+            WHERE
+                steam_id = ?
+        """
 
+        self.execute(sql, (1 if state else 0, steam_id))
+
+    def load_player(self, player, r_flag=False):
         player_sql = """
             SELECT
-                username, kills, dosh, deaths, sessions, time_online, op
+                username, kills, dosh, deaths, sessions, time_online, op, insert_date
             FROM
                 players
             WHERE
@@ -269,34 +279,11 @@ class ServerDatabase:
             return
 
         player_result = player_result[0]
-        player.total_kills = player_result['kills']
-        player.total_dosh = player_result['dosh']
-        player.total_deaths = player_result['deaths']
-        player.sessions = player_result['sessions']
-        player.total_time = player_result['time_online']
+        player.join_date = player_result['insert_date']
         player.op = player_result['op']
 
     def save_player(self, player):
-        save_sql = """
-            UPDATE players SET
-                username = ?,
-                kills = ?,
-                dosh = ?,
-                deaths = ?,
-                sessions = ?,
-                time_online = ?,
-                op = ?
-            WHERE
-                steam_id = ?
-        """
-
-        lock.acquire(True)
-        self.cur.execute(save_sql,
-                         (player.username, player.total_kills,
-                          player.total_dosh, player.total_deaths,
-                          player.sessions, player.total_time, player.op,
-                          player.steam_id))
-        lock.release()
+        pass
 
     def __init_game_map(self, title):
         # Other columns have defaults in schema

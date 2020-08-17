@@ -7,6 +7,13 @@ _ = gettext.gettext
 class Player:
 
     def __init__(self, username, perk):
+        self.steam_id = None
+        self.player_key = None
+        self.ip = None
+        self.country = _("Unknown")
+        self.country_code = "??"
+        self.op = False
+
         self.total_deaths = 0
         self.total_kills = 0
         self.total_dosh = 0
@@ -36,13 +43,9 @@ class Player:
         self.perk_level = 99
         self.ping = 0
 
-        self.steam_id = None
-        self.network_id = None
-        self.player_key = None
-        self.ip = None
-        self.country = _("Unknown")
-        self.country_code = "??"
-        self.op = False
+        self.join_date = 0
+
+
 
     def update_time(self):
         now = time.time()
@@ -51,11 +54,7 @@ class Player:
         self.__total_timer = now
 
     def reset_stats(self):
-        self.total_deaths = 0
-        self.total_kills = 0
-        self.total_dosh = 0
-        self.total_time = 0
-        self.sessions = 0
+        pass
 
     def __str__(self):
         return _("Username: {}\nCountry: {} ({})\nOP: {}\nSteam ID:{}").format(
