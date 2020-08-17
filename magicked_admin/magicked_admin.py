@@ -93,6 +93,7 @@ class MagickedAdmin:
 
         web_admin = WebAdmin(web_interface, chat)
         database = ServerDatabase(name)
+        database.end_loose_sessions()
         game = Game(GameMap(), GAME_TYPE_UNKNOWN)
 
         server = Server(web_admin, database, game, name)

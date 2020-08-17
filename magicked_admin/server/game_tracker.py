@@ -186,3 +186,5 @@ class GameTracker(threading.Thread):
             player.health = player_now.health
 
             player.update_time()
+
+            self.server.database.update_session(player)
