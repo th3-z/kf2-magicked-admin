@@ -1,60 +1,164 @@
 import gettext
 import time
 
+from database import db_connector
+
 _ = gettext.gettext
 
 
 class Player:
 
-    def __init__(self, username, perk):
-        self.steam_id = None
+    def __init__(self, steam_id):
+        self.steam_id = steam_id
         self.player_key = None
+        self.session_id = None
+        self.session_date = time.time()
+        self.join_date = None
+        self.op = False
+
+        self.username = "the_z"
+        self.perk = None
+        self.perk_level = 99
+
         self.ip = None
         self.country = _("Unknown")
         self.country_code = "??"
-        self.op = False
 
-        self.total_deaths = 0
-        self.total_kills = 0
-        self.total_dosh = 0
+        # Current
+        self.dosh = None
+        self.kills = None
+        self.health = None
+        self.ping = None
 
-        self.sessions = 0
-        self.total_time = 0
-        self.__total_timer = time.time()
-        self.session_start = time.time()
+        # Session (game)
+        self.session_dosh = None
+        self.session_kills = None
+        self.session_deaths = None
+        self.session_damage_taken = None
+        # self.session_time
 
-        # game_kills is equivalent to kills
-        self.game_dosh = 0
+        # Wave
+        self.wave_dosh = None
+        self.wave_kills = None
+        self.wave_deaths = None
+        self.wave_damage_taken = None
 
-        self.wave_kills = 0
-        self.wave_dosh = 0
+        # Totals
+        # self.total_dosh
+        # self.total_kills
+        # self.total_deaths
+        # self.total_damage_taken
+        # self.total_time
+        # self.total_sessions
 
-        self.session_id = None
+        self._db_init()
 
-        self.kills = 0
-        self.dosh = 0
-        self.dosh_spent = 0
-        self.health = 0
-        self.deaths = 0
-        self.damage_taken = 0
+    @db_connector
+    def _db_init(self, conn):
+        sql = """
+            INSERT OR IGNORE INTO players
+                (steam_id, insert_date)
+            VALUES
+                (?, ?)
+        """
+        conn.cursor().execute(sql, (self.steam_id, time.time()))
 
-        self.username = username
-        self.perk = perk
-        self.perk_level = 99
-        self.ping = 0
+        sql = """
+            SELECT
+                op, insert_date
+            FROM
+                players
+            WHERE
+                steam_id = ?
+        """
+        result, = conn.cursor.execute(sql, (self.steam_id,))
+        self.op = True if result['op'] else False
+        self.join_date = result['insert_date']
 
-        self.join_date = 0
+    @db_connector
+    def _historic_session_sum(self, conn, col):
+        sql = """
+            SELECT
+                SUM(s.{}) AS {}
+            FROM
+                players p
+                LEFT JOIN session s
+                    ON s.steam_id = p.steam_id
+            WHERE
+                p.steam_id = ?
+                AND s.end_date IS NOT NULL
+        """.format(col, col)
+        cur = conn.cursor()
+        cur.execute(sql, (self.steam_id,))
+        result, = cur.fetchall()
 
+        return result[col]
 
+    @property
+    def total_kills(self):
+        return self._historic_session_sum("kills") + self.session_kills
 
-    def update_time(self):
-        now = time.time()
-        elapsed_time = now - self.__total_timer
-        self.total_time += elapsed_time
-        self.__total_timer = now
+    @property
+    def total_dosh(self):
+        return self._historic_session_sum("dosh") + self.session_dosh
 
-    def reset_stats(self):
-        pass
+    @property
+    def total_deaths(self):
+        return self._historic_session_sum("deaths") + self.session_deaths
+
+    @property
+    def total_damage_taken(self):
+        return self._historic_session_sum("damage_taken") \
+            + self.session_damage_taken
+
+    @property
+    @db_connector
+    def total_sessions(self, conn):
+        sql = """
+            SELECT
+                COUNT(session_id) AS sessions
+            FROM
+                session
+            WHERE
+                steam_id = ?
+        """
+        cur = conn.cursor()
+        cur.execute(sql, (self.steam_id,))
+        result, = cur.fetchall()
+
+        return result['sessions']
+
+    @property
+    @db_connector
+    def total_time(self, conn):
+        sql = """
+            SELECT
+                SUM(end_date - start_date) AS time
+            FROM
+                session
+            WHERE
+                steam_id = ?
+                end_date IS NOT NULL
+        """
+
+        cur = conn.cursor()
+        cur.execute(sql, (self.steam_id,))
+        result, = cur.fetchall()
+
+        return result['time'] + self.session_time
+
+    @property
+    def session_time(self):
+        return time.time() - self.session_date
+
+    @db_connector
+    def reset_stats(self, conn):
+        sql = """
+            DELETE FROM session
+            WHERE
+                steam_id = ?
+        """
+        conn.cur.execute(sql)
 
     def __str__(self):
         return _("Username: {}\nCountry: {} ({})\nOP: {}\nSteam ID:{}").format(

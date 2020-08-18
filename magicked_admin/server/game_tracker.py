@@ -187,4 +187,6 @@ class GameTracker(threading.Thread):
 
             player.update_time()
 
+            print(player.total_kills)
+
             self.server.database.update_session(player)

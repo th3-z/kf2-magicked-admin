@@ -162,7 +162,7 @@ class Server:
             self.rejects.append(player.username)
             return
 
-        new_player = Player(player.username, player.perk)
+        new_player = Player(identity['steam_id'])
         new_player.kills = player.kills
         new_player.dosh = player.dosh
 

@@ -52,14 +52,6 @@ REQUESTS_CA_BUNDLE_PATH = find_data_file("./certifi/cacert.pem")
 
 _ = gettext.gettext
 
-@db_connector
-def test_db(conn):
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM players")
-    result = cur.fetchall()
-
-    print(str(result))
-
 if hasattr(sys, "frozen"):
     import certifi.core
 
@@ -218,6 +210,5 @@ class MagickedAdmin:
 
 if __name__ == "__main__":
     db_init()
-    test_db()
     application = MagickedAdmin()
     application.run()
