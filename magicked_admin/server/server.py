@@ -172,8 +172,6 @@ class Server:
         new_player.steam_id = identity['steam_id']
         new_player.player_key = identity['player_key']
 
-        self.database.load_player(new_player)
-        new_player.sessions += 1
 
         new_player.session_id = self.database.new_session(new_player)
 

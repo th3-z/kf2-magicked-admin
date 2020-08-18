@@ -32,6 +32,7 @@ class Player:
 
         # Session (game)
         self.session_dosh = None
+        self.session_dosh_spent = None
         self.session_kills = None
         self.session_deaths = None
         self.session_damage_taken = None
@@ -39,12 +40,14 @@ class Player:
 
         # Wave
         self.wave_dosh = None
+        self.wave_dosh_spent = None
         self.wave_kills = None
         self.wave_deaths = None
         self.wave_damage_taken = None
 
         # Totals
         # self.total_dosh
+        # self.total_dosh_spent
         # self.total_kills
         # self.total_deaths
         # self.total_damage_taken
@@ -61,7 +64,9 @@ class Player:
             VALUES
                 (?, ?)
         """
-        conn.cursor().execute(sql, (self.steam_id, time.time()))
+        cur = conn.cursor()
+        cur.execute(sql, (self.steam_id, time.time()))
+        conn.commit()
 
         sql = """
             SELECT
@@ -71,7 +76,8 @@ class Player:
             WHERE
                 steam_id = ?
         """
-        result, = conn.cursor.execute(sql, (self.steam_id,))
+        cur.execute(sql, (self.steam_id,))
+        result, = cur.fetchall()
         self.op = True if result['op'] else False
         self.join_date = result['insert_date']
 
@@ -94,6 +100,38 @@ class Player:
 
         return result[col]
 
+    @db_connector
+    def update_session(self, conn):
+        sql = """
+            UPDATE session SET
+                kills = ?,
+                deaths = ?,
+                dosh = ?,
+                dosh_spent = ?,
+                damage_taken = ?
+            WHERE
+                session_id = ?
+        """
+
+        conn.cursor().execute(sql, (
+                self.session_kills, self.session_deaths,
+                self.session_dosh, self.session_dosh_spent,
+                self.session_damage_taken,
+                self.session_id
+            )
+        )
+
+    @db_connector
+    def op(self, conn, state):
+        sql = """
+            UPDATE players SET
+                op = ?
+            WHERE
+                steam_id = ?
+        """
+
+        conn.cursor().execute(sql, (1 if state else 0, self.steam_id))
+
     @property
     def total_kills(self):
         return self._historic_session_sum("kills") + self.session_kills
@@ -101,6 +139,11 @@ class Player:
     @property
     def total_dosh(self):
         return self._historic_session_sum("dosh") + self.session_dosh
+
+    @property
+    def total_dosh_spent(self):
+        return self._historic_session_sum("dosh_spent")\
+               + self.session_dosh_spent
 
     @property
     def total_deaths(self):
