@@ -186,76 +186,9 @@ class ServerDatabase:
 
         self.execute(init_sql, (steam_id, time.time()))
 
-    def new_session(self, player):
-        sql = """
-            INSERT INTO session
-                (steam_id, start_date)
-            VALUES
-                (?, ?)
-        """
 
-        lock.acquire(True)
-        self.cur.execute(sql, (player.steam_id, time.time()))
-        lock.release()
 
-        return self.cur.lastrowid
 
-    def update_session(self, player):
-        sql = """
-            UPDATE session SET
-                kills = ?,
-                deaths = ?,
-                dosh = ?,
-                dosh_spent = ?,
-                damage_taken = ?
-            WHERE
-                session_id = ?
-        """
-
-        lock.acquire(True)
-        self.cur.execute(sql, (
-                player.kills, player.deaths,
-                player.game_dosh, player.dosh_spent,
-                player.damage_taken,
-                player.session_id
-            )
-        )
-        lock.release()
-
-    def end_session(self, session_id):
-        sql = """
-            UPDATE session SET
-                end_date = ?
-            WHERE
-                session_id = ?
-        """
-
-        lock.acquire(True)
-        self.cur.execute(sql, (time.time(), session_id))
-        lock.release()
-
-    def end_loose_sessions(self):
-        sql = """
-            UPDATE session SET
-                end_date = ?,
-                end_date_dirty = 1
-            WHERE
-                end_date IS NULL
-        """
-
-        lock.acquire(True)
-        self.cur.execute(sql, (time.time(),))
-        lock.release()
-
-    def op_player(self, steam_id, state):
-        sql = """
-            UPDATE players SET
-                op = ?
-            WHERE
-                steam_id = ?
-        """
-
-        self.execute(sql, (1 if state else 0, steam_id))
 
     def load_player(self, player, r_flag=False):
         player_sql = """

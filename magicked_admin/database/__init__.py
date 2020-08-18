@@ -10,7 +10,7 @@ _sqlite_db_file = find_data_file("conf/storage.sqlite")
 
 
 def _dict_row_factory(c, r):
-    dict([(col[0], r[idx]) for idx, col in enumerate(c.description)])
+    return dict([(col[0], r[idx]) for idx, col in enumerate(c.description)])
 
 
 # TODO: move to database.py and import here
@@ -28,7 +28,7 @@ def db_connector(func):
             ret = func(*args, **kwargs)
         except Exception:
             conn.rollback()
-            warning(_("SQLite connection error"))
+            warning(_("SQLite error"))
             raise
         else:
             conn.commit()
