@@ -240,15 +240,15 @@ class WebAdmin(object):
                     or "Unknown"
                 ),
                 int(
-                    (player_columns[kills_col].text if perk_col else 0)
+                    (player_columns[kills_col].text if kills_col else 0)
                     or 0
                 ),
                 int(
-                    (player_columns[health_col].text if perk_col else 0)
+                    (player_columns[health_col].text if health_col else 0)
                     or 0
                 ),
                 int(
-                    (player_columns[dosh_col].text if perk_col else 0)
+                    (player_columns[dosh_col].text if dosh_col else 0)
                     or 0
                 ),
                 int(

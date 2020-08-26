@@ -5,6 +5,7 @@ from termcolor import colored
 
 from server.player import Player
 from utils import debug, warning, info, DEBUG
+from server.session import start_session, end_session
 from web_admin.constants import *
 
 _ = gettext.gettext
@@ -150,60 +151,52 @@ class Server:
     def change_game_type(self, mode):
         self.web_admin.set_game_type(mode)
 
-    def event_player_join(self, player):
-        if player.username not in self.rejects:
-            identity = self.web_admin.get_player_identity(player.username)
+    def event_player_join(self, const_player):
+        if const_player.username not in self.rejects:
+            identity = self.web_admin.get_player_identity(const_player.username)
         else:
             return
 
         # Reject unidentifiable players
         if not identity['steam_id']:
-            debug("Rejected player: {}".format(player.username))
-            self.rejects.append(player.username)
+            debug("Rejected player: {}".format(const_player.username))
+            self.rejects.append(const_player.username)
             return
 
-        new_player = Player(identity['steam_id'])
-        new_player.kills = player.kills
-        new_player.dosh = player.dosh
+        player = Player(identity['steam_id'])
+        player.ip = identity['ip']
+        player.country = identity['country']
+        player.country_code = identity['country_code']
+        player.player_key = identity['player_key']
+        player.username = const_player.username
 
-        new_player.ip = identity['ip']
-        new_player.country = identity['country']
-        new_player.country_code = identity['country_code']
-        new_player.steam_id = identity['steam_id']
-        new_player.player_key = identity['player_key']
+        player.session_id = start_session(player.steam_id)
 
-
-        new_player.session_id = self.database.new_session(new_player)
-
-        self.players.append(new_player)
+        self.players.append(player)
 
         if DEBUG:
             message = _("Player {} ({}) joined {} from {}").format(
-                new_player.username, new_player.steam_id, self.name,
-                new_player.country
+                player.username, player.steam_id, self.name,
+                player.country
             )
         else:
             message = _("Player {} joined {} from {}") \
-                .format(new_player.username, self.name, new_player.country)
+                .format(player.username, self.name, player.country)
 
         print(colored(
             message.encode("utf-8").decode(sys.stdout.encoding), 'cyan'
         ))
-        info(
-            "{} (SteamID: {})".format(message, new_player.steam_id),
-            display=False
-        )
+
         self.web_admin.chat.handle_message(
             "internal_command",
-            "!player_join " + new_player.username,
+            "!player_join " + player.username,
             USER_TYPE_INTERNAL
         )
 
     def event_player_quit(self, player):
         self.players.remove(player)
-        self.database.save_player(player)
-
-        self.database.end_session(player.session_id)
+        player.update_session()
+        end_session(player.session_id)
 
         print("#### "+str(player.session_id))
 
@@ -212,16 +205,14 @@ class Server:
         print(colored(
             message.encode("utf-8").decode(sys.stdout.encoding), 'cyan'
         ))
-        info(
-            "{} (SteamID: {})".format(message, player.steam_id),
-            display=False
-        )
+
         self.web_admin.chat.handle_message("internal_command",
                                            "!player_quit " + player.username,
                                            USER_TYPE_INTERNAL)
 
     def event_player_death(self, player):
-        player.total_deaths += 1
+        player.session_deaths += 1
+        player.wave_deaths += 1
         message = _("Player {} died on {}").format(player.username, self.name)
         print(colored(
             message.encode("utf-8").decode(sys.stdout.encoding), 'red'
@@ -274,9 +265,13 @@ class Server:
 
         if self.game.wave > self.game.game_map.highest_wave:
             self.game.game_map.highest_wave = self.game.wave
+
         for player in self.players:
             player.wave_kills = 0
             player.wave_dosh = 0
+            player.wave_dosh_spent = 0
+            player.wave_damage_taken = 0
+            player.wave_deaths = 0
 
     def event_wave_end(self):
         pass

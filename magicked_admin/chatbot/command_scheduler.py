@@ -189,7 +189,7 @@ class CommandOnJoin(ScheduledCommand):
             if self.returning:
                 username = message.split(" ", 1)[1]
                 player = self.server.get_player_by_username(username)
-                return player.sessions > 1
+                return player.total_sessions > 1
             return True
         return False
 
@@ -205,7 +205,7 @@ class CommandOnJoin(ScheduledCommand):
 
             command = command.replace("%PLR", player.username)
             command = command.replace(
-                "%BCK", "back" if player.sessions > 1 else ""
+                "%BCK", "back" if player.total_sessions > 1 else ""
             )
 
             command = command.replace("%DSH", str(player.total_dosh))
@@ -218,7 +218,7 @@ class CommandOnJoin(ScheduledCommand):
                 "%TME", seconds_to_hhmmss(player.total_time)
             )
             command = command.replace("%TRK", str(pos_time))
-            command = command.replace("%SES", str(player.sessions))
+            command = command.replace("%SES", str(player.total_sessions))
 
         return command
 
