@@ -16,7 +16,7 @@ class Player:
         self.join_date = None
         self.op = False
 
-        self.username = "the_z"
+        self.username = "Unknown"
         self.perk = "Unknown"
         self.perk_level = 0
 
@@ -371,7 +371,7 @@ class Player:
         """
 
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id,))
+        cur.execute(sql, (self.steam_id, self.steam_id))
         result, = cur.fetchall()
 
         return result['rank']
@@ -410,6 +410,88 @@ class Player:
         conn.cur.execute(sql)
 
     def __str__(self):
-        return _("Username: {}\nCountry: {} ({})\nOP: {}\nSteam ID:{}").format(
-            self.username, self.country, self.ip, self.op, self.steam_id
+        return """
+        Username: {}
+        Country: {} ({})
+        OP: {}
+        Steam ID: {}
+        
+        Dosh: {}
+        Kills: {}
+        HP: {}
+        Ping: {}
+        
+        s_dosh: {}
+        s_dosh_spent: {}
+        s_kills: {}
+        s_deaths: {}
+        s_damage: {}
+        s_time: {}
+        
+        w_dosh: {}
+        w_dosh_spent: {}
+        w_kills: {}
+        w_deaths: {}
+        w_damage: {}
+        
+        t_dosh: {}
+        t_dosh_spent: {}
+        t_kills: {}
+        t_deaths: {}
+        t_damage_taken: {}
+        t_time: {}
+        t_sessions: {}
+        
+        r_dosh: {}
+        r_dosh_spent: {}
+        r_kills: {}
+        r_deaths: {}
+        r_damage: {}
+        r_time: {}
+        r_sessions: {}
+        
+        rat_dd: {}
+        rat_r_dd: {}
+        rat_kd: {}
+        rat_r_kf: {}
+        
+        """.format(
+            self.username,
+            self.country,
+            self.ip,
+            self.op,
+            self.steam_id,
+            self.dosh,
+            self.kills,
+            self.health,
+            self.ping,
+            self.session_dosh,
+            self.session_dosh_spent,
+            self.session_kills,
+            self.session_deaths,
+            self.session_damage_taken,
+            self.session_time,
+            self.wave_dosh,
+            self.wave_dosh_spent,
+            self.wave_kills,
+            self.wave_deaths,
+            self.wave_damage_taken,
+            self.total_dosh,
+            self.total_dosh_spent,
+            self.total_kills,
+            self.total_deaths,
+            self.total_damage_taken,
+            self.total_time,
+            self.total_sessions,
+            self.rank_dosh,
+            self.rank_dosh_spent,
+            self.rank_kills,
+            self.rank_deaths,
+            self.rank_damage_taken,
+            self.rank_time,
+            self.rank_sessions,
+            self.ratio_dosh_deaths,
+            self.rank_ratio_dosh_deaths,
+            self.ratio_kills_deaths,
+            self.rank_ratio_kills_deaths,
         )

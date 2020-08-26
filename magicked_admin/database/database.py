@@ -1,16 +1,12 @@
 import gettext
 import sqlite3
-import time
 from os import path
 from threading import Lock
 
-from utils import find_data_file, info, warning
+from utils import find_data_file, info
 
 _ = gettext.gettext
 lock = Lock()
-
-
-
 
 
 class ServerDatabase:
@@ -48,77 +44,20 @@ class ServerDatabase:
     def close(self):
         self.conn.close()
 
-    # TODO: All queries should use this
-    def execute(self, query, params):
-        lock.acquire(True)
-        self.cur.execute(query, params)
-        result = self.cur.fetchall()
-        lock.release()
-        return result
-
     def __rank_by_col(self, steam_id, col):
-        query = """
-            SELECT
-                player1.*,
-                COALESCE((
-                    SELECT
-                        count(*)
-                    FROM
-                        players as player2
-                    WHERE
-                        player2.{} >= player1.{}
-                ), 0) AS col_rank
-            FROM
-                players AS player1
-            WHERE
-                player1.steam_id = ?
-        """.format(col, col)
-
-        lock.acquire(True)
-        self.cur.execute(query, (steam_id,))
-        result = self.cur.fetchall()
-        lock.release()
-
-        if result:
-            return result[0]["col_rank"]
-        return None
+        pass
 
     def rank_dosh(self, steam_id):
-        return self.__rank_by_col(steam_id, "dosh")
+        pass
 
     def rank_kills(self, steam_id):
-        return self.__rank_by_col(steam_id, "kills")
+        pass
 
     def rank_time(self, steam_id):
-        return self.__rank_by_col(steam_id, "time_online")
+        pass
 
     def rank_kd(self, steam_id):
-        query = """
-            SELECT
-                player1.*,
-                (
-                    SELECT
-                        count(*)
-                    FROM
-                        players as player2
-                    WHERE
-                        (player2.kills/player2.deaths)
-                        >= (player1.kills/player1.deaths)
-                ) AS kd_rank
-            FROM
-                players AS player1
-            WHERE
-                player1.steam_id = ?
-        """
-
-        lock.acquire(True)
-        self.cur.execute(query, (steam_id,))
-        result = self.cur.fetchall()
-        lock.release()
-
-        if result:
-            return result[0]["kd_rank"]
-        return None
+        pass
 
     def __server_sum_col(self, col):
         query = """
@@ -176,44 +115,11 @@ class ServerDatabase:
         return self.__server_top_by_col("time_online")
 
     def __init_player(self, steam_id):
-        # Other columns have defaults in schema
-        init_sql = """
-            INSERT INTO players
-                (steam_id, insert_date)
-            VALUES
-                (?, ?)
-        """
-
-        self.execute(init_sql, (steam_id, time.time()))
-
-
-
+        pass
 
 
     def load_player(self, player, r_flag=False):
-        player_sql = """
-            SELECT
-                username, kills, dosh, deaths, sessions, time_online, op, insert_date
-            FROM
-                players
-            WHERE
-                steam_id = ?
-        """
-
-        lock.acquire(True)
-        self.cur.execute(player_sql, (player.steam_id,))
-        player_result = self.cur.fetchall()
-        lock.release()
-
-        if len(player_result) != 1 and not r_flag:
-            # Init player row and retry, never retry more than once
-            self.__init_player(player.steam_id)
-            self.load_player(player, True)
-            return
-
-        player_result = player_result[0]
-        player.join_date = player_result['insert_date']
-        player.op = player_result['op']
+        pass
 
     def save_player(self, player):
         pass
@@ -319,3 +225,6 @@ class ServerDatabase:
                           game.difficulty, players, game.wave,
                           int(victory)))
         lock.release()
+
+    def execute(self):
+        pass
