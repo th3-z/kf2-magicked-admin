@@ -14,8 +14,8 @@ init()
 # TODO: Switch to Nuitka for compilation
 DEBUG = __debug__ and not hasattr(sys, 'frozen')
 
-VERSION = "0.1.6"
-BANNER_URL = "https://th3-z.xyz/kf2-ma"
+VERSION = "0.1.7"
+BANNER_URL = "https://kf2-ma.th3-z.xyz/"
 
 
 def find_data_file(filename):

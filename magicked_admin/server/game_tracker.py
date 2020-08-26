@@ -5,7 +5,7 @@ import time
 from colorama import init
 from termcolor import colored
 
-from utils import BANNER_URL, warning
+from utils import BANNER_URL, warning, DEBUG
 from web_admin.constants import *
 from database.database import lock
 
@@ -166,13 +166,15 @@ class GameTracker(threading.Thread):
                 self.server.players = []
                 return
 
-            player.ping = player_now.ping
-
-            player.perk = player_now.perk
-            player.total_kills += player_now.kills - player.kills
+            player.session_kills += player_now.kills - player.kills
+            player.session_dosh += max(player_now.dosh - player.dosh, 0)
+            player.session_dosh_spent += max(player.dosh - player_now.dosh, 0)
+            player.session_damage_taken += max(player.health - player_now.health, 0)
 
             player.wave_kills += player_now.kills - player.kills
-            player.wave_dosh += player_now.dosh - player.dosh
+            player.wave_dosh += max(player_now.dosh - player.dosh, 0)
+            player.wave_dosh_spent += max(player.dosh - player_now.dosh, 0)
+            player.wave_damage_taken += max(player.health - player_now.health, 0)
 
             if not player_now.health and player_now.health < player.health:
                 self.server.event_player_death(player)
@@ -184,9 +186,8 @@ class GameTracker(threading.Thread):
             player.kills = player_now.kills
             player.dosh = player_now.dosh
             player.health = player_now.health
+            player.ping = player_now.ping
+            player.perk = player_now.perk
 
-            player.update_time()
-
-            print(player.total_kills)
-
-            self.server.database.update_session(player)
+            if DEBUG:
+                player.update_session()

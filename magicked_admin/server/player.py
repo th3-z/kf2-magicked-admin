@@ -12,38 +12,38 @@ class Player:
         self.steam_id = steam_id
         self.player_key = None
         self.session_id = None
-        self.session_date = time.time()
+        self.session_date = int(time.time())
         self.join_date = None
         self.op = False
 
         self.username = "the_z"
-        self.perk = None
-        self.perk_level = 99
+        self.perk = "Unknown"
+        self.perk_level = 0
 
-        self.ip = None
+        self.ip = "0.0.0.0"
         self.country = _("Unknown")
         self.country_code = "??"
 
         # Current
-        self.dosh = None
-        self.kills = None
-        self.health = None
-        self.ping = None
+        self.dosh = 0
+        self.kills = 0
+        self.health = 0
+        self.ping = 0
 
         # Session (game)
-        self.session_dosh = None
-        self.session_dosh_spent = None
-        self.session_kills = None
-        self.session_deaths = None
-        self.session_damage_taken = None
+        self.session_dosh = 0
+        self.session_dosh_spent = 0
+        self.session_kills = 0
+        self.session_deaths = 0
+        self.session_damage_taken = 0
         # self.session_time
 
         # Wave
-        self.wave_dosh = None
-        self.wave_dosh_spent = None
-        self.wave_kills = None
-        self.wave_deaths = None
-        self.wave_damage_taken = None
+        self.wave_dosh = 0
+        self.wave_dosh_spent = 0
+        self.wave_kills = 0
+        self.wave_deaths = 0
+        self.wave_damage_taken = 0
 
         # Totals
         # self.total_dosh
@@ -53,6 +53,21 @@ class Player:
         # self.total_damage_taken
         # self.total_time
         # self.total_sessions
+
+        # Ranks
+        # self.rank_dosh
+        # self.rank_dosh_spent
+        # self.rank_kills
+        # self.rank_deaths
+        # self.rank_damage_taken
+        # self.rank_time
+        # self.rank_sessions
+
+        # Ratios
+        # self.ratio_dosh_deaths
+        # self.rank_ratio_dosh_deaths
+        # self.ratio_kills_deaths
+        # self.rank_ratio_kills_deaths
 
         self._db_init()
 
@@ -65,7 +80,7 @@ class Player:
                 (?, ?)
         """
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id, time.time()))
+        cur.execute(sql, (self.steam_id, int(time.time())))
         conn.commit()
 
         sql = """
@@ -82,7 +97,7 @@ class Player:
         self.join_date = result['insert_date']
 
     @db_connector
-    def _historic_session_sum(self, conn, col):
+    def _historic_session_sum(self, col, conn):
         sql = """
             SELECT
                 SUM(s.{}) AS {}
@@ -98,7 +113,73 @@ class Player:
         cur.execute(sql, (self.steam_id,))
         result, = cur.fetchall()
 
-        return result[col]
+        return result[col] if result else 0
+
+    @db_connector
+    def _rank_session_sum(self, col, conn):
+        sql = """
+                SELECT
+                    COUNT(*) + 1 AS rank
+                FROM
+                    (
+                        SELECT
+                            SUM({}) AS metric
+                        FROM
+                            session
+                        WHERE 
+                            steam_id != ?
+                        GROUP BY steam_id
+                    ) others,
+                    (
+                        SELECT
+                            SUM({}) AS metric
+                        FROM
+                            session
+                        WHERE
+                            steam_id = ?
+                    ) player
+                WHERE
+                    others.metric >= player.metric
+            """.format(col, col)
+
+        cur = conn.cursor()
+        cur.execute(sql, (self.steam_id, self.steam_id))
+        result, = cur.fetchall()
+
+        return result['rank']
+
+    @db_connector
+    def _rank_session_ratio(self, col_num, col_den, conn):
+        sql = """
+            SELECT
+                COUNT(*) + 1 AS rank
+            FROM
+                (
+                    SELECT
+                        CAST(SUM({}) AS FLOAT) / SUM({}) AS metric
+                    FROM
+                        session
+                    WHERE 
+                        steam_id != ?
+                    GROUP BY steam_id
+                ) others,
+                (
+                    SELECT
+                        CAST(SUM({}) AS FLOAT) / SUM({}) AS metric
+                    FROM
+                        session
+                    WHERE
+                        steam_id = ?
+                ) player
+            WHERE
+                others.metric >= player.metric
+        """.format(col_num, col_den, col_num, col_den)
+
+        cur = conn.cursor()
+        cur.execute(sql, (self.steam_id, self.steam_id))
+        result, = cur.fetchall()
+
+        return result['rank'] or 0.0  # Division by 0
 
     @db_connector
     def update_session(self, conn):
@@ -121,8 +202,11 @@ class Player:
             )
         )
 
+    # TODO: Should be managed by server?
     @db_connector
-    def op(self, conn, state):
+    def op(self, state, conn):
+        self.op = state
+
         sql = """
             UPDATE players SET
                 op = ?
@@ -142,12 +226,13 @@ class Player:
 
     @property
     def total_dosh_spent(self):
-        return self._historic_session_sum("dosh_spent")\
-               + self.session_dosh_spent
+        return self._historic_session_sum("dosh_spent") \
+            + self.session_dosh_spent
 
     @property
     def total_deaths(self):
-        return self._historic_session_sum("deaths") + self.session_deaths
+        return self._historic_session_sum("deaths")\
+            + self.session_deaths
 
     @property
     def total_damage_taken(self):
@@ -176,12 +261,13 @@ class Player:
     def total_time(self, conn):
         sql = """
             SELECT
-                SUM(end_date - start_date) AS time
+                COALESCE(SUM(end_date - start_date), 0) AS time
             FROM
                 session
             WHERE
                 steam_id = ?
-                end_date IS NOT NULL
+                AND end_date IS NOT NULL
+                AND end_date_dirty = 0
         """
 
         cur = conn.cursor()
@@ -191,8 +277,128 @@ class Player:
         return result['time'] + self.session_time
 
     @property
+    def rank_dosh(self):
+        return self._rank_session_sum("dosh")
+
+    @property
+    def rank_dosh_spent(self):
+        return self._rank_session_sum("dosh_spent")
+
+    @property
+    def rank_kills(self):
+        return self._rank_session_sum("kills")
+
+    @property
+    def rank_deaths(self):
+        return self._rank_session_sum("deaths")
+
+    @property
+    def rank_damage_taken(self):
+        return self._rank_session_sum("damage_taken")
+
+    @property
+    @db_connector
+    def rank_time(self, conn):
+        sql = """
+            SELECT
+                COUNT(*) + 1 AS rank
+            FROM
+                (
+                    SELECT
+                        SUM(
+                            CASE 
+                                WHEN end_date IS NULL THEN {}
+                                ELSE end_date
+                            END - start_date
+                        ) AS time
+                    FROM
+                        session
+                    WHERE 
+                        steam_id != ?
+                        AND end_date_dirty = 0
+                    GROUP BY steam_id
+                ) others,
+                (
+                    SELECT
+                        SUM(
+                            CASE 
+                                WHEN end_date IS NULL THEN {}
+                                ELSE end_date
+                            END - start_date
+                        ) AS time
+                    FROM
+                        session
+                    WHERE
+                        steam_id = ?
+                        AND end_date_dirty = 0
+                ) player
+            WHERE
+                others.time >= player.time
+        """.format(int(time.time()), int(time.time()))
+
+        cur = conn.cursor()
+        cur.execute(sql, (self.steam_id, self.steam_id))
+        result, = cur.fetchall()
+
+        return result['rank']
+
+    @property
+    @db_connector
+    def rank_sessions(self, conn):
+        sql = """
+            SELECT
+                COUNT(*) + 1 AS rank
+            FROM
+                (
+                    SELECT
+                        COUNT(*) AS sessions
+                    FROM
+                        session
+                    WHERE 
+                        steam_id != ?
+                    GROUP BY steam_id
+                ) others,
+                (
+                    SELECT
+                        COUNT(*) AS sessions
+                    FROM
+                        session
+                    WHERE
+                        steam_id = ?
+                ) player
+            WHERE
+                others.sessions >= player.sessions
+        """
+
+        cur = conn.cursor()
+        cur.execute(sql, (self.steam_id,))
+        result, = cur.fetchall()
+
+        return result['rank']
+
+    @property
+    def ratio_dosh_deaths(self):
+        if not self.total_deaths:
+            return 0.
+        return self.total_dosh / self.total_deaths
+
+    @property
+    def rank_ratio_dosh_deaths(self):
+        return self._rank_session_ratio("dosh", "deaths")
+
+    @property
+    def ratio_kills_deaths(self):
+        if not self.total_deaths:
+            return 0.
+        return self.total_kills / self.total_deaths
+
+    @property
+    def rank_ratio_kills_deaths(self):
+        return self._rank_session_ratio("kills", "deaths")
+
+    @property
     def session_time(self):
-        return time.time() - self.session_date
+        return int(time.time()) - self.session_date
 
     @db_connector
     def reset_stats(self, conn):

@@ -8,7 +8,7 @@ TODO: This could be expanded into a class and absorb some functionality from
 """
 
 @db_connector
-def start_session(conn, steam_id):
+def start_session(steam_id, conn):
     sql = """
         INSERT INTO session
             (steam_id, start_date)
@@ -17,12 +17,12 @@ def start_session(conn, steam_id):
     """
 
     cur = conn.cursor()
-    cur.execute(sql, (steam_id, time.time()))
+    cur.execute(sql, (steam_id, int(time.time())))
     return cur.lastrowid
 
 
 @db_connector
-def end_session(conn, session_id):
+def end_session(session_id, conn):
     sql = """
         UPDATE session SET
             end_date = ?
@@ -30,11 +30,11 @@ def end_session(conn, session_id):
             session_id = ?
     """
 
-    conn.cursor().execute(sql, (time.time(), session_id))
+    conn.cursor().execute(sql, (int(time.time()), session_id))
 
 
 @db_connector
-def end_loose_sessions(self):
+def end_loose_sessions(conn):
     sql = """
         UPDATE session SET
             end_date = ?,
@@ -43,4 +43,4 @@ def end_loose_sessions(self):
             end_date IS NULL
     """
 
-    self.cur.execute(sql, (time.time(),))
+    conn.cursor().execute(sql, (int(time.time()),))

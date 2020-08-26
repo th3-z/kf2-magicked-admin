@@ -274,7 +274,7 @@ class CommandStats(Command):
                     "Total kills: {} (rank #{}) \n"
                     "Total dosh earned: £{} (rank #{})\n"
                     "Dosh this game: {}").format(
-                        player.username, fmt_time, player.sessions,
+                        player.username, fmt_time, player.total_sessions,
                         player.total_deaths, millify(player.total_kills),
                         pos_kills, millify(player.total_dosh), pos_dosh,
                         millify(player.game_dosh))
