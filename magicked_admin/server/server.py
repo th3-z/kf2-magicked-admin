@@ -198,8 +198,6 @@ class Server:
         player.update_session()
         end_session(player.session_id)
 
-        print("#### "+str(player.session_id))
-
         message = _("Player {} left {}") \
             .format(player.username, self.name)
         print(colored(
@@ -211,8 +209,7 @@ class Server:
                                            USER_TYPE_INTERNAL)
 
     def event_player_death(self, player):
-        player.session_deaths += 1
-        player.wave_deaths += 1
+
         message = _("Player {} died on {}").format(player.username, self.name)
         print(colored(
             message.encode("utf-8").decode(sys.stdout.encoding), 'red'
@@ -255,8 +252,8 @@ class Server:
             str(victory)
         ))
 
-        self.write_game_map()
-        self.database.save_map_record(self.game, len(self.players), victory)
+        #self.write_game_map()
+        #self.database.save_map_record(self.game, len(self.players), victory)
 
     def event_wave_start(self):
         self.web_admin.chat.handle_message("internal_command",

@@ -1,57 +1,47 @@
 schema = """
-    CREATE TABLE meta(
+    CREATE TABLE meta (
         version INTEGER DEFAULT 1
     );
     
-    CREATE TABLE players(
-        steam_id INTEGER PRIMARY KEY,
+    CREATE TABLE player (
+        player_id INTEGER PRIMARY KEY
+        server_id INTEGER, -- TODO: NOT NULL
+        steam_id INTEGER UNIQUE NOT NULL,
         op INTEGER DEFAULT 0,
         insert_date INTEGER NOT NULL,
-    
-    
-        username VARCHAR(256),
-        kills INTEGER DEFAULT 0,
-        dosh INTEGER DEFAULT 0,
-        dosh_spent INTEGER DEFAULT 0,
-        deaths INTEGER DEFAULT 0,
-        sessions INTEGER DEFAULT 0,
-        health_lost INTEGER DEFAULT 0,
-        time_online INTEGER DEFAULT 0
+        
+        -- Last seen username, could change
+        username VARCHAR(256) NOT NULL
     );
     
-    CREATE TABLE maps(
+    CREATE TABLE map (
         map_id INTEGER PRIMARY KEY,
-        title VARCHAR(256) UNIQUE,
-        name VARCHAR(256) DEFAULT "Unknown",
-        plays_survival INTEGER DEFAULT 0,
-        plays_weekly INTEGER DEFAULT 0,
-        plays_endless INTEGER DEFAULT 0,
-        plays_survival_vs INTEGER DEFAULT 0,
-        plays_other INTEGER DEFAULT 0,
-        highest_wave INTEGER DEFAULT 0
-    );
-    
-    CREATE TABLE map_records(
-        map_title VARCHAR(256) PRIMARY KEY,
-        game_time DOUBLE DEFAULT 0.0,
-    
-        -- long, normal, short
-        game_length INTEGER DEFAULT -1,
-        game_difficulty VARCHAR(64),
-        game_wave INTEGER DEFAULT 0,
-        game_victory INTEGER DEFAULT 0,
-        player_count INTEGER DEFAULT 0
+        title VARCHAR(256) NOT NULL,
+        name VARCHAR(256) NOT NULL,
     );
     
     CREATE TABLE match (
-        map_id INTEGER PRIMARY KEY
+        match_id INTEGER PRIMARY KEY,
+        server_id INTEGER, -- TODO: NOT NULL
+        map_id INTEGER NOT NULL,
+        game_mode VARCHAR(255) NOT NULL,
+        -- 0.0, 1.0, 2.0, 3.0
+        difficulty FLOAT NOT NULL,
+        -- 4, 7, 10 for survival
+        -- Might not be available
+        length INTEGER DEFAULT NULL,
+        
+        start_date INTEGER NOT NULL,
+        end_date INTEGER NOT NULL,
+        
+        -- Might not be available
+        last_wave INTEGER DEFAULT NULL,
     );
     
     CREATE TABLE session (
         session_id INTEGER PRIMARY KEY,
-    
-        -- Sessions
-        steam_id INTEGER NOT NULL,
+        steam_id INTEGER NOT NULL, -- TODO: player_id
+        match_id INTEGER,
     
         -- Play time
         start_date INTEGER NOT NULL,

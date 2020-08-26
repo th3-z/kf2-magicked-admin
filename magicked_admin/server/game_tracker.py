@@ -25,8 +25,7 @@ class GameTracker(threading.Thread):
         self.__boss_reached = False
 
         self.previous_wave = 0
-
-        self.game_timer = time.time()
+        self.previous_time = time.time()
 
     def run(self):
         while not self.__exit:
@@ -39,21 +38,12 @@ class GameTracker(threading.Thread):
     def __poll(self):
         game_now, players_now = self.web_admin.get_game_players()
 
-        self.__update_players(players_now)
-        self.__update_game(game_now)
-
-        lock.acquire(True)
-        self.server.database.cur.execute("BEGIN TRANSACTION")
-        lock.release()
-        self.server.write_all_players()
-        self.server.write_game_map()
-        lock.acquire(True)
-        self.server.database.cur.execute("COMMIT")
-        lock.release()
+        self._update_players(players_now)
+        self._update_game(game_now)
 
     @staticmethod
-    def __is_new_game(game_now, game_before):
-        # Skip until a map name is available
+    def _is_new_game(game_now, game_before):
+        # Map is not initialized yet
         if game_now.map_title == GAME_MAP_TITLE_UNKNOWN:
             return False
 
@@ -84,32 +74,29 @@ class GameTracker(threading.Thread):
 
         return new_game
 
-    def __update_game(self, game_now):
-        new_game = self.__is_new_game(game_now, self.server.game)
+    def _update_game(self, game_now):
+        new_game = self._is_new_game(game_now, self.server.game)
 
         # End previous game before loading next game's info
         if new_game:
-            # TODO: Victory detection
-            # Skip event until map is initialised
+            # Don't end the pre-init game
             if self.server.game.game_map.title != GAME_MAP_TITLE_UNKNOWN:
-                self.server.event_end_game(False)
+                self.server.event_end_game()
 
         # Trader open/closed
         if game_now.trader_open and not self.server.trader_time:
-            # End waves on trader close
+            # Waves are considered over once the trader opens
             self.server.event_wave_end()
             self.server.event_trader_open()
         if not game_now.trader_open and self.server.trader_time:
+            # Wave start is detected by the wave counter further down
             self.server.event_trader_close()
 
         # Game timer
-        if game_now.wave is not None:
-            # Not in lobby or boss wave
-            is_zed_wave = 0 < game_now.wave <= game_now.length
-            if not self.server.trader_time and is_zed_wave:
-                now = time.time()
-                self.server.game.time += now - self.game_timer
-            self.game_timer = time.time()
+        if game_now.wave:
+            elapsed = time.time() - self.previous_time
+            self.server.game.time += elapsed
+            self.previous_time = time.time()
 
         self.server.game.game_map.title = game_now.map_title
         self.server.game.game_map.name = game_now.map_name
@@ -127,22 +114,13 @@ class GameTracker(threading.Thread):
             self.server.event_new_game()
             self.previous_wave = 0
 
-        # And wave start
+        # This class has its own previous wave because the server's is updated
+        # in advance of a new game
         if (game_now.wave or 0) > self.previous_wave:
-            if self.server.game.wave > 0:
-                self.server.event_wave_start()
+            self.server.event_wave_start()
             self.previous_wave = self.server.game.wave
 
-    def __survival_boss_defeat(self):
-        game_over = True
-
-        for player in self.server.players:
-            if player.health and player.kills and player.ping:
-                game_over = False
-
-        return game_over
-
-    def __update_players(self, players_now):
+    def _update_players(self, players_now):
         # Quitters
         for player in self.server.players:
             if player.username not in [p.username for p in players_now]:
@@ -152,17 +130,17 @@ class GameTracker(threading.Thread):
         for player in players_now:
             if player.username not in \
                     [p.username for p in self.server.players]:
-
-                # Filter pawns in KF-SantasWorkshop
+                # Filter pawns
                 if "KFAIController" not in player.username:
                     self.server.event_player_join(player)
 
+        # Update player models
         for player in self.server.players:
             try:
                 player_now = next(filter(
                     lambda p: p.username == player.username, players_now
                 ))
-            except StopIteration:
+            except StopIteration:  # players_now empty
                 self.server.players = []
                 return
 
@@ -177,11 +155,9 @@ class GameTracker(threading.Thread):
             player.wave_damage_taken += max(player.health - player_now.health, 0)
 
             if not player_now.health and player_now.health < player.health:
+                player.session_deaths += 1
+                player.wave_deaths += 1
                 self.server.event_player_death(player)
-
-            if player_now.dosh > player.dosh:
-                player.game_dosh += player_now.dosh - player.dosh
-                player.total_dosh += player_now.dosh - player.dosh
 
             player.kills = player_now.kills
             player.dosh = player_now.dosh
@@ -189,5 +165,6 @@ class GameTracker(threading.Thread):
             player.ping = player_now.ping
             player.perk = player_now.perk
 
+            # TODO: Move this
             if DEBUG:
                 player.update_session()
