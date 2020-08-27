@@ -1,10 +1,10 @@
 from os import path
 import gettext
 
-import server.game as game
 from .command import Command
 from utils import find_data_file
 from web_admin.constants import *
+from server.level import Level
 
 _ = gettext.gettext
 
@@ -248,21 +248,20 @@ class CommandGameMap(Command):
         if args.map_name:
             map_title = self.server.find_map(args.map_name)
         else:
-            map_title = self.server.game.game_map.title
+            map_title = self.server.match.game_map.title
 
-        game_map = game.GameMap(map_title)
-        self.server.database.load_game_map(game_map)
+        level = Level(map_title)
 
-        total_plays = (game_map.plays_survival
-                       + game_map.plays_weekly
-                       + game_map.plays_endless
-                       + game_map.plays_survival_vs
-                       + game_map.plays_other)
+        total_plays = (level.plays_survival
+                       + level.plays_weekly
+                       + level.plays_endless
+                       + level.plays_survival_vs
+                       + level.plays_other)
 
-        message = _("Stats for {}:\n").format(game_map.name)
+        message = _("Stats for {}:\n").format(level.name)
         message += _("Total plays: {} \n").format(total_plays)
-        message += _("Record wave: {} \n").format(game_map.highest_wave)
-        message += _("Survival wins: {} \n").format(game_map.wins_survival)
+        message += _("Record wave: {} \n").format(level.highest_wave)
+        message += _("Survival wins: {} \n").format(level.wins_survival)
 
         return self.format_response(message, args)
 
@@ -480,11 +479,11 @@ class CommandPassword(Command):
             )
 
         if args.set:
-            self.server.game_password = args.set
+            self.server.match_password = args.set
 
         if args.set or args.state in ['on', 'yes', 'y', '1', 'enable']:
             self.server.web_admin.set_game_password(
-                self.server.game_password
+                self.server.match_password
             )
             message = _("Game password enabled")
 

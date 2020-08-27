@@ -45,9 +45,9 @@ class LuaBridge(ChatListener):
         # ...
 
         self.new_namespace("server")
-        self.new_bind(
-            "server", "write_players", self.server.write_all_players
-        )
+        # self.new_bind(
+        #     "server", "write_players", self.server.write_all_players
+        # )
         self.new_bind(
             "server", "write_game", self.server.write_game_map
         )
@@ -71,11 +71,11 @@ class LuaBridge(ChatListener):
         # ...
 
         self.new_namespace("db")
-        db = self.server.database
-        self.new_bind("db", "execute", db.execute)
-        self.new_bind("db", "rank_kills", db.execute)
-        self.new_bind("db", "top_kills", db.execute)
-        self.new_bind("db", "get_player", db.load_player)
+        #db = self.server.database
+        #self.new_bind("db", "execute", db.execute)
+        #self.new_bind("db", "rank_kills", db.execute)
+        #self.new_bind("db", "top_kills", db.execute)
+        #self.new_bind("db", "get_player", db.load_player)
 
         self.new_namespace("requests")
         self.new_bind("requests", "get", requests.get)

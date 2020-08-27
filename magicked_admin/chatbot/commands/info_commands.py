@@ -88,7 +88,7 @@ class CommandPlayerCount(Command):
 
         return self.format_response(
             _("{}/{} Players are online").format(
-                len(self.server.players), self.server.game.players_max
+                len(self.server.players), self.server.capacity
             ),
             args
         )
@@ -134,7 +134,7 @@ class CommandGame(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        return self.format_response(str(self.server.game), args)
+        return self.format_response(str(self.server.match), args)
 
 
 class CommandGameMap(Command):
@@ -151,7 +151,7 @@ class CommandGameMap(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        return self.format_response(str(self.server.game.game_map), args)
+        return self.format_response(str(self.server.match.game_map), args)
 
 
 class CommandGameTime(Command):
@@ -170,7 +170,7 @@ class CommandGameTime(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        return self.format_response(str(self.server.game.time), args)
+        return self.format_response(str(self.server.match.time), args)
 
 
 class CommandHighWave(Command):
@@ -189,7 +189,7 @@ class CommandHighWave(Command):
 
         return self.format_response(
             _("{} is the highest wave reached on this map").format(
-                self.server.game.game_map.highest_wave
+                self.server.match.game_map.highest_wave
             ), args
         )
 

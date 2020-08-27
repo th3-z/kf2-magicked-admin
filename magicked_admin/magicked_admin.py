@@ -24,7 +24,6 @@ from utils import banner, die, find_data_file, info, warning
 from utils.net import phone_home
 from server.game_tracker import GameTracker
 from database.database import ServerDatabase
-from server.game import Game, GameMap
 from server.session import end_loose_sessions
 from web_admin import WebAdmin
 from web_admin.web_interface import WebInterface, AuthorizationException
@@ -97,14 +96,12 @@ class MagickedAdmin:
         chat.start()
 
         web_admin = WebAdmin(web_interface, chat)
-        database = ServerDatabase(name)
         end_loose_sessions()
-        game = Game(GameMap(), GAME_TYPE_UNKNOWN)
 
-        server = Server(web_admin, database, game, name)
+        server = Server(web_admin, name)
 
         if game_password:
-            server.game_password = game_password
+            server.match_password = game_password
         if url_extras:
             server.url_extras = url_extras
 

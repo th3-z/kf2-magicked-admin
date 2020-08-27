@@ -4,7 +4,7 @@ schema = """
     );
     
     CREATE TABLE player (
-        player_id INTEGER PRIMARY KEY
+        player_id INTEGER PRIMARY KEY,
         server_id INTEGER, -- TODO: NOT NULL
         steam_id INTEGER UNIQUE NOT NULL,
         op INTEGER DEFAULT 0,
@@ -14,28 +14,31 @@ schema = """
         username VARCHAR(256) NOT NULL
     );
     
-    CREATE TABLE map (
-        map_id INTEGER PRIMARY KEY,
-        title VARCHAR(256) NOT NULL,
-        name VARCHAR(256) NOT NULL,
+    -- 'map' conflicts with Python keyword
+    CREATE TABLE level (
+        level_id INTEGER PRIMARY KEY,
+        -- e.g. KF-BlackForest
+        title VARCHAR(256) NOT NULL UNIQUE,
+        -- e.g. Black Forest
+        name VARCHAR(256) NOT NULL
     );
     
     CREATE TABLE match (
         match_id INTEGER PRIMARY KEY,
         server_id INTEGER, -- TODO: NOT NULL
-        map_id INTEGER NOT NULL,
-        game_mode VARCHAR(255) NOT NULL,
+        level_id INTEGER NOT NULL,
+        game_type VARCHAR(255) NOT NULL,
         -- 0.0, 1.0, 2.0, 3.0
         difficulty FLOAT NOT NULL,
         -- 4, 7, 10 for survival
         -- Might not be available
         length INTEGER DEFAULT NULL,
         
-        start_date INTEGER NOT NULL,
-        end_date INTEGER NOT NULL,
+        start_date INTEGER DEFAULT NULL,
+        end_date INTEGER DEFAULT NULL,
         
         -- Might not be available
-        last_wave INTEGER DEFAULT NULL,
+        last_wave INTEGER DEFAULT NULL
     );
     
     CREATE TABLE session (

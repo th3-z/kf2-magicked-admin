@@ -8,16 +8,16 @@ TODO: This could be expanded into a class and absorb some functionality from
 """
 
 @db_connector
-def start_session(steam_id, conn):
+def start_session(steam_id, match_id, conn):
     sql = """
         INSERT INTO session
-            (steam_id, start_date)
+            (steam_id, match_id, start_date)
         VALUES
-            (?, ?)
+            (?, ?, ?)
     """
 
     cur = conn.cursor()
-    cur.execute(sql, (steam_id, int(time.time())))
+    cur.execute(sql, (steam_id, match_id, int(time.time())))
     return cur.lastrowid
 
 
