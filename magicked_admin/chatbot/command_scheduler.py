@@ -158,7 +158,7 @@ class CommandOnWave(ScheduledCommand):
             return False
 
         # Translate negative input to positive, '-1' runs on boss wave
-        length = server.game.length
+        length = server.match.length
         wave = (length + 1) + (self.wave + 1) if self.wave < 0 else self.wave
 
         message = message.split()
@@ -199,9 +199,9 @@ class CommandOnJoin(ScheduledCommand):
 
         if "%PLR" in self.command:
             player = self.server.get_player_by_username(username)
-            pos_kills = self.server.database.rank_kills(player.steam_id)
-            pos_dosh = self.server.database.rank_dosh(player.steam_id)
-            pos_time = self.server.database.rank_time(player.steam_id)
+            pos_kills = player.rank_kills
+            pos_dosh = player.rank_dosh
+            pos_time = player.rank_time
 
             command = command.replace("%PLR", player.username)
             command = command.replace(
@@ -236,7 +236,7 @@ class CommandOnTrader(ScheduledCommand):
         args = message.split()
 
         # Translate negative input to positive, '-1' runs on boss wave
-        length = server.game.length
+        length = server.match.length if server.match else 0
         wave = (length + 1) + (self.wave + 1) if self.wave < 0 else self.wave
 
         if args[0] == "t_open":

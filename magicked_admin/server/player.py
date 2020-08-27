@@ -8,7 +8,7 @@ _ = gettext.gettext
 
 class Player:
 
-    def __init__(self, steam_id):
+    def __init__(self, steam_id, username):
         self.steam_id = steam_id
         self.player_key = None
         self.session_id = None
@@ -16,7 +16,7 @@ class Player:
         self.join_date = None
         self.op = False
 
-        self.username = "Unknown"
+        self.username = username
         self.perk = "Unknown"
         self.perk_level = 0
 
@@ -74,20 +74,20 @@ class Player:
     @db_connector
     def _db_init(self, conn):
         sql = """
-            INSERT OR IGNORE INTO players
-                (steam_id, insert_date)
+            INSERT OR IGNORE INTO player
+                (steam_id, insert_date, username)
             VALUES
-                (?, ?)
+                (?, ?, ?)
         """
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id, int(time.time())))
+        cur.execute(sql, (self.steam_id, int(time.time()), self.username))
         conn.commit()
 
         sql = """
             SELECT
-                op, insert_date
+                op, insert_date, username
             FROM
-                players
+                player
             WHERE
                 steam_id = ?
         """
@@ -96,13 +96,15 @@ class Player:
         self.op = True if result['op'] else False
         self.join_date = result['insert_date']
 
+        # TODO: update username
+
     @db_connector
     def _historic_session_sum(self, col, conn):
         sql = """
             SELECT
                 SUM(s.{}) AS {}
             FROM
-                players p
+                player p
                 LEFT JOIN session s
                     ON s.steam_id = p.steam_id
             WHERE
@@ -208,7 +210,7 @@ class Player:
         self.op = state
 
         sql = """
-            UPDATE players SET
+            UPDATE player SET
                 op = ?
             WHERE
                 steam_id = ?

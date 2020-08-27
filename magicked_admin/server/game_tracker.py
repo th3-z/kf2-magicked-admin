@@ -8,6 +8,8 @@ from termcolor import colored
 from utils import BANNER_URL, warning, DEBUG
 from web_admin.constants import *
 from database.database import lock
+from server.level import Level
+from server.match import Match
 
 _ = gettext.gettext
 init()
@@ -29,23 +31,22 @@ class GameTracker(threading.Thread):
 
     def run(self):
         while not self.__exit:
-            self.__poll()
+            self._poll()
             time.sleep(self.__refresh_rate)
 
     def stop(self):
         self.__exit = True
 
-    def __poll(self):
+    def _poll(self):
         game_now, players_now = self.web_admin.get_game_players()
-
-        self._update_players(players_now)
         self._update_game(game_now)
+        self._update_players(players_now)
 
     @staticmethod
     def _is_new_game(game_now, game_before):
-        # Map is not initialized yet
-        if game_now.map_title == GAME_MAP_TITLE_UNKNOWN:
-            return False
+        # Uninitialized
+        if not game_before:
+            return True
 
         new_game = False
         # An unsupported game mode wont have a wave counter
@@ -65,7 +66,7 @@ class GameTracker(threading.Thread):
 
         # Supported mode always has a valid wave, try to detect a game change
         else:
-            map_change = game_before.game_map.title != game_now.map_title
+            map_change = game_before.level.title != game_now.map_title
             wave_drop = game_now.wave < (game_before.wave or 0)
             wave_reset = game_before.wave is None or wave_drop
 
@@ -75,50 +76,46 @@ class GameTracker(threading.Thread):
         return new_game
 
     def _update_game(self, game_now):
-        new_game = self._is_new_game(game_now, self.server.game)
+        new_game = self._is_new_game(game_now, self.server.match)
 
-        # End previous game before loading next game's info
+        # End current game
         if new_game:
-            # Don't end the pre-init game
-            if self.server.game.game_map.title != GAME_MAP_TITLE_UNKNOWN:
+            # Don't end the game if it wasn't initialized
+            if self.server.match:
                 self.server.event_end_game()
 
+        # Start next game
+        if new_game:
+            new_level = Level(game_now.map_title, game_now.map_name)
+            new_match = Match(
+                new_level, game_now.game_type, game_now.difficulty,
+                game_now.length
+            )
+            self.server.match = new_match
+            self.server.event_new_game()
+
+        new_wave = not self.server.match or game_now.wave > self.server.match.wave
+
         # Trader open/closed
-        if game_now.trader_open and not self.server.trader_time:
+        if game_now.trader_open and not self.server.match.trader_time:
             # Waves are considered over once the trader opens
             self.server.event_wave_end()
             self.server.event_trader_open()
-        if not game_now.trader_open and self.server.trader_time:
-            # Wave start is detected by the wave counter further down
+        if not game_now.trader_open and self.server.match.trader_time:
+            # Wave start is further down
             self.server.event_trader_close()
 
-        # Game timer
-        if game_now.wave:
-            elapsed = time.time() - self.previous_time
-            self.server.game.time += elapsed
-            self.previous_time = time.time()
+        # Start time at wave 1, wave 0 is lobby
+        if game_now.wave and not self.server.match.start_date:
+            self.server.match.start_date = time.time()
 
-        self.server.game.game_map.title = game_now.map_title
-        self.server.game.game_map.name = game_now.map_name
-        self.server.game.wave = game_now.wave
-        self.server.game.length = game_now.length
-        self.server.game.difficulty = game_now.difficulty
+        self.server.match.wave = game_now.wave
+        self.server.match.zeds_dead = game_now.zeds_dead
+        self.server.match.zeds_total = game_now.zeds_total
+        self.server.capacity = game_now.players_max
 
-        self.server.game.zeds_dead = game_now.zeds_dead
-        self.server.game.zeds_total = game_now.zeds_total
-        self.server.game.game_type = game_now.game_type
-        self.server.game.players_max = game_now.players_max
-
-        # New game after loading next game's info
-        if new_game:
-            self.server.event_new_game()
-            self.previous_wave = 0
-
-        # This class has its own previous wave because the server's is updated
-        # in advance of a new game
-        if (game_now.wave or 0) > self.previous_wave:
+        if new_wave:
             self.server.event_wave_start()
-            self.previous_wave = self.server.game.wave
 
     def _update_players(self, players_now):
         # Quitters
