@@ -16,8 +16,6 @@ class Level:
 
         self._init_db()
 
-        print(self)
-
     @db_connector
     def _init_db(self, conn):
         sql = """
@@ -101,11 +99,3 @@ class Level:
         result, = cur.fetchall()
 
         return result['count']
-
-    def __str__(self):
-        return """
-            title: {}
-            name: {}
-            plays survival: {}
-            plays total: {}
-        """.format(self.title, self.name, self.game_type_matches(GAME_TYPE_SURVIVAL), self.total_matches)

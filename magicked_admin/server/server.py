@@ -1,18 +1,19 @@
 import gettext
-import sys
-
-from termcolor import colored
 
 from server.player import Player
-from utils import debug
-from server.session import start_session, close_session
-from web_admin.constants import *
+from server.level import Level
+from server.match import Match
+
+from events import (
+    EVENT_SERVER_UPDATE, EVENT_PLAYERS_UPDATE, EVENT_MATCH_END,
+    EVENT_PLAYER_JOIN, EVENT_PLAYER_QUIT
+)
 
 _ = gettext.gettext
 
 
 class Server:
-    def __init__(self, web_admin, name):
+    def __init__(self, web_admin, event_manager, name):
         self.name = name
         self.web_admin = web_admin
 
@@ -22,7 +23,93 @@ class Server:
         self.players = []
         self.rejected_players = []
 
+        self.event_manager = event_manager
+
         self.capacity = 0
+
+        event_manager.register_event(
+            EVENT_SERVER_UPDATE, self.receive_update_data
+        )
+        event_manager.register_event(
+            EVENT_PLAYERS_UPDATE, self.receive_player_updates
+        )
+
+    def _is_new_match(self, server_update_data):
+        # Uninitialized (first match)
+        if not self.match:
+            return True
+
+        # Game mode switched
+        if self.match.game_type != server_update_data.game_type:
+            return True
+
+        # Level changed
+        if self.match.level.title != server_update_data.map_title:
+            return True
+
+        # Wave counter decreased
+        if server_update_data.wave < (self.match.wave or 0):
+            return True
+
+        return False
+        
+    def receive_update_data(self, event, sender, server_update_data):
+        self.capacity = server_update_data.capacity
+
+        new_match = self._is_new_match(server_update_data)
+
+        # End current match unless its the first one
+        if new_match and self.match:
+            self.rejected_players = []
+            self.event_manager.emit_event(
+                EVENT_MATCH_END, self.__class__, match=self.match
+            )
+            self.match.close()
+
+        # Set up next match
+        if new_match:
+            new_level = Level(
+                server_update_data.map_title, server_update_data.map_name
+            )
+            new_match = Match(
+                self, new_level, server_update_data.game_type,
+                server_update_data.difficulty, server_update_data.length
+            )
+            self.match = new_match
+
+        self.capacity = server_update_data.capacity
+
+    def receive_player_updates(self, event, sender, players_update_data):
+        # Quitters
+        for player in self.players:
+            if player.username not in [p.username for p in players_update_data]:
+                self.event_manager.emit_event(
+                    EVENT_PLAYER_QUIT, self.__class__, player=player
+                )
+                self.players.remove(player)
+                player.close()
+
+        # Joiners
+        for player_update_data in players_update_data:
+            # Filter pawns
+            if "KFAIController" in player_update_data.username:
+                continue
+            if player_update_data.username in self.rejected_players:
+                continue
+
+            if player_update_data.username not in [p.username for p in self.players]:
+                identity = self.web_admin.get_player_identity(
+                    player_update_data.username
+                )
+                if not identity:
+                    self.rejected_players.append(player_update_data.username)
+                    continue
+
+                player = Player(self, player_update_data.username, identity)
+                self.players.append(player)
+                self.event_manager.emit_event(
+                    EVENT_PLAYER_JOIN, self.__class__, player=player
+                )
 
     def get_player_by_username(self, username):
         matched_players = 0
@@ -135,111 +222,4 @@ class Server:
         if self.match:
             self.match.close()
         for player in self.players:
-            player.update_session()
-            close_session(player.session_id)
-
-    def event_player_join(self, const_player):
-        if const_player.username not in self.rejected_players:
-            identity = self.web_admin.get_player_identity(const_player.username)
-        else:
-            return
-
-        # Reject unidentifiable players
-        if not identity['steam_id']:
-            debug("Rejected player: {}".format(const_player.username))
-            self.rejected_players.append(const_player.username)
-            return
-
-        player = Player(identity['steam_id'])
-        player.ip = identity['ip']
-        player.country = identity['country']
-        player.country_code = identity['country_code']
-        player.player_key = identity['player_key']
-        player.username = const_player.username
-        player.session_id = start_session(player.steam_id, self.match.match_id)
-
-        self.players.append(player)
-
-        message = _("Player {} ({}) joined {} from {}").format(
-            player.username, player.steam_id, self.name,
-            player.country
-        )
-
-        print(colored(
-            message.encode("utf-8").decode(sys.stdout.encoding), 'cyan'
-        ))
-
-        self.web_admin.chat.handle_message(
-            "internal_command",
-            "!player_join " + player.steam_id,
-            USER_TYPE_INTERNAL
-        )
-
-    def event_player_quit(self, player):
-        player.update_session()
-        close_session(player.session_id)
-        self.players.remove(player)
-
-        message = _("Player {} left {}") \
-            .format(player.username, self.name)
-        print(colored(
-            message.encode("utf-8").decode(sys.stdout.encoding), 'cyan'
-        ))
-
-        self.web_admin.chat.handle_message("internal_command",
-                                           "!player_quit " + player.username,
-                                           USER_TYPE_INTERNAL)
-
-    def event_player_death(self, player):
-        message = _("Player {} died on {}").format(player.username, self.name)
-        print(colored(
-            message.encode("utf-8").decode(sys.stdout.encoding), 'red'
-        ))
-
-    def event_match_start(self):
-        if self.match.game_type in GAME_TYPE_DISPLAY:
-            display_name = GAME_TYPE_DISPLAY[self.match.game_type]
-        else:
-            display_name = self.match.game_type
-        message = _("New game on {}, map: {}, mode: {}") \
-            .format(self.name, self.match.level.name, display_name)
-        print(colored(
-            message.encode("utf-8").decode(sys.stdout.encoding), 'magenta'
-        ))
-
-        self.rejected_players = []
-        self.web_admin.chat.handle_message("internal_command", "!new_game",
-                                           USER_TYPE_INTERNAL)
-
-    def event_match_end(self, victory=False):
-        debug(_("End game on {}, map: {}, mode: {}, victory: {}").format(
-            self.name, self.match.level.title, self.match.game_type,
-            str(victory)
-        ))
-
-        self.match.close()
-
-    def event_wave_start(self):
-        for player in self.players:
-            player.wave_kills = 0
-            player.wave_dosh = 0
-            player.wave_dosh_spent = 0
-            player.wave_damage_taken = 0
-            player.wave_deaths = 0
-
-        self.web_admin.chat.handle_message("internal_command",
-                                           "!new_wave " + str(self.match.wave),
-                                           USER_TYPE_INTERNAL)
-
-    def event_wave_end(self):
-        pass
-
-    def event_trader_open(self):
-        command = "!t_open {}".format(self.match.wave)
-        self.web_admin.chat.handle_message("internal_command", command,
-                                           USER_TYPE_INTERNAL)
-
-    def event_trader_close(self):
-        command = "!t_close {}".format(self.match.wave)
-        self.web_admin.chat.handle_message("internal_command", command,
-                                           USER_TYPE_INTERNAL)
+            player.close()

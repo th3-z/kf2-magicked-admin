@@ -1,12 +1,80 @@
 import gettext
 
-from chatbot.command_scheduler import (CommandOnJoin, CommandOnTime,
-                                       CommandOnTrader, CommandOnWave)
-from . import ALL_WAVES
-from .command import Command
+from chatbot.commands.handlers import (
+    OnJoinHandler, OnTimeHandler, OnTraderHandler, OnWaveHandler
+)
+from chatbot.commands.command import Command
+from chatbot.commands import ALL_WAVES
 from utils import warning
 
 _ = gettext.gettext
+
+"""
+
+ontime <command> [options] command
+!on_time add --seconds 5 --repeat "say something"
+!on_time show
+!on_time del 5
+
+!on_trader
+!ls_on_trader
+
+
+"""
+
+
+class CommandOnTime(Command):
+    def __init__(self, server, scheduler):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+        self.scheduler = scheduler
+
+        self.help_text = _("Usage: !start_tc [-r -t] COMMAND\n"
+                           "\tCOMMAND - Command to run\n"
+                           "\t-r --repeat - Optional, run repeatedly\n"
+                           "\t-t --time - Seconds before running\n"
+                           "Desc: Runs a command after some time delay")
+        self.parser.add_argument("--time", "-t")
+        self.parser.add_argument("--repeat", "-r", action="store_true")
+        self.parser.add_argument("command", nargs="*")
+
+    def execute(self, username, args, user_flags):
+        if "--" not in args:
+            warning(_("Ambiguous event command, please use ' -- ' to separate "
+                      "commands"))
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        if args.help:
+            return self.format_response(self.help_text, args)
+
+        if not args.time:
+            return self.format_response(
+                _("Please specify a time interval, '!start_tc -h' for help"),
+                args
+            )
+
+        try:
+            interval = float(args.time)
+        except ValueError:
+            return self.format_response(
+                _("'{}' is not a valid time interval").format(args.time),
+                args
+            )
+
+        if not args.command:
+            return self.format_response(
+                _("Please specify a command to run"), args
+            )
+
+        run_once = False if args.repeat else True
+
+        command = CommandOnTime(
+            self.server.event_manager, " ".join(args.command), interval, run_once=run_once
+        )
+        command.start()
+        #self.scheduler.schedule_command(command)
+        return self.format_response(_("Time interval command started"), args)
+
 
 
 class CommandStartJoinCommand(Command):
@@ -185,9 +253,10 @@ class CommandStartTimeCommand(Command):
         run_once = False if args.repeat else True
 
         command = CommandOnTime(
-            self.server, " ".join(args.command), interval, run_once=run_once
+            self.server.event_manager, " ".join(args.command), interval, run_once=run_once
         )
-        self.scheduler.schedule_command(command)
+        command.start()
+        #self.scheduler.schedule_command(command)
         return self.format_response(_("Time interval command started"), args)
 
 

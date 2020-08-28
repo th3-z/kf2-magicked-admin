@@ -2,25 +2,25 @@ import gettext
 from os import path
 
 from chatbot import INIT_TEMPLATE
-from utils import debug
-from web_admin.chat import ChatListener
 from web_admin.constants import *
+
+from events import EVENT_COMMAND
 
 _ = gettext.gettext
 
 
-class Chatbot(ChatListener):
-    def __init__(self, chat):
-        self.chat = chat
+class Chatbot():
+    def __init__(self, web_admin, event_manager):
+        self._web_admin = web_admin
         self._commands = {}
         self.lua_bridge = None
         self.silent = False
         self._aliases = {}
 
+        self._event_manager = event_manager
+        event_manager.register_event(EVENT_COMMAND, self.receive_command)
+
     def add_alias(self, name, command, admin_only=True):
-        print(name)
-        print(command)
-        print(admin_only)
         self._aliases[name] = {
             "command": command,
             "admin_only": admin_only
@@ -29,34 +29,24 @@ class Chatbot(ChatListener):
     def add_command(self, name, command):
         self._commands[name] = command
 
-    def receive_message(self, username, message, user_flags):
-        if message[0] == '!':
-            # Drop the '!' because its no longer relevant
-            args = message[1:].split(' ')
-            self.command_handler(username, args, user_flags)
-
-    def command_handler(self, username, args, user_flags):
+    def receive_command(self, event, sender, username, args, user_flags):
         if args is None or len(args) == 0:
             return
+
+        # FIXME: Aliases only work as first arg
+        if args[0].lower() in self._aliases.keys():
+            command = self._aliases[args[0].lower()]
+            if not command['admin_only']:
+                user_flags = user_flags | USER_TYPE_ADMIN
+            args = command['command'].split(" ")
 
         if args[0].lower() in self._commands:
             command = self._commands[args[0].lower()]
             response = command.execute(username, args, user_flags)
             if not self.silent and response:
-                self.chat.submit_message(response)
-
-        if args[0].lower() in self._aliases.keys():
-            command = self._aliases[args[0].lower()]
-            print(command)
-            if not command['admin_only']:
-                user_flags = user_flags | USER_TYPE_ADMIN
-            self.command_handler(
-                username, command['command'].split(" "), user_flags
-            )
+                self._web_admin.submit_message(response)
 
     def execute_script(self, filename):
-        debug(_("Executing script: ") + path.basename(filename))
-
         fn, ext = path.splitext(filename)
         if ext == ".lua":
             self.lua_bridge.execute_script(filename)
@@ -71,10 +61,10 @@ class Chatbot(ChatListener):
                     command = line.strip()
 
                 if command:
-                    debug("!" + command)
                     args = command.split()
-                    self.command_handler("internal_command", args,
-                                         USER_TYPE_INTERNAL)
+                    self._event_manager.emit_event(
+                        EVENT_COMMAND, self.__class__, username="script_executor", args=args, user_flags=USER_TYPE_ADMIN
+                    )
 
     def run_init(self, filename):
         if not path.exists(filename):
