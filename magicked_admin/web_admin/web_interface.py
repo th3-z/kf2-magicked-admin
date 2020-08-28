@@ -17,15 +17,15 @@ class AuthorizationException(Exception):
 class WebInterface(object):
     def __init__(self, address, username, password, server_name="unnamed"):
         info(_("Connecting to {} ({})...").format(server_name, address))
-        self.__address = address
-        self.__username = username
-        self.__password = password
-        self.__http_auth = False
+        self._address = address
+        self._username = username
+        self._password = password
+        self._http_auth = False
 
         self.server_name = server_name
         self.ma_installed = False
 
-        self.__urls = {
+        self._urls = {
             'login': '{}/ServerAdmin/'.format(address),
             'chat': '{}/ServerAdmin/current/chat+data'.format(address),
             'info': '{}/ServerAdmin/current/info'.format(address),
@@ -45,44 +45,44 @@ class WebInterface(object):
             )
         }
 
-        self.__timeout = 5
-        self.__sleeping = False
+        self._timeout = 5
+        self._sleeping = False
 
-        self.__session = self.__new_session()
+        self._session = self._new_session()
         info(_("Connected to {} ({})").format(server_name, address))
 
-    def __get(self, session, url, retry_interval=6, login=False):
+    def _get(self, session, url, retry_interval=6, login=False):
         while True:
             try:
-                if not self.__http_auth:
-                    response = session.get(url, timeout=self.__timeout)
+                if not self._http_auth:
+                    response = session.get(url, timeout=self._timeout)
                 else:
                     response = session.get(
                         url,
-                        timeout=self.__timeout,
-                        auth=(self.__username, self.__password)
+                        timeout=self._timeout,
+                        auth=(self._username, self._password)
                     )
 
                 if response.status_code > 401:
-                    self.__sleep()
+                    self._sleep()
                     time.sleep(retry_interval)
                     continue
                 else:
-                    self.__wake()
+                    self._wake()
 
-                if response.status_code == 401 and not self.__http_auth:
-                    self.__http_auth = True
-                    return self.__get(
+                if response.status_code == 401 and not self._http_auth:
+                    self._http_auth = True
+                    return self._get(
                         session, url, retry_interval, login
                     )
-                elif response.status_code == 401 and self.__http_auth:
+                elif response.status_code == 401 and self._http_auth:
                     raise AuthorizationException
 
                 if not login:
                     if "hashAlg" in response.text:
                         info(_("Session killed, renewing!"))
                         try:
-                            self.__session = self.__new_session()
+                            self._session = self._new_session()
                         except AuthorizationException:
                             die(
                                 _("Authorization error, credentials changed?"),
@@ -110,41 +110,41 @@ class WebInterface(object):
 
             time.sleep(retry_interval)
 
-    def __post(self, session, url, payload, retry_interval=6, login=False):
+    def _post(self, session, url, payload, retry_interval=6, login=False):
         while True:
             try:
-                if not self.__http_auth:
+                if not self._http_auth:
                     response = session.post(
                         url, payload,
-                        timeout=self.__timeout
+                        timeout=self._timeout
                     )
                 else:
                     response = session.post(
                         url, payload,
-                        timeout=self.__timeout,
-                        auth=(self.__username, self.__password)
+                        timeout=self._timeout,
+                        auth=(self._username, self._password)
                     )
 
                 if response.status_code > 401:
-                    self.__sleep()
+                    self._sleep()
                     time.sleep(retry_interval)
                     continue
                 else:
-                    self.__wake()
+                    self._wake()
 
-                if response.status_code == 401 and not self.__http_auth:
-                    self.__http_auth = True
-                    return self.__post(
+                if response.status_code == 401 and not self._http_auth:
+                    self._http_auth = True
+                    return self._post(
                         session, url, payload, retry_interval, login
                     )
-                elif response.status_code == 401 and self.__http_auth:
+                elif response.status_code == 401 and self._http_auth:
                     raise AuthorizationException
 
                 if not login:
                     if "hashAlg" in response.text:
                         info(_("Session killed, renewing!"))
                         try:
-                            self.__session = self.__new_session()
+                            self._session = self._new_session()
                         except AuthorizationException:
                             die(
                                 _("Authorization error, credentials changed?"),
@@ -169,47 +169,47 @@ class WebInterface(object):
 
             time.sleep(retry_interval)
 
-    def __sleep(self):
-        if not self.__sleeping:
+    def _sleep(self):
+        if not self._sleeping:
             info(_("Web admin not responding, sleeping"))
-            self.__sleeping = True
+            self._sleeping = True
 
-    def __wake(self):
-        if self.__sleeping:
+    def _wake(self):
+        if self._sleeping:
             info(_("Web admin is back, resuming"))
-            self.__sleeping = False
+            self._sleeping = False
 
-    def __new_session(self):
+    def _new_session(self):
         login_payload = {
             'password_hash': '',
-            'username': self.__username,
+            'username': self._username,
             'password': '',
             'remember': '-1'
         }
 
         session = requests.Session()
-        login_page_response = self.__get(session, self.__urls['login'],
-                                         login=True)
-        if self.__http_auth:
+        login_page_response = self._get(session, self._urls['login'],
+                                        login=True)
+        if self._http_auth:
             return session
 
         if "hashAlg = \"sha1\"" in login_page_response.text:
             hex_dig = "$sha1$" + sha1(
-                self.__password.encode("iso-8859-1", "ignore")
-                + self.__username.encode("iso-8859-1", "ignore")
+                self._password.encode("iso-8859-1", "ignore")
+                + self._username.encode("iso-8859-1", "ignore")
             ).hexdigest()
             login_payload['password_hash'] = hex_dig
         else:
-            login_payload['password'] = self.__password
-            login_payload['password_hash'] = self.__password
+            login_payload['password'] = self._password
+            login_payload['password_hash'] = self._password
 
         login_page_tree = html.fromstring(login_page_response.content)
         token_pattern = "//input[@name='token']/@value"
         token = login_page_tree.xpath(token_pattern)[0]
         login_payload.update({'token': token})
 
-        response = self.__post(session, self.__urls['login'], login_payload,
-                               login=True)
+        response = self._post(session, self._urls['login'], login_payload,
+                              login=True)
 
         if "hashAlg" in response.text \
                 or "Exceeded login attempts" in response.text:
@@ -229,133 +229,133 @@ class WebInterface(object):
             'ajax': '1'
         }
 
-        return self.__post(
-            self.__session,
-            self.__urls['chat'],
+        return self._post(
+            self._session,
+            self._urls['chat'],
             payload
         )
 
     def post_message(self, payload):
-        return self.__post(
-            self.__session,
-            self.__urls['chat'],
+        return self._post(
+            self._session,
+            self._urls['chat'],
             payload,
         )
 
     def get_server_info(self):
-        return self.__get(
-            self.__session,
-            self.__urls['info']
+        return self._get(
+            self._session,
+            self._urls['info']
         )
 
     def get_map(self):
-        return self.__get(
-            self.__session,
-            self.__urls['map']
+        return self._get(
+            self._session,
+            self._urls['map']
         )
 
     def post_map(self, payload):
-        return self.__post(
-            self.__session,
-            self.__urls['map'],
+        return self._post(
+            self._session,
+            self._urls['map'],
             payload
         )
 
     def get_players(self):
-        return self.__get(
-            self.__session,
-            self.__urls['players']
+        return self._get(
+            self._session,
+            self._urls['players']
         )
 
     def get_passwords(self):
-        return self.__get(
-            self.__session,
-            self.__urls['passwords']
+        return self._get(
+            self._session,
+            self._urls['passwords']
         )
 
     def post_passwords(self, payload):
-        return self.__post(
-            self.__session,
-            self.__urls['passwords'],
+        return self._post(
+            self._session,
+            self._urls['passwords'],
             payload
         )
 
     def get_bans(self):
-        return self.__get(
-            self.__session,
-            self.__urls['bans']
+        return self._get(
+            self._session,
+            self._urls['bans']
         )
 
     def post_bans(self, payload):
-        return self.__post(
-            self.__session,
-            self.__urls['bans'],
+        return self._post(
+            self._session,
+            self._urls['bans'],
             payload
         )
 
     def post_players_action(self, payload):
-        return self.__post(
-            self.__session,
-            self.__urls['players_action'],
+        return self._post(
+            self._session,
+            self._urls['players_action'],
             payload
         )
 
     def get_general_settings(self):
-        return self.__get(
-            self.__session,
-            self.__urls['general_settings']
+        return self._get(
+            self._session,
+            self._urls['general_settings']
         )
 
     def post_general_settings(self, payload):
-        return self.__post(
-            self.__session,
-            self.__urls['general_settings'],
+        return self._post(
+            self._session,
+            self._urls['general_settings'],
             payload
         )
 
     def get_game_type(self):
-        return self.__get(
-            self.__session,
-            self.__urls['game_type']
+        return self._get(
+            self._session,
+            self._urls['game_type']
         )
 
     def post_game_type(self, payload):
-        return self.__post(
-            self.__session,
-            self.__urls['game_type'],
+        return self._post(
+            self._session,
+            self._urls['game_type'],
             payload
         )
 
     def get_maplist(self):
-        return self.__get(
-            self.__session,
-            self.__urls['maplist']
+        return self._get(
+            self._session,
+            self._urls['maplist']
         )
 
     def post_maplist(self, payload):
-        return self.__post(
-            self.__session,
-            self.__urls['maplist'],
+        return self._post(
+            self._session,
+            self._urls['maplist'],
             payload
         )
 
     def get_welcome(self):
-        return self.__get(
-            self.__session,
-            self.__urls['welcome']
+        return self._get(
+            self._session,
+            self._urls['welcome']
         )
 
     def post_welcome(self, payload):
-        return self.__post(
-            self.__session,
-            self.__urls['welcome'],
+        return self._post(
+            self._session,
+            self._urls['welcome'],
             payload
         )
 
     def post_command(self, payload):
-        return self.__post(
-            self.__session,
-            self.__urls['console'],
+        return self._post(
+            self._session,
+            self._urls['console'],
             payload
         )
 

@@ -1,5 +1,6 @@
 from collections import namedtuple
 
+
 CHAT_MAX_ROWS = 7
 CHAT_MAX_COLUMNS = 21
 
@@ -49,9 +50,26 @@ USER_TYPE_ADMIN = 1
 USER_TYPE_SPECTATOR = 2
 USER_TYPE_INTERNAL = 4
 
-ConstGame = namedtuple('Game', ['trader_open', 'zeds_total', 'zeds_dead',
-                                'map_title', 'map_name', 'wave', 'length',
-                                'difficulty', 'game_type', 'players_max'])
+ServerUpdateData = namedtuple(
+    'ServerUpdateData', [
+        # Most of these are used for new match detection and initialization
+        'map_title', 'map_name', 'length', 'difficulty', 'game_type', 'wave',
+        'capacity'
+    ]
+)
 
-ConstPlayer = namedtuple('Player', ['username', 'perk', 'kills', 'health',
-                                    'dosh', 'ping'])
+MatchUpdateData = namedtuple(
+    'MatchUpdateData', [
+        'trader_open', 'zeds_total', 'zeds_dead', 'wave'
+    ]
+)
+
+PlayerUpdateData = namedtuple(
+    'PlayerUpdateData', [
+        'username', 'perk', 'kills', 'health', 'dosh', 'ping'
+    ]
+)
+
+PlayerIdentityData = namedtuple('PlayerIdentityData', [
+    'ip', 'country', 'country_code', 'steam_id', 'network_id', 'player_key'
+])

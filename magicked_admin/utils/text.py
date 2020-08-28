@@ -1,7 +1,5 @@
 import math
 
-CHAT_LINE_HEIGHT = 8
-
 
 def millify(n):
     if not n:
@@ -32,16 +30,3 @@ def str_to_bool(s):
         return False
     else:
         raise ValueError
-
-
-def pad_output(message):
-    if not message:
-        return None
-
-    message_height = len(message.split('\n'))
-    padding_lines = CHAT_LINE_HEIGHT - message_height
-
-    if padding_lines > 0:
-        return '\n' * padding_lines + message
-    else:
-        return message

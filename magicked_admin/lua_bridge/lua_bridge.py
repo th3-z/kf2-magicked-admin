@@ -2,7 +2,6 @@ import lupa
 import requests
 from lupa import LuaRuntime
 
-from web_admin.chat import ChatListener
 from utils.lua import load_script
 from utils import find_data_file, warning
 
@@ -16,7 +15,7 @@ API Specification:
 """
 
 
-class LuaBridge(ChatListener):
+class LuaBridge():
     def __init__(self, server, chatbot):
         # Init interpreter, create functions/namespaces in Lua's global state
         self.lua = LuaRuntime(unpack_returned_tuples=True)
@@ -37,9 +36,9 @@ class LuaBridge(ChatListener):
         # commands = self.chatbot.commands
 
         self.new_namespace("chat")
-        self.new_bind(
-            "chat", "say", self.chatbot.chat.submit_message
-        )
+        # self.new_bind(
+        #     "chat", "say", self.chatbot.chat.submit_message
+        # )
 
         self.new_namespace("hooks")
         # ...

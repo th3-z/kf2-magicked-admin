@@ -3,7 +3,7 @@ from itertools import groupby
 
 from lxml import html
 
-from utils import warning, debug, fatal
+from utils import warning, fatal
 from utils.net import get_country
 from utils.text import str_to_bool
 from web_admin.constants import *
@@ -12,9 +12,12 @@ _ = gettext.gettext
 
 
 class WebAdmin(object):
-    def __init__(self, web_interface, chat):
+    def __init__(self, web_interface, event_manager):
         self._web_interface = web_interface
-        self.chat = chat
+        self.event_manager = event_manager
+
+        self._message_buffer = ""
+        self._silent = False
 
         self._general_settings = \
             self._web_interface.get_payload_general_settings()
@@ -29,14 +32,64 @@ class WebAdmin(object):
         # The other modes have various bits of data omitted!
         return self._web_interface.ma_installed or mode == GAME_TYPE_SURVIVAL
 
-    def __save_general_settings(self):
+    def _save_general_settings(self):
         self._web_interface.post_general_settings(
             self._general_settings
         )
 
+    def submit_message(self, message):
+        if self._silent:
+            return
+
+        message_payload = {
+            'ajax': '1',
+            'message': message.encode("iso-8859-1", "ignore"),
+            'teamsay': '-1'
+        }
+
+        response = self._web_interface.post_message(message_payload)
+        self._message_buffer += response.text
+
+        return True
+
+    def get_new_messages(self):
+        response = self._web_interface.get_new_messages().text \
+                   + self._message_buffer
+        self._message_buffer = ""
+
+        if not response:
+            return []
+
+        username_pattern = ".//span[starts-with(@class,\'username\')]/text()"
+        user_type_pattern = ".//span[starts-with(@class,\'username\')]/@class"
+        message_pattern = ".//span[@class=\'message\']/text()"
+
+        message_roots = html.fromstring(response).find_class("chatmessage")
+
+        messages = []
+
+        for message_root in message_roots:
+            username = message_root.xpath(username_pattern)[0]
+            user_type = message_root.xpath(user_type_pattern)[0]
+            message = message_root.xpath(message_pattern)[0]
+
+            user_flags = USER_TYPE_NONE
+            if 'admin' in user_type:
+                user_flags += USER_TYPE_ADMIN
+            if 'spectator' in user_type:
+                user_flags += USER_TYPE_SPECTATOR
+
+            messages.append({
+                'username': username,
+                'user_flags': user_flags,
+                'message': message
+            })
+
+        return messages
+
     def set_general_setting(self, setting, value):
         self._general_settings[setting] = value
-        self.__save_general_settings()
+        self._save_general_settings()
 
     def kick_player(self, player_key):
         payload = {
@@ -164,7 +217,7 @@ class WebAdmin(object):
         self._web_interface.post_welcome(self._motd_settings)
 
         # Setting the MOTD resets changes to general settings
-        self.__save_general_settings()
+        self._save_general_settings()
 
     def get_motd(self):
         return self._motd_settings['ServerMOTD']
@@ -180,17 +233,22 @@ class WebAdmin(object):
     def get_server_info(self):
         response = self._web_interface.get_server_info()
         info_tree = html.fromstring(response.content)
-        return self._parse_match(info_tree), self._parse_players(info_tree)
+
+        server_update_data = self._parse_server_update(info_tree)
+        match_update_data = self._parse_match_update(info_tree)
+        players_update_data = self._parse_player_updates(info_tree)
+
+        return server_update_data, match_update_data, players_update_data
 
     @staticmethod
-    def _parse_players(info_tree):
-        players = []
+    def _parse_player_updates(info_tree):
+        player_updates = []
 
         # Empty servers only have a single <td> with an empty server message
         is_empty_path = "//table[@id=\"players\"]/tbody//td"
         is_empty_result = info_tree.xpath(is_empty_path)
         if len(is_empty_result) == 1:
-            return players
+            return player_updates
 
         theads_path = "//table[@id=\"players\"]/thead//th//text()"
         theads_result = [head.lower() for head in info_tree.xpath(theads_path)]
@@ -212,7 +270,7 @@ class WebAdmin(object):
             #     if "admin" in theads_result else None
         else:
             fatal("Couldn't find server info headings")
-            return players
+            return player_updates
 
         # xpath to <td>s and retrieve text manually to catch empty cells
         trows_path = "//table[@id=\"players\"]/tbody/tr"
@@ -220,10 +278,10 @@ class WebAdmin(object):
 
         for player_row in trows_result:
             player_columns = player_row.xpath("td")
-            player = ConstPlayer(
+            player_updates.append(PlayerUpdateData(
                 str(
-                    (player_columns[name_col].text if name_col else "Unnamed")
-                    or "Unnamed"
+                    (player_columns[name_col].text if name_col else "Unknown")
+                    or "Unknown"
                 ),
                 str(
                     (player_columns[perk_col].text if perk_col else "Unknown")
@@ -245,13 +303,11 @@ class WebAdmin(object):
                     (player_columns[ping_col].text if ping_col else 0)
                     or 0
                 )
-            )
-            players.append(player)
-
-        return players
+            ))
+        return player_updates
 
     @staticmethod
-    def _parse_match(info_tree):
+    def _parse_match_update(info_tree):
         zeds_path = "//dd[@class=\"gs_wave\"]/text()"
         zeds_result = info_tree.xpath(zeds_path)
 
@@ -262,24 +318,22 @@ class WebAdmin(object):
             zeds_dead, zeds_total = None, None
             trader_open = False
 
-        players_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Players\"]" \
-                       "/following-sibling::dd[1]/text()"
-        players_result = info_tree.xpath(players_path)
-
-        if players_result:
-            players, players_max = map(int, players_result[0].split("/"))
-        else:
-            players_max = None
-
         wave_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Wave\"]" \
                     "/following-sibling::dd[1]/text()"
         wave_result = info_tree.xpath(wave_path)
 
         if wave_result:
-            wave, length = map(int, wave_result[0].split("/"))
+            wave, _ = map(int, wave_result[0].split("/"))
         else:
-            wave, length = None, LEN_UNKNOWN
+            wave = None
 
+        return MatchUpdateData(
+             trader_open, zeds_total, zeds_dead, wave
+        )
+
+    @staticmethod
+    def _parse_server_update(info_tree):
+        # Difficulty
         difficulty_path = "//dl[@id=\"currentRules\"]" \
                           "/dt[text()=\"Difficulty\"]" \
                           "/following-sibling::dd[1]/text()"
@@ -300,6 +354,7 @@ class WebAdmin(object):
         else:
             difficulty = DIFF_UNKNOWN
 
+        # Game type
         game_type_path = "//dl[@id=\"currentGame\"]/dt[text()=\"Game type\"]" \
                          "/following-sibling::dd[1]/@title"
         game_type_result = info_tree.xpath(game_type_path)
@@ -309,6 +364,7 @@ class WebAdmin(object):
         else:
             game_type = GAME_TYPE_UNKNOWN
 
+        # Map title and name
         map_title_path = "//dl[@id=\"currentGame\"]/dt[text()=\"Map\"]" \
                          "/following-sibling::dd[1]/@title"
         map_title_result = info_tree.xpath(map_title_path)
@@ -321,9 +377,30 @@ class WebAdmin(object):
         else:
             map_title, map_name = None, None
 
-        return ConstGame(trader_open, zeds_total, zeds_dead, map_title,
-                         map_name, wave, length, difficulty, game_type,
-                         players_max)
+        # Capacity
+        capacity_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Players\"]" \
+                       "/following-sibling::dd[1]/text()"
+        capacity_result = info_tree.xpath(capacity_path)
+
+        if capacity_result:
+            _, capacity = map(int, capacity_result[0].split("/"))
+        else:
+            capacity = None
+
+        # Length
+        length_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Wave\"]" \
+                    "/following-sibling::dd[1]/text()"
+        length_result = info_tree.xpath(length_path)
+
+        if length_result:
+            wave, length = map(int, length_result[0].split("/"))
+        else:
+            wave = None
+            length = LEN_UNKNOWN
+
+        return ServerUpdateData(
+            map_title, map_name, length, difficulty, game_type, wave, capacity
+        )
 
     def get_player_identity(self, username):
         response = self._web_interface.get_players()
@@ -366,20 +443,8 @@ class WebAdmin(object):
 
         if players_found != 1:
             warning(_("Couldn't find identify player: {}").format(username))
-            return {
-                'ip': None,
-                'country': "Unknown",
-                'country_code': "??",
-                'steam_id': None,
-                'network_id': None,
-                'player_key': None
-            }
+            return None
 
-        return {
-            'ip': ip,
-            'country': country,
-            'country_code': country_code,
-            'steam_id': sid,
-            'network_id': nid,
-            'player_key': player_key
-        }
+        return PlayerIdentityData(
+            ip, country, country_code, sid, nid, player_key
+        )

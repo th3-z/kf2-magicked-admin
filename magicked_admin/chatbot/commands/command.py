@@ -3,7 +3,6 @@ from argparse import ArgumentError
 
 from chatbot.commands.argument_parser import ArgumentParser
 from utils import BANNER_URL, debug
-from utils.text import pad_output
 from web_admin.constants import *
 
 _ = gettext.gettext
@@ -15,27 +14,24 @@ class Command:
         self.admin_only = admin_only
         self.requires_patch = requires_patch
 
-        not_auth_message = _("You're not authorised to use that command")
-        self.not_auth_message = pad_output(not_auth_message)
+        self.not_supported_message = _(
+            "You're not authorised to use that command"
+        )
 
-        not_supported_message = _(
+        self.not_supported_message = _(
             "This action isn't supported without Killing Floor 2 Magicked "
             "Administrator's server side patch! Please review the "
             "documentation at '{}' for guidance."
         ).format(BANNER_URL)
-        self.not_supported_message = pad_output(not_supported_message)
 
-        self.help_text = _("The help text for this command hasn't been "
-                           "written!")
+        self.help_text = _(
+            "The help text for this command hasn't been written!"
+        )
         self.currency_symbol = _("$")
 
         self.parser = ArgumentParser(add_help=False)
         self.parser.add_argument(
             "-h", "--help",
-            action="store_true"
-        )
-        self.parser.add_argument(
-            "-p", "--pad",
             action="store_true"
         )
         self.parser.add_argument(
@@ -89,9 +85,6 @@ class Command:
 
     # TODO: Add *vars for str.format(message, *vars) and apply lang translation
     def format_response(self, message, args):
-        message = message.replace("£", self.currency_symbol)
-        if args.pad:
-            message = pad_output(message)
         if args.quiet:
             message = None
         return message

@@ -2,27 +2,32 @@ import gettext
 import time
 
 from database import db_connector
+from server.session import close_session, start_session
+from events import EVENT_WAVE_START, EVENT_PLAYER_UPDATE, EVENT_PLAYER_DEATH
+from utils.alg import uuid
 
 _ = gettext.gettext
 
 
 class Player:
+    def __init__(self, server, username, player_identity_data):
+        self.server = server
 
-    def __init__(self, steam_id):
-        self.steam_id = steam_id
-        self.player_key = None
+        self.steam_id = player_identity_data.steam_id
+        self.player_key = player_identity_data.player_key
         self.session_id = None
         self.session_date = int(time.time())
         self.join_date = None
         self._op = False
 
         self._username = None
+        self.username = username
         self.perk = None
         self.perk_level = 0
 
-        self.ip = "0.0.0.0"
-        self.country = _("Unknown")
-        self.country_code = "??"
+        self.ip = player_identity_data.ip
+        self.country = player_identity_data.country
+        self.country_code = player_identity_data.country_code
 
         # Current
         self.dosh = 0
@@ -70,6 +75,15 @@ class Player:
         # self.rank_ratio_kills_deaths
 
         self._db_init()
+        start_session(self.steam_id, self.server.match.match_id)
+
+        self.server.event_manager.register_event(
+            EVENT_PLAYER_UPDATE + "." + uuid(self.username),
+            self.receive_update_data
+        )
+        self.server.event_manager.register_event(
+            EVENT_WAVE_START, self.receive_wave_start
+        )
 
     @db_connector
     def _db_init(self, conn):
@@ -96,6 +110,10 @@ class Player:
         self.op = True if result['op'] else False
         self.join_date = result['insert_date']
 
+    def close(self):
+        self._update_session()
+        close_session(self.session_id)
+
     @property
     def username(self):
         return self._username
@@ -113,6 +131,39 @@ class Player:
         """
 
         conn.cursor().execute(sql, (username, self.steam_id))
+
+    def receive_wave_start(self, event, sender, match):
+        self.wave_kills = 0
+        self.wave_dosh = 0
+        self.wave_dosh_spent = 0
+        self.wave_damage_taken = 0
+        self.wave_deaths = 0
+
+    def receive_update_data(self, event, sender, player_update_data):
+        self.session_kills += player_update_data.kills - self.kills
+        self.session_dosh += max(player_update_data.dosh - self.dosh, 0)
+        self.session_dosh_spent += max(self.dosh - player_update_data.dosh, 0)
+        self.session_damage_taken += max(self.health - player_update_data.health, 0)
+
+        self.wave_kills += player_update_data.kills - self.kills
+        self.wave_dosh += max(player_update_data.dosh - self.dosh, 0)
+        self.wave_dosh_spent += max(self.dosh - player_update_data.dosh, 0)
+        self.wave_damage_taken += max(self.health - player_update_data.health, 0)
+
+        if not player_update_data.health and player_update_data.health < self.health:
+            self.session_deaths += 1
+            self.wave_deaths += 1
+            self.server.event_manager.emit_event(
+                EVENT_PLAYER_DEATH, self.__class__, player=self
+            )
+
+        self.kills = player_update_data.kills
+        self.dosh = player_update_data.dosh
+        self.health = player_update_data.health
+        self.ping = player_update_data.ping
+        self.perk = player_update_data.perk
+
+        self._update_session()
 
     @db_connector
     def _historic_session_sum(self, col, conn):
@@ -200,7 +251,7 @@ class Player:
         return result['rank'] or 0.0  # Division by 0
 
     @db_connector
-    def update_session(self, conn):
+    def _update_session(self, conn):
         sql = """
             UPDATE session SET
                 kills = ?,

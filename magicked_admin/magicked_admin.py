@@ -20,11 +20,12 @@ from chatbot.commands.command_map import CommandMap
 from server.server import Server
 from settings import Settings, CONFIG_PATH
 from utils import banner, die, find_data_file, info, warning
-from server.game_tracker import GameTracker
+from web_admin.state_transition_worker import StateTransitionWorker
 from web_admin import WebAdmin
 from web_admin.web_interface import WebInterface, AuthorizationException
-from web_admin.chat import Chat
+from web_admin.chat_worker import ChatWorker
 from lua_bridge.lua_bridge import LuaBridge
+from events import EventManager
 
 from database import db_init
 
@@ -85,30 +86,34 @@ class MagickedAdmin:
         url_extras = self.settings.setting(name, "url_extras")
         refresh_rate = float(self.settings.setting(name, "refresh_rate"))
 
+        event_manager = EventManager()
         web_interface = WebInterface(address, username, password, name)
-        chat = Chat(web_interface)
-        chat.start()
+        web_admin = WebAdmin(web_interface, event_manager)
 
-        web_admin = WebAdmin(web_interface, chat)
+        chat_worker = ChatWorker(
+            web_admin, event_manager, refresh_rate=1
+        )
+        chat_worker.start()
+        self.stop_list.append(chat_worker)
 
-        server = Server(web_admin, name)
+        state_transition_worker = StateTransitionWorker(
+            web_admin, event_manager, refresh_rate
+        )
+        state_transition_worker.start()
+        self.stop_list.append(state_transition_worker)
+
+        server = Server(web_admin, event_manager, name)
+        self.stop_list.append(server)
 
         if game_password:
-            server.match_password = game_password
+            server.game_password = game_password
         if url_extras:
             server.url_extras = url_extras
-
-        tracker = GameTracker(server, refresh_rate)
-        tracker.start()
-
-        self.stop_list.append(server)
-        self.stop_list.append(chat)
-        self.stop_list.append(tracker)
 
         return server
 
     def make_chatbot(self, server):
-        chatbot = Chatbot(server.web_admin.chat)
+        chatbot = Chatbot(server.web_admin, server.event_manager)
 
         scheduler = CommandScheduler(server, chatbot)
         commands = CommandMap().get_commands(
@@ -117,9 +122,6 @@ class MagickedAdmin:
 
         for name, command in commands.items():
             chatbot.add_command(name, command)
-
-        server.web_admin.chat.add_listener(chatbot)
-        server.web_admin.chat.add_listener(scheduler)
 
         self.stop_list.append(scheduler)
 
@@ -130,8 +132,6 @@ class MagickedAdmin:
         return chatbot
 
     def run(self):
-        servers = []
-
         language = self.settings.config['magicked_admin']['language']
         lang = gettext.translation(
             'magicked_admin', 'locale', [language]
@@ -141,9 +141,9 @@ class MagickedAdmin:
 
         db_init()
 
-        for server_name in self.settings.servers():
-            # TODO: Gross
+        servers = []
 
+        for server_name in self.settings.servers():
             try:
                 server = self.make_server(server_name)
             except AuthorizationException:
@@ -170,7 +170,6 @@ class MagickedAdmin:
             chatbot = self.make_chatbot(server)
             lua_bridge = LuaBridge(server, chatbot)
             chatbot.lua_bridge = lua_bridge
-            server.web_admin.chat.add_listener(lua_bridge)
 
         info(_("Initialisation complete!\n"))
 
@@ -178,7 +177,7 @@ class MagickedAdmin:
             while True:
                 command = input()
                 for server in servers:
-                    server.web_admin.chat.submit_message(command)
+                    server.web_admin.submit_message(command)
 
     def terminate(self, signal, frame):
         if self.sigint_count > 1:
