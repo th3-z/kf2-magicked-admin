@@ -18,7 +18,6 @@ if not CERT_PATH:
     sys.exit()
 
 includefiles = [
-    (os.path.join(SRC_PATH, 'database/schema.sql'), 'database/schema.sql'),
     (os.path.join(SRC_PATH, 'conf/scripts/example'), 'conf/scripts/example'),
     (os.path.join(SRC_PATH, 'conf/scripts/greeter'), 'conf/scripts/greeter'),
     (os.path.join(SRC_PATH, 'conf/marquee/example'), 'conf/marquee/example'),
