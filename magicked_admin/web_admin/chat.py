@@ -22,27 +22,27 @@ class Chat(threading.Thread):
     def __init__(self, web_interface):
         threading.Thread.__init__(self)
 
-        self.__web_interface = web_interface
-        self.__listeners = []
-        self.__exit = False
-        self.__refresh_rate = 3
+        self._web_interface = web_interface
+        self._listeners = []
+        self._exit = False
+        self._refresh_rate = 3
 
-        self.__silent = False
+        self._silent = False
 
-        self.__message_buffer = ""
+        self._message_buffer = ""
 
     def run(self):
-        while not self.__exit:
-            self.__poll()
-            time.sleep(self.__refresh_rate)
+        while not self._exit:
+            self._poll()
+            time.sleep(self._refresh_rate)
 
     def close(self):
-        self.__exit = True
+        self._exit = True
 
-    def __poll(self):
-        response = self.__web_interface.get_new_messages().text \
-            + self.__message_buffer
-        self.__message_buffer = ""
+    def _poll(self):
+        response = self._web_interface.get_new_messages().text \
+            + self._message_buffer
+        self._message_buffer = ""
 
         if not response:
             return
@@ -71,7 +71,7 @@ class Chat(threading.Thread):
         internal = user_flags & USER_TYPE_INTERNAL
 
         if DEBUG or not internal:
-            print_line = username + "@" + self.__web_interface.server_name \
+            print_line = username + "@" + self._web_interface.server_name \
                 + ": " + message.strip()
             if command:
                 print_line = colored(
@@ -85,14 +85,14 @@ class Chat(threading.Thread):
                 )
             print(print_line.encode("utf-8").decode(sys.stdout.encoding))
 
-        for listener in self.__listeners:
+        for listener in self._listeners:
             listener.receive_message(username, message, user_flags)
 
     def add_listener(self, listener):
-        self.__listeners.append(listener)
+        self._listeners.append(listener)
 
     def submit_message(self, message):
-        if self.__silent:
+        if self._silent:
             return
 
         message_payload = {
@@ -101,7 +101,7 @@ class Chat(threading.Thread):
             'teamsay': '-1'
         }
 
-        response = self.__web_interface.post_message(message_payload)
-        self.__message_buffer += response.text
+        response = self._web_interface.post_message(message_payload)
+        self._message_buffer += response.text
 
         return True

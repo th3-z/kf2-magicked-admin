@@ -11,10 +11,6 @@ class Level:
         # e.g. KF-BlackForest
         self.title = title
 
-        # TODO
-        # self.plays_survival
-        # self.plays_endless
-        # self.plays_objective
         # self.total_kills
         # self.total_dosh
 

@@ -5,7 +5,7 @@ import time
 from colorama import init
 from termcolor import colored
 
-from utils import BANNER_URL, warning, DEBUG
+from utils import BANNER_URL, warning
 from server.level import Level
 from server.match import Match
 
@@ -20,97 +20,95 @@ class GameTracker(threading.Thread):
         self.server = server
         self.web_admin = server.web_admin
 
-        self.__exit = False
-        self.__refresh_rate = refresh_rate
-        self.__boss_reached = False
+        self._exit = False
+        self._refresh_rate = refresh_rate
 
-        self.previous_wave = 0
         self.previous_time = time.time()
 
     def run(self):
-        while not self.__exit:
+        while not self._exit:
             self._poll()
-            time.sleep(self.__refresh_rate)
+            time.sleep(self._refresh_rate)
 
     def close(self):
-        self.__exit = True
+        self._exit = True
 
     def _poll(self):
-        game_now, players_now = self.web_admin.get_game_players()
-        self._update_game(game_now)
+        match_now, players_now = self.web_admin.get_server_info()
+        self._update_match(match_now)
         self._update_players(players_now)
 
     @staticmethod
-    def _is_new_game(game_now, game_before):
-        # Uninitialized
-        if not game_before:
+    def _is_new_match(match_now, match_before):
+        # Uninitialized match
+        if not match_before:
             return True
 
-        new_game = False
-        # An unsupported game mode wont have a wave counter
-        if game_now.wave is None:
+        new_match = False
+        # An unsupported game types wont have a wave counter
+        if match_now.wave is None:
             # Initial mode change
-            if game_before.game_type != game_now.game_type:
+            if match_before.game_type != match_now.game_type:
                 message = (_("Game type ({}) support not installed, please "
                              "patch your webadmin to correct this! Guidance is"
                              " available at: {}"))
                 warning(message.format(
-                    game_now.game_type, colored(BANNER_URL, 'magenta')
+                    match_now.game_type, colored(BANNER_URL, 'magenta')
                 ))
 
-                # This new game is the last that will be detected because it
+                # This new match is the last that will be detected because it
                 # depends on the wave counter being present
-                new_game = True
+                new_match = True
 
-        # Supported mode always has a valid wave, try to detect a game change
+        # Supported mode always has a valid wave, try to detect a match change
         else:
-            map_change = game_before.level.title != game_now.map_title
-            wave_drop = game_now.wave < (game_before.wave or 0)
-            wave_reset = game_before.wave is None or wave_drop
+            map_change = match_before.level.title != match_now.map_title
+            wave_drop = match_now.wave < (match_before.wave or 0)
+            wave_reset = match_before.wave is None or wave_drop
 
             if map_change or wave_reset:
-                new_game = True
+                new_match = True
 
-        return new_game
+        return new_match
 
-    def _update_game(self, game_now):
-        new_game = self._is_new_game(game_now, self.server.match)
+    def _update_match(self, match_now):
+        new_match = self._is_new_match(match_now, self.server.match)
 
-        # End current game
-        if new_game:
-            # Don't end the game if it wasn't initialized
-            if self.server.match:
-                self.server.event_match_end()
+        # End current match unless its the first one
+        if new_match and self.server.match:
+            self.server.event_match_end()
 
-        # Start next game
-        if new_game:
-            new_level = Level(game_now.map_title, game_now.map_name)
+        # Start next match
+        if new_match:
+            new_level = Level(match_now.map_title, match_now.map_name)
             new_match = Match(
-                new_level, game_now.game_type, game_now.difficulty,
-                game_now.length
+                new_level, match_now.game_type, match_now.difficulty,
+                match_now.length
             )
             self.server.match = new_match
             self.server.event_match_start()
 
-        new_wave = not self.server.match or game_now.wave > self.server.match.wave
+        new_wave = match_now.wave > self.server.match.wave
 
-        # Trader open/closed
-        if game_now.trader_open and not self.server.match.trader_time:
+        # Trader open/close
+        if match_now.trader_open and not self.server.match.trader_time:
             # Waves are considered over once the trader opens
             self.server.event_wave_end()
+            self.server.match.trader_time = True
             self.server.event_trader_open()
-        if not game_now.trader_open and self.server.match.trader_time:
-            # Wave start is further down
+        if not match_now.trader_open and self.server.match.trader_time:
+            # Wave start is further down so the new wave data is available
+            self.server.match.trader_time = False
             self.server.event_trader_close()
 
         # Start time at wave 1, wave 0 is lobby
-        if game_now.wave and not self.server.match.start_date:
+        if match_now.wave and not self.server.match.start_date:
             self.server.match.start_date = time.time()
 
-        self.server.match.wave = game_now.wave
-        self.server.match.zeds_dead = game_now.zeds_dead
-        self.server.match.zeds_total = game_now.zeds_total
-        self.server.capacity = game_now.players_max
+        self.server.match.wave = match_now.wave
+        self.server.match.zeds_dead = match_now.zeds_dead
+        self.server.match.zeds_total = match_now.zeds_total
+        self.server.capacity = match_now.players_max
 
         if new_wave:
             self.server.event_wave_start()
@@ -160,6 +158,4 @@ class GameTracker(threading.Thread):
             player.ping = player_now.ping
             player.perk = player_now.perk
 
-            # TODO: Move this
-            if DEBUG:
-                player.update_session()
+            player.update_session()

@@ -13,29 +13,29 @@ _ = gettext.gettext
 
 class WebAdmin(object):
     def __init__(self, web_interface, chat):
-        self.__web_interface = web_interface
+        self._web_interface = web_interface
         self.chat = chat
 
-        self.__general_settings = \
-            self.__web_interface.get_payload_general_settings()
-        self.__motd_settings = \
-            self.__web_interface.get_payload_motd_settings()
-        self.__map_settings = \
-            self.__web_interface.get_payload_map_settings()
+        self._general_settings = \
+            self._web_interface.get_payload_general_settings()
+        self._motd_settings = \
+            self._web_interface.get_payload_motd_settings()
+        self._map_settings = \
+            self._web_interface.get_payload_map_settings()
 
-        self.__game_password = None
+        self._game_password = None
 
     def supported_mode(self, mode):
         # The other modes have various bits of data omitted!
-        return self.__web_interface.ma_installed or mode == GAME_TYPE_SURVIVAL
+        return self._web_interface.ma_installed or mode == GAME_TYPE_SURVIVAL
 
     def __save_general_settings(self):
-        self.__web_interface.post_general_settings(
-            self.__general_settings
+        self._web_interface.post_general_settings(
+            self._general_settings
         )
 
     def set_general_setting(self, setting, value):
-        self.__general_settings[setting] = value
+        self._general_settings[setting] = value
         self.__save_general_settings()
 
     def kick_player(self, player_key):
@@ -44,7 +44,7 @@ class WebAdmin(object):
             "action": "kick",
             "playerkey": player_key
         }
-        self.__web_interface.post_players_action(payload)
+        self._web_interface.post_players_action(payload)
 
     def ban_player(self, steam_id, player_key):
         payload = {
@@ -52,7 +52,7 @@ class WebAdmin(object):
             "action": "add",
             "steamint64": steam_id
         }
-        self.__web_interface.post_bans(payload)
+        self._web_interface.post_bans(payload)
         self.kick_player(player_key)
 
     def unban_player(self, steam_id):
@@ -61,7 +61,7 @@ class WebAdmin(object):
             "action": "delete",
             "steamint64": steam_id
         }
-        self.__web_interface.post_bans(payload)
+        self._web_interface.post_bans(payload)
 
     def set_game_password(self, password=""):
         payload = {
@@ -69,11 +69,11 @@ class WebAdmin(object):
             'gamepw1': password,
             'gamepw2': password
         }
-        self.__game_password = password
-        self.__web_interface.post_passwords(payload)
+        self._game_password = password
+        self._web_interface.post_passwords(payload)
 
-    def has_game_password(self):
-        response = self.__web_interface.get_passwords()
+    def _has_game_password(self):
+        response = self._web_interface.get_passwords()
         passwords_tree = html.fromstring(response.content)
 
         password_state_pattern = "//p[starts-with(text(),'Game password')]" \
@@ -82,15 +82,15 @@ class WebAdmin(object):
         return str_to_bool(password_state)
 
     def toggle_game_password(self):
-        if not self.__game_password:
+        if not self._game_password:
             warning(_("Tried to toggle game password before setting value"))
             return False
 
-        if self.has_game_password():
+        if self._has_game_password():
             self.set_game_password("")
             return False
         else:
-            self.set_game_password(self.__game_password)
+            self.set_game_password(self._game_password)
             return True
 
     def set_length(self, length):
@@ -103,7 +103,7 @@ class WebAdmin(object):
         self.set_general_setting("settings_MaxPlayers", str(players))
 
     def toggle_map_voting(self):
-        if self.__general_settings["settings_bDisableMapVote"] == "1":
+        if self._general_settings["settings_bDisableMapVote"] == "1":
             self.set_general_setting("settings_bDisableMapVote", "0")
             return False
         else:
@@ -111,7 +111,7 @@ class WebAdmin(object):
             return True
 
     def get_maps(self):
-        response = self.__web_interface.get_maplist()
+        response = self._web_interface.get_maplist()
         maplist_tree = html.fromstring(response.content)
 
         available_path = "//textarea[@id='allmaps']/text()"
@@ -120,7 +120,7 @@ class WebAdmin(object):
         return maps
 
     def get_active_maps(self):
-        response = self.__web_interface.get_maplist()
+        response = self._web_interface.get_maplist()
         maplist_tree = html.fromstring(response.content)
 
         mapcycle_path = "//textarea[@id='mapcycle']/text()"
@@ -132,15 +132,15 @@ class WebAdmin(object):
         self.set_general_setting("settings_ServerName", name)
 
     def set_map(self, new_map):
-        self.__map_settings['map'] = new_map
-        self.__web_interface.post_map(self.__map_settings)
+        self._map_settings['map'] = new_map
+        self._web_interface.post_map(self._map_settings)
 
     def restart_map(self):
-        self.__web_interface.post_map(self.__map_settings)
+        self._web_interface.post_map(self._map_settings)
 
     def set_game_type(self, game_type):
-        self.__map_settings['gametype'] = game_type
-        self.__web_interface.post_map(self.__map_settings)
+        self._map_settings['gametype'] = game_type
+        self._web_interface.post_map(self._map_settings)
 
     def activate_map_cycle(self, index):
         payload = {
@@ -148,7 +148,7 @@ class WebAdmin(object):
             "mapcycle": "KF-Default",
             "activate": "activate"
         }
-        self.__web_interface.post_map_cycle(payload)
+        self._web_interface.post_map_cycle(payload)
 
     def set_map_cycle(self, index, maplist):
         payload = {
@@ -156,44 +156,34 @@ class WebAdmin(object):
             "mapcycle": maplist,
             "action": "save"
         }
-        self.__web_interface.post_map_cycle(payload)
+        self._web_interface.post_map_cycle(payload)
 
     def set_motd(self, motd):
-        self.__motd_settings["ServerMOTD"] = motd \
+        self._motd_settings["ServerMOTD"] = motd \
             .encode("iso-8859-1", "ignore")
-        self.__web_interface.post_welcome(self.__motd_settings)
+        self._web_interface.post_welcome(self._motd_settings)
 
         # Setting the MOTD resets changes to general settings
         self.__save_general_settings()
 
     def get_motd(self):
-        return self.__motd_settings['ServerMOTD']
+        return self._motd_settings['ServerMOTD']
 
     def set_banner(self, banner_link):
-        self.__motd_settings["BannerLink"] = banner_link
-        self.__web_interface.post_welcome(self.__motd_settings)
+        self._motd_settings["BannerLink"] = banner_link
+        self._web_interface.post_welcome(self._motd_settings)
 
     def set_web_link(self, web_link):
-        self.__motd_settings["WebLink"] = web_link
-        self.__web_interface.post_welcome(self.__motd_settings)
+        self._motd_settings["WebLink"] = web_link
+        self._web_interface.post_welcome(self._motd_settings)
 
-    def get_players(self):
-        response = self.__web_interface.get_server_info()
+    def get_server_info(self):
+        response = self._web_interface.get_server_info()
         info_tree = html.fromstring(response.content)
-        return self.__get_players(info_tree)
-
-    def get_game(self):
-        response = self.__web_interface.get_server_info()
-        info_tree = html.fromstring(response.content)
-        return self.__get_game(info_tree)
-
-    def get_game_players(self):
-        response = self.__web_interface.get_server_info()
-        info_tree = html.fromstring(response.content)
-        return self.__get_game(info_tree), self.__get_players(info_tree)
+        return self._parse_match(info_tree), self._parse_players(info_tree)
 
     @staticmethod
-    def __get_players(info_tree):
+    def _parse_players(info_tree):
         players = []
 
         # Empty servers only have a single <td> with an empty server message
@@ -261,7 +251,7 @@ class WebAdmin(object):
         return players
 
     @staticmethod
-    def __get_game(info_tree):
+    def _parse_match(info_tree):
         zeds_path = "//dd[@class=\"gs_wave\"]/text()"
         zeds_result = info_tree.xpath(zeds_path)
 
@@ -336,7 +326,7 @@ class WebAdmin(object):
                          players_max)
 
     def get_player_identity(self, username):
-        response = self.__web_interface.get_players()
+        response = self._web_interface.get_players()
         player_tree = html.fromstring(response.content)
 
         theads_path = "//table[@id=\"players\"]/thead//th[position()>1]" \
