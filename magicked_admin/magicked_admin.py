@@ -9,7 +9,6 @@ import gettext
 import os
 import signal
 import sys
-import locale
 
 from colorama import init
 
@@ -21,14 +20,10 @@ from chatbot.commands.command_map import CommandMap
 from server.server import Server
 from settings import Settings, CONFIG_PATH
 from utils import banner, die, find_data_file, info, warning
-from utils.net import phone_home
 from server.game_tracker import GameTracker
-from database.database import ServerDatabase
-from server.session import end_loose_sessions
 from web_admin import WebAdmin
 from web_admin.web_interface import WebInterface, AuthorizationException
 from web_admin.chat import Chat
-from web_admin.constants import *
 from lua_bridge.lua_bridge import LuaBridge
 
 from database import db_init
@@ -36,6 +31,7 @@ from database import db_init
 gettext.bindtextdomain('magicked_admin', 'locale')
 gettext.textdomain('magicked_admin')
 gettext.install('magicked_admin', 'locale')
+_ = gettext.gettext
 
 init()
 
@@ -50,7 +46,6 @@ banner()
 
 REQUESTS_CA_BUNDLE_PATH = find_data_file("./certifi/cacert.pem")
 
-_ = gettext.gettext
 
 if hasattr(sys, "frozen"):
     import certifi.core
@@ -67,7 +62,6 @@ if hasattr(sys, "frozen"):
 
 class MagickedAdmin:
     def __init__(self):
-        phone_home()
         signal.signal(signal.SIGINT, self.terminate)
         self.stop_list = []
         self.sigint_count = 0
@@ -96,7 +90,6 @@ class MagickedAdmin:
         chat.start()
 
         web_admin = WebAdmin(web_interface, chat)
-        end_loose_sessions()
 
         server = Server(web_admin, name)
 
@@ -145,6 +138,8 @@ class MagickedAdmin:
         )
         lang.install()
         os.environ['LANGUAGE'] = language[:2]
+
+        db_init()
 
         for server_name in self.settings.servers():
             # TODO: Gross
@@ -202,11 +197,10 @@ class MagickedAdmin:
         info(_("Program interrupted, saving data..."))
 
         for item in self.stop_list:
-            item.stop()
+            item.close()
         die()
 
 
 if __name__ == "__main__":
-    db_init()
     application = MagickedAdmin()
     application.run()

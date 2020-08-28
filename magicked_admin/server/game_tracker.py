@@ -6,8 +6,6 @@ from colorama import init
 from termcolor import colored
 
 from utils import BANNER_URL, warning, DEBUG
-from web_admin.constants import *
-from database.database import lock
 from server.level import Level
 from server.match import Match
 
@@ -34,7 +32,7 @@ class GameTracker(threading.Thread):
             self._poll()
             time.sleep(self.__refresh_rate)
 
-    def stop(self):
+    def close(self):
         self.__exit = True
 
     def _poll(self):
@@ -82,7 +80,7 @@ class GameTracker(threading.Thread):
         if new_game:
             # Don't end the game if it wasn't initialized
             if self.server.match:
-                self.server.event_end_game()
+                self.server.event_match_end()
 
         # Start next game
         if new_game:
@@ -92,7 +90,7 @@ class GameTracker(threading.Thread):
                 game_now.length
             )
             self.server.match = new_match
-            self.server.event_new_game()
+            self.server.event_match_start()
 
         new_wave = not self.server.match or game_now.wave > self.server.match.wave
 

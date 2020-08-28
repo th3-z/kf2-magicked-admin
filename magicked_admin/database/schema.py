@@ -11,7 +11,7 @@ schema = """
         insert_date INTEGER NOT NULL,
         
         -- Last seen username, could change
-        username VARCHAR(256) NOT NULL
+        username VARCHAR(256)
     );
     
     -- 'map' conflicts with Python keyword
@@ -36,6 +36,7 @@ schema = """
         
         start_date INTEGER DEFAULT NULL,
         end_date INTEGER DEFAULT NULL,
+        end_date_dirty INTEGER DEFAULT 0,
         
         -- Might not be available
         last_wave INTEGER DEFAULT NULL

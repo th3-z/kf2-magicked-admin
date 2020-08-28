@@ -248,7 +248,7 @@ class CommandGameMap(Command):
         if args.map_name:
             map_title = self.server.find_map(args.map_name)
         else:
-            map_title = self.server.match.game_map.title
+            map_title = self.server.match.level.title
 
         level = Level(map_title)
 

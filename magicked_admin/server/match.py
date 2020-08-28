@@ -13,7 +13,7 @@ class Match:
         self.game_type = game_type
         self.difficulty = difficulty
         self.length = length
-        self.start_date = None  # Time doesnt start until wave 1
+        self._start_date = None  # Time doesnt start until wave 1
 
         self.wave = 0
         self.trader_time = False
@@ -22,12 +22,6 @@ class Match:
         self.zeds_total = 0
 
         self.players = []
-
-        # @prop sum of sessions attached to this
-        # self.zeds_killed = 0
-        self.dosh_wave_earned = 0
-        # @prop
-        self.dosh_earned = 0
 
         self._init_db()
 
@@ -47,4 +41,32 @@ class Match:
 
         self.match_id = cur.lastrowid
 
+    @property
+    def start_date(self):
+        return self._start_date
 
+    @start_date.setter
+    @db_connector
+    def start_date(self, start_date, conn):
+        self._start_date = start_date
+
+        sql = """
+            UPDATE match SET
+                start_date = ?
+            WHERE
+                match_id = ?
+        """
+
+        conn.cursor().execute(sql, (start_date, self.match_id))
+
+    @db_connector
+    def close(self, conn):
+        sql = """
+            UPDATE match SET
+                end_date = ?,
+                last_wave = ?
+            WHERE
+                match_id = ?
+        """
+
+        conn.cursor().execute(sql, (time.time(), self.wave, self.match_id))

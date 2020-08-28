@@ -8,16 +8,16 @@ _ = gettext.gettext
 
 class Player:
 
-    def __init__(self, steam_id, username):
+    def __init__(self, steam_id):
         self.steam_id = steam_id
         self.player_key = None
         self.session_id = None
         self.session_date = int(time.time())
         self.join_date = None
-        self.op = False
+        self._op = False
 
-        self.username = username
-        self.perk = "Unknown"
+        self._username = None
+        self.perk = None
         self.perk_level = 0
 
         self.ip = "0.0.0.0"
@@ -75,17 +75,17 @@ class Player:
     def _db_init(self, conn):
         sql = """
             INSERT OR IGNORE INTO player
-                (steam_id, insert_date, username)
+                (steam_id, insert_date)
             VALUES
-                (?, ?, ?)
+                (?, ?)
         """
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id, int(time.time()), self.username))
+        cur.execute(sql, (self.steam_id, int(time.time())))
         conn.commit()
 
         sql = """
             SELECT
-                op, insert_date, username
+                op, insert_date
             FROM
                 player
             WHERE
@@ -96,7 +96,23 @@ class Player:
         self.op = True if result['op'] else False
         self.join_date = result['insert_date']
 
-        # TODO: update username
+    @property
+    def username(self):
+        return self._username
+
+    @username.setter
+    @db_connector
+    def username(self, username, conn):
+        self._username = username
+
+        sql = """
+            UPDATE player SET
+                username = ?
+            WHERE
+                steam_id = ?
+        """
+
+        conn.cursor().execute(sql, (username, self.steam_id))
 
     @db_connector
     def _historic_session_sum(self, col, conn):
@@ -204,10 +220,14 @@ class Player:
             )
         )
 
-    # TODO: Should be managed by server?
+    @property
+    def op(self):
+        return self._op
+
+    @op.setter
     @db_connector
     def op(self, state, conn):
-        self.op = state
+        self._op = state
 
         sql = """
             UPDATE player SET

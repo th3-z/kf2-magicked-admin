@@ -48,9 +48,9 @@ class LuaBridge(ChatListener):
         # self.new_bind(
         #     "server", "write_players", self.server.write_all_players
         # )
-        self.new_bind(
-            "server", "write_game", self.server.write_game_map
-        )
+        # self.new_bind(
+        #     "server", "write_game", self.server.write_game_map
+        # )
         self.new_bind(
             "server", "get_player", self.server.get_player_by_sid
         )
