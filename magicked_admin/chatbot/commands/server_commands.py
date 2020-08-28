@@ -471,7 +471,7 @@ class CommandPassword(Command):
             return self.format_response(self.help_text, args)
 
         if not (args.state or args.set):
-            enabled = self.server.web_admin.has_game_password()
+            enabled = self.server.web_admin._has_game_password()
             return self.format_response(
                 _("Game password is currently {}").format(
                     _("enabled") if enabled else _("disabled")

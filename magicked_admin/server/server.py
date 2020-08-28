@@ -176,9 +176,9 @@ class Server:
         )
 
     def event_player_quit(self, player):
-        self.players.remove(player)
         player.update_session()
         close_session(player.session_id)
+        self.players.remove(player)
 
         message = _("Player {} left {}") \
             .format(player.username, self.name)
@@ -220,10 +220,6 @@ class Server:
         self.match.close()
 
     def event_wave_start(self):
-        self.web_admin.chat.handle_message("internal_command",
-                                           "!new_wave " + str(self.match.wave),
-                                           USER_TYPE_INTERNAL)
-
         for player in self.players:
             player.wave_kills = 0
             player.wave_dosh = 0
@@ -231,17 +227,19 @@ class Server:
             player.wave_damage_taken = 0
             player.wave_deaths = 0
 
+        self.web_admin.chat.handle_message("internal_command",
+                                           "!new_wave " + str(self.match.wave),
+                                           USER_TYPE_INTERNAL)
+
     def event_wave_end(self):
         pass
 
     def event_trader_open(self):
-        self.trader_time = True
         command = "!t_open {}".format(self.match.wave)
         self.web_admin.chat.handle_message("internal_command", command,
                                            USER_TYPE_INTERNAL)
 
     def event_trader_close(self):
-        self.trader_time = False
         command = "!t_close {}".format(self.match.wave)
         self.web_admin.chat.handle_message("internal_command", command,
                                            USER_TYPE_INTERNAL)

@@ -107,11 +107,8 @@ class MagickedAdmin:
 
         return server
 
-    def make_chatbot(self, name, server):
-        chatbot = Chatbot(
-            server.web_admin.chat,
-            server_name=server.name, name=name
-        )
+    def make_chatbot(self, server):
+        chatbot = Chatbot(server.web_admin.chat)
 
         scheduler = CommandScheduler(server, chatbot)
         commands = CommandMap().get_commands(
@@ -125,7 +122,10 @@ class MagickedAdmin:
         server.web_admin.chat.add_listener(scheduler)
 
         self.stop_list.append(scheduler)
-        chatbot.run_init()
+
+        chatbot.run_init(find_data_file(
+            "conf/scripts/" + server.name + ".init"
+        ))
 
         return chatbot
 
@@ -167,11 +167,9 @@ class MagickedAdmin:
                     return
 
             servers.append(server)
-            chatbot = self.make_chatbot(
-                self.settings.setting(server_name, "username"), server
-            )
+            chatbot = self.make_chatbot(server)
             lua_bridge = LuaBridge(server, chatbot)
-            chatbot.add_lua_bridge(lua_bridge)
+            chatbot.lua_bridge = lua_bridge
             server.web_admin.chat.add_listener(lua_bridge)
 
         info(_("Initialisation complete!\n"))
