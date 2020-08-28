@@ -151,7 +151,7 @@ class CommandGameMap(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        return self.format_response(str(self.server.match.game_map), args)
+        return self.format_response(str(self.server.match.level), args)
 
 
 class CommandGameTime(Command):
@@ -189,7 +189,7 @@ class CommandHighWave(Command):
 
         return self.format_response(
             _("{} is the highest wave reached on this map").format(
-                self.server.match.game_map.highest_wave
+                self.server.match.level.highest_wave
             ), args
         )
 

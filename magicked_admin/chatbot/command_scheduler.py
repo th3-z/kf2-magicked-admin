@@ -40,7 +40,7 @@ class CommandScheduler(ChatListener):
         self.poller = CommandSchedulerPollThread(self, self.poll_interval)
         self.poller.start()
 
-    def stop(self):
+    def close(self):
         self.poller.stop()
 
     def schedule_command(self, command):
@@ -187,18 +187,18 @@ class CommandOnJoin(ScheduledCommand):
         if args[0] == "player_join":
 
             if self.returning:
-                username = message.split(" ", 1)[1]
-                player = self.server.get_player_by_username(username)
+                steam_id = message.split(" ", 1)[1]
+                player = self.server.get_player_by_sid(steam_id)
                 return player.total_sessions > 1
             return True
         return False
 
     def resolve_command(self, internal_message):
         command = self.command
-        username = internal_message.split(" ", 1)[1]
+        steam_id = internal_message.split(" ", 1)[1]
 
         if "%PLR" in self.command:
-            player = self.server.get_player_by_username(username)
+            player = self.server.get_player_by_sid(steam_id)
             pos_kills = player.rank_kills
             pos_dosh = player.rank_dosh
             pos_time = player.rank_time

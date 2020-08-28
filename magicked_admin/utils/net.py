@@ -46,16 +46,6 @@ def resolve_address(address):
     return __follow_redirect(address)
 
 
-# Ping home url
-def phone_home():
-    try:
-        # See git.th3-z.xyz/www-th3-z-xyz/
-        code = urlopen("https://www.th3-z.xyz/kf2-ma-ping")
-    except Exception:
-        return False
-    return code
-
-
 # Get geographical information for an ip address
 def get_country(ip):
     url = "https://freegeoip.app" + "/json/" + ip

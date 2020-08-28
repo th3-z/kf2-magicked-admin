@@ -22,7 +22,7 @@ def start_session(steam_id, match_id, conn):
 
 
 @db_connector
-def end_session(session_id, conn):
+def close_session(session_id, conn):
     sql = """
         UPDATE session SET
             end_date = ?
@@ -33,14 +33,3 @@ def end_session(session_id, conn):
     conn.cursor().execute(sql, (int(time.time()), session_id))
 
 
-@db_connector
-def end_loose_sessions(conn):
-    sql = """
-        UPDATE session SET
-            end_date = ?,
-            end_date_dirty = 1
-        WHERE
-            end_date IS NULL
-    """
-
-    conn.cursor().execute(sql, (int(time.time()),))

@@ -4,8 +4,8 @@ import sys
 from termcolor import colored
 
 from server.player import Player
-from utils import debug, warning, info, DEBUG
-from server.session import start_session, end_session
+from utils import debug
+from server.session import start_session, close_session
 from web_admin.constants import *
 
 _ = gettext.gettext
@@ -61,9 +61,6 @@ class Server:
 
     def toggle_game_password(self):
         self.web_admin.toggle_game_password()
-
-    def write_game_map(self):
-        pass
 
     def set_difficulty(self, difficulty):
         self.web_admin.set_difficulty(difficulty)
@@ -134,6 +131,13 @@ class Server:
     def change_game_type(self, mode):
         self.web_admin.set_game_type(mode)
 
+    def close(self):
+        if self.match:
+            self.match.close()
+        for player in self.players:
+            player.update_session()
+            close_session(player.session_id)
+
     def event_player_join(self, const_player):
         if const_player.username not in self.rejected_players:
             identity = self.web_admin.get_player_identity(const_player.username)
@@ -146,25 +150,20 @@ class Server:
             self.rejected_players.append(const_player.username)
             return
 
-        player = Player(identity['steam_id'], const_player.username)
+        player = Player(identity['steam_id'])
         player.ip = identity['ip']
         player.country = identity['country']
         player.country_code = identity['country_code']
         player.player_key = identity['player_key']
         player.username = const_player.username
-
         player.session_id = start_session(player.steam_id, self.match.match_id)
 
         self.players.append(player)
 
-        if DEBUG:
-            message = _("Player {} ({}) joined {} from {}").format(
-                player.username, player.steam_id, self.name,
-                player.country
-            )
-        else:
-            message = _("Player {} joined {} from {}") \
-                .format(player.username, self.name, player.country)
+        message = _("Player {} ({}) joined {} from {}").format(
+            player.username, player.steam_id, self.name,
+            player.country
+        )
 
         print(colored(
             message.encode("utf-8").decode(sys.stdout.encoding), 'cyan'
@@ -172,14 +171,14 @@ class Server:
 
         self.web_admin.chat.handle_message(
             "internal_command",
-            "!player_join " + player.username,
+            "!player_join " + player.steam_id,
             USER_TYPE_INTERNAL
         )
 
     def event_player_quit(self, player):
         self.players.remove(player)
         player.update_session()
-        end_session(player.session_id)
+        close_session(player.session_id)
 
         message = _("Player {} left {}") \
             .format(player.username, self.name)
@@ -192,50 +191,38 @@ class Server:
                                            USER_TYPE_INTERNAL)
 
     def event_player_death(self, player):
-
         message = _("Player {} died on {}").format(player.username, self.name)
         print(colored(
             message.encode("utf-8").decode(sys.stdout.encoding), 'red'
         ))
 
-    def stop(self):
-        pass
-
-    def event_new_game(self):
+    def event_match_start(self):
         if self.match.game_type in GAME_TYPE_DISPLAY:
             display_name = GAME_TYPE_DISPLAY[self.match.game_type]
         else:
-            display_name = GAME_TYPE_UNKNOWN
+            display_name = self.match.game_type
         message = _("New game on {}, map: {}, mode: {}") \
             .format(self.name, self.match.level.name, display_name)
         print(colored(
             message.encode("utf-8").decode(sys.stdout.encoding), 'magenta'
         ))
 
-        # self.database.load_game_map(self.match.game_map)
-        # self.game.new_game()
-
         self.rejected_players = []
-
         self.web_admin.chat.handle_message("internal_command", "!new_game",
                                            USER_TYPE_INTERNAL)
 
-    def event_end_game(self, victory=False):
+    def event_match_end(self, victory=False):
         debug(_("End game on {}, map: {}, mode: {}, victory: {}").format(
-            self.name, self.game.game_map.title, self.game.game_type,
+            self.name, self.match.level.title, self.match.game_type,
             str(victory)
         ))
 
-        #self.write_game_map()
-        #self.database.save_map_record(self.game, len(self.players), victory)
+        self.match.close()
 
     def event_wave_start(self):
         self.web_admin.chat.handle_message("internal_command",
-                                           "!new_wave " + str(self.game.wave),
+                                           "!new_wave " + str(self.match.wave),
                                            USER_TYPE_INTERNAL)
-
-        if self.game.wave > self.game.game_map.highest_wave:
-            self.game.game_map.highest_wave = self.game.wave
 
         for player in self.players:
             player.wave_kills = 0
@@ -249,12 +236,12 @@ class Server:
 
     def event_trader_open(self):
         self.trader_time = True
-        command = "!t_open {}".format(self.game.wave)
+        command = "!t_open {}".format(self.match.wave)
         self.web_admin.chat.handle_message("internal_command", command,
                                            USER_TYPE_INTERNAL)
 
     def event_trader_close(self):
         self.trader_time = False
-        command = "!t_close {}".format(self.game.wave)
+        command = "!t_close {}".format(self.match.wave)
         self.web_admin.chat.handle_message("internal_command", command,
                                            USER_TYPE_INTERNAL)
