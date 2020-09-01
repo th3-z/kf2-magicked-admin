@@ -13,14 +13,14 @@ _ = gettext.gettext
 
 
 class OnTimeHandler(threading.Thread):
-    def __init__(self, event_manager, command, interval, run_once=False):
+    def __init__(self, event_manager, command, interval, repeat=False):
         threading.Thread.__init__(self)
 
         self._event_manger = event_manager
         self._exit = False
 
         self.interval = interval
-        self.run_once = run_once
+        self.repeat = repeat
         self.command = command
         self.dead = False
 
@@ -37,7 +37,7 @@ class OnTimeHandler(threading.Thread):
                 user_flags=USER_TYPE_ADMIN
             )
 
-            if self.run_once:
+            if not self.repeat:
                 self.close()
                 return
 
@@ -46,11 +46,10 @@ class OnTimeHandler(threading.Thread):
 
 
 class OnWaveHandler:
-    def __init__(self, event_manager, command, wave, run_once=False):
+    def __init__(self, event_manager, command, wave):
         self._event_manager = event_manager
 
         self.wave = wave
-        self.run_once = run_once
         self.command = command
         self.dead = False
 
@@ -70,20 +69,16 @@ class OnWaveHandler:
                 username="command_on_wave", args=self.command.split(" "),
                 user_flags=USER_TYPE_ADMIN
             )
-            if self.run_once:
-                self.close()
 
     def close(self):
         self.dead = True
 
 
 class OnJoinHandler:
-    def __init__(self, event_manager, command, run_once=False,
-                 returning=False):
+    def __init__(self, event_manager, command, returning=False):
         self._event_manager = event_manager
 
         self.returning = returning
-        self.run_once = run_once
         self.command = command
         self.dead = False
 
@@ -91,7 +86,6 @@ class OnJoinHandler:
 
     def resolve_tokens(self, player):
         command = self.command
-
         command = command.replace("%PLR", player.username)
         command = command.replace("%DSH", str(player.total_dosh))
         command = command.replace("%DRK", str(player.rank_dosh))
@@ -110,7 +104,7 @@ class OnJoinHandler:
         if self.returning and not player.total_sessions:
             return
 
-        command = self.resolve_tokens(self.command)
+        command = self.resolve_tokens(player)
 
         self._event_manager.emit_event(
             EVENT_COMMAND, self.__class__,
@@ -118,19 +112,15 @@ class OnJoinHandler:
             user_flags=USER_TYPE_ADMIN
         )
 
-        if self.run_once:
-            self.close()
-
     def close(self):
         self.dead = True
 
 
 class OnTraderHandler:
-    def __init__(self, event_manager, command, wave, run_once=False):
+    def __init__(self, event_manager, command, wave):
         self._event_manager = event_manager
 
         self.wave = wave
-        self.run_once = run_once
         self.command = command
         self.dead = False
 
@@ -150,8 +140,6 @@ class OnTraderHandler:
                 username="command_on_trader", args=self.command.split(" "),
                 user_flags=USER_TYPE_ADMIN
             )
-            if self.run_once:
-                self.close()
 
     def close(self):
         self.dead = True

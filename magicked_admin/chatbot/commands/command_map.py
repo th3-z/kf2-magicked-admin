@@ -10,18 +10,14 @@ _ = gettext.gettext
 
 class CommandMap:
     @staticmethod
-    def get_commands(server, chatbot, scheduler, motd_updater):
+    def get_commands(server, chatbot, motd_updater):
         return {
             # Operator commands
             _('lua'): CommandLua(server, chatbot),
-            _('start_jc'): CommandStartJoinCommand(server, scheduler),
-            _('stop_jc'): CommandStopJoinCommands(server, scheduler),
-            _('start_wc'): CommandStartWaveCommand(server, scheduler),
-            _('stop_wc'): CommandStopWaveCommands(server, scheduler),
-            _('start_tc'): CommandStartTimeCommand(server, scheduler),
-            _('stop_tc'): CommandStopTimeCommands(server, scheduler),
-            _('start_trc'): CommandStartTraderCommand(server, scheduler),
-            _('stop_trc'): CommandStopTraderCommands(server, scheduler),
+            ('on_join'): CommandOnJoin(server),
+            ('on_time'): CommandOnTime(server),
+            ('on_trader'): CommandOnTrader(server),
+            ('on_wave'): CommandOnWave(server),
             _('enforce_dosh'): CommandEnforceDosh(server),
             _('say'): CommandSay(server),
             _('restart'): CommandRestart(server),
