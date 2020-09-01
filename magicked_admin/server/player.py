@@ -169,7 +169,7 @@ class Player:
     def _historic_session_sum(self, col, conn):
         sql = """
             SELECT
-                SUM(s.{}) AS {}
+                COALESCE(SUM(s.{}), 0) AS {}
             FROM
                 player p
                 LEFT JOIN session s
@@ -481,3 +481,12 @@ class Player:
                 steam_id = ?
         """
         conn.cur.execute(sql)
+
+    def __str__(self):
+        return """
+            username: {}
+            total dosh: {}
+            total time: {}
+            total kills: {}
+            country: {}
+        """.format(self.username, self.total_dosh, self.total_time, self.total_kills, self.country)

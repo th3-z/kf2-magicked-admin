@@ -2,7 +2,7 @@ import gettext
 from argparse import ArgumentError
 
 from chatbot.commands.argument_parser import ArgumentParser
-from utils import BANNER_URL, debug
+from utils import BANNER_URL, debug, DEBUG
 from web_admin.constants import *
 
 _ = gettext.gettext
@@ -43,15 +43,9 @@ class Command:
         player = self.server.get_player_by_username(username)
 
         op = True if player and player.op else False
-        internal = user_flags & USER_TYPE_INTERNAL
         admin = user_flags & USER_TYPE_ADMIN
 
-        authorised = (not self.admin_only) or op or internal or admin
-
-        if not authorised:
-            debug(_("Auth failure, username: {}, user flags: {:b}").format(
-                username, user_flags
-            ))
+        authorised = (not self.admin_only) or op or admin
 
         return authorised
 
@@ -68,7 +62,7 @@ class Command:
             args, _ = self.parser.parse_known_args(args[1:])
             error = None
         except ArgumentError as exc:
-            if exc.argument:
+            if exc.argument and DEBUG:
                 error = "{} Argument ({})".format(exc.message, exc.argument)
             else:
                 error = exc.message

@@ -14,7 +14,6 @@ from colorama import init
 
 # TODO: Improve package layouts
 from chatbot.chatbot import Chatbot
-from chatbot.command_scheduler import CommandScheduler
 from chatbot.motd_updater import MotdUpdater
 from chatbot.commands.command_map import CommandMap
 from server.server import Server
@@ -115,15 +114,12 @@ class MagickedAdmin:
     def make_chatbot(self, server):
         chatbot = Chatbot(server.web_admin, server.event_manager)
 
-        scheduler = CommandScheduler(server, chatbot)
         commands = CommandMap().get_commands(
-            server, chatbot, scheduler, MotdUpdater(server)
+            server, chatbot, MotdUpdater(server)
         )
 
         for name, command in commands.items():
             chatbot.add_command(name, command)
-
-        self.stop_list.append(scheduler)
 
         chatbot.run_init(find_data_file(
             "conf/scripts/" + server.name + ".init"
