@@ -14,7 +14,7 @@ init()
 # TODO: Switch to Nuitka for compilation
 DEBUG = __debug__ and not hasattr(sys, 'frozen')
 
-VERSION = "0.1.7"
+VERSION = "0.2.0"
 BANNER_URL = "https://kf2-ma.th3-z.xyz/"
 
 
