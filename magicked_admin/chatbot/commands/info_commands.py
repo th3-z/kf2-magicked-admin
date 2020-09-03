@@ -5,8 +5,10 @@ import gettext
 from .command import Command
 from server.player import Player
 from utils import find_data_file
-from utils.text import millify
+from utils.text import millify, center_str
 from utils.time import seconds_to_hhmmss
+
+import argparse
 
 _ = gettext.gettext
 
@@ -20,10 +22,17 @@ class CommandMarquee(Command):
                            "\tFILE - Some file in 'conf/marquee'\n"
                            "Desc: Runs a marquee in chat")
         # self.parser.add_argument("iterations")
-        self.parser.add_argument("filename", nargs="*")
+
+        subparsers = self.parser.add_subparsers(dest="type")
+
+        file_parser = subparsers.add_parser("file")
+        file_parser.add_argument("filename", nargs="*")
+
+        str_parser = subparsers.add_parser("str")
+        str_parser.add_argument("text", type=str, nargs=argparse.REMAINDER)
 
         self.folder = "conf/marquee"
-        self.fps = 10
+        self.fps = 8.5
         self.scroll_height = 7
         self.marquee = []
 
@@ -38,6 +47,19 @@ class CommandMarquee(Command):
         self.marquee = [line.strip() for line in lines]
         return True
 
+    def load_text(self, text_args):
+        if not text_args:
+            return False
+        
+        text = " ".join(text_args)
+        lines = text.strip().split("\n")
+
+        self.marquee = [line.strip() for line in lines]
+
+        print(self.marquee)
+        return True
+
+
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
         if err:
@@ -45,28 +67,44 @@ class CommandMarquee(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        if not args.filename:
-            return self.format_response(_("Missing argument: filename"), args)
 
-        file_loaded = self.load_file(" ".join(args.filename))
-        if not file_loaded:
-            return self.format_response(_("Couldn't find file"), args)
+        if args.type == "file":
+            if not args.filename:
+                return self.format_response(_("Missing argument: filename"), args)
 
-        for i in range(0, 300):
+            file_loaded = self.load_file(" ".join(args.filename))
+            if not file_loaded:
+                return self.format_response(_("Couldn't find file"), args)
+        
+        if args.type == "str":
+            if not args.text:
+                return self.format_response(_("Missing argument: text"), args)
+
+            self.load_text(args.text)
+            
+        for i in range(0, 100):
             line_start = i % len(self.marquee)
-            line_end = (i + self.scroll_height) % len(self.marquee)
+            line_end = (i + self.scroll_height - 2) % len(self.marquee)
 
-            message = "\n"
+            message = ""
             if line_start > line_end:
                 message += "\n".join(self.marquee[:line_end])
-                message += "\n"
                 message += "\n".join(self.marquee[line_start:])
             else:
                 message += "\n".join(self.marquee[line_start:line_end])
 
-            self.chatbot.chat.submit_message(
-                self.format_response(message, args)
+            print(message)
+            print()
+            print()
+
+            title = "\n"+center_str("kills leaderboard")
+
+            self.server.web_admin.submit_message(
+                self.format_response(title+"\nRank | Kills  | Username\n" + message, args)
             )
+
+            if line_end < line_start:
+                break
 
             time.sleep(1 / self.fps)
 

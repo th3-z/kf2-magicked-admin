@@ -1,4 +1,11 @@
 import math
+from utils.font import c_width, avg_width
+
+motd_width = 196 * 200  # Measured using 'i'
+motd_lines = 10
+
+chat_width = 101 * 200
+chat_lines = 7
 
 
 def millify(n):
@@ -30,3 +37,32 @@ def str_to_bool(s):
         return False
     else:
         raise ValueError
+
+def str_width(s):
+    width = 0
+
+    for char in s:
+        if char in c_width.keys():
+            width += c_width[char]
+        else:
+            width += avg_width
+    
+    return width
+
+def pad_width(width, text):
+    text_w = str_width(text)
+    sp_w = str_width(" ")
+
+    if text_w < width:
+        text +=" " * int(round((width - text_w) / sp_w))
+
+    return text
+
+def center_str(text):
+    text_w = str_width(text)
+    remaining = chat_width - text_w
+    sp_w = str_width(" ")
+
+    padding = " " * int(round((remaining / sp_w) / 2))
+
+    return padding + text
