@@ -15,7 +15,6 @@ class Player:
 
         self.steam_id = player_identity_data.steam_id
         self.player_key = player_identity_data.player_key
-        self.session_id = None
         self.session_date = int(time.time())
         self.join_date = None
         self._op = False
@@ -75,7 +74,7 @@ class Player:
         # self.rank_ratio_kills_deaths
 
         self._db_init()
-        start_session(self.steam_id, self.server.match.match_id)
+        self.session_id = start_session(self.steam_id, self.server.match.match_id)
 
         self.server.event_manager.register_event(
             EVENT_PLAYER_UPDATE + "." + uuid(self.username),
@@ -113,6 +112,12 @@ class Player:
     def close(self):
         self._update_session()
         close_session(self.session_id)
+
+    @property
+    def is_other_platform(self):
+        # Not sure the exact range of Steam IDs but this is good enough to
+        # deliniate EGS users
+        return self.steam_id > 99999999999999999
 
     @property
     def username(self):

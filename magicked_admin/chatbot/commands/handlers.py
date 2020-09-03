@@ -6,7 +6,7 @@ from chatbot.commands import ALL_WAVES
 from utils.time import seconds_to_hhmmss
 from web_admin.constants import *
 from events import (
-    EVENT_COMMAND, EVENT_WAVE_START, EVENT_PLAYER_JOIN, EVENT_TRADER_OPEN
+    EVENT_COMMAND, EVENT_WAVE_START, EVENT_PLAYER_JOIN, EVENT_TRADER_OPEN, EVENT_PLAYER_DEATH
 )
 
 _ = gettext.gettext
@@ -46,7 +46,7 @@ class OnTimeHandler(threading.Thread):
 
 
 class OnWaveHandler:
-    def __init__(self, event_manager, command, wave):
+    def __init__(self, event_manager, command, wave=ALL_WAVES):
         self._event_manager = event_manager
 
         self.wave = wave
@@ -117,7 +117,7 @@ class OnJoinHandler:
 
 
 class OnTraderHandler:
-    def __init__(self, event_manager, command, wave):
+    def __init__(self, event_manager, command, wave=ALL_WAVES):
         self._event_manager = event_manager
 
         self.wave = wave
@@ -140,6 +140,45 @@ class OnTraderHandler:
                 username="command_on_trader", args=self.command.split(" "),
                 user_flags=USER_TYPE_ADMIN
             )
+
+    def close(self):
+        self.dead = True
+
+
+class OnDeathHandler:
+    def __init__(self, event_manager, command):
+        self._event_manager = event_manager
+
+        self.command = command
+        self.dead = False
+
+        event_manager.register_event(EVENT_PLAYER_DEATH, self.receive_player)
+
+    def resolve_tokens(self, player):
+        # TODO: Use string format instead
+        command = self.command
+        command = command.replace("%PLR", player.username)
+        command = command.replace("%DSH", str(player.total_dosh))
+        command = command.replace("%DRK", str(player.rank_dosh))
+        command = command.replace("%KLL", str(player.total_kills))
+        command = command.replace("%KRK", str(player.rank_kills))
+        command = command.replace("%TME", seconds_to_hhmmss(player.total_time))
+        command = command.replace("%TRK", str(player.rank_time))
+        command = command.replace("%SES", str(player.total_sessions))
+
+        return command
+
+    def receive_player(self, event, sender, player):
+        if self.dead:
+            return
+
+        command = self.resolve_tokens(player)
+
+        self._event_manager.emit_event(
+            EVENT_COMMAND, self.__class__,
+            username="command_on_death", args=command.split(" "),
+            user_flags=USER_TYPE_ADMIN
+        )
 
     def close(self):
         self.dead = True
