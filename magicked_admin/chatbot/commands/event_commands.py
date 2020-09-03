@@ -2,7 +2,7 @@ import gettext
 import argparse
 
 from chatbot.commands.handlers import (
-    OnJoinHandler, OnTimeHandler, OnTraderHandler, OnWaveHandler
+    OnJoinHandler, OnTimeHandler, OnTraderHandler, OnWaveHandler, OnDeathHandler
 )
 from chatbot.commands.command import Command
 from chatbot.commands import ALL_WAVES
@@ -166,7 +166,7 @@ class CommandOnWave(Command):
         self.handlers = []
 
     def action_add(self, command, wave):
-        handler = OnWaveHandler(self.server.event_manager, command, wave)
+        handler = OnWaveHandler(self.server.event_manager, command, wave or ALL_WAVES)
         self.handlers.append(handler)
         return "Command started"
 
@@ -231,7 +231,7 @@ class CommandOnTrader(Command):
         self.handlers = []
 
     def action_add(self, command, wave):
-        handler = OnTraderHandler(self.server.event_manager, command, wave)
+        handler = OnTraderHandler(self.server.event_manager, command, wave or ALL_WAVES)
         self.handlers.append(handler)
         return "Command started"
 
@@ -262,6 +262,65 @@ class CommandOnTrader(Command):
 
         if args.action == "add":
             return self.action_add(" ".join(args.command), args.wave)
+
+        elif args.action == "show":
+            return self.action_show()
+        
+        elif args.action == "del":
+            return self.action_del(args.id)
+
+        return self.format_response(self.help_text, args)
+
+
+class CommandOnDeath(Command):
+    def __init__(self, server):
+        Command.__init__(self, server, admin_only=True, requires_patch=False)
+        self.help_text = _("Usage: ")
+
+        subparsers = self.parser.add_subparsers(dest="action")
+
+        add_parser = subparsers.add_parser("add")
+        add_parser.add_argument("command", type=str, nargs=argparse.REMAINDER)
+        
+        subparsers.add_parser("show")
+        
+        del_parser = subparsers.add_parser("del")
+        del_parser.add_argument("id", type=int)
+
+        self.handlers = []
+
+    def action_add(self, command):
+        handler = OnDeathHandler(self.server.event_manager, command)
+        self.handlers.append(handler)
+        return "Command started"
+
+    def action_del(self, id):
+        id -= 1
+        if id >= 0 and id < len(self.handlers):
+            self.handlers[id].close()
+            del self.handlers[id]
+            return "Command stopped"
+        return "Invalid ID"
+
+    def action_show(self):
+        if not len(self.handlers):
+            return "No commands running"
+
+        message = ""
+        for id, handler in enumerate(self.handlers):
+            message += "{} - `{}`\n".format(id + 1, trim_string(handler.command, 20))
+
+        return message
+
+    def execute(self, username, args, user_flags):
+        args, err = self.parse_args(username, args, user_flags)
+        if err:
+            return err
+        if args.help:
+            return self.format_response(self.help_text, args)
+
+        if args.action == "add":
+            return self.action_add(" ".join(args.command))
 
         elif args.action == "show":
             return self.action_show()

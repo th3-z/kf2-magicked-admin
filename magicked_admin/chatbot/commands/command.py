@@ -14,7 +14,7 @@ class Command:
         self.admin_only = admin_only
         self.requires_patch = requires_patch
 
-        self.not_supported_message = _(
+        self.not_auth_message = _(
             "You're not authorised to use that command"
         )
 
