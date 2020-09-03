@@ -1,8 +1,12 @@
 import gettext
 
 from .command import Command
-from utils.text import millify, trim_string
+from utils.text import millify, trim_string, str_width, pad_width
 from utils.time import seconds_to_hhmmss
+
+from database.queries.leaderboards import top_by_col
+from events import EVENT_COMMAND
+from web_admin.constants import USER_TYPE_ADMIN
 
 _ = gettext.gettext
 
@@ -139,18 +143,24 @@ class CommandTopKills(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        records = self.server.database.top_kills()
+        records = top_by_col('kills', limit=50)
+        #message = _("Top players by total kills:\n")
+        message = ""
 
-        message = _("Top 5 players by total kills:\n")
-
-        for player in records[:5]:
+        for i, player in enumerate(records):
             username = trim_string(player['username'], 20)
             kills = millify(player['score'])
-            message += "\t{}\t-   {}\n".format(
-                kills, username
-            )
+            kills = pad_width(str_width("Kills "), kills)
 
-        return self.format_response(message[:-1], args)
+
+            message = "#{:02d}    | {} | {}\n".format(
+                i+1, kills, username
+            ) + message
+
+        command = "marquee str " + message[:-1]
+        self.server.event_manager.emit_event(EVENT_COMMAND, self.__class__, username="top_kills_command", user_flags=USER_TYPE_ADMIN, args=command.split(" "))
+
+        return None
 
 
 class CommandTopDosh(Command):
