@@ -1,7 +1,7 @@
 import gettext
 import argparse
 
-from chatbot.commands.handlers import (
+from chatbot.commands.event_handlers import (
     OnJoinHandler, OnTimeHandler, OnTraderHandler, OnWaveHandler, OnDeathHandler
 )
 from chatbot.commands.command import Command

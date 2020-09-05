@@ -50,7 +50,7 @@ class Command:
         return authorised
 
     def supported(self):
-        return (not self.requires_patch) or self.server.supported_mode()
+        return (not self.requires_patch) or self.server.supported_game_type()
 
     def parse_args(self, username, args, user_flags):
         if not self.authorise(username, user_flags):

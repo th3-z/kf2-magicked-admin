@@ -140,7 +140,7 @@ class Server:
         return matched_player
 
     def supported_mode(self):
-        return self.web_admin.supported_mode(self.match.game_type)
+        return self.web_admin.supported_game_type(self.match.game_type)
 
     def set_game_password(self, password):
         self.game_password = password

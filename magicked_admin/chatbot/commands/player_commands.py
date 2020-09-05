@@ -1,12 +1,11 @@
 import gettext
 
 from .command import Command
-from utils.text import millify, trim_string, str_width, pad_width
+from utils.text import millify, trim_string, str_width, pad_width, center_str
 from utils.time import seconds_to_hhmmss
 
 from database.queries.leaderboards import top_by_col
-from events import EVENT_COMMAND
-from web_admin.constants import USER_TYPE_ADMIN
+from chatbot.scroller import Scroller
 
 _ = gettext.gettext
 
@@ -143,22 +142,25 @@ class CommandTopKills(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        records = top_by_col('kills', limit=50)
-        #message = _("Top players by total kills:\n")
-        message = ""
+        header = center_str("~ Kills Leaderboard (weekly) ~")
+        header += "\nRank | Kills  | Username"
+
+        records = top_by_col('kills', limit=25, period=604800)
+        rows = []
 
         for i, player in enumerate(records):
             username = trim_string(player['username'], 20)
             kills = millify(player['score'])
             kills = pad_width(str_width("Kills "), kills)
 
-
-            message = "#{:02d}    | {} | {}\n".format(
+            rows.append("#{:02d}    | {} | {}".format(
                 i+1, kills, username
-            ) + message
+            ))
 
-        command = "marquee str " + message[:-1]
-        self.server.event_manager.emit_event(EVENT_COMMAND, self.__class__, username="top_kills_command", user_flags=USER_TYPE_ADMIN, args=command.split(" "))
+        rows.reverse()
+
+        scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
+        scroller.start()
 
         return None
 
@@ -177,18 +179,27 @@ class CommandTopDosh(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        records = self.server.database.top_dosh()
+        header = center_str("~ Dosh Leaderboard ~")
+        header += "\nRank | Dosh  | Username"
 
-        message = _("Top 5 players by Dosh earned:\n")
+        records = top_by_col('dosh', limit=25)
+        rows = []
 
-        for player in records[:5]:
+        for i, player in enumerate(records):
             username = trim_string(player['username'], 20)
             dosh = millify(player['score'])
-            message += "\t£{}\t-   {}\n".format(
-                dosh, username
-            )
+            dosh = pad_width(str_width("Dosh "), dosh)
 
-        return self.format_response(message[:-1], args)
+            rows.append("#{:02d}    | {} | {}".format(
+                i + 1, dosh, username
+            ))
+
+        rows.reverse()
+
+        scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
+        scroller.start()
+
+        return None
 
 
 class CommandTopTime(Command):

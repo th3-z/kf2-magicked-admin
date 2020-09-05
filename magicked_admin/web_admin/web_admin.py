@@ -28,9 +28,9 @@ class WebAdmin(object):
 
         self._game_password = None
 
-    def supported_mode(self, mode):
+    def supported_game_type(self, game_type):
         # The other modes have various bits of data omitted!
-        return self._web_interface.ma_installed or mode == GAME_TYPE_SURVIVAL
+        return self._web_interface.ma_installed or game_type == GAME_TYPE_SURVIVAL
 
     def _save_general_settings(self):
         self._web_interface.post_general_settings(
