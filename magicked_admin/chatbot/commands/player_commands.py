@@ -4,7 +4,7 @@ from .command import Command
 from utils.text import millify, trim_string, str_width, pad_width, center_str
 from utils.time import seconds_to_hhmmss
 
-from database.queries.leaderboards import top_by_col
+from database.queries.leaderboards import top_by_col, top_by_playtime
 from chatbot.scroller import Scroller
 
 _ = gettext.gettext
@@ -216,18 +216,27 @@ class CommandTopTime(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        records = self.server.database.top_time()
+        header = center_str("~ Playtime leaderboard (weekly) ~")
+        header += "\nRank | Time       | Username"
 
-        message = _("Top 5 players by play time:\n")
+        records = top_by_playtime(limit=25)
+        rows = []
 
-        for player in records[:5]:
+        for i, player in enumerate(records):
             username = trim_string(player['username'], 20)
-            time = seconds_to_hhmmss(player['score'])
-            message += "\t{}\t-   {}\n".format(
-                time, username
-            )
+            time = seconds_to_hhmmss(player['playtime'])
+            time = pad_width(str_width("Time      "), time)
 
-        return self.format_response(message[:-1], args)
+            rows.append("#{:02d}    | {} | {}".format(
+                i + 1, time, username
+            ))
+
+        rows.reverse()
+
+        scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
+        scroller.start()
+
+        return None
 
 
 class CommandScoreboard(Command):

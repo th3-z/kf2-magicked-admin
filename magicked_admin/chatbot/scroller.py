@@ -6,7 +6,7 @@ from utils.text import chat_lines, chat_width, str_width
 
 
 class Scroller(threading.Thread):
-    def __init__(self, web_admin, body, head=None, loop=False, speed=6.5, time=15):
+    def __init__(self, web_admin, body, head=None, loop=False, speed=4.5, time=15):
         threading.Thread.__init__(self)
         self.web_admin = web_admin
 
