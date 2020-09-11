@@ -9,6 +9,7 @@ magicked_admin/conf/
 .coverage
 
 # Builds / compiled locale files
+docs/_build/
 bin/
 *.mo
 
