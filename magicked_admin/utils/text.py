@@ -58,6 +58,18 @@ def pad_width(width, text):
 
     return text
 
+def pad_height(message):
+    if not message:
+        return None
+
+    message_height = len(message.split('\n'))
+    padding_lines = chat_lines - message_height + 2
+
+    if padding_lines > 0:
+        return message + '\n' * padding_lines
+    else:
+        return message
+
 def center_str(text):
     text_w = str_width(text)
     remaining = chat_width - text_w

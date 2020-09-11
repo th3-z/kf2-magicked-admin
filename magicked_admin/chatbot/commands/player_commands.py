@@ -255,20 +255,28 @@ class CommandScoreboard(Command):
 
         message = _("Scoreboard (name, kills, dosh):\n")
 
+        header = center_str("Scoreboard")
+        header += "\nKills | Dosh | Username"
+
         self.server.players.sort(
             key=lambda player: player.kills,
             reverse=True
         )
 
+        rows = []
+
         for player in self.server.players:
             username = trim_string(player.username, 20)
-            dosh = millify(player.dosh)
-            kills = player.kills
-            message += _("{}\t- {} Kills, £{}\n").format(
-                username, kills, dosh
-            )
+            dosh = pad_width(str_width("Dosh"), "£"+millify(player.dosh))
+            kills = pad_width(str_width("Kills"), millify(player.kills))
+            rows.append(_("{} | {} | {}").format(
+                kills, dosh, username
+            ))
 
-        return self.format_response(message[:-1], args)
+        scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
+        scroller.start()
+
+        return None
 
 
 class CommandTopWaveKills(Command):

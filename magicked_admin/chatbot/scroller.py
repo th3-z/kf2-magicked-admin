@@ -2,7 +2,7 @@ import threading
 import time
 from itertools import count
 
-from utils.text import chat_lines, chat_width, str_width
+from utils.text import chat_lines, chat_width, str_width, pad_height
 
 
 class Scroller(threading.Thread):
@@ -46,7 +46,7 @@ class Scroller(threading.Thread):
 
             head = "\n" + "\n".join(self.head_lines) + "\n"
 
-            self.web_admin.submit_message(head + message)
+            self.web_admin.submit_message(pad_height(head + message))
 
             if line_end < line_start and not self.loop:
                 break
