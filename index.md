@@ -39,3 +39,17 @@ Features
 
 Getting Started
 ===============
+
+Killing Floor 2 Magicked Admin runs on Windows and Linux platforms. It does not
+have to be ran on the same machine as your Killing Floor 2 server however the
+web admin panel must be enabled.
+
+Pre-built binaries are provided for Ubuntu and Windows, they can be found on
+the GitHub [releases](https://github.com/th3-z/kf2-magicked-admin/releases)
+page. 
+
+The source code for Killing Floor 2 Magicked Admin is available at the
+[GitHub repository](https://github.com/th3-z/kf2-magicked-admin).
+
+Please head over to the [documentation](https://kf2-ma.th3-z.xyz/docs) next for
+installation, configuration, and usage guidance.
