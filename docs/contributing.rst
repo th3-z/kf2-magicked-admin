@@ -1,7 +1,8 @@
+============
 Contributing
 ============
 
-I'm currently accepting contributions to this project. 
+I'm currently accepting contributions to this project.
 
 I can be contacted by [email](mailto:the_z@znel.org) or on
 [Steam](https://steamcommunity.com/id/th3-z), either is fine.
@@ -29,7 +30,7 @@ get started.
 Code
 ----
 
-If you wish to contribute code, please see the issue tracker for the current 
+If you wish to contribute code, please see the issue tracker for the current
 task list. Once you've completed a task, raise a pull request.
 
 The `README.md` file has further details about dependencies and configuring
@@ -40,7 +41,7 @@ N.b. all contributions will be released under the MIT license.
 Bug Reports
 -----------
 
-All issues, including bugs, are tracked in the issues tab. Good bug reports 
+All issues, including bugs, are tracked in the issues tab. Good bug reports
 should include the following.
 
 * Clear and descriptive title.
@@ -63,8 +64,8 @@ Style
 * Further details in commit description.
 
 ### Python
-Python has well defined standards for code style, 
-see [PEP8](https://www.python.org/dev/peps/pep-0008/). Please Use `make lint` 
+Python has well defined standards for code style,
+see [PEP8](https://www.python.org/dev/peps/pep-0008/). Please Use `make lint`
 to check for style issues, this will use `flake8` to test compliance.
 
 ### Documents
