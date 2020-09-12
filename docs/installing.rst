@@ -27,13 +27,6 @@ The Windows releases are tested on Windows 10 but should also work on Windows
    ``magicked_admin.exe`` however it is recommended that you install the
    `web admin patches <#wap-win>`_ before proceeding further.
 
-.. _`wap-win`:
-
-Web Admin Patches
------------------
-
-test
-
 Linux
 =====
 
@@ -65,13 +58,6 @@ distros.
 
 #. Press ``ctrl+c`` to exit.
 
-.. _`wap-linux`:
-
-Web Admin Patches
------------------
-
-test
-
 Docker
 ======
 
@@ -89,8 +75,31 @@ After this command runs the container will exit out and the logs will tell you
 to setup the configuration file. Go to your ``conf`` folder and set things up
 then run the container again and you are good to go!
 
+For full support outside of Survival mode you should proceed to the
+`web admin patches <#wap-docker>`_ section before proceeding further.
+
 Web Admin Patches
------------------
+=================
+
+Killing Floor 2 Magicked Admin supports survival mode out of the box with
+limited support for other game modes due to variations in the web admin panel
+when other game modes are active. For full support in other game modes the web
+admin patches must be installed on your Killing Floor 2 server.
+
+.. _`wap-win`:
+
+Windows
+-------
+
+.. _`wap-linux`:
+
+Linux
+-----
+
+.. _`wap-docker`:
+
+Docker
+------
 
 If you want to use the web admin patches so that Killing Floor 2 Magicked Admin
 gets installed into your server directory when the container starts (some
