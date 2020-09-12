@@ -1,282 +1,41 @@
-About
------
 
-Provides in-game commands, player stat tracking and ranking, live MOTD 
-scoreboard and stats, greeter, and admin functions for Killing Floor 2 servers. 
-Running entirely through the web admin, it does not affect a server's 
-ranked/custom status. It can be ran either directly on the server or remotely, 
-and manage multiple servers at once.
+About
+=====
+
+Killing Floor 2 Magicked Admin is a utility tool for ranked Killing Floor 2
+servers. It offers numerous extra features for server administrators and
+players without affecting a server's ranked status or requiring any mutators.
 
 Features
---------
+========
 
-### Commands
+* Player and match statistic tracking.
 
-When inputting commands into the chat they need to be prefixed with `!`.
-When writting commands into a script, or chaining them this should be 
-omitted. 
+* Server activity monitoring.
 
-Many commands will look for closest matches to their parameters. 
-For example '_biotics_' will match '_kf-biotics-lab_' and '_userO_' will match
-'_userOne™/@:®_'.
+* Configurable in-game chatbot.
 
-All commands have in-game help text that can be accessed with the `-h` flag.
+* Dynamic in-game leaderboards for a variety of statistics.
 
-* Example: `!commands -h`
+* Custom welcome screen leaderboards.
 
-All commands also have the following flags.
+* Interact with the in-game chat from your desktop.
 
-* `-q` - Suppresses output
-* `-p` - Pads output to hide the username line
+* Support for custom game modes and modded servers.
 
-Escape sequences as follows are available to format messages.
+* Player greeter with statistics.
 
-* `\n` - Newline
-    - Example: `!say line 0\nline 1`
-* `\t` - Tab
-    - Example: `!say line 0\n\tline 1 is indented`
+* In-game commands for both administrators and users with permission
+  management.
 
-#### Player commands
+* Extensible via scripting and Lua plugin API.
 
-Commands that can be executed by any player.
+* Manage multiple servers in a single instance.
 
-* `!commands` - Shows a list of all commands available to players
-* `!stats <user>` - Shows general statistics about a user
-    - Example: `!stats` Shows stats about yourself
-    - Example: `!stats the_z` Shows stats about the_z
-* `!kills <user>` - Shows kill statistics about a user
-    - Example: `!kills` Shows kill stats about yourself
-    - Example: `!kills the_z` Shows kill stats about the_z
-* `!dosh <user>` - Shows dosh statistics about a user
-    - Example: `!dosh` Shows dosh stats about yourself
-    - Example: `!dosh the_z` Shows dosh stats about the_z
-* `!time <user>` - Shows time statistics about a user
-    - Example: `!dosh` Shows time stats about yourself
-    - Example: `!dosh the_z` Shows time stats about the_z
-* `!map` - Shows statistics about the current map
-* `!record_wave` - Shows the highest wave achieved on the current map
-* `!top_kills` - Shows the global kills leaderboard
-* `!top_dosh` - Shows the global dosh leaderboard
-* `!top_time` - Shows the global play time leaderboard
-* `!top_wave_kills` - Shows information about who killed the most ZEDs 
-                      in the current wave. Generally for use with `start_trc`
-    - Example: `!start_trc -- top_wave_kills`
-* `!top_wave_dosh` - Shwows information about who earned the most dosh in 
-                     the current wave. Generally for use with `!start_trc`
-    - Example: `!start_trc -- top_wave_dosh`
-* `!server_kills` - Shows total kills on the server
-* `!server_dosh` - Shows total dosh earned on the server
-* `!scoreboard` - Shows the complete player scoreboard, useful on servers with >6 max players
-    - Alias: `!sb` Does the same
-* `!game` - Shows information about the current game
-* `!maps [--all]` - Shows the current map cycle
-    - Option `-a`: Show all available maps
-* `!player_count` - Shows the player count and max players
+* Automatically issue commands based upon wave, player join, deaths, or trader
+  state.
 
-#### Admin commands
+* Manage your Killing Floor 2 server remotely.
 
-Commands that can be ran by server administrators or users authorized with 
-the `!op` command.
-
-* `!op <user>` - Gives a user administrative rights
-    - Example: `!op the_z`
-* `!deop <user>` - Revokes a user's administrative rights
-    - Example: `!deop the_z`
-* `!say <message>` - Echoes a message into chat
-    - Example: `!say The quick brown fox jumps over the lazy dog`
-    - Example: `!start_trc -- say The trader is open`
-* `!players` - Shows detailed information about players on the server
-* `!kick <user>` - Kicks `<user>` from the match
-    - Example: `!kick the_z`
-* `!ban <user>` - Bans `<user>` from the server
-    - Example: `!ban the_z`
-    - Warnng: The web admin currently has a bug that causes bans to persist
-      after they are deleted, thus there is no unban command
-* `!length <length>` - Change the length to `<length>` next game
-    - Example: `!length short`
-* `!difficulty <difficulty>` - Change the difficulty to `<difficulty>` next 
-                               game
-    - Example: `!difficulty hell`
-* `!game_mode <game_mode>` - Immediately change the game mode to `<game_mode>`
-    - Example: `!game_mode endless` Changes the game mode to Endless
-* `!load_map <map>` - Immediately change the map to `<map>`
-    - Example: `!load_map biotics` Changes the map to Biotics Lab
-* `!restart` - Immediately restart the current game
-* `!password [--set] <on|off>`
-    - Example: `!password on` Enables the game password defined in the config
-    - Example: `!password off` Disables the game password
-    - Example: `!password --set somePass` Sets a specific password
-* `!start_jc -- <command>` - Start a command that runs every time a player joins
-	- Example: `!start_jc -- say Welcome %PLR` - Greets a player on join
-	- Available tokens: `%PLR` - username, `%KLL` - total kills, `%DSH` - 
-      total dosh; `%PLR` - username, `%BCK` - "back" if sessions > 1, `%DRK` - 
-      dosh rank, `%KRK` - kill rank, `%TME` - play time, `%TRK` - play time 
-      rank, `%SES` - sessions
-* `!stop_jc` - Stops all join commands
-* `!start_wc [-w <wave>] -- <command>` - Start a command that runs on wave `<wave>`
-    - `-w` Wave to run the command on, can be omitted to have the command
-    run every wave
-    - `-w` Can be negative to count backwards from the boss wave
-    - Example: `!start_wc -1 -- say Welcome to the boss wave`
-* `!stop_wc` - Stops all wave commands
-* `!start_tc [-r, -t <seconds>] -- <command>` - Start a command that runs after
-    `<seconds>` seconds
-    - Option `-r`: Add to have the command run repeatedly
-    - Option `-t`: Required, the number of seconds before the command runs
-    - Example: `!start_tc -rt 600 -- say Join our Steam group!\n
-	http://steam.group/`
-* `!stop_tc` - Stops all timed commands
-* `!start_trc [-w <wave>] -- <command>` - Start a commands that runs when the trader opens
-    - `-w` Wave to run the command on, can be omitted to have the command
-        run every wave
-    - `-w` Can be negative to count backwards from the boss wave
-    - Example: `!start_trc -- top_wave_dosh` - Shows who earned the most dosh 
-	every wave when the trader opens
-* `!stop_trc` - Stop all commands that run on trader open
-* `!silent` - Toggles suppression of all chat output, commands still have 
-              effect, but the response will not be visible to players
-* `!run <script_name>` - Executes a script from the `conf/scripts` folder, more
-                         information in the scripts section
-    - Example: `!run example`
-* `!marquee <marquee_name>` - Runs a marquee in the chat from the
-                              `conf/marquee` folder, _experimental_
-    - Example: `!marquee example`
-* `!update_motd <type>` - Refreshes the welcome screen leaderboard, type is 
-                          one of: kills, dosh, or time
-    - Example: `!start_tc 300 -- update_motd kills`
-* `!reload_motd` - Reloads the server's `*.motd` file from `conf`
-* `!enforce_dosh <amount>` - Kicks all players that have more dosh than the specified `amount`
-    - Example: `!start_tc 600 -- enforce_dosh 60000`
-
-### MOTD leaderboard
-
-Create a `conf/server_name.motd` file containing pairs of `%PLR` and `%SCR`.
-`%PLR` will be replaced with player names and `%SCR` will be replaced with
-their current score. You can now use `!update_motd <type>` to draw the
-leaderboard into your welcome screen, `<type>` should be kills, dosh, or time
-depending on the desired score metric.
-
-`%SRV_D` and `%SRV_K` will be replaced by the total dosh and kills on the 
-server respectively.
-
-### Scripts
-
-Writing a `server_name.init` in the `conf/scripts` folder with a series of commands
-will run the commands in sequence when the bot starts on `server_name`.
-
-Additional scripts can be written in the `conf/scripts` folder and ran with the
-`!run` command. There is an example already in there that can be ran with 
-`!run example`.
-
-* Comments can be added to scripts by prefixing a line with `;`.
-
-### Webadmin patches
-
-For gamemodes other than survival to function in full patches have to be
-applied to the `KFGame/Web/ServerAdmin` folder on the server. For this reason
-a script is provided in the `admin-patches` folder that will automatically
-patch your server.
-
-There is currently no CLI or Windows build for this component. You can run it
-with `python3 admin-patches/admin-patches.py`. A dialogue box will appear
-asking you to locate your server.
-
-
-Configuration options
----------------------
-
-Basic setup is done on the first run. However this does not cover all of the 
-options KF2-MA can offer. Please see the config file, `conf/magicked_admin.conf`, 
-for more configuration options as some features are disabled by default.
-
-Each server managed by KF2-MA has a section that looks something like 
-`[server_one]`, followed by several options (`x = y`). Copy and edit the
-default server section if you want to manage multiple servers. `[server_one]`
-is the name of the server, this can be changed to whatever you want.
-
-### Options
-
-Options can be configured in the config file `conf/magicked_admin.conf`.
-
-* `address`
-    - Web address of the server's webadmin panel. Requires scheme and protocol,
-    e.g. `https://0.0.0.0:8080`
-* `username`
-    - Webadmin username to login with, this will appear in the chat when the 
-    bot has something to output. It's recommended to create a separate account
-    for the bot.
-* `password`
-    - Webadmin password that matches the username above.
-* `game_password`
-    - Default game password to set when the password is toggled using 
-    `!password <on|off>`.
-* `motd_scoreboard`
-    - Boolean value, enable or disable the MOTD scoreboard feature. Defaults to
-    disabled.
-* `scoreboard_type`
-    - Possible values: `kills`, or `dosh`. Change the type of scores that are
-    displayed in the MOTD scoreboard.
-    
-Running with Docker
----------------------------
-
-Running with docker is easy. Just issue this command:
-```
-    docker run -it -p 1880:1880 --name kf2-magicked-admin -v '<host config folder location>':'/magicked_admin/conf' th3z/kf2-magicked-admin
-```
-You will need to change `<host config folder location>` to wheverever you want
-to store your config folder. `/mnt/user/appdata/kf2-magicked-admin` is a popular
-choice for systems running Unraid.
-
-After this command runs the container will exit out and the logs will tell you
-to setup the config file. Go to your `conf` folder and set things up then run 
-the container again and you are good to go!
-
-Running from Python sources
----------------------------
-
-Before contributing code you will need to install the Python requirements.
-
-### Requirements
-Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating 
-systems. Install the following packages.
-
-* Python 3.7 - `apt install python3`
-* Pip - `apt install python3-pip`
-* Python 3 dependencies - `pip3 install -r requirements.txt`
-    - This might complain about cx_freeze not installing if you haven't got 
-    zlib-dev, but cx_freeze is only needed for building.
-
-### Running 
-`git clone git@github.com:th3-z/kf2-magicked-admin.git`
-
-`cd kf2-magicked-admin`  
-
-`pip3 install -r requirements.txt`
-
-`python3 -O magicked_admin/magicked_admin.py`  
-
-The `-O` flag runs the program in release mode, remove it to run KF2-MA in 
-debug mode. Debug mode will enable more detailed output.
-
-Building
---------
-
-You can build a binary release for distribution with `make` after installing 
-both the run and build requirements. 
-
-### Requirements
-Examples work on Debian 10 and Ubuntu Xenial, may differ for other operating 
-systems.
-
-* Python 3.7 - `apt install python3`
-* Pip - `apt install python3-pip`
-* Pip dependencies - `pip3 install -r requirements.txt`
-* Make - `apt install make`
-* zlib-dev - `apt install zlib1g-dev`
-
-### Windows users
-You can build the program without make by running `setup.py`.
-
-* `python3 setup.py build`
-
+Getting Started
+===============
