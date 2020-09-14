@@ -2,7 +2,7 @@ requests
 lxml
 colorama
 termcolor
-cx_Freeze
+cx_freeze==6.2
 certifi
 babel
 isort
