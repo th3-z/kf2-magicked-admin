@@ -10,12 +10,9 @@ try:
     from getch import getch
     getch_av = True
 except ImportError:
-    try:
-        from msvcrt import getch
-        getch_av = True
-    except ImportError:
-        from getpass import getpass
-        getch_av = False
+    # msvcrt's getch is broken af
+    from getpass import getpass
+    getch_av = False
 
 # if getch is available, implement getpass() with asterisks
 if getch_av:
