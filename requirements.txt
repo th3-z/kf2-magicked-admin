@@ -1,15 +1,22 @@
+# Magicked Admin
 requests
-lxml
-colorama
-termcolor
-cx_freeze==6.2
-certifi
-babel
+lxml==4.5.2
+colorama==0.4.3
+termcolor==1.1.0
+lupa==1.9
+jinja2==2.11.2
+certifi==2020.6.20
+babel==2.8.0
+getch; sys_platform != 'win32'
+
+# Patcher
+patch==1.*
+
+# Development
 isort
 flake8
 pytest>=3.6
 pytest-cov
-patch==1.*
-lupa
-getch; sys_platform != 'win32'
-jinja2
+
+# Build
+cx_freeze==6.2
