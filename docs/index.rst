@@ -1,3 +1,11 @@
+.. image:: img/kf2-ma.png
+    :align: center
+    :width: 128px
+
+==============================
+Killing Floor 2 Magicked Admin
+==============================
+
 .. toctree::
     :maxdepth: 2
     :hidden:
@@ -11,14 +19,6 @@
     scripts
     plugins
     contributing
-
-.. image:: img/kf2-ma.png
-    :align: center
-    :width: 128px
-
-==============================
-Killing Floor 2 Magicked Admin
-==============================
 
 ----
 

@@ -3,36 +3,23 @@ GREEN_COLOR=\033[32m
 RED_COLOR=\033[31m
 YELLOW_COLOR=\033[33;01m
 
-PYTHON_OK = $(shell python --version 2> /dev/null | wc -l)
-ifneq ('$(PYTHON_OK)', '')
-	PYTHON = "python"
-endif
-PYTHON3_OK = $(shell python3 --version 2> /dev/null | wc -l)
-ifneq ('$(PYTHON3_OK)', '')
-	PYTHON = "python3"
-endif
-
-ifndef PYTHON
-	$(error "Couldn't find Python")
-endif
-
-LOCALE_DIR = ./locale
+PYTHON = "python3"
 
 all: clean build
 
-build: i18n-compile
+build:
 	@$(PYTHON) magicked_admin/setup.py build -b bin/magicked_admin
 	@$(PYTHON) admin_patches/setup.py build -b bin/admin_patches
 
 i18n-update:
-	@pybabel extract admin_patches -o locale/admin_patches.pot
-	@pybabel init -l en_GB -i locale/admin_patches.pot -d locale -o ./locale/en_GB/LC_MESSAGES/admin_patches.po
-	@pybabel extract magicked_admin -o locale/magicked_admin.pot
-	@pybabel init -l en_GB -i locale/magicked_admin.pot -d locale -o ./locale/en_GB/LC_MESSAGES/magicked_admin.po
+	@$(PYTHON) admin_patches/setup.py extract_messages --input-dirs "admin_patches" -o "admin_patches/locale/admin_patches.pot"
+	@$(PYTHON) admin_patches/setup.py init_catalog -l en_GB -i "admin_patches/locale/admin_patches.pot" -d "admin_patches/locale" -o "./admin_patches/locale/en_GB/LC_MESSAGES/admin_patches.po"
+	@$(PYTHON) magicked_admin/setup.py extract_messages --input-dirs "magicked_admin" -o magicked_admin/locale/magicked_admin.pot
+	@$(PYTHON) magicked_admin/setup.py init_catalog -l en_GB -i "magicked_admin/locale/magicked_admin.pot" -d "magicked_admin/locale" -o "./magicked_admin/locale/en_GB/LC_MESSAGES/magicked_admin.po"
 
 i18n-compile:
-	@pybabel compile -d locale -D "magicked_admin"
-	@pybabel compile -d locale -D "admin_patches"
+	@$(PYTHON) magicked_admin/setup.py compile_catalog -d "magicked_admin/locale" -D "magicked_admin"
+	@$(PYTHON) admin_patches/setup.py compile_catalog -d "admin_patches/locale" -D "admin_patches"
 
 clean:
 	-@rm -rf bin
@@ -41,9 +28,7 @@ clean:
 	-@rm -rf magicked_admin/conf/magicked_admin.log
 	-@find . -name '*.pyc' -exec rm -f {} +
 	-@find . -name '*.pyo' -exec rm -f {} +
-
-run:
-	-@./bin/magicked_admin/magicked_admin
+	-@find . -name '*.mo' -exec rm -f {} +
 
 isort:
 	@sh -c "isort --recursive ."
@@ -51,7 +36,6 @@ isort:
 pytest:
 	@echo "\n$(YELLOW_COLOR)Running tests...$(NO_COLOR)\n"
 	@pytest magicked_admin/tests --cov=magicked_admin
-
 
 lint:
 	@echo "$(YELLOW_COLOR)Checking lints...$(NO_COLOR)\n"

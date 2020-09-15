@@ -6,7 +6,7 @@ Installing
 
 This page covers installing Killing Floor 2 Magicked Admin using the pre-built
 binaries or Docker image. If you have already installed or built Killing Floor
-2 Magicked Admin you can head to the configuration page next.
+2 Magicked Admin you can head to the :doc:`configuration` page next.
 
 The latest pre-built releases are available on the releases page.
 
@@ -18,14 +18,13 @@ The Windows releases are tested on Windows 10 but should also work on Windows
 
 #. Head over to the `releases page`_ and download the most recent Windows
    version. The file you are looking for is named
-   ``kf2-magicked-admin-x.x.x-windows.zip`` where ``x.x.x`` is the version you
-   want to download.
+   ``kf2-magicked-admin-{ma_ver}-windows.zip``.
 
 #. Extract the zip archive anywhere on your computer.
 
 #. You can now run Killing Floor 2 Magicked Admin by double clicking
    ``magicked_admin.exe`` however it is recommended that you install the
-   `web admin patches <#wap-win>`_ before proceeding further.
+   `web admin patches <#wap-win>`__ before proceeding further.
 
 Linux
 =====
@@ -35,22 +34,21 @@ distros.
 
 #. Head over to the `releases page`_ and download the most recent Linux
    version. The file you are looking for is named
-   ``kf2-magicked-admin-x.x.x-linux.tar.gz`` where ``x.x.x`` is the version you
-   want to download.
+   ``kf2-magicked-admin-{ma_ver}-linux.tar.gz``.
 
     ::
 
-        wget https://github.com/th3-z/kf2-magicked-admin/releases/download/x.x.x/kf2-magicked-admin-x.x.x-linux.tar.gz
+        wget https://github.com/th3-z/kf2-magicked-admin/releases/download/{ma_ver}/kf2-magicked-admin-{ma_ver}-linux.tar.gz
 
 #. Extract the tar archive anywhere on your computer.
 
     ::
 
-        tar -xzf kf2-magicked-admin-x.x.x-linux.tar.gz
+        tar -xzf kf2-magicked-admin-{ma_ver}-linux.tar.gz
 
 #. You can now run Killing Floor 2 Magicked Admin by launching
    ``magicked_admin`` from your command line however it is recommended that you
-   install the `web admin patches <#wap-linux>`_ before proceeding further.
+   install the `web admin patches <#wap-linux>`__ before proceeding further.
 
     ::
 
@@ -76,7 +74,7 @@ to setup the configuration file. Go to your ``conf`` folder and set things up
 then run the container again and you are good to go!
 
 For full support outside of Survival mode you should proceed to the
-`web admin patches <#wap-docker>`_ section before proceeding further.
+`web admin patches <#wap-docker>`__ section before proceeding further.
 
 Web Admin Patches
 =================
@@ -91,10 +89,54 @@ admin patches must be installed on your Killing Floor 2 server.
 Windows
 -------
 
+#. Head over to the `releases page`_ and download the latest version of the web
+   admin patcher. The file name is ``admin-patcher-{ap_ver}-windows.zip``.
+
+#. Extract the zip archive anywhere on your computer.
+
+#. Double click ``admin_patcher.exe`` to run the patcher.
+
+#. When prompted navigate to the location where your Killing Floor 2 server is
+   installed and click "OK".
+
+#. All done. You should proceed to the :doc:`configuration` page next.
+
 .. _`wap-linux`:
 
 Linux
 -----
+
+#. Head over to the `releases page`_ and download the latest version of the web
+   admin patcher. The file name is ``admin-patcher-{ap_ver}-linux.tar.gz``.
+
+    ::
+
+        wget https://github.com/th3-z/kf2-magicked-admin/releases/download/{ma_ver}/admin-patcher-{ap_ver}-linux.tar.gz
+
+#. Extract the tar archive anywhere on your computer.
+
+    ::
+
+        tar -xzf admin-patcher-{ap_ver}-linux.tar.gz
+
+#. Execute ``admin_patches`` from your command line.
+
+    ::
+
+        cd admin_patcher && ./admin_patcher
+
+#. When prompted navigate to the location where your Killing Floor 2 server is
+   installed and click "OK".
+
+    .. note::
+        If you're running this on a headless server the ``--target`` option can
+        be used to specify the Killing Floor 2 server location instead.
+
+        ::
+
+            ./admin_patcher --target /srv/killing_floor_2
+
+#. All done. You should proceed to the :doc:`configuration` page next.
 
 .. _`wap-docker`:
 
