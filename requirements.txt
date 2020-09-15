@@ -9,9 +9,6 @@ certifi==2020.6.20
 babel==2.8.0
 getch; sys_platform != 'win32'
 
-# Patcher
-patch==1.*
-
 # Development
 isort
 flake8
