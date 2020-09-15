@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Magicked Admin 0.1.0\n"
+"Project-Id-Version: Magicked Admin 0.2.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-09-15 16:21+0100\n"
-"PO-Revision-Date: 2020-09-15 16:21+0100\n"
+"POT-Creation-Date: 2020-09-15 20:24+0100\n"
+"PO-Revision-Date: 2020-09-15 20:24+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_GB\n"
 "Language-Team: en_GB <LL@li.org>\n"
@@ -55,79 +55,79 @@ msgstr ""
 msgid "Program interrupted, saving data..."
 msgstr ""
 
-#: magicked_admin/settings.py:55
+#: magicked_admin/settings.py:52
 msgid ""
 "Please correct this manually  or delete '{}' to create a clean config "
 "next run."
 msgstr ""
 
-#: magicked_admin/settings.py:63
+#: magicked_admin/settings.py:60
 msgid "No configuration was found, first time setup is required!"
 msgstr ""
 
-#: magicked_admin/settings.py:75
+#: magicked_admin/settings.py:72
 msgid "Guided setup was skipped, a template has been generated."
 msgstr ""
 
-#: magicked_admin/settings.py:77
+#: magicked_admin/settings.py:74
 msgid "Setup is not complete yet, please amend '{}' with your server details."
 msgstr ""
 
-#: magicked_admin/settings.py:85
+#: magicked_admin/settings.py:82
 msgid ""
 "Configuration error(s) found!\n"
 "Section '{}' has a duplicate setting: '{}'."
 msgstr ""
 
-#: magicked_admin/settings.py:92
+#: magicked_admin/settings.py:89
 msgid "Configuration error(s) found!"
 msgstr ""
 
-#: magicked_admin/settings.py:114
+#: magicked_admin/settings.py:111
 msgid "    Please input your web admin details below."
 msgstr ""
 
-#: magicked_admin/settings.py:167
+#: magicked_admin/settings.py:164
 msgid ""
 "\n"
 "Address [default - localhost:8080]: "
 msgstr ""
 
-#: magicked_admin/settings.py:173
+#: magicked_admin/settings.py:170
 msgid ""
 "Address not responding!\n"
 "Accepted formats are: 'ip:port', 'domain', or 'domain:port'"
 msgstr ""
 
-#: magicked_admin/settings.py:176
+#: magicked_admin/settings.py:173
 msgid "Username [default - Admin]: "
 msgstr ""
 
-#: magicked_admin/settings.py:183
+#: magicked_admin/settings.py:180
 msgid "Password"
 msgstr ""
 
-#: magicked_admin/settings.py:184
+#: magicked_admin/settings.py:181
 msgid " (will not echo)"
 msgstr ""
 
-#: magicked_admin/settings.py:185
+#: magicked_admin/settings.py:182
 msgid " [default - 123]: "
 msgstr ""
 
-#: magicked_admin/settings.py:226
+#: magicked_admin/settings.py:223
 msgid "Config file is missing 'magicked_admin' section."
 msgstr ""
 
-#: magicked_admin/settings.py:229
+#: magicked_admin/settings.py:226
 msgid "Config file is missing language."
 msgstr ""
 
-#: magicked_admin/settings.py:232
+#: magicked_admin/settings.py:229
 msgid "Config file has no sections."
 msgstr ""
 
-#: magicked_admin/settings.py:241
+#: magicked_admin/settings.py:238
 msgid "Section '{}' is missing a required setting: '{}'."
 msgstr ""
 

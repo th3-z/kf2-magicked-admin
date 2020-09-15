@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Magicked Admin Patcher 0.1.0\n"
+"Project-Id-Version: Magicked Admin Patcher 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-09-15 16:21+0100\n"
-"PO-Revision-Date: 2020-09-15 16:21+0100\n"
+"POT-Creation-Date: 2020-09-15 20:24+0100\n"
+"PO-Revision-Date: 2020-09-15 20:24+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_GB\n"
 "Language-Team: en_GB <LL@li.org>\n"
