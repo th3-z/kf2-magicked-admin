@@ -87,6 +87,11 @@ head over to the :doc:`building <building>` page.
 Help
 ====
 
+.. _`official wiki`: https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)
+
+If you need help setting up a Killing Floor 2 server guidance is available on
+Killing Floor 2's `official wiki`_.
+
 If you need help running or compiling Killing Floor 2 Magicked Admin you can
 come chat with us on Matrix: ``#kf2-ma:matrix.org``.
 

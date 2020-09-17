@@ -76,6 +76,8 @@ then run the container again and you are good to go!
 For full support outside of Survival mode you should proceed to the
 `web admin patches <#wap-docker>`__ section before proceeding further.
 
+.. _`wap`:
+
 Web Admin Patches
 =================
 
