@@ -135,7 +135,7 @@ before further configuration.
     .. note::
         The username you input here will be the username of your chat bot. If
         you want to use a different name for your chat bot visit the
-        `Multi-Admin`_ section and use this account here instead.
+        `Multi-Admin`_ section and use a different account here instead.
 
 #. **Password** -- The password for the web admin account you selected above.
 
@@ -175,7 +175,7 @@ extension can be ran from the in-game chat with the
 
 **server_one.motd** -- This is a text file containing the message of the day
 for ``server_one`` as defined in ``magicked_admin.conf``. This file is covered
-in more detail on the :docs:`welcome screen`_ page.
+in more detail on the :docs:`welcome screen` page.
 
 **storage.sqlite** -- Killing Floor 2 Magicked Admin records all gameplay stats
 in this file as they are received. It's a SQLite database. This file might be a
@@ -185,16 +185,87 @@ external software.
 magicked_admin.conf
 -------------------
 
+After the initial setup this file will contain two ``[sections]``. Global
+options are under the ``[magicked_admin]`` section. The section for your server
+will be named ``[server_one]`` by default. The name of the server is arbitrary
+however the files ``conf/scripts/server_one.init`` and ``conf/server_one.motd``
+must match the name of the section, and it cannot be ``magicked_admin``. The
+server name will appear in the log file and program output.
+
+The **global** section has the following options.
+
+    ``language`` -- Locale code for the selected language. The default is
+    ``en_GB``. If you wish to contribute translations for your language head
+    over to the :doc:`contributing` page.
+
+The **server** section(s) has the following options.
+
+    ``username`` -- The username Killing Floor 2 Magicked Admin uses to log in
+    to the server's web admin panel. This will also be the name shown when
+    Killing Floor 2 Magicked Admin interacts with the in-game chat.
+
+    ``password`` -- The login password of the specified account.
+
+    ``address`` -- The URL of the server's web admin panel.
+
+    ``refresh_rate`` -- This is the rate at which Killing Floor 2 Magicked
+    Admin polls the server's server info page to retrieve stats, measured in
+    seconds. Decimal or integer values are acceptable. The default value is
+    ``1``.
+
+    ``game_password`` -- Optional pre-configured game password for use with the
+    `password <commands.html#password>`_ command. For example ``TODO``.
+
+    .. note::
+        This doesn't add a password to your server, it allows you to set a
+        pre-defined game password without having to type the password into
+        chat.
+
+    ``url_extras`` -- Optional extra url parameters to be used when switching
+    maps. This might be needed if you are using a custom game mode.
+
 Multi-Server
 ~~~~~~~~~~~~
+
+Killing Floor 2 Magicked Admin can manage multiple servers at once. This
+section covers how to add more servers.
+
+#. Open ``conf/magicked_admin.conf`` in your favourite editor.
+
+#. Copy the entire ``[server_one]`` section, including the options below it,
+   and paste it at the end of the file.
+
+    .. note::
+        If you've renamed the section copy your renamed section instead.
+
+#. Rename the section heading to something unique, for example
+   ``[server_two]``.
+
+#. Change the ``username``, ``password``, and ``address`` options to match your
+   new server.
+
+#. Restart Killing Floor 2 Magicked Admin.
 
 Linux Background Service
 ========================
 
 Linux user's have the option of running Killing Floor 2 Magicked Admin as a
-background process.
+background process. The examples are for systemd.
 
-Unit file for killing floor 2:
+Two example unit files follow, these files need go in ``/etc/systemd/system/``.
+If you already have a unit file for Killing Floor 2 you can skip the first
+file.
+
+These example services run as the user ``kf2``. Make sure you create this user
+and update any relevant file permissions as required
+(``sudo chown -R kf2 /srv/killing-floor-2``). The ``ExecStart`` and
+``WorkingDirectory`` options will also need to be adjusted to match your
+system.
+
+Once installed you will be able to manage your Killing Floor 2 server and
+Killing Floor 2 Magicked Admin with ``systemctl``.
+
+Example unit file for Killing Floor 2 (``killing-floor-2.service``).
 
     ::
 
@@ -214,7 +285,8 @@ Unit file for killing floor 2:
         [Install]
         WantedBy=multi-user.target
 
-Unit file for Killing Floor 2 Magicked Admin
+Example unit file for Killing Floor 2 Magicked Admin
+(``killing-floor-2-magicked-admin.service``).
 
     ::
 
@@ -233,3 +305,9 @@ Unit file for Killing Floor 2 Magicked Admin
 
         [Install]
         WantedBy=multi-user.target
+
+.. note::
+    The ``-s`` flag in the ``ExecStart`` line disables interactive setup. When
+    this is set a template config file will be created on initial run. You will
+    then need to configure your server(s) with a text editor and restart the
+    service.

@@ -13,10 +13,10 @@ Killing Floor 2 Magicked Admin
     installing
     building
     configuration
-    faq
-    commands
     welcome_screen
     scripts
+    commands
+    faq
     plugins
     contributing
 
