@@ -28,9 +28,9 @@ from events import EventManager
 
 from database import db_init
 
-gettext.bindtextdomain('magicked_admin', 'locale')
+gettext.bindtextdomain('magicked_admin', find_data_file('locale'))
 gettext.textdomain('magicked_admin')
-gettext.install('magicked_admin', 'locale')
+gettext.install('magicked_admin', find_data_file('locale'))
 _ = gettext.gettext
 
 init()
@@ -130,7 +130,7 @@ class MagickedAdmin:
     def run(self):
         language = self.settings.config['magicked_admin']['language']
         lang = gettext.translation(
-            'magicked_admin', 'locale', [language]
+            'magicked_admin', find_data_file('locale'), [language]
         )
         lang.install()
         os.environ['LANGUAGE'] = language[:2]
