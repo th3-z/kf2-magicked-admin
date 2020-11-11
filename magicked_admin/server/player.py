@@ -20,7 +20,7 @@ class Player:
         self._op = False
 
         self._username = None
-        self.username = username
+
         self.perk = None
         self.perk_level = 0
 
@@ -74,6 +74,7 @@ class Player:
         # self.rank_ratio_kills_deaths
 
         self._db_init()
+        self.username = username  # Setter requires row to be initialised
         self.session_id = start_session(self.steam_id, self.server.match.match_id)
 
         self.server.event_manager.register_event(
