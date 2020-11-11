@@ -26,7 +26,6 @@ class CommandMap:
             'password': CommandPassword(server),
             'silent': CommandSilent(server, chatbot),
             'run': CommandRun(server, chatbot),
-            'marquee': CommandMarquee(server, chatbot),
             'length': CommandLength(server),
             'difficulty': CommandDifficulty(server),
             'game_mode': CommandGameMode(server),
