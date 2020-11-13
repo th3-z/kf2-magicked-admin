@@ -2,7 +2,7 @@ requests
 lxml
 colorama
 termcolor
-cx_Freeze
+cx_freeze==6.2
 certifi
 babel
 isort
@@ -11,5 +11,5 @@ pytest>=3.6
 pytest-cov
 patch==1.*
 lupa
-getch
+getch; sys_platform != 'win32'
 jinja2
