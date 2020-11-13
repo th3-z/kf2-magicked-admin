@@ -2,7 +2,7 @@ import gettext
 import string
 from os import path
 
-from utils import debug, find_data_file, warning
+from utils import find_data_file
 from utils.text import millify, trim_string
 
 from jinja2 import Template
@@ -20,11 +20,11 @@ class MotdUpdater:
 
     def reload(self):
         if not path.exists(find_data_file(self.motd_path)):
-            warning(
+            """warning(
                 _("No MOTD file for {} found, pulling from web admin!").format(
                     self.server.name
                 )
-            )
+            )"""
 
             with open(self.motd_path, "w+") as motd_file:
                 motd_file.write(self.server.web_admin.get_motd())

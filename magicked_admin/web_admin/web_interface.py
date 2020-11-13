@@ -5,8 +5,6 @@ from hashlib import sha1
 import requests
 from lxml import html
 
-from utils import debug, die, info, warning, fatal
-
 _ = gettext.gettext
 
 
@@ -16,7 +14,6 @@ class AuthorizationException(Exception):
 
 class WebInterface(object):
     def __init__(self, address, username, password, server_name="unnamed"):
-        info(_("Connecting to {} ({})...").format(server_name, address))
         self._address = address
         self._username = username
         self._password = password
@@ -46,10 +43,14 @@ class WebInterface(object):
         }
 
         self._timeout = 5
+
+        # Setter event, disconnected
         self._sleeping = False
 
         self._session = self._new_session()
-        info(_("Connected to {} ({})").format(server_name, address))
+
+        # Event, connected
+        #info(_("Connected to {} ({})").format(server_name, address))
 
     def _get(self, session, url, retry_interval=6, login=False):
         while True:
@@ -64,6 +65,7 @@ class WebInterface(object):
                     )
 
                 if response.status_code > 401:
+                    # Down/unavailable
                     self._sleep()
                     time.sleep(retry_interval)
                     continue
@@ -71,30 +73,37 @@ class WebInterface(object):
                     self._wake()
 
                 if response.status_code == 401 and not self._http_auth:
+                    # Re-try with http auth, log this
                     self._http_auth = True
                     return self._get(
                         session, url, retry_interval, login
                     )
                 elif response.status_code == 401 and self._http_auth:
+                    # Dead, bad creds
                     raise AuthorizationException
 
                 if not login:
                     if "hashAlg" in response.text:
-                        info(_("Session killed, renewing!"))
+                        #info(_("Session killed, renewing!"))
                         try:
                             self._session = self._new_session()
                         except AuthorizationException:
-                            die(
+                            # Dead, bad creds
+                            """die(
                                 _("Authorization error, credentials changed?"),
                                 pause=True
-                            )
+                            )"""
 
                     else:
                         return response
                 else:
                     return response
 
-            except requests.exceptions.HTTPError:
+            except Exception:
+                pass
+
+            # To go logger
+            """except requests.exceptions.HTTPError:
                 debug("HTTPError getting {}. Retrying in {}s"
                       .format(url, retry_interval))
             except requests.exceptions.ConnectionError:
@@ -107,6 +116,7 @@ class WebInterface(object):
                 debug("None-specific RequestException getting {}, "
                       "{}. Retrying in {}s"
                       .format(url, str(err), retry_interval))
+            """
 
             time.sleep(retry_interval)
 
@@ -142,18 +152,22 @@ class WebInterface(object):
 
                 if not login:
                     if "hashAlg" in response.text:
-                        info(_("Session killed, renewing!"))
+                        #info(_("Session killed, renewing!"))
                         try:
                             self._session = self._new_session()
                         except AuthorizationException:
-                            die(
+                            # Dead
+                            """die(
                                 _("Authorization error, credentials changed?"),
                                 pause=True
-                            )
+                            )"""
                 else:
                     return response
                 return response
-            except requests.exceptions.HTTPError:
+
+            except Exception:
+                pass
+            """except requests.exceptions.HTTPError:
                 debug("HTTPError posting {}. Retrying in {}s"
                       .format(url, retry_interval))
             except requests.exceptions.ConnectionError:
@@ -165,18 +179,18 @@ class WebInterface(object):
             except requests.exceptions.RequestException as err:
                 debug("None-specific RequestException posting {}, "
                       "{}. Retrying in {}s"
-                      .format(url, str(err), retry_interval))
+                      .format(url, str(err), retry_interval))"""
 
             time.sleep(retry_interval)
 
     def _sleep(self):
         if not self._sleeping:
-            info(_("Web admin not responding, sleeping"))
+            #info(_("Web admin not responding, sleeping"))
             self._sleeping = True
 
     def _wake(self):
         if self._sleeping:
-            info(_("Web admin is back, resuming"))
+            #info(_("Web admin is back, resuming"))
             self._sleeping = False
 
     def _new_session(self):
@@ -217,10 +231,6 @@ class WebInterface(object):
 
         if "<!-- KF2-MA-INSTALLED-FLAG -->" in response.text:
             self.ma_installed = True
-            info(_("Detected KF2-MA install on server."))
-        else:
-            warning(_("KF2-MA install not detected on server side! "
-                      "Consequently, only Survival mode will function fully."))
 
         return session
 
@@ -438,10 +448,10 @@ class WebInterface(object):
         if len(map_results):
             map_name = map_results[0]
         else:
-            warning(
+            """warning(
                 "Couldn't retrieve map information, please check that your "
                 "KFMapSummary section is correctly configured for this map"
-            )
+            )"""
             map_name = "KF-BioticsLab"
         url_extra = map_tree.xpath(url_extra_pattern)[0]
         mutator_count = map_tree.xpath(mutator_count_pattern)[0]

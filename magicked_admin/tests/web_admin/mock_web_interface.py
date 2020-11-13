@@ -5,7 +5,7 @@ from hashlib import sha1
 import requests
 from lxml import html
 
-from utils import debug, die, info, warning
+from utils import die
 
 _ = gettext.gettext
 

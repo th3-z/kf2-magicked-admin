@@ -3,7 +3,7 @@ import sqlite3
 from os import path
 import time
 
-from utils import find_data_file, info, warning
+from utils import find_data_file
 from database.schema import schema
 
 _ = gettext.gettext
@@ -28,7 +28,7 @@ def db_connector(func):
             ret = func(*args, **kwargs)
         except Exception:
             conn.rollback()
-            warning(_("SQLite error"))
+            #warning(_("SQLite error"))
             raise
         else:
             conn.commit()
@@ -41,7 +41,7 @@ def db_connector(func):
 
 def db_init():
     if not path.exists(_sqlite_db_file):
-        info(_("Building new database..."))
+        #info(_("Building new database..."))
 
         conn = sqlite3.connect(_sqlite_db_file, isolation_level=None)
         cur = conn.cursor()

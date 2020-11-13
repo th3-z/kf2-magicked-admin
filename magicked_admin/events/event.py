@@ -19,7 +19,7 @@ class Event:
         self._listeners.append(listener)
 
     def remove_listener(self, listener):
-        print("RELEASED: ", listener, self.name)
+        print("released: ", listener, self.name)
         self._listeners.remove(listener)
 
     def emit(self, sender, **kwargs):

@@ -2,17 +2,11 @@ import gettext
 import time
 
 from database import db_connector
-from utils import warning, BANNER_URL
 
 from events import (
     EVENT_MATCH_UPDATE, EVENT_WAVE_START, EVENT_WAVE_END, EVENT_TRADER_OPEN,
     EVENT_TRADER_CLOSE, EVENT_MATCH_START
 )
-
-from colorama import init
-from termcolor import colored
-
-init()
 
 _ = gettext.gettext
 

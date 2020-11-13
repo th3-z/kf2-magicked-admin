@@ -14,7 +14,7 @@ ROOT_PATH = os.path.join(SRC_PATH, '..')
 CERT_PATH = certifi.where()
 
 if not CERT_PATH:
-    print("Couldn't find cacert.pem for SSL requests.")
+    print(" [!] Couldn't find cacert.pem for SSL requests.")
     sys.exit()
 
 

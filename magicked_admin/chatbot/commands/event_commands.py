@@ -6,7 +6,6 @@ from chatbot.commands.event_handlers import (
 )
 from chatbot.commands.command import Command
 from chatbot.commands import ALL_WAVES
-from utils import warning
 from utils.text import trim_string
 
 _ = gettext.gettext

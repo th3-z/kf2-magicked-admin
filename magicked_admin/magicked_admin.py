@@ -4,196 +4,168 @@ Copyright th3-z (the_z) 2018
 Released under the terms of the MIT license
 """
 
-import argparse
 import gettext
 import os
-import signal
 import sys
+from signal import signal, SIGTERM, SIGINT
 
-from colorama import init
 
-# TODO: Improve package layouts
 from chatbot.chatbot import Chatbot
 from chatbot.motd_updater import MotdUpdater
 from chatbot.commands.command_map import CommandMap
 from server.server import Server
-from settings import Settings, CONFIG_PATH
-from utils import banner, die, find_data_file, info, warning
+from settings import Settings
+from utils import find_data_file
 from web_admin.state_transition_worker import StateTransitionWorker
 from web_admin import WebAdmin
 from web_admin.web_interface import WebInterface, AuthorizationException
 from web_admin.chat_worker import ChatWorker
 from lua_bridge.lua_bridge import LuaBridge
 from events import EventManager
-
 from database import db_init
 
 gettext.bindtextdomain('magicked_admin', find_data_file('locale'))
 gettext.textdomain('magicked_admin')
 gettext.install('magicked_admin', find_data_file('locale'))
-_ = gettext.gettext
 
-init()
-
-parser = argparse.ArgumentParser(
+"""parser = argparse.ArgumentParser(
     description=_('Killing Floor 2 Magicked Administrator')
 )
 parser.add_argument('-s', '--skip_setup', action='store_true',
                     help=_('Skips the guided setup process'))
-args = parser.parse_args()
+args = parser.parse_args()"""
 
-banner()
-
-REQUESTS_CA_BUNDLE_PATH = find_data_file("./certifi/cacert.pem")
-
+GUI_MODE = False
 
 if hasattr(sys, "frozen"):
     import certifi.core
 
-    os.environ["REQUESTS_CA_BUNDLE"] = REQUESTS_CA_BUNDLE_PATH
-    certifi.core.where = REQUESTS_CA_BUNDLE_PATH
+    requests_ca_bundle_path = find_data_file("./certifi/cacert.pem")
+    os.environ["REQUESTS_CA_BUNDLE"] = requests_ca_bundle_path
+    certifi.core.where = requests_ca_bundle_path
 
     import requests.utils
     import requests.adapters
 
-    requests.utils.DEFAULT_CA_BUNDLE_PATH = REQUESTS_CA_BUNDLE_PATH
-    requests.adapters.DEFAULT_CA_BUNDLE_PATH = REQUESTS_CA_BUNDLE_PATH
+    requests.utils.DEFAULT_CA_BUNDLE_PATH = requests_ca_bundle_path
+    requests.adapters.DEFAULT_CA_BUNDLE_PATH = requests_ca_bundle_path
 
 
 class MagickedAdmin:
-    def __init__(self):
-        signal.signal(signal.SIGINT, self.terminate)
-        self.stop_list = []
-        self.sigint_count = 0
-        self.settings = Settings(
-            CONFIG_PATH,
-            skip_setup=args.skip_setup
-        )
+    version = "0.2.0"
+    servers = {}
+    ui = None
 
-    def reconfigure(self):
-        self.settings = Settings(
-            CONFIG_PATH,
-            skip_setup=args.skip_setup,
-            reconfigure=True
-        )
+    @classmethod
+    def add_server(cls, server_name, server_config):
+        if server_name in cls.servers.keys():
+            return
 
-    def make_server(self, name):
-        address = self.settings.setting(name, "address")
-        username = self.settings.setting(name, "username")
-        password = self.settings.setting(name, "password")
-        game_password = self.settings.setting(name, "game_password")
-        url_extras = self.settings.setting(name, "url_extras")
-        refresh_rate = float(self.settings.setting(name, "refresh_rate"))
+        cls.servers[server_name] = []
 
         event_manager = EventManager()
-        web_interface = WebInterface(address, username, password, name)
+        web_interface = WebInterface(
+            server_config.address, server_config.username,
+            server_config.password, server_name
+        )
         web_admin = WebAdmin(web_interface, event_manager)
 
         chat_worker = ChatWorker(
             web_admin, event_manager, refresh_rate=1
         )
         chat_worker.start()
-        self.stop_list.append(chat_worker)
+
+        cls.servers[server_name].append(chat_worker)
 
         state_transition_worker = StateTransitionWorker(
-            web_admin, event_manager, refresh_rate
+            web_admin, event_manager, int(server_config.refresh_rate)
         )
         state_transition_worker.start()
-        self.stop_list.append(state_transition_worker)
+        cls.servers[server_name].append(state_transition_worker)
 
-        server = Server(web_admin, event_manager, name)
-        self.stop_list.append(server)
+        server = Server(web_admin, event_manager, server_name)
+        server.game_password = server_config.game_password
+        server.url_extras = server_config.url_extras
+        cls.servers[server_name].append(server)
 
-        if game_password:
-            server.game_password = game_password
-        if url_extras:
-            server.url_extras = url_extras
-
-        return server
-
-    def make_chatbot(self, server):
         chatbot = Chatbot(server.web_admin, server.event_manager)
 
         commands = CommandMap().get_commands(
             server, chatbot, MotdUpdater(server)
         )
 
-        for name, command in commands.items():
-            chatbot.add_command(name, command)
+        for command_name, command in commands.items():
+            chatbot.add_command(command_name, command)
 
         chatbot.run_init(find_data_file(
-            "conf/scripts/" + server.name + ".init"
+            "conf/scripts/" + server_name + ".init"
         ))
+        lua_bridge = LuaBridge(server, chatbot)
+        chatbot.lua_bridge = lua_bridge
 
-        return chatbot
+        if server_name not in Settings.servers.keys():
+            Settings.add_server(server_name, server_config)
 
-    def run(self):
-        language = self.settings.config['magicked_admin']['language']
-        lang = gettext.translation(
-            'magicked_admin', find_data_file('locale'), [language]
-        )
-        lang.install()
-        os.environ['LANGUAGE'] = language[:2]
+    @classmethod
+    def remove_server(cls, name):
+        if name not in cls.servers.keys():
+            return
 
+        for item in cls.servers[name]:
+            item.close()
+        cls.servers.pop(name)
+
+        Settings.remove_server(name)
+
+    @classmethod
+    def run(cls):
+        cls.banner()
         db_init()
 
-        servers = []
+        for server_name, server_config in Settings.servers.items():
+            cls.add_server(server_name, server_config)
 
-        for server_name in self.settings.servers():
-            try:
-                server = self.make_server(server_name)
-            except AuthorizationException:
-                if len(self.settings.servers()) > 1:
-                    warning(
-                        _("Couldn't connect to server: {}").format(server_name)
-                    )
-                    continue
-                else:
-                    answer = input(
-                        _("Authorization error connecting to '{}', reconfigure"
-                          "? [Y/n]: ").format(
-                            self.settings.setting(server_name, "address")
-                        )
-                    )
-                    if answer.lower() in [_("yes"), _("y")]:
-                        self.reconfigure()
-                        self.run()
-                    else:
-                        die("Couldn't connect to server", pause=True)
-                    return
+    @classmethod
+    def close(cls):
+        for stop_list in cls.servers.values():
+            for item in stop_list:
+                item.close()
+        sys.exit(0)
 
-            servers.append(server)
-            chatbot = self.make_chatbot(server)
-            lua_bridge = LuaBridge(server, chatbot)
-            chatbot.lua_bridge = lua_bridge
+    @classmethod
+    def banner(cls):
+        version_text = "<<{}{}>>".format(
+            cls.version, "#DEBUG" if Settings.debug else ""
+        )
 
-        info(_("Initialisation complete!\n"))
-
-        if not args.skip_setup:
-            while True:
-                command = input()
-                for server in servers:
-                    server.web_admin.submit_message(command)
-
-    def terminate(self, signal, frame):
-        if self.sigint_count > 1:
-            print()  # \n
-            warning(_("Closing immediately!"))
-            os._exit(0)
-            return
-
-        self.sigint_count += 1
-        if self.sigint_count > 1:
-            return
-
-        print()  # \n
-        info(_("Program interrupted, saving data..."))
-
-        for item in self.stop_list:
-            item.close()
-        die()
+        # figlet -f rectangles "example"
+        lines = [
+            "               _     _         _\n"
+            " _____ ___ ___|_|___| |_ ___ _| |\n",
+            "|     | .'| . | |  _| '_| -_| . |\n",
+            "|_|_|_|__,|_  |_|___|_,_|___|___|\n",
+            "        _ |___| _ \n",
+            "  ___ _| |_____|_|___   {}\n".format(version_text),
+            " | .'| . |     | |   |  {}\n".format(Settings.banner_url),
+            " |__,|___|_|_|_|_|_|_|\n"
+        ]
+        print(str.join('', lines))
 
 
 if __name__ == "__main__":
-    application = MagickedAdmin()
-    application.run()
+    MagickedAdmin.run()
+
+    signal(SIGINT, MagickedAdmin.close)
+    signal(SIGTERM, MagickedAdmin.close)
+
+    if GUI_MODE:
+        sys.exit()
+    elif len(Settings.servers.keys()) < 1:
+        Settings.append_template()
+        print(
+            " [!] No servers have been configured yet, "
+            "please amend '{}' with your server details".format(
+                Settings.config_path_display
+            )
+        )
+        MagickedAdmin.close()

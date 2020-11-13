@@ -3,7 +3,7 @@ import requests
 from lupa import LuaRuntime
 
 from utils.lua import load_script
-from utils import find_data_file, warning
+from utils import find_data_file
 
 """
 API Specification:
@@ -26,7 +26,7 @@ class LuaBridge():
 
         # Params: str:namespace
         self.new_namespace = self.lua.eval("bridge.new_namespace")
-        self.lua.eval("log.info(\"Initialisation complete\")")
+        #self.lua.eval("log.info(\"Initialisation complete\")")
 
         self.server = server
         self.chatbot = chatbot
@@ -87,13 +87,15 @@ class LuaBridge():
         try:
             self.lua.execute(load_script(filename))
         except Exception as err:
-            warning(str(err))
+            pass
+            #warning(str(err))
 
     def eval(self, string):
         try:
             return self.lua.eval(string)
         except Exception as err:
-            warning(str(err))
+            pass
+            #warning(str(err))
 
     def receive_message(self, username, message, user_flags):
         # TODO: Call lua event handler

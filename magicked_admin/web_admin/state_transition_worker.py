@@ -2,8 +2,6 @@ import gettext
 import threading
 import time
 
-from colorama import init
-
 from events import (
     EVENT_SERVER_UPDATE, EVENT_MATCH_UPDATE, EVENT_PLAYERS_UPDATE,
     EVENT_PLAYER_UPDATE
@@ -11,7 +9,6 @@ from events import (
 from utils.alg import uuid
 
 _ = gettext.gettext
-init()
 
 
 class StateTransitionWorker(threading.Thread):

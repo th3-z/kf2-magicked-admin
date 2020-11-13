@@ -2,7 +2,7 @@ import gettext
 from argparse import ArgumentError
 
 from chatbot.commands.argument_parser import ArgumentParser
-from utils import BANNER_URL, debug, DEBUG
+from settings import Settings
 from web_admin.constants import *
 
 _ = gettext.gettext
@@ -22,7 +22,7 @@ class Command:
             "This action isn't supported without Killing Floor 2 Magicked "
             "Administrator's server side patch! Please review the "
             "documentation at '{}' for guidance."
-        ).format(BANNER_URL)
+        ).format(Settings.banner_url)
 
         self.help_text = _(
             "The help text for this command hasn't been written!"
@@ -62,18 +62,18 @@ class Command:
             args, _ = self.parser.parse_known_args(args[1:])
             error = None
         except ArgumentError as exc:
-            if exc.argument and DEBUG:
+            if exc.argument and Settings.debug:
                 error = "{} Argument ({})".format(exc.message, exc.argument)
             else:
                 error = exc.message
-            debug("Argparse error in {}: {}".format(
+            """debug("Argparse error in {}: {}".format(
                 self.__class__.__name__, error
-            ))
+            ))"""
         except SystemExit:
             error = None
-            debug("Argparse tried to exit!\n\tCommand: {}\n\tArgs: {}".format(
+            """debug("Argparse tried to exit!\n\tCommand: {}\n\tArgs: {}".format(
                 args[0], args[1:]
-            ))
+            ))"""
 
         return args, error
 
