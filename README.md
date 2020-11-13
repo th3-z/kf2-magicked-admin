@@ -1,5 +1,5 @@
 <p align="center">
-    <img width=125 height=125 src="https://git.th3-z.xyz/img/gitea-lg.png"/>
+    <img width=125 height=125 src="https://files.th3-z.xyz/standing/kf2-ma.pngg"/>
 </p>
 
 <h1 align="center">Killing Floor 2 Magicked Admin</h1>
