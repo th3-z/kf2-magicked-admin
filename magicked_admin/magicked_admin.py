@@ -7,8 +7,10 @@ Released under the terms of the MIT license
 import gettext
 import os
 import sys
+import argparse
+import logging
 from signal import signal, SIGTERM, SIGINT
-
+from PySide2 import QtCore, QtWidgets
 
 from chatbot.chatbot import Chatbot
 from chatbot.motd_updater import MotdUpdater
@@ -28,14 +30,33 @@ gettext.bindtextdomain('magicked_admin', find_data_file('locale'))
 gettext.textdomain('magicked_admin')
 gettext.install('magicked_admin', find_data_file('locale'))
 
-"""parser = argparse.ArgumentParser(
-    description=_('Killing Floor 2 Magicked Administrator')
+parser = argparse.ArgumentParser(
+    description='Killing Floor 2 Magicked Administrator'
 )
-parser.add_argument('-s', '--skip_setup', action='store_true',
-                    help=_('Skips the guided setup process'))
-args = parser.parse_args()"""
+parser.add_argument(
+    '-n', '--nogui', action='store_true',
+    help='Disables the GUI for headless operation'
+)
+args = parser.parse_args()
 
-GUI_MODE = False
+root_logger = logging.getLogger()
+root_logger.setLevel(Settings.log_level)
+formatter = logging.Formatter("[%(asctime)s %(levelname)-5.5s] %(message)s", "%Y-%m-%d %H:%M:%S")
+
+file_handler = logging.FileHandler(
+    os.environ.get("LOGFILE", find_data_file("conf/magicked_admin.log")),
+    encoding="utf-8"
+)
+file_handler.setFormatter(formatter)
+root_logger.addHandler(file_handler)
+
+stream_handler = logging.StreamHandler(sys.stdout)
+stream_handler.setFormatter(formatter)
+root_logger.addHandler(stream_handler)
+
+logger = logging.getLogger(__name__)
+
+GUI_MODE = not args.nogui
 
 if hasattr(sys, "frozen"):
     import certifi.core
@@ -54,10 +75,12 @@ if hasattr(sys, "frozen"):
 class MagickedAdmin:
     version = "0.2.0"
     servers = {}
+    qthreads = []
     ui = None
 
     @classmethod
     def add_server(cls, server_name, server_config):
+        logger.info("Initialising {}".format(server_name))
         if server_name in cls.servers.keys():
             return
 
@@ -74,19 +97,21 @@ class MagickedAdmin:
             web_admin, event_manager, refresh_rate=1
         )
         chat_worker.start()
-
-        cls.servers[server_name].append(chat_worker)
+        cls.qthreads.append(chat_worker)
 
         state_transition_worker = StateTransitionWorker(
             web_admin, event_manager, int(server_config.refresh_rate)
         )
         state_transition_worker.start()
-        cls.servers[server_name].append(state_transition_worker)
+        cls.qthreads.append(state_transition_worker)
 
-        server = Server(web_admin, event_manager, server_name)
+        server = Server(
+            web_admin, event_manager, server_name, chat_worker,
+            state_transition_worker
+        )
         server.game_password = server_config.game_password
         server.url_extras = server_config.url_extras
-        cls.servers[server_name].append(server)
+        cls.servers[server_name] = server
 
         chatbot = Chatbot(server.web_admin, server.event_manager)
 
@@ -100,8 +125,8 @@ class MagickedAdmin:
         chatbot.run_init(find_data_file(
             "conf/scripts/" + server_name + ".init"
         ))
-        lua_bridge = LuaBridge(server, chatbot)
-        chatbot.lua_bridge = lua_bridge
+        #lua_bridge = LuaBridge(server, chatbot)
+        #chatbot.lua_bridge = lua_bridge
 
         if server_name not in Settings.servers.keys():
             Settings.add_server(server_name, server_config)
@@ -111,8 +136,9 @@ class MagickedAdmin:
         if name not in cls.servers.keys():
             return
 
-        for item in cls.servers[name]:
-            item.close()
+        for server_name, server in cls.servers.items():
+            if server_name == name:
+                server.close()
         cls.servers.pop(name)
 
         Settings.remove_server(name)
@@ -126,11 +152,10 @@ class MagickedAdmin:
             cls.add_server(server_name, server_config)
 
     @classmethod
-    def close(cls):
-        for stop_list in cls.servers.values():
-            for item in stop_list:
-                item.close()
-        sys.exit(0)
+    def close(cls, signal=None, frame=None):
+        logger.info("Program interrupted, shutting down...")
+        for server in cls.servers.values():
+            server.close()
 
     @classmethod
     def banner(cls):
@@ -153,13 +178,17 @@ class MagickedAdmin:
 
 
 if __name__ == "__main__":
-    MagickedAdmin.run()
-
     signal(SIGINT, MagickedAdmin.close)
     signal(SIGTERM, MagickedAdmin.close)
 
     if GUI_MODE:
-        sys.exit()
+        from gui import Gui
+        app = QtWidgets.QApplication(sys.argv)
+        gui = Gui(app)
+        MagickedAdmin.run()
+        app.exec_()
+        MagickedAdmin.close()
+
     elif len(Settings.servers.keys()) < 1:
         Settings.append_template()
         print(
@@ -168,4 +197,14 @@ if __name__ == "__main__":
                 Settings.config_path_display
             )
         )
-        MagickedAdmin.close()
+
+    else:
+        MagickedAdmin.run()
+
+    exit = False
+    while not exit:
+        exit = True
+        for thread in MagickedAdmin.qthreads:
+            if not thread.isFinished():
+                exit = False
+

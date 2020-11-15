@@ -1,5 +1,4 @@
-import gettext
-import string
+import logging
 from os import path
 
 from utils import find_data_file
@@ -7,7 +6,7 @@ from utils.text import millify, trim_string
 
 from jinja2 import Template
 
-_ = gettext.gettext
+logger = logging.getLogger(__name__)
 
 
 class MotdUpdater:
@@ -20,11 +19,11 @@ class MotdUpdater:
 
     def reload(self):
         if not path.exists(find_data_file(self.motd_path)):
-            """warning(
-                _("No MOTD file for {} found, pulling from web admin!").format(
+            logger.warning(
+                "No MOTD file for {} found, pulling from web admin!".format(
                     self.server.name
                 )
-            )"""
+            )
 
             with open(self.motd_path, "w+") as motd_file:
                 motd_file.write(self.server.web_admin.get_motd())
@@ -35,6 +34,7 @@ class MotdUpdater:
         self.motd = motd
 
     def update(self):
+        logger.debug("MOTD updated on {}".format(self.server.name))
         if not self.motd:
             return
 

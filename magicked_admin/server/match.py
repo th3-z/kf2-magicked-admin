@@ -1,4 +1,4 @@
-import gettext
+import logging
 import time
 
 from database import db_connector
@@ -8,7 +8,7 @@ from events import (
     EVENT_TRADER_CLOSE, EVENT_MATCH_START
 )
 
-_ = gettext.gettext
+logger = logging.getLogger(__name__)
 
 
 class Match:
@@ -55,6 +55,7 @@ class Match:
 
         if match_update_data.trader_open and not self.trader_time:
             # Waves are considered over once the trader opens
+            logger.info("Wave {} start on {}".format(self.wave, self.server.name))
             self.server.event_manager.emit_event(
                 EVENT_WAVE_END, self.__class__, match=self
             )
@@ -73,6 +74,9 @@ class Match:
         if match_update_data.wave and not self.start_date:
             # Match starts at wave 1, wave 0 is lobby
             self.start_date = time.time()
+            logger.info("New match on {}, map: {}, mode: {}".format(
+                self.server.name, self.level.name, self.game_type)
+            )
             self.server.event_manager.emit_event(
                 EVENT_MATCH_START, self.__class__, match=self
             )
@@ -82,6 +86,7 @@ class Match:
         self.zeds_total = match_update_data.zeds_total
 
         if new_wave:
+            logger.info("Wave {} ended on {}".format(self.wave, self.server.name))
             self.server.event_manager.emit_event(
                 EVENT_WAVE_START, self.__class__, match=self
             )

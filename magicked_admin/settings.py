@@ -3,6 +3,7 @@ import gettext
 import os
 import sys
 from collections import namedtuple
+import logging
 
 from utils import find_data_file
 
@@ -45,7 +46,7 @@ class Settings:
     banner_url = "https://kf2-ma.th3-z.xyz/"
     config_path = find_data_file("conf/magicked_admin.conf")
     config_path_display = "conf/magicked_admin.conf"
-    # log_level
+    log_level = logging.DEBUG if debug else logging.INFO
 
     language = "en_GB"
     servers = {}

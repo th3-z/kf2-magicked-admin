@@ -1,13 +1,14 @@
 # Magicked Admin
 requests
 lxml==4.5.2
-colorama==0.4.3
-termcolor==1.1.0
 lupa==1.9
 jinja2==2.11.2
 certifi==2020.6.20
 babel==2.8.0
 getch; sys_platform != 'win32'
+
+# GUI
+pyside2
 
 # Development
 isort

@@ -1,4 +1,4 @@
-import gettext
+import logging
 from itertools import groupby
 
 from lxml import html
@@ -7,7 +7,7 @@ from utils.net import get_country
 from utils.text import str_to_bool
 from web_admin.constants import *
 
-_ = gettext.gettext
+logger = logging.getLogger(__name__)
 
 
 class WebAdmin(object):
@@ -135,7 +135,7 @@ class WebAdmin(object):
 
     def toggle_game_password(self):
         if not self._game_password:
-            #warning(_("Tried to toggle game password before setting value"))
+            logger.warning(_("Tried to toggle game password before setting value"))
             return False
 
         if self._has_game_password():
@@ -268,7 +268,7 @@ class WebAdmin(object):
             # admin_col = theads_result.index("admin")
             #     if "admin" in theads_result else None
         else:
-            #fatal("Couldn't find server info headings")
+            logger.info("Couldn't find server info headings")
             return player_updates
 
         # xpath to <td>s and retrieve text manually to catch empty cells
@@ -441,7 +441,7 @@ class WebAdmin(object):
                 country, country_code = get_country(ip)
 
         if players_found != 1:
-            #warning(_("Couldn't find identify player: {}").format(username))
+            logger.warning("Couldn't find identify player: {}".format(username))
             return None
 
         return PlayerIdentityData(

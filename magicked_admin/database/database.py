@@ -1,13 +1,13 @@
-import gettext
 import sqlite3
 from os import path
 import time
+import logging
 
 from utils import find_data_file
 from database.schema import schema
 
-_ = gettext.gettext
 _sqlite_db_file = find_data_file("conf/storage.sqlite")
+logger = logging.getLogger(__name__)
 
 
 def _dict_row_factory(c, r):
@@ -28,7 +28,7 @@ def db_connector(func):
             ret = func(*args, **kwargs)
         except Exception:
             conn.rollback()
-            #warning(_("SQLite error"))
+            logger.warning("SQLite error")
             raise
         else:
             conn.commit()
@@ -41,7 +41,7 @@ def db_connector(func):
 
 def db_init():
     if not path.exists(_sqlite_db_file):
-        #info(_("Building new database..."))
+        logger.info("Building new database...")
 
         conn = sqlite3.connect(_sqlite_db_file, isolation_level=None)
         cur = conn.cursor()

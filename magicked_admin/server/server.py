@@ -1,4 +1,4 @@
-import gettext
+import logging
 
 from server.player import Player
 from server.level import Level
@@ -9,13 +9,15 @@ from events import (
     EVENT_PLAYER_JOIN, EVENT_PLAYER_QUIT
 )
 
-_ = gettext.gettext
+logger = logging.getLogger(__name__)
 
 
 class Server:
-    def __init__(self, web_admin, event_manager, name):
+    def __init__(self, web_admin, event_manager, name, chat_worker, state_transition_worker):
         self.name = name
         self.web_admin = web_admin
+        self.chat_worker = chat_worker
+        self.state_transition_worker = state_transition_worker
 
         self.game_password = None
 
@@ -61,6 +63,10 @@ class Server:
         # End current match unless its the first one
         if new_match and self.match:
             self.rejected_players = []
+
+            logger.info("Match ended on {}, map: {}, mode: {}".format(
+                self.name, self.match.level.name, self.match.game_type)
+            )
             self.event_manager.emit_event(
                 EVENT_MATCH_END, self.__class__, match=self.match
             )
@@ -83,6 +89,7 @@ class Server:
         # Quitters
         for player in self.players:
             if player.username not in [p.username for p in players_update_data]:
+                logger.info("Player, {}, left {}".format(player.username, self.name))
                 self.event_manager.emit_event(
                     EVENT_PLAYER_QUIT, self.__class__, player=player
                 )
@@ -107,6 +114,7 @@ class Server:
 
                 player = Player(self, player_update_data.username, identity)
                 self.players.append(player)
+                logger.info("Player, {}, joined {}".format(player.username, self.name))
                 self.event_manager.emit_event(
                     EVENT_PLAYER_JOIN, self.__class__, player=player
                 )
@@ -219,6 +227,9 @@ class Server:
         self.web_admin.set_game_type(mode)
 
     def close(self):
+        self.state_transition_worker.close()
+        self.chat_worker.close()
+
         if self.match:
             self.match.close()
         for player in self.players:

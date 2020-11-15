@@ -1,12 +1,13 @@
-import gettext
+import logging
 import time
 from hashlib import sha1
 
 import requests
 from lxml import html
 
-_ = gettext.gettext
-
+logger = logging.getLogger(__name__)
+logging.getLogger("requests").setLevel(logging.WARNING)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 class AuthorizationException(Exception):
     pass
@@ -50,7 +51,7 @@ class WebInterface(object):
         self._session = self._new_session()
 
         # Event, connected
-        #info(_("Connected to {} ({})").format(server_name, address))
+        logger.info("Connected to {} ({})".format(server_name, address))
 
     def _get(self, session, url, retry_interval=6, login=False):
         while True:
@@ -73,21 +74,25 @@ class WebInterface(object):
                     self._wake()
 
                 if response.status_code == 401 and not self._http_auth:
-                    # Re-try with http auth, log this
+                    logger.info(
+                        "Trying to login with basic auth for '{}'".format(self.server_name)
+                    )
                     self._http_auth = True
                     return self._get(
                         session, url, retry_interval, login
                     )
                 elif response.status_code == 401 and self._http_auth:
                     # Dead, bad creds
+                    logger.error("{}'s credentials were rejected".format(self.server_name))
                     raise AuthorizationException
 
                 if not login:
                     if "hashAlg" in response.text:
-                        #info(_("Session killed, renewing!"))
+                        logger.warning("{}'s session expired, attempting to renew".format(self.server_name))
                         try:
                             self._session = self._new_session()
                         except AuthorizationException:
+                            logger.error("Couldn't renew session for '{}'".format(self.server_name))
                             # Dead, bad creds
                             """die(
                                 _("Authorization error, credentials changed?"),
@@ -99,24 +104,19 @@ class WebInterface(object):
                 else:
                     return response
 
-            except Exception:
-                pass
-
-            # To go logger
-            """except requests.exceptions.HTTPError:
-                debug("HTTPError getting {}. Retrying in {}s"
-                      .format(url, retry_interval))
+            except requests.exceptions.HTTPError:
+                logger.warning("HTTPError getting {}. Retrying in {}s"
+                               .format(url, retry_interval))
             except requests.exceptions.ConnectionError:
-                debug("ConnectionError getting {}. Retrying in {}s"
-                      .format(url, retry_interval))
+                logger.warning("ConnectionError getting {}. Retrying in {}s"
+                               .format(url, retry_interval))
             except requests.exceptions.Timeout:
-                debug("Timeout getting {}. Retrying in {}s"
-                      .format(url, retry_interval))
+                logger.warning("Timeout getting {}. Retrying in {}s"
+                               .format(url, retry_interval))
             except requests.exceptions.RequestException as err:
-                debug("None-specific RequestException getting {}, "
-                      "{}. Retrying in {}s"
-                      .format(url, str(err), retry_interval))
-            """
+                logger.warning("None-specific RequestException getting {}, "
+                               "{}. Retrying in {}s"
+                               .format(url, str(err), retry_interval))
 
             time.sleep(retry_interval)
 
@@ -143,19 +143,24 @@ class WebInterface(object):
                     self._wake()
 
                 if response.status_code == 401 and not self._http_auth:
+                    logger.info(
+                        "Trying to login with basic auth for '{}'".format(self.server_name)
+                    )
                     self._http_auth = True
                     return self._post(
                         session, url, payload, retry_interval, login
                     )
                 elif response.status_code == 401 and self._http_auth:
+                    logger.error("{}'s credentials were rejected".format(self.server_name))
                     raise AuthorizationException
 
                 if not login:
                     if "hashAlg" in response.text:
-                        #info(_("Session killed, renewing!"))
+                        logger.warning("{}'s session expired, attempting to renew".format(self.server_name))
                         try:
                             self._session = self._new_session()
                         except AuthorizationException:
+                            logger.error("Couldn't renew session for '{}'".format(self.server_name))
                             # Dead
                             """die(
                                 _("Authorization error, credentials changed?"),
@@ -165,32 +170,30 @@ class WebInterface(object):
                     return response
                 return response
 
-            except Exception:
-                pass
-            """except requests.exceptions.HTTPError:
-                debug("HTTPError posting {}. Retrying in {}s"
-                      .format(url, retry_interval))
+            except requests.exceptions.HTTPError:
+                logger.warning("HTTPError getting {}. Retrying in {}s"
+                               .format(url, retry_interval))
             except requests.exceptions.ConnectionError:
-                debug("ConnectionError posting {}. Retrying in {}s"
-                      .format(url, retry_interval))
+                logger.warning("ConnectionError getting {}. Retrying in {}s"
+                               .format(url, retry_interval))
             except requests.exceptions.Timeout:
-                debug("Timeout posting {}. Retrying in {}s"
-                      .format(url, retry_interval))
+                logger.warning("Timeout getting {}. Retrying in {}s"
+                               .format(url, retry_interval))
             except requests.exceptions.RequestException as err:
-                debug("None-specific RequestException posting {}, "
-                      "{}. Retrying in {}s"
-                      .format(url, str(err), retry_interval))"""
+                logger.warning("None-specific RequestException getting {}, "
+                               "{}. Retrying in {}s"
+                               .format(url, str(err), retry_interval))
 
             time.sleep(retry_interval)
 
     def _sleep(self):
         if not self._sleeping:
-            #info(_("Web admin not responding, sleeping"))
+            logger.info("{}'s web admin not responding, sleeping".format(self.server_name))
             self._sleeping = True
 
     def _wake(self):
         if self._sleeping:
-            #info(_("Web admin is back, resuming"))
+            logger.info("{}'s web admin is back, resuming".format(self.server_name))
             self._sleeping = False
 
     def _new_session(self):
@@ -202,6 +205,7 @@ class WebInterface(object):
         }
 
         session = requests.Session()
+
         login_page_response = self._get(session, self._urls['login'],
                                         login=True)
         if self._http_auth:
@@ -448,10 +452,11 @@ class WebInterface(object):
         if len(map_results):
             map_name = map_results[0]
         else:
-            """warning(
-                "Couldn't retrieve map information, please check that your "
+            logger.warning(
+                "{} couldn't retrieve map information, please check that your "
                 "KFMapSummary section is correctly configured for this map"
-            )"""
+                .format(self.server_name)
+            )
             map_name = "KF-BioticsLab"
         url_extra = map_tree.xpath(url_extra_pattern)[0]
         mutator_count = map_tree.xpath(mutator_count_pattern)[0]

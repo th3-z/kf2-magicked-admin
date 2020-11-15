@@ -1,6 +1,7 @@
 import lupa
 import requests
 from lupa import LuaRuntime
+import logging
 
 from utils.lua import load_script
 from utils import find_data_file
@@ -13,6 +14,8 @@ API Specification:
     motd.
     db.execute
 """
+
+logger = logging.getLogger(__name__)
 
 
 class LuaBridge():
@@ -87,15 +90,13 @@ class LuaBridge():
         try:
             self.lua.execute(load_script(filename))
         except Exception as err:
-            pass
-            #warning(str(err))
+            logger.error(str(err))
 
     def eval(self, string):
         try:
             return self.lua.eval(string)
         except Exception as err:
-            pass
-            #warning(str(err))
+            logger.error(str(err))
 
     def receive_message(self, username, message, user_flags):
         # TODO: Call lua event handler

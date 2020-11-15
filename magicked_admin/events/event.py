@@ -1,4 +1,7 @@
 import weakref
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Event:
@@ -19,7 +22,7 @@ class Event:
         self._listeners.append(listener)
 
     def remove_listener(self, listener):
-        print("released: ", listener, self.name)
+        logger.debug("released: {} {}".format(listener, self.name))
         self._listeners.remove(listener)
 
     def emit(self, sender, **kwargs):

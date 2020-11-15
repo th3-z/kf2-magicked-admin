@@ -1,4 +1,4 @@
-import gettext
+import logging
 import time
 
 from database import db_connector
@@ -6,7 +6,7 @@ from server.session import close_session, start_session
 from events import EVENT_WAVE_START, EVENT_PLAYER_UPDATE, EVENT_PLAYER_DEATH
 from utils.alg import uuid
 
-_ = gettext.gettext
+logger = logging.getLogger(__name__)
 
 
 class Player:
@@ -159,6 +159,7 @@ class Player:
         if not player_update_data.health and player_update_data.health < self.health:
             self.session_deaths += 1
             self.wave_deaths += 1
+            logger.info("Player, {}, died on {}".format(self.username, self.server.name))
             self.server.event_manager.emit_event(
                 EVENT_PLAYER_DEATH, self.__class__, player=self
             )

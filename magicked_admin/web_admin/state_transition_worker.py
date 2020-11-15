@@ -1,5 +1,5 @@
 import gettext
-import threading
+from PySide2.QtCore import QThread
 import time
 
 from events import (
@@ -11,9 +11,9 @@ from utils.alg import uuid
 _ = gettext.gettext
 
 
-class StateTransitionWorker(threading.Thread):
+class StateTransitionWorker(QThread):
     def __init__(self, web_admin, event_manager, refresh_rate=1):
-        threading.Thread.__init__(self)
+        QThread.__init__(self, None)
 
         self.event_manager = event_manager
         self.web_admin = web_admin
@@ -43,7 +43,6 @@ class StateTransitionWorker(threading.Thread):
 
     def _poll(self):
         server_state, match_state, player_states = self.web_admin.get_server_info()
-
         if server_state != self.server_state_previous:
             self.event_manager.emit_event(
                 EVENT_SERVER_UPDATE, self, server_update_data=server_state
