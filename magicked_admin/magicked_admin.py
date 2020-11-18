@@ -15,7 +15,7 @@ from PySide2 import QtCore, QtWidgets
 from chatbot.chatbot import Chatbot
 from chatbot.motd_updater import MotdUpdater
 from chatbot.commands.command_map import CommandMap
-from server.server import Server
+from server.server import Server, ServerSignals
 from settings import Settings
 from utils import find_data_file
 from web_admin.state_transition_worker import StateTransitionWorker
@@ -23,7 +23,6 @@ from web_admin import WebAdmin
 from web_admin.web_interface import WebInterface, AuthorizationException
 from web_admin.chat_worker import ChatWorker
 from lua_bridge.lua_bridge import LuaBridge
-from events import EventManager
 from database import db_init
 
 gettext.bindtextdomain('magicked_admin', find_data_file('locale'))
@@ -84,41 +83,31 @@ class MagickedAdmin:
         if server_name in cls.servers.keys():
             return
 
-        cls.servers[server_name] = []
-
-        event_manager = EventManager()
         web_interface = WebInterface(
             server_config.address, server_config.username,
             server_config.password, server_name
         )
-        web_admin = WebAdmin(web_interface, event_manager)
+        web_admin = WebAdmin(web_interface)
 
-        chat_worker = ChatWorker(
-            web_admin, event_manager, refresh_rate=1
+        server = Server(
+            web_admin, server_name, game_password=server_config.game_password, url_extras=server_config.url_extras
         )
+        cls.servers[server_name] = server
+
+        chat_worker = ChatWorker(server)
         chat_worker.start()
         cls.qthreads.append(chat_worker)
 
         state_transition_worker = StateTransitionWorker(
-            web_admin, event_manager, int(server_config.refresh_rate)
+            server, refresh_rate=int(server_config.refresh_rate)
         )
         state_transition_worker.start()
         cls.qthreads.append(state_transition_worker)
 
-        server = Server(
-            web_admin, event_manager, server_name, chat_worker,
-            state_transition_worker
-        )
-        server.game_password = server_config.game_password
-        server.url_extras = server_config.url_extras
-        cls.servers[server_name] = server
-
-        chatbot = Chatbot(server.web_admin, server.event_manager)
-
+        chatbot = Chatbot(server)
         commands = CommandMap().get_commands(
             server, chatbot, MotdUpdater(server)
         )
-
         for command_name, command in commands.items():
             chatbot.add_command(command_name, command)
 
@@ -156,6 +145,8 @@ class MagickedAdmin:
         logger.info("Program interrupted, shutting down...")
         for server in cls.servers.values():
             server.close()
+        for qthread in cls.qthreads:
+            qthread.close()
 
     @classmethod
     def banner(cls):

@@ -1,17 +1,25 @@
 import logging
 import time
+from PySide2.QtCore import QObject, Signal, Slot
 
 from database import db_connector
 from server.session import close_session, start_session
-from events import EVENT_WAVE_START, EVENT_PLAYER_UPDATE, EVENT_PLAYER_DEATH
+from server.match import Match
+from web_admin import PlayerUpdateData
 from utils.alg import uuid
 
 logger = logging.getLogger(__name__)
 
 
+class PlayerSignals(QObject):
+    player_update = Signal(PlayerUpdateData)
+
+
 class Player:
     def __init__(self, server, username, player_identity_data):
         self.server = server
+        self.signals = PlayerSignals()
+        self.server_signals = server.signals
 
         self.steam_id = player_identity_data.steam_id
         self.player_key = player_identity_data.player_key
@@ -77,13 +85,8 @@ class Player:
         self.username = username  # Setter requires row to be initialised
         self.session_id = start_session(self.steam_id, self.server.match.match_id)
 
-        self.server.event_manager.register_event(
-            EVENT_PLAYER_UPDATE + "." + uuid(self.username),
-            self.receive_update_data
-        )
-        self.server.event_manager.register_event(
-            EVENT_WAVE_START, self.receive_wave_start
-        )
+        self.signals.player_update.connect(self.receive_update_data)
+        self.sever_signals.wave_start.connect(self.receive_wave_start)
 
     @db_connector
     def _db_init(self, conn):
@@ -138,14 +141,16 @@ class Player:
 
         conn.cursor().execute(sql, (username, self.steam_id))
 
-    def receive_wave_start(self, event, sender, match):
+    @Slot(Match)
+    def receive_wave_start(self, match):
         self.wave_kills = 0
         self.wave_dosh = 0
         self.wave_dosh_spent = 0
         self.wave_damage_taken = 0
         self.wave_deaths = 0
 
-    def receive_update_data(self, event, sender, player_update_data):
+    @Slot(PlayerUpdateData)
+    def receive_update_data(self, player_update_data):
         self.session_kills += player_update_data.kills - self.kills
         self.session_dosh += max(player_update_data.dosh - self.dosh, 0)
         self.session_dosh_spent += max(self.dosh - player_update_data.dosh, 0)
@@ -160,9 +165,7 @@ class Player:
             self.session_deaths += 1
             self.wave_deaths += 1
             logger.info("Player, {}, died on {}".format(self.username, self.server.name))
-            self.server.event_manager.emit_event(
-                EVENT_PLAYER_DEATH, self.__class__, player=self
-            )
+            self.server_signals.player_death.emit(self)
 
         self.kills = player_update_data.kills
         self.dosh = player_update_data.dosh

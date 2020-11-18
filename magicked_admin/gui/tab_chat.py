@@ -3,8 +3,6 @@ import logging
 from PySide2.QtCore import Signal, Slot, QObject
 from PySide2.QtWidgets import QVBoxLayout, QPlainTextEdit, QPushButton, QWidget
 
-from web_admin.chat_worker import ChatSignals
-
 
 class Signaller(QObject):
     signal = Signal(str, logging.LogRecord)
@@ -39,8 +37,7 @@ class TabChat(QWidget):
 
         # Connect slots and signals
         self.clear_button.clicked.connect(self.clear_display)
-        cs = ChatSignals()
-        cs.signal_chat.connect(self.receive_message)
+        #cs.signal_chat.connect(self.receive_message)
 
 
     @Slot(str)

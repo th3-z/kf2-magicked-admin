@@ -1,22 +1,17 @@
 import gettext
 from PySide2.QtCore import QThread
 import time
-
-from events import (
-    EVENT_SERVER_UPDATE, EVENT_MATCH_UPDATE, EVENT_PLAYERS_UPDATE,
-    EVENT_PLAYER_UPDATE
-)
 from utils.alg import uuid
 
 _ = gettext.gettext
 
 
 class StateTransitionWorker(QThread):
-    def __init__(self, web_admin, event_manager, refresh_rate=1):
+    def __init__(self, server, refresh_rate=1):
         QThread.__init__(self, None)
 
-        self.event_manager = event_manager
-        self.web_admin = web_admin
+        self.signals = server.signals
+        self.web_admin = server.web_admin
 
         self._exit = False
         self._refresh_rate = refresh_rate
@@ -44,15 +39,11 @@ class StateTransitionWorker(QThread):
     def _poll(self):
         server_state, match_state, player_states = self.web_admin.get_server_info()
         if server_state != self.server_state_previous:
-            self.event_manager.emit_event(
-                EVENT_SERVER_UPDATE, self, server_update_data=server_state
-            )
+            self.signals.server_update.emit(server_state)
             self.server_state_previous = server_state
 
         if match_state != self.match_state_previous:
-            self.event_manager.emit_event(
-                EVENT_MATCH_UPDATE, self, match_update_data=match_state
-            )
+            self.signals.match_update.emit(match_state)
             self.match_state_previous = match_state
 
         if player_states != self.player_states_previous:
@@ -60,9 +51,7 @@ class StateTransitionWorker(QThread):
             usernames = [p.username for p in player_states]
             usernames_previous = [p.username for p in self.player_states_previous]
             if usernames != usernames_previous:
-                self.event_manager.emit_event(
-                    EVENT_PLAYERS_UPDATE, self, players_update_data=player_states
-                )
+                self.signals.players_update.emit(player_states)
 
             # Individual players
             for player_state in player_states:
@@ -77,10 +66,7 @@ class StateTransitionWorker(QThread):
                 if not self._props_match(
                         player_state, player_state_previous, trigger_props
                 ):
-                    self.event_manager.emit_event(
-                        EVENT_PLAYER_UPDATE + "." + uuid(
-                            player_state.username),
-                        self.__class__, player_update_data=player_state
-                    )
+                    player = self.server.get_player_by_username(player_state.username)
+                    player.signals.player_update.emit(player_state)
 
             self.player_states_previous = player_states

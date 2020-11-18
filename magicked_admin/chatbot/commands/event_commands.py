@@ -35,7 +35,7 @@ class CommandOnTime(Command):
         self.handlers = []
 
     def action_add(self, command, interval, repeat):
-        handler = OnTimeHandler(self.server.event_manager, command, interval, repeat)
+        handler = OnTimeHandler(self.server.signals, command, interval, repeat)
         self.handlers.append(handler)
         handler.start()
         return "Command started"
@@ -101,7 +101,7 @@ class CommandOnJoin(Command):
         self.handlers = []
 
     def action_add(self, command, returning):
-        handler = OnJoinHandler(self.server.event_manager, command, returning)
+        handler = OnJoinHandler(self.server.signals, command, returning)
         self.handlers.append(handler)
         return "Command started"
 
@@ -165,7 +165,7 @@ class CommandOnWave(Command):
         self.handlers = []
 
     def action_add(self, command, wave):
-        handler = OnWaveHandler(self.server.event_manager, command, wave or ALL_WAVES)
+        handler = OnWaveHandler(self.server.signals, command, wave or ALL_WAVES)
         self.handlers.append(handler)
         return "Command started"
 
@@ -230,7 +230,7 @@ class CommandOnTrader(Command):
         self.handlers = []
 
     def action_add(self, command, wave):
-        handler = OnTraderHandler(self.server.event_manager, command, wave or ALL_WAVES)
+        handler = OnTraderHandler(self.server.signals, command, wave or ALL_WAVES)
         self.handlers.append(handler)
         return "Command started"
 
@@ -289,7 +289,7 @@ class CommandOnDeath(Command):
         self.handlers = []
 
     def action_add(self, command):
-        handler = OnDeathHandler(self.server.event_manager, command)
+        handler = OnDeathHandler(self.server.signals, command)
         self.handlers.append(handler)
         return "Command started"
 

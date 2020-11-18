@@ -4,21 +4,21 @@ from os import path
 from chatbot import INIT_TEMPLATE
 from web_admin.constants import *
 
-from events import EVENT_COMMAND
+from PySide2.QtCore import Slot
 
 _ = gettext.gettext
 
 
 class Chatbot():
-    def __init__(self, web_admin, event_manager):
-        self._web_admin = web_admin
+    def __init__(self, server):
+        self._web_admin = server.web_admin
         self._commands = {}
         self.lua_bridge = None
         self.silent = False
         self._aliases = {}
 
-        self._event_manager = event_manager
-        event_manager.register_event(EVENT_COMMAND, self.receive_command)
+        self.signals = server.signals
+        self.signals.command.connect(self.receive_command)
 
     def add_alias(self, name, command, admin_only=True):
         self._aliases[name] = {
@@ -29,7 +29,8 @@ class Chatbot():
     def add_command(self, name, command):
         self._commands[name] = command
 
-    def receive_command(self, event, sender, username, args, user_flags):
+    @Slot(str, list, int)
+    def receive_command(self, username, args, user_flags):
         if args is None or len(args) == 0:
             return
 
@@ -62,9 +63,7 @@ class Chatbot():
 
                 if command:
                     args = command.split()
-                    self._event_manager.emit_event(
-                        EVENT_COMMAND, self.__class__, username="script_executor", args=args, user_flags=USER_TYPE_ADMIN
-                    )
+                    self.signals.command.emit("script_executor", args, USER_TYPE_ADMIN)
 
     def run_init(self, filename):
         if not path.exists(filename):

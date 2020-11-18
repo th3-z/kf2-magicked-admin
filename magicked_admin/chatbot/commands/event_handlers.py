@@ -5,18 +5,19 @@ import time
 from chatbot.commands import ALL_WAVES
 from utils.time import seconds_to_hhmmss
 from web_admin.constants import *
-from events import (
-    EVENT_COMMAND, EVENT_WAVE_START, EVENT_PLAYER_JOIN, EVENT_TRADER_OPEN, EVENT_PLAYER_DEATH
-)
+from server.match import Match
+from server.player import Player
+
+from PySide2.QtCore import Slot
 
 _ = gettext.gettext
 
 
 class OnTimeHandler(threading.Thread):
-    def __init__(self, event_manager, command, interval, repeat=False):
+    def __init__(self, signals, command, interval, repeat=False):
         threading.Thread.__init__(self)
 
-        self._event_manger = event_manager
+        self.signals = signals
         self._exit = False
 
         self.interval = interval
@@ -30,11 +31,8 @@ class OnTimeHandler(threading.Thread):
             if self.dead:
                 return
 
-            self._event_manger.emit_event(
-                EVENT_COMMAND, self.__class__,
-                username="command_on_time",
-                args=self.command.split(" "),
-                user_flags=USER_TYPE_ADMIN
+            self.signals.command.emit(
+                "command_on_time", self.command.split(" "), USER_TYPE_ADMIN
             )
 
             if not self.repeat:
@@ -46,16 +44,17 @@ class OnTimeHandler(threading.Thread):
 
 
 class OnWaveHandler:
-    def __init__(self, event_manager, command, wave=ALL_WAVES):
-        self._event_manager = event_manager
+    def __init__(self, signals, command, wave=ALL_WAVES):
+        self.signals = signals
 
         self.wave = wave
         self.command = command
         self.dead = False
 
-        event_manager.register_event(EVENT_WAVE_START, self.receive_match)
+        signals.wave_start.connect(self.receive_match)
 
-    def receive_match(self, event, sender, match):
+    @Slot(Match)
+    def receive_match(self, match):
         if self.dead:
             return
 
@@ -64,10 +63,8 @@ class OnWaveHandler:
         wave = (length + 1) + (self.wave + 1) if self.wave < 0 else self.wave
 
         if wave == match.wave or self.wave == ALL_WAVES:
-            self._event_manager.emit_event(
-                EVENT_COMMAND, self.__class__,
-                username="command_on_wave", args=self.command.split(" "),
-                user_flags=USER_TYPE_ADMIN
+            self.signals.command.emit(
+                "command_on_wave", self.command.split(" "), USER_TYPE_ADMIN
             )
 
     def close(self):
@@ -75,14 +72,14 @@ class OnWaveHandler:
 
 
 class OnJoinHandler:
-    def __init__(self, event_manager, command, returning=False):
-        self._event_manager = event_manager
+    def __init__(self, signals, command, returning=False):
+        self.signals = signals
 
         self.returning = returning
         self.command = command
         self.dead = False
 
-        event_manager.register_event(EVENT_PLAYER_JOIN, self.receive_player)
+        signals.player_join.connect(self.receive_player)
 
     def resolve_tokens(self, player):
         command = self.command
@@ -97,7 +94,8 @@ class OnJoinHandler:
 
         return command
 
-    def receive_player(self, event, sender, player):
+    @Slot(Player)
+    def receive_player(self, player):
         if self.dead:
             return
 
@@ -106,10 +104,8 @@ class OnJoinHandler:
 
         command = self.resolve_tokens(player)
 
-        self._event_manager.emit_event(
-            EVENT_COMMAND, self.__class__,
-            username="command_on_join", args=command.split(" "),
-            user_flags=USER_TYPE_ADMIN
+        self.signals.command.emit(
+            "command_on_join", command.split(" "), USER_TYPE_ADMIN
         )
 
     def close(self):
@@ -117,16 +113,17 @@ class OnJoinHandler:
 
 
 class OnTraderHandler:
-    def __init__(self, event_manager, command, wave=ALL_WAVES):
-        self._event_manager = event_manager
+    def __init__(self, signals, command, wave=ALL_WAVES):
+        self.signals = signals
 
         self.wave = wave
         self.command = command
         self.dead = False
 
-        event_manager.register_event(EVENT_TRADER_OPEN, self.receive_match)
+        signals.trader_open.connect(self.receive_match)
 
-    def receive_match(self, event, sender, match):
+    @Slot(Match)
+    def receive_match(self, match):
         if self.dead:
             return
 
@@ -135,10 +132,8 @@ class OnTraderHandler:
         wave = (length + 1) + (self.wave + 1) if self.wave < 0 else self.wave
 
         if wave == match.wave or self.wave == ALL_WAVES:
-            self._event_manager.emit_event(
-                EVENT_COMMAND, self.__class__,
-                username="command_on_trader", args=self.command.split(" "),
-                user_flags=USER_TYPE_ADMIN
+            self.signals.command.emit(
+                "command_on_trader", self.command.split(" "), USER_TYPE_ADMIN
             )
 
     def close(self):
@@ -146,13 +141,13 @@ class OnTraderHandler:
 
 
 class OnDeathHandler:
-    def __init__(self, event_manager, command):
-        self._event_manager = event_manager
+    def __init__(self, signals, command):
+        self.signals = signals
 
         self.command = command
         self.dead = False
 
-        event_manager.register_event(EVENT_PLAYER_DEATH, self.receive_player)
+        signals.player_death.connect(self.receive_player)
 
     def resolve_tokens(self, player):
         # TODO: Use string format instead
@@ -168,16 +163,15 @@ class OnDeathHandler:
 
         return command
 
-    def receive_player(self, event, sender, player):
+    @Slot(Player)
+    def receive_player(self, player):
         if self.dead:
             return
 
         command = self.resolve_tokens(player)
 
-        self._event_manager.emit_event(
-            EVENT_COMMAND, self.__class__,
-            username="command_on_death", args=command.split(" "),
-            user_flags=USER_TYPE_ADMIN
+        self.signals.command.emit(
+            "command_on_death", command.split(" "), USER_TYPE_ADMIN
         )
 
     def close(self):

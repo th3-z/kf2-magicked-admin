@@ -1,12 +1,9 @@
 import logging
 import time
+from PySide2.QtCore import Slot
 
 from database import db_connector
-
-from events import (
-    EVENT_MATCH_UPDATE, EVENT_WAVE_START, EVENT_WAVE_END, EVENT_TRADER_OPEN,
-    EVENT_TRADER_CLOSE, EVENT_MATCH_START
-)
+from web_admin.constants import MatchUpdateData
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +11,7 @@ logger = logging.getLogger(__name__)
 class Match:
     def __init__(self, server, level, game_type, difficulty, length):
         self.server = server
+        self.signals = server.signals
         self.match_id = 0
         self.level = level
         self.game_type = game_type
@@ -30,9 +28,7 @@ class Match:
 
         self._init_db()
 
-        server.event_manager.register_event(
-            EVENT_MATCH_UPDATE, self.receive_update_data
-        )
+        self.signals.match_update.connect(self.receive_update_data)
 
     @db_connector
     def _init_db(self, conn):
@@ -50,26 +46,21 @@ class Match:
 
         self.match_id = cur.lastrowid
 
-    def receive_update_data(self, event, sender, match_update_data):
+    @Slot(MatchUpdateData)
+    def receive_update_data(self, match_update_data):
         new_wave = match_update_data.wave > self.wave
 
         if match_update_data.trader_open and not self.trader_time:
             # Waves are considered over once the trader opens
             logger.info("Wave {} start on {}".format(self.wave, self.server.name))
-            self.server.event_manager.emit_event(
-                EVENT_WAVE_END, self.__class__, match=self
-            )
+            self.signals.wave_end.emit(self)
             self.trader_time = True
-            self.server.event_manager.emit_event(
-                EVENT_TRADER_OPEN, self.__class__, match=self
-            )
+            self.signals.trader_open.emit(self)
 
         if not match_update_data.trader_open and self.trader_time:
             # Wave start is further down so the new match data is available
             self.trader_time = False
-            self.server.event_manager.emit_event(
-                EVENT_TRADER_CLOSE, self.__class__, match=self
-            )
+            self.signals.trader_close.emit(self)
 
         if match_update_data.wave and not self.start_date:
             # Match starts at wave 1, wave 0 is lobby
@@ -77,9 +68,7 @@ class Match:
             logger.info("New match on {}, map: {}, mode: {}".format(
                 self.server.name, self.level.name, self.game_type)
             )
-            self.server.event_manager.emit_event(
-                EVENT_MATCH_START, self.__class__, match=self
-            )
+            self.signals.match_start.emit(self)
 
         self.wave = match_update_data.wave
         self.zeds_dead = match_update_data.zeds_dead
@@ -87,9 +76,7 @@ class Match:
 
         if new_wave:
             logger.info("Wave {} ended on {}".format(self.wave, self.server.name))
-            self.server.event_manager.emit_event(
-                EVENT_WAVE_START, self.__class__, match=self
-            )
+            self.signals.wave_start.emit(self)
 
     @property
     def in_lobby(self):

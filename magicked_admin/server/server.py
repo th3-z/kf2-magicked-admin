@@ -1,40 +1,49 @@
 import logging
+from PySide2.QtCore import QObject, Signal, Slot
 
 from server.player import Player
 from server.level import Level
 from server.match import Match
-
-from events import (
-    EVENT_SERVER_UPDATE, EVENT_PLAYERS_UPDATE, EVENT_MATCH_END,
-    EVENT_PLAYER_JOIN, EVENT_PLAYER_QUIT
-)
+from web_admin.constants import ServerUpdateData, MatchUpdateData
 
 logger = logging.getLogger(__name__)
 
 
+class ServerSignals(QObject):
+    chat = Signal(str, str, int)
+    command = Signal(str, list, int)
+    wave_start = Signal(Match)
+    wave_end = Signal(Match)
+    player_join = Signal(Player)
+    player_quit = Signal(Player)
+    player_death = Signal(Player)
+    trader_open = Signal(Match)
+    trader_close = Signal(Match)
+    match_start = Signal(Match)
+    match_end = Signal(Match)
+
+    server_update = Signal(ServerUpdateData)
+    players_update = Signal(list)  # Maybe this one should be moved/refactored
+    match_update = Signal(MatchUpdateData)  # This too
+
+
 class Server:
-    def __init__(self, web_admin, event_manager, name, chat_worker, state_transition_worker):
+    def __init__(self, web_admin, name, game_password=None, url_extras=None):
         self.name = name
         self.web_admin = web_admin
-        self.chat_worker = chat_worker
-        self.state_transition_worker = state_transition_worker
+        self.signals = ServerSignals()
 
-        self.game_password = None
+        self.game_password = game_password
+        self.url_extras = url_extras
 
         self.match = None
         self.players = []
         self.rejected_players = []
 
-        self.event_manager = event_manager
-
         self.capacity = 0
 
-        event_manager.register_event(
-            EVENT_SERVER_UPDATE, self.receive_update_data
-        )
-        event_manager.register_event(
-            EVENT_PLAYERS_UPDATE, self.receive_player_updates
-        )
+        self.signals.server_update.connect(self.receive_update_data)
+        self.signals.players_update.connect(self.receive_player_updates)
 
     def _is_new_match(self, server_update_data):
         # Uninitialized (first match)
@@ -54,8 +63,9 @@ class Server:
             return True
 
         return False
-        
-    def receive_update_data(self, event, sender, server_update_data):
+
+    @Slot(ServerUpdateData)
+    def receive_update_data(self, server_update_data):
         self.capacity = server_update_data.capacity
 
         new_match = self._is_new_match(server_update_data)
@@ -67,9 +77,7 @@ class Server:
             logger.info("Match ended on {}, map: {}, mode: {}".format(
                 self.name, self.match.level.name, self.match.game_type)
             )
-            self.event_manager.emit_event(
-                EVENT_MATCH_END, self.__class__, match=self.match
-            )
+            self.signals.wave_end.emit(self.match)
             self.match.close()
 
         # Set up next match
@@ -85,14 +93,13 @@ class Server:
 
         self.capacity = server_update_data.capacity
 
-    def receive_player_updates(self, event, sender, players_update_data):
+    @Slot(list)
+    def receive_player_updates(self, players_update_data):
         # Quitters
         for player in self.players:
             if player.username not in [p.username for p in players_update_data]:
                 logger.info("Player, {}, left {}".format(player.username, self.name))
-                self.event_manager.emit_event(
-                    EVENT_PLAYER_QUIT, self.__class__, player=player
-                )
+                self.signals.player_quit.emit(player)
                 self.players.remove(player)
                 player.close()
 
@@ -115,9 +122,7 @@ class Server:
                 player = Player(self, player_update_data.username, identity)
                 self.players.append(player)
                 logger.info("Player, {}, joined {}".format(player.username, self.name))
-                self.event_manager.emit_event(
-                    EVENT_PLAYER_JOIN, self.__class__, player=player
-                )
+                self.signals.player_join.emit(player)
 
     def get_player_by_username(self, username):
         matched_players = 0
@@ -227,9 +232,6 @@ class Server:
         self.web_admin.set_game_type(mode)
 
     def close(self):
-        self.state_transition_worker.close()
-        self.chat_worker.close()
-
         if self.match:
             self.match.close()
         for player in self.players:

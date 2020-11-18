@@ -11,9 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 class WebAdmin(object):
-    def __init__(self, web_interface, event_manager):
+    def __init__(self, web_interface):
         self._web_interface = web_interface
-        self.event_manager = event_manager
 
         self._message_buffer = ""
         self._silent = False
@@ -135,7 +134,7 @@ class WebAdmin(object):
 
     def toggle_game_password(self):
         if not self._game_password:
-            logger.warning(_("Tried to toggle game password before setting value"))
+            logger.warning("Tried to toggle game password before setting value")
             return False
 
         if self._has_game_password():
