@@ -6,7 +6,6 @@ from database import db_connector
 from server.session import close_session, start_session
 from server.match import Match
 from web_admin import PlayerUpdateData
-from utils.alg import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +22,7 @@ class Player:
 
         self.steam_id = player_identity_data.steam_id
         self.player_key = player_identity_data.player_key
+        self.player_id = 0
         self.session_date = int(time.time())
         self.join_date = None
         self._op = False
@@ -83,33 +83,35 @@ class Player:
 
         self._db_init()
         self.username = username  # Setter requires row to be initialised
-        self.session_id = start_session(self.steam_id, self.server.match.match_id)
+        self.session_id = start_session(self.player_id, self.server.match.match_id)
 
         self.signals.player_update.connect(self.receive_update_data)
-        self.sever_signals.wave_start.connect(self.receive_wave_start)
+        self.server_signals.wave_start.connect(self.receive_wave_start)
 
     @db_connector
     def _db_init(self, conn):
         sql = """
             INSERT OR IGNORE INTO player
-                (steam_id, insert_date)
+                (steam_id, insert_date, server_id)
             VALUES
-                (?, ?)
+                (?, ?, ?)
         """
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id, int(time.time())))
+        cur.execute(sql, (self.steam_id, int(time.time()), self.server.server_id))
         conn.commit()
 
         sql = """
             SELECT
-                op, insert_date
+                player_id, op, insert_date
             FROM
                 player
             WHERE
                 steam_id = ?
+                and server_id = ?
         """
-        cur.execute(sql, (self.steam_id,))
+        cur.execute(sql, (self.steam_id, self.server.server_id))
         result, = cur.fetchall()
+        self.player_id = result['player_id']
         self.op = True if result['op'] else False
         self.join_date = result['insert_date']
 
@@ -137,9 +139,10 @@ class Player:
                 username = ?
             WHERE
                 steam_id = ?
+                AND server_id = ?
         """
 
-        conn.cursor().execute(sql, (username, self.steam_id))
+        conn.cursor().execute(sql, (username, self.steam_id, self.server.server_id))
 
     @Slot(Match)
     def receive_wave_start(self, match):
@@ -186,10 +189,11 @@ class Player:
                     ON s.steam_id = p.steam_id
             WHERE
                 p.steam_id = ?
+                AND p.steam_id = ?
                 AND s.end_date IS NOT NULL
         """.format(col, col)
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id,))
+        cur.execute(sql, (self.steam_id, self.server.server_id))
         result, = cur.fetchall()
 
         return result[col] if result else 0
@@ -197,32 +201,35 @@ class Player:
     @db_connector
     def _rank_session_sum(self, col, conn):
         sql = """
-                SELECT
-                    COUNT(*) + 1 AS rank
-                FROM
-                    (
-                        SELECT
-                            SUM({}) AS metric
-                        FROM
-                            session
-                        WHERE 
-                            steam_id != ?
-                        GROUP BY steam_id
-                    ) others,
-                    (
-                        SELECT
-                            SUM({}) AS metric
-                        FROM
-                            session
-                        WHERE
-                            steam_id = ?
-                    ) player
-                WHERE
-                    others.metric >= player.metric
-            """.format(col, col)
+            SELECT
+                COUNT(*) + 1 AS rank
+            FROM
+                (
+                    SELECT
+                        SUM(s.{}) AS metric
+                    FROM
+                        session s
+                        INNER JOIN match m ON
+                            s.match_id = m.match_id
+                            AND m.server_id = ?
+                    WHERE 
+                        player_id != ?
+                    GROUP BY player_id
+                ) others,
+                (
+                    SELECT
+                        SUM({}) AS metric
+                    FROM
+                        session
+                    WHERE
+                        player_id = ?
+                ) player
+            WHERE
+                others.metric >= player.metric
+        """.format(col, col)
 
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id, self.steam_id))
+        cur.execute(sql, (self.server.server_id, self.player_id, self.player_id))
         result, = cur.fetchall()
 
         return result['rank']
@@ -235,11 +242,14 @@ class Player:
             FROM
                 (
                     SELECT
-                        CAST(SUM({}) AS FLOAT) / SUM({}) AS metric
+                        CAST(SUM(s.{}) AS FLOAT) / SUM(s.{}) AS metric
                     FROM
-                        session
+                        session s
+                        INNER JOIN match m ON
+                            s.match_id = m.match_id
+                            AND m.server_id = ?
                     WHERE 
-                        steam_id != ?
+                        s.player_id != ?
                     GROUP BY steam_id
                 ) others,
                 (
@@ -248,14 +258,14 @@ class Player:
                     FROM
                         session
                     WHERE
-                        steam_id = ?
+                        s.player_id = ?
                 ) player
             WHERE
                 others.metric >= player.metric
         """.format(col_num, col_den, col_num, col_den)
 
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id, self.steam_id))
+        cur.execute(sql, (self.server.server_id, self.player_id, self.player_id))
         result, = cur.fetchall()
 
         return result['rank'] or 0.0  # Division by 0
@@ -294,10 +304,10 @@ class Player:
             UPDATE player SET
                 op = ?
             WHERE
-                steam_id = ?
+                player_id = ?
         """
 
-        conn.cursor().execute(sql, (1 if state else 0, self.steam_id))
+        conn.cursor().execute(sql, (1 if state else 0, self.player_id))
 
     @property
     def total_kills(self):
@@ -331,10 +341,10 @@ class Player:
             FROM
                 session
             WHERE
-                steam_id = ?
+                player_id = ?
         """
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id,))
+        cur.execute(sql, (self.player_id,))
         result, = cur.fetchall()
 
         return result['sessions']
@@ -346,15 +356,15 @@ class Player:
             SELECT
                 COALESCE(SUM(end_date - start_date), 0) AS time
             FROM
-                session
+                session s
             WHERE
-                steam_id = ?
+                player_id = ?
                 AND end_date IS NOT NULL
                 AND end_date_dirty = 0
         """
 
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id,))
+        cur.execute(sql, (self.player_id,))
         result, = cur.fetchall()
 
         return result['time'] + self.session_time
@@ -390,16 +400,19 @@ class Player:
                     SELECT
                         SUM(
                             CASE 
-                                WHEN end_date IS NULL THEN {}
-                                ELSE end_date
-                            END - start_date
+                                WHEN s.end_date IS NULL THEN {}
+                                ELSE s.end_date
+                            END - s.start_date
                         ) AS time
                     FROM
-                        session
+                        session s
+                        INNER JOIN match m ON
+                            s.match_id = m.match_id
+                            AND m.server_id = ?
                     WHERE 
-                        steam_id != ?
+                        player_id != ?
                         AND end_date_dirty = 0
-                    GROUP BY steam_id
+                    GROUP BY player_id
                 ) others,
                 (
                     SELECT
@@ -412,7 +425,7 @@ class Player:
                     FROM
                         session
                     WHERE
-                        steam_id = ?
+                        player_id = ?
                         AND end_date_dirty = 0
                 ) player
             WHERE
@@ -420,7 +433,7 @@ class Player:
         """.format(int(time.time()), int(time.time()))
 
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id, self.steam_id))
+        cur.execute(sql, (self.server.server_id, self.player_id, self.player_id))
         result, = cur.fetchall()
 
         return result['rank']
@@ -436,9 +449,12 @@ class Player:
                     SELECT
                         COUNT(*) AS sessions
                     FROM
-                        session
+                        session s
+                        INNER JOIN match m ON
+                            s.match_id = m.match_id
+                            AND m.server_id = ?
                     WHERE 
-                        steam_id != ?
+                        player_id != ?
                     GROUP BY steam_id
                 ) others,
                 (
@@ -447,14 +463,14 @@ class Player:
                     FROM
                         session
                     WHERE
-                        steam_id = ?
+                        player_id = ?
                 ) player
             WHERE
                 others.sessions >= player.sessions
         """
 
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id, self.steam_id))
+        cur.execute(sql, (self.server.server_id, self.player_id, self.player_id))
         result, = cur.fetchall()
 
         return result['rank']
@@ -488,9 +504,9 @@ class Player:
         sql = """
             DELETE FROM session
             WHERE
-                steam_id = ?
+                player_id = ?
         """
-        conn.cur.execute(sql)
+        conn.cur.execute(sql, (self.player_id,))
 
     def __str__(self):
         return """

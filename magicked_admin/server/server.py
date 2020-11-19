@@ -1,16 +1,19 @@
 import logging
+import time
 from PySide2.QtCore import QObject, Signal, Slot
 
 from server.player import Player
 from server.level import Level
 from server.match import Match
 from web_admin.constants import ServerUpdateData, MatchUpdateData
+from database import db_connector
 
 logger = logging.getLogger(__name__)
 
 
 class ServerSignals(QObject):
     chat = Signal(str, str, int)
+    post_chat = Signal(str, str, int)
     command = Signal(str, list, int)
     wave_start = Signal(Match)
     wave_end = Signal(Match)
@@ -41,9 +44,38 @@ class Server:
         self.rejected_players = []
 
         self.capacity = 0
+        self.server_id = 0
+        self.insert_date = 0
 
         self.signals.server_update.connect(self.receive_update_data)
         self.signals.players_update.connect(self.receive_player_updates)
+
+    @db_connector
+    def init_db(self, conn):
+        sql = """
+            INSERT OR IGNORE INTO server
+                (name, insert_date)
+            VALUES
+                (?, ?)
+        """
+        cur = conn.cursor()
+        cur.execute(sql, (self.name, int(time.time())))
+        conn.commit()
+
+        sql = """
+            SELECT
+                server_id, name, insert_date
+            FROM
+                server
+            WHERE
+                server_name = ?
+        """
+        cur.execute(sql, (self.name,))
+        result, = cur.fetchall()
+
+        self.server_id = result['server_id']
+        self.insert_date = result['insert_date']
+
 
     def _is_new_match(self, server_update_data):
         # Uninitialized (first match)
@@ -83,7 +115,7 @@ class Server:
         # Set up next match
         if new_match:
             new_level = Level(
-                server_update_data.map_title, server_update_data.map_name
+                server_update_data.map_title, server_update_data.map_name, self
             )
             new_match = Match(
                 self, new_level, server_update_data.game_type,

@@ -10,7 +10,8 @@ import sys
 import argparse
 import logging
 from signal import signal, SIGTERM, SIGINT
-from PySide2 import QtCore, QtWidgets
+from PySide2.QtWidgets import QApplication
+from PySide2.QtCore import Signal, QObject
 
 from chatbot.chatbot import Chatbot
 from chatbot.motd_updater import MotdUpdater
@@ -39,20 +40,6 @@ parser.add_argument(
 args = parser.parse_args()
 
 root_logger = logging.getLogger()
-root_logger.setLevel(Settings.log_level)
-formatter = logging.Formatter("[%(asctime)s %(levelname)-5.5s] %(message)s", "%Y-%m-%d %H:%M:%S")
-
-file_handler = logging.FileHandler(
-    os.environ.get("LOGFILE", find_data_file("conf/magicked_admin.log")),
-    encoding="utf-8"
-)
-file_handler.setFormatter(formatter)
-root_logger.addHandler(file_handler)
-
-stream_handler = logging.StreamHandler(sys.stdout)
-stream_handler.setFormatter(formatter)
-root_logger.addHandler(stream_handler)
-
 logger = logging.getLogger(__name__)
 
 GUI_MODE = not args.nogui
@@ -71,16 +58,22 @@ if hasattr(sys, "frozen"):
     requests.adapters.DEFAULT_CA_BUNDLE_PATH = requests_ca_bundle_path
 
 
-class MagickedAdmin:
-    version = "0.2.0"
-    servers = {}
-    qthreads = []
-    ui = None
+class MagickedAdminSignals(QObject):
+    server_configured = Signal(Server)
 
-    @classmethod
-    def add_server(cls, server_name, server_config):
+
+class MagickedAdmin:
+
+    def __init__(self):
+        self.version = "0.2.0"
+        self.servers = []
+        self.qthreads = []
+        self.ui = None
+        self.signals = MagickedAdminSignals()
+
+    def add_server(self, server_name, server_config):
         logger.info("Initialising {}".format(server_name))
-        if server_name in cls.servers.keys():
+        if server_name in [server.name for server in self.servers]:
             return
 
         web_interface = WebInterface(
@@ -92,17 +85,17 @@ class MagickedAdmin:
         server = Server(
             web_admin, server_name, game_password=server_config.game_password, url_extras=server_config.url_extras
         )
-        cls.servers[server_name] = server
+        self.servers.append(server)
 
         chat_worker = ChatWorker(server)
         chat_worker.start()
-        cls.qthreads.append(chat_worker)
+        self.qthreads.append(chat_worker)
 
         state_transition_worker = StateTransitionWorker(
             server, refresh_rate=int(server_config.refresh_rate)
         )
         state_transition_worker.start()
-        cls.qthreads.append(state_transition_worker)
+        self.qthreads.append(state_transition_worker)
 
         chatbot = Chatbot(server)
         commands = CommandMap().get_commands(
@@ -120,38 +113,49 @@ class MagickedAdmin:
         if server_name not in Settings.servers.keys():
             Settings.add_server(server_name, server_config)
 
-    @classmethod
-    def remove_server(cls, name):
-        if name not in cls.servers.keys():
+        self.signals.server_configured.emit(server)
+
+    def remove_server(self, name):
+        if name not in self.servers.keys():
             return
 
-        for server_name, server in cls.servers.items():
-            if server_name == name:
+        for server in self.servers:
+            if server.name == name:
                 server.close()
-        cls.servers.pop(name)
+                self.servers.remove(server)
+                Settings.remove_server(name)
 
-        Settings.remove_server(name)
+    def run(self):
+        root_logger.setLevel(Settings.log_level)
+        formatter = logging.Formatter("[%(asctime)s %(levelname)-5.5s] %(message)s", "%Y-%m-%d %H:%M:%S")
 
-    @classmethod
-    def run(cls):
-        cls.banner()
+        file_handler = logging.FileHandler(
+            os.environ.get("LOGFILE", find_data_file("conf/magicked_admin.log")),
+            encoding="utf-8"
+        )
+        file_handler.setFormatter(formatter)
+        root_logger.addHandler(file_handler)
+
+        stream_handler = logging.StreamHandler(sys.stdout)
+        stream_handler.setFormatter(formatter)
+        root_logger.addHandler(stream_handler)
+
+        self.banner()
         db_init()
 
         for server_name, server_config in Settings.servers.items():
-            cls.add_server(server_name, server_config)
+            self.add_server(server_name, server_config)
 
-    @classmethod
-    def close(cls, signal=None, frame=None):
+    def close(self, signal=None, frame=None):
         logger.info("Program interrupted, shutting down...")
-        for server in cls.servers.values():
+        for server in self.servers:
             server.close()
-        for qthread in cls.qthreads:
+        for qthread in self.qthreads:
             qthread.close()
 
-    @classmethod
-    def banner(cls):
+    def banner(self):
         version_text = "<<{}{}>>".format(
-            cls.version, "#DEBUG" if Settings.debug else ""
+            self.version, "#DEBUG" if Settings.debug else ""
         )
 
         # figlet -f rectangles "example"
@@ -169,16 +173,18 @@ class MagickedAdmin:
 
 
 if __name__ == "__main__":
-    signal(SIGINT, MagickedAdmin.close)
-    signal(SIGTERM, MagickedAdmin.close)
+    magicked_admin = MagickedAdmin()
+    signal(SIGINT, magicked_admin.close)
+    signal(SIGTERM, magicked_admin.close)
 
     if GUI_MODE:
         from gui import Gui
-        app = QtWidgets.QApplication(sys.argv)
-        gui = Gui(app)
-        MagickedAdmin.run()
+        app = QApplication(sys.argv)
+        gui = Gui(app, magicked_admin)
+        magicked_admin.ui = gui
+        magicked_admin.run()
         app.exec_()
-        MagickedAdmin.close()
+        magicked_admin.close()
 
     elif len(Settings.servers.keys()) < 1:
         Settings.append_template()
@@ -190,12 +196,12 @@ if __name__ == "__main__":
         )
 
     else:
-        MagickedAdmin.run()
+        magicked_admin.run()
 
     exit = False
     while not exit:
         exit = True
-        for thread in MagickedAdmin.qthreads:
+        for thread in magicked_admin.qthreads:
             if not thread.isFinished():
                 exit = False
 

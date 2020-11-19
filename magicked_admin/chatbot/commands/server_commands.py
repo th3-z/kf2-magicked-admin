@@ -250,7 +250,8 @@ class CommandGameMap(Command):
         else:
             map_title = self.server.match.level.title
 
-        level = Level(map_title)
+        # TODO: Requires map_name, and server
+        level = Level(map_title, "unnamed", self.server)
 
         total_plays = (level.plays_survival
                        + level.plays_weekly
@@ -261,7 +262,7 @@ class CommandGameMap(Command):
         message = _("Stats for {}:\n").format(level.name)
         message += _("Total plays: {} \n").format(total_plays)
         message += _("Record wave: {} \n").format(level.highest_wave)
-        message += _("Survival wins: {} \n").format(level.wins_survival)
+       # message += _("Survival wins: {} \n").format(level.wins_survival)
 
         return self.format_response(message, args)
 

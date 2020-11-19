@@ -145,7 +145,7 @@ class CommandTopKills(Command):
         header = center_str("~ Kills Leaderboard (weekly) ~")
         header += "\nRank | Kills  | Username"
 
-        records = top_by_col('kills', limit=25, period=604800)
+        records = top_by_col('kills', self.server.server_id, limit=25, period=604800)
         rows = []
 
         for i, player in enumerate(records):
@@ -182,7 +182,7 @@ class CommandTopDosh(Command):
         header = center_str("~ Dosh Leaderboard ~")
         header += "\nRank | Dosh  | Username"
 
-        records = top_by_col('dosh', limit=25)
+        records = top_by_col('dosh', self.server.server_id, limit=25)
         rows = []
 
         for i, player in enumerate(records):
@@ -219,7 +219,7 @@ class CommandTopTime(Command):
         header = center_str("~ Playtime leaderboard (weekly) ~")
         header += "\nRank | Time       | Username"
 
-        records = top_by_playtime(limit=25)
+        records = top_by_playtime(self.server.server_id, limit=25)
         rows = []
 
         for i, player in enumerate(records):

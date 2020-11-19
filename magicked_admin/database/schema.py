@@ -3,24 +3,33 @@ schema = """
         version INTEGER DEFAULT 1
     );
     
+    CREATE TABLE server (
+        server_id INTEGER PRIMARY KEY,
+        name VARCHAR(255) UNIQUE NOT NULL,
+        insert_date INTEGER NOT NULL
+    );
+    
     CREATE TABLE player (
         player_id INTEGER PRIMARY KEY,
-        server_id INTEGER, -- TODO: NOT NULL
-        steam_id INTEGER UNIQUE NOT NULL,
+        server_id INTEGER NOT NULL,
+        steam_id INTEGER NOT NULL,
         op INTEGER DEFAULT 0,
         insert_date INTEGER NOT NULL,
         
         -- Last seen username, could change
-        username VARCHAR(256)
+        username VARCHAR(255),
+        
+        UNIQUE(server_id, steam_id)
     );
     
     -- 'map' conflicts with Python keyword
     CREATE TABLE level (
         level_id INTEGER PRIMARY KEY,
+        server_id INTEGER NOT NULL,
         -- e.g. KF-BlackForest
-        title VARCHAR(256) NOT NULL UNIQUE,
+        title VARCHAR(255) NOT NULL UNIQUE,
         -- e.g. Black Forest
-        name VARCHAR(256) NOT NULL
+        name VARCHAR(255) NOT NULL
     );
     
     CREATE TABLE match (
@@ -44,7 +53,7 @@ schema = """
     
     CREATE TABLE session (
         session_id INTEGER PRIMARY KEY,
-        steam_id INTEGER NOT NULL, -- TODO: player_id
+        player_id INTEGER NOT NULL,
         match_id INTEGER,
     
         -- Play time

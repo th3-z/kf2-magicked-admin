@@ -1,7 +1,7 @@
 import time
 import logging
 
-from PySide2.QtCore import QThread
+from PySide2.QtCore import QThread, Slot
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +16,8 @@ class ChatWorker(QThread):
 
         self._exit = False
         self._refresh_rate = refresh_rate
+
+        self.signals.post_chat.connect(self.receive_post_chat)
 
     def run(self):
         while not self._exit:
@@ -32,8 +34,12 @@ class ChatWorker(QThread):
             logger.info("[CHAT] {} ({}): {}".format(
                 message['username'], message['user_flags'], message['message'])
             )
+            self.signals.chat.emit(message['username'], message['message'], message['user_flags'])
 
             if message['message'][0] == '!':
                 self.signals.command.emit(message['username'], message['message'][1:].split(), message['user_flags'])
-            else:
-                self.signals.chat.emit(message['username'], message['message'], message['user_flags'])
+                
+    @Slot(str, str, int)
+    def receive_post_chat(self, username, message, user_flags):
+        print("received")
+        self._web_admin.submit_message(message)

@@ -34,13 +34,13 @@ class Match:
     def _init_db(self, conn):
         sql = """
             INSERT INTO match
-                (level_id, game_type, difficulty, length)
+                (level_id, game_type, difficulty, length, server_id)
             VALUES
-                (?, ?, ?, ?)
+                (?, ?, ?, ?, ?)
         """
         cur = conn.cursor()
         cur.execute(sql, (
-            self.level.level_id, self.game_type, self.difficulty, self.length
+            self.level.level_id, self.game_type, self.difficulty, self.length, self.server.server_id
         ))
         conn.commit()
 

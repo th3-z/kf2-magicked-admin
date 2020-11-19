@@ -1,7 +1,6 @@
 import gettext
 from PySide2.QtCore import QThread
 import time
-from utils.alg import uuid
 
 _ = gettext.gettext
 
@@ -10,6 +9,7 @@ class StateTransitionWorker(QThread):
     def __init__(self, server, refresh_rate=1):
         QThread.__init__(self, None)
 
+        self.server = server
         self.signals = server.signals
         self.web_admin = server.web_admin
 
@@ -67,6 +67,8 @@ class StateTransitionWorker(QThread):
                         player_state, player_state_previous, trigger_props
                 ):
                     player = self.server.get_player_by_username(player_state.username)
-                    player.signals.player_update.emit(player_state)
+                    if player:
+                        player.signals.player_update.emit(player_state)
+                    # Else: Player was rejected or hasn't joined yet TODO: Check other calls to s.get_p_by_u
 
             self.player_states_previous = player_states
