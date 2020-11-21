@@ -20,6 +20,7 @@ class Gui(QMainWindow):
         super().__init__()
 
         self.app = app
+        self.magicked_admin = magicked_admin
         self.servers = magicked_admin.servers
 
         self.setWindowTitle("Killing Floor 2 Magicked Admin")
@@ -70,14 +71,25 @@ class Gui(QMainWindow):
         self.show()
 
     def pop_add_server(self):
-        self.win_add_server = WinAddServer()
+        self.win_add_server = WinAddServer(self.magicked_admin)
         self.win_add_server.show()
 
     def mb_process_trigger(self, q):
         logger.debug(q.text())
 
     def cb_servers_selection(self, i):
-        self.tab_widget.tab_chat.server = self.servers[i-1]
+        if i > 0:
+            server = self.servers[i-1]
+        else:
+            server = None
+
+        self.tab_widget.tab_server.server = server
+
+        if server:
+            self.tab_widget.tab_chat.server = server
+            self.tab_widget.toggle_server_tabs(True)
+        else:
+            self.tab_widget.toggle_server_tabs(False)
 
     @Slot(Server)
     def receive_server_configured(self, server):
@@ -103,3 +115,8 @@ class TabWidget(QWidget):
         self.tabs.addTab(self.tab_chat, "Chat")
 
         layout.addWidget(self.tabs)
+
+        self.toggle_server_tabs(False)
+
+    def toggle_server_tabs(self, state):
+        self.tabs.setTabEnabled(2, state)

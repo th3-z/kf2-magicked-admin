@@ -44,10 +44,6 @@ class TabChat(QWidget):
 
     @server.setter
     def server(self, server):
-        self.send_button.setDisabled(False)
-        self.tb_input.setDisabled(False)
-        self.clear_button.setDisabled(False)
-        logger.debug(server.name)
         self._server = server
         server.signals.chat.connect(self.receive_message)
 
