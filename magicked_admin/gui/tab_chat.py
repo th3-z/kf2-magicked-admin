@@ -16,11 +16,8 @@ class TabChat(QWidget):
         self.textedit = QPlainTextEdit(self)
         self.textedit.setReadOnly(True)
         self.clear_button = QPushButton('Clear', self)
-        self.clear_button.setDisabled(True)
         self.tb_input = QLineEdit(self)
-        self.tb_input.setDisabled(True)
         self.send_button = QPushButton('Send', self)
-        self.send_button.setDisabled(True)
 
         # Lay out all the widgets
         layout = QVBoxLayout(self)

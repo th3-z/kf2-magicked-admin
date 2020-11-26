@@ -138,11 +138,10 @@ class Player:
             UPDATE player SET
                 username = ?
             WHERE
-                steam_id = ?
-                AND server_id = ?
+                player_id = ?
         """
 
-        conn.cursor().execute(sql, (username, self.steam_id, self.server.server_id))
+        conn.cursor().execute(sql, (username, self.player_id))
 
     @Slot(Match)
     def receive_wave_start(self, match):
@@ -186,14 +185,13 @@ class Player:
             FROM
                 player p
                 LEFT JOIN session s
-                    ON s.steam_id = p.steam_id
+                    ON s.player_id = p.player_id
             WHERE
-                p.steam_id = ?
-                AND p.steam_id = ?
+                p.player_id = ?
                 AND s.end_date IS NOT NULL
         """.format(col, col)
         cur = conn.cursor()
-        cur.execute(sql, (self.steam_id, self.server.server_id))
+        cur.execute(sql, (self.player_id,))
         result, = cur.fetchall()
 
         return result[col] if result else 0
@@ -213,8 +211,8 @@ class Player:
                             s.match_id = m.match_id
                             AND m.server_id = ?
                     WHERE 
-                        player_id != ?
-                    GROUP BY player_id
+                        s.player_id != ?
+                    GROUP BY s.player_id
                 ) others,
                 (
                     SELECT
@@ -250,7 +248,7 @@ class Player:
                             AND m.server_id = ?
                     WHERE 
                         s.player_id != ?
-                    GROUP BY steam_id
+                    GROUP BY player_id
                 ) others,
                 (
                     SELECT
@@ -354,13 +352,13 @@ class Player:
     def total_time(self, conn):
         sql = """
             SELECT
-                COALESCE(SUM(end_date - start_date), 0) AS time
+                COALESCE(SUM(s.end_date - s.start_date), 0) AS time
             FROM
                 session s
             WHERE
-                player_id = ?
-                AND end_date IS NOT NULL
-                AND end_date_dirty = 0
+                s.player_id = ?
+                AND s.end_date IS NOT NULL
+                AND s.end_date_dirty = 0
         """
 
         cur = conn.cursor()
@@ -410,23 +408,23 @@ class Player:
                             s.match_id = m.match_id
                             AND m.server_id = ?
                     WHERE 
-                        player_id != ?
-                        AND end_date_dirty = 0
-                    GROUP BY player_id
+                        s.player_id != ?
+                        AND s.end_date_dirty = 0
+                    GROUP BY s.player_id
                 ) others,
                 (
                     SELECT
                         SUM(
                             CASE 
-                                WHEN end_date IS NULL THEN {}
-                                ELSE end_date
-                            END - start_date
+                                WHEN s.end_date IS NULL THEN {}
+                                ELSE s.end_date
+                            END - s.start_date
                         ) AS time
                     FROM
-                        session
+                        session s
                     WHERE
-                        player_id = ?
-                        AND end_date_dirty = 0
+                        s.player_id = ?
+                        AND s.end_date_dirty = 0
                 ) player
             WHERE
                 others.time >= player.time
@@ -454,16 +452,16 @@ class Player:
                             s.match_id = m.match_id
                             AND m.server_id = ?
                     WHERE 
-                        player_id != ?
-                    GROUP BY steam_id
+                        s.player_id != ?
+                    GROUP BY s.player_id
                 ) others,
                 (
                     SELECT
                         COUNT(*) AS sessions
                     FROM
-                        session
+                        session s
                     WHERE
-                        player_id = ?
+                        s.player_id = ?
                 ) player
             WHERE
                 others.sessions >= player.sessions

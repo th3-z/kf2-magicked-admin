@@ -76,6 +76,18 @@ class Server:
         self.server_id = result['server_id']
         self.insert_date = result['insert_date']
 
+    @db_connector
+    def record_players_online(self, conn):
+        sql = """
+            INSERT INTO server_players_date
+                (server_id, players, date)
+            VALUES
+                (?, ?, ?)
+        """
+
+        cur = conn.cursor()
+        cur.execute(sql, (self.server_id, len(self.players), int(time.time())))
+
 
     def _is_new_match(self, server_update_data):
         # Uninitialized (first match)
@@ -155,6 +167,8 @@ class Server:
                 self.players.append(player)
                 logger.info("Player, {}, joined {}".format(player.username, self.name))
                 self.signals.player_join.emit(player)
+
+        self.record_players_online()
 
     def get_player_by_username(self, username):
         matched_players = 0

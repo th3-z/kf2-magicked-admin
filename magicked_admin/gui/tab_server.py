@@ -1,12 +1,14 @@
 import logging
 
-from PySide2.QtCore import Signal, Slot, QObject, QUrl
+from PySide2.QtCore import Signal, Slot, QObject, QUrl, QMargins
 from PySide2.QtWidgets import QVBoxLayout, QPlainTextEdit, QPushButton, QWidget, QLabel, QSpacerItem, QSizePolicy
 from PySide2.QtGui import QPixmap, Qt, QFont, QDesktopServices, QPainter
 from PySide2.QtCharts import QtCharts
+import time
 
 from utils import find_data_file
-from database.queries.graphs import players_time, kills_time
+from database.queries.graphs import players_time, kills_time, noise_filter
+from gui.graphs.server import PlayersGraph, KillsGraph
 
 logger = logging.getLogger(__name__)
 
@@ -61,67 +63,9 @@ class ServerWi(QWidget):
         layout = QVBoxLayout(self)
         layout.addWidget(QLabel(server.name))
 
-        self.chart = QtCharts.QChart()
-        self.chart.setAnimationOptions(QtCharts.QChart.AllAnimations)
-        self.add_series(players_time())
+        layout.addWidget(PlayersGraph(self, server))
+        layout.addWidget(KillsGraph(self, server))
 
-        self.chart_view = QtCharts.QChartView(self.chart)
-        self.chart_view.setRenderHint(QPainter.Antialiasing)
-
-        self.chart_kills = QtCharts.QChart()
-        self.chart_kills.setAnimationOptions(QtCharts.QChart.AllAnimations)
-        self.add_series_kills(kills_time())
-
-        self.kills_chart_view = QtCharts.QChartView(self.chart_kills)
-        self.kills_chart_view.setRenderHint(QPainter.Antialiasing)
-
-        layout.addWidget(self.chart_view)
-        layout.addWidget(self.kills_chart_view)
-
-
-    def add_series(self, data):
-        series = QtCharts.QLineSeries()
-        series.setName("Players")
-
-        for row in data:
-            series.append(row['time']*1000, row['players'])
-
-        self.chart.addSeries(series)
-
-        axis_x = QtCharts.QDateTimeAxis()
-        axis_x.setTickCount(8)
-        axis_x.setFormat("MM/dd")
-        self.chart.addAxis(axis_x, Qt.AlignBottom)
-        series.attachAxis(axis_x)
-
-        axis_y = QtCharts.QValueAxis()
-        axis_y.setTickCount(7)
-        axis_y.setLabelFormat("%d")
-        axis_y.setTitleText("Players")
-        self.chart.addAxis(axis_y, Qt.AlignLeft)
-        series.attachAxis(axis_y)
-
-    def add_series_kills(self, data):
-        series = QtCharts.QLineSeries()
-        series.setName("Kills")
-
-        for row in data:
-            series.append(row['time']*1000, row['kills'])
-
-        self.chart_kills.addSeries(series)
-
-        axis_x = QtCharts.QDateTimeAxis()
-        axis_x.setTickCount(8)
-        axis_x.setFormat("MM/dd")
-        self.chart_kills.addAxis(axis_x, Qt.AlignBottom)
-        series.attachAxis(axis_x)
-
-        axis_y = QtCharts.QValueAxis()
-        axis_y.setTickCount(10)
-        axis_y.setLabelFormat("%d")
-        axis_y.setTitleText("Kills")
-        self.chart_kills.addAxis(axis_y, Qt.AlignLeft)
-        series.attachAxis(axis_y)
 
 
 class TabServer(QWidget):

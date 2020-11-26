@@ -9,6 +9,7 @@ getch; sys_platform != 'win32'
 
 # GUI
 pyside2
+scipy
 
 # Development
 isort

@@ -22,6 +22,13 @@ schema = """
         UNIQUE(server_id, steam_id)
     );
     
+    -- De-normalised due to query cost
+    CREATE TABLE server_players_date (
+        server_id INTEGER NOT NULL,
+        players INTEGER NOT NULL,
+        date INTEGER NOT NULL
+    );
+    
     -- 'map' conflicts with Python keyword
     CREATE TABLE level (
         level_id INTEGER PRIMARY KEY,
