@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 class Gui(QMainWindow):
-    width = 900
-    height = 450
+    width = 640
+    height = 480
 
     def __init__(self, app, magicked_admin):
         super().__init__()
@@ -24,10 +24,13 @@ class Gui(QMainWindow):
         self.servers = magicked_admin.servers
 
         self.setWindowTitle("Killing Floor 2 Magicked Admin")
+        self.setMinimumSize(Gui.width, Gui.height)
         # self.setGeometry(0, 0, Gui.width, Gui.height)
 
         # Menu bar
         self.menubar = self.menuBar()
+        about = self.menubar.addMenu("Edit")
+        about = self.menubar.addMenu("View")
         about = self.menubar.addMenu("About")
         about.triggered[QAction].connect(self.mb_process_trigger)
 
@@ -42,11 +45,13 @@ class Gui(QMainWindow):
         # Main window
         window = QWidget(self)
         layout = QVBoxLayout(window)
+        layout.setContentsMargins(0,0,0,0)
 
         # Toolbar
         toolbar = QWidget()
         toolbar.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
         toolbar_layout = QHBoxLayout(toolbar)
+        toolbar_layout.setContentsMargins(0,0,0,2)
         toolbar_layout.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Minimum))
 
         self.cb_servers = QComboBox()
@@ -61,10 +66,11 @@ class Gui(QMainWindow):
         toolbar_layout.addWidget(self.cb_servers)
         toolbar_layout.addWidget(self.pb_add_server)
 
-        layout.addWidget(toolbar)
+        #layout.addWidget(toolbar)
 
         # Tabs
         self.tab_widget = TabWidget(window, magicked_admin)
+        self.tab_widget.tabs.setCornerWidget(toolbar)
         layout.addWidget(self.tab_widget)
 
         self.setCentralWidget(window)
@@ -111,12 +117,18 @@ class TabWidget(QWidget):
         self.tab_chat = TabChat(self)
 
         self.tabs.addTab(self.tab_server, "Server")
-        self.tabs.addTab(self.tab_log, "Log")
+        self.tabs.addTab(QLabel("dummy"), "Options")
+        self.tabs.addTab(QLabel("dummy"), "Players")
         self.tabs.addTab(self.tab_chat, "Chat")
+        self.tabs.addTab(QLabel("dummy"), "Global Stats")
+        self.tabs.addTab(self.tab_log, "Log")
+
 
         layout.addWidget(self.tabs)
 
         self.toggle_server_tabs(False)
 
     def toggle_server_tabs(self, state):
+        self.tabs.setTabEnabled(1, state)
         self.tabs.setTabEnabled(2, state)
+        self.tabs.setTabEnabled(3, state)

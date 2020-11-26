@@ -15,8 +15,8 @@ class AuthorizationException(Exception):
 
 class WebInterface(object):
     def __init__(self, address, username, password, server_name="unnamed"):
-        self._address = address
-        self._username = username
+        self.address = address
+        self.username = username
         self._password = password
         self._http_auth = False
 
@@ -62,7 +62,7 @@ class WebInterface(object):
                     response = session.get(
                         url,
                         timeout=self._timeout,
-                        auth=(self._username, self._password)
+                        auth=(self.username, self._password)
                     )
 
                 if response.status_code > 401:
@@ -132,7 +132,7 @@ class WebInterface(object):
                     response = session.post(
                         url, payload,
                         timeout=self._timeout,
-                        auth=(self._username, self._password)
+                        auth=(self.username, self._password)
                     )
 
                 if response.status_code > 401:
@@ -199,7 +199,7 @@ class WebInterface(object):
     def _new_session(self):
         login_payload = {
             'password_hash': '',
-            'username': self._username,
+            'username': self.username,
             'password': '',
             'remember': '-1'
         }
@@ -214,7 +214,7 @@ class WebInterface(object):
         if "hashAlg = \"sha1\"" in login_page_response.text:
             hex_dig = "$sha1$" + sha1(
                 self._password.encode("iso-8859-1", "ignore")
-                + self._username.encode("iso-8859-1", "ignore")
+                + self.username.encode("iso-8859-1", "ignore")
             ).hexdigest()
             login_payload['password_hash'] = hex_dig
         else:

@@ -17,6 +17,9 @@ class PlayersGraph(QWidget):
 
         self.server = server
 
+        self.setMinimumWidth(580)
+        self.setMinimumHeight(230)
+
         self.chart = QtCharts.QChart()
         self.chart.setAnimationOptions(QtCharts.QChart.AllAnimations)
         self.chart.legend().setVisible(False)
@@ -58,6 +61,9 @@ class KillsGraph(QWidget):
         layout = QHBoxLayout(self)
 
         self.server = server
+
+        self.setMinimumWidth(580)
+        self.setMinimumHeight(230)
 
         self.chart = QtCharts.QChart()
         self.chart.setAnimationOptions(QtCharts.QChart.AllAnimations)

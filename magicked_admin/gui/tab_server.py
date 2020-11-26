@@ -1,7 +1,7 @@
 import logging
 
 from PySide2.QtCore import Signal, Slot, QObject, QUrl, QMargins
-from PySide2.QtWidgets import QVBoxLayout, QPlainTextEdit, QPushButton, QWidget, QLabel, QSpacerItem, QSizePolicy
+from PySide2.QtWidgets import QVBoxLayout, QPlainTextEdit, QPushButton, QWidget, QLabel, QSpacerItem, QSizePolicy, QHBoxLayout
 from PySide2.QtGui import QPixmap, Qt, QFont, QDesktopServices, QPainter
 from PySide2.QtCharts import QtCharts
 import time
@@ -60,11 +60,21 @@ class ServerWi(QWidget):
     def __init__(self, parent, server):
         super().__init__(parent)
 
-        layout = QVBoxLayout(self)
-        layout.addWidget(QLabel(server.name))
+        layout_columns = QHBoxLayout(self)
 
-        layout.addWidget(PlayersGraph(self, server))
-        layout.addWidget(KillsGraph(self, server))
+        left = QWidget()
+        layout_left = QVBoxLayout(left)
+        layout_left.addWidget(QLabel(server.name))
+        layout_columns.addWidget(left)
+
+        # TODO: Hide right col when window is small
+        right = QWidget()
+        layout_right = QVBoxLayout(right)
+        layout_right.addWidget(PlayersGraph(self, server))
+        layout_right.addWidget(KillsGraph(self, server))
+        layout_columns.addWidget(right)
+
+
 
 
 
