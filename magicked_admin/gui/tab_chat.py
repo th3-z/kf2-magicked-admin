@@ -36,7 +36,6 @@ class TabChat(QWidget):
 
     def send_message(self):
         message = self.tb_input.text()
-        print("emit")
         self.server.signals.post_chat.emit("gui", message, 3)
 
     @server.setter

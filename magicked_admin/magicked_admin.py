@@ -96,6 +96,7 @@ class MagickedAdmin:
         )
         state_transition_worker.start()
         self.qthreads.append(state_transition_worker)
+        server.stw = state_transition_worker
 
         chatbot = Chatbot(server)
         commands = CommandMap().get_commands(

@@ -2,12 +2,16 @@ import logging
 
 from PySide2.QtWidgets import QMainWindow, QPushButton, QWidget, QAction, QTabWidget, QVBoxLayout, QStatusBar, QLabel, QComboBox, QSpacerItem, QSizePolicy, QHBoxLayout
 from PySide2.QtCore import Slot, QRect
+from PySide2.QtGui import QColor
 
 from server.server import Server
 from gui.tab_log import TabLog
 from gui.tab_chat import TabChat
 from gui.tab_server import TabServer
+from gui.tab_home import TabHome
+from gui.tab_players import TabPlayers
 from gui.win_add_server import WinAddServer
+from gui.components.widgets import BlinkLabel
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +28,7 @@ class Gui(QMainWindow):
         self.servers = magicked_admin.servers
 
         self.setWindowTitle("Killing Floor 2 Magicked Admin")
-        self.setMinimumSize(Gui.width, Gui.height)
+        #self.setMinimumSize(Gui.width, Gui.height)
         # self.setGeometry(0, 0, Gui.width, Gui.height)
 
         # Menu bar
@@ -36,8 +40,10 @@ class Gui(QMainWindow):
 
         # Status bar
         self.status_bar = QStatusBar()
+
+        self.poll = BlinkLabel("DATA POLL", blink_color=QColor(0,255,0))
         self.status_bar.addWidget(
-            QLabel("Status bar test")
+            self.poll
         )
         self.setStatusBar(self.status_bar)
         self.status_bar.show()
@@ -90,8 +96,10 @@ class Gui(QMainWindow):
             server = None
 
         self.tab_widget.tab_server.server = server
+        self.tab_widget.tab_players.server = server
 
         if server:
+            server.stw.signals.poll.connect(self.poll.blink)
             self.tab_widget.tab_chat.server = server
             self.tab_widget.toggle_server_tabs(True)
         else:
@@ -112,13 +120,16 @@ class TabWidget(QWidget):
         self.tabs = QTabWidget()
         self.tabs.resize(Gui.height, Gui.width)
 
-        self.tab_server = TabServer(self, magicked_admin)
+        self.tab_home = TabHome(self, magicked_admin)
+        self.tab_server = TabServer(self)
         self.tab_log = TabLog(self)
         self.tab_chat = TabChat(self)
+        self.tab_players = TabPlayers(self)
 
+        self.tabs.addTab(self.tab_home, "Home")
         self.tabs.addTab(self.tab_server, "Server")
         self.tabs.addTab(QLabel("dummy"), "Options")
-        self.tabs.addTab(QLabel("dummy"), "Players")
+        self.tabs.addTab(self.tab_players, "Players")
         self.tabs.addTab(self.tab_chat, "Chat")
         self.tabs.addTab(QLabel("dummy"), "Global Stats")
         self.tabs.addTab(self.tab_log, "Log")
@@ -132,3 +143,4 @@ class TabWidget(QWidget):
         self.tabs.setTabEnabled(1, state)
         self.tabs.setTabEnabled(2, state)
         self.tabs.setTabEnabled(3, state)
+        self.tabs.setTabEnabled(4, state)

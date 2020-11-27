@@ -40,6 +40,7 @@ class Player:
         self.dosh = 0
         self.kills = 0
         self.health = 0
+        self.max_health = 100
         self.ping = 0
 
         # Session (game)
@@ -169,11 +170,17 @@ class Player:
             logger.info("Player, {}, died on {}".format(self.username, self.server.name))
             self.server_signals.player_death.emit(self)
 
+        if player_update_data.perk != self.perk:
+            self.max_health = 100
+        if player_update_data.health > self.max_health:
+            self.max_health = player_update_data.health
+
         self.kills = player_update_data.kills
         self.dosh = player_update_data.dosh
         self.health = player_update_data.health
         self.ping = player_update_data.ping
         self.perk = player_update_data.perk
+        # TODO: Perk level (not in stock admin panel)
 
         self._update_session()
 

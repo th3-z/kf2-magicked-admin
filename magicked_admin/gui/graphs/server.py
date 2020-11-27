@@ -10,12 +10,10 @@ from gui.graphs.factory import axis_x_week, axis_x_day
 
 
 class PlayersGraph(QWidget):
-    def __init__(self, parent, server):
-        super().__init__(parent)
+    def __init__(self):
+        super().__init__()
 
         layout = QHBoxLayout(self)
-
-        self.server = server
 
         self.setMinimumWidth(580)
         self.setMinimumHeight(230)
@@ -27,17 +25,16 @@ class PlayersGraph(QWidget):
 
         self.series = QtCharts.QLineSeries()
         self.series.setName("Players")
-        self.add_data(players_time(self.server.server_id))
         self.chart.addSeries(self.series)
 
-        axis_x = axis_x_day()
-        self.chart.addAxis(axis_x, Qt.AlignBottom)
-        self.series.attachAxis(axis_x)
+        self.axis_x = axis_x_day()
+        self.chart.addAxis(self.axis_x, Qt.AlignBottom)
+        self.series.attachAxis(self.axis_x)
 
         axis_y = QtCharts.QValueAxis()
         axis_y.setTickCount(7)
         axis_y.setLabelFormat("%d")
-        axis_y.setTitleText("Players")
+        axis_y.setTitleText("Players online")
         axis_y.setMax(6)
         axis_y.setMin(0)
         self.chart.addAxis(axis_y, Qt.AlignLeft)
@@ -47,10 +44,17 @@ class PlayersGraph(QWidget):
         chart_view.setRenderHint(QPainter.Antialiasing)
         layout.addWidget(chart_view)
 
-    def add_data(self, data):
+    def plot(self, server):
         self.series.clear()
 
-        for row in data:
+        self.axis_x.setMin(QDateTime.fromSecsSinceEpoch(
+            int(time.time() - (60 * 60 * 24)))
+        )
+        self.axis_x.setMax(QDateTime.fromSecsSinceEpoch(
+            int(time.time()))
+        )
+
+        for row in players_time(server.server_id):
             self.series.append(row['date'] * 1000, int(row['players']))
 
 

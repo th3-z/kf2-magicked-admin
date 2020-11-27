@@ -23,7 +23,7 @@ def axis_x_day():
     axis.setTickCount(12)
     axis.setFormat("hh:mm")
     axis.setMin(QDateTime.fromSecsSinceEpoch(
-        int(time.time() - (60 * 60 * 24)))
+        int(time.time() - (60 * 60 * 1)))
     )
     axis.setMax(QDateTime.fromSecsSinceEpoch(
         int(time.time()))

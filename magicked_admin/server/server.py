@@ -50,6 +50,11 @@ class Server:
         self.signals.server_update.connect(self.receive_update_data)
         self.signals.players_update.connect(self.receive_player_updates)
 
+        # TODO: refactor
+        self.stw = None
+
+        self.init_db()
+
     @db_connector
     def init_db(self, conn):
         sql = """
@@ -68,7 +73,7 @@ class Server:
             FROM
                 server
             WHERE
-                server_name = ?
+                name = ?
         """
         cur.execute(sql, (self.name,))
         result, = cur.fetchall()
@@ -142,9 +147,10 @@ class Server:
         # Quitters
         for player in self.players:
             if player.username not in [p.username for p in players_update_data]:
+                self.players.remove(player)
+                self.record_players_online()
                 logger.info("Player, {}, left {}".format(player.username, self.name))
                 self.signals.player_quit.emit(player)
-                self.players.remove(player)
                 player.close()
 
         # Joiners
@@ -165,10 +171,9 @@ class Server:
 
                 player = Player(self, player_update_data.username, identity)
                 self.players.append(player)
+                self.record_players_online()
                 logger.info("Player, {}, joined {}".format(player.username, self.name))
                 self.signals.player_join.emit(player)
-
-        self.record_players_online()
 
     def get_player_by_username(self, username):
         matched_players = 0

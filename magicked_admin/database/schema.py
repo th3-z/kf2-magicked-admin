@@ -34,9 +34,11 @@ schema = """
         level_id INTEGER PRIMARY KEY,
         server_id INTEGER NOT NULL,
         -- e.g. KF-BlackForest
-        title VARCHAR(255) NOT NULL UNIQUE,
+        title VARCHAR(255) NOT NULL,
         -- e.g. Black Forest
-        name VARCHAR(255) NOT NULL
+        name VARCHAR(255) NOT NULL,
+        
+        UNIQUE(title, server_id)
     );
     
     CREATE TABLE match (

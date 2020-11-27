@@ -1,8 +1,11 @@
 import gettext
-from PySide2.QtCore import QThread
+from PySide2.QtCore import QThread, QObject, Signal
 import time
 
 _ = gettext.gettext
+
+class StateTransitionSignals(QObject):
+    poll = Signal()
 
 
 class StateTransitionWorker(QThread):
@@ -10,7 +13,8 @@ class StateTransitionWorker(QThread):
         QThread.__init__(self, None)
 
         self.server = server
-        self.signals = server.signals
+        self.server_signals = server.signals
+        self.signals = StateTransitionSignals()
         self.web_admin = server.web_admin
 
         self._exit = False
@@ -23,6 +27,7 @@ class StateTransitionWorker(QThread):
     def run(self):
         while not self._exit:
             self._poll()
+            self.signals.poll.emit()
             time.sleep(self._refresh_rate)
 
     def close(self):
@@ -39,11 +44,11 @@ class StateTransitionWorker(QThread):
     def _poll(self):
         server_state, match_state, player_states = self.web_admin.get_server_info()
         if server_state != self.server_state_previous:
-            self.signals.server_update.emit(server_state)
+            self.server_signals.server_update.emit(server_state)
             self.server_state_previous = server_state
 
         if match_state != self.match_state_previous:
-            self.signals.match_update.emit(match_state)
+            self.server_signals.match_update.emit(match_state)
             self.match_state_previous = match_state
 
         if player_states != self.player_states_previous:
@@ -51,7 +56,7 @@ class StateTransitionWorker(QThread):
             usernames = [p.username for p in player_states]
             usernames_previous = [p.username for p in self.player_states_previous]
             if usernames != usernames_previous:
-                self.signals.players_update.emit(player_states)
+                self.server_signals.players_update.emit(player_states)
 
             # Individual players
             for player_state in player_states:
