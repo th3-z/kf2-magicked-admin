@@ -1,9 +1,9 @@
 import configparser
 import gettext
+import logging
 import os
 import sys
 from collections import namedtuple
-import logging
 
 from utils import find_data_file
 
@@ -36,12 +36,13 @@ template_server_config = """
 # username = Admin
 # password = 123
 # game_password = 123
-# url_extras = 
+# url_extras =
 # refresh_rate = 1
 """
 
 
 class Settings:
+    version = "0.2.0"
     debug = __debug__ and not hasattr(sys, 'frozen')
     banner_url = "https://kf2-ma.th3-z.xyz/"
     config_path = find_data_file("conf/magicked_admin.conf")
@@ -86,7 +87,7 @@ class Settings:
     @classmethod
     def append_template(cls):
         with open(cls.config_path, 'a') as config_file:
-            config_file.write(template_server_config[1:]+'\n')
+            config_file.write(template_server_config[1:] + '\n')
 
     @classmethod
     def set_language(cls, lang_code):

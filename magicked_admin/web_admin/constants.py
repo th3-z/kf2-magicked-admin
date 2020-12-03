@@ -1,6 +1,5 @@
 from collections import namedtuple
 
-
 CHAT_MAX_ROWS = 7
 CHAT_MAX_COLUMNS = 21
 

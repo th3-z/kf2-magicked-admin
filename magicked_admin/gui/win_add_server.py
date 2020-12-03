@@ -1,12 +1,14 @@
 import logging
-from PySide2.QtWidgets import QWidget, QLabel, QVBoxLayout, QGroupBox, QFormLayout, QLineEdit, QHBoxLayout, QPushButton, QSpacerItem, QSizePolicy, QMessageBox
-from PySide2.QtCore import Qt, QRunnable, QMetaObject, Signal, Slot, QThreadPool, QObject
-from PySide2.QtGui import QPixmap, QIcon
 
-from utils.net import resolve_address
-from web_admin.web_interface import WebInterface, AuthorizationException
 from gui.vendor.waiting_spinner import QtWaitingSpinner
+from PySide2.QtCore import QObject, QRunnable, Qt, QThreadPool, Signal, Slot
+from PySide2.QtGui import QIcon
+from PySide2.QtWidgets import (QFormLayout, QGroupBox, QHBoxLayout, QLabel,
+                               QLineEdit, QMessageBox, QPushButton,
+                               QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 from settings import ServerConfig
+from utils.net import resolve_address
+from web_admin.web_interface import AuthorizationException, WebInterface
 
 logger = logging.getLogger(__name__)
 

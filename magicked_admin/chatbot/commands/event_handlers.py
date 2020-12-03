@@ -3,12 +3,11 @@ import threading
 import time
 
 from chatbot.commands import ALL_WAVES
-from utils.time import seconds_to_hhmmss
-from web_admin.constants import *
+from PySide2.QtCore import Slot
 from server.match import Match
 from server.player import Player
-
-from PySide2.QtCore import Slot
+from utils.time import seconds_to_hhmmss
+from web_admin.constants import *
 
 _ = gettext.gettext
 

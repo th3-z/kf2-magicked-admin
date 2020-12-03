@@ -1,8 +1,8 @@
 import logging
 
-from PySide2.QtCore import Signal, Slot, QObject
+from PySide2.QtCore import QObject, Signal, Slot
 from PySide2.QtGui import QFont
-from PySide2.QtWidgets import QPlainTextEdit, QPushButton, QWidget, QVBoxLayout
+from PySide2.QtWidgets import QPlainTextEdit, QPushButton, QVBoxLayout, QWidget
 
 
 class Signaller(QObject):

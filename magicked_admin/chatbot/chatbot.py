@@ -2,14 +2,16 @@ import gettext
 from os import path
 
 from chatbot import INIT_TEMPLATE
-from web_admin.constants import *
-
+from chatbot.commands.command_map import CommandMap
+from chatbot.motd_updater import MotdUpdater
 from PySide2.QtCore import Slot
+from utils import find_data_file
+from web_admin.constants import *
 
 _ = gettext.gettext
 
 
-class Chatbot():
+class Chatbot:
     def __init__(self, server):
         self._web_admin = server.web_admin
         self._commands = {}
@@ -19,6 +21,18 @@ class Chatbot():
 
         self.signals = server.signals
         self.signals.command.connect(self.receive_command)
+
+        commands = CommandMap().get_commands(
+            server, self, MotdUpdater(server)
+        )
+        for command_name, command in commands.items():
+            self.add_command(command_name, command)
+
+        self.run_init(find_data_file(
+            "conf/scripts/" + server.name + ".init"
+        ))
+
+        # TODO: self.lua_bridge = LuaBridge(server, self)
 
     def add_alias(self, name, command, admin_only=True):
         self._aliases[name] = {

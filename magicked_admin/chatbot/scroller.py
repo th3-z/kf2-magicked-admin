@@ -2,7 +2,7 @@ import threading
 import time
 from itertools import count
 
-from utils.text import chat_lines, chat_width, str_width, pad_height
+from utils.text import chat_lines, chat_width, pad_height, str_width
 
 
 class Scroller(threading.Thread):

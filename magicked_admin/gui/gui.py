@@ -1,17 +1,17 @@
 import logging
 
-from PySide2.QtWidgets import QMainWindow, QPushButton, QWidget, QAction, QTabWidget, QVBoxLayout, QStatusBar, QLabel, QComboBox, QSpacerItem, QSizePolicy, QHBoxLayout
-from PySide2.QtCore import Slot, QRect
-from PySide2.QtGui import QColor
-
-from server.server import Server
-from gui.tab_log import TabLog
 from gui.tab_chat import TabChat
-from gui.tab_server import TabServer
 from gui.tab_home import TabHome
+from gui.tab_log import TabLog
 from gui.tab_players import TabPlayers
+from gui.tab_server import TabServer
 from gui.win_add_server import WinAddServer
-from gui.components.widgets import BlinkLabel
+from PySide2.QtCore import Slot
+from PySide2.QtWidgets import (QAction, QComboBox, QHBoxLayout, QLabel,
+                               QMainWindow, QPushButton, QSizePolicy,
+                               QSpacerItem, QStatusBar, QTabWidget,
+                               QVBoxLayout, QWidget)
+from server.server import Server
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ class Gui(QMainWindow):
         self.servers = magicked_admin.servers
 
         self.setWindowTitle("Killing Floor 2 Magicked Admin")
-        #self.setMinimumSize(Gui.width, Gui.height)
+        # self.setMinimumSize(Gui.width, Gui.height)
         # self.setGeometry(0, 0, Gui.width, Gui.height)
 
         # Menu bar
@@ -40,10 +40,8 @@ class Gui(QMainWindow):
 
         # Status bar
         self.status_bar = QStatusBar()
-
-        self.poll = BlinkLabel("DATA POLL", blink_color=QColor(0,255,0))
         self.status_bar.addWidget(
-            self.poll
+            QLabel("Status bar")
         )
         self.setStatusBar(self.status_bar)
         self.status_bar.show()
@@ -51,13 +49,13 @@ class Gui(QMainWindow):
         # Main window
         window = QWidget(self)
         layout = QVBoxLayout(window)
-        layout.setContentsMargins(0,0,0,0)
+        layout.setContentsMargins(0, 0, 0, 0)
 
         # Toolbar
         toolbar = QWidget()
         toolbar.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
         toolbar_layout = QHBoxLayout(toolbar)
-        toolbar_layout.setContentsMargins(0,0,0,2)
+        toolbar_layout.setContentsMargins(0, 0, 0, 2)
         toolbar_layout.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Minimum))
 
         self.cb_servers = QComboBox()
@@ -72,7 +70,7 @@ class Gui(QMainWindow):
         toolbar_layout.addWidget(self.cb_servers)
         toolbar_layout.addWidget(self.pb_add_server)
 
-        #layout.addWidget(toolbar)
+        # layout.addWidget(toolbar)
 
         # Tabs
         self.tab_widget = TabWidget(window, magicked_admin)
@@ -91,7 +89,7 @@ class Gui(QMainWindow):
 
     def cb_servers_selection(self, i):
         if i > 0:
-            server = self.servers[i-1]
+            server = self.servers[i - 1]
         else:
             server = None
 
@@ -99,7 +97,6 @@ class Gui(QMainWindow):
         self.tab_widget.tab_players.server = server
 
         if server:
-            server.stw.signals.poll.connect(self.poll.blink)
             self.tab_widget.tab_chat.server = server
             self.tab_widget.toggle_server_tabs(True)
         else:
@@ -133,7 +130,6 @@ class TabWidget(QWidget):
         self.tabs.addTab(self.tab_chat, "Chat")
         self.tabs.addTab(QLabel("dummy"), "Global Stats")
         self.tabs.addTab(self.tab_log, "Log")
-
 
         layout.addWidget(self.tabs)
 

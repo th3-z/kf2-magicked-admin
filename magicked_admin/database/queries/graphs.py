@@ -1,10 +1,6 @@
 from database import db_connector
 
-import datetime
-import time
-from scipy.signal import savgol_filter, lfilter
-
-
+"""
 def noise_filter(arr):
     if not arr:
         return arr
@@ -14,6 +10,7 @@ def noise_filter(arr):
     a = 1
 
     return lfilter(b, a, arr).tolist()
+"""
 
 
 @db_connector
@@ -27,7 +24,6 @@ def players_time(server_id, conn, period=7):
             server_id = ?
             AND date >= CAST(strftime('%s', 'now') AS INT) - (60*60*24*{})
     """.format(period)
-
 
     cur = conn.cursor()
     cur.execute(sql, (server_id,))
@@ -48,7 +44,7 @@ def kills_time(server_id, conn, period=7, interval=240):
             WHERE
                 period >= CAST(strftime('%s', 'now') AS INT) - (60*60*24*{})
         )
-        
+
         SELECT
             ts.period AS `time`,
             COALESCE(SUM(s.kills), 0) AS kills

@@ -1,11 +1,11 @@
 import gettext
 
-from .command import Command
-from utils.text import millify, trim_string, str_width, pad_width, center_str
+from chatbot.scroller import Scroller
+from database.queries.leaderboards import top_by_col, top_by_playtime
+from utils.text import center_str, millify, pad_width, str_width, trim_string
 from utils.time import seconds_to_hhmmss
 
-from database.queries.leaderboards import top_by_col, top_by_playtime
-from chatbot.scroller import Scroller
+from .command import Command
 
 _ = gettext.gettext
 
@@ -154,7 +154,7 @@ class CommandTopKills(Command):
             kills = pad_width(str_width("Kills "), kills)
 
             rows.append("#{:02d}    | {} | {}".format(
-                i+1, kills, username
+                i + 1, kills, username
             ))
 
         rows.reverse()
@@ -253,7 +253,7 @@ class CommandScoreboard(Command):
         if args.help:
             return self.format_response(self.help_text, args)
 
-        message = _("Scoreboard (name, kills, dosh):\n")
+        # TODO: Unused var? message = _("Scoreboard (name, kills, dosh):\n")
 
         header = center_str("Scoreboard")
         header += "\nKills | Dosh | Username"
@@ -267,7 +267,7 @@ class CommandScoreboard(Command):
 
         for player in self.server.players:
             username = trim_string(player.username, 20)
-            dosh = pad_width(str_width("Dosh"), "£"+millify(player.dosh))
+            dosh = pad_width(str_width("Dosh"), "£" + millify(player.dosh))
             kills = pad_width(str_width("Kills"), millify(player.kills))
             rows.append(_("{} | {} | {}").format(
                 kills, dosh, username

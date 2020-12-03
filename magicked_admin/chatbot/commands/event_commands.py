@@ -1,11 +1,11 @@
-import gettext
 import argparse
+import gettext
 
-from chatbot.commands.event_handlers import (
-    OnJoinHandler, OnTimeHandler, OnTraderHandler, OnWaveHandler, OnDeathHandler
-)
-from chatbot.commands.command import Command
 from chatbot.commands import ALL_WAVES
+from chatbot.commands.command import Command
+from chatbot.commands.event_handlers import (OnDeathHandler, OnJoinHandler,
+                                             OnTimeHandler, OnTraderHandler,
+                                             OnWaveHandler)
 from utils.text import trim_string
 
 _ = gettext.gettext
@@ -26,9 +26,9 @@ class CommandOnTime(Command):
         add_parser.add_argument("--interval", "-n", type=int)
         add_parser.add_argument("--repeat", "-r", action="store_true")
         add_parser.add_argument("command", type=str, nargs=argparse.REMAINDER)
-        
+
         subparsers.add_parser("show")
-        
+
         del_parser = subparsers.add_parser("del")
         del_parser.add_argument("id", type=int)
 
@@ -54,7 +54,9 @@ class CommandOnTime(Command):
 
         message = ""
         for id, handler in enumerate(self.handlers):
-            message += "{} - `{}` (n={}, r={})\n".format(id + 1, trim_string(handler.command, 20), handler.interval, int(handler.repeat))
+            message += "{} - `{}` (n={}, r={})\n".format(
+                id + 1, trim_string(handler.command, 20), handler.interval, int(handler.repeat)
+            )
 
         return message
 
@@ -70,7 +72,7 @@ class CommandOnTime(Command):
 
         elif args.action == "show":
             return self.action_show()
-        
+
         elif args.action == "del":
             return self.action_del(args.id)
 
@@ -92,9 +94,9 @@ class CommandOnJoin(Command):
         add_parser = subparsers.add_parser("add")
         add_parser.add_argument("--returning", "-r", action="store_true")
         add_parser.add_argument("command", type=str, nargs=argparse.REMAINDER)
-        
+
         subparsers.add_parser("show")
-        
+
         del_parser = subparsers.add_parser("del")
         del_parser.add_argument("id", type=int)
 
@@ -119,7 +121,9 @@ class CommandOnJoin(Command):
 
         message = ""
         for id, handler in enumerate(self.handlers):
-            message += "{} - `{}` (r={})\n".format(id + 1, trim_string(handler.command, 20), int(handler.returning))
+            message += "{} - `{}` (r={})\n".format(
+                id + 1, trim_string(handler.command, 20), int(handler.returning)
+            )
 
         return message
 
@@ -135,7 +139,7 @@ class CommandOnJoin(Command):
 
         elif args.action == "show":
             return self.action_show()
-        
+
         elif args.action == "del":
             return self.action_del(args.id)
 
@@ -156,9 +160,9 @@ class CommandOnWave(Command):
         add_parser = subparsers.add_parser("add")
         add_parser.add_argument("--wave", "-w", type=int)
         add_parser.add_argument("command", type=str, nargs=argparse.REMAINDER)
-        
+
         subparsers.add_parser("show")
-        
+
         del_parser = subparsers.add_parser("del")
         del_parser.add_argument("id", type=int)
 
@@ -183,7 +187,9 @@ class CommandOnWave(Command):
 
         message = ""
         for id, handler in enumerate(self.handlers):
-            message += "{} - `{}` (w={})\n".format(id + 1, trim_string(handler.command, 20), int(handler.wave))
+            message += "{} - `{}` (w={})\n".format(
+                id + 1, trim_string(handler.command, 20), int(handler.wave)
+            )
 
         return message
 
@@ -199,7 +205,7 @@ class CommandOnWave(Command):
 
         elif args.action == "show":
             return self.action_show()
-        
+
         elif args.action == "del":
             return self.action_del(args.id)
 
@@ -221,9 +227,9 @@ class CommandOnTrader(Command):
         add_parser = subparsers.add_parser("add")
         add_parser.add_argument("--wave", "-w", type=int)
         add_parser.add_argument("command", type=str, nargs=argparse.REMAINDER)
-        
+
         subparsers.add_parser("show")
-        
+
         del_parser = subparsers.add_parser("del")
         del_parser.add_argument("id", type=int)
 
@@ -264,7 +270,7 @@ class CommandOnTrader(Command):
 
         elif args.action == "show":
             return self.action_show()
-        
+
         elif args.action == "del":
             return self.action_del(args.id)
 
@@ -280,9 +286,9 @@ class CommandOnDeath(Command):
 
         add_parser = subparsers.add_parser("add")
         add_parser.add_argument("command", type=str, nargs=argparse.REMAINDER)
-        
+
         subparsers.add_parser("show")
-        
+
         del_parser = subparsers.add_parser("del")
         del_parser.add_argument("id", type=int)
 
@@ -323,7 +329,7 @@ class CommandOnDeath(Command):
 
         elif args.action == "show":
             return self.action_show()
-        
+
         elif args.action == "del":
             return self.action_del(args.id)
 

@@ -1,18 +1,13 @@
 import logging
 
-from PySide2.QtCore import Signal, Slot, QObject, QUrl, QMargins
-from PySide2.QtWidgets import QVBoxLayout, QPlainTextEdit, QPushButton, QWidget, QLabel, QSpacerItem, QSizePolicy, QHBoxLayout, QGroupBox, QFormLayout
-from PySide2.QtGui import QPixmap, Qt, QFont, QDesktopServices, QPainter
-from PySide2.QtCharts import QtCharts
-import time
-
-from utils import find_data_file
-from database.queries.graphs import players_time, kills_time, noise_filter
-from gui.graphs.server import PlayersGraph, KillsGraph
 from gui.components.widgets import LabelButton
-from web_admin.constants import GAME_TYPE_DISPLAY, DIFF_DISPLAY, LEN_DISPLAY
+from gui.graphs.server import PlayersGraph
+from PySide2.QtCore import Slot
+from PySide2.QtWidgets import (QFormLayout, QGroupBox, QHBoxLayout, QLabel,
+                               QPushButton, QVBoxLayout, QWidget)
 from server.match import Match
 from server.player import Player
+from web_admin.constants import DIFF_DISPLAY, GAME_TYPE_DISPLAY, LEN_DISPLAY
 
 logger = logging.getLogger(__name__)
 
@@ -105,5 +100,3 @@ class TabServer(QWidget):
         self.difficulty.label.setText(DIFF_DISPLAY[match.difficulty])
         self.length.label.setText(LEN_DISPLAY[match.length])
         self.map.label.setText(match.level.name)
-
-

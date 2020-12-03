@@ -1,10 +1,10 @@
-import sqlite3
-from os import path
-import time
 import logging
+import sqlite3
+import time
+from os import path
 
-from utils import find_data_file
 from database.schema import schema
+from utils import find_data_file
 
 _sqlite_db_file = find_data_file("conf/storage.sqlite")
 logger = logging.getLogger(__name__)
@@ -79,5 +79,3 @@ def _end_loose_matches(conn):
     """
 
     conn.cursor().execute(sql, (int(time.time()),))
-
-

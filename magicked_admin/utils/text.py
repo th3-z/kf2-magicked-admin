@@ -1,5 +1,6 @@
 import math
-from utils.font import c_width, avg_width
+
+from utils.font import avg_width, c_width
 
 motd_width = 196 * 200  # Measured using 'i'
 motd_lines = 10
@@ -38,6 +39,7 @@ def str_to_bool(s):
     else:
         raise ValueError
 
+
 def str_width(s):
     width = 0
 
@@ -46,17 +48,19 @@ def str_width(s):
             width += c_width[char]
         else:
             width += avg_width
-    
+
     return width
+
 
 def pad_width(width, text):
     text_w = str_width(text)
     sp_w = str_width(" ")
 
     if text_w < width:
-        text +=" " * int(round((width - text_w) / sp_w))
+        text += " " * int(round((width - text_w) / sp_w))
 
     return text
+
 
 def pad_height(message):
     if not message:
@@ -69,6 +73,7 @@ def pad_height(message):
         return message + '\n' * padding_lines
     else:
         return message
+
 
 def center_str(text):
     text_w = str_width(text)

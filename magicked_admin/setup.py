@@ -3,9 +3,11 @@ import sys
 
 import certifi
 from babel.messages import frontend as babel
-from cx_Freeze import Executable, setup, build
+from cx_Freeze import Executable, build, setup
 
-VERSION = "0.2.0"
+from settings import Settings
+
+VERSION = Settings.version
 
 WIN_NT = os.name == "nt"
 
@@ -53,8 +55,8 @@ if WIN_NT:
     target_name += ".exe"
 
 build_exe_options = {
-    "packages": ["os", "queue", "idna", "lxml", "requests", "encodings"],
-    "excludes": ["tkinter"],
+    "packages": ["os", "queue", "idna", "lxml", "requests", "encodings", "PySide2.QtCore", "PySide2.QtWidgets", "PySide2.QtGui", "shiboken2"],
+    "excludes": ["tkinter", "Tkconstants", "tcl"],
     "includes": [],
     "include_files": includefiles,
     "include_msvcr": True,

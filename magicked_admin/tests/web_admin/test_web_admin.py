@@ -1,13 +1,12 @@
-import pytest
 from unittest import mock
+
+import pytest
 from requests import Session
-from tests.web_admin.mock_session import MockSession
-
-from web_admin.web_interface import WebInterface
-from web_admin.web_admin import WebAdmin
-from web_admin.chat_worker import Chat
-
 from settings import Settings
+from tests.web_admin.mock_session import MockSession
+from web_admin.chat_worker import Chat
+from web_admin.web_admin import WebAdmin
+from web_admin.web_interface import WebInterface
 
 TEST_CONFIG_PATH = "magicked_admin/tests/test_data/conf/magicked_admin.conf"
 settings = Settings(TEST_CONFIG_PATH)

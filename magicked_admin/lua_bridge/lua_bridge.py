@@ -1,10 +1,10 @@
-import lupa
-import requests
-from lupa import LuaRuntime
 import logging
 
+# import lupa
+import requests
+from lupa import LuaRuntime
+# from utils import find_data_file
 from utils.lua import load_script
-from utils import find_data_file
 
 """
 API Specification:
@@ -29,7 +29,7 @@ class LuaBridge():
 
         # Params: str:namespace
         self.new_namespace = self.lua.eval("bridge.new_namespace")
-        #self.lua.eval("log.info(\"Initialisation complete\")")
+        # self.lua.eval("log.info(\"Initialisation complete\")")
 
         self.server = server
         self.chatbot = chatbot
@@ -73,11 +73,11 @@ class LuaBridge():
         # ...
 
         self.new_namespace("db")
-        #db = self.server.database
-        #self.new_bind("db", "execute", db.execute)
-        #self.new_bind("db", "rank_kills", db.execute)
-        #self.new_bind("db", "top_kills", db.execute)
-        #self.new_bind("db", "get_player", db.load_player)
+        # db = self.server.database
+        # self.new_bind("db", "execute", db.execute)
+        # self.new_bind("db", "rank_kills", db.execute)
+        # self.new_bind("db", "top_kills", db.execute)
+        # self.new_bind("db", "get_player", db.load_player)
 
         self.new_namespace("requests")
         self.new_bind("requests", "get", requests.get)

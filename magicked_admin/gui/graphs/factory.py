@@ -1,7 +1,7 @@
 import time
 
-from PySide2.QtCore import QDateTime
 from PySide2.QtCharts import QtCharts
+from PySide2.QtCore import QDateTime
 
 
 def axis_x_week():

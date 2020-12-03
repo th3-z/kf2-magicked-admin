@@ -1,7 +1,7 @@
 import os
 
 from babel.messages import frontend as babel
-from cx_Freeze import Executable, setup, build
+from cx_Freeze import Executable, build, setup
 
 VERSION = "0.1"
 

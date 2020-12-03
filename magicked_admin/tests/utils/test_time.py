@@ -1,5 +1,4 @@
 import pytest
-
 from utils.time import seconds_to_hhmmss
 
 

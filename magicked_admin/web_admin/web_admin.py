@@ -2,7 +2,6 @@ import logging
 from itertools import groupby
 
 from lxml import html
-
 from utils.net import get_country
 from utils.text import str_to_bool
 from web_admin.constants import *
@@ -51,8 +50,7 @@ class WebAdmin(object):
         return True
 
     def get_new_messages(self):
-        response = self.web_interface.get_new_messages().text \
-                   + self._message_buffer
+        response = self.web_interface.get_new_messages().text + self._message_buffer
         self._message_buffer = ""
 
         if not response:
@@ -67,9 +65,13 @@ class WebAdmin(object):
         messages = []
 
         for message_root in message_roots:
-            username = message_root.xpath(username_pattern)[0]
-            user_type = message_root.xpath(user_type_pattern)[0]
-            message = message_root.xpath(message_pattern)[0]
+            try:
+                username = message_root.xpath(username_pattern)[0]
+                user_type = message_root.xpath(user_type_pattern)[0]
+                message = message_root.xpath(message_pattern)[0]
+            except IndexError:
+                # Not sure how but players can send messages with no content
+                continue
 
             user_flags = USER_TYPE_NONE
             if 'admin' in user_type:
@@ -326,7 +328,7 @@ class WebAdmin(object):
             wave = None
 
         return MatchUpdateData(
-             trader_open, zeds_total, zeds_dead, wave
+            trader_open, zeds_total, zeds_dead, wave
         )
 
     @staticmethod
@@ -377,7 +379,7 @@ class WebAdmin(object):
 
         # Capacity
         capacity_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Players\"]" \
-                       "/following-sibling::dd[1]/text()"
+                        "/following-sibling::dd[1]/text()"
         capacity_result = info_tree.xpath(capacity_path)
 
         if capacity_result:
@@ -387,7 +389,7 @@ class WebAdmin(object):
 
         # Length
         length_path = "//dl[@id=\"currentRules\"]/dt[text()=\"Wave\"]" \
-                    "/following-sibling::dd[1]/text()"
+                      "/following-sibling::dd[1]/text()"
         length_result = info_tree.xpath(length_path)
 
         if length_result:

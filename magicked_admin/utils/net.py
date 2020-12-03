@@ -1,7 +1,7 @@
 import gettext
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 from urllib.request import urlopen
-from urllib.error import URLError, HTTPError
 
 import requests
 

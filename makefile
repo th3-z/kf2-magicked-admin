@@ -38,8 +38,12 @@ pytest:
 	@pytest magicked_admin/tests --cov=magicked_admin
 
 lint:
+	-@# F401 -- Unused import
+	-@# F405 -- Name may be undefined
+	-@# F403 -- Wildcard imports
+	-@# W503 -- Line break before binary operator
 	@echo "$(YELLOW_COLOR)Checking lints...$(NO_COLOR)\n"
-	@flake8 --ignore F405,F403,W503,F401,F811 --exclude=admin_patches/utils/patch.py && \
+	@flake8 --max-line-length 119 --ignore F401,F405,F403,W503 ./magicked_admin && \
 		echo "$(GREEN_COLOR)success!$(NO_COLOR)" \
 		|| { echo "$(RED_COLOR)failure!$(NO_COLOR)\n"; exit 1; }
 

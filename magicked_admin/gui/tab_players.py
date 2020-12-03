@@ -1,15 +1,12 @@
 import logging
 
-from PySide2.QtCore import Signal, Slot, QObject
-from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QPlainTextEdit, QPushButton, QWidget, QLineEdit, QLabel
-
 from gui.components.player import PlayerWidget
+from PySide2.QtWidgets import QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
 logger = logging.getLogger(__name__)
 
 
 class TabPlayers(QWidget):
-
     def __init__(self, parent):
         super().__init__(parent)
 
@@ -27,7 +24,6 @@ class TabPlayers(QWidget):
 
         layout.addWidget(left)
         layout.addWidget(right)
-
 
     @property
     def server(self):

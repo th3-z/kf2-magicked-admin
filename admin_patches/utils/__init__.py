@@ -1,6 +1,6 @@
+import gettext
 import os
 import sys
-import gettext
 
 _ = gettext.gettext
 

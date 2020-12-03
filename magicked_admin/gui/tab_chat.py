@@ -1,7 +1,8 @@
 import logging
 
-from PySide2.QtCore import Signal, Slot, QObject
-from PySide2.QtWidgets import QVBoxLayout, QPlainTextEdit, QPushButton, QWidget, QLineEdit
+from PySide2.QtCore import Slot
+from PySide2.QtWidgets import (QLineEdit, QPlainTextEdit, QPushButton,
+                               QVBoxLayout, QWidget)
 
 logger = logging.getLogger(__name__)
 

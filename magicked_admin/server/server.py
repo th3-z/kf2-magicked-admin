@@ -1,12 +1,15 @@
 import logging
 import time
-from PySide2.QtCore import QObject, Signal, Slot
 
-from server.player import Player
+from chatbot.chatbot import Chatbot
+from database import db_connector
+from PySide2.QtCore import QObject, Signal, Slot
 from server.level import Level
 from server.match import Match
-from web_admin.constants import ServerUpdateData, MatchUpdateData
-from database import db_connector
+from server.player import Player
+from web_admin.chat_worker import ChatWorker
+from web_admin.constants import MatchUpdateData, ServerUpdateData
+from web_admin.state_transition_worker import StateTransitionWorker
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +38,7 @@ class Server:
         self.name = name
         self.web_admin = web_admin
         self.signals = ServerSignals()
+        self.is_finished = False
 
         self.game_password = game_password
         self.url_extras = url_extras
@@ -50,10 +54,15 @@ class Server:
         self.signals.server_update.connect(self.receive_update_data)
         self.signals.players_update.connect(self.receive_player_updates)
 
-        # TODO: refactor
-        self.stw = None
-
         self.init_db()
+
+        self.chat_worker = ChatWorker(self)
+        self.chat_worker.start()
+
+        self.state_transition_worker = StateTransitionWorker(self)
+        self.state_transition_worker.start()
+
+        self.chatbot = Chatbot(self)
 
     @db_connector
     def init_db(self, conn):
@@ -92,7 +101,6 @@ class Server:
 
         cur = conn.cursor()
         cur.execute(sql, (self.server_id, len(self.players), int(time.time())))
-
 
     def _is_new_match(self, server_update_data):
         # Uninitialized (first match)
@@ -283,7 +291,12 @@ class Server:
         self.web_admin.set_game_type(mode)
 
     def close(self):
+        self.state_transition_worker.close()
+        self.chat_worker.close()
+
         if self.match:
             self.match.close()
         for player in self.players:
             player.close()
+
+        self.is_finished = True

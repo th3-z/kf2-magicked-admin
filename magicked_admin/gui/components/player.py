@@ -1,11 +1,9 @@
-from PySide2.QtWidgets import QPushButton, QWidget, QLabel, QHBoxLayout, QVBoxLayout, QProgressBar, QSizePolicy
-from PySide2.QtGui import QPixmap, Qt, QColor
-from PySide2.QtCore import Slot, QPropertyAnimation
-
 from gui.components.widgets import BlinkLabel
-
+from PySide2.QtCore import QPropertyAnimation, Slot
+from PySide2.QtGui import QColor, QPixmap
+from PySide2.QtWidgets import (QHBoxLayout, QLabel, QProgressBar, QPushButton,
+                               QVBoxLayout, QWidget)
 from utils import find_data_file
-from utils.time import seconds_to_hhmmss
 from web_admin.constants import PlayerUpdateData
 
 STYLE_HP = """
@@ -51,7 +49,6 @@ class PlayerWidget(QWidget):
         line_name_layout.addWidget(self.perk)
         self.ping = QLabel(str(player.ping) + " ms")
         line_name_layout.addWidget(self.ping)
-
 
         center_left_layout.addWidget(line_name)
 
@@ -112,6 +109,3 @@ class PlayerWidget(QWidget):
 
         self.kills_prev = player_update_data.kills
         self.dosh_prev = player_update_data.dosh
-
-
-

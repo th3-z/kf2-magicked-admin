@@ -1,8 +1,10 @@
 import gettext
-from PySide2.QtCore import QThread, QObject, Signal
 import time
 
+from PySide2.QtCore import QObject, QThread, Signal
+
 _ = gettext.gettext
+
 
 class StateTransitionSignals(QObject):
     poll = Signal()

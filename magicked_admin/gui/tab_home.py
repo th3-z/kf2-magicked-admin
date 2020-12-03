@@ -1,10 +1,11 @@
 import logging
 
-from PySide2.QtCore import Signal, Slot, QObject, QUrl, QMargins
-from PySide2.QtWidgets import QVBoxLayout, QPlainTextEdit, QPushButton, QWidget, QLabel, QSpacerItem, QSizePolicy, QHBoxLayout, QGroupBox, QFormLayout
-from PySide2.QtGui import QPixmap, Qt, QFont, QDesktopServices, QPainter
-
+from PySide2.QtCore import QUrl
+from PySide2.QtGui import QDesktopServices, QFont, QPixmap, Qt
+from PySide2.QtWidgets import (QLabel, QSizePolicy, QSpacerItem, QVBoxLayout,
+                               QWidget)
 from utils import find_data_file
+from settings import Settings
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +21,7 @@ class TabHome(QWidget):
         header.setAlignment(Qt.AlignHCenter)
 
         version = QLabel()
-        version.setText(magicked_admin.version)
+        version.setText(Settings.version)
         version.setAlignment(Qt.AlignHCenter)
 
         logo = QLabel()
@@ -30,7 +31,10 @@ class TabHome(QWidget):
         logo.setAlignment(Qt.AlignHCenter)
 
         guide = QLabel()
-        guide.setText("<em>No server selected, add or select a server at the top-right.</em>")
+        if len(magicked_admin.servers):
+            guide.setText("<em>{} servers configured.</em>".format(len(magicked_admin.servers)))
+        else:
+            guide.setText("<em>No servers configured, add a server at the top-right.</em>")
         guide.setAlignment(Qt.AlignHCenter)
 
         docs = QLabel()

@@ -1,6 +1,6 @@
-from PySide2.QtWidgets import QPushButton, QWidget, QLabel, QHBoxLayout
-from PySide2.QtCore import QPropertyAnimation, Property
+from PySide2.QtCore import Property, QPropertyAnimation
 from PySide2.QtGui import QColor
+from PySide2.QtWidgets import QHBoxLayout, QLabel, QPushButton, QWidget
 
 
 class LabelButton(QWidget):

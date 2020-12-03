@@ -5,7 +5,7 @@
 import fontforge
 import string
 
-chars = [char for char in string.printable] 
+chars = [char for char in string.printable]
 chars.remove("\n")
 chars.remove("\r")
 chars.remove("\x0b")

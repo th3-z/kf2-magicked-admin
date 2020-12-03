@@ -1,7 +1,5 @@
 import pytest
-
-from utils.text import (millify, pad_output, str_to_bool,
-                        trim_string)
+from utils.text import millify, pad_output, str_to_bool, trim_string
 
 
 def test_str_to_bool():

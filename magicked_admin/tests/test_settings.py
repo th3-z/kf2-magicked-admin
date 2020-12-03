@@ -1,9 +1,10 @@
-import pytest
 import configparser
-from settings import Settings, CONFIG_PATH
-from utils import find_data_file
-from os.path import exists
 from os import remove
+from os.path import exists
+
+import pytest
+from settings import CONFIG_PATH, Settings
+from utils import find_data_file
 
 TEST_CONFIG_PATH = "magicked_admin/tests/test_data/conf/magicked_admin.conf"
 BROKEN_CONFIG_PATH = ("magicked_admin/tests/test_data/conf"

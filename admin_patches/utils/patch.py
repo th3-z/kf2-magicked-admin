@@ -29,7 +29,7 @@ __version__ = "1.16"
 try:
   from StringIO import StringIO
 except ImportError:
-  from io import BytesIO as StringIO # python 3
+  from io import BytesIO as StringIO  # python 3
 try:
   import urllib2 as urllib_request
 except ImportError:
@@ -1125,9 +1125,9 @@ class PatchSet(object):
 
 
 def main():
+  import sys
   from optparse import OptionParser
   from os.path import exists
-  import sys
 
   opt = OptionParser(usage="1. %prog [options] unified.diff\n"
                     "       2. %prog [options] http://host/patch\n"

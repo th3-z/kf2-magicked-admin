@@ -1,8 +1,8 @@
 import logging
 import time
-from PySide2.QtCore import Slot
 
 from database import db_connector
+from PySide2.QtCore import Slot
 from web_admin.constants import MatchUpdateData
 
 logger = logging.getLogger(__name__)

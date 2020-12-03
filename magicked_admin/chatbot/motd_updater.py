@@ -1,10 +1,9 @@
 import logging
 from os import path
 
+from jinja2 import Template
 from utils import find_data_file
 from utils.text import millify, trim_string
-
-from jinja2 import Template
 
 logger = logging.getLogger(__name__)
 

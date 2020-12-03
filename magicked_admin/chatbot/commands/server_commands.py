@@ -1,10 +1,11 @@
-from os import path
 import gettext
+from os import path
 
-from .command import Command
+from server.level import Level
 from utils import find_data_file
 from web_admin.constants import *
-from server.level import Level
+
+from .command import Command
 
 _ = gettext.gettext
 
@@ -262,7 +263,7 @@ class CommandGameMap(Command):
         message = _("Stats for {}:\n").format(level.name)
         message += _("Total plays: {} \n").format(total_plays)
         message += _("Record wave: {} \n").format(level.highest_wave)
-       # message += _("Survival wins: {} \n").format(level.wins_survival)
+        # message += _("Survival wins: {} \n").format(level.wins_survival)
 
         return self.format_response(message, args)
 

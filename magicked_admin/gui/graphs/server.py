@@ -1,12 +1,11 @@
 import time
 
-from PySide2.QtCore import Slot, QMargins, QDateTime
-from PySide2.QtWidgets import QWidget, QHBoxLayout
+from database.queries.graphs import kills_time, players_time
+from gui.graphs.factory import axis_x_day
 from PySide2.QtCharts import QtCharts
+from PySide2.QtCore import QDateTime, QMargins
 from PySide2.QtGui import QPainter, Qt
-
-from database.queries.graphs import players_time, kills_time
-from gui.graphs.factory import axis_x_week, axis_x_day
+from PySide2.QtWidgets import QHBoxLayout, QWidget
 
 
 class PlayersGraph(QWidget):

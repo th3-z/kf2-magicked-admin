@@ -1,10 +1,10 @@
 import logging
 import time
-from PySide2.QtCore import QObject, Signal, Slot
 
 from database import db_connector
-from server.session import close_session, start_session
+from PySide2.QtCore import QObject, Signal, Slot
 from server.match import Match
+from server.session import close_session, start_session
 from web_admin import PlayerUpdateData
 
 logger = logging.getLogger(__name__)
@@ -217,7 +217,7 @@ class Player:
                         INNER JOIN match m ON
                             s.match_id = m.match_id
                             AND m.server_id = ?
-                    WHERE 
+                    WHERE
                         s.player_id != ?
                     GROUP BY s.player_id
                 ) others,
@@ -253,7 +253,7 @@ class Player:
                         INNER JOIN match m ON
                             s.match_id = m.match_id
                             AND m.server_id = ?
-                    WHERE 
+                    WHERE
                         s.player_id != ?
                     GROUP BY player_id
                 ) others,
@@ -289,12 +289,11 @@ class Player:
         """
 
         conn.cursor().execute(sql, (
-                self.session_kills, self.session_deaths,
-                self.session_dosh, self.session_dosh_spent,
-                self.session_damage_taken,
-                self.session_id
-            )
-        )
+            self.session_kills, self.session_deaths,
+            self.session_dosh, self.session_dosh_spent,
+            self.session_damage_taken,
+            self.session_id
+        ))
 
     @property
     def op(self):
@@ -404,7 +403,7 @@ class Player:
                 (
                     SELECT
                         SUM(
-                            CASE 
+                            CASE
                                 WHEN s.end_date IS NULL THEN {}
                                 ELSE s.end_date
                             END - s.start_date
@@ -414,7 +413,7 @@ class Player:
                         INNER JOIN match m ON
                             s.match_id = m.match_id
                             AND m.server_id = ?
-                    WHERE 
+                    WHERE
                         s.player_id != ?
                         AND s.end_date_dirty = 0
                     GROUP BY s.player_id
@@ -422,7 +421,7 @@ class Player:
                 (
                     SELECT
                         SUM(
-                            CASE 
+                            CASE
                                 WHEN s.end_date IS NULL THEN {}
                                 ELSE s.end_date
                             END - s.start_date
@@ -458,7 +457,7 @@ class Player:
                         INNER JOIN match m ON
                             s.match_id = m.match_id
                             AND m.server_id = ?
-                    WHERE 
+                    WHERE
                         s.player_id != ?
                     GROUP BY s.player_id
                 ) others,

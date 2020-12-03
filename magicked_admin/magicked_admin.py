@@ -4,27 +4,22 @@ Copyright th3-z (the_z) 2018
 Released under the terms of the MIT license
 """
 
+import argparse
 import gettext
+import logging
 import os
 import sys
-import argparse
-import logging
-from signal import signal, SIGTERM, SIGINT
-from PySide2.QtWidgets import QApplication
-from PySide2.QtCore import Signal, QObject
+import time
+from signal import SIGINT, SIGTERM, signal
 
-from chatbot.chatbot import Chatbot
-from chatbot.motd_updater import MotdUpdater
-from chatbot.commands.command_map import CommandMap
-from server.server import Server, ServerSignals
+from database import db_init
+from PySide2.QtCore import QObject, Signal, QThread
+from PySide2.QtWidgets import QApplication
+from server.server import Server
 from settings import Settings
 from utils import find_data_file
-from web_admin.state_transition_worker import StateTransitionWorker
 from web_admin import WebAdmin
-from web_admin.web_interface import WebInterface, AuthorizationException
-from web_admin.chat_worker import ChatWorker
-from lua_bridge.lua_bridge import LuaBridge
-from database import db_init
+from web_admin.web_interface import WebInterface
 
 gettext.bindtextdomain('magicked_admin', find_data_file('locale'))
 gettext.textdomain('magicked_admin')
@@ -49,10 +44,11 @@ if hasattr(sys, "frozen"):
 
     requests_ca_bundle_path = find_data_file("./certifi/cacert.pem")
     os.environ["REQUESTS_CA_BUNDLE"] = requests_ca_bundle_path
+    os.environ["QT_PLUGIN_PATH"] = find_data_file("lib/Qt/plugins")
     certifi.core.where = requests_ca_bundle_path
 
-    import requests.utils
     import requests.adapters
+    import requests.utils
 
     requests.utils.DEFAULT_CA_BUNDLE_PATH = requests_ca_bundle_path
     requests.adapters.DEFAULT_CA_BUNDLE_PATH = requests_ca_bundle_path
@@ -62,14 +58,13 @@ class MagickedAdminSignals(QObject):
     server_configured = Signal(Server)
 
 
-class MagickedAdmin:
-
+class MagickedAdmin(QThread):
     def __init__(self):
-        self.version = "0.2.0"
+        QThread.__init__(self)
         self.servers = []
-        self.qthreads = []
-        self.ui = None
         self.signals = MagickedAdminSignals()
+
+        self.ui = None
 
     def add_server(self, server_name, server_config):
         logger.info("Initialising {}".format(server_name))
@@ -83,33 +78,10 @@ class MagickedAdmin:
         web_admin = WebAdmin(web_interface)
 
         server = Server(
+            # TODO: Pass full configuration
             web_admin, server_name, game_password=server_config.game_password, url_extras=server_config.url_extras
         )
         self.servers.append(server)
-
-        chat_worker = ChatWorker(server)
-        chat_worker.start()
-        self.qthreads.append(chat_worker)
-
-        state_transition_worker = StateTransitionWorker(
-            server, refresh_rate=int(server_config.refresh_rate)
-        )
-        state_transition_worker.start()
-        self.qthreads.append(state_transition_worker)
-        server.stw = state_transition_worker
-
-        chatbot = Chatbot(server)
-        commands = CommandMap().get_commands(
-            server, chatbot, MotdUpdater(server)
-        )
-        for command_name, command in commands.items():
-            chatbot.add_command(command_name, command)
-
-        chatbot.run_init(find_data_file(
-            "conf/scripts/" + server_name + ".init"
-        ))
-        #lua_bridge = LuaBridge(server, chatbot)
-        #chatbot.lua_bridge = lua_bridge
 
         if server_name not in Settings.servers.keys():
             Settings.add_server(server_name, server_config)
@@ -127,20 +99,6 @@ class MagickedAdmin:
                 Settings.remove_server(name)
 
     def run(self):
-        root_logger.setLevel(Settings.log_level)
-        formatter = logging.Formatter("[%(asctime)s %(levelname)-5.5s] %(message)s", "%Y-%m-%d %H:%M:%S")
-
-        file_handler = logging.FileHandler(
-            os.environ.get("LOGFILE", find_data_file("conf/magicked_admin.log")),
-            encoding="utf-8"
-        )
-        file_handler.setFormatter(formatter)
-        root_logger.addHandler(file_handler)
-
-        stream_handler = logging.StreamHandler(sys.stdout)
-        stream_handler.setFormatter(formatter)
-        root_logger.addHandler(stream_handler)
-
         self.banner()
         db_init()
 
@@ -149,14 +107,17 @@ class MagickedAdmin:
 
     def close(self, signal=None, frame=None):
         logger.info("Program interrupted, shutting down...")
+
+        if self.ui:
+            self.ui.close()
+
         for server in self.servers:
             server.close()
-        for qthread in self.qthreads:
-            qthread.close()
 
-    def banner(self):
+    @staticmethod
+    def banner():
         version_text = "<<{}{}>>".format(
-            self.version, "#DEBUG" if Settings.debug else ""
+            Settings.version, "#DEBUG" if Settings.debug else ""
         )
 
         # figlet -f rectangles "example"
@@ -174,35 +135,50 @@ class MagickedAdmin:
 
 
 if __name__ == "__main__":
+    root_logger.setLevel(Settings.log_level)
+    formatter = logging.Formatter("[%(asctime)s %(levelname)-5.5s] %(message)s", "%Y-%m-%d %H:%M:%S")
+
+    file_handler = logging.FileHandler(
+        os.environ.get("LOGFILE", find_data_file("conf/magicked_admin.log")),
+        encoding="utf-8"
+    )
+    file_handler.setFormatter(formatter)
+    root_logger.addHandler(file_handler)
+
+    stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.setFormatter(formatter)
+    root_logger.addHandler(stream_handler)
+
     magicked_admin = MagickedAdmin()
+
     signal(SIGINT, magicked_admin.close)
     signal(SIGTERM, magicked_admin.close)
 
     if GUI_MODE:
-        from gui import Gui
+        from gui.gui import Gui
         app = QApplication(sys.argv)
         gui = Gui(app, magicked_admin)
         magicked_admin.ui = gui
-        magicked_admin.run()
+        magicked_admin.start()
         app.exec_()
         magicked_admin.close()
 
     elif len(Settings.servers.keys()) < 1:
         Settings.append_template()
         print(
-            " [!] No servers have been configured yet, "
-            "please amend '{}' with your server details".format(
+            " [!] No servers have been configured yet, please amend '{}' with your server details".format(
                 Settings.config_path_display
             )
         )
 
     else:
-        magicked_admin.run()
+        magicked_admin.start()
 
     exit = False
     while not exit:
         exit = True
-        for thread in magicked_admin.qthreads:
-            if not thread.isFinished():
+        for server in magicked_admin.servers:
+            if not server.is_finished:
                 exit = False
-
+                time.sleep(1)
+                break

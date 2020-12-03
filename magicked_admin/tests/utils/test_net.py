@@ -1,8 +1,5 @@
 import pytest
-
-from utils.net import (
-    get_country, phone_home, resolve_address
-)
+from utils.net import get_country, phone_home, resolve_address
 
 
 def test_get_country():

@@ -7,6 +7,7 @@ TODO: This could be expanded into a class and absorb some functionality from
       the Player class, for now this is simple.
 """
 
+
 @db_connector
 def start_session(player_id, match_id, conn):
     sql = """
@@ -31,5 +32,3 @@ def close_session(session_id, conn):
     """
 
     conn.cursor().execute(sql, (int(time.time()), session_id))
-
-
