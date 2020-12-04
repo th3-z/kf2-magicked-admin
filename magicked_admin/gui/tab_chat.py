@@ -1,8 +1,11 @@
 import logging
+from datetime import datetime
 
 from PySide2.QtCore import Slot
 from PySide2.QtWidgets import (QLineEdit, QPlainTextEdit, QPushButton,
                                QVBoxLayout, QWidget)
+
+from web_admin.constants import USER_TYPE_ADMIN
 
 logger = logging.getLogger(__name__)
 
@@ -41,14 +44,33 @@ class TabChat(QWidget):
 
     @server.setter
     def server(self, server):
+        if server == self._server or not server:
+            return
+        elif self._server:
+            self._server.signals.chat.disconnect(self.receive_message)
+
         self._server = server
+
+        for message in server.chat_worker.log:
+            self.receive_message(message.username, message.message, message.user_flags, date=message.date)
+
         server.signals.chat.connect(self.receive_message)
 
     @Slot(str, str, int)
-    def receive_message(self, username, message, user_flags):
+    def receive_message(self, username, message, user_flags, date=None):
+        if date:
+            time = datetime.utcfromtimestamp(date).strftime("%Y/%m/%d %H:%M")
+        else:
+            time = datetime.now().strftime("%Y/%m/%d %H:%M")
+
+        if user_flags & USER_TYPE_ADMIN:
+            color = "#f47029"
+        else:
+            color = "#29aaf4"
+
         s = """
-            <font color='#0f0'>{}</font>: {}
-        """.format(username, message)
+            {} <font color='{}'>{}</font>: {}
+        """.format(time, color, username, message)
         self.textedit.appendHtml(s)
 
     @Slot()

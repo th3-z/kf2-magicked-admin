@@ -16,14 +16,23 @@ class WebAdmin(object):
         self._message_buffer = ""
         self._silent = False
 
-        self._general_settings = \
-            self.web_interface.get_payload_general_settings()
-        self._motd_settings = \
-            self.web_interface.get_payload_motd_settings()
-        self._map_settings = \
-            self.web_interface.get_payload_map_settings()
+        self._general_settings = None
+        self._motd_settings = None
+        self._map_settings = None
 
         self._game_password = None
+
+    @property
+    def general_settings(self):
+        return self._general_settings or self.web_interface.get_payload_general_settings()
+
+    @property
+    def motd_settings(self):
+        return self._motd_settings or self.web_interface.get_payload_motd_settings()
+
+    @property
+    def map_settings(self):
+        return self._map_settings or self.web_interface.get_payload_map_settings()
 
     def supported_game_type(self, game_type):
         # The other modes have various bits of data omitted!
@@ -31,7 +40,7 @@ class WebAdmin(object):
 
     def _save_general_settings(self):
         self.web_interface.post_general_settings(
-            self._general_settings
+            self.general_settings
         )
 
     def submit_message(self, message):
@@ -88,7 +97,7 @@ class WebAdmin(object):
         return messages
 
     def set_general_setting(self, setting, value):
-        self._general_settings[setting] = value
+        self.general_settings[setting] = value
         self._save_general_settings()
 
     def kick_player(self, player_key):
@@ -156,7 +165,7 @@ class WebAdmin(object):
         self.set_general_setting("settings_MaxPlayers", str(players))
 
     def toggle_map_voting(self):
-        if self._general_settings["settings_bDisableMapVote"] == "1":
+        if self.general_settings["settings_bDisableMapVote"] == "1":
             self.set_general_setting("settings_bDisableMapVote", "0")
             return False
         else:
@@ -185,15 +194,15 @@ class WebAdmin(object):
         self.set_general_setting("settings_ServerName", name)
 
     def set_map(self, new_map):
-        self._map_settings['map'] = new_map
-        self.web_interface.post_map(self._map_settings)
+        self.map_settings['map'] = new_map
+        self.web_interface.post_map(self.map_settings)
 
     def restart_map(self):
-        self.web_interface.post_map(self._map_settings)
+        self.web_interface.post_map(self.map_settings)
 
     def set_game_type(self, game_type):
-        self._map_settings['gametype'] = game_type
-        self.web_interface.post_map(self._map_settings)
+        self.map_settings['gametype'] = game_type
+        self.web_interface.post_map(self.map_settings)
 
     def activate_map_cycle(self, index):
         payload = {
@@ -212,23 +221,23 @@ class WebAdmin(object):
         self.web_interface.post_map_cycle(payload)
 
     def set_motd(self, motd):
-        self._motd_settings["ServerMOTD"] = motd \
+        self.motd_settings["ServerMOTD"] = motd \
             .encode("iso-8859-1", "ignore")
-        self.web_interface.post_welcome(self._motd_settings)
+        self.web_interface.post_welcome(self.motd_settings)
 
         # Setting the MOTD resets changes to general settings
         self._save_general_settings()
 
     def get_motd(self):
-        return self._motd_settings['ServerMOTD']
+        return self.motd_settings['ServerMOTD']
 
     def set_banner(self, banner_link):
-        self._motd_settings["BannerLink"] = banner_link
-        self.web_interface.post_welcome(self._motd_settings)
+        self.motd_settings["BannerLink"] = banner_link
+        self.web_interface.post_welcome(self.motd_settings)
 
     def set_web_link(self, web_link):
-        self._motd_settings["WebLink"] = web_link
-        self.web_interface.post_welcome(self._motd_settings)
+        self.motd_settings["WebLink"] = web_link
+        self.web_interface.post_welcome(self.motd_settings)
 
     def get_server_info(self):
         response = self.web_interface.get_server_info()

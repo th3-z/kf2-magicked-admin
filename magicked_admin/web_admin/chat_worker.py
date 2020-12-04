@@ -16,7 +16,7 @@ MessageData = namedtuple(
 class ChatWorker(QThread):
 
     def __init__(self, server, refresh_rate=1):
-        QThread.__init__(self, None)
+        super(ChatWorker, self).__init__()
 
         self.signals = server.signals
         self._web_admin = server.web_admin

@@ -85,3 +85,9 @@ class Command:
 
     def execute(self, username, args, user_flags):
         raise NotImplementedError("Command.execute() not implemented")
+
+    def is_finished(self):
+        return True
+
+    def close(self):
+        pass

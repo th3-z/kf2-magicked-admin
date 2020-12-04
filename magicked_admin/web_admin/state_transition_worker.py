@@ -1,18 +1,21 @@
 import gettext
 import time
 
-from PySide2.QtCore import QObject, QThread, Signal
+from PySide2.QtCore import QObject, QThread, Signal, QCoreApplication
+
+from web_admin.constants import MatchUpdateData, ServerUpdateData
 
 _ = gettext.gettext
 
 
 class StateTransitionSignals(QObject):
     poll = Signal()
+    server_update = Signal(ServerUpdateData)
 
 
 class StateTransitionWorker(QThread):
     def __init__(self, server, refresh_rate=1):
-        QThread.__init__(self, None)
+        super(StateTransitionWorker, self).__init__()
 
         self.server = server
         self.server_signals = server.signals
@@ -45,8 +48,9 @@ class StateTransitionWorker(QThread):
 
     def _poll(self):
         server_state, match_state, player_states = self.web_admin.get_server_info()
+
         if server_state != self.server_state_previous:
-            self.server_signals.server_update.emit(server_state)
+            self.signals.server_update.emit(server_state)
             self.server_state_previous = server_state
 
         if match_state != self.match_state_previous:

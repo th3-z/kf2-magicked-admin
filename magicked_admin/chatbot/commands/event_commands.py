@@ -32,7 +32,24 @@ class CommandOnTime(Command):
         del_parser = subparsers.add_parser("del")
         del_parser.add_argument("id", type=int)
 
-        self.handlers = []
+        self._handlers = []
+
+    @property
+    def handlers(self):
+        for handler in self._handlers:
+            if handler.isFinshed():
+                self._handlers.remove(handler)
+        return self._handlers
+
+    def is_finished(self):
+        for handler in self.handlers:
+            if not handler.isFinshed():
+                return False
+        return True
+
+    def close(self):
+        for handler in self.handlers:
+            handler.close()
 
     def action_add(self, command, interval, repeat):
         handler = OnTimeHandler(self.server.signals, command, interval, repeat)
@@ -42,9 +59,8 @@ class CommandOnTime(Command):
 
     def action_del(self, id):
         id -= 1
-        if id >= 0 and id < len(self.handlers):
+        if 0 <= id < len(self.handlers):
             self.handlers[id].close()
-            del self.handlers[id]
             return "Command stopped"
         return "Invalid ID"
 

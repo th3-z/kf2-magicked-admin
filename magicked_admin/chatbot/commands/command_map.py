@@ -9,8 +9,8 @@ _ = gettext.gettext
 
 
 class CommandMap:
-    @staticmethod
-    def get_commands(server, chatbot, motd_updater):
+    @classmethod
+    def get_commands(cls, server, chatbot, motd_updater):
         return {
             # Operator commands
             'lua': CommandLua(server, chatbot),

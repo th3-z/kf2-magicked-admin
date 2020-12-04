@@ -3,7 +3,7 @@ import threading
 import time
 
 from chatbot.commands import ALL_WAVES
-from PySide2.QtCore import Slot
+from PySide2.QtCore import Slot, QThread
 from server.match import Match
 from server.player import Player
 from utils.time import seconds_to_hhmmss
@@ -12,9 +12,9 @@ from web_admin.constants import *
 _ = gettext.gettext
 
 
-class OnTimeHandler(threading.Thread):
+class OnTimeHandler(QThread):
     def __init__(self, signals, command, interval, repeat=False):
-        threading.Thread.__init__(self)
+        super(OnTimeHandler, self).__init__()
 
         self.signals = signals
         self._exit = False
@@ -35,7 +35,6 @@ class OnTimeHandler(threading.Thread):
             )
 
             if not self.repeat:
-                self.close()
                 return
 
     def close(self):

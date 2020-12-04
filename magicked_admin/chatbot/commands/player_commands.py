@@ -134,6 +134,7 @@ class CommandTopKills(Command):
 
         self.help_text = _("Usage: !top_kills\n"
                            "Desc: Show the global kills leaderboard")
+        self.scroller = None
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -159,10 +160,13 @@ class CommandTopKills(Command):
 
         rows.reverse()
 
-        scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
-        scroller.start()
+        self.scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
+        self.scroller.start()
 
         return None
+
+    def is_finished(self):
+        return self.scroller.isFinished() if self.scroller else True
 
 
 class CommandTopDosh(Command):
@@ -171,6 +175,7 @@ class CommandTopDosh(Command):
 
         self.help_text = _("Usage: !top_dosh\n"
                            "Desc: Shows the global dosh leaderboard")
+        self.scroller = None
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -196,10 +201,13 @@ class CommandTopDosh(Command):
 
         rows.reverse()
 
-        scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
-        scroller.start()
+        self.scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
+        self.scroller.start()
 
         return None
+
+    def is_finished(self):
+        return self.scroller.isFinished() if self.scroller else True
 
 
 class CommandTopTime(Command):
@@ -208,6 +216,7 @@ class CommandTopTime(Command):
 
         self.help_text = _("Usage: !top_time\n"
                            "Desc: Shows the global play time leaderboard")
+        self.scroller = None
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -233,10 +242,13 @@ class CommandTopTime(Command):
 
         rows.reverse()
 
-        scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
-        scroller.start()
+        self.scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
+        self.scroller.start()
 
         return None
+
+    def is_finished(self):
+        return self.scroller.isFinished() if self.scroller else True
 
 
 class CommandScoreboard(Command):
@@ -245,6 +257,7 @@ class CommandScoreboard(Command):
 
         self.help_text = _("Usage: !scoreboard\n"
                            "Desc: Shows full player scoreboard")
+        self.scroller = None
 
     def execute(self, username, args, user_flags):
         args, err = self.parse_args(username, args, user_flags)
@@ -273,10 +286,13 @@ class CommandScoreboard(Command):
                 kills, dosh, username
             ))
 
-        scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
-        scroller.start()
+        self.scroller = Scroller(self.server.web_admin, "\n".join(rows), header)
+        self.scroller.start()
 
         return None
+
+    def is_finished(self):
+        return self.scroller.isFinished() if self.scroller else True
 
 
 class CommandTopWaveKills(Command):

@@ -1,6 +1,7 @@
 import logging
 import time
 from hashlib import sha1
+import threading
 
 import requests
 from lxml import html
@@ -48,11 +49,17 @@ class WebInterface(object):
 
         # Setter event, disconnected
         self._sleeping = False
+        self._session = None
+        self._lock = threading.Lock()
 
-        self._session = self._new_session()
-
-        # Event, connected
-        logger.info("Connected to {} ({})".format(server_name, address))
+    @property
+    def session(self):
+        self._lock.acquire()
+        if not self._session:
+            self._session = self._new_session()
+            logger.info("Connected to {} ({})".format(self.server_name, self.address))
+        self._lock.release()
+        return self._session
 
     def _get(self, session, url, retry_interval=6, login=False):
         while True:
@@ -237,6 +244,8 @@ class WebInterface(object):
         if "<!-- KF2-MA-INSTALLED-FLAG -->" in response.text:
             self.ma_installed = True
 
+        # Event, connected
+
         return session
 
     def get_new_messages(self):
@@ -245,131 +254,131 @@ class WebInterface(object):
         }
 
         return self._post(
-            self._session,
+            self.session,
             self._urls['chat'],
             payload
         )
 
     def post_message(self, payload):
         return self._post(
-            self._session,
+            self.session,
             self._urls['chat'],
             payload,
         )
 
     def get_server_info(self):
         return self._get(
-            self._session,
+            self.session,
             self._urls['info']
         )
 
     def get_map(self):
         return self._get(
-            self._session,
+            self.session,
             self._urls['map']
         )
 
     def post_map(self, payload):
         return self._post(
-            self._session,
+            self.session,
             self._urls['map'],
             payload
         )
 
     def get_players(self):
         return self._get(
-            self._session,
+            self.session,
             self._urls['players']
         )
 
     def get_passwords(self):
         return self._get(
-            self._session,
+            self.session,
             self._urls['passwords']
         )
 
     def post_passwords(self, payload):
         return self._post(
-            self._session,
+            self.session,
             self._urls['passwords'],
             payload
         )
 
     def get_bans(self):
         return self._get(
-            self._session,
+            self.session,
             self._urls['bans']
         )
 
     def post_bans(self, payload):
         return self._post(
-            self._session,
+            self.session,
             self._urls['bans'],
             payload
         )
 
     def post_players_action(self, payload):
         return self._post(
-            self._session,
+            self.session,
             self._urls['players_action'],
             payload
         )
 
     def get_general_settings(self):
         return self._get(
-            self._session,
+            self.session,
             self._urls['general_settings']
         )
 
     def post_general_settings(self, payload):
         return self._post(
-            self._session,
+            self.session,
             self._urls['general_settings'],
             payload
         )
 
     def get_game_type(self):
         return self._get(
-            self._session,
+            self.session,
             self._urls['game_type']
         )
 
     def post_game_type(self, payload):
         return self._post(
-            self._session,
+            self.session,
             self._urls['game_type'],
             payload
         )
 
     def get_maplist(self):
         return self._get(
-            self._session,
+            self.session,
             self._urls['maplist']
         )
 
     def post_maplist(self, payload):
         return self._post(
-            self._session,
+            self.session,
             self._urls['maplist'],
             payload
         )
 
     def get_welcome(self):
         return self._get(
-            self._session,
+            self.session,
             self._urls['welcome']
         )
 
     def post_welcome(self, payload):
         return self._post(
-            self._session,
+            self.session,
             self._urls['welcome'],
             payload
         )
 
     def post_command(self, payload):
         return self._post(
-            self._session,
+            self.session,
             self._urls['console'],
             payload
         )

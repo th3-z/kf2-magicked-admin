@@ -2,12 +2,14 @@ import threading
 import time
 from itertools import count
 
+from PySide2.QtCore import QThread
+
 from utils.text import chat_lines, chat_width, pad_height, str_width
 
 
-class Scroller(threading.Thread):
+class Scroller(QThread):
     def __init__(self, web_admin, body, head=None, loop=False, speed=4.5, time=15):
-        threading.Thread.__init__(self)
+        super(Scroller, self).__init__()
         self.web_admin = web_admin
 
         """

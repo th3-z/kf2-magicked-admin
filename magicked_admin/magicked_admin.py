@@ -58,16 +58,21 @@ class MagickedAdminSignals(QObject):
     server_configured = Signal(Server)
 
 
-class MagickedAdmin(QThread):
+class MagickedAdmin:
     def __init__(self):
-        QThread.__init__(self)
         self.servers = []
         self.signals = MagickedAdminSignals()
 
+        signal(SIGINT, self.close)
+        signal(SIGTERM, self.close)
+
         self.ui = None
 
+        self.banner()
+        db_init()
+
     def add_server(self, server_name, server_config):
-        logger.info("Initialising {}".format(server_name))
+        logger.info("Adding new server '{}'".format(server_name))
         if server_name in [server.name for server in self.servers]:
             return
 
@@ -98,10 +103,7 @@ class MagickedAdmin(QThread):
                 self.servers.remove(server)
                 Settings.remove_server(name)
 
-    def run(self):
-        self.banner()
-        db_init()
-
+    def configure_servers(self):
         for server_name, server_config in Settings.servers.items():
             self.add_server(server_name, server_config)
 
@@ -113,6 +115,8 @@ class MagickedAdmin(QThread):
 
         for server in self.servers:
             server.close()
+            while not server.is_finished:
+                continue
 
     @staticmethod
     def banner():
@@ -149,19 +153,14 @@ if __name__ == "__main__":
     stream_handler.setFormatter(formatter)
     root_logger.addHandler(stream_handler)
 
+    app = QApplication(sys.argv)
     magicked_admin = MagickedAdmin()
 
-    signal(SIGINT, magicked_admin.close)
-    signal(SIGTERM, magicked_admin.close)
 
     if GUI_MODE:
         from gui.gui import Gui
-        app = QApplication(sys.argv)
         gui = Gui(app, magicked_admin)
         magicked_admin.ui = gui
-        magicked_admin.start()
-        app.exec_()
-        magicked_admin.close()
 
     elif len(Settings.servers.keys()) < 1:
         Settings.append_template()
@@ -171,14 +170,7 @@ if __name__ == "__main__":
             )
         )
 
-    else:
-        magicked_admin.start()
+    magicked_admin.configure_servers()
 
-    exit = False
-    while not exit:
-        exit = True
-        for server in magicked_admin.servers:
-            if not server.is_finished:
-                exit = False
-                time.sleep(1)
-                break
+    app.exec_()
+    magicked_admin.close()

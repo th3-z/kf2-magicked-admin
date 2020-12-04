@@ -22,7 +22,7 @@ class Chatbot:
         self.signals = server.signals
         self.signals.command.connect(self.receive_command)
 
-        commands = CommandMap().get_commands(
+        commands = CommandMap.get_commands(
             server, self, MotdUpdater(server)
         )
         for command_name, command in commands.items():
@@ -42,6 +42,16 @@ class Chatbot:
 
     def add_command(self, name, command):
         self._commands[name] = command
+
+    def close(self):
+        for command in self._commands.values():
+            command.close()
+
+    def is_finished(self):
+        for command in self._commands.values():
+            if not command.is_finished():
+                return False
+        return True
 
     @Slot(str, list, int)
     def receive_command(self, username, args, user_flags):

@@ -38,7 +38,6 @@ class Server:
         self.name = name
         self.web_admin = web_admin
         self.signals = ServerSignals()
-        self.is_finished = False
 
         self.game_password = game_password
         self.url_extras = url_extras
@@ -51,9 +50,6 @@ class Server:
         self.server_id = 0
         self.insert_date = 0
 
-        self.signals.server_update.connect(self.receive_update_data)
-        self.signals.players_update.connect(self.receive_player_updates)
-
         self.init_db()
 
         self.chat_worker = ChatWorker(self)
@@ -61,6 +57,9 @@ class Server:
 
         self.state_transition_worker = StateTransitionWorker(self)
         self.state_transition_worker.start()
+
+        self.state_transition_worker.signals.server_update.connect(self.receive_update_data)
+        self.signals.players_update.connect(self.receive_player_updates)
 
         self.chatbot = Chatbot(self)
 
@@ -293,10 +292,15 @@ class Server:
     def close(self):
         self.state_transition_worker.close()
         self.chat_worker.close()
+        self.chatbot.close()
 
         if self.match:
             self.match.close()
         for player in self.players:
             player.close()
 
-        self.is_finished = True
+    @property
+    def is_finished(self):
+        return self.state_transition_worker.isFinished() \
+               and self.chat_worker.isFinished() \
+               and self.chatbot.is_finished()
