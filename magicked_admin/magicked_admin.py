@@ -77,8 +77,7 @@ class MagickedAdmin:
             return
 
         web_interface = WebInterface(
-            server_config.address, server_config.username,
-            server_config.password, server_name
+            server_config.address, server_config.username, server_config.password
         )
         web_admin = WebAdmin(web_interface)
 

@@ -8,7 +8,7 @@ from server.level import Level
 from server.match import Match
 from server.player import Player
 from web_admin.chat_worker import ChatWorker
-from web_admin.constants import MatchUpdateData, ServerUpdateData
+from web_admin.constants import *  # FIXME
 from web_admin.state_transition_worker import StateTransitionWorker
 
 logger = logging.getLogger(__name__)
@@ -42,15 +42,20 @@ class Server:
         self.game_password = game_password
         self.url_extras = url_extras
 
-        self.match = None
-        self.players = []
-        self.rejected_players = []
-
         self.capacity = 0
         self.server_id = 0
         self.insert_date = 0
 
+        self.players = []
+        self.rejected_players = []
+
         self.init_db()
+
+        self.match = Match(  # FIXME: Ugly
+            self, Level(
+                GAME_MAP_TITLE_UNKNOWN, GAME_MAP_TITLE_UNKNOWN, self
+            ), GAME_TYPE_UNKNOWN, DIFF_UNKNOWN, LEN_UNKNOWN
+        )
 
         self.chat_worker = ChatWorker(self)
         self.chat_worker.start()

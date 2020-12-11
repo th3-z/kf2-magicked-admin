@@ -48,6 +48,8 @@ class StateTransitionWorker(QThread):
 
     def _poll(self):
         server_state, match_state, player_states = self.web_admin.get_server_info()
+        if not server_state:
+            return
 
         if server_state != self.server_state_previous:
             self.signals.server_update.emit(server_state)

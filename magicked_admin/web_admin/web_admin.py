@@ -54,12 +54,15 @@ class WebAdmin(object):
         }
 
         response = self.web_interface.post_message(message_payload)
-        self._message_buffer += response.text
-
-        return True
+        if response:
+            self._message_buffer += response.text
 
     def get_new_messages(self):
-        response = self.web_interface.get_new_messages().text + self._message_buffer
+        response = self.web_interface.get_new_messages()
+        if not response:
+            return []
+
+        response = response.text + self._message_buffer
         self._message_buffer = ""
 
         if not response:
@@ -136,6 +139,9 @@ class WebAdmin(object):
 
     def _has_game_password(self):
         response = self.web_interface.get_passwords()
+        if not response:
+            return False
+
         passwords_tree = html.fromstring(response.content)
 
         password_state_pattern = "//p[starts-with(text(),'Game password')]" \
@@ -174,6 +180,9 @@ class WebAdmin(object):
 
     def get_maps(self):
         response = self.web_interface.get_maplist()
+        if not response:
+            return []
+
         maplist_tree = html.fromstring(response.content)
 
         available_path = "//textarea[@id='allmaps']/text()"
@@ -183,6 +192,9 @@ class WebAdmin(object):
 
     def get_active_maps(self):
         response = self.web_interface.get_maplist()
+        if not response:
+            return []
+
         maplist_tree = html.fromstring(response.content)
 
         mapcycle_path = "//textarea[@id='mapcycle']/text()"
@@ -229,7 +241,7 @@ class WebAdmin(object):
         self._save_general_settings()
 
     def get_motd(self):
-        return self.motd_settings['ServerMOTD']
+        return self.motd_settings.get('ServerMOTD')
 
     def set_banner(self, banner_link):
         self.motd_settings["BannerLink"] = banner_link
@@ -241,6 +253,9 @@ class WebAdmin(object):
 
     def get_server_info(self):
         response = self.web_interface.get_server_info()
+        if not response:
+            return None, None, None
+
         info_tree = html.fromstring(response.content)
 
         server_update_data = self._parse_server_update(info_tree)
@@ -413,6 +428,10 @@ class WebAdmin(object):
 
     def get_player_identity(self, username):
         response = self.web_interface.get_players()
+        if not response:
+            logger.warning("Couldn't find identify player: {}".format(username))
+            return None
+
         player_tree = html.fromstring(response.content)
 
         theads_path = "//table[@id=\"players\"]/thead//th[position()>1]" \

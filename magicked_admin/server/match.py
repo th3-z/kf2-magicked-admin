@@ -52,7 +52,7 @@ class Match:
 
         if match_update_data.trader_open and not self.trader_time:
             # Waves are considered over once the trader opens
-            logger.info("Wave {} start on {}".format(self.wave, self.server.name))
+            logger.info("Wave {} ended on {}".format(self.wave, self.server.name))
             self.signals.wave_end.emit(self)
             self.trader_time = True
             self.signals.trader_open.emit(self)
@@ -75,7 +75,7 @@ class Match:
         self.zeds_total = match_update_data.zeds_total
 
         if new_wave:
-            logger.info("Wave {} ended on {}".format(self.wave, self.server.name))
+            logger.info("Wave {} started on {}".format(self.wave, self.server.name))
             self.signals.wave_start.emit(self)
 
     @property

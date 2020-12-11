@@ -1,210 +1,201 @@
 import logging
-import time
 from hashlib import sha1
-import threading
 
 import requests
+from requests.exceptions import RequestException
 from lxml import html
+from PySide2.QtCore import QObject, Signal, QThread
+
+from utils.net import resolve_address
 
 logger = logging.getLogger(__name__)
 logging.getLogger("requests").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
+STATUS_CONNECTED = 0  # 200
+STATUS_DISCONNECTED = 1
+STATUS_NOT_AUTHORIZED = 2  # 401
+STATUS_EXCEEDED_LOGIN_ATTEMPTS = 3  # 403
+STATUS_SERVER_ERROR = 4  # 5xx
+STATUS_NETWORK_ERROR = 5  # Requests exception
+STATUS_NOT_FOUND = 6  # 404
 
-class AuthorizationException(Exception):
-    pass
+URLS = {
+    'login': '{}/ServerAdmin/',
+    'chat': '{}/ServerAdmin/current/chat+data',
+    'info': '{}/ServerAdmin/current/info',
+    'map': '{}/ServerAdmin/current/change',
+    'players': '{}/ServerAdmin/current/players',
+    'passwords': '{}/ServerAdmin/policy/passwords',
+    'bans': '{}/ServerAdmin/policy/bans',
+    'game_type': '{}/ServerAdmin/settings/gametypes',
+    'maplist': '{}/ServerAdmin/settings/maplist',
+    'welcome': '{}/ServerAdmin/settings/welcome',
+    'console': '{}/ServerAdmin/console',
+    'general_settings': '{}/ServerAdmin/settings/general',
+    'players_action': '{}/ServerAdmin/current/players+data'
+}
+
+class ConnectWorker(QThread):
+    def __init__(self, web_interface):
+        super(QThread, self).__init__()
+        self.web_interface = web_interface
+
+    def run(self):
+        self.web_interface.connect()
+
+    @property
+    def result(self):
+        return self.web_interface.status
+
+
+class WebInterfaceSignals(QObject):
+    status_change = Signal(int)
+
+
+def with_connection(func):
+    def _with_connection(*args, **kwargs):
+        if args[0].status == STATUS_CONNECTED:
+            return func(*args, **kwargs)
+        else:
+            return None
+
+    return _with_connection
 
 
 class WebInterface(object):
-    def __init__(self, address, username, password, server_name="unnamed"):
+    def __init__(self, address, username, password):
+        self.signals = WebInterfaceSignals()
+
         self.address = address
         self.username = username
         self._password = password
         self._http_auth = False
-
-        self.server_name = server_name
         self.ma_installed = False
 
-        self._urls = {
-            'login': '{}/ServerAdmin/'.format(address),
-            'chat': '{}/ServerAdmin/current/chat+data'.format(address),
-            'info': '{}/ServerAdmin/current/info'.format(address),
-            'map': '{}/ServerAdmin/current/change'.format(address),
-            'players': '{}/ServerAdmin/current/players'.format(address),
-            'passwords': '{}/ServerAdmin/policy/passwords'.format(address),
-            'bans': '{}/ServerAdmin/policy/bans'.format(address),
-            'game_type': '{}/ServerAdmin/settings/gametypes'.format(address),
-            'maplist': '{}/ServerAdmin/settings/maplist'.format(address),
-            'welcome': '{}/ServerAdmin/settings/welcome'.format(address),
-            'console': '{}/ServerAdmin/console'.format(address),
-            'general_settings': '{}/ServerAdmin/settings/general'.format(
-                address
-            ),
-            'players_action': '{}/ServerAdmin/current/players+data'.format(
-                address
-            )
-        }
+        self._urls = {}
 
         self._timeout = 5
+        self._status = STATUS_DISCONNECTED
+        self.session = None
 
-        # Setter event, disconnected
-        self._sleeping = False
-        self._session = None
-        self._lock = threading.Lock()
+        self.connect_worker = ConnectWorker(self)
+        self.connect_worker.start()
+
+    @classmethod
+    def connectivity_test(cls, address, username, password):
+        return WebInterface(address, username, password).connect_worker
 
     @property
-    def session(self):
-        self._lock.acquire()
-        if not self._session:
-            self._session = self._new_session()
-            logger.info("Connected to {} ({})".format(self.server_name, self.address))
-        self._lock.release()
-        return self._session
+    def status(self):
+        return self._status
 
-    def _get(self, session, url, retry_interval=6, login=False):
-        while True:
-            try:
-                if not self._http_auth:
-                    response = session.get(url, timeout=self._timeout)
-                else:
-                    response = session.get(
-                        url,
-                        timeout=self._timeout,
-                        auth=(self.username, self._password)
-                    )
+    @status.setter
+    def status(self, status):
+        if status == self._status:
+            return
 
-                if response.status_code > 401:
-                    # Down/unavailable
-                    self._sleep()
-                    time.sleep(retry_interval)
-                    continue
-                else:
-                    self._wake()
+        if status == STATUS_CONNECTED:
+            logger.info("Connected to {}".format(self.address))
+        elif status != STATUS_CONNECTED and self._status == STATUS_CONNECTED:
+            logger.info("Lost connection to {}, code: {}".format(self.address, status))
+        self._status = status
+        self.signals.status_change.emit(status)
 
-                if response.status_code == 401 and not self._http_auth:
-                    logger.info(
-                        "Trying to login with basic auth for '{}'".format(self.server_name)
-                    )
-                    self._http_auth = True
-                    return self._get(
-                        session, url, retry_interval, login
-                    )
-                elif response.status_code == 401 and self._http_auth:
-                    # Dead, bad creds
-                    logger.error("{}'s credentials were rejected".format(self.server_name))
-                    raise AuthorizationException
+    def _get(self, session, url, login=False):
+        if not login and self.status != STATUS_CONNECTED:
+            return None
+        try:
+            response = session.get(
+                url, timeout=self._timeout, auth=(self.username, self._password) if self._http_auth else None
+            )
+        except RequestException as err:
+            # Connectivity issue
+            logger.warning("RequestException getting {}, err: {}".format(url, str(err)))
+            self.status = STATUS_NETWORK_ERROR
+            return None
 
-                if not login:
-                    if "hashAlg" in response.text:
-                        logger.warning("{}'s session expired, attempting to renew".format(self.server_name))
-                        try:
-                            self._session = self._new_session()
-                        except AuthorizationException:
-                            logger.error("Couldn't renew session for '{}'".format(self.server_name))
-                            # Dead, bad creds
-                            """die(
-                                _("Authorization error, credentials changed?"),
-                                pause=True
-                            )"""
+        if response.status_code == 401 and not self._http_auth:
+            logger.info(
+                "Trying HTTP basic auth for ({})".format(url)
+            )
+            self._http_auth = True
+            return self._get(
+                session, url, login
+            )
+        elif response.status_code == 401 and self._http_auth:
+            logger.error("Bsic auth credentials rejected ({})".format(url))
+            self.status = STATUS_NOT_AUTHORIZED
+            self._http_auth = False
+            self.session = None
+            return None
 
-                    else:
-                        return response
-                else:
-                    return response
+        if response.status_code == 404:
+            self.status = STATUS_NOT_FOUND
+            self.session = None
+            return None
+        if response.status_code >= 500:
+            self.status = STATUS_SERVER_ERROR
+            return None
 
-            except requests.exceptions.HTTPError:
-                logger.warning("HTTPError getting {}. Retrying in {}s"
-                               .format(url, retry_interval))
-            except requests.exceptions.ConnectionError:
-                logger.warning("ConnectionError getting {}. Retrying in {}s"
-                               .format(url, retry_interval))
-            except requests.exceptions.Timeout:
-                logger.warning("Timeout getting {}. Retrying in {}s"
-                               .format(url, retry_interval))
-            except requests.exceptions.RequestException as err:
-                logger.warning("None-specific RequestException getting {}, "
-                               "{}. Retrying in {}s"
-                               .format(url, str(err), retry_interval))
+        if not login and "hashAlg" in response.text:
+            logger.warning("Session expired ({})".format(url))
+            self.status = STATUS_NOT_AUTHORIZED
+            self.session = None
+            return None
+        else:
+            return response
 
-            time.sleep(retry_interval)
+    def _post(self, session, url, payload, login=False):
+        if not login and self.status != STATUS_CONNECTED:
+            return None
+        try:
+            response = session.post(
+                url, payload, timeout=self._timeout, auth=(self.username, self._password) if self._http_auth else None
+            )
+        except RequestException as err:
+            # Connectivity issue
+            logger.warning("RequestException posting {}, err: {}".format(url, str(err)))
+            self.status = STATUS_NETWORK_ERROR
+            return None
 
-    def _post(self, session, url, payload, retry_interval=6, login=False):
-        while True:
-            try:
-                if not self._http_auth:
-                    response = session.post(
-                        url, payload,
-                        timeout=self._timeout
-                    )
-                else:
-                    response = session.post(
-                        url, payload,
-                        timeout=self._timeout,
-                        auth=(self.username, self._password)
-                    )
+        if response.status_code == 401 and not self._http_auth:
+            logger.info(
+                "Trying HTTP basic auth for ({})".format(url)
+            )
+            self._http_auth = True
+            return self._post(
+                session, url, payload, login
+            )
+        elif response.status_code == 401 and self._http_auth:
+            logger.error("Bsic auth credentials rejected ({})".format(url))
+            self.status = STATUS_NOT_AUTHORIZED
+            self._http_auth = False
+            self.session = None
+            return None
 
-                if response.status_code > 401:
-                    self._sleep()
-                    time.sleep(retry_interval)
-                    continue
-                else:
-                    self._wake()
+        if response.status_code == 404:
+            self.status = STATUS_NOT_FOUND
+            self.session = None
+            return None
+        if response.status_code >= 500:
+            self.status = STATUS_SERVER_ERROR
+            return None
 
-                if response.status_code == 401 and not self._http_auth:
-                    logger.info(
-                        "Trying to login with basic auth for '{}'".format(self.server_name)
-                    )
-                    self._http_auth = True
-                    return self._post(
-                        session, url, payload, retry_interval, login
-                    )
-                elif response.status_code == 401 and self._http_auth:
-                    logger.error("{}'s credentials were rejected".format(self.server_name))
-                    raise AuthorizationException
+        if not login and "hashAlg" in response.text:
+            logger.warning("Session expired ({})".format(url))
+            self.status = STATUS_NOT_AUTHORIZED
+            self.session = None
+            return None
+        else:
+            return response
 
-                if not login:
-                    if "hashAlg" in response.text:
-                        logger.warning("{}'s session expired, attempting to renew".format(self.server_name))
-                        try:
-                            self._session = self._new_session()
-                        except AuthorizationException:
-                            logger.error("Couldn't renew session for '{}'".format(self.server_name))
-                            # Dead
-                            """die(
-                                _("Authorization error, credentials changed?"),
-                                pause=True
-                            )"""
-                else:
-                    return response
-                return response
+    def connect(self):
+        self.address = resolve_address(self.address)
+        self._urls = {key: value.format(self.address) for key, value in URLS.items()}
 
-            except requests.exceptions.HTTPError:
-                logger.warning("HTTPError getting {}. Retrying in {}s"
-                               .format(url, retry_interval))
-            except requests.exceptions.ConnectionError:
-                logger.warning("ConnectionError getting {}. Retrying in {}s"
-                               .format(url, retry_interval))
-            except requests.exceptions.Timeout:
-                logger.warning("Timeout getting {}. Retrying in {}s"
-                               .format(url, retry_interval))
-            except requests.exceptions.RequestException as err:
-                logger.warning("None-specific RequestException getting {}, "
-                               "{}. Retrying in {}s"
-                               .format(url, str(err), retry_interval))
+        session = requests.Session()
 
-            time.sleep(retry_interval)
-
-    def _sleep(self):
-        if not self._sleeping:
-            logger.info("{}'s web admin not responding, sleeping".format(self.server_name))
-            self._sleeping = True
-
-    def _wake(self):
-        if self._sleeping:
-            logger.info("{}'s web admin is back, resuming".format(self.server_name))
-            self._sleeping = False
-
-    def _new_session(self):
         login_payload = {
             'password_hash': '',
             'username': self.username,
@@ -212,12 +203,14 @@ class WebInterface(object):
             'remember': '-1'
         }
 
-        session = requests.Session()
+        login_page_response = self._get(session, self._urls['login'], login=True)
+        if not login_page_response:
+            return
 
-        login_page_response = self._get(session, self._urls['login'],
-                                        login=True)
         if self._http_auth:
-            return session
+            self.status = STATUS_CONNECTED
+            self.session = session
+            return
 
         if "hashAlg = \"sha1\"" in login_page_response.text:
             hex_dig = "$sha1$" + sha1(
@@ -230,24 +223,34 @@ class WebInterface(object):
             login_payload['password_hash'] = self._password
 
         login_page_tree = html.fromstring(login_page_response.content)
-        token_pattern = "//input[@name='token']/@value"
-        token = login_page_tree.xpath(token_pattern)[0]
+        token = login_page_tree.xpath("//input[@name='token']/@value")[0]
         login_payload.update({'token': token})
 
-        response = self._post(session, self._urls['login'], login_payload,
-                              login=True)
+        response = self._post(session, self._urls['login'], login_payload, login=True)
+        if not response:
+            return
+        if "Exceeded login attempts" in response.text:
+            self.status = STATUS_EXCEEDED_LOGIN_ATTEMPTS
+            return
+        elif "hashAlg" in response.text:
+            self.status = STATUS_NOT_AUTHORIZED
+            return
 
-        if "hashAlg" in response.text \
-                or "Exceeded login attempts" in response.text:
-            raise AuthorizationException
+        self.ma_installed = "<!-- KF2-MA-INSTALLED-FLAG -->" in response.text
 
-        if "<!-- KF2-MA-INSTALLED-FLAG -->" in response.text:
-            self.ma_installed = True
+        self.session = session
+        self.status = STATUS_CONNECTED
 
-        # Event, connected
+    def disconnect(self):
+        self.status = STATUS_DISCONNECTED
+        self.session = None
 
-        return session
+    def reconnect(self):
+        self.disconnect()
+        self.connect_worker = ConnectWorker(self)
+        self.connect_worker.start()
 
+    @with_connection
     def get_new_messages(self):
         payload = {
             'ajax': '1'
@@ -259,6 +262,7 @@ class WebInterface(object):
             payload
         )
 
+    @with_connection
     def post_message(self, payload):
         return self._post(
             self.session,
@@ -266,18 +270,21 @@ class WebInterface(object):
             payload,
         )
 
+    @with_connection
     def get_server_info(self):
         return self._get(
             self.session,
             self._urls['info']
         )
 
+    @with_connection
     def get_map(self):
         return self._get(
             self.session,
             self._urls['map']
         )
 
+    @with_connection
     def post_map(self, payload):
         return self._post(
             self.session,
@@ -285,18 +292,21 @@ class WebInterface(object):
             payload
         )
 
+    @with_connection
     def get_players(self):
         return self._get(
             self.session,
             self._urls['players']
         )
 
+    @with_connection
     def get_passwords(self):
         return self._get(
             self.session,
             self._urls['passwords']
         )
 
+    @with_connection
     def post_passwords(self, payload):
         return self._post(
             self.session,
@@ -304,12 +314,14 @@ class WebInterface(object):
             payload
         )
 
+    @with_connection
     def get_bans(self):
         return self._get(
             self.session,
             self._urls['bans']
         )
 
+    @with_connection
     def post_bans(self, payload):
         return self._post(
             self.session,
@@ -317,6 +329,7 @@ class WebInterface(object):
             payload
         )
 
+    @with_connection
     def post_players_action(self, payload):
         return self._post(
             self.session,
@@ -324,12 +337,14 @@ class WebInterface(object):
             payload
         )
 
+    @with_connection
     def get_general_settings(self):
         return self._get(
             self.session,
             self._urls['general_settings']
         )
 
+    @with_connection
     def post_general_settings(self, payload):
         return self._post(
             self.session,
@@ -337,12 +352,14 @@ class WebInterface(object):
             payload
         )
 
+    @with_connection
     def get_game_type(self):
         return self._get(
             self.session,
             self._urls['game_type']
         )
 
+    @with_connection
     def post_game_type(self, payload):
         return self._post(
             self.session,
@@ -350,12 +367,14 @@ class WebInterface(object):
             payload
         )
 
+    @with_connection
     def get_maplist(self):
         return self._get(
             self.session,
             self._urls['maplist']
         )
 
+    @with_connection
     def post_maplist(self, payload):
         return self._post(
             self.session,
@@ -363,12 +382,14 @@ class WebInterface(object):
             payload
         )
 
+    @with_connection
     def get_welcome(self):
         return self._get(
             self.session,
             self._urls['welcome']
         )
 
+    @with_connection
     def post_welcome(self, payload):
         return self._post(
             self.session,
@@ -376,6 +397,7 @@ class WebInterface(object):
             payload
         )
 
+    @with_connection
     def post_command(self, payload):
         return self._post(
             self.session,
@@ -383,8 +405,12 @@ class WebInterface(object):
             payload
         )
 
+    @with_connection
     def get_payload_general_settings(self):
         response = self.get_general_settings()
+        if not response:
+            return {}
+
         general_settings_tree = html.fromstring(response.content)
 
         settings_names = general_settings_tree.xpath('//input/@name')
@@ -421,8 +447,12 @@ class WebInterface(object):
 
         return settings
 
+    @with_connection
     def get_payload_motd_settings(self):
         response = self.get_welcome()
+        if not response:
+            return {}
+
         motd_tree = html.fromstring(response.content)
 
         banner_link = motd_tree.xpath('//input[@name="BannerLink"]/@value')[0]
@@ -446,8 +476,12 @@ class WebInterface(object):
             'action': 'save'
         }
 
+    @with_connection
     def get_payload_map_settings(self):
         response = self.get_map()
+        if not response:
+            return {}
+
         map_tree = html.fromstring(response.content)
 
         game_type_pattern = "//select[@id=\"gametype\"]" \
@@ -463,9 +497,9 @@ class WebInterface(object):
             map_name = map_results[0]
         else:
             logger.warning(
-                "{} couldn't retrieve map information, please check that your "
+                "Couldn't retrieve map information ({}), please check that your "
                 "KFMapSummary section is correctly configured for this map"
-                .format(self.server_name)
+                .format(self._urls['map'])
             )
             map_name = "KF-BioticsLab"
         url_extra = map_tree.xpath(url_extra_pattern)[0]

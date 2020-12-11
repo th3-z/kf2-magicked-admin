@@ -8,44 +8,16 @@ from PySide2.QtWidgets import (QFormLayout, QGroupBox, QHBoxLayout, QLabel,
                                QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 from settings import ServerConfig
 from utils.net import resolve_address
-from web_admin.web_interface import AuthorizationException, WebInterface
+from web_admin.web_interface import (
+    WebInterface, STATUS_CONNECTED, STATUS_DISCONNECTED, STATUS_NOT_AUTHORIZED, STATUS_NOT_FOUND, STATUS_SERVER_ERROR,
+    STATUS_EXCEEDED_LOGIN_ATTEMPTS, STATUS_NETWORK_ERROR
+)
 
 logger = logging.getLogger(__name__)
-
-CONN_SUCCESS = 0
-CONN_FAIL_CRED = 1
-CONN_FAIL_ADDR = 2
-
-
-def connection_test(address, username, password):
-    address = resolve_address(address)
-    if not address:
-        return CONN_FAIL_ADDR
-
-    try:
-        WebInterface(address, username, password)
-    except AuthorizationException:
-        return CONN_FAIL_CRED
-
-    return CONN_SUCCESS
 
 
 class WinAddServerSignals(QObject):
     connection_status = Signal(int)
-
-
-class TestConnWorker(QRunnable):
-    def __init__(self, address, username, password, receiver):
-        QRunnable.__init__(self)
-        self.address = address
-        self.username = username
-        self.password = password
-
-        self.receiver = receiver
-
-    def run(self):
-        status = connection_test(self.address, self.username, self.password)
-        self.receiver.signals.connection_status.emit(status)
 
 
 class WinAddServer(QWidget):
@@ -129,8 +101,8 @@ class WinAddServer(QWidget):
         self.magicked_admin.add_server(self.server_name.text(), config)
         self.close()
 
-    @Slot(int)
-    def receive_conn_status(self, status):
+    @Slot()
+    def receive_conn_status(self):
         self.status_spinner.hide()
         self.status_spinner.stop()
         self.status_response.show()
@@ -138,13 +110,27 @@ class WinAddServer(QWidget):
         self.username.setStyleSheet(self.le_style)
         self.password.setStyleSheet(self.le_style)
 
-        if status == CONN_SUCCESS:
+        print(self.conn_worker.result)
+
+        if self.conn_worker.result == STATUS_CONNECTED:
+            self.password.setToolTip(None)
+            self.username.setToolTip(None)
             self.status_response.setPixmap(QIcon.fromTheme("dialog-ok").pixmap(16))
-        elif status == CONN_FAIL_CRED:
+        elif self.conn_worker.result in [STATUS_NOT_AUTHORIZED, STATUS_EXCEEDED_LOGIN_ATTEMPTS]:
             self.status_response.setPixmap(QIcon.fromTheme("dialog-cancel").pixmap(16))
             self.username.setStyleSheet("background-color: #ff5555;")
             self.password.setStyleSheet("background-color: #ff5555;")
-        elif status == CONN_FAIL_ADDR:
+            self.username.setToolTip(
+                "Username or password is incorrect" if self.conn_worker.result == STATUS_NOT_AUTHORIZED
+                else "Exceeded login attempts"
+            )
+            self.password.setToolTip(
+                "Username or password is incorrect" if self.conn_worker.result == STATUS_NOT_AUTHORIZED
+                else "Exceeded login attempts"
+            )
+        else:
+            self.password.setToolTip(None)
+            self.username.setToolTip(None)
             self.status_response.setPixmap(QIcon.fromTheme("dialog-cancel").pixmap(16))
             self.address.setStyleSheet("background-color: #ff5555;")
 
@@ -152,5 +138,11 @@ class WinAddServer(QWidget):
         self.status_spinner.start()
         self.status_spinner.show()
         self.status_response.hide()
-        worker = TestConnWorker(self.address.text(), self.username.text(), self.password.text(), self)
-        QThreadPool.globalInstance().start(worker)
+
+        self.conn_worker = WebInterface.connectivity_test(
+            self.address.text(), self.username.text(), self.password.text()
+        )
+        self.conn_worker.finished.connect(self.receive_conn_status)
+
+
+        #QThreadPool.globalInstance().start(worker)

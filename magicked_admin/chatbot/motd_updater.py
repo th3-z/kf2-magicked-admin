@@ -25,7 +25,8 @@ class MotdUpdater:
             )
 
             with open(self.motd_path, "w+") as motd_file:
-                motd_file.write(self.server.web_admin.get_motd())
+                # FIXME
+                motd_file.write(self.server.web_admin.get_motd() or "")
 
         motd_f = open(find_data_file(self.motd_path))
         motd = motd_f.read()

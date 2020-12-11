@@ -19,6 +19,7 @@ class ChatWorker(QThread):
         super(ChatWorker, self).__init__()
 
         self.signals = server.signals
+        self.server = server
         self._web_admin = server.web_admin
 
         self._exit = False
