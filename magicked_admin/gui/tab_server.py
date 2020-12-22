@@ -78,10 +78,15 @@ class TabServer(QWidget):
         self.username.setText(self.server.web_admin.web_interface.username)
         self.players_capacity.setText("{} / {}".format(len(self.server.players), self.server.capacity))
 
-        self.game_type.label.setText(GAME_TYPE_DISPLAY[self.server.match.game_type])
-        self.difficulty.label.setText(DIFF_DISPLAY[self.server.match.difficulty])
-        self.length.label.setText(LEN_DISPLAY[self.server.match.length])
+        game_type_display = GAME_TYPE_DISPLAY.get(self.server.match.game_type) or "Unknown"
+        difficulty_display = DIFF_DISPLAY.get(self.server.match.difficulty) or "Unknown"
+        length_display = LEN_DISPLAY.get(self.server.match.length) or game_type_display
+
+        self.game_type.label.setText(game_type_display)
+        self.difficulty.label.setText(difficulty_display)
+        self.length.label.setText(length_display)
         self.map.label.setText(self.server.match.level.name)
+        self.wave.setText("{} / {}".format(self.server.match.wave, self.server.match.length))
 
         self.players_graph.plot(server)
 
@@ -96,7 +101,12 @@ class TabServer(QWidget):
 
     @Slot(Match)
     def match_changed(self, match):
-        self.game_type.label.setText(GAME_TYPE_DISPLAY[match.game_type])
-        self.difficulty.label.setText(DIFF_DISPLAY[match.difficulty])
-        self.length.label.setText(LEN_DISPLAY[match.length])
+        game_type_display = GAME_TYPE_DISPLAY.get(match.game_type) or "Unknown"
+        difficulty_display = DIFF_DISPLAY.get(match.difficulty) or "Unknown"
+        length_display = LEN_DISPLAY.get(match.length) or game_type_display
+
+        self.game_type.label.setText(game_type_display)
+        self.difficulty.label.setText(difficulty_display)
+        self.length.label.setText(length_display)
         self.map.label.setText(match.level.name)
+        self.wave.setText("{} / {}".format(match.wave, match.length))

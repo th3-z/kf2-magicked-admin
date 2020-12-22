@@ -53,16 +53,6 @@ class WebInterfaceSignals(QObject):
     status_change = Signal(int)
 
 
-def with_connection(func):
-    def _with_connection(*args, **kwargs):
-        if args[0].status == STATUS_CONNECTED:
-            return func(*args, **kwargs)
-        else:
-            return None
-
-    return _with_connection
-
-
 class WebInterface(object):
     def __init__(self, address, username, password):
         self.signals = WebInterfaceSignals()
@@ -73,7 +63,7 @@ class WebInterface(object):
         self._http_auth = False
         self.ma_installed = False
 
-        self._urls = {}
+        self._urls = URLS
 
         self._timeout = 5
         self._status = STATUS_DISCONNECTED
@@ -250,7 +240,6 @@ class WebInterface(object):
         self.connect_worker = ConnectWorker(self)
         self.connect_worker.start()
 
-    @with_connection
     def get_new_messages(self):
         payload = {
             'ajax': '1'
@@ -262,7 +251,6 @@ class WebInterface(object):
             payload
         )
 
-    @with_connection
     def post_message(self, payload):
         return self._post(
             self.session,
@@ -270,21 +258,18 @@ class WebInterface(object):
             payload,
         )
 
-    @with_connection
     def get_server_info(self):
         return self._get(
             self.session,
             self._urls['info']
         )
 
-    @with_connection
     def get_map(self):
         return self._get(
             self.session,
             self._urls['map']
         )
 
-    @with_connection
     def post_map(self, payload):
         return self._post(
             self.session,
@@ -292,21 +277,18 @@ class WebInterface(object):
             payload
         )
 
-    @with_connection
     def get_players(self):
         return self._get(
             self.session,
             self._urls['players']
         )
 
-    @with_connection
     def get_passwords(self):
         return self._get(
             self.session,
             self._urls['passwords']
         )
 
-    @with_connection
     def post_passwords(self, payload):
         return self._post(
             self.session,
@@ -314,14 +296,12 @@ class WebInterface(object):
             payload
         )
 
-    @with_connection
     def get_bans(self):
         return self._get(
             self.session,
             self._urls['bans']
         )
 
-    @with_connection
     def post_bans(self, payload):
         return self._post(
             self.session,
@@ -329,7 +309,6 @@ class WebInterface(object):
             payload
         )
 
-    @with_connection
     def post_players_action(self, payload):
         return self._post(
             self.session,
@@ -337,14 +316,12 @@ class WebInterface(object):
             payload
         )
 
-    @with_connection
     def get_general_settings(self):
         return self._get(
             self.session,
             self._urls['general_settings']
         )
 
-    @with_connection
     def post_general_settings(self, payload):
         return self._post(
             self.session,
@@ -352,14 +329,12 @@ class WebInterface(object):
             payload
         )
 
-    @with_connection
     def get_game_type(self):
         return self._get(
             self.session,
             self._urls['game_type']
         )
 
-    @with_connection
     def post_game_type(self, payload):
         return self._post(
             self.session,
@@ -367,14 +342,12 @@ class WebInterface(object):
             payload
         )
 
-    @with_connection
     def get_maplist(self):
         return self._get(
             self.session,
             self._urls['maplist']
         )
 
-    @with_connection
     def post_maplist(self, payload):
         return self._post(
             self.session,
@@ -382,14 +355,12 @@ class WebInterface(object):
             payload
         )
 
-    @with_connection
     def get_welcome(self):
         return self._get(
             self.session,
             self._urls['welcome']
         )
 
-    @with_connection
     def post_welcome(self, payload):
         return self._post(
             self.session,
@@ -397,7 +368,6 @@ class WebInterface(object):
             payload
         )
 
-    @with_connection
     def post_command(self, payload):
         return self._post(
             self.session,
@@ -405,7 +375,6 @@ class WebInterface(object):
             payload
         )
 
-    @with_connection
     def get_payload_general_settings(self):
         response = self.get_general_settings()
         if not response:
@@ -447,7 +416,6 @@ class WebInterface(object):
 
         return settings
 
-    @with_connection
     def get_payload_motd_settings(self):
         response = self.get_welcome()
         if not response:
@@ -476,7 +444,6 @@ class WebInterface(object):
             'action': 'save'
         }
 
-    @with_connection
     def get_payload_map_settings(self):
         response = self.get_map()
         if not response:

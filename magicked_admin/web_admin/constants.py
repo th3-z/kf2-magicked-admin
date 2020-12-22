@@ -29,7 +29,7 @@ LEN_DISPLAY = {
 
 GAME_TYPE_UNKNOWN = "kfgamecontent.KFGameInfo_Unknown"
 GAME_TYPE_SURVIVAL = "kfgamecontent.KFGameInfo_Survival"
-GAME_TYPE_WEEKLY = "kfgamecontent.KFGameInfo_Weekly"
+GAME_TYPE_WEEKLY = "kfgamecontent.KFGameInfo_WeeklySurvival"
 GAME_TYPE_SURVIVAL_VS = "kfgamecontent.KFGameInfo_VersusSurvival"
 GAME_TYPE_ENDLESS = "kfgamecontent.KFGameInfo_Endless"
 GAME_TYPE_OBJECTIVE = "kfgamecontent.KFGameInfo_Objective"
