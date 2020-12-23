@@ -434,7 +434,7 @@ class WebInterface(object):
         mutator_count_pattern = "//input[@name=\"mutatorGroupCount\"]/@value"
 
         game_type = map_tree.xpath(game_type_pattern)[0]
-        map_results = map_tree.xpath(map_pattern)[0]
+        map_results = map_tree.xpath(map_pattern)
         if len(map_results):
             map_name = map_results[0]
         else:
