@@ -67,7 +67,7 @@ Alle Befehle haben einen Hilfetext im Spiel, auf den man mit dem '[b]-h'[/b] Fla
 Alle Befehle haben die folgenden Flags.
 [list]
 [*] Option "[b]-q[/b]": Unterdrückt die Ausgabe
-[*] Option '[b]-p[/b]': Pads output to hide the username line
+[*] Option '[b]-p[/b]': Füllt die Ausgabe um die Benutzernamenszeile zu verstecken
 [/list]
 Zur Formatierung von Nachrichten stehen folgende Escape-Sequenzen zur Verfügung.
 [list]
@@ -174,7 +174,7 @@ Befehle, die von Serveradministratoren und Benutzern ausgeführt werden können,
 [*] '[b]!stop_jc[/b]' - Stoppt alle Beitritts-Befehle
 
 [*] '[b]!start_wc [-w <wave>] -- <command>[/b]' - Start eines Befehls, der auf Welle '<wave>' läuft
-    - Option "[b]-w[/b]": Welle zum Ausführen des Befehls, kann weggelassen werden, um den Befehl
+    - Option "[b]-w[/b]": Welle zum Ausführen des Befehls, kann weggelassen werden
     jede Welle ausführen
     - Option "[b]-w[/b]": Kann negativ sein, um von der Boss-Welle rückwärts zu zählen
     - Beispiel: '[b]!start_wc -1 -- say Willkommen zur Boss-Welle[/b]'
