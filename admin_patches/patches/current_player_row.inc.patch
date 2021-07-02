@@ -1,0 +1,10 @@
+--- ./current_player_row.inc	2020-11-19 19:20:36.000000000 +0000
++++ ./current_player_row.inc	2021-06-30 21:34:29.008744773 +0100
+@@ -2,6 +2,7 @@
+   <td style="background: <%player.teamcolor%>; color: <%player.teamcolor%>;"><%player.teamid%>&#160;</td>
+   <td><%player.name%></td>
+   <td><%player.perk.name%></td>
++  <td class="right"><%player.perk.level%></td>
+   <td class="right"><%player.score%></td>
+   <td class="right"><%player.pawn.health%></td>
+   <td class="right"><%player.kills%></td>

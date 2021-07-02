@@ -1,0 +1,20 @@
+--- ./current_players.html	2020-11-19 19:20:36.000000000 +0000
++++ ./current_players.html	2021-06-30 21:34:29.008744773 +0100
+@@ -10,6 +10,8 @@
+ <tr>
+     <th>&#160;</th>
+     <th><a href="<%page.fulluri%>?sortby=name&amp;reverse=<%reverse.name%>" class="sortable <%sorted.name%>">Player name</a></th>
++    <th>Perk</th>
++    <th>Level</th>
+     <th><a href="<%page.fulluri%>?sortby=ping&amp;reverse=<%reverse.ping%>" class="sortable <%sorted.ping%>">Ping</a></th>
+     <th>IP</th>
+     <th title="The unique ID for this game account.">Unique Net ID</th>
+@@ -37,7 +39,7 @@
+     });
+     $("#players th").wrapInner("<span></span>");
+     $("#players").tablesorter({sortList:[[1,0]], widgets: ['zebra'], headers: { 9: {sorter: false} }});
+-    
++
+     $("#players form").each(function(i){
+         var frm = $(this);
+         frm.submit(function() {

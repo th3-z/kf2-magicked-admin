@@ -9,6 +9,10 @@ from web_admin.constants import *
 logger = logging.getLogger(__name__)
 
 
+def entitify(text):
+    return ''.join('&#%d;' % ord(c) for c in text)
+
+
 class WebAdmin(object):
     def __init__(self, web_interface):
         self.web_interface = web_interface
@@ -233,8 +237,7 @@ class WebAdmin(object):
         self.web_interface.post_map_cycle(payload)
 
     def set_motd(self, motd):
-        self.motd_settings["ServerMOTD"] = motd \
-            .encode("iso-8859-1", "ignore")
+        self.__motd_settings["ServerMOTD"] = entitify(motd)  # .encode("iso-8859-1", "ignore")
         self.web_interface.post_welcome(self.motd_settings)
 
         # Setting the MOTD resets changes to general settings

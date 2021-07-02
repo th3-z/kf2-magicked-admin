@@ -1,14 +1,13 @@
-diff --git a/gamesummary.inc b/gamesummary.inc
-index cd4e1f7..4b47e1f 100755
---- a/gamesummary.inc
-+++ b/gamesummary.inc
+--- ./gamesummary.inc	2021-06-30 21:42:15.000000000 +0100
++++ ./gamesummary.inc	2021-06-30 21:34:29.008744773 +0100
 @@ -4,6 +4,6 @@
    <dd class="gs_map"><%map.title.safe%></dd>
    <dt class="gs_players">Players</dt>
    <dd class="gs_players"><%rules.numplayers%>/<%rules.maxplayers%></dd>
 -  <dt class="gs_time">Time</dt>
 -  <dd class="gs_time"><%time.elapsed%>/<%time.timelimit%></dd>
+-</dl>
+\ No newline at end of file
 +  <dt class="gs_wave">Wave <%wave.num%>/<%wave.max%></dt>
 +  <dd class="gs_wave"><%wave.monsters.dead%>/<%wave.monsters.total%></dd>
- </dl>
-\ No newline at end of file
++</dl>

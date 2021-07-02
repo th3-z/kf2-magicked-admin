@@ -1,46 +1,32 @@
 import gettext
 import os
-from hashlib import md5
+import tarfile
 
-from checksums import ORIG_MD5
-from utils import find_data_file, info, warning
 from utils.patch import fromfile
 
 _ = gettext.gettext
 
 
-def md5sum(fname):
-    hash_md5 = md5()
-    with open(fname, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            hash_md5.update(chunk)
-    return hash_md5.hexdigest()
+ORIGINAL_TEMP_PATH = "kf2ma-admin-patcher-originals"
+
+def has_patch(filename, patch_path):
+    patch_basenames = [file.split(".patch")[0] for file in os.listdir(patch_path)]
+    return os.path.basename(filename) in patch_basenames
 
 
-def validate_files(target_path):
-    check_files = ORIG_MD5.keys()
+def patch_file(target_filepath, patches_path):
+    target_basename = os.path.basename(target_filepath)
+    patch_filepath = os.path.join(patches_path, target_basename + ".patch")
 
-    for filename in os.listdir(target_path):
-        if filename in check_files:
-            checksum = md5sum(os.path.join(target_path, filename))
-
-            if checksum != ORIG_MD5[filename]:
-                return False
-    return True
+    patch = fromfile(patch_filepath)
+    return patch.apply(0, os.path.dirname(target_filepath))
 
 
-def patch_files(target_path, patches_path):
-    for filename in os.listdir(target_path):
-        if filename not in ORIG_MD5.keys():
-            continue
-        patch_path = find_data_file(
-            os.path.join(patches_path, filename + ".patch")
-        )
+def install_original(target_filepath, original_filepath):
+    tar = tarfile.open(original_filepath)
+    reader = tar.extractfile(os.path.basename(target_filepath))
 
-        info(_("Applying {}").format(filename + ".patch"))
+    with open(target_filepath, 'wb') as target_file:
+        target_file.write(reader.read())
 
-        patch = fromfile(patch_path)
-        success = patch.apply(0, target_path)
-        if not success:
-            warning(_("Patch failed to apply successfully"))
-    return True
+    reader.close()

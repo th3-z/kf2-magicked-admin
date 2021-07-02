@@ -1,0 +1,10 @@
+--- ./current.html	2020-11-19 19:20:36.000000000 +0000
++++ ./current.html	2021-06-30 21:34:29.008744773 +0100
+@@ -61,6 +61,7 @@
+     <th>&#160;</th>
+     <th><a href="<%page.fulluri%>?sortby=name&amp;reverse=<%reverse.name%>" class="sortable <%sorted.name%>">Name</a></th>
+     <th><a href="<%page.fulluri%>?sortby=perk&amp;reverse=<%reverse.perk%>" class="sortable <%sorted.perk%>">Perk</th>
++    <th>Level</th>
+     <th><a href="<%page.fulluri%>?sortby=score&amp;reverse=<%reverse.score%>" class="sortable <%sorted.score%>">Dosh</a></th>
+     <th>Health</th>
+     <th><a href="<%page.fulluri%>?sortby=kills&amp;reverse=<%reverse.kills%>" class="sortable <%sorted.kills%>">Kills</a></th>

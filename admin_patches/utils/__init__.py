@@ -11,7 +11,7 @@ DEBUG = __debug__ and not hasattr(sys, 'frozen')
 VERSION = "0.0.1"
 
 
-def die(mesg, pause=False):
+def die(mesg="", pause=False):
     if mesg:
         fatal(mesg)
     if pause:
