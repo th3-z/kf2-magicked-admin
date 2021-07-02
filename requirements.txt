@@ -13,8 +13,6 @@ pyside2
 # Development
 isort
 flake8
-pytest>=3.6
-pytest-cov
 
 # Build
 cx_freeze==6.2

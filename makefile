@@ -33,10 +33,6 @@ clean:
 isort:
 	@sh -c "isort --recursive ."
 
-pytest:
-	@echo "\n$(YELLOW_COLOR)Running tests...$(NO_COLOR)\n"
-	@pytest magicked_admin/tests --cov=magicked_admin
-
 lint:
 	-@# F401 -- Unused import
 	-@# F405 -- Name may be undefined
