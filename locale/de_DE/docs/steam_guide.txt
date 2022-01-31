@@ -291,7 +291,7 @@ load_map biotics
 silent -q[/code]
 
 ## Konfigurations-Optionen
-Die Grundeinstellungen werden beim ersten Durchlauf vorgenommen. Dies ist jedoch nur ein Einstieg, er deckt nicht alle Optionen ab, die KF2 Magicked Admin bieten kann. Bitte lies die Konfigurationsdatei, '[b]conf/magicked_admin.conf[/b]', für weitere Konfigurationsoptionen, da einige Funktionen standardmäßig deaktiviert sind.
+Die Grundeinstellungen werden beim ersten Durchlauf vorgenommen. Dies ist jedoch nur ein Einstieg, er deckt nicht alle Optionen ab, die KF2 Magicked Admin bieten kann. Bitte schaue dir die Konfigurationsdatei '[b]conf/magicked_admin.conf[/b]' an, Dort findest du weitere Konfigurationsoptionen, da einige Funktionen standardmäßig deaktiviert sind.
 
 Jeder von KF2 Magicked Admin verwaltete Server hat einen Config-Abschnitt, der etwa so aussieht wie '[b][server_one][/b]', gefolgt von mehreren Optionen ('[b]x = y[/b]'). Kopiere den Standard-Serverbereich und ändere den Namen, wenn du mehrere Server verwalten möchtest. "[b][server_one][/b]" ist der Name des Servers, dieser kann nach Belieben geändert werden, aber jede Sektion sollte einen eindeutigen Namen haben.
 
