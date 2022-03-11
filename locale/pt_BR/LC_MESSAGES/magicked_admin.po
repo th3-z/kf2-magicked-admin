@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-08-15 22:28+0100\n"
-"PO-Revision-Date: 2020-08-15 21:39\n"
+"PO-Revision-Date: 2022-03-11 03:35\n"
 "Last-Translator: \n"
 "Language: pt_BR\n"
 "Language-Team: Portuguese, Brazilian\n"
@@ -20,43 +20,43 @@ msgstr ""
 
 #: magicked_admin/magicked_admin.py:41
 msgid "Killing Floor 2 Magicked Administrator"
-msgstr ""
+msgstr "Killing Floor 2 Administrador Magickend"
 
 #: magicked_admin/magicked_admin.py:44
 msgid "Skips the guided setup process"
-msgstr ""
+msgstr "Ignora o processo de configuração guiado"
 
 #: magicked_admin/magicked_admin.py:154
 msgid "Couldn't connect to server: {}"
-msgstr ""
+msgstr "Não foi possível conectar-se ao servidor: {}"
 
 #: magicked_admin/magicked_admin.py:159
 msgid "Authorization error connecting to '{}', reconfigure? [Y/n]: "
-msgstr ""
+msgstr "Erro de autorização ao conectar a '{}', reconfigurar? [Y/n]: "
 
 #: magicked_admin/magicked_admin.py:164
 msgid "yes"
-msgstr ""
+msgstr "Sim"
 
 #: magicked_admin/magicked_admin.py:164
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: magicked_admin/magicked_admin.py:179
 msgid "Initialisation complete!\n"
-msgstr ""
+msgstr "Inicialização concluída!\n"
 
 #: magicked_admin/magicked_admin.py:190
 msgid "Closing immediately!"
-msgstr ""
+msgstr "Fechando imediatamente!"
 
 #: magicked_admin/magicked_admin.py:199
 msgid "Program interrupted, saving data..."
-msgstr ""
+msgstr "Programa interrompido, salvando dados..."
 
 #: magicked_admin/settings.py:55
 msgid "Please correct this manually  or delete '{}' to create a clean config next run."
-msgstr ""
+msgstr "Por favor, corrija isto manualmente ou apague '{}' para criar um arquivo de configuração limpo na próxima vez."
 
 #: magicked_admin/settings.py:63
 msgid "No configuration was found, first time setup is required!"
@@ -182,7 +182,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/command.py:30
 msgid "$"
-msgstr ""
+msgstr "$"
 
 #: magicked_admin/chatbot/commands/command.py:56
 msgid "Auth failure, username: {}, user flags: {:b}"
