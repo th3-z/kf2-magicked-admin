@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-08-15 22:28+0100\n"
-"PO-Revision-Date: 2022-03-11 03:35\n"
+"PO-Revision-Date: 2022-03-11 03:46\n"
 "Last-Translator: \n"
 "Language: pt_BR\n"
 "Language-Team: Portuguese, Brazilian\n"
@@ -119,7 +119,7 @@ msgstr ""
 
 #: magicked_admin/settings.py:232
 msgid "Config file has no sections."
-msgstr ""
+msgstr "Arquivo de configuração não tem seções."
 
 #: magicked_admin/settings.py:241
 msgid "Section '{}' is missing a required setting: '{}'."
@@ -146,15 +146,15 @@ msgstr ""
 
 #: magicked_admin/chatbot/chatbot.py:64
 msgid "Executing script: "
-msgstr ""
+msgstr "Executando script: "
 
 #: magicked_admin/chatbot/command_scheduler.py:58
 msgid "Stopped {} command(s)"
-msgstr ""
+msgstr "{} comando(s) parados"
 
 #: magicked_admin/chatbot/command_scheduler.py:61
 msgid "None running"
-msgstr ""
+msgstr "Nenhum em execução"
 
 #: magicked_admin/chatbot/command_scheduler.py:110
 msgid "Scheduled command ({}) ran directly by {}, please use CommandScheduler"
@@ -162,7 +162,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/motd_updater.py:24
 msgid "No MOTD file for {} found, pulling from web admin!"
-msgstr ""
+msgstr "Nenhum arquivo MOTD para {} encontrado, puxando do administrador web!"
 
 #: magicked_admin/chatbot/motd_updater.py:42
 msgid "Updated the MOTD!"
@@ -170,7 +170,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/command.py:18
 msgid "You're not authorised to use that command"
-msgstr ""
+msgstr "Você não está autorizado a usar esse comando"
 
 #: magicked_admin/chatbot/commands/command.py:21
 msgid "This action isn't supported without Killing Floor 2 Magicked Administrator's server side patch! Please review the documentation at '{}' for guidance."
@@ -178,7 +178,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/command.py:28
 msgid "The help text for this command hasn't been written!"
-msgstr ""
+msgstr "O texto de ajuda para este comando não foi escrito!"
 
 #: magicked_admin/chatbot/commands/command.py:30
 msgid "$"
@@ -190,7 +190,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/command_map.py:16
 msgid "lua"
-msgstr ""
+msgstr "lua"
 
 #: magicked_admin/chatbot/commands/command_map.py:17
 msgid "start_jc"
@@ -476,11 +476,11 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/info_commands.py:49
 msgid "Missing argument: filename"
-msgstr ""
+msgstr "Argumento faltando: nome do arquivo"
 
 #: magicked_admin/chatbot/commands/info_commands.py:53
 msgid "Couldn't find file"
-msgstr ""
+msgstr "Arquivo não encontrado"
 
 #: magicked_admin/chatbot/commands/info_commands.py:78
 msgid "Usage: !players\n"
@@ -489,7 +489,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/info_commands.py:90
 msgid "{}/{} Players are online"
-msgstr ""
+msgstr "{}/{} Jogadores online"
 
 #: magicked_admin/chatbot/commands/info_commands.py:101
 msgid "Usage: !players\n"
@@ -499,7 +499,7 @@ msgstr ""
 #: magicked_admin/chatbot/commands/info_commands.py:114
 #: magicked_admin/chatbot/commands/player_commands.py:260
 msgid "No players in game"
-msgstr ""
+msgstr "Nenhum jogador no jogo"
 
 #: magicked_admin/chatbot/commands/info_commands.py:127
 msgid "Usage: !game\n"
@@ -592,7 +592,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/player_commands.py:76
 msgid "Player {} not in game"
-msgstr ""
+msgstr "Jogador {} não está no jogo"
 
 #: magicked_admin/chatbot/commands/player_commands.py:81
 msgid "You've killed a total of {} ZEDs (#{}), and {} this game"
@@ -606,7 +606,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/player_commands.py:113
 msgid "Player not in game"
-msgstr ""
+msgstr "Jogador não está no jogo"
 
 #: magicked_admin/chatbot/commands/player_commands.py:117
 msgid "You've earned a total of £{} dosh (#{}), and £{} this game"
@@ -680,15 +680,15 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:42
 msgid "Missing argument, command"
-msgstr ""
+msgstr "Argumento faltando, comando"
 
 #: magicked_admin/chatbot/commands/server_commands.py:49
 msgid "Missing argument, name"
-msgstr ""
+msgstr "Faltando argumento, nome"
 
 #: magicked_admin/chatbot/commands/server_commands.py:53
 msgid "Added alias"
-msgstr ""
+msgstr "Apelido adicionado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:61
 msgid "Usage: !lua LUA\n"
@@ -698,7 +698,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:78
 msgid "Missing argument, Lua"
-msgstr ""
+msgstr "Argumento faltando, Lua"
 
 #: magicked_admin/chatbot/commands/server_commands.py:90
 msgid "Usage: !ban USERNAME\n"
@@ -716,11 +716,11 @@ msgstr ""
 #: magicked_admin/chatbot/commands/server_commands.py:110
 #: magicked_admin/chatbot/commands/server_commands.py:330
 msgid "Player not found"
-msgstr ""
+msgstr "Jogador não encontrado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:113
 msgid "Player, {}, was banned"
-msgstr ""
+msgstr "Jogador, {}, foi banido"
 
 #: magicked_admin/chatbot/commands/server_commands.py:121
 msgid "Usage: !say MESSAGE\n"
@@ -783,11 +783,11 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:289
 msgid "Please specify a maximum amount of dosh"
-msgstr ""
+msgstr "Por favor, especifique uma quantidade máxima de dosh"
 
 #: magicked_admin/chatbot/commands/server_commands.py:296
 msgid "'{}' is not a valid number"
-msgstr ""
+msgstr "'{}' não é um número válido"
 
 #: magicked_admin/chatbot/commands/server_commands.py:310
 msgid "Usage: !kick USERNAME\n"
@@ -797,7 +797,7 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:333
 msgid "Player, {}, was kicked"
-msgstr ""
+msgstr "Jogador, {}, foi expulso"
 
 #: magicked_admin/chatbot/commands/server_commands.py:343
 msgid "Usage: !update_motd\n"
@@ -825,20 +825,21 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:403
 msgid "No script was specified"
-msgstr ""
+msgstr "Nenhum script foi especificado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:408
 msgid "Script not found"
-msgstr ""
+msgstr "Script não encontrado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:417
 msgid "Usage: !restart\n"
 "Desc: Restarts the match"
-msgstr ""
+msgstr "Uso: !restart\n"
+"Descrição: Reinicia a partida"
 
 #: magicked_admin/chatbot/commands/server_commands.py:428
 msgid "Restarting map..."
-msgstr ""
+msgstr "Reiniciando o mapa..."
 
 #: magicked_admin/chatbot/commands/server_commands.py:435
 msgid "Usage: !load_map MAP_NAME\n"
@@ -848,11 +849,11 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:448
 msgid "Missing argument (map name)"
-msgstr ""
+msgstr "Argumento ausente (nome do mapa)"
 
 #: magicked_admin/chatbot/commands/server_commands.py:451
 msgid "Changing map"
-msgstr ""
+msgstr "Mudando mapa"
 
 #: magicked_admin/chatbot/commands/server_commands.py:458
 msgid "Usage: !password [--set] STATE\n"
@@ -863,27 +864,27 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:477
 msgid "Game password is currently {}"
-msgstr ""
+msgstr "Senha do jogo atualmente é {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:478
 msgid "enabled"
-msgstr ""
+msgstr "habilitado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:478
 msgid "disabled"
-msgstr ""
+msgstr "desabilitado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:489
 msgid "Game password enabled"
-msgstr ""
+msgstr "Senha do jogo ativada"
 
 #: magicked_admin/chatbot/commands/server_commands.py:493
 msgid "Game password disabled"
-msgstr ""
+msgstr "Senha do jogo desativada"
 
 #: magicked_admin/chatbot/commands/server_commands.py:496
 msgid "Unrecognised option {}"
-msgstr ""
+msgstr "Opção não reconhecida {}"
 
 #: magicked_admin/chatbot/commands/server_commands.py:506
 msgid "Usage: !silent [--quiet]\n"
@@ -893,11 +894,11 @@ msgstr ""
 
 #: magicked_admin/chatbot/commands/server_commands.py:519
 msgid "Silent mode disabled"
-msgstr ""
+msgstr "Modo silencioso desativado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:521
 msgid "Silent mode enabled"
-msgstr ""
+msgstr "Modo silencioso ativado"
 
 #: magicked_admin/chatbot/commands/server_commands.py:535
 msgid "Usage: !length LENGTH\n"
@@ -972,34 +973,37 @@ msgstr ""
 
 #: magicked_admin/server/player.py:38 magicked_admin/utils/net.py:62
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: magicked_admin/server/player.py:56
 msgid "Username: {}\n"
 "Country: {} ({})\n"
 "OP: {}\n"
 "Steam ID:{}"
-msgstr ""
+msgstr "Usuário: {}\n"
+"País: {} ({})\n"
+"OP: {}\n"
+"ID do Steam:{}"
 
 #: magicked_admin/server/server.py:181
 msgid "Player {} ({}) joined {} from {}"
-msgstr ""
+msgstr "Jogador {} ({}) juntou-se {} de {}"
 
 #: magicked_admin/server/server.py:186
 msgid "Player {} joined {} from {}"
-msgstr ""
+msgstr "Jogador {} juntou-se {} de {}"
 
 #: magicked_admin/server/server.py:206
 msgid "Player {} left {}"
-msgstr ""
+msgstr "Jogador {} saiu {}"
 
 #: magicked_admin/server/server.py:221
 msgid "Player {} died on {}"
-msgstr ""
+msgstr "Jogador {} morreu no {}"
 
 #: magicked_admin/server/server.py:231
 msgid "New game on {}, map: {}, mode: {}"
-msgstr ""
+msgstr "Novo jogo em {}, mapa: {}, modo: {}"
 
 #: magicked_admin/server/server.py:249
 msgid "Unknown game_type {}"
@@ -1012,47 +1016,48 @@ msgstr ""
 #: magicked_admin/utils/__init__.py:123
 msgid "\n"
 "Press enter to exit..."
-msgstr ""
+msgstr "\n"
+"Pressione enter para sair..."
 
 #: magicked_admin/web_admin/web_admin.py:86
 msgid "Tried to toggle game password before setting value"
-msgstr ""
+msgstr "Tentou alternar a senha do jogo antes de definir o valor"
 
 #: magicked_admin/web_admin/web_admin.py:378
 msgid "Couldn't find identify player: {}"
-msgstr ""
+msgstr "Não foi possível identificar o jogador: {}"
 
 #: magicked_admin/web_admin/web_interface.py:19
 msgid "Connecting to {} ({})..."
-msgstr ""
+msgstr "Conectando a {} ({})..."
 
 #: magicked_admin/web_admin/web_interface.py:52
 msgid "Connected to {} ({})"
-msgstr ""
+msgstr "Conectado a {} ({})"
 
 #: magicked_admin/web_admin/web_interface.py:83
 #: magicked_admin/web_admin/web_interface.py:145
 msgid "Session killed, renewing!"
-msgstr ""
+msgstr "Sessão encerrada, renovando!"
 
 #: magicked_admin/web_admin/web_interface.py:88
 #: magicked_admin/web_admin/web_interface.py:150
 msgid "Authorization error, credentials changed?"
-msgstr ""
+msgstr "Erro de autorização, as credenciais mudaram?"
 
 #: magicked_admin/web_admin/web_interface.py:174
 msgid "Web admin not responding, sleeping"
-msgstr ""
+msgstr "Administrador Web não responde, aguardando"
 
 #: magicked_admin/web_admin/web_interface.py:179
 msgid "Web admin is back, resuming"
-msgstr ""
+msgstr "O administrador da Web está de volta, retomando"
 
 #: magicked_admin/web_admin/web_interface.py:220
 msgid "Detected KF2-MA install on server."
-msgstr ""
+msgstr "Instalação KF2-MA detectada no servidor."
 
 #: magicked_admin/web_admin/web_interface.py:222
 msgid "KF2-MA install not detected on server side! Consequently, only Survival mode will function fully."
-msgstr ""
+msgstr "Instalação KF2-MA não detectada no servidor! Consequentemente, somente o modo Sobrevivência funcionará completamente."
 
