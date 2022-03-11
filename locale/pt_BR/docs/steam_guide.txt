@@ -399,46 +399,46 @@ To reset the scoreboard all you have to do is delete the '[b]conf/*.sqlite[/b]' 
 
 If I wanted to reset the stats on '[b]server_four[/b]', I would delete the '[b]conf/server_four.sqlite[/b]' file and restart KF2 Magicked Admin.
 
-## Planned features
-[h1]Next release - 0.1.5[/h1]
-The following features are currently slated for the next release.
+## Funcionalidades planejadas
+[h1]Próxima versão - 0.1.5[/h1]
+Os seguintes recursos estão atualmente na base da próxima versão.
 [list]
-[*] Date/time commands, i.e. run a command at a specific time of day or date
-[*] Player session logging, logs SteamIDs and timestamps for player sessions to a file
-[*] `!restart` delay, a countdown before restarting the match
+[*] Comandos de data/hora, ou seja, execute um comando em uma determinada hora do dia ou data
+[*] Registro de sessão de jogador, registra SteamIDs e timestamps para sessões de jogadores em um arquivo
+[*] Atraso no comando `!restart`, uma contagem regressiva antes de reiniciar a partida
 [/list]
 
-[h1]Future[/h1]
+[h1]Futuro[/h1]
 [list]
-[*] Support for community translations via crowdin
+[*] Suporte para traduções da comunidade via Crowdin
 [/list]
 
-We are accepting feature requests on the [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url].
+Estamos aceitando solicitações de funcionalidades no [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url].
 
-## Bugs?
-None known as of writing.
+## Erros?
+Nenhum conhecido atualmente.
 
-If you find a bug, please add it to the [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url]if you have a GitHub account.
+Se você encontrar um bug, por favor adicione-o ao [url=https://github.com/th3-z/kf2-magicked-admin/issues]issue tracker[/url]se você tiver uma conta no GitHub.
 
-If you don't have a GitHub account you can write it in the comments or message [url=https://steamcommunity.com/id/th3-z]me[/url] on Steam.
+Se você não tiver uma conta no GitHub, você pode escrever nos comentários ou [url=https://steamcommunity.com/id/th3-z]me[/url] enviar uma mensagem na Steam.
 
-## Credits
-KF2 Magicked Admin is open source software (MIT), authored by the_z (th3-z).
-For full source code (Python+SQLite) and developer guidance visit the [url=github.com/th3-z/kf2-magicked-admin]GitHub repository.[/url]
+## Créditos
+KF2 Magicked Admin é um software de código aberto (MIT), criado por the_z (th3-z).
+Para obter o código-fonte completo (Python+SQLite) e orientações de desenvolvimento visite o repositório [url=github.com/th3-z/kf2-magicked-admin]GitHub.[/url]
 
-[b]Contributors[/b]
+[b]Colaboradores[/b]
 
-Developers:
+Desenvolvedores:
 [list]
 [*] [url=https://github.com/th3-z]th3-z[/url]
 [*] [url=https://github.com/n0x-io]n0x-io[/url]
 [*] [url=https://github.com/skylord123]skylord123[/url]
 [*] [url=https://github.com/WilliamBrown42]WilliamBrown42[/url]
 [/list]
-Testers:
+Testadores:
 [list]
-[*] [url=https://steamcommunity.com/id/Stephen720/]Stephen720[/url]
+[*] [url=https://steamcommunity.com/id/Stephen720/]Stefen720[/url]
 [*] [url=https://steamcommunity.com/profiles/76561198299290553/]WabbitToonz[/url]
 [/list]
 
-Contributions are welcome.
+Contribuições são bem-vindas!
