@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kf2-magicked-admin\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-08-15 22:28+0100\n"
-"PO-Revision-Date: 2022-03-11 03:46\n"
+"PO-Revision-Date: 2022-03-11 03:55\n"
 "Last-Translator: \n"
 "Language: pt_BR\n"
 "Language-Team: Portuguese, Brazilian\n"
@@ -60,46 +60,49 @@ msgstr "Por favor, corrija isto manualmente ou apague '{}' para criar um arquivo
 
 #: magicked_admin/settings.py:63
 msgid "No configuration was found, first time setup is required!"
-msgstr ""
+msgstr "Nenhuma configuração foi encontrada, primeira configuração necessária!"
 
 #: magicked_admin/settings.py:75
 msgid "Guided setup was skipped, a template has been generated."
-msgstr ""
+msgstr "Configuração guiada foi ignorada, um modelo padrão foi gerado."
 
 #: magicked_admin/settings.py:77
 msgid "Setup is not complete yet, please amend '{}' with your server details."
-msgstr ""
+msgstr "A configuração ainda não está completa, por favor altere '{}' com detalhes do seu servidor."
 
 #: magicked_admin/settings.py:85
 msgid "Configuration error(s) found!\n"
 "Section '{}' has a duplicate setting: '{}'."
-msgstr ""
+msgstr "Erro(s) de configuração encontrado(s)!\n"
+"A seção '{}' tem uma configuração duplicada: '{}'."
 
 #: magicked_admin/settings.py:92
 msgid "Configuration error(s) found!"
-msgstr ""
+msgstr "Erro(s) de configuração encontrado(s)"
 
 #: magicked_admin/settings.py:114
 msgid "    Please input your web admin details below."
-msgstr ""
+msgstr "    Por favor, insira os detalhes do seu administrador web abaixo."
 
 #: magicked_admin/settings.py:167
 msgid "\n"
 "Address [default - localhost:8080]: "
-msgstr ""
+msgstr "\n"
+"Endereço [padrão - localhost:8080]: "
 
 #: magicked_admin/settings.py:173
 msgid "Address not responding!\n"
 "Accepted formats are: 'ip:port', 'domain', or 'domain:port'"
-msgstr ""
+msgstr "Endereço não respondendo!\n"
+"Formatos aceitos são: 'ip:porta', 'dominio' ou 'dominio:porta'"
 
 #: magicked_admin/settings.py:176
 msgid "Username [default - Admin]: "
-msgstr ""
+msgstr "Nome de usuário [padrão - Admin]: "
 
 #: magicked_admin/settings.py:183
 msgid "Password"
-msgstr ""
+msgstr "Senha"
 
 #: magicked_admin/settings.py:184
 msgid " (will not echo)"
@@ -107,15 +110,15 @@ msgstr ""
 
 #: magicked_admin/settings.py:185
 msgid " [default - 123]: "
-msgstr ""
+msgstr " [padrão - 123]: "
 
 #: magicked_admin/settings.py:226
 msgid "Config file is missing 'magicked_admin' section."
-msgstr ""
+msgstr "Arquivo de configuração faltando seção 'magicked_admin'."
 
 #: magicked_admin/settings.py:229
 msgid "Config file is missing language."
-msgstr ""
+msgstr "Arquivo de configuração está faltando idioma."
 
 #: magicked_admin/settings.py:232
 msgid "Config file has no sections."
@@ -123,7 +126,7 @@ msgstr "Arquivo de configuração não tem seções."
 
 #: magicked_admin/settings.py:241
 msgid "Section '{}' is missing a required setting: '{}'."
-msgstr ""
+msgstr "A seção '{}' está faltando uma configuração obrigatória: '{}'."
 
 #: magicked_admin/chatbot/__init__.py:5
 msgid "\n"
